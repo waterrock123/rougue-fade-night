@@ -1,0 +1,98 @@
+class_name Enemy
+extends Entity
+
+
+
+
+@export var speed: float = 10.0
+@export var stop_distance: float = 10.0
+
+
+var player: Player
+var velocity: Vector2
+var current_speed: float
+var last_position
+
+@onready var ability_controller: AbilityController = $AbilityController
+@onready var collision_shape: CollisionShape2D =$Area2D/CollisionShape2D
+@onready var hit_particles: CPUParticles2D = $HitParticles
+@onready var pathfinding: Pathfinding = $Pathfinding
+
+
+func _ready() -> void:
+	super._ready()
+	add_to_group('enemy')
+	last_position = position
+	player = get_tree().get_first_node_in_group("player")
+	
+	
+
+
+func _process(delta: float) -> void:
+	if is_dead: return
+	
+	
+	
+	if  player !=null:
+		#移动方向
+		var movement_dir = Vector2.ZERO
+		
+		if pathfinding !=null:
+			movement_dir =pathfinding.find_path(player.global_position).normalized()
+		else:
+			movement_dir = (player.position- self.position).normalized()
+		
+		if self.position.distance_to(player.position) > stop_distance:
+			self.position += movement_dir * delta * speed
+		else:
+			ability_controller.trigger_ability_by_idx(0)
+			
+			
+		velocity = (position - last_position) / delta
+		current_speed = velocity.length()
+		
+		_face_target(player.position - position)
+	
+	
+	last_position = position
+	
+	_handle_animations()
+	
+	
+func _handle_animations():
+	if current_speed <= 0:
+		play_animation(AnimationWrapper.new("idle"))
+	else:
+		play_animation(AnimationWrapper.new("walk"))
+		
+		
+func _face_target(dir: Vector2):
+	if not animated_sprite.flip_h and dir.x <0:
+		animated_sprite.flip_h = true
+	elif animated_sprite.flip_h and dir.x > 0:
+		animated_sprite.flip_h = false
+		
+	
+func get_height() ->float:
+	if collision_shape!= null:
+		var shape = collision_shape.shape
+		if shape is CapsuleShape2D:
+			return shape.height*self.scale.y
+		elif  shape is RectangleShape2D:
+			return shape.size.y * self.scale.y
+		else:
+			return super.get_height()
+	else:
+		return super.get_height()
+	
+
+func _show_damage_taken_effect():
+	super._show_damage_taken_effect()
+	if hit_particles !=null:
+		hit_particles.emitting = true
+	
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	if current_anim.name == "die":
+		queue_free()

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://skd8umn7fos7"
+path="res://.godot/imported/Dirt Walk 5.wav-ee277e14eebacf3b5922463b65e9b47a.sample"
+
+[deps]
+
+source_file="res://assets/Sound/Dirt Walk 5.wav"
+dest_files=["res://.godot/imported/Dirt Walk 5.wav-ee277e14eebacf3b5922463b65e9b47a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

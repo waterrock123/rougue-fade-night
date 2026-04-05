@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://colxvd1jmeqiv"]
+
+[ext_resource type="PackedScene" uid="uid://dku861bpxyvin" path="res://scenes/ui/spell_bar.tscn" id="1_wekvw"]
+
+[node name="SpellBarBox" type="Control" unique_id=612637968]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpellBar" parent="." unique_id=107561432 instance=ExtResource("1_wekvw")]
+layout_mode = 0
+anchors_preset = 0
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 756.0
+offset_bottom = 200.0
+grow_vertical = 1

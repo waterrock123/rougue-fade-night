@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b6fy614tqbx20"
+path="res://.godot/imported/synth_error.wav-41d1e7dab37698914961f7298538f139.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/UI/synth_error.wav"
+dest_files=["res://.godot/imported/synth_error.wav-41d1e7dab37698914961f7298538f139.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

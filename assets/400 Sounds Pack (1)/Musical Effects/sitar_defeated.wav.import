@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://beuhcoxv0ilov"
+path="res://.godot/imported/sitar_defeated.wav-d87a1e374f07f44f8389a9b9c341c2d0.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/Musical Effects/sitar_defeated.wav"
+dest_files=["res://.godot/imported/sitar_defeated.wav-d87a1e374f07f44f8389a9b9c341c2d0.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

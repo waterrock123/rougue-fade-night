@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://btnvhhob6lgjc"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_vy2j5"]
+[ext_resource type="Script" uid="uid://bj4m7sjslwicx" path="res://scripts/ability/component/ability_spawn_manifest.gd" id="2_78kyi"]
+[ext_resource type="Script" uid="uid://c0406ti2t3gqu" path="res://scripts/ability/component/ability_target_player.gd" id="2_qoa5r"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_soy6u"]
+[ext_resource type="Script" uid="uid://cu47jfxlm080o" path="res://scripts/ability/component/ability_play_sound.gd" id="3_78kyi"]
+[ext_resource type="PackedScene" uid="uid://chsrljrfkyb71" path="res://scenes/ability/manifest/fireball_ability_manifest.tscn" id="3_ajus0"]
+[ext_resource type="AudioStream" uid="uid://dugruwc274csb" path="res://assets/Sound/Fireball 1.wav" id="4_4ftk6"]
+[ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="5_p4xas"]
+[ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="6_4qwnk"]
+
+[sub_resource type="Resource" id="Resource_l214j"]
+script = ExtResource("5_p4xas")
+audio_streams = Array[AudioStream]([ExtResource("4_4ftk6")])
+volume_db = -10.0
+max_distance = 300
+bus = &"sfx"
+metadata/_custom_type_script = "uid://cfgrgm03strrd"
+
+[node name="FireballAbility" type="Node" unique_id=1060057010]
+script = ExtResource("1_vy2j5")
+cooldown = 5.0
+
+[node name="AbilityAnimationRunner" type="Node" parent="." unique_id=850684855]
+script = ExtResource("2_soy6u")
+animation_name = "cast"
+metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
+
+[node name="DelayedSpawn" type="Node" parent="." unique_id=2126767933]
+script = ExtResource("6_4qwnk")
+delay = 0.4
+metadata/_custom_type_script = "uid://cyw5u4hf1f3i7"
+
+[node name="AbilityTargetPlayer" type="Node" parent="DelayedSpawn" unique_id=911964707]
+script = ExtResource("2_qoa5r")
+metadata/_custom_type_script = "uid://c0406ti2t3gqu"
+
+[node name="SpawnManifest" type="Node" parent="DelayedSpawn" unique_id=1165092228]
+script = ExtResource("2_78kyi")
+manifest_scene = ExtResource("3_ajus0")
+scale_multiplier = 1.5
+
+[node name="AbilityPlaySound" type="Node" parent="DelayedSpawn" unique_id=1178067108]
+script = ExtResource("3_78kyi")
+audio_config = SubResource("Resource_l214j")
+exec_delay = null
+metadata/_custom_type_script = "uid://cu47jfxlm080o"

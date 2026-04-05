@@ -1,0 +1,74 @@
+class_name AbilityGetTarget
+extends AbilityComponent
+
+@export var radius =30.0
+
+func _activate(context: AbilityContext):
+	var targets = check_colliders_around_position(context.caster,radius)
+	
+	context.targets=targets
+		
+	
+	
+#检查一定位置内的碰撞体
+func check_colliders_around_position(caster: Entity ,radius:float) -> Array[Entity]:
+	var shape = CircleShape2D.new()
+	shape.radius = radius
+	
+	var mouse_pos = get_viewport().get_camera_2d().get_global_mouse_position()
+	var dir_to_mouse = (mouse_pos - caster.position).normalized()
+	
+	
+	var query = PhysicsShapeQueryParameters2D.new()
+	query.shape = shape
+	query.transform.origin = caster.position
+	query.collide_with_areas = true
+	
+	#var line = create_dubug_circle(radius)
+	#
+	#caster.add_child(line)
+	#line.position +=  dir_to_mouse
+	
+	var space_state = caster.get_world_2d().direct_space_state
+	var results = space_state.intersect_shape(query)
+	var targets:Array[Entity] = []
+	
+	if results.size() > 0:
+		for result in results:
+			var collider = result.collider
+			var parent = collider.get_parent()
+			
+			if parent is Entity:
+				var to_target = (parent.position - caster.position).normalized()
+				var dot = dir_to_mouse.dot(to_target)
+				
+				var fov = deg_to_rad(90)
+				
+				if dot > cos(fov/2):
+					targets.push_back(parent)
+				
+				
+	#call_deferred("destory_line",line,0.2)
+	return targets
+
+#调试圆
+#func create_dubug_circle(radius:float ):
+	#var points = 32
+	#var line = Line2D.new()
+	#line.width = 1
+	#line.default_color = Color(1,0,0)
+	#
+	#for i in range(points +1):
+		#var angle = (TAU / points) * i
+		#line.add_point(Vector2(cos(angle),sin(angle)) * radius)
+		#
+	#return line
+	#
+#
+#func destory_line(line:Line2D,seconds:float):
+	#await get_tree().create_timer(seconds).timeout
+	#
+	#if (line!=null):
+		#line.queue_free()
+	
+	

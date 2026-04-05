@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c8gfwvhk2xp3f"
+path="res://.godot/imported/xylophone_level_complete.wav-90fb0fb817a901914ee3c32990bf6ed4.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/Musical Effects/xylophone_level_complete.wav"
+dest_files=["res://.godot/imported/xylophone_level_complete.wav-90fb0fb817a901914ee3c32990bf6ed4.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

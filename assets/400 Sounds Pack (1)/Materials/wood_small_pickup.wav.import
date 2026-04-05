@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://e7lfvfr04utn"
+path="res://.godot/imported/wood_small_pickup.wav-bec523fd9789826b6b289ed49d2f0d2d.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/Materials/wood_small_pickup.wav"
+dest_files=["res://.godot/imported/wood_small_pickup.wav-bec523fd9789826b6b289ed49d2f0d2d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

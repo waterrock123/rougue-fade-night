@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bvsjalkkg2xd0"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_4expr"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_veguy"]
+[ext_resource type="Script" uid="uid://c0406ti2t3gqu" path="res://scripts/ability/component/ability_target_player.gd" id="3_ng5uy"]
+[ext_resource type="Script" uid="uid://f7xudf47t0wm" path="res://scripts/ability/component/ability_deal_damage.gd" id="4_jboct"]
+
+[node name="SkeletonSlash" type="Node" unique_id=571249044]
+script = ExtResource("1_4expr")
+
+[node name="AbilityAnimationRunner" type="Node" parent="." unique_id=856575273]
+script = ExtResource("2_veguy")
+animation_name = "slash"
+metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
+
+[node name="AbilityTargetPlayer" type="Node" parent="." unique_id=1772759654]
+script = ExtResource("3_ng5uy")
+metadata/_custom_type_script = "uid://c0406ti2t3gqu"
+
+[node name="AbilityDealDamage" type="Node" parent="." unique_id=712832286]
+script = ExtResource("4_jboct")
+exec_delay = 0.5
+metadata/_custom_type_script = "uid://f7xudf47t0wm"

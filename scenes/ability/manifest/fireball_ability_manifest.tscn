@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://chsrljrfkyb71"]
+
+[ext_resource type="Texture2D" uid="uid://da2f66omf03p1" path="res://assets/FB00_nyknck/FB00_nyknck/FB001.png" id="1_aj1uv"]
+[ext_resource type="Script" uid="uid://2w51uq128cy0" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1_mjrrf"]
+[ext_resource type="AudioStream" uid="uid://d1ygbekijdd2g" path="res://assets/Sound/Firebuff 1.wav" id="2_l6d4u"]
+[ext_resource type="Texture2D" uid="uid://rtb1vqxbcj7p" path="res://assets/FB00_nyknck/FB00_nyknck/FB002.png" id="2_mjrrf"]
+[ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="3_m2t4b"]
+[ext_resource type="Texture2D" uid="uid://cldih7foot6w4" path="res://assets/FB00_nyknck/FB00_nyknck/FB003.png" id="3_xun7p"]
+[ext_resource type="Texture2D" uid="uid://cbi8187eiq1t2" path="res://assets/FB00_nyknck/FB00_nyknck/FB004.png" id="4_l6d4u"]
+[ext_resource type="Texture2D" uid="uid://dudy56fm3pp2f" path="res://assets/FB00_nyknck/FB00_nyknck/FB005.png" id="5_m2t4b"]
+
+[sub_resource type="Resource" id="Resource_kfmin"]
+script = ExtResource("3_m2t4b")
+audio_streams = Array[AudioStream]([ExtResource("2_l6d4u")])
+volume_db = -7.0
+max_distance = 400
+bus = &"sfx"
+metadata/_custom_type_script = "uid://cfgrgm03strrd"
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_kfmin"]
+frames = 5
+speed_scale = 10.0
+frame_0/texture = ExtResource("1_aj1uv")
+frame_1/texture = ExtResource("2_mjrrf")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("3_xun7p")
+frame_2/duration = 1.0
+frame_3/texture = ExtResource("4_l6d4u")
+frame_3/duration = 1.0
+frame_4/texture = ExtResource("5_m2t4b")
+frame_4/duration = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mjrrf"]
+
+[node name="FireballAbilityManifest" type="Node2D" unique_id=1293196864]
+z_index = 100
+scale = Vector2(0.3, 0.3)
+script = ExtResource("1_mjrrf")
+speed = 110.0
+target_group = "player"
+max_distance = 600.0
+hit_sound = SubResource("Resource_kfmin")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1123908785]
+texture_filter = 1
+position = Vector2(-1, 0)
+texture = SubResource("AnimatedTexture_kfmin")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=215287016]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=147456712]
+position = Vector2(10, 0)
+shape = SubResource("CircleShape2D_mjrrf")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

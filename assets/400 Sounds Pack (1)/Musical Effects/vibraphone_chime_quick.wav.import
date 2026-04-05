@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dc1hx4ugdx625"
+path="res://.godot/imported/vibraphone_chime_quick.wav-b9f7e42dcb7920f1d461d8b3770d80f8.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/Musical Effects/vibraphone_chime_quick.wav"
+dest_files=["res://.godot/imported/vibraphone_chime_quick.wav-b9f7e42dcb7920f1d461d8b3770d80f8.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

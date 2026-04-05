@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://e35d2kxdffyf"
+path="res://.godot/imported/Spell Impact 3.wav-cf74264a5d7b5bfb1c3ff9cac9e7ed42.sample"
+
+[deps]
+
+source_file="res://assets/Sound/Spell Impact 3.wav"
+dest_files=["res://.godot/imported/Spell Impact 3.wav-cf74264a5d7b5bfb1c3ff9cac9e7ed42.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://7sn8614obs7f"
+path="res://.godot/imported/cardboard_box_close.wav-95e09e17976ba7df1b28f9b32e2efb0b.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/Materials/cardboard_box_close.wav"
+dest_files=["res://.godot/imported/cardboard_box_close.wav-95e09e17976ba7df1b28f9b32e2efb0b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

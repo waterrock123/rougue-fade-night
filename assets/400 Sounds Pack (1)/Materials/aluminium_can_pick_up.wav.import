@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cm2s5oysswrvf"
+path="res://.godot/imported/aluminium_can_pick_up.wav-614cb9e8f2723df99b2c15c2bbb8470a.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/Materials/aluminium_can_pick_up.wav"
+dest_files=["res://.godot/imported/aluminium_can_pick_up.wav-614cb9e8f2723df99b2c15c2bbb8470a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

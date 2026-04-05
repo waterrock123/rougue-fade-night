@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://n1jl3ijdoxu5"]
+
+[ext_resource type="Texture2D" uid="uid://bdb621jwl5m2k" path="res://icon.svg" id="1_7p1mj"]
+
+[node name="Enemy" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2.17831, 1.92)
+texture = ExtResource("1_7p1mj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

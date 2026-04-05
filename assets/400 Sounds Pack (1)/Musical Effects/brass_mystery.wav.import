@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://02vy5xs160ro"
+path="res://.godot/imported/brass_mystery.wav-95f6ab0ae0e0920c1d0f8445f40ddfff.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/Musical Effects/brass_mystery.wav"
+dest_files=["res://.godot/imported/brass_mystery.wav-95f6ab0ae0e0920c1d0f8445f40ddfff.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

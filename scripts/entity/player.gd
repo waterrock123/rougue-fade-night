@@ -1,0 +1,132 @@
+class_name Player
+extends Entity
+
+
+@export var speed: float = 20
+@export var weapon: Node2D
+@export var footstep_clip: AudiioConfig
+@export var footstep_interval = 0.3
+@export var spell_bar: SpellBar
+
+
+var is_moving:bool = false
+var weapon_right:Vector2
+var weapon_left:Vector2
+var spawn_location:Vector2
+var footstep_timer = 0.0
+
+
+@onready var ability_controller: AbilityController = $AbilityController
+@onready var footstep_effect: FootstepEffect = $FootstepEffect
+
+
+signal player_died(player:Player)
+
+func _ready() -> void:
+	super._ready()
+	add_to_group("player")
+	weapon_right=weapon.position
+	weapon_left=self.position +(self.position -weapon.position)
+	spawn_location = position
+	
+	
+	var abilities = ability_controller.abilities
+	
+	for ability_idx in range(abilities.size()):
+		var ability = abilities[ability_idx]
+		spell_bar.register_ability(ability,ability_idx)
+	
+	
+	EventBus.play_cast_ability.connect(_handle_abilities)
+	EventBus.player_health_changed.emit(current_health,max_health)
+	EventBus.player_energy_changed.emit(current_energy,max_energy)
+	#health_bar.set_health(current_health ,max_health)
+	
+	
+	
+	
+
+
+
+func _process(delta: float) -> void:
+	if is_dead: return
+	if  Input.is_action_just_pressed("ability_1"):
+		ability_controller.trigger_ability_by_idx(0)
+	if  Input.is_action_just_pressed("ability_2"):
+		ability_controller.trigger_ability_by_idx(1)
+	_handle_movement(delta)
+	_handle_footstep_sound(delta)
+	_handle_region_energy(delta)
+	_handle_animation() 
+	
+
+
+
+func _handle_abilities(ability:Ability):
+	ability_controller.trigger_ability(ability)
+
+
+
+func _handle_movement(delta: float):
+	is_moving = false
+	turning_cooldown = max(0,turning_cooldown - delta)
+	var horizontal = Input.get_axis("leftmove","rightmove")
+	var vertical = Input.get_axis("upmove","downmove")
+	
+	
+	var movement = Vector2(horizontal,vertical)
+	var n_movement=movement.normalized()
+	
+	self.position += n_movement * speed * delta
+	
+	if n_movement.length() > 0:
+		is_moving = true
+		footstep_effect.play()
+		if turning_cooldown == 0:
+			if horizontal >0:
+				animated_sprite.flip_h = false
+			elif horizontal<0:
+				animated_sprite.flip_h = true
+
+func _handle_footstep_sound(delta: float):
+	if is_moving:
+		footstep_timer +=delta
+		if footstep_timer >= footstep_interval:
+			AudioController.play(footstep_clip,global_position)
+			footstep_timer = 0.0
+	else:
+		footstep_timer = 0.0
+
+
+func  _handle_animation():
+	if  is_moving:
+		play_animation(AnimationWrapper.new("run"))
+	else:
+		play_animation(AnimationWrapper.new("idle"))
+
+func _handle_damage_callback(damage:float):
+	EventBus.player_health_changed.emit(current_health,max_health)
+	
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	if current_anim.name == "die":
+		player_died.emit(self)
+
+
+func spend_energy(energy:float):
+	current_energy -= energy
+	current_energy = clamp(current_energy,0,max_energy)
+	EventBus.player_energy_changed.emit(current_energy,max_energy)
+
+func _handle_region_energy(delta: float):
+	if current_energy >= max_energy:
+		current_energy = max_energy
+		return
+	energy_timer +=delta
+		
+	if energy_timer >= energy_region_freq:
+		energy_timer = 0
+		current_energy += energy_region_tick_value
+		EventBus.player_energy_changed.emit(current_energy,max_energy)
+	

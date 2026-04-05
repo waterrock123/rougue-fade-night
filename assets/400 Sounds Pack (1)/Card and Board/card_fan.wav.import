@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://danyfo8h5riqa"
+path="res://.godot/imported/card_fan.wav-c539d9454c0ac422a3d4bfb83aab3824.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/Card and Board/card_fan.wav"
+dest_files=["res://.godot/imported/card_fan.wav-c539d9454c0ac422a3d4bfb83aab3824.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

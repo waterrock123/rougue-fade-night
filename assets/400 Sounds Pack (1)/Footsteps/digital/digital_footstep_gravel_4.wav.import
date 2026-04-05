@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bupnf5xky4kke"
+path="res://.godot/imported/digital_footstep_gravel_4.wav-9904b5a1f57d0ff29681e7d64e3125a0.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/Footsteps/digital/digital_footstep_gravel_4.wav"
+dest_files=["res://.godot/imported/digital_footstep_gravel_4.wav-9904b5a1f57d0ff29681e7d64e3125a0.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

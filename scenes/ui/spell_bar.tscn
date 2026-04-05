@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://dku861bpxyvin"]
+
+[ext_resource type="Script" uid="uid://bljxtgx8n6k2h" path="res://scripts/utils/spell_bar.gd" id="1_rddwi"]
+[ext_resource type="PackedScene" uid="uid://be8hh5ky61160" path="res://scenes/ui/basic_attack_button_ui.tscn" id="1_ss1tv"]
+[ext_resource type="PackedScene" uid="uid://bwt05axxjtgkc" path="res://scenes/ui/spell_button_ui.tscn" id="2_rddwi"]
+
+[sub_resource type="Shortcut" id="Shortcut_jjbp1"]
+
+[sub_resource type="InputEventMouseButton" id="InputEventMouseButton_u7e2b"]
+button_mask = 2
+position = Vector2(312, 16)
+global_position = Vector2(326, 89)
+button_index = 2
+
+[sub_resource type="Shortcut" id="Shortcut_ej7e4"]
+events = [SubResource("InputEventMouseButton_u7e2b")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_rddwi"]
+device = -1
+keycode = 49
+unicode = 49
+
+[sub_resource type="Shortcut" id="Shortcut_u7e2b"]
+events = [SubResource("InputEventKey_rddwi")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_ej7e4"]
+device = -1
+keycode = 50
+unicode = 50
+
+[sub_resource type="Shortcut" id="Shortcut_jiuqx"]
+events = [SubResource("InputEventKey_ej7e4")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_2tqk6"]
+device = -1
+keycode = 51
+unicode = 51
+
+[sub_resource type="Shortcut" id="Shortcut_3fd73"]
+events = [SubResource("InputEventKey_2tqk6")]
+
+[node name="SpellBar" type="PanelContainer" unique_id=107561432 node_paths=PackedStringArray("button_container")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 73.0
+offset_top = -292.0
+offset_right = 829.0
+offset_bottom = -92.0
+grow_vertical = 0
+pivot_offset = Vector2(350, 200)
+mouse_filter = 2
+script = ExtResource("1_rddwi")
+button_container = NodePath("MarginContainer/ButtonContainer")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1463960980]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ButtonContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1899699265]
+layout_mode = 2
+
+[node name="BasicAttackButton" parent="MarginContainer/ButtonContainer" unique_id=991037653 instance=ExtResource("1_ss1tv")]
+layout_mode = 2
+shortcut = SubResource("Shortcut_jjbp1")
+
+[node name="SpellButton" parent="MarginContainer/ButtonContainer" unique_id=70419881 instance=ExtResource("2_rddwi")]
+layout_mode = 2
+button_mask = 3
+shortcut = SubResource("Shortcut_ej7e4")
+
+[node name="SpellButton2" parent="MarginContainer/ButtonContainer" unique_id=1056987878 instance=ExtResource("2_rddwi")]
+layout_mode = 2
+shortcut = SubResource("Shortcut_u7e2b")
+
+[node name="SpellButton3" parent="MarginContainer/ButtonContainer" unique_id=424234047 instance=ExtResource("2_rddwi")]
+layout_mode = 2
+shortcut = SubResource("Shortcut_jiuqx")
+
+[node name="SpellButton4" parent="MarginContainer/ButtonContainer" unique_id=1001590653 instance=ExtResource("2_rddwi")]
+layout_mode = 2
+shortcut = SubResource("Shortcut_3fd73")

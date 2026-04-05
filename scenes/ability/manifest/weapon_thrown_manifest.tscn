@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://b4gwboiqs6vmh"]
+
+[ext_resource type="Script" uid="uid://2w51uq128cy0" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1_a50mv"]
+[ext_resource type="AudioStream" uid="uid://bfj8vxy0sfsyh" path="res://assets/Sound/Sword Impact Hit 1.wav" id="2_4ycrp"]
+[ext_resource type="Texture2D" uid="uid://btc6x746w7abe" path="res://assets/meleeAttack_plusCharacters.png" id="2_g7spf"]
+[ext_resource type="AudioStream" uid="uid://c7vdv8qlqgw3q" path="res://assets/Sound/Sword Impact Hit 2.wav" id="3_a50mv"]
+[ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="4_e87ou"]
+
+[sub_resource type="Resource" id="Resource_yeulv"]
+script = ExtResource("4_e87ou")
+audio_streams = Array[AudioStream]([ExtResource("2_4ycrp"), ExtResource("3_a50mv")])
+max_distance = 300
+bus = &"sfx"
+metadata/_custom_type_script = "uid://cfgrgm03strrd"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwjyv"]
+atlas = ExtResource("2_g7spf")
+region = Rect2(80.169, 16, 15.83, 16)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_36yfb"]
+radius = 4.5
+height = 18.0
+
+[node name="WeaponThrownAbilityManifest" type="Node2D" unique_id=1293196864]
+z_index = 100
+scale = Vector2(0.3, 0.3)
+script = ExtResource("1_a50mv")
+speed = 100.0
+target_group = "enemy"
+max_distance = 300.0
+is_rotate = true
+hit_sound = SubResource("Resource_yeulv")
+rotate_speed = 20.0
+is_penetrate = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1123908785]
+texture_filter = 1
+texture = SubResource("AtlasTexture_pwjyv")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=215287016]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=147456712]
+shape = SubResource("CapsuleShape2D_36yfb")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

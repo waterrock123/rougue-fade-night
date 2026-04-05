@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bjg44h0d8eoke"
+path="res://.godot/imported/chips_stack_2.wav-cf0a80324695eca2b20c35375d1dd294.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/Card and Board/chips_stack_2.wav"
+dest_files=["res://.godot/imported/chips_stack_2.wav-cf0a80324695eca2b20c35375d1dd294.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

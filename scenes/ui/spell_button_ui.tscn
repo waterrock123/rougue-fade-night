@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://bwt05axxjtgkc"]
+
+[ext_resource type="Texture2D" uid="uid://chmcdx77nujjh" path="res://assets/UI/Button_Simple.png" id="1_glrwj"]
+[ext_resource type="Script" uid="uid://cpjb0k0uquy6b" path="res://scripts/utils/spell_button.gd" id="2_i16a0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_glrwj"]
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_la03w"]
+font_size = 30
+
+[node name="SpellButton" type="TextureButton" unique_id=70419881 node_paths=PackedStringArray("icon", "progress_bar", "cooldown_label", "keybind_label")]
+texture_filter = 1
+custom_minimum_size = Vector2(140, 160)
+mouse_filter = 1
+texture_normal = ExtResource("1_glrwj")
+stretch_mode = 0
+script = ExtResource("2_i16a0")
+icon = NodePath("MarginContainer/TextureRect")
+progress_bar = NodePath("TextureProgressBar")
+cooldown_label = NodePath("CooldownLabel")
+keybind_label = NodePath("KeybindLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1160209987]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 25
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer" unique_id=639961924]
+texture_filter = 1
+layout_mode = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1896460590]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+step = 0.1
+fill_mode = 4
+nine_patch_stretch = true
+texture_progress = ExtResource("1_glrwj")
+tint_progress = Color(0.21960784, 0.21960784, 0.21960784, 0.6117647)
+
+[node name="CooldownLabel" type="Label" parent="." unique_id=481975097]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "10"
+label_settings = SubResource("LabelSettings_glrwj")
+horizontal_alignment = 1
+
+[node name="KeybindLabel" type="Label" parent="." unique_id=1088437193]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = 44.0
+offset_bottom = 45.0
+text = "2"
+label_settings = SubResource("LabelSettings_la03w")
+horizontal_alignment = 1
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bsjl4lyicca5l"
+path="res://.godot/imported/music_box_positive_long.wav-dc8b0f8d4fe181bf4d5467b54d44531e.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/Musical Effects/music_box_positive_long.wav"
+dest_files=["res://.godot/imported/music_box_positive_long.wav-dc8b0f8d4fe181bf4d5467b54d44531e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

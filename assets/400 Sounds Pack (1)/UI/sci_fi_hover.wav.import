@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://0tuq2e8ky6ov"
+path="res://.godot/imported/sci_fi_hover.wav-e24c14a863f2e0a5a6cba04abf4bd090.sample"
+
+[deps]
+
+source_file="res://assets/400 Sounds Pack (1)/UI/sci_fi_hover.wav"
+dest_files=["res://.godot/imported/sci_fi_hover.wav-e24c14a863f2e0a5a6cba04abf4bd090.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
