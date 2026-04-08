@@ -13,7 +13,11 @@
 [ext_resource type="AudioStream" uid="uid://skd8umn7fos7" path="res://assets/Sound/Dirt Walk 5.wav" id="6_qfm1y"]
 [ext_resource type="Texture2D" uid="uid://btc6x746w7abe" path="res://assets/meleeAttack_plusCharacters.png" id="6_tuyoq"]
 [ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="7_fulsm"]
+[ext_resource type="PackedScene" uid="uid://5uxluclcqj3n" path="res://scenes/ability/dash_ability.tscn" id="13_oprun"]
+[ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="14_a8ls1"]
 [ext_resource type="Script" uid="uid://b0c3hw6lsf13w" path="res://scripts/utils/footstep_effect.gd" id="14_f1ej7"]
+[ext_resource type="Resource" uid="uid://b478o2358l6xq" path="res://character/warrior/warrior.tres" id="15_qfm1y"]
+[ext_resource type="PackedScene" uid="uid://d2qsc6k4jdm0e" path="res://scenes/package/package_ui.tscn" id="18_fulsm"]
 
 [sub_resource type="Resource" id="Resource_4r5pv"]
 script = ExtResource("7_fulsm")
@@ -275,18 +279,27 @@ max_health = 250.0
 texture_filter = 1
 material = SubResource("ShaderMaterial_smehm")
 sprite_frames = SubResource("SpriteFrames_i3pqv")
-animation = &"thrown"
+animation = &"die"
 autoplay = "idle"
-frame = 7
-frame_progress = 1.0
 
 [node name="AbilityController" type="Node" parent="." unique_id=1535845309]
 script = ExtResource("3_hqtel")
 
 [node name="Slash" parent="AbilityController" unique_id=1784123215 instance=ExtResource("4_2hs0m")]
-cooldown = 0.9
+cooldown = 0.5
+energy_cost = 0.0
 
 [node name="WeaponThrownAbility" parent="AbilityController" unique_id=1060057010 instance=ExtResource("6_fjrip")]
+cooldown = 2.0
+energy_cost = 10.0
+
+[node name="DashAbility" parent="AbilityController" unique_id=1517353635 instance=ExtResource("13_oprun")]
+
+[node name="StatsController" type="Node" parent="." unique_id=530816127]
+script = ExtResource("14_a8ls1")
+base_stats = ExtResource("15_qfm1y")
+
+[node name="ModifierHandler" type="Node" parent="." unique_id=852903705]
 
 [node name="Weapon" type="Sprite2D" parent="." unique_id=1276098786]
 z_index = -1
@@ -347,5 +360,10 @@ initial_velocity_max = 120.0
 scale_amount_curve = SubResource("Curve_jej6c")
 color = Color(0.96156305, 0.8252434, 0.6902239, 1)
 color_ramp = SubResource("Gradient_f1ej7")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1047984298]
+
+[node name="PackageUI" parent="CanvasLayer" unique_id=1745782595 instance=ExtResource("18_fulsm")]
+process_mode = 3
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

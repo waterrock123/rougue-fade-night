@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://d2qsc6k4jdm0e"]
 
+[ext_resource type="Script" uid="uid://cfq8m8v0h6di5" path="res://scenes/package/package_ui.gd" id="1_6nu26"]
 [ext_resource type="PackedScene" uid="uid://b0rl2b1stia6g" path="res://scenes/package/slot_button.tscn" id="1_18ihm"]
 
 [node name="PackageUI" type="Control" unique_id=1745782595]
@@ -9,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_6nu26")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=539514627]
 layout_mode = 1
@@ -17,10 +19,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -473.5
-offset_top = -245.5
-offset_right = 473.5
-offset_bottom = 245.5
+offset_left = -486.0
+offset_top = -382.0
+offset_right = 461.0
+offset_bottom = 270.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -39,6 +41,8 @@ theme_override_constants/separation = 50
 [node name="RelicContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1098928451]
 layout_mode = 2
 size_flags_vertical = 4
+theme_override_constants/separation = 15
+alignment = 1
 
 [node name="SlotButton12" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=1887992329 instance=ExtResource("1_18ihm")]
 layout_mode = 2
@@ -58,24 +62,15 @@ layout_mode = 2
 [node name="SlotButton17" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=1957380323 instance=ExtResource("1_18ihm")]
 layout_mode = 2
 
-[node name="SlotButton18" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=279181239 instance=ExtResource("1_18ihm")]
-layout_mode = 2
-
-[node name="SlotButton19" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=276685127 instance=ExtResource("1_18ihm")]
-layout_mode = 2
-
-[node name="SlotButton20" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=1094844513 instance=ExtResource("1_18ihm")]
-layout_mode = 2
-
 [node name="BagSlotContainer" type="GridContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=270140282]
 layout_mode = 2
-size_flags_horizontal = 4
 theme_override_constants/h_separation = 15
 theme_override_constants/v_separation = 15
 columns = 6
 
 [node name="SlotButton20" parent="PanelContainer/MarginContainer/VBoxContainer/BagSlotContainer" unique_id=311195526 instance=ExtResource("1_18ihm")]
 layout_mode = 2
+icon_alignment = 1
 
 [node name="SlotButton21" parent="PanelContainer/MarginContainer/VBoxContainer/BagSlotContainer" unique_id=1401449419 instance=ExtResource("1_18ihm")]
 layout_mode = 2

@@ -334,10 +334,13 @@ height = 47.500008
 offsets = PackedFloat32Array(0, 0.67164177, 1)
 colors = PackedColorArray(0.9326247, 0.9326248, 0.93262464, 1, 0.6862745, 0.6862745, 0.6862745, 1, 0.6, 0.6, 0.6, 0.6313726)
 
-[node name="Skeleton" type="Node2D" unique_id=153655557]
+[node name="Skeleton" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
 scale = Vector2(0.8, 0.8)
 script = ExtResource("1_ivqcw")
+aggresive = true
+memory = 5.0
+hit_particles = NodePath("HitParticles")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1021479709]
 texture_filter = 1
@@ -352,7 +355,6 @@ script = ExtResource("6_haw2w")
 metadata/_custom_type_script = "uid://cifh43jnsuld4"
 
 [node name="SkeletonSlash" parent="AbilityController" unique_id=958036520 instance=ExtResource("7_i0f3v")]
-scale = Vector2(0.8, 0.8)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]
 

@@ -3,12 +3,19 @@ extends Node
 
 @export var screen_transition: ColorRect
 @export var player_health_bar: PlayerHealthBar
-#@export var player_energy_bar:
+
+@export var pause_menu: PauseMenu
+
+var player:Player
 
 
 func _ready() -> void:
-	var player = get_tree().get_first_node_in_group("player") as Player
+	player = get_tree().get_first_node_in_group("player") as Player
+	
 	player.player_died.connect(_handle_game_over)
+	AudioController.play_bg_music("battle")
+	EventBus.game_paused.connect(_handle_pause)
+	
 
 func _handle_game_over(player: Player):
 	var tween = fade_in_overlay()
@@ -19,7 +26,7 @@ func _handle_game_over(player: Player):
 	await tween.finished
 	
 	player.current_health = player.max_health
-	
+	player.current_energy = player.max_energy
 	player.is_dead = false
 	EventBus.player_health_changed.emit(player.current_health,player.max_health)
 	
@@ -43,3 +50,23 @@ func fade_in_overlay():
 		1.0
 	).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
 	return tween
+
+
+func _on_pause_btn_pressed() -> void:
+	
+	
+	EventBus.game_paused.emit(true)
+	EventBus.change_bag.emit()
+	pause_menu.show()
+	get_tree().paused = true
+
+
+
+
+func _handle_pause(paused: bool):
+	if paused:
+		screen_transition.color =  Color(0,0,0,0.5)
+	else:
+		screen_transition.color =  Color(0,0,0,0)
+
+	

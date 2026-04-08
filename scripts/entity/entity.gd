@@ -77,6 +77,12 @@ func get_height() ->float:
 	var height = frame_tex.get_height()
 	return height*self.scale.y
 
+#获取纹理
+func get_current_texture() -> Texture2D:
+	return animated_sprite.sprite_frames.get_frame_texture(animated_sprite.animation,animated_sprite.frame)
+	
+
+
 
 #显示伤害提示
 func show_damage_popup(damage: float):

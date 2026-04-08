@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://bdt06p55rr800" path="res://scripts/utils/follow_camera.gd" id="2_1p5oe"]
 [ext_resource type="PackedScene" uid="uid://bt3l6eosk1dda" path="res://scenes/player.tscn" id="3_1p5oe"]
 [ext_resource type="Texture2D" uid="uid://dv0r8f6egio2u" path="res://assets/Cute_Fantasy_Free/Tiles/Cliff_Tile.png" id="3_a0jw4"]
-[ext_resource type="Resource" uid="uid://wl3kquh3l0yw" path="res://custom_resource/player_inventory.tres" id="3_ixvqh"]
 [ext_resource type="Texture2D" uid="uid://b3va48vjuatnw" path="res://assets/Cute_Fantasy_Free/Tiles/Path_Tile.png" id="4_a0jw4"]
 [ext_resource type="Texture2D" uid="uid://bt7oohlldfjov" path="res://assets/Cute_Fantasy_Free/Outdoor decoration/Outdoor_Decor_Free.png" id="5_5i074"]
 [ext_resource type="PackedScene" uid="uid://gelec3ahehiy" path="res://scenes/entity/enemy/skeleton.tscn" id="6_da3qe"]
@@ -12,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dku861bpxyvin" path="res://scenes/ui/spell_bar.tscn" id="8_741iy"]
 [ext_resource type="Texture2D" uid="uid://mt6w21xdehqc" path="res://assets/UI/health_bar_main.png" id="9_0auek"]
 [ext_resource type="Texture2D" uid="uid://clu74wmc2kp5u" path="res://assets/UI/Pixel UI pack 3/04.png" id="9_ck16l"]
+[ext_resource type="AudioStream" uid="uid://daub8iwvj2jhy" path="res://assets/Sound/Forest Day.wav" id="9_uyxvy"]
 [ext_resource type="Texture2D" uid="uid://dw8fc63xsbh05" path="res://assets/AnimationSheet_Character.png" id="10_63tcr"]
 [ext_resource type="Script" uid="uid://bmeo8rojg2pfk" path="res://scripts/utils/player_health_bar_.gd" id="12_63tcr"]
 [ext_resource type="Script" uid="uid://08t38n6jwt2o" path="res://scripts/utils/player_energy_bar_.gd" id="13_qhxom"]
@@ -174,8 +174,10 @@ pause_menu = NodePath("CanvasLayer/UI/PauseMenu")
 [node name="Player" parent="." unique_id=1246165029 node_paths=PackedStringArray("spell_bar") instance=ExtResource("3_1p5oe")]
 unique_name_in_owner = true
 z_index = 100
+footstep_interval = null
 spell_bar = NodePath("../CanvasLayer/UI/SpellBar")
-player_inventory = ExtResource("3_ixvqh")
+max_energy = null
+damage_text_color = null
 energy_region_freq = 5.0
 energy_region_tick_value = 5
 
@@ -391,10 +393,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 530.0
-offset_top = -311.0
-offset_right = 930.0
-offset_bottom = -111.0
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
@@ -417,6 +419,11 @@ position = Vector2(-127.99999, 103.99999)
 
 [node name="Demon2" parent="." unique_id=1448068168 instance=ExtResource("8_7pyap")]
 position = Vector2(116.99999, -48.999992)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=675502419]
+stream = ExtResource("9_uyxvy")
+autoplay = true
+bus = &"music"
 
 [node name="EnemySpawner" type="Node" parent="." unique_id=258742830 node_paths=PackedStringArray("spawn_around")]
 script = ExtResource("17_bx6jv")

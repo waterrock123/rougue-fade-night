@@ -14,16 +14,23 @@ extends AbilityManifest
 @export var hit_sound: AudiioConfig
 #旋转速度
 @export var rotate_speed = 10.0
+#图像节点
+
 @export_group("效果属性")
 
 @export var damage = 10.0
 @export var is_penetrate = false
+
+
+@onready var sprite2d: Sprite2D = $Sprite2D
 
 var current_dir = Vector2.ZERO
 var current_distance = 0.0
 
 
 func activate(context: AbilityContext):
+	EventBus.game_paused.connect(_handle_game_pause)
+	EventBus.scene_changed.connect(_handle_scene_changed)
 	if context.targets.size() > 0:
 		var target_pos = context.get_target_positon(0)
 		current_dir = (target_pos - global_position).normalized()
@@ -38,6 +45,15 @@ func _process(delta: float) -> void:
 	if current_distance >= max_distance:
 		queue_free()
 	
+func _handle_game_pause(pause: bool):
+	if sprite2d.texture is AnimatedTexture:
+		(sprite2d.texture as AnimatedTexture).pause = pause
+
+func _handle_scene_changed(scene: String):
+	if scene == "home":
+		queue_free()
+	
+
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	var parent = area.get_parent()
 	

@@ -3,11 +3,21 @@ extends Node
 #音频流缓冲区
 var buffer_size = 5
 var available_players: Array[AudioStreamPlayer2D] = []
+var bg_music_player: AudioStreamPlayer2D = null
+
+var home_bg_music: AudioStream = preload("res://assets/Music/fantasy_home_bg.mp3")
+var battle_bg_music: AudioStream = preload("res://assets/Music/drams_battle.mp3")
+
+
+var bg_music: Dictionary = {"home": home_bg_music,"battle":battle_bg_music}
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_setup_audio_players()
-
-
+	bg_music_player = AudioStreamPlayer2D.new()
+	bg_music_player.name = "BGMusicPlayer"
+	add_child(bg_music_player)
+	
 func _setup_audio_players():
 	for i in range(buffer_size):
 		var audio_player = AudioStreamPlayer2D.new()
@@ -23,6 +33,15 @@ func _get_avaiable_player():
 	if player_idx > -1:
 		return available_players[player_idx]
 	else: return null
+
+func play_bg_music(clip_name: String):
+	var clip = bg_music.get(clip_name)
+	bg_music_player.stop()
+	bg_music_player.bus = "music"
+	bg_music_player.volume_db = 10
+	bg_music_player.stream = clip
+	bg_music_player.play()
+	
 
 
 func play(clip_config: AudiioConfig,global_pos = Vector2.INF):

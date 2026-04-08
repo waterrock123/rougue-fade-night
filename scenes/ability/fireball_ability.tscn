@@ -44,5 +44,4 @@ scale_multiplier = 1.5
 [node name="AbilityPlaySound" type="Node" parent="DelayedSpawn" unique_id=1178067108]
 script = ExtResource("3_78kyi")
 audio_config = SubResource("Resource_l214j")
-exec_delay = null
 metadata/_custom_type_script = "uid://cu47jfxlm080o"

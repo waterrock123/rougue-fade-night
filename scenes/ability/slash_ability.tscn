@@ -46,6 +46,7 @@ script = ExtResource("4_wqbl1")
 push_back_distance = 7
 duration = 0.12
 clear_tween = 2000
+revert = true
 
 [node name="TurnToMouse" type="Node" parent="." unique_id=290212421]
 script = ExtResource("5_6scyu")

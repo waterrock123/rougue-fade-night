@@ -28,7 +28,7 @@ buses/default_bus_layout="uid://dsd41s2lj1e7u"
 ResourceLocator="*uid://bcmw4cmstht6g"
 EventBus="*uid://be0lc6rakacnu"
 FloatText="*uid://bjxvp2xst5crm"
-AudioController="*uid://b6ug8eanyka0g"
+AudioController="*uid://cells3g5xnxr2"
 
 [display]
 

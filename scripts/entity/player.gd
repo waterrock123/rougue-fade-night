@@ -7,8 +7,11 @@ extends Entity
 @export var footstep_clip: AudiioConfig
 @export var footstep_interval = 0.3
 @export var spell_bar: SpellBar
+#库存变量
+@export var player_inventory:Inventory
 
 
+var is_bag_open:bool = false
 var is_moving:bool = false
 var weapon_right:Vector2
 var weapon_left:Vector2
@@ -16,6 +19,7 @@ var spawn_location:Vector2
 var footstep_timer = 0.0
 
 
+@onready var bag_ui:PackageUI = $CanvasLayer/PackageUI
 @onready var ability_controller: AbilityController = $AbilityController
 @onready var footstep_effect: FootstepEffect = $FootstepEffect
 
@@ -25,6 +29,7 @@ signal player_died(player:Player)
 func _ready() -> void:
 	super._ready()
 	add_to_group("player")
+	EventBus.change_bag.connect(toggle_bag)
 	weapon_right=weapon.position
 	weapon_left=self.position +(self.position -weapon.position)
 	spawn_location = position
@@ -130,3 +135,11 @@ func _handle_region_energy(delta: float):
 		current_energy += energy_region_tick_value
 		EventBus.player_energy_changed.emit(current_energy,max_energy)
 	
+#切换背包函数
+func toggle_bag():
+	if is_bag_open == true:
+		bag_ui.close_bag()
+		is_bag_open = false	
+	elif is_bag_open == false:
+		bag_ui.open_bag(player_inventory)
+		is_bag_open = true

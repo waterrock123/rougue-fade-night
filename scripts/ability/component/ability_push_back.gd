@@ -10,27 +10,31 @@ extends AbilityComponent
 @export var frequenct = 2
 #清空间隔,超过这个时间将重置要触发前推攻击次数
 @export var clear_tween = 1000
+#反转方向
+@export var revert = false
 var push_back_counter = 0 
 var last_activation_time = -1
 
 func _activate(context: AbilityContext):
 	
 	
-	if Time.get_ticks_msec() - last_activation_time > 1000:
+	if frequenct != -1 and Time.get_ticks_msec() - last_activation_time > 1000:
 		push_back_counter = 0
 	
 	push_back_counter += 1
 		
-	if push_back_counter== frequenct:
+	if frequenct == -1 or  push_back_counter == frequenct:
 		push_back_counter = 0
 	
 		var caster = context.caster
 		var caster_pos = caster.position
 		var mouse_pos = get_window().get_camera_2d().get_global_mouse_position()
-		
-		
-		var push_dir = (caster_pos - mouse_pos).normalized()
-		var target_pos = caster_pos - push_dir * push_back_distance
+		var push_dir
+		if revert:
+			push_dir = (mouse_pos - caster_pos).normalized()		
+		else:
+			push_dir = (caster_pos - mouse_pos).normalized()
+		var target_pos = caster_pos + push_dir * push_back_distance
 		
 		var tween = create_tween()
 		tween.tween_property(caster,"position",target_pos,duration)

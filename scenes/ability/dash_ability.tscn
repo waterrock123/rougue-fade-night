@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://5uxluclcqj3n"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_snkkx"]
+[ext_resource type="Texture2D" uid="uid://b6hqqfdifiaer" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc725.png" id="2_1tafh"]
+[ext_resource type="Script" uid="uid://dyaagqy816wo4" path="res://scripts/ability/component/ability_push_back.gd" id="2_17238"]
+[ext_resource type="Script" uid="uid://dtdkg5dwq1bd6" path="res://scripts/ability/component/ability_turn_to_mouse.gd" id="4_1tafh"]
+[ext_resource type="Script" uid="uid://bbopxugc08u0m" path="res://scripts/ability/component/ability_clone_self.gd" id="5_45ffm"]
+
+[node name="DashAbility" type="Node" unique_id=1517353635]
+script = ExtResource("1_snkkx")
+icon_texture = ExtResource("2_1tafh")
+cooldown = 1.0
+energy_cost = 5.0
+metadata/_custom_type_script = "uid://bd4gnnre2dfj7"
+
+[node name="AbilityPushBack" type="Node" parent="." unique_id=1936712454]
+script = ExtResource("2_17238")
+push_back_distance = 100
+duration = 0.2
+frequenct = -1
+revert = true
+metadata/_custom_type_script = "uid://dyaagqy816wo4"
+
+[node name="AbilityTurnToMouse" type="Node" parent="." unique_id=1076950555]
+script = ExtResource("4_1tafh")
+metadata/_custom_type_script = "uid://dtdkg5dwq1bd6"
+
+[node name="AbilityCloneSelf" type="Node" parent="." unique_id=1167442564]
+script = ExtResource("5_45ffm")
+metadata/_custom_type_script = "uid://bbopxugc08u0m"

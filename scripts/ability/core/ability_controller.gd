@@ -1,6 +1,7 @@
 class_name AbilityController
 extends Node
 
+
 var abilities: Array[Ability] = []
 var cooldowns: Dictionary = {}
 
@@ -23,11 +24,19 @@ func trigger_ability_by_idx(idx: int):
 	trigger_ability(ability)
 
 func _process(delta: float) -> void:
-	for ability in cooldowns.keys():
-		if cooldowns[ability]>0.0:
+	for ability in abilities:
+		if cooldowns.get(ability,0.0) > 0.0:
 			var cooldown = max(0.0,cooldowns[ability]-delta)
 			cooldowns[ability]=cooldown
 			ability.current_cooldown = cooldown
+		
+		ability.can_be_casted = _can_be_cast(ability)
+
+func _can_be_cast(ability: Ability):
+	var cd = cooldowns.get(ability,0.0)
+	
+	return cd == 0 and ability.energy_cost <= entity.current_energy
+
 
 
 
@@ -36,7 +45,6 @@ func trigger_ability(ability: Ability):
 	if ability == null:
 		return
 	if cooldowns.get(ability,0.0)>0.0:
-		
 		return
 		
 	if entity.current_energy < ability.energy_cost:

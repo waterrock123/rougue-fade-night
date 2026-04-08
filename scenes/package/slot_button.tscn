@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b0rl2b1stia6g"]
 
-[ext_resource type="PackedScene" uid="uid://cixsw8rjlprgx" path="res://scenes/relic/relic_ui.tscn" id="1_io3vt"]
+[ext_resource type="Script" uid="uid://cpisxflrwwfm3" path="res://scenes/package/slot_button.gd" id="1_io3vt"]
 
 [node name="SlotButton" type="Button" unique_id=1887992329]
 self_modulate = Color(1, 1, 1, 0.047058824)
@@ -8,24 +8,18 @@ texture_filter = 1
 custom_minimum_size = Vector2(128, 128)
 offset_right = 8.0
 offset_bottom = 8.0
+script = ExtResource("1_io3vt")
 
-[node name="Panel" type="Panel" parent="." unique_id=2048786950]
-custom_minimum_size = Vector2(128, 128)
+[node name="SlotBackground" type="ColorRect" parent="." unique_id=143210860]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+color = Color(0.4745098, 0.4745098, 0.5019608, 0.39607844)
 
-[node name="CenterContainer" type="CenterContainer" parent="Panel" unique_id=1022126257]
+[node name="CenterContainer" type="CenterContainer" parent="SlotBackground" unique_id=1022126257]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 1
 anchors_preset = 8
@@ -33,12 +27,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -48.0
+offset_top = -48.0
+offset_right = 48.0
+offset_bottom = 48.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="RelicUI" parent="Panel/CenterContainer" unique_id=1285776878 instance=ExtResource("1_io3vt")]
-layout_mode = 2

@@ -35,6 +35,7 @@ is_penetrate = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1123908785]
 texture_filter = 1
+position = Vector2(6.6666665, -3.3333333)
 texture = SubResource("AtlasTexture_pwjyv")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=215287016]

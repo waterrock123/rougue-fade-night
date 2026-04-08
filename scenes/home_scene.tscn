@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://cllxtynsc4lbc"]
+
+[ext_resource type="Script" uid="uid://b8kgi6128gra1" path="res://scripts/utils/home_scene.gd" id="1_jfeqw"]
+[ext_resource type="Texture2D" uid="uid://cpq4nssrbobgd" path="res://assets/jimeng-2026-04-06-2011-像素风格，游戏插图，上半部分是天空（蓝天白云），天空的中央是一片与蓝天白云截然不..._副本.jpg" id="1_umrym"]
+
+[node name="HomeScene" type="Control" unique_id=1600192818]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jfeqw")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1235843330]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_umrym")
+
+[node name="PlayBtn" type="Button" parent="." unique_id=1373079193]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 491.0
+offset_top = -66.0
+offset_right = 841.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 45
+text = "开始游戏"
+
+[node name="ExitBtn" type="Button" parent="." unique_id=256461987]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 491.0
+offset_top = 41.0
+offset_right = 841.0
+offset_bottom = 121.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 45
+text = "退出"
+
+[connection signal="pressed" from="PlayBtn" to="." method="_on_play_btn_pressed"]
+[connection signal="pressed" from="ExitBtn" to="." method="_on_exit_btn_pressed"]
