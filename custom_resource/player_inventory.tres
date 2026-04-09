@@ -21,6 +21,7 @@ metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_7538f"]
 script = ExtResource("4_8x5c4")
+id = "2"
 icon = ExtResource("5_wlci1")
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"
 
@@ -106,8 +107,14 @@ metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 script = ExtResource("2_iogdf")
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
+[sub_resource type="Resource" id="Resource_5ob81"]
+script = ExtResource("4_8x5c4")
+icon = ExtResource("6_26hqu")
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"
+
 [sub_resource type="Resource" id="Resource_0f867"]
 script = ExtResource("2_iogdf")
+item = SubResource("Resource_5ob81")
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [resource]

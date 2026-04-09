@@ -3,11 +3,13 @@
 [ext_resource type="Script" uid="uid://cpisxflrwwfm3" path="res://scenes/package/slot_button.gd" id="1_io3vt"]
 
 [node name="SlotButton" type="Button" unique_id=1887992329]
+process_mode = 3
 self_modulate = Color(1, 1, 1, 0.047058824)
 texture_filter = 1
 custom_minimum_size = Vector2(128, 128)
 offset_right = 8.0
 offset_bottom = 8.0
+mouse_filter = 1
 script = ExtResource("1_io3vt")
 
 [node name="SlotBackground" type="ColorRect" parent="." unique_id=143210860]
@@ -17,6 +19,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.4745098, 0.4745098, 0.5019608, 0.39607844)
 
 [node name="CenterContainer" type="CenterContainer" parent="SlotBackground" unique_id=1022126257]
@@ -33,3 +36,6 @@ offset_right = 48.0
 offset_bottom = 48.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

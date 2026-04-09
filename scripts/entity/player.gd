@@ -95,7 +95,7 @@ func _handle_movement(delta: float):
 
 func _handle_footstep_sound(delta: float):
 	if is_moving:
-		footstep_timer +=delta
+		footstep_timer += delta
 		if footstep_timer >= footstep_interval:
 			AudioController.play(footstep_clip,global_position)
 			footstep_timer = 0.0

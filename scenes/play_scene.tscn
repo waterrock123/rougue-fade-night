@@ -403,12 +403,14 @@ script = ExtResource("14_dta8y")
 [node name="ResumeBtn" type="Button" parent="CanvasLayer/UI/PauseMenu" unique_id=723644415]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
+mouse_filter = 1
 theme_override_font_sizes/font_size = 35
 text = "继续"
 
 [node name="ExitBtn" type="Button" parent="CanvasLayer/UI/PauseMenu" unique_id=1714880789]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
+mouse_filter = 1
 theme_override_font_sizes/font_size = 35
 text = "退出"
 

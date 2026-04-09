@@ -2,8 +2,10 @@
 
 [ext_resource type="Script" uid="uid://cfq8m8v0h6di5" path="res://scenes/package/package_ui.gd" id="1_6nu26"]
 [ext_resource type="PackedScene" uid="uid://b0rl2b1stia6g" path="res://scenes/package/slot_button.tscn" id="1_18ihm"]
+[ext_resource type="Resource" uid="uid://wl3kquh3l0yw" path="res://custom_resource/player_inventory.tres" id="2_ve3o6"]
 
 [node name="PackageUI" type="Control" unique_id=1745782595]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,6 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6nu26")
+bag_inventory = ExtResource("2_ve3o6")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=539514627]
 layout_mode = 1

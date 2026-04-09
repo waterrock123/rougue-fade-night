@@ -13,3 +13,5 @@ signal game_paused(paused: bool)
 signal  scene_changed(scene: String)
 #打开背包信号 
 signal change_bag()
+#库存更新信号，库存数据发生变化时，发送这个信号，通知UI同步更新
+signal inventory_update()
