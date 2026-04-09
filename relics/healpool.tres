@@ -6,6 +6,8 @@
 [resource]
 script = ExtResource("1_shn6m")
 relic_name = "healpool"
+level = 1
+tags = Array[String](["", ""])
 id = "001"
 icon = ExtResource("1_1dndj")
 tooltip = "获得时恢复5点生命"

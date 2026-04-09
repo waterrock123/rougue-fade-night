@@ -122,6 +122,8 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 func spend_energy(energy:float):
 	current_energy -= energy
 	current_energy = clamp(current_energy,0,max_energy)
+	if stats_controller != null:
+		stats_controller.current_energy = current_energy
 	EventBus.player_energy_changed.emit(current_energy,max_energy)
 
 func _handle_region_energy(delta: float):
@@ -133,6 +135,9 @@ func _handle_region_energy(delta: float):
 	if energy_timer >= energy_region_freq:
 		energy_timer = 0
 		current_energy += energy_region_tick_value
+		current_energy = min(current_energy,max_energy)
+		if stats_controller != null:
+			stats_controller.current_energy = current_energy
 		EventBus.player_energy_changed.emit(current_energy,max_energy)
 	
 #切换背包函数

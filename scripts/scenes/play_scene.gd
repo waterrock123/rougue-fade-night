@@ -27,6 +27,9 @@ func _handle_game_over(player: Player):
 	
 	player.current_health = player.max_health
 	player.current_energy = player.max_energy
+	if player.stats_controller != null:
+		player.stats_controller.current_health = player.current_health
+		player.stats_controller.current_energy = player.current_energy
 	player.is_dead = false
 	EventBus.player_health_changed.emit(player.current_health,player.max_health)
 	

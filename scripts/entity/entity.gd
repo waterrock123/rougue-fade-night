@@ -17,10 +17,14 @@ var turning_cooldown = 0.0
 var energy_timer = 0.0 
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var stats_controller: StatsController = get_node_or_null("StatsController") as StatsController
 
 func _ready() -> void:
 	current_health = max_health
 	current_energy = max_energy
+	if stats_controller != null:
+		stats_controller.current_health = current_health
+		stats_controller.current_energy = current_energy
 	animated_sprite.material = animated_sprite.material.duplicate()
 	animated_sprite.animation_finished.connect(on_animation_finished)
 	
@@ -34,6 +38,8 @@ func apply_damage(damage: float):
 	
 	current_health -= damage
 	current_health = max(0,current_health)
+	if stats_controller != null:
+		stats_controller.current_health = current_health
 	_show_damage_taken_effect()
 	show_damage_popup(damage)
 	_handle_damage_callback(damage)

@@ -17,6 +17,8 @@
 [ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="14_a8ls1"]
 [ext_resource type="Script" uid="uid://b0c3hw6lsf13w" path="res://scripts/utils/footstep_effect.gd" id="14_f1ej7"]
 [ext_resource type="Resource" uid="uid://b478o2358l6xq" path="res://character/warrior/warrior.tres" id="15_qfm1y"]
+[ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="16_stats"]
+[ext_resource type="Script" uid="uid://cxa8uq8xvhx5j" path="res://scripts/stats/modifier_node.gd" id="17_60mlk"]
 [ext_resource type="PackedScene" uid="uid://d2qsc6k4jdm0e" path="res://scenes/package/package_ui.tscn" id="18_fulsm"]
 
 [sub_resource type="Resource" id="Resource_4r5pv"]
@@ -300,6 +302,13 @@ script = ExtResource("14_a8ls1")
 base_stats = ExtResource("15_qfm1y")
 
 [node name="ModifierHandler" type="Node" parent="." unique_id=852903705]
+script = ExtResource("16_stats")
+
+[node name="ModifierNode" type="Node" parent="ModifierHandler" unique_id=591867142]
+script = ExtResource("17_60mlk")
+value = 20.0
+source = "player"
+duration = 200.0
 
 [node name="Weapon" type="Sprite2D" parent="." unique_id=1276098786]
 z_index = -1
