@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Stats" format=3 uid="uid://b478o2358l6xq"]
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://b478o2358l6xq"]
 
 [ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats.gd" id="1_4giy7"]
 
@@ -14,4 +14,4 @@ strength = 8
 dexterity = 4
 intelligence = 4
 constitution = 6
-metadata/_custom_type_script = "uid://bmflgl2dvada1"
+speed = 5

@@ -4,7 +4,10 @@
 [ext_resource type="Shader" uid="uid://cwrx2bwnxyo20" path="res://shaders/entity.gdshader" id="2_dqrhk"]
 [ext_resource type="Texture2D" uid="uid://bg57rt1sb4r2d" path="res://assets/Imp Sprite Sheet.png" id="3_15y58"]
 [ext_resource type="PackedScene" uid="uid://btnvhhob6lgjc" path="res://scenes/ability/fireball_ability.tscn" id="5_le7n1"]
+[ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="8_2sm4y"]
 [ext_resource type="Script" uid="uid://cifh43jnsuld4" path="res://scripts/ability/core/ability_controller.gd" id="8_usbmy"]
+[ext_resource type="Resource" uid="uid://bpvhyxvde0hl6" path="res://resource/enemy/demon_mouse.tres" id="9_600us"]
+[ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="9_npc04"]
 [ext_resource type="PackedScene" uid="uid://b08t552buecvq" path="res://scenes/hit_particles.tscn" id="10_lqaot"]
 [ext_resource type="Script" uid="uid://bxt142ar5bkmd" path="res://scripts/entity/pathfinding.gd" id="11_sg1qm"]
 
@@ -255,6 +258,7 @@ script = ExtResource("8_usbmy")
 metadata/_custom_type_script = "uid://cifh43jnsuld4"
 
 [node name="FireballAbility" parent="AbilityController" unique_id=1060057010 instance=ExtResource("5_le7n1")]
+energy_cost = 0.0
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]
 
@@ -273,5 +277,13 @@ color_ramp = SubResource("Gradient_xrus2")
 
 [node name="Pathfinding" type="Node2D" parent="." unique_id=1373648024]
 script = ExtResource("11_sg1qm")
+
+[node name="StatsController" type="Node" parent="." unique_id=1866351600]
+script = ExtResource("8_2sm4y")
+stats_data = ExtResource("9_600us")
+metadata/_custom_type_script = "uid://rm4yfg5qu4vg"
+
+[node name="ModifierHandler" type="Node" parent="." unique_id=42225585]
+script = ExtResource("9_npc04")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

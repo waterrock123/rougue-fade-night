@@ -9,7 +9,7 @@ extends Entity
 @export var spell_bar: SpellBar
 #库存变量
 @export var player_inventory:Inventory
-
+@export var player_equipment:Equipment
 
 var is_bag_open:bool = false
 var is_moving:bool = false
@@ -69,6 +69,11 @@ func _process(delta: float) -> void:
 
 func _handle_abilities(ability:Ability):
 	ability_controller.trigger_ability(ability)
+
+
+func apply_runtime_stats(final_stats: Dictionary) -> void:
+	if final_stats.has("move_speed"):
+		speed = float(final_stats["move_speed"])
 
 
 
@@ -146,5 +151,5 @@ func toggle_bag():
 		bag_ui.close_bag()
 		is_bag_open = false	
 	elif is_bag_open == false:
-		bag_ui.open_bag(player_inventory)
+		bag_ui.open_bag(player_inventory,player_equipment)
 		is_bag_open = true

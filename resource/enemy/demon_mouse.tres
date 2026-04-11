@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://bpvhyxvde0hl6"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats.gd" id="1_yt4qn"]
+
+[resource]
+script = ExtResource("1_yt4qn")
+entity_name = "demon_mouse"
+base_move_speed = 15.0
+strength = 2
+dexterity = 4
+constitution = 1
+speed = 2
+metadata/_custom_type_script = "uid://yiy2gawxifk8"

@@ -1,7 +1,7 @@
 class_name StatsController
 extends Node
 
-@export var base_stats: Stats
+@export var stats_data: StatsData
 
 var final_stats: Dictionary = {}
 var modifiers: Array[Modifier] = []
@@ -13,13 +13,12 @@ var current_energy: float = 0.0
 
 
 # 初始化运行时属性：
-# 1. 复制基础属性资源，避免多个实体共用同一份 Resource
+# 1. 复制初始化数据，避免多个实体共用同一份 Resource
 # 2. 绑定 ModifierHandler
 # 3. 首次计算最终属性并同步给父实体
 func _ready() -> void:
-	# Duplicate at runtime so different entities do not share one Resource instance.
-	if base_stats != null:
-		base_stats = base_stats.duplicate(true)
+	if stats_data != null:
+		stats_data = stats_data.duplicate(true)
 
 	if modifier_handler != null:
 		modifier_handler.bind_stats_controller(self)
@@ -61,16 +60,16 @@ func get_stat(stat_name: StringName, default_value: float = 0.0) -> float:
 
 
 # 重新计算最终属性：
-# 先根据基础属性生成初始值，再依次叠加所有修饰器，
+# 先根据初始化数据生成初始值，再依次叠加所有修饰器，
 # 最后处理当前生命/能量上限变化，并同步回父实体。
 func recompute_stats() -> void:
-	if base_stats == null:
+	if stats_data == null:
 		final_stats.clear()
 		return
 
 	var previous_max_health := get_stat("max_health")
 	var previous_max_energy := get_stat("max_energy")
-	var final := _build_base_stats(base_stats)
+	var final := _build_base_stats(stats_data)
 
 	for modifier in modifiers:
 		_apply_modifier(final, modifier)
@@ -81,27 +80,26 @@ func recompute_stats() -> void:
 
 
 # 基础换算入口：
-# 把 Stats(Resource) 中的基础属性和一级属性，
-# 转成运行时真正参与战斗计算的字典属性。
-func _build_base_stats(stats: Stats) -> Dictionary:
+# 把 StatsData 中的初始化数据转换成运行时真正参与战斗计算的属性字典。
+func _build_base_stats(data: StatsData) -> Dictionary:
 	return {
-		"max_health": stats.base_max_health + stats.constitution * 5.0,
-		"max_energy": stats.base_max_energy + stats.intelligence * 3.0,
-		"move_speed": stats.base_move_speed + stats.speed * 10.0,
-		"energy_regen_tick_value": stats.base_energy_regen_tick_value + stats.intelligence * 1,
-		"crit_chance": stats.base_crit_chance + stats.luck * 0.002,
-		"crit_damage": stats.base_crit_damage,
-		"dodge_rate": stats.base_dodge_rate + stats.speed * 0.001,
-		"damage_reduction_rate": stats.base_damage_reduction_rate,
-		"static_damage_reduction": float(stats.base_static_damage_reduction),
-		"cooldown_reduction": stats.base_cooldown_reduction + stats.speed * 0.002,
-		"strength": float(stats.strength),
-		"dexterity": float(stats.dexterity),
-		"intelligence": float(stats.intelligence),
-		"constitution": float(stats.constitution),
-		"speed": float(stats.speed),
-		"charm": float(stats.charm),
-		"luck": float(stats.luck),
+		"max_health": data.base_max_health + data.constitution * 5.0,
+		"max_energy": data.base_max_energy + data.intelligence * 3.0,
+		"move_speed": data.base_move_speed + data.speed * 10.0,
+		"energy_regen_tick_value": data.base_energy_regen_tick_value + data.intelligence,
+		"crit_chance": data.base_crit_chance + data.luck * 0.002,
+		"crit_damage": data.base_crit_damage,
+		"dodge_rate": data.base_dodge_rate + data.speed * 0.001,
+		"damage_reduction_rate": data.base_damage_reduction_rate,
+		"static_damage_reduction": float(data.base_static_damage_reduction),
+		"cooldown_reduction": data.base_cooldown_reduction + data.speed * 0.002,
+		"strength": float(data.strength),
+		"dexterity": float(data.dexterity),
+		"intelligence": float(data.intelligence),
+		"constitution": float(data.constitution),
+		"speed": float(data.speed),
+		"charm": float(data.charm),
+		"luck": float(data.luck),
 	}
 
 
@@ -140,7 +138,7 @@ func _clamp_resources(previous_max_health: float, previous_max_energy: float) ->
 
 
 # 把 StatsController 中计算出的结果同步到父实体。
-# 这样旧的 Entity / Player 逻辑仍然可以照常读取这些字段。
+# 计算负责统一数据，行为映射交给 Entity / Player / Enemy 自己处理。
 func _sync_entity_stats(force_fill_resources: bool) -> void:
 	if entity == null:
 		return
@@ -148,10 +146,7 @@ func _sync_entity_stats(force_fill_resources: bool) -> void:
 	entity.max_health = get_stat("max_health")
 	entity.max_energy = get_stat("max_energy")
 	entity.energy_region_tick_value = get_stat("energy_regen_tick_value")
-
-	if entity is Player:
-		var player := entity as Player
-		player.speed = get_stat("move_speed")
+	entity.apply_runtime_stats(final_stats)
 
 	if force_fill_resources:
 		entity.current_health = entity.max_health

@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://bvsjalkkg2xd0" path="res://scenes/ability/skeleton_slash.tscn" id="7_i0f3v"]
 [ext_resource type="PackedScene" uid="uid://b08t552buecvq" path="res://scenes/hit_particles.tscn" id="10_xrus2"]
 [ext_resource type="Script" uid="uid://bxt142ar5bkmd" path="res://scripts/entity/pathfinding.gd" id="11_7e1v2"]
+[ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="11_icxyw"]
+[ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="12_ik2k2"]
+[ext_resource type="Resource" uid="uid://daijrx1c0axll" path="res://resource/enemy/skeleton.tres" id="12_iumoe"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i0f3v"]
 shader = ExtResource("2_haw2w")
@@ -355,6 +358,7 @@ script = ExtResource("6_haw2w")
 metadata/_custom_type_script = "uid://cifh43jnsuld4"
 
 [node name="SkeletonSlash" parent="AbilityController" unique_id=958036520 instance=ExtResource("7_i0f3v")]
+energy_cost = 0.0
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]
 
@@ -374,5 +378,13 @@ color_ramp = SubResource("Gradient_xrus2")
 [node name="Pathfinding" type="Node2D" parent="." unique_id=1373648024]
 script = ExtResource("11_7e1v2")
 separation_force = 150
+
+[node name="StatsController" type="Node" parent="." unique_id=1719162146]
+script = ExtResource("11_icxyw")
+stats_data = ExtResource("12_iumoe")
+metadata/_custom_type_script = "uid://rm4yfg5qu4vg"
+
+[node name="ModifierHandler" type="Node" parent="." unique_id=1658077185]
+script = ExtResource("12_ik2k2")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

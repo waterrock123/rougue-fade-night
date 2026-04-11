@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://daijrx1c0axll"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats.gd" id="1_sicpi"]
+
+[resource]
+script = ExtResource("1_sicpi")
+entity_name = "skeleton"
+base_max_health = 100.0
+base_move_speed = 10.0
+strength = 5
+dexterity = 5
+constitution = 5
+speed = 2
+metadata/_custom_type_script = "uid://yiy2gawxifk8"

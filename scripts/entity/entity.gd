@@ -20,11 +20,12 @@ var energy_timer = 0.0
 @onready var stats_controller: StatsController = get_node_or_null("StatsController") as StatsController
 
 func _ready() -> void:
-	current_health = max_health
-	current_energy = max_energy
 	if stats_controller != null:
-		stats_controller.current_health = current_health
-		stats_controller.current_energy = current_energy
+		current_health = stats_controller.current_health
+		current_energy = stats_controller.current_energy
+	else:
+		current_health = max_health
+		current_energy = max_energy
 	animated_sprite.material = animated_sprite.material.duplicate()
 	animated_sprite.animation_finished.connect(on_animation_finished)
 	
@@ -50,6 +51,10 @@ func apply_damage(damage: float):
 		
 		
 func spend_energy(energy:float): pass
+
+
+func apply_runtime_stats(_final_stats: Dictionary) -> void:
+	pass
 
 
 func play_animation(anim: AnimationWrapper):

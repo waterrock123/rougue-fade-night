@@ -79,6 +79,11 @@ func _process(delta: float) -> void:
 		if memory_timer >= memory:
 			memory_timer = 0.0
 			chasing = false
+
+
+func apply_runtime_stats(final_stats: Dictionary) -> void:
+	if final_stats.has("move_speed"):
+		speed = float(final_stats["move_speed"])
 	
 	
 func _handle_animations():

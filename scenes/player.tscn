@@ -13,12 +13,15 @@
 [ext_resource type="AudioStream" uid="uid://skd8umn7fos7" path="res://assets/Sound/Dirt Walk 5.wav" id="6_qfm1y"]
 [ext_resource type="Texture2D" uid="uid://btc6x746w7abe" path="res://assets/meleeAttack_plusCharacters.png" id="6_tuyoq"]
 [ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="7_fulsm"]
+[ext_resource type="Resource" uid="uid://wl3kquh3l0yw" path="res://custom_resource/player_inventory.tres" id="8_4ni07"]
+[ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="9_l71n6"]
+[ext_resource type="Resource" uid="uid://dh27ilfr1mpyk" path="res://relics/healpool.tres" id="10_ke2ow"]
+[ext_resource type="Script" uid="uid://bq6potbl53yc6" path="res://scripts/package_system/equipment.gd" id="11_ujl30"]
 [ext_resource type="PackedScene" uid="uid://5uxluclcqj3n" path="res://scenes/ability/dash_ability.tscn" id="13_oprun"]
 [ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="14_a8ls1"]
 [ext_resource type="Script" uid="uid://b0c3hw6lsf13w" path="res://scripts/utils/footstep_effect.gd" id="14_f1ej7"]
 [ext_resource type="Resource" uid="uid://b478o2358l6xq" path="res://character/warrior/warrior.tres" id="15_qfm1y"]
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="16_stats"]
-[ext_resource type="Script" uid="uid://cxa8uq8xvhx5j" path="res://scripts/stats/modifier_node.gd" id="17_60mlk"]
 [ext_resource type="PackedScene" uid="uid://d2qsc6k4jdm0e" path="res://scenes/package/package_ui.tscn" id="18_fulsm"]
 
 [sub_resource type="Resource" id="Resource_4r5pv"]
@@ -28,6 +31,41 @@ volume_db = -8.0
 max_distance = 200
 bus = &"sfx"
 metadata/_custom_type_script = "uid://cfgrgm03strrd"
+
+[sub_resource type="Resource" id="Resource_31cv2"]
+script = ExtResource("9_l71n6")
+limit_tag = Array[String](["Food"])
+item = ExtResource("10_ke2ow")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_pf23h"]
+script = ExtResource("9_l71n6")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_dt7fs"]
+script = ExtResource("9_l71n6")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_wqfne"]
+script = ExtResource("9_l71n6")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_wnwbv"]
+script = ExtResource("9_l71n6")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_gl8cc"]
+script = ExtResource("9_l71n6")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_487ah"]
+script = ExtResource("9_l71n6")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_md1ol"]
+script = ExtResource("11_ujl30")
+equip_slots = Array[ExtResource("9_l71n6")]([SubResource("Resource_31cv2"), SubResource("Resource_pf23h"), SubResource("Resource_dt7fs"), SubResource("Resource_wqfne"), SubResource("Resource_wnwbv"), SubResource("Resource_gl8cc"), SubResource("Resource_487ah")])
+metadata/_custom_type_script = "uid://bq6potbl53yc6"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_smehm"]
 shader = ExtResource("2_fjrip")
@@ -275,6 +313,8 @@ script = ExtResource("1_onrkg")
 speed = 100.0
 weapon = NodePath("Weapon")
 footstep_clip = SubResource("Resource_4r5pv")
+player_inventory = ExtResource("8_4ni07")
+player_equipment = SubResource("Resource_md1ol")
 max_health = 250.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=195350017]
@@ -299,16 +339,10 @@ energy_cost = 10.0
 
 [node name="StatsController" type="Node" parent="." unique_id=530816127]
 script = ExtResource("14_a8ls1")
-base_stats = ExtResource("15_qfm1y")
+stats_data = ExtResource("15_qfm1y")
 
 [node name="ModifierHandler" type="Node" parent="." unique_id=852903705]
 script = ExtResource("16_stats")
-
-[node name="ModifierNode" type="Node" parent="ModifierHandler" unique_id=591867142]
-script = ExtResource("17_60mlk")
-value = 20.0
-source = "player"
-duration = 200.0
 
 [node name="Weapon" type="Sprite2D" parent="." unique_id=1276098786]
 z_index = -1

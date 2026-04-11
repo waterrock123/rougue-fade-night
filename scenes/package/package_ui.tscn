@@ -3,6 +3,50 @@
 [ext_resource type="Script" uid="uid://cfq8m8v0h6di5" path="res://scenes/package/package_ui.gd" id="1_6nu26"]
 [ext_resource type="PackedScene" uid="uid://b0rl2b1stia6g" path="res://scenes/package/slot_button.tscn" id="1_18ihm"]
 [ext_resource type="Resource" uid="uid://wl3kquh3l0yw" path="res://custom_resource/player_inventory.tres" id="2_ve3o6"]
+[ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="3_ut70t"]
+[ext_resource type="Script" uid="uid://bq6potbl53yc6" path="res://scripts/package_system/equipment.gd" id="4_02w0a"]
+[ext_resource type="Resource" uid="uid://dh27ilfr1mpyk" path="res://relics/healpool.tres" id="4_3tdbq"]
+[ext_resource type="PackedScene" uid="uid://cxykwuysayx4e" path="res://scenes/package/equipment_button.tscn" id="5_02w0a"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="5_m72af"]
+
+[sub_resource type="Resource" id="Resource_3tdbq"]
+script = ExtResource("3_ut70t")
+item = ExtResource("4_3tdbq")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_qoooq"]
+script = ExtResource("5_m72af")
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"
+
+[sub_resource type="Resource" id="Resource_m72af"]
+script = ExtResource("3_ut70t")
+item = SubResource("Resource_qoooq")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_bp1it"]
+script = ExtResource("3_ut70t")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_8ujye"]
+script = ExtResource("3_ut70t")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_vw65m"]
+script = ExtResource("3_ut70t")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_g7eaa"]
+script = ExtResource("3_ut70t")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_3ikpu"]
+script = ExtResource("3_ut70t")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_bb1y4"]
+script = ExtResource("4_02w0a")
+equip_slots = Array[ExtResource("3_ut70t")]([SubResource("Resource_3tdbq"), SubResource("Resource_m72af"), SubResource("Resource_bp1it"), SubResource("Resource_8ujye"), SubResource("Resource_vw65m"), SubResource("Resource_g7eaa"), SubResource("Resource_3ikpu")])
+metadata/_custom_type_script = "uid://bq6potbl53yc6"
 
 [node name="PackageUI" type="Control" unique_id=1745782595]
 process_mode = 3
@@ -14,6 +58,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6nu26")
 bag_inventory = ExtResource("2_ve3o6")
+equipment_inventory = SubResource("Resource_bb1y4")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=539514627]
 layout_mode = 1
@@ -40,6 +85,7 @@ theme_override_constants/margin_bottom = 30
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 50
+alignment = 1
 
 [node name="RelicContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1098928451]
 layout_mode = 2
@@ -47,29 +93,32 @@ size_flags_vertical = 4
 theme_override_constants/separation = 15
 alignment = 1
 
-[node name="SlotButton12" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=1887992329 instance=ExtResource("1_18ihm")]
+[node name="EquipmentButton" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=1887992329 instance=ExtResource("5_02w0a")]
 layout_mode = 2
 
-[node name="SlotButton13" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=982648300 instance=ExtResource("1_18ihm")]
+[node name="EquipmentButton2" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=513776021 instance=ExtResource("5_02w0a")]
 layout_mode = 2
 
-[node name="SlotButton14" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=255019059 instance=ExtResource("1_18ihm")]
+[node name="EquipmentButton3" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=1461304850 instance=ExtResource("5_02w0a")]
 layout_mode = 2
 
-[node name="SlotButton15" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=265801923 instance=ExtResource("1_18ihm")]
+[node name="EquipmentButton4" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=837643273 instance=ExtResource("5_02w0a")]
 layout_mode = 2
 
-[node name="SlotButton16" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=966194112 instance=ExtResource("1_18ihm")]
+[node name="EquipmentButton5" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=1384129222 instance=ExtResource("5_02w0a")]
 layout_mode = 2
 
-[node name="SlotButton17" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=1957380323 instance=ExtResource("1_18ihm")]
+[node name="EquipmentButton6" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=879410109 instance=ExtResource("5_02w0a")]
+layout_mode = 2
+
+[node name="EquipmentButton7" parent="PanelContainer/MarginContainer/VBoxContainer/RelicContainer" unique_id=872457383 instance=ExtResource("5_02w0a")]
 layout_mode = 2
 
 [node name="BagSlotContainer" type="GridContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=270140282]
 layout_mode = 2
 theme_override_constants/h_separation = 15
 theme_override_constants/v_separation = 15
-columns = 6
+columns = 7
 
 [node name="SlotButton20" parent="PanelContainer/MarginContainer/VBoxContainer/BagSlotContainer" unique_id=311195526 instance=ExtResource("1_18ihm")]
 layout_mode = 2
@@ -124,4 +173,13 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="SlotButton26" parent="PanelContainer/MarginContainer/VBoxContainer/BagSlotContainer" unique_id=211594901 instance=ExtResource("1_18ihm")]
+layout_mode = 2
+
+[node name="SlotButton38" parent="PanelContainer/MarginContainer/VBoxContainer/BagSlotContainer" unique_id=710258193 instance=ExtResource("1_18ihm")]
+layout_mode = 2
+
+[node name="SlotButton39" parent="PanelContainer/MarginContainer/VBoxContainer/BagSlotContainer" unique_id=1080517221 instance=ExtResource("1_18ihm")]
+layout_mode = 2
+
+[node name="SlotButton40" parent="PanelContainer/MarginContainer/VBoxContainer/BagSlotContainer" unique_id=439078978 instance=ExtResource("1_18ihm")]
 layout_mode = 2

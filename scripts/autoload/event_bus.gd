@@ -15,3 +15,5 @@ signal  scene_changed(scene: String)
 signal change_bag()
 #库存更新信号，库存数据发生变化时，发送这个信号，通知UI同步更新
 signal inventory_update()
+#装备更新信号，当装备栏数据发生变化时，发送这个信号，通知UI同步更新
+signal equipment_update()

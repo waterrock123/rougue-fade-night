@@ -6,9 +6,12 @@ extends Control
 
 
 @onready var bag_slots: Array = $PanelContainer/MarginContainer/VBoxContainer/BagSlotContainer.get_children()
-
+@onready var equipment_slots: Array = $PanelContainer/MarginContainer/VBoxContainer/RelicContainer.get_children()
 #背包的库存数据
 @export var bag_inventory: Inventory
+
+#装备栏的数据
+@export var  equipment_inventory: Equipment
 @onready var relic_ui_instance = preload("res://scenes/relic/relic_ui.tscn")
 
 var mouse_relic: RelicUI = null
@@ -22,7 +25,17 @@ func _ready() -> void:
 		#获取当前库存的各个格子
 		var slot = bag_slots[i]
 		slot.slot_index = i
+	
+	for i in range(equipment_slots.size()):
+		#获取当前装备的各个格子
+		var slot_ = equipment_slots[i]
+		slot_.slot_index = i
 
+
+func set_player_equipment(player_equipment:Equipment):
+	equipment_inventory = player_equipment
+	if equipment_inventory:
+		equipment_update()
 
 
 func set_player_inventory(player_inventory:Inventory):
@@ -35,11 +48,19 @@ func set_player_inventory(player_inventory:Inventory):
 func connect_signal():
 	for slot_button in bag_slots:
 		slot_button.mouse_button_left_press.connect(on_mouse_left_slot_button.bind(slot_button))
-		#slot_button.mouse_button_right_press.connect(on_mouse_right_slot_button)
+	for equipment_button in equipment_slots:
+		equipment_button.mouse_button_left_press.connect(on_mouse_left_slot_button.bind(equipment_button))
+		
+		
 
 
-func open_bag(player_inventroy:Inventory):
+func open_bag(player_inventroy:Inventory,player_equipment:Equipment):
 	set_player_inventory(player_inventroy)
+	set_player_equipment(player_equipment)
+	if EventBus.equipment_update.is_connected(equipment_update):
+		EventBus.equipment_update.disconnect(equipment_update)
+	
+	EventBus.equipment_update.connect(equipment_update)
 	
 	
 	if EventBus.inventory_update.is_connected(bag_update):
@@ -50,7 +71,8 @@ func open_bag(player_inventroy:Inventory):
 	
 	for slot_button in bag_slots:
 		slot_button.slot_inventory = bag_inventory
-	
+	for equp_button in equipment_slots:
+		equp_button.equipment_inventory =equipment_inventory
 	
 	show()
 	
@@ -62,6 +84,34 @@ func _input(event: InputEvent) -> void:
 
 
 
+
+#装备更新函数:把装备库存数据同步到UI格子上去
+func equipment_update():
+	if equipment_inventory.equip_slots.size() != equipment_slots.size():
+		return
+	#检查当前库存格子是否为空
+	for i in range(equipment_slots.size()):
+		var equipment_slot: Slot = equipment_inventory.equip_slots[i] 
+	
+		if !equipment_slot:
+			equipment_slots[i].reset_color()
+			continue
+		#再检查当前库存格子里是否物品
+		if !equipment_slot.item:
+			
+			
+			continue
+		#获取当前UI格子里的物品显示节点（relic_ui）
+		var relic_ui:RelicUI = equipment_slots[i].slot_button_slot_relic
+		
+		#如果UI格子里没有物品显示节点
+		if !relic_ui:
+			relic_ui = relic_ui_instance.instantiate()
+			equipment_slots[i].insert(relic_ui)#把实例化的物品显示节点插入
+		#把库存格子的数据赋值给物品显示节点	
+		relic_ui.slot_ = equipment_slot
+		#调用物品显示节点的更新函数，让它显示物品图标和数量
+		relic_ui.slot_relic_update()
 
 
 #背包更新核心函数：把库存数据同步到UI格子上
@@ -100,7 +150,7 @@ func bag_update():
 		#调用物品显示节点的更新函数，让它显示物品图标和数量
 		relic_ui.slot_relic_update()
 
-func on_mouse_left_slot_button(slot_button: SlotButton):
+func on_mouse_left_slot_button(slot_button):
 	#情况一，点击的格子为空，且有正在跟随鼠标物品
 	if slot_button.is_empty() and  mouse_relic:
 		insert_relic_in_slot(slot_button)
@@ -122,7 +172,7 @@ func on_mouse_left_slot_button(slot_button: SlotButton):
 			swap_relic(slot_button)
 
 #从格子抓取物品，控制物品跟随鼠标
-func take_relic_from_slot(slot_button:SlotButton):
+func take_relic_from_slot(slot_button):
 	#将当前格子的物品赋值给moouse_item
 	mouse_relic = slot_button.take_relic()
 	#把抓取的物品添加为当前bag_ui的子节点（让物品显示在背包上层，不被遮挡）
@@ -130,7 +180,7 @@ func take_relic_from_slot(slot_button:SlotButton):
 	relic_follow_mouse()
 
 #放入物品函数
-func insert_relic_in_slot(slot_button:SlotButton):
+func insert_relic_in_slot(slot_button):
 	#临时记录鼠标上的物品
 	var relic_ = mouse_relic
 	
