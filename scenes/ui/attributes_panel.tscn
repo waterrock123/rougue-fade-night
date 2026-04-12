@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://xg2yg0ufepbu"]
+
+[ext_resource type="PackedScene" uid="uid://5kdlknivjyn0" path="res://scenes/ui/attribute_ui.tscn" id="1_e10yu"]
+[ext_resource type="Script" uid="uid://e8qecnxcb7kg" path="res://scenes/ui/attributes_panel.gd" id="1_qught"]
+[ext_resource type="Texture2D" uid="uid://bwtkek5bb6n4j" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc659.png" id="2_hmpjf"]
+[ext_resource type="Texture2D" uid="uid://g5et2endu85s" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc657.png" id="3_qught"]
+[ext_resource type="Texture2D" uid="uid://b4h6m8h7ptcio" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1483.png" id="4_cjbcj"]
+[ext_resource type="Texture2D" uid="uid://b6x3ec3qjv4d6" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc596.png" id="5_v5sqo"]
+[ext_resource type="Texture2D" uid="uid://dnkydavpabyg8" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc658.png" id="6_bb3yk"]
+[ext_resource type="Texture2D" uid="uid://b0m3y5fo7kke7" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc661.png" id="7_dvuvp"]
+[ext_resource type="Texture2D" uid="uid://bgevhu0xs43xd" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc668.png" id="8_r4meh"]
+
+[node name="AttributesPanel" type="Control" unique_id=51568401]
+process_mode = 3
+custom_minimum_size = Vector2(200, 250)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_qught")
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1424686133]
+layout_mode = 0
+offset_right = 403.0
+offset_bottom = 424.0
+theme_override_constants/h_separation = 80
+theme_override_constants/v_separation = 50
+columns = 2
+
+[node name="ConstitutionUI" parent="GridContainer" unique_id=2114268439 instance=ExtResource("1_e10yu")]
+layout_mode = 2
+icon = ExtResource("2_hmpjf")
+attribute = "constitution"
+
+[node name="StrengthUI" parent="GridContainer" unique_id=1071656096 instance=ExtResource("1_e10yu")]
+layout_mode = 2
+tooltip_text = "力量"
+icon = ExtResource("3_qught")
+attribute = "strength"
+
+[node name="DexterityUI" parent="GridContainer" unique_id=182613022 instance=ExtResource("1_e10yu")]
+layout_mode = 2
+tooltip_text = "敏捷"
+icon = ExtResource("4_cjbcj")
+attribute = "dexterity"
+
+[node name="IntelligenceUI" parent="GridContainer" unique_id=1626939705 instance=ExtResource("1_e10yu")]
+layout_mode = 2
+tooltip_text = "智慧"
+icon = ExtResource("5_v5sqo")
+attribute = "intelligence"
+
+[node name="SpeedUI" parent="GridContainer" unique_id=581965193 instance=ExtResource("1_e10yu")]
+layout_mode = 2
+tooltip_text = "速度"
+icon = ExtResource("6_bb3yk")
+attribute = "speed"
+
+[node name="CharmUI" parent="GridContainer" unique_id=874660177 instance=ExtResource("1_e10yu")]
+layout_mode = 2
+tooltip_text = "魅力"
+icon = ExtResource("7_dvuvp")
+attribute = "charm"
+
+[node name="LuckUI" parent="GridContainer" unique_id=1041694755 instance=ExtResource("1_e10yu")]
+layout_mode = 2
+tooltip_text = "幸运"
+icon = ExtResource("8_r4meh")
+attribute = "luck"

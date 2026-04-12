@@ -4,6 +4,21 @@ extends Resource
 # 通用实体的初始化属性资源。
 # 它只负责存“初始数据”，不参与运行时状态计算。
 
+enum StatType {
+	MAX_HEALTH,
+	MAX_ENERGY,
+	CRIT_CHANCE,
+	CRIT_DAMAGE,
+	MOVE_SPEED,
+	STRENGTH,
+	DEXTERITY,
+	INTELLIGENCE,
+	CONSTITUTION,
+	SPEED,
+	CHARM,
+	LUCK
+}
+
 @export_group("Meta")
 @export var entity_name: String = ""
 

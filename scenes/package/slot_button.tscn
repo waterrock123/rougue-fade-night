@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b0rl2b1stia6g"]
 
-[ext_resource type="Script" uid="uid://cpisxflrwwfm3" path="res://scenes/package/slot_button.gd" id="1_io3vt"]
+[ext_resource type="Script" uid="uid://cpisxflrwwfm3" path="res://scripts/package_system/slot_button.gd" id="1_io3vt"]
 
 [node name="SlotButton" type="Button" unique_id=1887992329]
 process_mode = 3

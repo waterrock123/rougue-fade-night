@@ -23,6 +23,7 @@
 [ext_resource type="Resource" uid="uid://b478o2358l6xq" path="res://character/warrior/warrior.tres" id="15_qfm1y"]
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="16_stats"]
 [ext_resource type="PackedScene" uid="uid://d2qsc6k4jdm0e" path="res://scenes/package/package_ui.tscn" id="18_fulsm"]
+[ext_resource type="PackedScene" uid="uid://xg2yg0ufepbu" path="res://scenes/ui/attributes_panel.tscn" id="24_l71n6"]
 
 [sub_resource type="Resource" id="Resource_4r5pv"]
 script = ExtResource("7_fulsm")
@@ -313,6 +314,7 @@ script = ExtResource("1_onrkg")
 speed = 100.0
 weapon = NodePath("Weapon")
 footstep_clip = SubResource("Resource_4r5pv")
+stats_data = ExtResource("15_qfm1y")
 player_inventory = ExtResource("8_4ni07")
 player_equipment = SubResource("Resource_md1ol")
 max_health = 250.0
@@ -407,6 +409,15 @@ color_ramp = SubResource("Gradient_f1ej7")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1047984298]
 
 [node name="PackageUI" parent="CanvasLayer" unique_id=1745782595 instance=ExtResource("18_fulsm")]
-visible = false
+offset_left = 510.0
+offset_top = 241.0
+offset_right = -260.0
+offset_bottom = -29.0
+
+[node name="AttributesPanel" parent="CanvasLayer" unique_id=51568401 instance=ExtResource("24_l71n6")]
+offset_left = 136.0
+offset_top = 308.0
+offset_right = 466.0
+offset_bottom = 739.0
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

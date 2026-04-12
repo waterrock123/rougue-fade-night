@@ -7,6 +7,9 @@ extends Entity
 @export var footstep_clip: AudiioConfig
 @export var footstep_interval = 0.3
 @export var spell_bar: SpellBar
+
+@export var stats_data: StatsData
+
 #库存变量
 @export var player_inventory:Inventory
 @export var player_equipment:Equipment
@@ -22,7 +25,8 @@ var footstep_timer = 0.0
 @onready var bag_ui:PackageUI = $CanvasLayer/PackageUI
 @onready var ability_controller: AbilityController = $AbilityController
 @onready var footstep_effect: FootstepEffect = $FootstepEffect
-
+@onready var package_ui:PackageUI = $CanvasLayer/PackageUI
+@onready var attributes_panel = $CanvasLayer/AttributesPanel
 
 signal player_died(player:Player)
 
@@ -45,6 +49,7 @@ func _ready() -> void:
 	EventBus.play_cast_ability.connect(_handle_abilities)
 	EventBus.player_health_changed.emit(current_health,max_health)
 	EventBus.player_energy_changed.emit(current_energy,max_energy)
+	_handle_ui(player_inventory,player_equipment)
 	#health_bar.set_health(current_health ,max_health)
 	
 	
@@ -66,6 +71,14 @@ func _process(delta: float) -> void:
 	
 
 
+func _handle_ui(player_inventory:Inventory,player_equipment:Equipment):
+	stats_controller.stats_data = stats_data
+	package_ui.bag_inventory = player_inventory
+	package_ui.equipment_inventory = player_equipment
+	attributes_panel.stats_controller = stats_controller
+	attributes_panel.setup()
+	
+	
 
 func _handle_abilities(ability:Ability):
 	ability_controller.trigger_ability(ability)
@@ -149,7 +162,9 @@ func _handle_region_energy(delta: float):
 func toggle_bag():
 	if is_bag_open == true:
 		bag_ui.close_bag()
+		attributes_panel.close_panel()
 		is_bag_open = false	
 	elif is_bag_open == false:
 		bag_ui.open_bag(player_inventory,player_equipment)
+		attributes_panel.open_panel()
 		is_bag_open = true

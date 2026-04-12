@@ -14,4 +14,6 @@ strength = 8
 dexterity = 4
 intelligence = 4
 constitution = 6
-speed = 5
+speed = 6
+charm = 3
+luck = 3

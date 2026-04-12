@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cxykwuysayx4e"]
 
-[ext_resource type="Script" uid="uid://b3cpny557124g" path="res://scenes/package/equipment_button.gd" id="1_r5ki6"]
+[ext_resource type="Script" uid="uid://b3cpny557124g" path="res://scripts/package_system/equipment_button.gd" id="1_r5ki6"]
 
 [node name="EquipmentButton" type="Button" unique_id=1887992329]
 process_mode = 3

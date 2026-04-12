@@ -17,3 +17,5 @@ signal change_bag()
 signal inventory_update()
 #装备更新信号，当装备栏数据发生变化时，发送这个信号，通知UI同步更新
 signal equipment_update()
+#玩家属性发生变更信号，发送这个信号，通知属性面板UI同步更新
+signal attribute_update() 

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://x4dbvg6v0xo6" path="res://relic_ui.gd" id="1_kkv2x"]
 [ext_resource type="Resource" uid="uid://dh27ilfr1mpyk" path="res://relics/healpool.tres" id="2_xoide"]
+[ext_resource type="Texture2D" uid="uid://h1chfeyn3d8f" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2.png" id="3_sjsv8"]
 
 [node name="RelicUI" type="Control" unique_id=1285776878]
 layout_mode = 3
@@ -32,3 +33,4 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+texture = ExtResource("3_sjsv8")

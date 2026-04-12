@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://5kdlknivjyn0"]
+
+[ext_resource type="Script" uid="uid://ix672lgxwxos" path="res://scripts/ui/attribute_ui.gd" id="1_vlci6"]
+[ext_resource type="Texture2D" uid="uid://dykjkuoi3xkka" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc595.png" id="1_xg3vn"]
+
+[node name="AttributeUI" type="Control" unique_id=2114268439]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 3
+anchors_preset = 0
+tooltip_text = "体质"
+script = ExtResource("1_vlci6")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1608566929]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer" unique_id=1818578891]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("1_xg3vn")
+expand_mode = 1
+
+[node name="DataLabel" type="Label" parent="HBoxContainer" unique_id=20001377]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "8"
