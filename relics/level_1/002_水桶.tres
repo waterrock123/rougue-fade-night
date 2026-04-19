@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dbuj4w6g5hwrv"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://scripts/relic/relic_effect/relic_effect.gd" id="1_8vcxj"]
+[ext_resource type="Texture2D" uid="uid://syn08agweoa4" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc340.png" id="1_v304p"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_8vcxj"]
+
+[resource]
+script = ExtResource("2_8vcxj")
+relic_name = "水桶"
+icon = ExtResource("1_v304p")
+tooltip = "获得一护甲
+升级：获得一护甲，战斗结束后额外恢复已损失血量的20%
+"
+price = 3
+level = 1
+id = "002"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

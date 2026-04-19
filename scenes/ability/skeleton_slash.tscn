@@ -2,8 +2,21 @@
 
 [ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_4expr"]
 [ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_veguy"]
-[ext_resource type="Script" uid="uid://c0406ti2t3gqu" path="res://scripts/ability/component/ability_target_player.gd" id="3_ng5uy"]
+[ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="3_s1llj"]
+[ext_resource type="Script" uid="uid://bxl5nmydjpga5" path="res://scripts/ability/component/ability_get_targets.gd" id="4_6wqxi"]
 [ext_resource type="Script" uid="uid://f7xudf47t0wm" path="res://scripts/ability/component/ability_deal_damage.gd" id="4_jboct"]
+[ext_resource type="Script" uid="uid://cu47jfxlm080o" path="res://scripts/ability/component/ability_play_sound.gd" id="6_do2dv"]
+[ext_resource type="AudioStream" uid="uid://bfj8vxy0sfsyh" path="res://assets/Sound/Sword Impact Hit 1.wav" id="7_2rllt"]
+[ext_resource type="AudioStream" uid="uid://c7vdv8qlqgw3q" path="res://assets/Sound/Sword Impact Hit 2.wav" id="8_xkwg0"]
+[ext_resource type="AudioStream" uid="uid://cqxc2cx4bdue1" path="res://assets/Sound/Sword Impact Hit 3.wav" id="9_ody2g"]
+[ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="10_ibipk"]
+
+[sub_resource type="Resource" id="Resource_025o3"]
+script = ExtResource("10_ibipk")
+audio_streams = Array[AudioStream]([ExtResource("7_2rllt"), ExtResource("8_xkwg0"), ExtResource("9_ody2g")])
+volume_db = 5.0
+bus = &"sfx"
+metadata/_custom_type_script = "uid://cfgrgm03strrd"
 
 [node name="SkeletonSlash" type="Node" unique_id=571249044]
 script = ExtResource("1_4expr")
@@ -13,11 +26,22 @@ script = ExtResource("2_veguy")
 animation_name = "slash"
 metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
 
-[node name="AbilityTargetPlayer" type="Node" parent="." unique_id=1772759654]
-script = ExtResource("3_ng5uy")
-metadata/_custom_type_script = "uid://c0406ti2t3gqu"
+[node name="DealDamageGroup" type="Node" parent="." unique_id=1224669303]
+script = ExtResource("3_s1llj")
+delay = 0.4
 
-[node name="AbilityDealDamage" type="Node" parent="." unique_id=712832286]
+[node name="AbilityGetTargets" type="Node" parent="DealDamageGroup" unique_id=1666407496]
+script = ExtResource("4_6wqxi")
+target_mode = 1
+direction_mode = 2
+metadata/_custom_type_script = "uid://bxl5nmydjpga5"
+
+[node name="AbilityDealDamage" type="Node" parent="DealDamageGroup" unique_id=124570909]
 script = ExtResource("4_jboct")
-exec_delay = 0.5
+damage = 12.0
 metadata/_custom_type_script = "uid://f7xudf47t0wm"
+
+[node name="PlayImpactSound" type="Node" parent="DealDamageGroup/AbilityDealDamage" unique_id=1134532102]
+script = ExtResource("6_do2dv")
+audio_config = SubResource("Resource_025o3")
+metadata/_custom_type_script = "uid://cu47jfxlm080o"

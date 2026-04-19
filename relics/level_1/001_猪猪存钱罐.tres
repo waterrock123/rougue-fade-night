@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dh27ilfr1mpyk"]
+
+[ext_resource type="Texture2D" uid="uid://7p14ei4wisst" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc113.png" id="1_x2mh2"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://scripts/relic/relic_effect/relic_effect.gd" id="1_x4bmk"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_x4bmk"]
+
+[resource]
+script = ExtResource("2_x4bmk")
+relic_name = "猪猪存钱罐"
+icon = ExtResource("1_x2mh2")
+tooltip = "出售时额外获得一资金
+升级： 携带时，每经过一场战斗，出售时获得获得的资金+1
+"
+desc = "小猪的存钱罐，终会破碎"
+price = 3
+level = 1
+id = "001"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

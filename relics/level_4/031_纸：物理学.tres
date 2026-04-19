@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://lbwkide0vl11"]
+
+[ext_resource type="Texture2D" uid="uid://2xsol331kygm" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc107.png" id="1_ibs8c"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_qnj25"]
+
+[resource]
+script = ExtResource("2_qnj25")
+price = 4
+relic_name = "纸：物理学"
+level = 4
+id = "031"
+icon = ExtResource("1_ibs8c")
+tooltip = "智力+2，力量+3
+升级：获得2锋锐，2护甲
+"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

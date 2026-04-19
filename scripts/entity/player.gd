@@ -27,6 +27,7 @@ var footstep_timer = 0.0
 @onready var footstep_effect: FootstepEffect = $FootstepEffect
 @onready var package_ui:PackageUI = $CanvasLayer/PackageUI
 @onready var attributes_panel = $CanvasLayer/AttributesPanel
+@onready var relic_controller: RelicController = $RelicController
 
 signal player_died(player:Player)
 
@@ -75,6 +76,9 @@ func _handle_ui(player_inventory:Inventory,player_equipment:Equipment):
 	stats_controller.stats_data = stats_data
 	package_ui.bag_inventory = player_inventory
 	package_ui.equipment_inventory = player_equipment
+	relic_controller.player = self
+	relic_controller.equipment_inventory = player_equipment
+	relic_controller.refresh_all()
 	attributes_panel.stats_controller = stats_controller
 	attributes_panel.setup()
 	
@@ -87,6 +91,8 @@ func _handle_abilities(ability:Ability):
 func apply_runtime_stats(final_stats: Dictionary) -> void:
 	if final_stats.has("move_speed"):
 		speed = float(final_stats["move_speed"])
+	EventBus.player_health_changed.emit(current_health, max_health)
+	EventBus.player_energy_changed.emit(current_energy, max_energy)
 
 
 
@@ -127,7 +133,7 @@ func  _handle_animation():
 	else:
 		play_animation(AnimationWrapper.new("idle"))
 
-func _handle_damage_callback(damage:float):
+func _handle_damage_callback(_damage_data: DamageData):
 	EventBus.player_health_changed.emit(current_health,max_health)
 	
 

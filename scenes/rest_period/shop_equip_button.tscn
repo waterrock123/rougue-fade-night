@@ -1,9 +1,18 @@
 [gd_scene format=3 uid="uid://cs1w61qkhlmaw"]
 
+[ext_resource type="Script" uid="uid://cv34c1k4vht73" path="res://scenes/rest_period/shop_equip_button.gd" id="1_b02xn"]
+[ext_resource type="Texture2D" uid="uid://kd6fvrsfrcyi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc131.png" id="2_htygr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_htygr"]
+font_size = 36
+font_color = Color(0.8991099, 0.97366613, 0.99999994, 1)
+
 [node name="ShopEquipButton" type="Button" unique_id=590682203]
 custom_minimum_size = Vector2(230, 230)
 offset_right = 8.0
 offset_bottom = 8.0
+mouse_filter = 1
+script = ExtResource("1_b02xn")
 
 [node name="SlotBackground" type="ColorRect" parent="." unique_id=1564013944]
 layout_mode = 1
@@ -12,8 +21,30 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+mouse_filter = 1
 color = Color(0.31764707, 0.4509804, 0.8235294, 0.36078432)
+
+[node name="Glod" type="TextureRect" parent="SlotBackground" unique_id=146746769]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 59.0
+offset_top = -32.0
+offset_right = 123.0
+offset_bottom = 32.0
+mouse_filter = 2
+texture = ExtResource("2_htygr")
+
+[node name="NumberLabel" type="Label" parent="SlotBackground" unique_id=1789331719]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 125.0
+offset_top = -25.0
+offset_right = 166.0
+offset_bottom = 25.0
+text = "5"
+label_settings = SubResource("LabelSettings_htygr")
 
 [node name="CenterContainer" type="CenterContainer" parent="SlotBackground" unique_id=594037744]
 custom_minimum_size = Vector2(215, 215)
@@ -31,8 +62,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="SlotBackground/CenterContainer" unique_id=1228621198]
-visible = false
+[node name="ClearLabel" type="Label" parent="SlotBackground/CenterContainer" unique_id=1228621198]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "等待补货"

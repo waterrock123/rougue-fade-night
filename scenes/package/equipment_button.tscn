@@ -2,6 +2,12 @@
 
 [ext_resource type="Script" uid="uid://b3cpny557124g" path="res://scripts/package_system/equipment_button.gd" id="1_r5ki6"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r5ki6"]
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [node name="EquipmentButton" type="Button" unique_id=1887992329]
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.047058824)
@@ -9,7 +15,9 @@ texture_filter = 1
 custom_minimum_size = Vector2(128, 128)
 offset_right = 8.0
 offset_bottom = 8.0
+tooltip_text = "0"
 mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_r5ki6")
 script = ExtResource("1_r5ki6")
 
 [node name="SlotBackground" type="ColorRect" parent="." unique_id=143210860]
@@ -20,7 +28,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.4745098, 0.4745098, 0.5019608, 0.39607844)
+color = Color(0.67388487, 0.42251262, 0.27148145, 1)
 
 [node name="CenterContainer" type="CenterContainer" parent="SlotBackground" unique_id=1022126257]
 custom_minimum_size = Vector2(96, 96)

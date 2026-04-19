@@ -5,6 +5,8 @@ extends Node
 @export var cooldown: float =2.0
 @export var energy_cost:float = 10.0
 
+
+
 var current_cooldown: float
 var can_be_casted = false
 

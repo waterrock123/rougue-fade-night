@@ -13,9 +13,15 @@ signal game_paused(paused: bool)
 signal  scene_changed(scene: String)
 #打开背包信号 
 signal change_bag()
-#库存更新信号，库存数据发生变化时，发送这个信号，通知UI同步更新
+#背包库存更新信号，背包库存数据发生变化时，发送这个信号，通知UI同步更新
 signal inventory_update()
 #装备更新信号，当装备栏数据发生变化时，发送这个信号，通知UI同步更新
 signal equipment_update()
+#商店库存更新信号，商店库存数据发生变化时，发送这个信号，通知UI同步更新
+signal shop_inventory_update()
 #玩家属性发生变更信号，发送这个信号，通知属性面板UI同步更新
 signal attribute_update() 
+#金币变化信号，发送这个信号通知UI同步更新
+signal gold_changed()
+#装备购买信号,传递这个装备
+signal buy_equipment(equipment:Relic)

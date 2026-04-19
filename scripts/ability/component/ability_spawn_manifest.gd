@@ -12,9 +12,12 @@ func _activate(context: AbilityContext):
 	
 	var ability_manifest = manifest_scene.instantiate() as AbilityManifest
 	var caster = context.caster
+	if ability_manifest is ProjectileManifest:
+		ability_manifest.source = caster
 	#将场景实例化并添加到游玩场景中a
 	if  set_as_child:
 		caster.add_child(ability_manifest)
+		
 	else:
 		var root=get_tree().get_root()
 		ability_manifest.position=caster.position

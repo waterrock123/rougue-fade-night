@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cc8goxbeph36b"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_dryjf"]
+[ext_resource type="Texture2D" uid="uid://dug3pt567d3er" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc488.png" id="1_ynyvc"]
+
+[resource]
+script = ExtResource("1_dryjf")
+price = 3
+relic_name = "生肉"
+level = 1
+id = "017"
+is_consumable = true
+icon = ExtResource("1_ynyvc")
+tooltip = "使用后力量+2，恢复1生命
+升级：使用后力量+3，恢复1生命
+"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

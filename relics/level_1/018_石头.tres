@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://yn5mnarlwgag"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_ek5fo"]
+[ext_resource type="Texture2D" uid="uid://dqr0sxa2cltnl" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc384.png" id="1_focei"]
+
+[resource]
+script = ExtResource("1_ek5fo")
+price = 3
+relic_name = "石头"
+level = 1
+id = "018"
+icon = ExtResource("1_focei")
+tooltip = "向目标方向投掷一颗石块，伤害同时受力量与敏捷加成，如果背包内有同名的消耗品则装备一个同名消耗品
+升级：伤害增加"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

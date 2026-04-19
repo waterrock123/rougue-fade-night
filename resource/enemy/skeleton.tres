@@ -5,10 +5,11 @@
 [resource]
 script = ExtResource("1_sicpi")
 entity_name = "skeleton"
-base_max_health = 100.0
+base_max_health = 20.0
 base_move_speed = 10.0
 strength = 5
 dexterity = 5
 constitution = 5
 speed = 2
+luck = 2
 metadata/_custom_type_script = "uid://yiy2gawxifk8"

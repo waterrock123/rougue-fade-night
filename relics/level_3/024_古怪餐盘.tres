@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://fx8lt5qmvqgl"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_5ixu4"]
+[ext_resource type="Texture2D" uid="uid://molh8wtkeqrg" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc49.png" id="1_ssc8s"]
+
+[resource]
+script = ExtResource("1_5ixu4")
+price = 4
+relic_name = "古怪餐盘"
+level = 3
+id = "024"
+icon = ExtResource("1_ssc8s")
+tooltip = "使用消耗品后，若背包内还有其他消耗品则立即装备一个其他消耗品，一场战斗内最多触发三次
+升级：最多触发五次
+"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

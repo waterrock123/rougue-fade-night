@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://co37sp5lr8nvb"]
 
-[ext_resource type="PackedScene" uid="uid://cs1w61qkhlmaw" path="res://scenes/rest_period/shop_equip_button.tscn" id="1_hcmc8"]
-[ext_resource type="PackedScene" uid="uid://ow5f4tyul6cu" path="res://scenes/rest_period/money_token.tscn" id="1_hx3tf"]
+[ext_resource type="PackedScene" uid="uid://dmoylnmxemj46" path="res://scenes/rest_period/shop.tscn" id="1_hcmc8"]
 [ext_resource type="PackedScene" uid="uid://d2qsc6k4jdm0e" path="res://scenes/package/package_ui.tscn" id="1_nhqph"]
+[ext_resource type="PackedScene" uid="uid://xg2yg0ufepbu" path="res://scenes/ui/attributes_panel.tscn" id="4_b20nv"]
 
 [node name="RestPeriod" type="Control" unique_id=242219292]
 layout_mode = 3
@@ -18,113 +18,7 @@ grow_vertical = 2
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1509332362]
 
-[node name="Shop" type="Control" parent="UILayer" unique_id=285522488]
-layout_mode = 3
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -332.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/Shop" unique_id=269568058]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -400.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="UILayer/Shop/VBoxContainer" unique_id=670296602]
-layout_mode = 2
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_right = 30
-
-[node name="FunctionContainer" type="HBoxContainer" parent="UILayer/Shop/VBoxContainer/MarginContainer" unique_id=761176750]
-custom_minimum_size = Vector2(0, 80)
-layout_mode = 2
-theme_override_constants/separation = 50
-alignment = 2
-
-[node name="RefreshButton" type="Button" parent="UILayer/Shop/VBoxContainer/MarginContainer/FunctionContainer" unique_id=255352658]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 35
-text = "刷新"
-
-[node name="RefreshButton2" type="Button" parent="UILayer/Shop/VBoxContainer/MarginContainer/FunctionContainer" unique_id=175291613]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 35
-text = "刷新"
-
-[node name="BuyContainer2" type="HBoxContainer" parent="UILayer/Shop/VBoxContainer" unique_id=484807069]
-layout_mode = 2
-alignment = 2
-
-[node name="LevelUpButton" type="Button" parent="UILayer/Shop/VBoxContainer/BuyContainer2" unique_id=616383634]
-custom_minimum_size = Vector2(210, 230)
-layout_mode = 2
-size_flags_vertical = 8
-text = "Level UP"
-
-[node name="EquipContainer" type="HBoxContainer" parent="UILayer/Shop/VBoxContainer/BuyContainer2" unique_id=641123342]
-custom_minimum_size = Vector2(1380, 230)
-layout_mode = 2
-size_flags_vertical = 8
-alignment = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="UILayer/Shop/VBoxContainer/BuyContainer2/EquipContainer" unique_id=1286894600]
-custom_minimum_size = Vector2(230, 230)
-layout_mode = 2
-
-[node name="ShopEquipButton" parent="UILayer/Shop/VBoxContainer/BuyContainer2/EquipContainer/MarginContainer" unique_id=590682203 instance=ExtResource("1_hcmc8")]
-layout_mode = 2
-
-[node name="MarginContainer2" type="MarginContainer" parent="UILayer/Shop/VBoxContainer/BuyContainer2/EquipContainer" unique_id=2005123985]
-custom_minimum_size = Vector2(230, 230)
-layout_mode = 2
-
-[node name="ShopEquipButton" parent="UILayer/Shop/VBoxContainer/BuyContainer2/EquipContainer/MarginContainer2" unique_id=1998830968 instance=ExtResource("1_hcmc8")]
-layout_mode = 2
-
-[node name="MarginContainer3" type="MarginContainer" parent="UILayer/Shop/VBoxContainer/BuyContainer2/EquipContainer" unique_id=1983364726]
-custom_minimum_size = Vector2(230, 230)
-layout_mode = 2
-
-[node name="ShopEquipButton" parent="UILayer/Shop/VBoxContainer/BuyContainer2/EquipContainer/MarginContainer3" unique_id=2028201208 instance=ExtResource("1_hcmc8")]
-layout_mode = 2
-
-[node name="MarginContainer4" type="MarginContainer" parent="UILayer/Shop/VBoxContainer/BuyContainer2/EquipContainer" unique_id=1513427204]
-custom_minimum_size = Vector2(230, 230)
-layout_mode = 2
-
-[node name="ShopEquipButton" parent="UILayer/Shop/VBoxContainer/BuyContainer2/EquipContainer/MarginContainer4" unique_id=231087432 instance=ExtResource("1_hcmc8")]
-layout_mode = 2
-
-[node name="MarginContainer5" type="MarginContainer" parent="UILayer/Shop/VBoxContainer/BuyContainer2/EquipContainer" unique_id=815492698]
-custom_minimum_size = Vector2(230, 230)
-layout_mode = 2
-
-[node name="ShopEquipButton" parent="UILayer/Shop/VBoxContainer/BuyContainer2/EquipContainer/MarginContainer5" unique_id=239403153 instance=ExtResource("1_hcmc8")]
-layout_mode = 2
-
-[node name="MarginContainer6" type="MarginContainer" parent="UILayer/Shop/VBoxContainer/BuyContainer2/EquipContainer" unique_id=1917380141]
-custom_minimum_size = Vector2(230, 230)
-layout_mode = 2
-
-[node name="ShopEquipButton" parent="UILayer/Shop/VBoxContainer/BuyContainer2/EquipContainer/MarginContainer6" unique_id=806828404 instance=ExtResource("1_hcmc8")]
-layout_mode = 2
-
-[node name="ShowContainer" type="MarginContainer" parent="UILayer/Shop/VBoxContainer/BuyContainer2" unique_id=2091095752]
-custom_minimum_size = Vector2(300, 310)
-layout_mode = 2
-
-[node name="MoneyToken" parent="UILayer/Shop/VBoxContainer/BuyContainer2/ShowContainer" unique_id=1674262274 instance=ExtResource("1_hx3tf")]
-layout_mode = 2
+[node name="Shop" parent="UILayer" unique_id=1508891481 instance=ExtResource("1_hcmc8")]
 
 [node name="PackageUI" parent="UILayer" unique_id=1745782595 instance=ExtResource("1_nhqph")]
 offset_left = 75.0
@@ -132,6 +26,7 @@ offset_top = 27.0
 offset_right = 75.0
 offset_bottom = 27.0
 scale = Vector2(0.9, 0.9)
+mouse_filter = 1
 
 [node name="Button" type="Button" parent="UILayer" unique_id=383583000]
 offset_left = 1700.0
@@ -140,3 +35,9 @@ offset_right = 1889.0
 offset_bottom = 268.0
 theme_override_font_sizes/font_size = 30
 text = "结束修整"
+
+[node name="AttributesPanel" parent="UILayer" unique_id=51568401 instance=ExtResource("4_b20nv")]
+offset_left = 51.0
+offset_top = 304.0
+offset_right = 251.0
+offset_bottom = 554.0

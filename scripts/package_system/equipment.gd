@@ -1,4 +1,5 @@
 class_name  Equipment
+#储存装备类
 extends Resource
 
 

@@ -1,5 +1,15 @@
 extends Node
 @onready var damage_font = preload("res://resource/damage_font.tres")
+const RELIC_TOOL_TIP_PANEL = preload("res://scenes/tooltip/relic_tool_tip_panel.tscn")
+
+
+
+
+
+
+
+
+
 
 func show_damage_text(damage: String, spw_position: Vector2, color: Color):
 	var label = Label.new()

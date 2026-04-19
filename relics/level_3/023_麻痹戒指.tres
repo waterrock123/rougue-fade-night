@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://c1yrtyseoj81p"]
+
+[ext_resource type="Texture2D" uid="uid://cjy8mjeva76tx" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2185.png" id="1_1facf"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_04ykv"]
+
+[resource]
+script = ExtResource("1_04ykv")
+price = 4
+relic_name = "麻痹戒指"
+level = 3
+id = "023"
+icon = ExtResource("1_1facf")
+tooltip = "基础攻击有概率使敌人麻痹
+升级：麻痹敌人会拥有易伤效果
+"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://t3t4ph4ab4ll"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_b85uu"]
+[ext_resource type="Texture2D" uid="uid://cf2460n1dq3pv" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2064.png" id="1_ohaud"]
+
+[resource]
+script = ExtResource("1_b85uu")
+price = 3
+relic_name = "眼镜"
+level = 1
+id = "016"
+icon = ExtResource("1_ohaud")
+tooltip = "智力+1
+升级：智力+2
+"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bniw0iud7ve6r"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_p5yeo"]
+[ext_resource type="Texture2D" uid="uid://dkx0qt84j06yr" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc195.png" id="1_vl3ke"]
+
+[resource]
+script = ExtResource("1_p5yeo")
+price = 3
+relic_name = "瞌睡虫"
+level = 2
+id = "014"
+icon = ExtResource("1_vl3ke")
+tooltip = "每次释放主动技能后有10%概率陷入睡眠状态，持续两秒
+升级：每次释放主动技能后有10%概率陷入睡眠状态，持续两秒，你的攻击有5%概率使敌人睡眠
+"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

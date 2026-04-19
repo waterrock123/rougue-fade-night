@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_yt4qn")
 entity_name = "demon_mouse"
+base_max_health = 5.0
 base_move_speed = 15.0
 strength = 2
 dexterity = 4

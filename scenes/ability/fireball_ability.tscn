@@ -21,6 +21,7 @@ metadata/_custom_type_script = "uid://cfgrgm03strrd"
 [node name="FireballAbility" type="Node" unique_id=1060057010]
 script = ExtResource("1_vy2j5")
 cooldown = 5.0
+energy_cost = 0.0
 
 [node name="AbilityAnimationRunner" type="Node" parent="." unique_id=850684855]
 script = ExtResource("2_soy6u")

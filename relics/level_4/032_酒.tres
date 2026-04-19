@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dns0xmw7sphti"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_asja5"]
+[ext_resource type="Texture2D" uid="uid://23e7ycmww3yl" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc51.png" id="1_hulel"]
+
+[resource]
+script = ExtResource("1_asja5")
+price = 4
+relic_name = "酒"
+level = 4
+id = "032"
+is_consumable = true
+icon = ExtResource("1_hulel")
+tooltip = "获得随机属性+1，重复五次
+升级：获得随机属性+1，重复七次，在10秒内伤害+50%
+"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

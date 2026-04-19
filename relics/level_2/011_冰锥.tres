@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://4nued0p5erg8"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_l1beg"]
+[ext_resource type="Texture2D" uid="uid://rrdo0tjq4pao" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc26.png" id="1_mqn28"]
+
+[resource]
+script = ExtResource("1_l1beg")
+price = 3
+relic_name = "冰锥"
+level = 2
+id = "011"
+icon = ExtResource("1_mqn28")
+tooltip = "装备后可使用额外技能： 丢出冰锥，对锥形范围内的所有敌人造成伤害并概率施加冻结
+无法升级"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

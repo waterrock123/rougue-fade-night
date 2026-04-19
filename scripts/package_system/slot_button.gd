@@ -28,15 +28,33 @@ func _ready() -> void:
 
 #重置格子背景的颜色
 func reset_color():
-	slot_background.color = Color(0.5,0.5,0.5,0.8)
+	slot_background.color = Color(0.674, 0.423, 0.271, 1.0)
+	tooltip_text = ""
 	
+func _make_custom_tooltip(for_text: String) -> Object:
+	var relic_data := _get_slot_relic_data()
+	if relic_data == null:
+		return null
+	
+	var tool_tip_panel: RelicToolTip = FloatText.RELIC_TOOL_TIP_PANEL.instantiate()
+	tool_tip_panel.set_tool_tip(relic_data.relic_name,relic_data.desc,relic_data.tooltip,relic_data.icon)
+	
+	return tool_tip_panel
 
+
+func _get_slot_relic_data() -> Relic:
+	if slot_button_slot_relic == null:
+		return null
+	if slot_button_slot_relic.slot_ == null:
+		return null
+	return slot_button_slot_relic.slot_.item
 #放入函数
 func insert(relic_ui:RelicUI):
 	#把传入的物品显示节点赋值当前格子变量，记录当前格子有物品
 	slot_button_slot_relic = relic_ui
 	
 	slot_background.color = Color(0.402, 0.547, 0.371, 0.8)
+	tooltip_text = " "
 	#把物品显示节点添加到居中容器中
 	center_container.add_child(slot_button_slot_relic)
 	

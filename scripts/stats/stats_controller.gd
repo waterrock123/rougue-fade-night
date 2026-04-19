@@ -3,8 +3,19 @@ extends Node
 
 @export var stats_data: StatsData
 
+const PRIMARY_STATS: Array[StringName] = [
+	&"strength",
+	&"dexterity",
+	&"intelligence",
+	&"constitution",
+	&"speed",
+	&"charm",
+	&"luck",
+]
+
 var final_stats: Dictionary = {}
 var modifiers: Array[Modifier] = []
+var effect_modifiers: Dictionary = {}
 var current_health: float = 0.0
 var current_energy: float = 0.0
 
@@ -12,10 +23,6 @@ var current_energy: float = 0.0
 @onready var entity: Entity = get_parent() as Entity
 
 
-# 初始化运行时属性：
-# 1. 复制初始化数据，避免多个实体共用同一份 Resource
-# 2. 绑定 ModifierHandler
-# 3. 首次计算最终属性并同步给父实体
 func _ready() -> void:
 	if stats_data != null:
 		stats_data = stats_data.duplicate(true)
@@ -29,13 +36,13 @@ func _ready() -> void:
 	_sync_entity_stats(true)
 
 
-# 使用一整组修饰器替换当前修饰器列表，并立即重算属性。
+# 用 ModifierHandler 提供的修饰器整体覆盖运行时修饰器列表。
 func set_modifiers(new_modifiers: Array[Modifier]) -> void:
 	modifiers = new_modifiers.duplicate()
 	recompute_stats()
 
 
-# 添加单个修饰器，适合运行时临时添加 buff / debuff。
+# 添加单个运行时修饰器。
 func add_modifier(modifier: Modifier) -> void:
 	if modifier == null:
 		return
@@ -44,7 +51,7 @@ func add_modifier(modifier: Modifier) -> void:
 	recompute_stats()
 
 
-# 移除单个修饰器，并重新计算最终属性。
+# 移除单个运行时修饰器。
 func remove_modifier(modifier: Modifier) -> void:
 	if modifier == null:
 		return
@@ -53,15 +60,39 @@ func remove_modifier(modifier: Modifier) -> void:
 	recompute_stats()
 
 
-# 按名字读取最终属性。
-# 如果该属性不存在，则返回传入的默认值。
+# 注册某个外部系统提供的一组修饰器。
+func set_effect_modifiers(source_key: Variant, new_modifiers: Array[Modifier]) -> void:
+	if source_key == null:
+		return
+
+	var normalized_modifiers: Array[Modifier] = []
+	for modifier in new_modifiers:
+		if modifier != null:
+			normalized_modifiers.append(modifier)
+
+	effect_modifiers[source_key] = normalized_modifiers
+	recompute_stats()
+
+
+# 清除某个外部来源注册的修饰器。
+func clear_effect_modifiers(source_key: Variant) -> void:
+	if source_key == null:
+		return
+
+	if effect_modifiers.has(source_key):
+		effect_modifiers.erase(source_key)
+		recompute_stats()
+
+
+# 对外统一读取最终属性。
 func get_stat(stat_name: StringName, default_value: float = 0.0) -> float:
 	return float(final_stats.get(stat_name, default_value))
 
 
-# 重新计算最终属性：
-# 先根据初始化数据生成初始值，再依次叠加所有修饰器，
-# 最后处理当前生命/能量上限变化，并同步回父实体。
+# 重算最终属性。
+# 这里分成两步：
+# 1. 先结算一级属性修饰器
+# 2. 再用结算后的一级属性推导最大生命、暴击等派生属性
 func recompute_stats() -> void:
 	if stats_data == null:
 		final_stats.clear()
@@ -69,30 +100,31 @@ func recompute_stats() -> void:
 
 	var previous_max_health := get_stat("max_health")
 	var previous_max_energy := get_stat("max_energy")
-	var final := _build_base_stats(stats_data)
+	var primary_stats := _build_primary_stats(stats_data)
+	var direct_modifiers: Array[Modifier] = []
 
-	for modifier in modifiers:
+	for modifier in _get_all_modifiers():
+		if _is_primary_stat_modifier(modifier):
+			_apply_modifier(primary_stats, modifier)
+		else:
+			direct_modifiers.append(modifier)
+
+	var final := _build_derived_stats(stats_data, primary_stats)
+	for primary_stat in PRIMARY_STATS:
+		final[primary_stat] = primary_stats.get(primary_stat, 0.0)
+
+	for modifier in direct_modifiers:
 		_apply_modifier(final, modifier)
 
 	final_stats = final
 	_clamp_resources(previous_max_health, previous_max_energy)
 	_sync_entity_stats(false)
+	EventBus.attribute_update.emit()
 
 
-# 基础换算入口：
-# 把 StatsData 中的初始化数据转换成运行时真正参与战斗计算的属性字典。
-func _build_base_stats(data: StatsData) -> Dictionary:
+# 构建一级属性基础值。
+func _build_primary_stats(data: StatsData) -> Dictionary:
 	return {
-		"max_health": data.base_max_health + data.constitution * 5.0,
-		"max_energy": data.base_max_energy + data.intelligence * 3.0,
-		"move_speed": data.base_move_speed + data.speed * 10.0,
-		"energy_regen_tick_value": data.base_energy_regen_tick_value + data.intelligence,
-		"crit_chance": data.base_crit_chance + data.luck * 0.002,
-		"crit_damage": data.base_crit_damage,
-		"dodge_rate": data.base_dodge_rate + data.speed * 0.001,
-		"damage_reduction_rate": data.base_damage_reduction_rate,
-		"static_damage_reduction": float(data.base_static_damage_reduction),
-		"cooldown_reduction": data.base_cooldown_reduction + data.speed * 0.002,
 		"strength": float(data.strength),
 		"dexterity": float(data.dexterity),
 		"intelligence": float(data.intelligence),
@@ -103,8 +135,49 @@ func _build_base_stats(data: StatsData) -> Dictionary:
 	}
 
 
-# 应用单个修饰器到最终属性字典。
-# flat 表示直接加值，percent 表示按比例乘算。
+# 用一级属性推导战斗中真正使用的派生属性。
+func _build_derived_stats(data: StatsData, primary_stats: Dictionary) -> Dictionary:
+	var constitution := float(primary_stats.get("constitution", 0.0))
+	var intelligence := float(primary_stats.get("intelligence", 0.0))
+	var speed := float(primary_stats.get("speed", 0.0))
+	var luck := float(primary_stats.get("luck", 0.0))
+
+	return {
+		"max_health": data.base_max_health + constitution * 5.0,
+		"max_energy": data.base_max_energy + intelligence * 3.0,
+		"move_speed": data.base_move_speed + speed * 10.0,
+		"energy_regen_tick_value": data.base_energy_regen_tick_value + intelligence,
+		"crit_chance": data.base_crit_chance + luck * 0.002,
+		"crit_damage": data.base_crit_damage,
+		"dodge_rate": data.base_dodge_rate + speed * 0.001,
+		"damage_reduction_rate": data.base_damage_reduction_rate,
+		"static_damage_reduction": float(data.base_static_damage_reduction),
+		"cooldown_reduction": data.base_cooldown_reduction + speed * 0.002,
+	}
+
+
+# 汇总所有来源的修饰器。
+func _get_all_modifiers() -> Array[Modifier]:
+	var all_modifiers: Array[Modifier] = modifiers.duplicate()
+
+	for source_key in effect_modifiers.keys():
+		var source_modifiers = effect_modifiers[source_key] as Array
+		for modifier in source_modifiers:
+			if modifier != null:
+				all_modifiers.append(modifier)
+
+	return all_modifiers
+
+
+# 判断一条修饰器是不是作用于一级属性。
+func _is_primary_stat_modifier(modifier: Modifier) -> bool:
+	if modifier == null:
+		return false
+
+	return PRIMARY_STATS.has(StringName(modifier.stat))
+
+
+# 将单个修饰器应用到属性字典上。
 func _apply_modifier(final: Dictionary, modifier: Modifier) -> void:
 	if modifier == null or not modifier.is_active():
 		return
@@ -120,8 +193,50 @@ func _apply_modifier(final: Dictionary, modifier: Modifier) -> void:
 			final[stat_name] *= 1.0 + modifier.value
 
 
-# 当最大生命或最大能量变化后，
-# 确保当前生命/能量不会超过新的上限。
+# 处理攻击方造成伤害时的结算。
+func process_outgoing_damage(damage_data: DamageData) -> DamageData:
+	if damage_data == null:
+		return null
+
+	damage_data.final_damage = damage_data.base_damage
+	damage_data.final_damage += _get_outgoing_damage_bonus(damage_data)
+
+	if damage_data.can_crit and not damage_data.is_crit:
+		if randf() <= get_stat("crit_chance"):
+			damage_data.is_crit = true
+
+	damage_data.crit_multiplier = get_stat("crit_damage", damage_data.crit_multiplier)
+	if damage_data.is_crit:
+		damage_data.final_damage *= damage_data.crit_multiplier
+
+	return damage_data
+
+
+# 处理防守方受到伤害时的减伤结算。
+func process_incoming_damage(damage_data: DamageData) -> DamageData:
+	if damage_data == null:
+		return null
+
+	var damage := damage_data.final_damage
+	damage -= get_stat("static_damage_reduction")
+	damage = max(damage, 0.0)
+
+	var damage_reduction_rate: float = clamp(get_stat("damage_reduction_rate"), 0.0, 1.0)
+	damage *= 1.0 - damage_reduction_rate
+
+	damage_data.final_damage = max(damage, 0.0)
+	return damage_data
+
+
+# 从 DamageData 上挂载的成长规则里计算额外伤害。
+func _get_outgoing_damage_bonus(damage_data: DamageData) -> float:
+	if damage_data == null or damage_data.scaling_rule == null:
+		return 0.0
+
+	return max(damage_data.scaling_rule.get_bonus_damage(self, damage_data), 0.0)
+
+
+# 最大生命/能量变化后，夹取当前资源值。
 func _clamp_resources(previous_max_health: float, previous_max_energy: float) -> void:
 	var new_max_health := get_stat("max_health")
 	var new_max_energy := get_stat("max_energy")
@@ -137,8 +252,7 @@ func _clamp_resources(previous_max_health: float, previous_max_energy: float) ->
 		current_energy = min(current_energy, new_max_energy)
 
 
-# 把 StatsController 中计算出的结果同步到父实体。
-# 计算负责统一数据，行为映射交给 Entity / Player / Enemy 自己处理。
+# 把运行时属性同步回父实体。
 func _sync_entity_stats(force_fill_resources: bool) -> void:
 	if entity == null:
 		return
@@ -146,7 +260,6 @@ func _sync_entity_stats(force_fill_resources: bool) -> void:
 	entity.max_health = get_stat("max_health")
 	entity.max_energy = get_stat("max_energy")
 	entity.energy_region_tick_value = get_stat("energy_regen_tick_value")
-	entity.apply_runtime_stats(final_stats)
 
 	if force_fill_resources:
 		entity.current_health = entity.max_health
@@ -156,3 +269,5 @@ func _sync_entity_stats(force_fill_resources: bool) -> void:
 	else:
 		entity.current_health = current_health
 		entity.current_energy = current_energy
+
+	entity.apply_runtime_stats(final_stats)

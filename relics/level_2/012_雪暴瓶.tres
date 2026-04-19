@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://c7bi31uqsfk7y"]
+
+[ext_resource type="Texture2D" uid="uid://cmvaoht0eg0pt" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc55.png" id="1_1xkss"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_vb4bm"]
+
+[resource]
+script = ExtResource("1_vb4bm")
+price = 3
+relic_name = "雪暴瓶"
+level = 2
+id = "012"
+icon = ExtResource("1_1xkss")
+tooltip = "装备后移动路径会短暂出现冰霜路径，经过路径的敌人会受到伤害"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

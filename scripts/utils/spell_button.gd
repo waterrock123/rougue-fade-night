@@ -14,12 +14,12 @@ var _disabled = false
 
 var binded_key: String = "":
 	set(key):
-		print("Binding: " + key)
+		
 		binded_key = key
 		shortcut = Shortcut.new()
 		var input_key = InputEventKey.new()
 		input_key.keycode = key.unicode_at(0)
-		print("Binding uni:" + str(input_key.keycode))
+		
 		shortcut.events = [input_key]
 		cooldown_label.text = ""
 		keybind_label.text = key

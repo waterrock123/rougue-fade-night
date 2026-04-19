@@ -27,41 +27,42 @@ columns = 2
 
 [node name="ConstitutionUI" parent="GridContainer" unique_id=2114268439 instance=ExtResource("1_e10yu")]
 layout_mode = 2
+tooltip_text = "体质:影响最大生命值与战斗后恢复生命"
 icon = ExtResource("2_hmpjf")
 attribute = "constitution"
 
 [node name="StrengthUI" parent="GridContainer" unique_id=1071656096 instance=ExtResource("1_e10yu")]
 layout_mode = 2
-tooltip_text = "力量"
+tooltip_text = "力量：影响近战攻击与技能的效果"
 icon = ExtResource("3_qught")
 attribute = "strength"
 
 [node name="DexterityUI" parent="GridContainer" unique_id=182613022 instance=ExtResource("1_e10yu")]
 layout_mode = 2
-tooltip_text = "敏捷"
+tooltip_text = "敏捷：影响远程攻击和技能的效果"
 icon = ExtResource("4_cjbcj")
 attribute = "dexterity"
 
 [node name="IntelligenceUI" parent="GridContainer" unique_id=1626939705 instance=ExtResource("1_e10yu")]
 layout_mode = 2
-tooltip_text = "智慧"
+tooltip_text = "智慧：影响最大法力值以及法力的恢复量"
 icon = ExtResource("5_v5sqo")
 attribute = "intelligence"
 
 [node name="SpeedUI" parent="GridContainer" unique_id=581965193 instance=ExtResource("1_e10yu")]
 layout_mode = 2
-tooltip_text = "速度"
+tooltip_text = "速度：影响你的移动速度以及主动技能的冷却缩减"
 icon = ExtResource("6_bb3yk")
 attribute = "speed"
 
 [node name="CharmUI" parent="GridContainer" unique_id=874660177 instance=ExtResource("1_e10yu")]
 layout_mode = 2
-tooltip_text = "魅力"
+tooltip_text = "魅力：影响每次进入修整期时商店老板出现好心情的概率，且魅力到达15时所有商品降价一元"
 icon = ExtResource("7_dvuvp")
 attribute = "charm"
 
 [node name="LuckUI" parent="GridContainer" unique_id=1041694755 instance=ExtResource("1_e10yu")]
 layout_mode = 2
-tooltip_text = "幸运"
+tooltip_text = "幸运：影响各种概率事件，暴击率"
 icon = ExtResource("8_r4meh")
 attribute = "luck"

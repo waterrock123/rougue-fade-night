@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bp0ofkarkcenj"]
+
+[ext_resource type="Texture2D" uid="uid://d6ivkwi1l2ny" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1858.png" id="1_1xjfc"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_as5od"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://scripts/relic/relic_effect/relic_effect.gd" id="1_intwj"]
+[ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://scripts/relic/relic_effect/add_derived_stat_effect.gd" id="2_d2mm2"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://scripts/relic/relic_effect/add_stats_effect.gd" id="2_eej11"]
+
+[sub_resource type="Resource" id="Resource_s1ykm"]
+script = ExtResource("2_d2mm2")
+add_derived_stats = {
+"static_damage_reduction": 1
+}
+
+[sub_resource type="Resource" id="Resource_eej11"]
+script = ExtResource("2_eej11")
+add_stats = {
+"constitution": 2
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
+
+[resource]
+script = ExtResource("1_as5od")
+relic_name = "草甲"
+icon = ExtResource("1_1xjfc")
+tooltip = "一护甲，受到伤害时有概率损坏
+升级： 体质+2，一护甲"
+price = 3
+level = 1
+leveltip = 1
+id = "004"
+effects = Array[ExtResource("1_intwj")]([SubResource("Resource_s1ykm")])
+great_effects = Array[ExtResource("1_intwj")]([SubResource("Resource_eej11")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"
