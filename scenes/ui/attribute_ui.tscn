@@ -3,24 +3,52 @@
 [ext_resource type="Script" uid="uid://ix672lgxwxos" path="res://scripts/ui/attribute_ui.gd" id="1_vlci6"]
 [ext_resource type="Texture2D" uid="uid://dykjkuoi3xkka" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc595.png" id="1_xg3vn"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vlci6"]
+bg_color = Color(0.6745098, 0.42352942, 0.27058825, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [node name="AttributeUI" type="Control" unique_id=2114268439]
-custom_minimum_size = Vector2(100, 50)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 3
 anchors_preset = 0
+offset_right = 136.0
+offset_bottom = 98.0
 tooltip_text = "体质"
 script = ExtResource("1_vlci6")
 
+[node name="Panel" type="Panel" parent="." unique_id=827865244]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 47.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vlci6")
+
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1608566929]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Container" type="Container" parent="HBoxContainer" unique_id=315968427]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
 
 [node name="Icon" type="TextureRect" parent="HBoxContainer" unique_id=1818578891]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("1_xg3vn")
-expand_mode = 1
+stretch_mode = 4
 
 [node name="DataLabel" type="Label" parent="HBoxContainer" unique_id=20001377]
 layout_mode = 2

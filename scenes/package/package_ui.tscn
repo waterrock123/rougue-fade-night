@@ -2,51 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cfq8m8v0h6di5" path="res://scripts/package_system/package_ui.gd" id="1_6nu26"]
 [ext_resource type="PackedScene" uid="uid://b0rl2b1stia6g" path="res://scenes/package/slot_button.tscn" id="1_18ihm"]
-[ext_resource type="Resource" uid="uid://wl3kquh3l0yw" path="res://custom_resource/player_inventory.tres" id="2_ve3o6"]
-[ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="3_ut70t"]
-[ext_resource type="Script" uid="uid://bq6potbl53yc6" path="res://scripts/package_system/equipment.gd" id="4_02w0a"]
-[ext_resource type="Resource" uid="uid://dh27ilfr1mpyk" path="res://relics/level_1/001_猪猪存钱罐.tres" id="4_3tdbq"]
 [ext_resource type="PackedScene" uid="uid://cxykwuysayx4e" path="res://scenes/package/equipment_button.tscn" id="5_02w0a"]
-[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="5_m72af"]
-
-[sub_resource type="Resource" id="Resource_3tdbq"]
-script = ExtResource("3_ut70t")
-item = ExtResource("4_3tdbq")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_qoooq"]
-script = ExtResource("5_m72af")
-metadata/_custom_type_script = "uid://cddtxdxbmfw5r"
-
-[sub_resource type="Resource" id="Resource_m72af"]
-script = ExtResource("3_ut70t")
-item = SubResource("Resource_qoooq")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_bp1it"]
-script = ExtResource("3_ut70t")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_8ujye"]
-script = ExtResource("3_ut70t")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_vw65m"]
-script = ExtResource("3_ut70t")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_g7eaa"]
-script = ExtResource("3_ut70t")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_3ikpu"]
-script = ExtResource("3_ut70t")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_bb1y4"]
-script = ExtResource("4_02w0a")
-equip_slots = Array[ExtResource("3_ut70t")]([SubResource("Resource_3tdbq"), SubResource("Resource_m72af"), SubResource("Resource_bp1it"), SubResource("Resource_8ujye"), SubResource("Resource_vw65m"), SubResource("Resource_g7eaa"), SubResource("Resource_3ikpu")])
-metadata/_custom_type_script = "uid://bq6potbl53yc6"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m72af"]
 bg_color = Color(0.8627451, 0.6039216, 0.45490196, 0.9882353)
@@ -66,25 +22,17 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -791.0
-offset_bottom = -285.0
+offset_right = -887.0
+offset_bottom = -402.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6nu26")
-bag_inventory = ExtResource("2_ve3o6")
-equipment_inventory = SubResource("Resource_bb1y4")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=539514627]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -486.0
-offset_top = -382.0
-offset_right = 461.0
-offset_bottom = 270.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m72af")

@@ -1,0 +1,133 @@
+[gd_scene format=3 uid="uid://dmoylnmxemj46"]
+
+[ext_resource type="Script" uid="uid://c83k5581bn58r" path="res://scripts/rest_period/shop_controller.gd" id="1_cuq3e"]
+[ext_resource type="PackedScene" uid="uid://cs1w61qkhlmaw" path="res://scenes/rest_period/shop_equip_button.tscn" id="1_m2djo"]
+[ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="2_0ex5l"]
+[ext_resource type="Script" uid="uid://c20r6sitt53pf" path="res://scripts/run/run_stats.gd" id="2_5itxc"]
+[ext_resource type="PackedScene" uid="uid://ow5f4tyul6cu" path="res://scenes/rest_period/shop_keeper_token.tscn" id="2_cuq3e"]
+[ext_resource type="Resource" uid="uid://wl3kquh3l0yw" path="res://custom_resource/player_inventory.tres" id="2_tojr1"]
+[ext_resource type="Script" uid="uid://tv2ugdiy66fm" path="res://scripts/rest_period/shop/shop.gd" id="3_5itxc"]
+[ext_resource type="Script" uid="uid://bnnikoni3fdgw" path="res://scripts/rest_period/shop/shop_level_data.gd" id="3_l6wi3"]
+[ext_resource type="Script" uid="uid://dexso4q4oa67p" path="res://scripts/rest_period/shop/shop_config.gd" id="4_6ffnq"]
+[ext_resource type="Resource" uid="uid://wlgt6wqudvrs" path="res://shopkeeper/甲画家.tres" id="7_6ffnq"]
+
+[sub_resource type="Resource" id="Resource_l6wi3"]
+script = ExtResource("2_5itxc")
+gold = 10
+player_inventory = ExtResource("2_tojr1")
+metadata/_custom_type_script = "uid://c20r6sitt53pf"
+
+[sub_resource type="Resource" id="Resource_tojr1"]
+script = ExtResource("4_6ffnq")
+
+[sub_resource type="Resource" id="Resource_d0sr1"]
+script = ExtResource("2_0ex5l")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_3c1ll"]
+script = ExtResource("2_0ex5l")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_12amt"]
+script = ExtResource("2_0ex5l")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_gcws0"]
+script = ExtResource("2_0ex5l")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_srxu6"]
+script = ExtResource("3_5itxc")
+current_slot = Array[ExtResource("2_0ex5l")]([SubResource("Resource_d0sr1"), SubResource("Resource_3c1ll"), SubResource("Resource_12amt"), SubResource("Resource_gcws0")])
+shopkeeper = ExtResource("7_6ffnq")
+
+[node name="ShopController" type="Control" unique_id=1508891481]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -407.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_cuq3e")
+run_stats = SubResource("Resource_l6wi3")
+shop_config = SubResource("Resource_tojr1")
+shop = SubResource("Resource_srxu6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1518131231]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -400.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=1037829231]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 30
+
+[node name="FunctionContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer" unique_id=1862791760]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 2
+
+[node name="FrezeButton" type="Button" parent="VBoxContainer/MarginContainer/FunctionContainer" unique_id=1890006998]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "刷新"
+
+[node name="RefreshButton" type="Button" parent="VBoxContainer/MarginContainer/FunctionContainer" unique_id=1895047172]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "刷新"
+
+[node name="BuyContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=2051462326]
+layout_mode = 2
+alignment = 2
+
+[node name="LevelUpButton" type="Button" parent="VBoxContainer/BuyContainer" unique_id=1690615183]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 230)
+layout_mode = 2
+size_flags_vertical = 8
+text = "Level UP"
+
+[node name="EquipContainer" type="HBoxContainer" parent="VBoxContainer/BuyContainer" unique_id=1331567679]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(690, 230)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="ShopEquipButton2" parent="VBoxContainer/BuyContainer/EquipContainer" unique_id=590682203 instance=ExtResource("1_m2djo")]
+layout_mode = 2
+
+[node name="ShopEquipButton6" parent="VBoxContainer/BuyContainer/EquipContainer" unique_id=667252543 instance=ExtResource("1_m2djo")]
+layout_mode = 2
+
+[node name="ShopEquipButton3" parent="VBoxContainer/BuyContainer/EquipContainer" unique_id=947835422 instance=ExtResource("1_m2djo")]
+layout_mode = 2
+
+[node name="ShopEquipButton4" parent="VBoxContainer/BuyContainer/EquipContainer" unique_id=1402566478 instance=ExtResource("1_m2djo")]
+layout_mode = 2
+
+[node name="ShopEquipButton5" parent="VBoxContainer/BuyContainer/EquipContainer" unique_id=1252204929 instance=ExtResource("1_m2djo")]
+layout_mode = 2
+
+[node name="ShopEquipButton7" parent="VBoxContainer/BuyContainer/EquipContainer" unique_id=599929943 instance=ExtResource("1_m2djo")]
+layout_mode = 2
+
+[node name="ShowContainer" type="MarginContainer" parent="VBoxContainer/BuyContainer" unique_id=796436622]
+custom_minimum_size = Vector2(300, 310)
+layout_mode = 2
+
+[node name="MoneyToken" parent="VBoxContainer/BuyContainer/ShowContainer" unique_id=1674262274 instance=ExtResource("2_cuq3e")]
+layout_mode = 2

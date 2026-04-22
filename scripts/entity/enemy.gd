@@ -5,6 +5,7 @@ extends Entity
 
 #速度
 @export var speed: float = 10.0
+@export var sprite_faces_left_by_default: bool = false
 #停下来攻击的距离
 @export var stop_distance: float = 10.0
 #攻击性
@@ -43,10 +44,18 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if is_dead: return
+	movement_lock_timer = max(0.0, movement_lock_timer - delta)
 	var distance = position.distance_to(player.position)
 	if !aggresive:
 		
 		if distance <= chase_distance : chasing = true
+
+	if is_movement_locked():
+		velocity = (position - last_position) / delta
+		current_speed = velocity.length()
+		last_position = position
+		_handle_animations()
+		return
 	
 	
 	if  chasing and player != null:
@@ -94,10 +103,11 @@ func _handle_animations():
 		
 		
 func _face_target(dir: Vector2):
-	if not animated_sprite.flip_h and dir.x <0:
-		animated_sprite.flip_h = true
-	elif animated_sprite.flip_h and dir.x > 0:
-		animated_sprite.flip_h = false
+	if dir.x == 0:
+		return
+
+	var should_face_left := dir.x < 0
+	animated_sprite.flip_h = should_face_left != sprite_faces_left_by_default
 		
 	
 func get_height() ->float:

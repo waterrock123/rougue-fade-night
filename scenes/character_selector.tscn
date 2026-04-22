@@ -1,0 +1,248 @@
+[gd_scene format=3 uid="uid://iglrgb4t03fi"]
+
+[ext_resource type="Script" uid="uid://cowqx35kqkydm" path="res://scripts/scenes/character_selector.gd" id="1_dy3sk"]
+[ext_resource type="Texture2D" uid="uid://cvp8l8jeu874m" path="res://assets/战狂.png" id="1_so2ut"]
+[ext_resource type="FontFile" uid="uid://d2wx8752b45ky" path="res://assets/字体/字魂像素积木体(商用需授权).ttf" id="2_ktnu4"]
+[ext_resource type="Texture2D" uid="uid://hqry68u0ulx1" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1467.png" id="2_otyuf"]
+[ext_resource type="Texture2D" uid="uid://e07s1f2281jf" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1781.png" id="3_ktnu4"]
+[ext_resource type="Texture2D" uid="uid://cyj6a6wl5jjva" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1808.png" id="4_dy3sk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dy3sk"]
+font = ExtResource("2_ktnu4")
+font_size = 250
+font_color = Color(0.92932785, 0.84193975, 0.7502284, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cl78x"]
+font_size = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_so2ut"]
+bg_color = Color(0.6313726, 0.34901962, 0.32156864, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_og5k4"]
+bg_color = Color(0.6313726, 0.34901962, 0.32156864, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.7825432, 0, 0.19266847, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cl78x"]
+bg_color = Color(0.35880065, 0.50275624, 0.1967775, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4xi2e"]
+bg_color = Color(0.35686275, 0.5019608, 0.19607843, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.043137256, 0.47843137, 0.47843137, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f1fow"]
+bg_color = Color(0.35686275, 0.5019608, 0.19607843, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.04434658, 0.47986174, 0.47657925, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivle7"]
+bg_color = Color(0.33964664, 0.2925767, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vnar"]
+bg_color = Color(0.34117648, 0.29411766, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.827451, 0.84705883, 0.18039216, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xfm24"]
+bg_color = Color(0.34117648, 0.29411766, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.827451, 0.84705883, 0.18039216, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ktnu4"]
+bg_color = Color(0.7438896, 0.56391364, 0.30564, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dy3sk"]
+bg_color = Color(0.7438896, 0.56391364, 0.30564, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0.43764317, 0.45203894, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jkrrb"]
+bg_color = Color(0.7438896, 0.56391364, 0.30564, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0.43764317, 0.45203894, 1)
+
+[node name="CharacterSelector" type="Control" unique_id=305055915]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dy3sk")
+
+[node name="BackGround" type="TextureRect" parent="." unique_id=403565059]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.6431373)
+self_modulate = Color(0.7302159, 0.730216, 0.73021597, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_so2ut")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="CharacterText" type="VBoxContainer" parent="." unique_id=2077993443]
+layout_mode = 0
+offset_left = 339.0
+offset_top = 6.0
+offset_right = 1595.0
+offset_bottom = 631.0
+
+[node name="Title" type="Label" parent="CharacterText" unique_id=1134241225]
+unique_name_in_owner = true
+layout_mode = 2
+text = "战狂"
+label_settings = SubResource("LabelSettings_dy3sk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desc" type="Label" parent="CharacterText" unique_id=1926796954]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1250, 150)
+layout_mode = 2
+text = "武器大师，狂战士，嗜血狂魔，不管用什么称呼他都掩盖不了其享受战斗的本质。接下来，他要挑战最强者。"
+label_settings = SubResource("LabelSettings_cl78x")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=290147751]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.068
+anchor_bottom = 0.093
+offset_left = 703.0
+offset_top = 818.0
+offset_right = 1092.44
+offset_bottom = 817.56
+theme_override_constants/separation = 110
+
+[node name="WarriorButton" type="Button" parent="HBoxContainer" unique_id=1295232529]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_so2ut")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_og5k4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_og5k4")
+toggle_mode = true
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/WarriorButton" unique_id=1073911517]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_otyuf")
+
+[node name="ScountButton" type="Button" parent="HBoxContainer" unique_id=654949122]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_cl78x")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_4xi2e")
+theme_override_styles/hover = SubResource("StyleBoxFlat_f1fow")
+toggle_mode = true
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ScountButton" unique_id=560998255]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_ktnu4")
+
+[node name="WizardButton" type="Button" parent="HBoxContainer" unique_id=1351786357]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ivle7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8vnar")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xfm24")
+toggle_mode = true
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/WizardButton" unique_id=682061757]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_dy3sk")
+
+[node name="StartButton" type="Button" parent="." unique_id=117338312]
+layout_mode = 0
+offset_left = 1552.0
+offset_top = 856.0
+offset_right = 1805.0
+offset_bottom = 970.0
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_ktnu4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dy3sk")
+theme_override_styles/hover = SubResource("StyleBoxFlat_jkrrb")
+text = "开始游戏"
+
+[connection signal="pressed" from="HBoxContainer/WarriorButton" to="." method="_on_warrior_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/ScountButton" to="." method="_on_scount_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/WizardButton" to="." method="_on_wizard_button_pressed"]
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cg5l0p6otdwk5"]
+
+[ext_resource type="Script" uid="uid://ba178lqi50qrn" path="res://scripts/map/map_room.gd" id="1_gyfd6"]
+[ext_resource type="Texture2D" uid="uid://bvs4by2voaaon" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc23.png" id="2_wln44"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w2n1o"]
+radius = 39.115215
+
+[node name="MapRoom" type="Area2D" unique_id=2096387101]
+script = ExtResource("1_gyfd6")
+
+[node name="Visuals" type="Node2D" parent="." unique_id=228184894]
+
+[node name="Line2D" type="Line2D" parent="Visuals" unique_id=449809382]
+points = PackedVector2Array(-31, 22, 10, 31, 35, 9, 22, -24, -10, -29, -30, -15, -37, 9)
+width = 5.0
+default_color = Color(0.4584623, 0.25785068, 0.06240301, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=208844009]
+texture_filter = 1
+texture = ExtResource("2_wln44")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=796515047]
+shape = SubResource("CircleShape2D_w2n1o")

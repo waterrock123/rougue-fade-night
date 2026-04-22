@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://cdni6wjwm0jd8"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_3ebvg"]
+
+[resource]
+script = ExtResource("1_3ebvg")
+entity_name = "贵人"
+base_max_health = 10.0
+base_max_energy = 30.0
+base_energy_regen_tick_value = 10.0
+base_cooldown_reduction = 0.05
+base_move_speed = 40.0
+strength = 3
+dexterity = 5
+intelligence = 8
+constitution = 2
+speed = 4
+charm = 8
+luck = 7
+metadata/_custom_type_script = "uid://yiy2gawxifk8"

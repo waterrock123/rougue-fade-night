@@ -10,17 +10,42 @@
 [ext_resource type="Texture2D" uid="uid://b0m3y5fo7kke7" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc661.png" id="7_dvuvp"]
 [ext_resource type="Texture2D" uid="uid://bgevhu0xs43xd" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc668.png" id="8_r4meh"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qught"]
+bg_color = Color(0.8627451, 0.6039216, 0.45490196, 0.9882353)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.6745098, 0.42352942, 0.27058825, 1)
+
 [node name="AttributesPanel" type="Control" unique_id=51568401]
 process_mode = 3
 custom_minimum_size = Vector2(200, 250)
 layout_mode = 3
 anchors_preset = 0
+offset_right = 416.0
+offset_bottom = 595.0
 script = ExtResource("1_qught")
+
+[node name="Panel" type="Panel" parent="." unique_id=149401546]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -26.0
+offset_right = -32.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qught")
 
 [node name="GridContainer" type="GridContainer" parent="." unique_id=1424686133]
 layout_mode = 0
-offset_right = 403.0
-offset_bottom = 424.0
+offset_left = 4.0
+offset_top = 1.0
+offset_right = 472.0
+offset_bottom = 551.0
 theme_override_constants/h_separation = 80
 theme_override_constants/v_separation = 50
 columns = 2

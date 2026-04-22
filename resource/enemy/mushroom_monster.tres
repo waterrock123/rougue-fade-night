@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://yvagqhe76xew"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_omqrd"]
+
+[resource]
+script = ExtResource("1_omqrd")
+entity_name = "蘑菇怪"
+base_max_health = 30.0
+base_max_energy = 10.0
+base_energy_regen_tick_value = 5.0
+base_move_speed = 30.0
+strength = 5
+dexterity = 5
+intelligence = 2
+constitution = 4
+speed = 2
+charm = 2
+luck = 2
+metadata/_custom_type_script = "uid://yiy2gawxifk8"

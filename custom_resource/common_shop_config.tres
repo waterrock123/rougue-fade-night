@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="ShopConfig" format=3 uid="uid://clq6naqkf40p0"]
+
+[ext_resource type="Script" uid="uid://bnnikoni3fdgw" path="res://scripts/rest_period/shop/shop_level_data.gd" id="1_aww7x"]
+[ext_resource type="Script" uid="uid://daylk3er8w7p8" path="res://scripts/rest_period/shop/shop_effect.gd" id="2_3ryo2"]
+[ext_resource type="Script" uid="uid://dexso4q4oa67p" path="res://scripts/rest_period/shop/shop_config.gd" id="2_phnqx"]
+[ext_resource type="Script" uid="uid://bflwfcjfnvvje" path="res://scripts/rest_period/shop/add_slot_effect.gd" id="3_d0xlg"]
+
+[sub_resource type="Resource" id="Resource_xxx8y"]
+script = ExtResource("3_d0xlg")
+metadata/_custom_type_script = "uid://bflwfcjfnvvje"
+
+[sub_resource type="Resource" id="Resource_dif2r"]
+script = ExtResource("1_aww7x")
+level = 2
+upgrade_cost = 7
+effects = Array[ExtResource("2_3ryo2")]([SubResource("Resource_xxx8y")])
+metadata/_custom_type_script = "uid://bnnikoni3fdgw"
+
+[sub_resource type="Resource" id="Resource_mbdy1"]
+script = ExtResource("1_aww7x")
+level = 3
+upgrade_cost = 10
+metadata/_custom_type_script = "uid://bnnikoni3fdgw"
+
+[sub_resource type="Resource" id="Resource_bg2tw"]
+script = ExtResource("3_d0xlg")
+metadata/_custom_type_script = "uid://bflwfcjfnvvje"
+
+[sub_resource type="Resource" id="Resource_eugqh"]
+script = ExtResource("1_aww7x")
+level = 4
+upgrade_cost = 11
+effects = Array[ExtResource("2_3ryo2")]([SubResource("Resource_bg2tw")])
+metadata/_custom_type_script = "uid://bnnikoni3fdgw"
+
+[sub_resource type="Resource" id="Resource_tfq2p"]
+script = ExtResource("1_aww7x")
+level = 5
+upgrade_cost = 12
+metadata/_custom_type_script = "uid://bnnikoni3fdgw"
+
+[sub_resource type="Resource" id="Resource_4uhbn"]
+script = ExtResource("1_aww7x")
+level = 6
+upgrade_cost = 13
+metadata/_custom_type_script = "uid://bnnikoni3fdgw"
+
+[resource]
+script = ExtResource("2_phnqx")
+level_data = Array[ExtResource("1_aww7x")]([SubResource("Resource_dif2r"), SubResource("Resource_mbdy1"), SubResource("Resource_eugqh"), SubResource("Resource_tfq2p"), SubResource("Resource_4uhbn")])
+metadata/_custom_type_script = "uid://dexso4q4oa67p"

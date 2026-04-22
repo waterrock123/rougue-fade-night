@@ -24,6 +24,8 @@ const LEVEL_TIP_COLORS := {
 	Relic.LevelTip.LEVELUP: Color.GOLD,
 }
 
+
+
 @export_group("Description")
 @export var relic_name: String
 @export var icon: Texture

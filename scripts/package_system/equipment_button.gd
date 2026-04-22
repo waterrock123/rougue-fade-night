@@ -58,7 +58,7 @@ func _make_custom_tooltip(for_text: String) -> Object:
 		return null
 	
 	var tool_tip_panel: RelicToolTip = FloatText.RELIC_TOOL_TIP_PANEL.instantiate()
-	tool_tip_panel.set_tool_tip(relic_data.relic_name,relic_data.desc,relic_data.tooltip,relic_data.icon)
+	tool_tip_panel.set_tool_tip(relic_data)
 	
 	return tool_tip_panel
 

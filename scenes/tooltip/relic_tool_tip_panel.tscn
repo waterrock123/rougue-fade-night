@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://didhck8fl8akb"]
 
 [ext_resource type="Script" uid="uid://7ue22vy5xt8p" path="res://scripts/package_system/relic_tool_tip_panel.gd" id="1_ob8el"]
+[ext_resource type="FontFile" uid="uid://ehcx8jaw4rmu" path="res://assets/字体/Minecraft.ttf" id="2_j2wa7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nquxf"]
 bg_color = Color(0.43544763, 0.64404696, 0.8186585, 0.4)
@@ -12,6 +13,13 @@ corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2wmv"]
 bg_color = Color(0.5529412, 0.627451, 0.7254902, 0.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t45gq"]
+bg_color = Color(0.5529412, 0.627451, 0.7254902, 0.4)
+
+[sub_resource type="LabelSettings" id="LabelSettings_b160e"]
+font = ExtResource("2_j2wa7")
+font_size = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w88kg"]
 bg_color = Color(0.5529412, 0.627451, 0.7372549, 0.4)
@@ -95,11 +103,30 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer" unique_id=200274439]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1236113921]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer" unique_id=200274439]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(70, 70)
 layout_mode = 2
 size_flags_vertical = 0
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer/VBoxContainer" unique_id=2073583624]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t45gq")
+
+[node name="LevelLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/Panel" unique_id=91256895]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 0
+offset_right = 70.0
+offset_bottom = 70.0
+text = "LV {0}"
+label_settings = SubResource("LabelSettings_b160e")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer" unique_id=626096727]
 layout_mode = 2

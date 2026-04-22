@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://cs1w61qkhlmaw"]
 
-[ext_resource type="Script" uid="uid://cv34c1k4vht73" path="res://scenes/rest_period/shop_equip_button.gd" id="1_b02xn"]
+[ext_resource type="Script" uid="uid://cv34c1k4vht73" path="res://scripts/rest_period/shop_equip_button.gd" id="1_b02xn"]
 [ext_resource type="Texture2D" uid="uid://kd6fvrsfrcyi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc131.png" id="2_htygr"]
+[ext_resource type="PackedScene" uid="uid://cixsw8rjlprgx" path="res://scenes/relic/relic_ui.tscn" id="3_htygr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_htygr"]
 font_size = 36
@@ -12,6 +13,7 @@ custom_minimum_size = Vector2(230, 230)
 offset_right = 8.0
 offset_bottom = 8.0
 mouse_filter = 1
+text = "."
 script = ExtResource("1_b02xn")
 
 [node name="SlotBackground" type="ColorRect" parent="." unique_id=1564013944]
@@ -64,6 +66,10 @@ mouse_filter = 2
 
 [node name="ClearLabel" type="Label" parent="SlotBackground/CenterContainer" unique_id=1228621198]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "等待补货"
+
+[node name="RelicUI" parent="SlotBackground/CenterContainer" unique_id=1285776878 instance=ExtResource("3_htygr")]
+layout_mode = 2

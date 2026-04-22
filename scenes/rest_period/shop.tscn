@@ -1,45 +1,32 @@
 [gd_scene format=3 uid="uid://dmoylnmxemj46"]
 
-[ext_resource type="Script" uid="uid://c83k5581bn58r" path="res://scenes/rest_period/shop_controller.gd" id="1_cuq3e"]
+[ext_resource type="Script" uid="uid://c83k5581bn58r" path="res://scripts/rest_period/shop_controller.gd" id="1_cuq3e"]
 [ext_resource type="PackedScene" uid="uid://cs1w61qkhlmaw" path="res://scenes/rest_period/shop_equip_button.tscn" id="1_m2djo"]
-[ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="2_0ex5l"]
-[ext_resource type="Script" uid="uid://c20r6sitt53pf" path="res://scripts/run/run_stats.gd" id="2_5itxc"]
 [ext_resource type="PackedScene" uid="uid://ow5f4tyul6cu" path="res://scenes/rest_period/shop_keeper_token.tscn" id="2_cuq3e"]
-[ext_resource type="Script" uid="uid://tv2ugdiy66fm" path="res://scenes/rest_period/shop/shop.gd" id="3_5itxc"]
-[ext_resource type="Script" uid="uid://bnnikoni3fdgw" path="res://scenes/rest_period/shop/shop_level_data.gd" id="3_l6wi3"]
-[ext_resource type="Script" uid="uid://dexso4q4oa67p" path="res://scenes/rest_period/shop/shop_config.gd" id="4_6ffnq"]
-[ext_resource type="Resource" uid="uid://wlgt6wqudvrs" path="res://shopkeeper/甲画家.tres" id="7_6ffnq"]
+[ext_resource type="FontFile" uid="uid://ehcx8jaw4rmu" path="res://assets/字体/Minecraft.ttf" id="11_12amt"]
 
-[sub_resource type="Resource" id="Resource_l6wi3"]
-script = ExtResource("2_5itxc")
-gold = 10
-metadata/_custom_type_script = "uid://c20r6sitt53pf"
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gcws0"]
+bg_color = Color(0, 0.7108368, 0.46896416, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
 
-[sub_resource type="Resource" id="Resource_tojr1"]
-script = ExtResource("4_6ffnq")
-metadata/_custom_type_script = "uid://dexso4q4oa67p"
+[sub_resource type="LabelSettings" id="LabelSettings_2bgkr"]
+font = ExtResource("11_12amt")
+font_size = 30
 
-[sub_resource type="Resource" id="Resource_d0sr1"]
-script = ExtResource("2_0ex5l")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_12amt"]
+bg_color = Color(0.4682957, 0.6721107, 0.19187352, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="Resource" id="Resource_3c1ll"]
-script = ExtResource("2_0ex5l")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_12amt"]
-script = ExtResource("2_0ex5l")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_gcws0"]
-script = ExtResource("2_0ex5l")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_srxu6"]
-script = ExtResource("3_5itxc")
-current_slot = Array[ExtResource("2_0ex5l")]([SubResource("Resource_d0sr1"), SubResource("Resource_3c1ll"), SubResource("Resource_12amt"), SubResource("Resource_gcws0")])
-shopkeeper = ExtResource("7_6ffnq")
-metadata/_custom_type_script = "uid://tv2ugdiy66fm"
+[sub_resource type="LabelSettings" id="LabelSettings_osypu"]
+font = ExtResource("11_12amt")
+font_size = 30
 
 [node name="ShopController" type="Control" unique_id=1508891481]
 layout_mode = 3
@@ -51,9 +38,6 @@ offset_top = -407.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("1_cuq3e")
-run_stats = SubResource("Resource_l6wi3")
-shop_config = SubResource("Resource_tojr1")
-shop = SubResource("Resource_srxu6")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1518131231]
 layout_mode = 1
@@ -81,53 +65,91 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 35
-text = "刷新"
+text = "冻结"
 
-[node name="RefreshButton2" type="Button" parent="VBoxContainer/MarginContainer/FunctionContainer" unique_id=1895047172]
+[node name="RefreshButton" type="Button" parent="VBoxContainer/MarginContainer/FunctionContainer" unique_id=1895047172]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 35
 text = "刷新"
 
-[node name="BuyContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=2051462326]
+[node name="Panel" type="Panel" parent="VBoxContainer/MarginContainer/FunctionContainer/RefreshButton" unique_id=948535979]
+layout_mode = 0
+offset_left = 77.0
+offset_top = -21.0
+offset_right = 117.0
+offset_bottom = 19.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gcws0")
+
+[node name="RefreshCost" type="Label" parent="VBoxContainer/MarginContainer/FunctionContainer/RefreshButton" unique_id=1264342288]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 78.0
+offset_top = -14.0
+offset_right = 118.0
+offset_bottom = 17.0
+text = "1"
+label_settings = SubResource("LabelSettings_2bgkr")
+horizontal_alignment = 1
+
+[node name="BuyContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=2051462326]
 layout_mode = 2
 alignment = 2
 
-[node name="LevelUpButton" type="Button" parent="VBoxContainer/BuyContainer2" unique_id=1690615183]
+[node name="LevelUpButton" type="Button" parent="VBoxContainer/BuyContainer" unique_id=1690615183]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(210, 230)
 layout_mode = 2
 size_flags_vertical = 8
 text = "Level UP"
 
-[node name="EquipContainer" type="HBoxContainer" parent="VBoxContainer/BuyContainer2" unique_id=1331567679]
+[node name="Panel" type="Panel" parent="VBoxContainer/BuyContainer/LevelUpButton" unique_id=463688365]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 123.0
+offset_right = 122.0
+offset_bottom = 163.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_12amt")
+
+[node name="LevelUpNumber" type="Label" parent="VBoxContainer/BuyContainer/LevelUpButton" unique_id=523285289]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 84.0
+offset_top = 131.0
+offset_right = 124.0
+offset_bottom = 162.0
+text = "10"
+label_settings = SubResource("LabelSettings_osypu")
+horizontal_alignment = 1
+
+[node name="EquipContainer" type="HBoxContainer" parent="VBoxContainer/BuyContainer" unique_id=1331567679]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(690, 230)
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="ShopEquipButton2" parent="VBoxContainer/BuyContainer2/EquipContainer" unique_id=590682203 instance=ExtResource("1_m2djo")]
+[node name="ShopEquipButton2" parent="VBoxContainer/BuyContainer/EquipContainer" unique_id=590682203 instance=ExtResource("1_m2djo")]
 layout_mode = 2
 
-[node name="ShopEquipButton6" parent="VBoxContainer/BuyContainer2/EquipContainer" unique_id=667252543 instance=ExtResource("1_m2djo")]
+[node name="ShopEquipButton6" parent="VBoxContainer/BuyContainer/EquipContainer" unique_id=667252543 instance=ExtResource("1_m2djo")]
 layout_mode = 2
 
-[node name="ShopEquipButton3" parent="VBoxContainer/BuyContainer2/EquipContainer" unique_id=947835422 instance=ExtResource("1_m2djo")]
+[node name="ShopEquipButton3" parent="VBoxContainer/BuyContainer/EquipContainer" unique_id=947835422 instance=ExtResource("1_m2djo")]
 layout_mode = 2
 
-[node name="ShopEquipButton4" parent="VBoxContainer/BuyContainer2/EquipContainer" unique_id=1402566478 instance=ExtResource("1_m2djo")]
+[node name="ShopEquipButton4" parent="VBoxContainer/BuyContainer/EquipContainer" unique_id=1402566478 instance=ExtResource("1_m2djo")]
 layout_mode = 2
 
-[node name="ShopEquipButton5" parent="VBoxContainer/BuyContainer2/EquipContainer" unique_id=1252204929 instance=ExtResource("1_m2djo")]
+[node name="ShopEquipButton5" parent="VBoxContainer/BuyContainer/EquipContainer" unique_id=1252204929 instance=ExtResource("1_m2djo")]
 layout_mode = 2
 
-[node name="ShopEquipButton7" parent="VBoxContainer/BuyContainer2/EquipContainer" unique_id=599929943 instance=ExtResource("1_m2djo")]
+[node name="ShopEquipButton7" parent="VBoxContainer/BuyContainer/EquipContainer" unique_id=599929943 instance=ExtResource("1_m2djo")]
 layout_mode = 2
 
-[node name="ShowContainer" type="MarginContainer" parent="VBoxContainer/BuyContainer2" unique_id=796436622]
+[node name="ShowContainer" type="MarginContainer" parent="VBoxContainer/BuyContainer" unique_id=796436622]
 custom_minimum_size = Vector2(300, 310)
 layout_mode = 2
 
-[node name="MoneyToken" parent="VBoxContainer/BuyContainer2/ShowContainer" unique_id=1674262274 instance=ExtResource("2_cuq3e")]
+[node name="MoneyToken" parent="VBoxContainer/BuyContainer/ShowContainer" unique_id=1674262274 instance=ExtResource("2_cuq3e")]
 layout_mode = 2

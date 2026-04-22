@@ -18,6 +18,7 @@ var modifiers: Array[Modifier] = []
 var effect_modifiers: Dictionary = {}
 var current_health: float = 0.0
 var current_energy: float = 0.0
+var player_build: PlayerBuild
 
 @onready var modifier_handler: ModifierHandler = get_node_or_null("../ModifierHandler") as ModifierHandler
 @onready var entity: Entity = get_parent() as Entity
@@ -31,9 +32,45 @@ func _ready() -> void:
 		modifier_handler.bind_stats_controller(self)
 
 	recompute_stats()
-	current_health = get_stat("max_health")
-	current_energy = get_stat("max_energy")
+
+	if current_health <= 0.0:
+		current_health = get_stat("max_health")
+	if current_energy <= 0.0:
+		current_energy = get_stat("max_energy")
+
 	_sync_entity_stats(true)
+	_sync_player_build()
+
+
+# 将 StatsController 绑定到 PlayerBuild，使其可以在非战斗场景中独立工作。
+func bind_player_build(new_player_build: PlayerBuild) -> void:
+	player_build = new_player_build
+	if player_build == null:
+		return
+
+	if player_build.player_stats != null:
+		stats_data = player_build.player_stats.duplicate(true)
+
+	current_health = player_build.current_health
+	current_energy = player_build.current_energy
+
+	recompute_stats()
+
+	var max_health := get_stat("max_health")
+	var max_energy := get_stat("max_energy")
+
+	if player_build.current_health > 0.0:
+		current_health = min(player_build.current_health, max_health)
+	else:
+		current_health = max_health
+
+	if player_build.current_energy > 0.0:
+		current_energy = min(player_build.current_energy, max_energy)
+	else:
+		current_energy = max_energy
+
+	_sync_player_build()
+	EventBus.attribute_update.emit()
 
 
 # 用 ModifierHandler 提供的修饰器整体覆盖运行时修饰器列表。
@@ -90,9 +127,6 @@ func get_stat(stat_name: StringName, default_value: float = 0.0) -> float:
 
 
 # 重算最终属性。
-# 这里分成两步：
-# 1. 先结算一级属性修饰器
-# 2. 再用结算后的一级属性推导最大生命、暴击等派生属性
 func recompute_stats() -> void:
 	if stats_data == null:
 		final_stats.clear()
@@ -119,6 +153,7 @@ func recompute_stats() -> void:
 	final_stats = final
 	_clamp_resources(previous_max_health, previous_max_energy)
 	_sync_entity_stats(false)
+	_sync_player_build()
 	EventBus.attribute_update.emit()
 
 
@@ -271,3 +306,12 @@ func _sync_entity_stats(force_fill_resources: bool) -> void:
 		entity.current_energy = current_energy
 
 	entity.apply_runtime_stats(final_stats)
+
+
+# 把当前生命、能量和属性计算结果写回 PlayerBuild。
+func _sync_player_build() -> void:
+	if player_build == null:
+		return
+
+	player_build.current_health = current_health
+	player_build.current_energy = current_energy

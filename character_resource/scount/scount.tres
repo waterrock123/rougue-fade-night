@@ -1,0 +1,143 @@
+[gd_resource type="Resource" script_class="Character" format=3 uid="uid://c282tqgwbadsp"]
+
+[ext_resource type="Script" uid="uid://dx5w85r6ff3q4" path="res://custom_resource/chararcter.gd" id="1_h4k1b"]
+[ext_resource type="Texture2D" uid="uid://de1epsfqbyw36" path="res://assets/浪子.png" id="1_uydww"]
+[ext_resource type="Script" uid="uid://copgj7rv7yvot" path="res://scripts/rest_period/shop_keeper.gd" id="3_q840c"]
+[ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="3_x0hmj"]
+[ext_resource type="Resource" uid="uid://wlgt6wqudvrs" path="res://shopkeeper/甲画家.tres" id="4_8bywt"]
+[ext_resource type="Script" uid="uid://bq6potbl53yc6" path="res://scripts/package_system/equipment.gd" id="4_q4a6u"]
+[ext_resource type="Script" uid="uid://dv58keclglu12" path="res://scripts/package_system/inventory.gd" id="5_q840c"]
+[ext_resource type="Resource" uid="uid://c2exc27deqdlj" path="res://character_resource/scount/scount_stats.tres" id="6_8bywt"]
+
+[sub_resource type="Resource" id="Resource_kmysh"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_lx52w"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_btqxo"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_sy05h"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_qoufy"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_gbtis"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_5pn2e"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_eux3f"]
+script = ExtResource("4_q4a6u")
+equip_slots = Array[ExtResource("3_x0hmj")]([SubResource("Resource_kmysh"), SubResource("Resource_lx52w"), SubResource("Resource_btqxo"), SubResource("Resource_sy05h"), SubResource("Resource_qoufy"), SubResource("Resource_gbtis"), SubResource("Resource_5pn2e")])
+metadata/_custom_type_script = "uid://bq6potbl53yc6"
+
+[sub_resource type="Resource" id="Resource_f3q0j"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_jm3vq"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_prf8k"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_kpkfd"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_fdcm6"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_s52j4"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_exsej"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_fb6gl"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_i7vta"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_a8gw3"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_s41ad"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_g4i7f"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_3051p"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_72u21"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_k3nu2"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_fsity"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_huf61"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_c1rp7"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_4svkq"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_swj7k"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_whrkf"]
+script = ExtResource("3_x0hmj")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_ot4tr"]
+script = ExtResource("5_q840c")
+slots = Array[ExtResource("3_x0hmj")]([SubResource("Resource_f3q0j"), SubResource("Resource_jm3vq"), SubResource("Resource_prf8k"), SubResource("Resource_kpkfd"), SubResource("Resource_fdcm6"), SubResource("Resource_s52j4"), SubResource("Resource_exsej"), SubResource("Resource_fb6gl"), SubResource("Resource_i7vta"), SubResource("Resource_a8gw3"), SubResource("Resource_s41ad"), SubResource("Resource_g4i7f"), SubResource("Resource_3051p"), SubResource("Resource_72u21"), SubResource("Resource_k3nu2"), SubResource("Resource_fsity"), SubResource("Resource_huf61"), SubResource("Resource_c1rp7"), SubResource("Resource_4svkq"), SubResource("Resource_swj7k"), SubResource("Resource_whrkf")])
+metadata/_custom_type_script = "uid://dv58keclglu12"
+
+[resource]
+script = ExtResource("1_h4k1b")
+character_name = "浪子"
+description = "游侠，盗贼，赏金猎人，他更喜欢称自己为浪子。只接受自己喜欢的委托。鉴于已经许久没见过夜色，他得启程寻回自己的夜晚。"
+background = ExtResource("1_uydww")
+start_stats = ExtResource("6_8bywt")
+start_inventory = SubResource("Resource_ot4tr")
+start_equipment = SubResource("Resource_eux3f")
+shop_keeper_pool = Array[ExtResource("3_q840c")]([ExtResource("4_8bywt")])
+metadata/_custom_type_script = "uid://dx5w85r6ff3q4"

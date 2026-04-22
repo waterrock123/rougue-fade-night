@@ -1,5 +1,8 @@
 [gd_scene format=3 uid="uid://8vqhvp5mkqjv"]
 
+[ext_resource type="Script" uid="uid://xwuxl47e8trd" path="res://scripts/run/run.gd" id="1_l7o68"]
+
 [node name="Run" type="Node" unique_id=1441645540]
+script = ExtResource("1_l7o68")
 
 [node name="CurrentView" type="Node" parent="." unique_id=2015609532]

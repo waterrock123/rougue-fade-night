@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="类吸血鬼幸存者"
-run/main_scene="uid://bv0ht8mdyclmp"
+run/main_scene="uid://cllxtynsc4lbc"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 

@@ -1,9 +1,9 @@
 class_name RelicController
 extends Node
 
-
 @export var equipment_inventory: Equipment
 @export var player: Player
+@export var player_build: PlayerBuild
 
 var active_relic_entries: Array[Dictionary] = []
 
@@ -23,7 +23,13 @@ func get_stats_controller() -> StatsController:
 	if effect_owner == null:
 		return null
 
-	return effect_owner.stats_controller
+	if effect_owner is Entity:
+		return (effect_owner as Entity).stats_controller
+
+	if effect_owner is PlayerBuildProxy:
+		return (effect_owner as PlayerBuildProxy).get_stats_controller()
+
+	return effect_owner.get_node_or_null("StatsController") as StatsController
 
 
 # 根据当前装备栏状态刷新所有遗物效果。
@@ -64,15 +70,24 @@ func _resolve_context() -> void:
 	if player == null and get_parent() is Player:
 		player = get_parent() as Player
 
-	if equipment_inventory == null and player != null:
-		equipment_inventory = player.player_equipment
+	if player_build == null and get_parent() is PlayerBuildProxy:
+		player_build = (get_parent() as PlayerBuildProxy).player_build
+
+	if equipment_inventory == null:
+		if player != null:
+			equipment_inventory = player.player_equipment
+		elif player_build != null:
+			equipment_inventory = player_build.player_equipment
 
 
-func _get_effect_owner() -> Entity:
+func _get_effect_owner() -> Node:
 	if player != null:
 		return player
 
-	return get_parent() as Entity
+	if get_parent() is PlayerBuildProxy:
+		return get_parent()
+
+	return get_parent()
 
 
 # 给每个装备槽位生成稳定的效果键，避免多个遗物互相覆盖。

@@ -2,36 +2,51 @@ class_name Inventory
 extends Resource
 
 
-
-
-#装格子的数组
 @export var slots: Array[Slot]
 
-#移除库存各种物品的函数
-func remove_slot(slot_:Slot):
-	#搜寻当前库存格子在数组里的索引
-	var index_ = slots.find(slot_)
-	
-	
-	if index_ < 0: return
-	#将此索引格赋值为新的空格子
+
+# 判断库存里是否还有空位。
+func has_empty_slot() -> bool:
+	for slot_ in slots:
+		if slot_ == null:
+			return true
+		if slot_.item == null:
+			return true
+
+	return false
+
+
+# 根据 slot 资源对象移除一个库存格。
+func remove_slot(slot_: Slot) -> void:
+	var index_ := slots.find(slot_)
+	if index_ < 0:
+		return
+
 	slots[index_] = Slot.new()
-	
-	#发送库存更新信号
 	EventBus.inventory_update.emit()
-	
-#插入物品函数，背包UI放入物品时，调用这个函数更新库存
-func insert_slot(slot_index:int,slot_:Slot):
-	#核心：把传入物品的格子数据赋值给slots数组中指定索引位置
+
+
+# 用指定 slot 数据覆盖某个库存位置。
+func insert_slot(slot_index: int, slot_: Slot) -> void:
 	slots[slot_index] = slot_
-	#发送库存更新信号
 	EventBus.inventory_update.emit()
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+# 将一个遗物放入库存中索引最小的空位。
+# 成功返回 true，失败返回 false。
+func add_relic(relic: Relic) -> bool:
+	if relic == null:
+		return false
+
+	for slot_index in range(slots.size()):
+		var slot_ := slots[slot_index]
+		if slot_ == null:
+			slot_ = Slot.new()
+			slots[slot_index] = slot_
+
+		if slot_.item == null:
+			slot_.item = relic
+			EventBus.inventory_update.emit()
+			return true
+
+	return false

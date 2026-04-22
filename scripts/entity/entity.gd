@@ -14,6 +14,7 @@ var current_health: float
 var current_energy: float
 var is_dead: bool = false
 var turning_cooldown = 0.0
+var movement_lock_timer = 0.0
 var energy_timer = 0.0
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -77,6 +78,14 @@ func spend_energy(energy: float):
 
 func apply_runtime_stats(_final_stats: Dictionary) -> void:
 	pass
+
+
+func lock_movement(duration: float) -> void:
+	movement_lock_timer = max(movement_lock_timer, duration)
+
+
+func is_movement_locked() -> bool:
+	return movement_lock_timer > 0.0
 
 
 func play_animation(anim: AnimationWrapper):

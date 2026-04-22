@@ -1,0 +1,141 @@
+[gd_resource type="Resource" script_class="Character" format=3 uid="uid://brri3ypi88fs8"]
+
+[ext_resource type="Script" uid="uid://dx5w85r6ff3q4" path="res://custom_resource/chararcter.gd" id="1_hx1pq"]
+[ext_resource type="Texture2D" uid="uid://bf7vmhistex31" path="res://assets/贵人.png" id="1_nvmwb"]
+[ext_resource type="Script" uid="uid://copgj7rv7yvot" path="res://scripts/rest_period/shop_keeper.gd" id="3_ec3r0"]
+[ext_resource type="Resource" uid="uid://cdni6wjwm0jd8" path="res://character_resource/wizard/wizard_stats.tres" id="3_gkwth"]
+[ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="3_xta8r"]
+[ext_resource type="Script" uid="uid://bq6potbl53yc6" path="res://scripts/package_system/equipment.gd" id="4_ec3r0"]
+[ext_resource type="Script" uid="uid://dv58keclglu12" path="res://scripts/package_system/inventory.gd" id="5_4bbho"]
+
+[sub_resource type="Resource" id="Resource_pkefs"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_8huv5"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_j5c2o"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_0v66j"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_q6jvr"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_6mxsl"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_eg0f8"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_wtpev"]
+script = ExtResource("4_ec3r0")
+equip_slots = Array[ExtResource("3_xta8r")]([SubResource("Resource_pkefs"), SubResource("Resource_8huv5"), SubResource("Resource_j5c2o"), SubResource("Resource_0v66j"), SubResource("Resource_q6jvr"), SubResource("Resource_6mxsl"), SubResource("Resource_eg0f8")])
+metadata/_custom_type_script = "uid://bq6potbl53yc6"
+
+[sub_resource type="Resource" id="Resource_h7ejt"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_2yaws"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_xewcu"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_erunu"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_xrrp5"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_t27di"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_hmd3w"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_ofcdr"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_mdg0y"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_w7gws"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_okpef"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_g8lhh"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_qm1ev"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_lxvgj"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_2ku3s"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_2j7s1"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_f536v"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_y1eoe"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_orgtj"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_usxam"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_nffck"]
+script = ExtResource("3_xta8r")
+metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
+
+[sub_resource type="Resource" id="Resource_rc2xq"]
+script = ExtResource("5_4bbho")
+slots = Array[ExtResource("3_xta8r")]([SubResource("Resource_h7ejt"), SubResource("Resource_2yaws"), SubResource("Resource_xewcu"), SubResource("Resource_erunu"), SubResource("Resource_xrrp5"), SubResource("Resource_t27di"), SubResource("Resource_hmd3w"), SubResource("Resource_ofcdr"), SubResource("Resource_mdg0y"), SubResource("Resource_w7gws"), SubResource("Resource_okpef"), SubResource("Resource_g8lhh"), SubResource("Resource_qm1ev"), SubResource("Resource_lxvgj"), SubResource("Resource_2ku3s"), SubResource("Resource_2j7s1"), SubResource("Resource_f536v"), SubResource("Resource_y1eoe"), SubResource("Resource_orgtj"), SubResource("Resource_usxam"), SubResource("Resource_nffck")])
+metadata/_custom_type_script = "uid://dv58keclglu12"
+
+[resource]
+script = ExtResource("1_hx1pq")
+character_name = "贵人"
+description = "元素，契约，通灵，诸多玄之又玄的力量被她掌握在手中，她举手投足都展现着神秘。不过目前她似乎因为没有得到应有的尊重而生闷气。"
+background = ExtResource("1_nvmwb")
+start_stats = ExtResource("3_gkwth")
+start_inventory = SubResource("Resource_rc2xq")
+start_equipment = SubResource("Resource_wtpev")
+metadata/_custom_type_script = "uid://dx5w85r6ff3q4"

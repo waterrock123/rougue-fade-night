@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ow5f4tyul6cu"]
 
 [ext_resource type="Texture2D" uid="uid://kd6fvrsfrcyi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc131.png" id="1_3btcy"]
-[ext_resource type="Script" uid="uid://ch0xyu2exscq0" path="res://scenes/rest_period/shop_keeper_token.gd" id="1_xetfq"]
+[ext_resource type="Script" uid="uid://ch0xyu2exscq0" path="res://scripts/rest_period/shop_keeper_token.gd" id="1_xetfq"]
 [ext_resource type="Texture2D" uid="uid://bhbs4aswuifoi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc12.png" id="2_onbcb"]
 [ext_resource type="Texture2D" uid="uid://f3ys7sxf35ul" path="res://assets/甲画家/001.png" id="2_xetfq"]
 

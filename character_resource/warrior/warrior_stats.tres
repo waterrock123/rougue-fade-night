@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://b478o2358l6xq"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_4dnys"]
+
+[resource]
+script = ExtResource("1_4dnys")
+entity_name = "warrior"
+base_max_health = 35.0
+base_max_energy = 10.0
+base_energy_regen_tick_value = 5.0
+base_damage_reduction_rate = 0.05
+base_crit_chance = 0.0
+base_move_speed = 50.0
+strength = 7
+dexterity = 4
+intelligence = 4
+constitution = 7
+speed = 6
+charm = 4
+luck = 4

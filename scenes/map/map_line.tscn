@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bfanckfuthwkf"]
+
+[ext_resource type="Texture2D" uid="uid://djbldcvfo4swr" path="res://assets/art/line.png" id="1_hx6oq"]
+
+[node name="MapLine" type="Line2D" unique_id=1606400162]
+texture_filter = 1
+texture_repeat = 2
+width = 70.0
+texture = ExtResource("1_hx6oq")
+texture_mode = 1

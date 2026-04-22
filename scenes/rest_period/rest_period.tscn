@@ -1,8 +1,87 @@
 [gd_scene format=3 uid="uid://co37sp5lr8nvb"]
 
+[ext_resource type="Script" uid="uid://wpt8s0ys3w7t" path="res://scripts/rest_period/rest_period.gd" id="1_b20nv"]
 [ext_resource type="PackedScene" uid="uid://dmoylnmxemj46" path="res://scenes/rest_period/shop.tscn" id="1_hcmc8"]
 [ext_resource type="PackedScene" uid="uid://d2qsc6k4jdm0e" path="res://scenes/package/package_ui.tscn" id="1_nhqph"]
+[ext_resource type="Script" uid="uid://c20r6sitt53pf" path="res://scripts/run/run_stats.gd" id="2_eqwbp"]
+[ext_resource type="Resource" uid="uid://c0mc7hdek780v" path="res://custom_resource/player_equipment.tres" id="2_q10ky"]
+[ext_resource type="Script" uid="uid://buv7s01oyxdfh" path="res://scripts/player_build_proxy.gd" id="3_4dar0"]
+[ext_resource type="Resource" uid="uid://wl3kquh3l0yw" path="res://custom_resource/player_inventory.tres" id="3_bd5ib"]
 [ext_resource type="PackedScene" uid="uid://xg2yg0ufepbu" path="res://scenes/ui/attributes_panel.tscn" id="4_b20nv"]
+[ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="4_e007f"]
+[ext_resource type="Script" uid="uid://dslu3weaxu5uy" path="res://custom_resource/player_bulid.gd" id="4_k01t3"]
+[ext_resource type="Resource" uid="uid://b478o2358l6xq" path="res://character_resource/warrior/warrior_stats.tres" id="4_mm8lv"]
+[ext_resource type="Script" uid="uid://dlii28m125ylw" path="res://scripts/relic/relic_controller.gd" id="5_k01t3"]
+[ext_resource type="Script" uid="uid://bnnikoni3fdgw" path="res://scripts/rest_period/shop/shop_level_data.gd" id="11_xvdcx"]
+[ext_resource type="Script" uid="uid://daylk3er8w7p8" path="res://scripts/rest_period/shop/shop_effect.gd" id="12_6seha"]
+[ext_resource type="Script" uid="uid://bflwfcjfnvvje" path="res://scripts/rest_period/shop/add_slot_effect.gd" id="13_0im4x"]
+[ext_resource type="Script" uid="uid://dexso4q4oa67p" path="res://scripts/rest_period/shop/shop_config.gd" id="14_jrge6"]
+[ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="15_58u2f"]
+[ext_resource type="Script" uid="uid://tv2ugdiy66fm" path="res://scripts/rest_period/shop/shop.gd" id="16_5see7"]
+[ext_resource type="Resource" uid="uid://wlgt6wqudvrs" path="res://shopkeeper/甲画家.tres" id="17_mrbtr"]
+
+[sub_resource type="Resource" id="Resource_plqj4"]
+script = ExtResource("4_k01t3")
+player_stats = ExtResource("4_mm8lv")
+player_inventory = ExtResource("3_bd5ib")
+player_equipment = ExtResource("2_q10ky")
+current_health = 50.0
+metadata/_custom_type_script = "uid://dslu3weaxu5uy"
+
+[sub_resource type="Resource" id="Resource_1ckim"]
+script = ExtResource("2_eqwbp")
+gold = 20
+player_build = SubResource("Resource_plqj4")
+metadata/_custom_type_script = "uid://c20r6sitt53pf"
+
+[sub_resource type="Resource" id="Resource_ka215"]
+script = ExtResource("13_0im4x")
+metadata/_custom_type_script = "uid://bflwfcjfnvvje"
+
+[sub_resource type="Resource" id="Resource_hs4cx"]
+script = ExtResource("11_xvdcx")
+level = 1
+upgrade_cost = 7
+effects = Array[ExtResource("12_6seha")]([SubResource("Resource_ka215")])
+metadata/_custom_type_script = "uid://bnnikoni3fdgw"
+
+[sub_resource type="Resource" id="Resource_eu55t"]
+script = ExtResource("11_xvdcx")
+level = 2
+upgrade_cost = 9
+metadata/_custom_type_script = "uid://bnnikoni3fdgw"
+
+[sub_resource type="Resource" id="Resource_aeec8"]
+script = ExtResource("12_6seha")
+metadata/_custom_type_script = "uid://daylk3er8w7p8"
+
+[sub_resource type="Resource" id="Resource_rlsmw"]
+script = ExtResource("11_xvdcx")
+level = 3
+upgrade_cost = 11
+effects = Array[ExtResource("12_6seha")]([SubResource("Resource_aeec8")])
+metadata/_custom_type_script = "uid://bnnikoni3fdgw"
+
+[sub_resource type="Resource" id="Resource_jj4wj"]
+script = ExtResource("13_0im4x")
+metadata/_custom_type_script = "uid://bflwfcjfnvvje"
+
+[sub_resource type="Resource" id="Resource_817qr"]
+script = ExtResource("11_xvdcx")
+level = 4
+upgrade_cost = 13
+effects = Array[ExtResource("12_6seha")]([SubResource("Resource_jj4wj")])
+metadata/_custom_type_script = "uid://bnnikoni3fdgw"
+
+[sub_resource type="Resource" id="Resource_av7rw"]
+script = ExtResource("14_jrge6")
+level_data = Array[ExtResource("11_xvdcx")]([SubResource("Resource_hs4cx"), SubResource("Resource_eu55t"), SubResource("Resource_rlsmw"), SubResource("Resource_817qr")])
+metadata/_custom_type_script = "uid://dexso4q4oa67p"
+
+[sub_resource type="Resource" id="Resource_uyblm"]
+script = ExtResource("16_5see7")
+shopkeeper = ExtResource("17_mrbtr")
+metadata/_custom_type_script = "uid://tv2ugdiy66fm"
 
 [node name="RestPeriod" type="Control" unique_id=242219292]
 layout_mode = 3
@@ -11,6 +90,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_b20nv")
+run_stats = SubResource("Resource_1ckim")
+
+[node name="PlayerBuildProxy" type="Node" parent="." unique_id=485475526]
+script = ExtResource("3_4dar0")
+
+[node name="StatsController" type="Node" parent="PlayerBuildProxy" unique_id=446641549]
+script = ExtResource("4_e007f")
+metadata/_custom_type_script = "uid://rm4yfg5qu4vg"
+
+[node name="RelicController" type="Node" parent="PlayerBuildProxy" unique_id=1896318582]
+script = ExtResource("5_k01t3")
+metadata/_custom_type_script = "uid://dlii28m125ylw"
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="." unique_id=1599719739]
 
@@ -19,12 +111,14 @@ grow_vertical = 2
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1509332362]
 
 [node name="Shop" parent="UILayer" unique_id=1508891481 instance=ExtResource("1_hcmc8")]
+shop_config = SubResource("Resource_av7rw")
+shop = SubResource("Resource_uyblm")
 
 [node name="PackageUI" parent="UILayer" unique_id=1745782595 instance=ExtResource("1_nhqph")]
-offset_left = 75.0
-offset_top = 27.0
-offset_right = 75.0
-offset_bottom = 27.0
+offset_left = 443.0
+offset_top = 141.0
+offset_right = -414.77783
+offset_bottom = -279.0
 scale = Vector2(0.9, 0.9)
 mouse_filter = 1
 
@@ -37,7 +131,7 @@ theme_override_font_sizes/font_size = 30
 text = "结束修整"
 
 [node name="AttributesPanel" parent="UILayer" unique_id=51568401 instance=ExtResource("4_b20nv")]
-offset_left = 51.0
-offset_top = 304.0
-offset_right = 251.0
-offset_bottom = 554.0
+offset_left = 40.0
+offset_top = 167.0
+offset_right = 430.0
+offset_bottom = 742.0

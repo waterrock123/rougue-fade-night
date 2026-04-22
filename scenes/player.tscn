@@ -13,13 +13,9 @@
 [ext_resource type="AudioStream" uid="uid://skd8umn7fos7" path="res://assets/Sound/Dirt Walk 5.wav" id="6_qfm1y"]
 [ext_resource type="Texture2D" uid="uid://btc6x746w7abe" path="res://assets/meleeAttack_plusCharacters.png" id="6_tuyoq"]
 [ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="7_fulsm"]
-[ext_resource type="Resource" uid="uid://wl3kquh3l0yw" path="res://custom_resource/player_inventory.tres" id="8_4ni07"]
-[ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="9_l71n6"]
-[ext_resource type="Script" uid="uid://bq6potbl53yc6" path="res://scripts/package_system/equipment.gd" id="11_ujl30"]
 [ext_resource type="PackedScene" uid="uid://5uxluclcqj3n" path="res://scenes/ability/dash_ability.tscn" id="13_oprun"]
 [ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="14_a8ls1"]
 [ext_resource type="Script" uid="uid://b0c3hw6lsf13w" path="res://scripts/utils/footstep_effect.gd" id="14_f1ej7"]
-[ext_resource type="Resource" uid="uid://b478o2358l6xq" path="res://character_resource/warrior/warrior.tres" id="15_qfm1y"]
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="16_stats"]
 [ext_resource type="PackedScene" uid="uid://d2qsc6k4jdm0e" path="res://scenes/package/package_ui.tscn" id="18_fulsm"]
 [ext_resource type="Script" uid="uid://dlii28m125ylw" path="res://scripts/relic/relic_controller.gd" id="20_ke2ow"]
@@ -32,39 +28,6 @@ volume_db = -8.0
 max_distance = 200
 bus = &"sfx"
 metadata/_custom_type_script = "uid://cfgrgm03strrd"
-
-[sub_resource type="Resource" id="Resource_ke2ow"]
-script = ExtResource("9_l71n6")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_ujl30"]
-script = ExtResource("9_l71n6")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_31cv2"]
-script = ExtResource("9_l71n6")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_pf23h"]
-script = ExtResource("9_l71n6")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_dt7fs"]
-script = ExtResource("9_l71n6")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_wqfne"]
-script = ExtResource("9_l71n6")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_wnwbv"]
-script = ExtResource("9_l71n6")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_md1ol"]
-script = ExtResource("11_ujl30")
-equip_slots = Array[ExtResource("9_l71n6")]([SubResource("Resource_ke2ow"), SubResource("Resource_ujl30"), SubResource("Resource_31cv2"), SubResource("Resource_pf23h"), SubResource("Resource_dt7fs"), SubResource("Resource_wqfne"), SubResource("Resource_wnwbv")])
-metadata/_custom_type_script = "uid://bq6potbl53yc6"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_smehm"]
 shader = ExtResource("2_fjrip")
@@ -312,9 +275,6 @@ script = ExtResource("1_onrkg")
 speed = 100.0
 weapon = NodePath("Weapon")
 footstep_clip = SubResource("Resource_4r5pv")
-stats_data = ExtResource("15_qfm1y")
-player_inventory = ExtResource("8_4ni07")
-player_equipment = SubResource("Resource_md1ol")
 max_health = 250.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=195350017]
@@ -339,7 +299,6 @@ energy_cost = 10.0
 
 [node name="StatsController" type="Node" parent="." unique_id=530816127]
 script = ExtResource("14_a8ls1")
-stats_data = ExtResource("15_qfm1y")
 
 [node name="RelicController" type="Node" parent="." unique_id=566204184]
 script = ExtResource("20_ke2ow")
@@ -410,15 +369,15 @@ color_ramp = SubResource("Gradient_f1ej7")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1047984298]
 
 [node name="PackageUI" parent="CanvasLayer" unique_id=1745782595 instance=ExtResource("18_fulsm")]
-offset_left = 512.0
-offset_top = 142.0
-offset_right = -258.0
-offset_bottom = -128.0
+offset_left = 542.0
+offset_top = 249.0
+offset_right = -327.0
+offset_bottom = -202.0
 
 [node name="AttributesPanel" parent="CanvasLayer" unique_id=51568401 instance=ExtResource("24_l71n6")]
 offset_left = 136.0
 offset_top = 308.0
-offset_right = 466.0
-offset_bottom = 739.0
+offset_right = 520.0
+offset_bottom = 883.0
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
