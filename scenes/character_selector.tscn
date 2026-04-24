@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://iglrgb4t03fi"]
 
 [ext_resource type="Script" uid="uid://cowqx35kqkydm" path="res://scripts/scenes/character_selector.gd" id="1_dy3sk"]
-[ext_resource type="Texture2D" uid="uid://cvp8l8jeu874m" path="res://assets/战狂.png" id="1_so2ut"]
+[ext_resource type="Texture2D" uid="uid://cvp8l8jeu874m" path="res://assets/ai art/战狂.png" id="1_so2ut"]
 [ext_resource type="FontFile" uid="uid://d2wx8752b45ky" path="res://assets/字体/字魂像素积木体(商用需授权).ttf" id="2_ktnu4"]
 [ext_resource type="Texture2D" uid="uid://hqry68u0ulx1" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1467.png" id="2_otyuf"]
 [ext_resource type="Texture2D" uid="uid://e07s1f2281jf" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1781.png" id="3_ktnu4"]

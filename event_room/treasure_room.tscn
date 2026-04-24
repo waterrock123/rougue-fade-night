@@ -1,0 +1,174 @@
+[gd_scene format=3 uid="uid://fwyt4u64gpyu"]
+
+[ext_resource type="Script" uid="uid://7x2d4pshrbqs" path="res://event_room/treasure_room.gd" id="1_i53xi"]
+[ext_resource type="Texture2D" uid="uid://b3lfqeaelqkkl" path="res://assets/ai art/宝藏.png" id="2_ox3px"]
+[ext_resource type="PackedScene" uid="uid://csqwkpx1kbsbr" path="res://event_room/event_button.tscn" id="3_0lu7k"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_o06u0"]
+font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_ih8p8"]
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_agvpq"]
+font_size = 20
+font_color = Color(1, 1, 0.19607843, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ntkc2"]
+font_size = 20
+font_color = Color(0.7629252, 0.13366583, 4.813075e-07, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8p8"]
+bg_color = Color(0.45390636, 0.1925627, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.49455744, 0.18269193, 0.21664724, 0.6)
+
+[node name="TreasureRoom" type="Control" unique_id=652731172]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i53xi")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=500561060]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.111652605, 0.032517143, 0.08517177, 0.7411765)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=499646323]
+modulate = Color(1, 1, 1, 0.6509804)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 1925.0
+offset_bottom = 1081.0
+texture = ExtResource("2_ox3px")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="." unique_id=1797618010]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 0
+offset_left = 138.0
+offset_top = 334.0
+offset_right = 838.0
+offset_bottom = 506.0
+size_flags_vertical = 3
+text = "你掉进了一个坑里，当你大骂谁这么缺德时，居然发现有人在坑里埋了一堆宝物"
+label_settings = SubResource("LabelSettings_o06u0")
+autowrap_mode = 2
+
+[node name="GoldButton" parent="." unique_id=1416983139 instance=ExtResource("3_0lu7k")]
+layout_mode = 0
+offset_left = 157.0
+offset_top = 599.0
+offset_right = 751.0
+offset_bottom = 675.0
+text = ""
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="GoldButton" unique_id=816652215]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -1.0
+offset_right = 220.0
+offset_bottom = 41.0
+text = "拿一大袋金币走"
+label_settings = SubResource("LabelSettings_ih8p8")
+
+[node name="Label" type="Label" parent="GoldButton" unique_id=1657831646]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 41.0
+offset_right = 404.0
+offset_bottom = 107.0
+text = "获得6资金"
+label_settings = SubResource("LabelSettings_agvpq")
+
+[node name="EquipButton" parent="." unique_id=243612117 instance=ExtResource("3_0lu7k")]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 702.0
+offset_right = 752.0
+offset_bottom = 778.0
+text = ""
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="EquipButton" unique_id=32079025]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -1.0
+offset_right = 220.0
+offset_bottom = 41.0
+text = "挑两件装备走"
+label_settings = SubResource("LabelSettings_ih8p8")
+
+[node name="Label" type="Label" parent="EquipButton" unique_id=2083982727]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 43.0
+offset_right = 404.0
+offset_bottom = 109.0
+text = "获得随机两件装备"
+label_settings = SubResource("LabelSettings_agvpq")
+
+[node name="AllButton" parent="." unique_id=569287997 instance=ExtResource("3_0lu7k")]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 807.0
+offset_right = 752.0
+offset_bottom = 883.0
+text = ""
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="AllButton" unique_id=725714758]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -1.0
+offset_right = 220.0
+offset_bottom = 41.0
+text = "我全都要"
+label_settings = SubResource("LabelSettings_ih8p8")
+
+[node name="Label" type="Label" parent="AllButton" unique_id=40450856]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 43.0
+offset_right = 406.0
+offset_bottom = 109.0
+text = "获得6资金和随机两件装备，"
+label_settings = SubResource("LabelSettings_agvpq")
+
+[node name="Label3" type="Label" parent="AllButton" unique_id=1783333327]
+layout_mode = 0
+offset_left = 307.0
+offset_top = 43.0
+offset_right = 656.0
+offset_bottom = 109.0
+text = "有60%概率永久失去两点速度"
+label_settings = SubResource("LabelSettings_ntkc2")
+
+[node name="LeaveButton" type="Button" parent="." unique_id=1612002407]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 0
+offset_left = 1437.0
+offset_top = 860.0
+offset_right = 1837.0
+offset_bottom = 960.0
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_ih8p8")
+text = "离开"
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

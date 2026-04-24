@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://bc2scbgtba2vk"]
+
+[ext_resource type="Texture2D" uid="uid://clu74wmc2kp5u" path="res://assets/UI/Pixel UI pack 3/04.png" id="1_2cyvc"]
+[ext_resource type="Script" uid="uid://bmeo8rojg2pfk" path="res://scripts/utils/player_health_bar_.gd" id="2_v27xb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ibixv"]
+atlas = ExtResource("1_2cyvc")
+region = Rect2(295, 70, 34, 5)
+margin = Rect2(4.5, 3, 9, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0auek"]
+atlas = ExtResource("1_2cyvc")
+region = Rect2(2.78, 67, 42.401, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63tcr"]
+atlas = ExtResource("1_2cyvc")
+region = Rect2(55, 70, 34, 5)
+margin = Rect2(5, 3, 9, 6)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qhxom"]
+font_size = 25
+font_color = Color(0.88235295, 0.88235295, 0.8784314, 1)
+
+[node name="PlayerHealthBar" type="TextureProgressBar" unique_id=1722415680 node_paths=PackedStringArray("label")]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -954.0
+offset_top = -325.0
+offset_right = -526.0
+offset_bottom = -285.0
+grow_horizontal = 2
+grow_vertical = 2
+min_value = -16.0
+max_value = 116.0
+step = 0.1
+value = 50.0
+nine_patch_stretch = true
+texture_under = SubResource("AtlasTexture_ibixv")
+texture_over = SubResource("AtlasTexture_0auek")
+texture_progress = SubResource("AtlasTexture_63tcr")
+script = ExtResource("2_v27xb")
+label = NodePath("Label")
+
+[node name="Label" type="Label" parent="." unique_id=1356486269]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -16.0
+offset_right = 20.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+label_settings = SubResource("LabelSettings_qhxom")

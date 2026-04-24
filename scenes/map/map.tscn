@@ -1,9 +1,337 @@
 [gd_scene format=3 uid="uid://cj583ge3ox1jx"]
 
+[ext_resource type="Texture2D" uid="uid://bg57rt1sb4r2d" path="res://assets/enemy/Imp Sprite Sheet.png" id="1_a2pkv"]
+[ext_resource type="Script" uid="uid://cpx8tl0dqdo4m" path="res://scenes/map/map.gd" id="1_fcby6"]
+[ext_resource type="Texture2D" uid="uid://d3al31f3u1305" path="res://assets/enemy/Mushroom/Mushroom with VFX/Mushroom-Idle.png" id="2_ph54e"]
+[ext_resource type="Script" uid="uid://bbp1b6impnqv1" path="res://custom_resource/battle_stats.gd" id="3_f17u5"]
+[ext_resource type="Texture2D" uid="uid://cuk6iq246ykr6" path="res://assets/ai art/草原风景.jpg" id="3_fcby6"]
+[ext_resource type="PackedScene" uid="uid://cew35ky6fcbff" path="res://entity/enemy/demon_mouse.tscn" id="4_b56te"]
+[ext_resource type="Script" uid="uid://biuabmn5wwh4o" path="res://scenes/map/map_generator.gd" id="5_jcaow"]
+[ext_resource type="PackedScene" uid="uid://gelec3ahehiy" path="res://entity/enemy/skeleton.tscn" id="5_x2kg6"]
+[ext_resource type="Script" uid="uid://df3feoy7vmvbw" path="res://custom_resource/battle_wave_data.gd" id="6_cumk7"]
+[ext_resource type="PackedScene" uid="uid://c2cicmdj7n24" path="res://entity/enemy/mushroom_monster.tscn" id="7_cumk7"]
+[ext_resource type="Script" uid="uid://7r8m0gpgxung" path="res://custom_resource/battle_stats_pool.gd" id="7_mgs8m"]
+[ext_resource type="PackedScene" uid="uid://cw8i8y3m4u8uf" path="res://event_room/campfire_room.tscn" id="9_mgs8m"]
+[ext_resource type="Script" uid="uid://bwbx7llflqfe3" path="res://custom_resource/event_room_pool.gd" id="10_mrjnl"]
+[ext_resource type="PackedScene" uid="uid://fwyt4u64gpyu" path="res://event_room/treasure_room.tscn" id="10_rqo2c"]
+[ext_resource type="PackedScene" uid="uid://b5jbcfrbvaky6" path="res://event_room/shop_chosen_room.tscn" id="11_e07uo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcaow"]
+atlas = ExtResource("1_a2pkv")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_04w0f"]
+atlas = ExtResource("1_a2pkv")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sqgf4"]
+atlas = ExtResource("1_a2pkv")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvrx0"]
+atlas = ExtResource("1_a2pkv")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f17u5"]
+atlas = ExtResource("1_a2pkv")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b56te"]
+atlas = ExtResource("1_a2pkv")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x2kg6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jcaow")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_04w0f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sqgf4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vvrx0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f17u5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b56te")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cumk7"]
+atlas = ExtResource("2_ph54e")
+region = Rect2(0, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mgs8m"]
+atlas = ExtResource("2_ph54e")
+region = Rect2(80, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrjnl"]
+atlas = ExtResource("2_ph54e")
+region = Rect2(160, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rqo2c"]
+atlas = ExtResource("2_ph54e")
+region = Rect2(240, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e07uo"]
+atlas = ExtResource("2_ph54e")
+region = Rect2(320, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58ndj"]
+atlas = ExtResource("2_ph54e")
+region = Rect2(400, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nykyp"]
+atlas = ExtResource("2_ph54e")
+region = Rect2(480, 0, 80, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uclq6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cumk7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mgs8m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrjnl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rqo2c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e07uo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_58ndj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nykyp")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_f17u5"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("4_b56te"), ExtResource("5_x2kg6")])
+max_enemies = 6
+spawn_batch_size = 3
+next_wave_delay = 1.0
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_b56te"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("4_b56te"), ExtResource("5_x2kg6")])
+max_enemies = 5
+spawn_batch_size = 3
+next_wave_delay = 1.0
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_x2kg6"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("4_b56te"), ExtResource("4_b56te")])
+max_enemies = 4
+spawn_batch_size = 4
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_mrjnl"]
+script = ExtResource("3_f17u5")
+weight = 1.0
+packed_enemies = Array[PackedScene]([ExtResource("4_b56te"), ExtResource("5_x2kg6")])
+max_enemies = 15
+spawn_interval = 9.0
+spawn_batch_size = 6
+waves = Array[ExtResource("6_cumk7")]([SubResource("Resource_f17u5"), SubResource("Resource_b56te"), SubResource("Resource_x2kg6")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
+[sub_resource type="Resource" id="Resource_tmgcv"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("5_x2kg6")])
+max_enemies = 6
+spawn_batch_size = 6
+next_wave_delay = 1.0
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_omedl"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("4_b56te"), ExtResource("4_b56te")])
+max_enemies = 4
+spawn_batch_size = 2
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_3xi6f"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("4_b56te")])
+max_enemies = 4
+spawn_batch_size = 4
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_rqo2c"]
+script = ExtResource("3_f17u5")
+weight = 1.0
+packed_enemies = Array[PackedScene]([null, null])
+waves = Array[ExtResource("6_cumk7")]([SubResource("Resource_tmgcv"), SubResource("Resource_omedl"), SubResource("Resource_3xi6f")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
+[sub_resource type="Resource" id="Resource_xks3a"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("4_b56te"), ExtResource("7_cumk7")])
+max_enemies = 6
+spawn_interval = 9.0
+spawn_batch_size = 3
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_78kcs"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("5_x2kg6"), ExtResource("7_cumk7")])
+max_enemies = 4
+spawn_interval = 3.0
+spawn_batch_size = 2
+next_wave_delay = 10.0
+advance_mode = 0
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_e07uo"]
+script = ExtResource("3_f17u5")
+battle_tier = 1
+weight = 2.0
+waves = Array[ExtResource("6_cumk7")]([SubResource("Resource_xks3a"), SubResource("Resource_78kcs")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
+[sub_resource type="Resource" id="Resource_2kc6l"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("4_b56te"), ExtResource("7_cumk7"), ExtResource("5_x2kg6")])
+max_enemies = 6
+spawn_interval = 3.0
+spawn_batch_size = 2
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_eix18"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("7_cumk7")])
+max_enemies = 3
+spawn_interval = 3.0
+advance_mode = 0
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_58ndj"]
+script = ExtResource("3_f17u5")
+battle_tier = 1
+weight = 2.0
+waves = Array[ExtResource("6_cumk7")]([SubResource("Resource_2kc6l"), SubResource("Resource_eix18")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
+[sub_resource type="Resource" id="Resource_25aov"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("7_cumk7")])
+max_enemies = 10
+spawn_batch_size = 2
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_nykyp"]
+script = ExtResource("3_f17u5")
+battle_tier = 2
+weight = 1.0
+waves = Array[ExtResource("6_cumk7")]([SubResource("Resource_25aov")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
+[sub_resource type="Resource" id="Resource_etaqi"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("7_cumk7"), ExtResource("5_x2kg6")])
+max_enemies = 8
+spawn_interval = 10.0
+spawn_batch_size = 4
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_hs4c0"]
+script = ExtResource("6_cumk7")
+packed_enemies = Array[PackedScene]([ExtResource("4_b56te")])
+max_enemies = 10
+spawn_batch_size = 2
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_uclq6"]
+script = ExtResource("3_f17u5")
+battle_tier = 2
+weight = 1.0
+waves = Array[ExtResource("6_cumk7")]([SubResource("Resource_etaqi"), SubResource("Resource_hs4c0")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
+[sub_resource type="Resource" id="Resource_30ska"]
+script = ExtResource("7_mgs8m")
+pool = Array[ExtResource("3_f17u5")]([SubResource("Resource_mrjnl"), SubResource("Resource_rqo2c"), SubResource("Resource_e07uo"), SubResource("Resource_58ndj"), SubResource("Resource_nykyp"), SubResource("Resource_uclq6")])
+metadata/_custom_type_script = "uid://7r8m0gpgxung"
+
+[sub_resource type="Resource" id="Resource_ah1fr"]
+script = ExtResource("10_mrjnl")
+event_rooms = Array[PackedScene]([ExtResource("9_mgs8m"), ExtResource("10_rqo2c"), ExtResource("11_e07uo")])
+metadata/_custom_type_script = "uid://bwbx7llflqfe3"
+
 [node name="Map" type="Node2D" unique_id=414619087]
+script = ExtResource("1_fcby6")
+
+[node name="MapBackground" type="CanvasLayer" parent="." unique_id=2063059586]
+layer = -1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MapBackground" unique_id=1249492848]
+z_index = 1
+texture_filter = 1
+position = Vector2(508, 222.00006)
+scale = Vector2(6, 6)
+sprite_frames = SubResource("SpriteFrames_x2kg6")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.034401324
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="MapBackground" unique_id=1894284848]
+z_index = 1
+texture_filter = 1
+position = Vector2(270, 863.00006)
+scale = Vector2(6, 6)
+sprite_frames = SubResource("SpriteFrames_uclq6")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.30095473
+
+[node name="TextureRect" type="TextureRect" parent="MapBackground" unique_id=1940112844]
+z_index = -1
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_fcby6")
+expand_mode = 1
+stretch_mode = 4
 
 [node name="Visuals" type="Node2D" parent="." unique_id=635972698]
+z_index = 2
+z_as_relative = false
 
 [node name="Lines" type="Node2D" parent="Visuals" unique_id=1292950661]
+unique_name_in_owner = true
 
 [node name="Rooms" type="Node2D" parent="Visuals" unique_id=1370984398]
+unique_name_in_owner = true
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1807641753]
+position = Vector2(960, 539)
+
+[node name="MapGenerator" type="Node" parent="." unique_id=153091712]
+script = ExtResource("5_jcaow")
+battle_stats_pool = SubResource("Resource_30ska")
+event_room_pool = SubResource("Resource_ah1fr")

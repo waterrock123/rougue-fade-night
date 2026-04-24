@@ -83,6 +83,25 @@ func _handle_ui(player_inventory:Inventory,player_equipment:Equipment):
 	attributes_panel.setup()
 	
 	
+func bind_player_build(player_build: PlayerBuild) -> void:
+	if player_build == null:
+		return
+
+	stats_data = player_build.player_stats
+	player_inventory = player_build.player_inventory
+	player_equipment = player_build.player_equipment
+
+	if stats_controller != null:
+		stats_controller.bind_player_build(player_build)
+		current_health = stats_controller.current_health
+		current_energy = stats_controller.current_energy
+		max_health = stats_controller.get_stat("max_health")
+		max_energy = stats_controller.get_stat("max_energy")
+
+	_handle_ui(player_inventory, player_equipment)
+	EventBus.player_health_changed.emit(current_health, max_health)
+	EventBus.player_energy_changed.emit(current_energy, max_energy)
+	
 
 func _handle_abilities(ability:Ability):
 	ability_controller.trigger_ability(ability)
@@ -148,6 +167,7 @@ func spend_energy(energy:float):
 	current_energy = clamp(current_energy,0,max_energy)
 	if stats_controller != null:
 		stats_controller.current_energy = current_energy
+		stats_controller.sync_runtime_resources()
 	EventBus.player_energy_changed.emit(current_energy,max_energy)
 
 func _handle_region_energy(delta: float):
@@ -162,6 +182,7 @@ func _handle_region_energy(delta: float):
 		current_energy = min(current_energy,max_energy)
 		if stats_controller != null:
 			stats_controller.current_energy = current_energy
+			stats_controller.sync_runtime_resources()
 		EventBus.player_energy_changed.emit(current_energy,max_energy)
 	
 #切换背包函数

@@ -5,6 +5,7 @@ extends Resource
 @export var battle_tier: int
 #战斗的权重
 @export var weight:float
+var accumulated_weight: float = 0.0
 # 兼容旧版单波配置。
 # 如果没有填写 waves，就会自动把下面这些字段包装成一波战斗来处理。
 @export_group("Legacy")

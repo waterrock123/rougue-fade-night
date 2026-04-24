@@ -315,3 +315,7 @@ func _sync_player_build() -> void:
 
 	player_build.current_health = current_health
 	player_build.current_energy = current_energy
+
+
+func sync_runtime_resources() -> void:
+	_sync_player_build()

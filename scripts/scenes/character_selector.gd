@@ -40,6 +40,10 @@ func _on_wizard_button_pressed() -> void:
 
 
 func _on_start_button_pressed() -> void:
+	if run_startup == null:
+		run_startup = RunStartup.new()
+
 	run_startup.type = RunStartup.Type.NEW_RUN
 	run_startup.picked_character = current_character
+	Run.pending_startup = run_startup
 	get_tree().change_scene_to_packed(RUN_SCENE)

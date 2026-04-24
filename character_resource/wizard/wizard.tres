@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Character" format=3 uid="uid://brri3ypi88fs8"]
 
 [ext_resource type="Script" uid="uid://dx5w85r6ff3q4" path="res://custom_resource/chararcter.gd" id="1_hx1pq"]
-[ext_resource type="Texture2D" uid="uid://bf7vmhistex31" path="res://assets/贵人.png" id="1_nvmwb"]
+[ext_resource type="Texture2D" uid="uid://bf7vmhistex31" path="res://assets/ai art/贵人.png" id="1_nvmwb"]
 [ext_resource type="Script" uid="uid://copgj7rv7yvot" path="res://scripts/rest_period/shop_keeper.gd" id="3_ec3r0"]
 [ext_resource type="Resource" uid="uid://cdni6wjwm0jd8" path="res://character_resource/wizard/wizard_stats.tres" id="3_gkwth"]
 [ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="3_xta8r"]

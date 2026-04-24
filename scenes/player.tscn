@@ -375,9 +375,9 @@ offset_right = -327.0
 offset_bottom = -202.0
 
 [node name="AttributesPanel" parent="CanvasLayer" unique_id=51568401 instance=ExtResource("24_l71n6")]
-offset_left = 136.0
-offset_top = 308.0
-offset_right = 520.0
-offset_bottom = 883.0
+offset_left = 125.0
+offset_top = 330.0
+offset_right = 509.0
+offset_bottom = 905.0
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

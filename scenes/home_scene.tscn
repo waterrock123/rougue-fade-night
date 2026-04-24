@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cllxtynsc4lbc"]
 
 [ext_resource type="Script" uid="uid://b8kgi6128gra1" path="res://scripts/utils/home_scene.gd" id="1_jfeqw"]
-[ext_resource type="Texture2D" uid="uid://cpq4nssrbobgd" path="res://assets/jimeng-2026-04-06-2011-像素风格，游戏插图，上半部分是天空（蓝天白云），天空的中央是一片与蓝天白云截然不..._副本.jpg" id="1_umrym"]
+[ext_resource type="Texture2D" uid="uid://cpq4nssrbobgd" path="res://assets/ai art/jimeng-2026-04-06-2011-像素风格，游戏插图，上半部分是天空（蓝天白云），天空的中央是一片与蓝天白云截然不..._副本.jpg" id="1_umrym"]
 
 [node name="HomeScene" type="Control" unique_id=1600192818]
 layout_mode = 3

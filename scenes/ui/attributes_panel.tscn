@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dnkydavpabyg8" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc658.png" id="6_bb3yk"]
 [ext_resource type="Texture2D" uid="uid://b0m3y5fo7kke7" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc661.png" id="7_dvuvp"]
 [ext_resource type="Texture2D" uid="uid://bgevhu0xs43xd" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc668.png" id="8_r4meh"]
+[ext_resource type="PackedScene" uid="uid://bc2scbgtba2vk" path="res://scenes/ui/player_health_bar.tscn" id="11_bb3yk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qught"]
 bg_color = Color(0.8627451, 0.6039216, 0.45490196, 0.9882353)
@@ -23,8 +24,10 @@ process_mode = 3
 custom_minimum_size = Vector2(200, 250)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 416.0
-offset_bottom = 595.0
+offset_left = 5.0
+offset_top = 2.0
+offset_right = 452.0
+offset_bottom = 715.0
 script = ExtResource("1_qught")
 
 [node name="Panel" type="Panel" parent="." unique_id=149401546]
@@ -32,62 +35,73 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -32.0
-offset_top = -26.0
-offset_right = -32.0
-offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qught")
 
-[node name="GridContainer" type="GridContainer" parent="." unique_id=1424686133]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 1.0
-offset_right = 472.0
-offset_bottom = 551.0
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=439790884]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 150
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 20
+
+[node name="GridContainer" type="GridContainer" parent="Panel/MarginContainer" unique_id=1424686133]
+layout_mode = 2
 theme_override_constants/h_separation = 80
 theme_override_constants/v_separation = 50
 columns = 2
 
-[node name="ConstitutionUI" parent="GridContainer" unique_id=2114268439 instance=ExtResource("1_e10yu")]
+[node name="ConstitutionUI" parent="Panel/MarginContainer/GridContainer" unique_id=2114268439 instance=ExtResource("1_e10yu")]
 layout_mode = 2
 tooltip_text = "体质:影响最大生命值与战斗后恢复生命"
 icon = ExtResource("2_hmpjf")
 attribute = "constitution"
 
-[node name="StrengthUI" parent="GridContainer" unique_id=1071656096 instance=ExtResource("1_e10yu")]
+[node name="StrengthUI" parent="Panel/MarginContainer/GridContainer" unique_id=1071656096 instance=ExtResource("1_e10yu")]
 layout_mode = 2
 tooltip_text = "力量：影响近战攻击与技能的效果"
 icon = ExtResource("3_qught")
 attribute = "strength"
 
-[node name="DexterityUI" parent="GridContainer" unique_id=182613022 instance=ExtResource("1_e10yu")]
+[node name="DexterityUI" parent="Panel/MarginContainer/GridContainer" unique_id=182613022 instance=ExtResource("1_e10yu")]
 layout_mode = 2
 tooltip_text = "敏捷：影响远程攻击和技能的效果"
 icon = ExtResource("4_cjbcj")
 attribute = "dexterity"
 
-[node name="IntelligenceUI" parent="GridContainer" unique_id=1626939705 instance=ExtResource("1_e10yu")]
+[node name="IntelligenceUI" parent="Panel/MarginContainer/GridContainer" unique_id=1626939705 instance=ExtResource("1_e10yu")]
 layout_mode = 2
 tooltip_text = "智慧：影响最大法力值以及法力的恢复量"
 icon = ExtResource("5_v5sqo")
 attribute = "intelligence"
 
-[node name="SpeedUI" parent="GridContainer" unique_id=581965193 instance=ExtResource("1_e10yu")]
+[node name="SpeedUI" parent="Panel/MarginContainer/GridContainer" unique_id=581965193 instance=ExtResource("1_e10yu")]
 layout_mode = 2
 tooltip_text = "速度：影响你的移动速度以及主动技能的冷却缩减"
 icon = ExtResource("6_bb3yk")
 attribute = "speed"
 
-[node name="CharmUI" parent="GridContainer" unique_id=874660177 instance=ExtResource("1_e10yu")]
+[node name="CharmUI" parent="Panel/MarginContainer/GridContainer" unique_id=874660177 instance=ExtResource("1_e10yu")]
 layout_mode = 2
 tooltip_text = "魅力：影响每次进入修整期时商店老板出现好心情的概率，且魅力到达15时所有商品降价一元"
 icon = ExtResource("7_dvuvp")
 attribute = "charm"
 
-[node name="LuckUI" parent="GridContainer" unique_id=1041694755 instance=ExtResource("1_e10yu")]
+[node name="LuckUI" parent="Panel/MarginContainer/GridContainer" unique_id=1041694755 instance=ExtResource("1_e10yu")]
 layout_mode = 2
 tooltip_text = "幸运：影响各种概率事件，暴击率"
 icon = ExtResource("8_r4meh")
 attribute = "luck"
+
+[node name="PlayerHealthBar" parent="Panel" unique_id=1722415680 instance=ExtResource("11_bb3yk")]
+layout_mode = 1
+offset_left = -203.5
+offset_top = -284.5
+offset_right = 192.5
+offset_bottom = -220.5

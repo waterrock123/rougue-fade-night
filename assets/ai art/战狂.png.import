@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1ikfqa348fju"
-path="res://.godot/imported/jimeng-2026-04-12-9756_副本.png-fa85fba0aab4d55a9e1dc46ac457464c.ctex"
+uid="uid://cvp8l8jeu874m"
+path="res://.godot/imported/战狂.png-e06165b7a9b18354301a28f26a38faab.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/jimeng-2026-04-12-9756_副本.png"
-dest_files=["res://.godot/imported/jimeng-2026-04-12-9756_副本.png-fa85fba0aab4d55a9e1dc46ac457464c.ctex"]
+source_file="res://assets/ai art/战狂.png"
+dest_files=["res://.godot/imported/战狂.png-e06165b7a9b18354301a28f26a38faab.ctex"]
 
 [params]
 

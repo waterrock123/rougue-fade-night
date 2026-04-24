@@ -1,0 +1,165 @@
+[gd_scene format=3 uid="uid://cw8i8y3m4u8uf"]
+
+[ext_resource type="Script" uid="uid://cvulv2w1gi01f" path="res://event_room/campfire_room.gd" id="1_2ywd6"]
+[ext_resource type="Texture2D" uid="uid://dbyq7ghpuflx7" path="res://assets/ai art/休憩营地.png" id="2_2ywd6"]
+[ext_resource type="PackedScene" uid="uid://csqwkpx1kbsbr" path="res://event_room/event_button.tscn" id="3_w8bjp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_o06u0"]
+font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_ih8p8"]
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_agvpq"]
+font_size = 20
+font_color = Color(1, 1, 0.19607843, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8p8"]
+bg_color = Color(0.45390636, 0.1925627, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.49455744, 0.18269193, 0.21664724, 0.6)
+
+[node name="CampfireRoom" type="Control" unique_id=652731172]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2ywd6")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=500561060]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.111652605, 0.032517143, 0.08517177, 0.7411765)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=499646323]
+modulate = Color(1, 1, 1, 0.6509804)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 1925.0
+offset_bottom = 1081.0
+texture = ExtResource("2_2ywd6")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="." unique_id=1797618010]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 0
+offset_left = 138.0
+offset_top = 334.0
+offset_right = 838.0
+offset_bottom = 506.0
+size_flags_vertical = 3
+text = "天气阴沉，但你找到了一处遗弃的营地，点亮篝火，你好好地休息了一会儿
+已恢复20%生命值"
+label_settings = SubResource("LabelSettings_o06u0")
+autowrap_mode = 2
+
+[node name="SleepButton" parent="." unique_id=1416983139 instance=ExtResource("3_w8bjp")]
+layout_mode = 0
+offset_left = 157.0
+offset_top = 599.0
+offset_right = 751.0
+offset_bottom = 675.0
+text = ""
+autowrap_mode = 2
+pressed_desc = "又睡了好一会儿，你感觉身上的疲惫已经一扫而空了"
+
+[node name="Label2" type="Label" parent="SleepButton" unique_id=816652215]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -1.0
+offset_right = 220.0
+offset_bottom = 41.0
+text = "再睡一会儿"
+label_settings = SubResource("LabelSettings_ih8p8")
+
+[node name="Label" type="Label" parent="SleepButton" unique_id=1657831646]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 41.0
+offset_right = 404.0
+offset_bottom = 107.0
+text = "恢复20%生命值"
+label_settings = SubResource("LabelSettings_agvpq")
+
+[node name="SharpButton" parent="." unique_id=243612117 instance=ExtResource("3_w8bjp")]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 702.0
+offset_right = 752.0
+offset_bottom = 778.0
+text = ""
+autowrap_mode = 2
+pressed_desc = "乘着空闲时间，你同你的装备好好地磨合了一番"
+
+[node name="Label2" type="Label" parent="SharpButton" unique_id=32079025]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -1.0
+offset_right = 220.0
+offset_bottom = 41.0
+text = "熟练装备"
+label_settings = SubResource("LabelSettings_ih8p8")
+
+[node name="Label" type="Label" parent="SharpButton" unique_id=2083982727]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 43.0
+offset_right = 404.0
+offset_bottom = 109.0
+text = "使一把未进阶的武器进阶"
+label_settings = SubResource("LabelSettings_agvpq")
+
+[node name="AllButton" parent="." unique_id=569287997 instance=ExtResource("3_w8bjp")]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 807.0
+offset_right = 752.0
+offset_bottom = 883.0
+text = ""
+autowrap_mode = 2
+pressed_desc = "你花了点时间给你认识的一位可信的熟人打了个电话。你们约定好售卖事宜，他提前为你拨付了钱款"
+
+[node name="Label2" type="Label" parent="AllButton" unique_id=725714758]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -1.0
+offset_right = 220.0
+offset_bottom = 41.0
+text = "售卖杂物"
+label_settings = SubResource("LabelSettings_ih8p8")
+
+[node name="Label" type="Label" parent="AllButton" unique_id=40450856]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 43.0
+offset_right = 406.0
+offset_bottom = 109.0
+text = "原价出售两件装备"
+label_settings = SubResource("LabelSettings_agvpq")
+
+[node name="LeaveButton" type="Button" parent="." unique_id=1612002407]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 0
+offset_left = 1437.0
+offset_top = 860.0
+offset_right = 1837.0
+offset_bottom = 960.0
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_ih8p8")
+text = "离开"
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

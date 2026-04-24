@@ -7,6 +7,7 @@ extends Control
 @onready var package_ui: PackageUI = $UILayer/PackageUI
 @onready var attributes_panel: AttributesPanel = $UILayer/AttributesPanel
 @onready var shop_controller: ShopController = $UILayer/Shop
+@onready var leave_button: Button = $UILayer/Button
 
 
 func _ready() -> void:
@@ -22,3 +23,22 @@ func _ready() -> void:
 
 	if shop_controller != null:
 		shop_controller.bind_run_stats(run_stats)
+
+	if leave_button != null and not leave_button.pressed.is_connected(_on_leave_button_pressed):
+		leave_button.pressed.connect(_on_leave_button_pressed)
+
+
+func _on_leave_button_pressed() -> void:
+	var run := _get_run()
+	if run != null:
+		run.finish_rest_period()
+
+
+func _get_run() -> Run:
+	var node := get_parent()
+	while node != null:
+		if node is Run:
+			return node as Run
+		node = node.get_parent()
+
+	return null

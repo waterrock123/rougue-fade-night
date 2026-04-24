@@ -59,6 +59,7 @@ func apply_damage(damage_event):
 
 	if stats_controller != null:
 		stats_controller.current_health = current_health
+		stats_controller.sync_runtime_resources()
 
 	if final_damage > 0.0:
 		_show_damage_taken_effect()

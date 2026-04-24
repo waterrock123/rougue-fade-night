@@ -25,3 +25,9 @@ signal attribute_update()
 signal gold_changed()
 #装备购买信号,传递这个装备
 signal buy_equipment(equipment:Relic)
+
+
+#退出地图信号，进入传入的房间的场景
+signal map_exited(room: Room)
+#离开事件房间信号，进入战斗
+signal event_room_exited()

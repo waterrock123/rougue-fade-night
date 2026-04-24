@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://blstc1ajhm3ba"
-path="res://.godot/imported/无垠草原.jpg-e38f47db04bc338292525fbdd579d362.ctex"
+uid="uid://cq4bt3bsxve5c"
+path="res://.godot/imported/草原集市.png-d92065eaab6b0ad0a743205644bf2379.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/无垠草原.jpg"
-dest_files=["res://.godot/imported/无垠草原.jpg-e38f47db04bc338292525fbdd579d362.ctex"]
+source_file="res://assets/ai art/草原集市.png"
+dest_files=["res://.godot/imported/草原集市.png-d92065eaab6b0ad0a743205644bf2379.ctex"]
 
 [params]
 

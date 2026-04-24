@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Character" format=3 uid="uid://bmpv48d3dp6o6"]
 
 [ext_resource type="Script" uid="uid://dx5w85r6ff3q4" path="res://custom_resource/chararcter.gd" id="1_jpjxe"]
-[ext_resource type="Texture2D" uid="uid://cvp8l8jeu874m" path="res://assets/战狂.png" id="1_wxqot"]
+[ext_resource type="Texture2D" uid="uid://cvp8l8jeu874m" path="res://assets/ai art/战狂.png" id="1_wxqot"]
 [ext_resource type="Script" uid="uid://copgj7rv7yvot" path="res://scripts/rest_period/shop_keeper.gd" id="3_j1g56"]
 [ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="3_lkctu"]
 [ext_resource type="Script" uid="uid://bq6potbl53yc6" path="res://scripts/package_system/equipment.gd" id="4_j1g56"]

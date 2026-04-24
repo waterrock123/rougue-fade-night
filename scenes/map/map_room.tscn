@@ -4,7 +4,88 @@
 [ext_resource type="Texture2D" uid="uid://bvs4by2voaaon" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc23.png" id="2_wln44"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w2n1o"]
-radius = 39.115215
+radius = 92.13577
+
+[sub_resource type="Animation" id="Animation_gyfd6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Line2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wln44"]
+resource_name = "hightlight"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.001, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(2, 2), Vector2(2, 2), Vector2(3.5, 3.5), Vector2(2, 2)]
+}
+
+[sub_resource type="Animation" id="Animation_w2n1o"]
+resource_name = "select"
+length = 1.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Line2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.85882354)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.0333333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_on_map_room_selected"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w2iac"]
+_data = {
+&"RESET": SubResource("Animation_gyfd6"),
+&"highlight": SubResource("Animation_wln44"),
+&"select": SubResource("Animation_w2n1o")
+}
 
 [node name="MapRoom" type="Area2D" unique_id=2096387101]
 script = ExtResource("1_gyfd6")
@@ -12,13 +93,21 @@ script = ExtResource("1_gyfd6")
 [node name="Visuals" type="Node2D" parent="." unique_id=228184894]
 
 [node name="Line2D" type="Line2D" parent="Visuals" unique_id=449809382]
-points = PackedVector2Array(-31, 22, 10, 31, 35, 9, 22, -24, -10, -29, -30, -15, -37, 9)
+modulate = Color(1, 1, 1, 0)
+points = PackedVector2Array(-95, 47, -20, 77, 64, 56, 109, -31, 61, -65, -47, -88, -113, 1)
 width = 5.0
 default_color = Color(0.4584623, 0.25785068, 0.06240301, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=208844009]
 texture_filter = 1
+position = Vector2(-2, -1)
 texture = ExtResource("2_wln44")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=796515047]
+position = Vector2(1, 4)
 shape = SubResource("CircleShape2D_w2n1o")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=432123622]
+libraries/ = SubResource("AnimationLibrary_w2iac")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

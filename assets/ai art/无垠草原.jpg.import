@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvp8l8jeu874m"
-path="res://.godot/imported/战狂.png-1c93bab93495db5bc240e5b46a56e8cf.ctex"
+uid="uid://blstc1ajhm3ba"
+path="res://.godot/imported/无垠草原.jpg-b5b46474ad34f568b444b8a047717566.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/战狂.png"
-dest_files=["res://.godot/imported/战狂.png-1c93bab93495db5bc240e5b46a56e8cf.ctex"]
+source_file="res://assets/ai art/无垠草原.jpg"
+dest_files=["res://.godot/imported/无垠草原.jpg-b5b46474ad34f568b444b8a047717566.ctex"]
 
 [params]
 

@@ -9,12 +9,18 @@ const REST_PERIOD_SCENE := preload("res://scenes/rest_period/rest_period.tscn")
 @export var run_stats: RunStats
 
 var player: Player
+var pending_battle_stats: BattleStats
 
 @onready var enemy_spawner: EnemySpawner = $EnemySpawner
 
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player") as Player
+	if run_stats != null and run_stats.player_build != null and player != null:
+		player.bind_player_build(run_stats.player_build)
+
+	if enemy_spawner != null and pending_battle_stats != null:
+		enemy_spawner.battle_stats = pending_battle_stats
 
 	player.player_died.connect(_handle_game_over)
 	if enemy_spawner != null:
@@ -22,6 +28,21 @@ func _ready() -> void:
 
 	AudioController.play_bg_music("battle")
 	EventBus.game_paused.connect(_handle_pause)
+
+
+func setup_run_battle(new_run_stats: RunStats, battle_stats: BattleStats) -> void:
+	run_stats = new_run_stats
+	pending_battle_stats = battle_stats
+
+	var scene_player := get_node_or_null("Player") as Player
+	if scene_player != null and run_stats != null and run_stats.player_build != null:
+		scene_player.stats_data = run_stats.player_build.player_stats
+		scene_player.player_inventory = run_stats.player_build.player_inventory
+		scene_player.player_equipment = run_stats.player_build.player_equipment
+
+	var spawner := get_node_or_null("EnemySpawner") as EnemySpawner
+	if spawner != null:
+		spawner.battle_stats = battle_stats
 
 
 # 玩家战败后的处理。

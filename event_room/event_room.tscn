@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://bybgeg48gyshp"]
+
+[ext_resource type="Script" uid="uid://ck2r82qp6osj7" path="res://script_templates/event_room_template.gd" id="1_foknm"]
+[ext_resource type="Texture2D" uid="uid://de1epsfqbyw36" path="res://assets/ai art/浪子.png" id="2_o06u0"]
+[ext_resource type="PackedScene" uid="uid://csqwkpx1kbsbr" path="res://event_room/event_button.tscn" id="3_ih8p8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_o06u0"]
+font_size = 40
+
+[node name="EventRoom" type="Control" unique_id=652731172]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_foknm")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=500561060]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.111652605, 0.032517143, 0.08517177, 0.7411765)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=499646323]
+modulate = Color(0.35529754, 0.1610159, 0.2971503, 0.7411765)
+layout_mode = 0
+offset_left = 497.0
+offset_top = 66.0
+offset_right = 1805.0
+offset_bottom = 870.0
+texture = ExtResource("2_o06u0")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=132139044]
+layout_mode = 0
+offset_left = 225.0
+offset_top = 407.0
+offset_right = 925.0
+offset_bottom = 735.0
+theme_override_constants/separation = 20
+alignment = 2
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1797618010]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+size_flags_vertical = 3
+text = "你就当这是一串十分长长长的描述吧"
+label_settings = SubResource("LabelSettings_o06u0")
+autowrap_mode = 2
+
+[node name="Button" parent="VBoxContainer" unique_id=1416983139 instance=ExtResource("3_ih8p8")]
+layout_mode = 2
+
+[node name="Button2" parent="VBoxContainer" unique_id=1568876957 instance=ExtResource("3_ih8p8")]
+layout_mode = 2
+
+[node name="LeaveButton" type="Button" parent="." unique_id=1612002407]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

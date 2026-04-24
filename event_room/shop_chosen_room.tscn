@@ -1,0 +1,164 @@
+[gd_scene format=3 uid="uid://b5jbcfrbvaky6"]
+
+[ext_resource type="Script" uid="uid://nunk3obya3g7" path="res://event_room/shop_chosen_room.gd" id="1_cnaib"]
+[ext_resource type="Texture2D" uid="uid://cq4bt3bsxve5c" path="res://assets/ai art/草原集市.png" id="2_cnaib"]
+[ext_resource type="PackedScene" uid="uid://csqwkpx1kbsbr" path="res://event_room/event_button.tscn" id="3_06ifb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_o06u0"]
+font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_ih8p8"]
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_agvpq"]
+font_size = 20
+font_color = Color(1, 1, 0.19607843, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8p8"]
+bg_color = Color(0.45390636, 0.1925627, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.49455744, 0.18269193, 0.21664724, 0.6)
+
+[node name="ShopChosenRoom" type="Control" unique_id=652731172]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cnaib")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=500561060]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.111652605, 0.032517143, 0.08517177, 0.7411765)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=499646323]
+modulate = Color(1, 1, 1, 0.6509804)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 1925.0
+offset_bottom = 1081.0
+texture = ExtResource("2_cnaib")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="." unique_id=1797618010]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 0
+offset_left = 293.0
+offset_top = 331.0
+offset_right = 993.0
+offset_bottom = 504.0
+size_flags_vertical = 3
+text = "你在草原上找到了一处十分静谧的集市，当你走进时发现有几个商人正向着你挥手"
+label_settings = SubResource("LabelSettings_o06u0")
+autowrap_mode = 2
+
+[node name="ShopButton1" parent="." unique_id=1416983139 instance=ExtResource("3_06ifb")]
+layout_mode = 0
+offset_left = 298.0
+offset_top = 596.0
+offset_right = 892.0
+offset_bottom = 672.0
+text = ""
+autowrap_mode = 2
+pressed_desc = "又睡了好一会儿，你感觉身上的疲惫已经一扫而空了"
+
+[node name="Label2" type="Label" parent="ShopButton1" unique_id=816652215]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -1.0
+offset_right = 220.0
+offset_bottom = 41.0
+text = "向{}靠近"
+label_settings = SubResource("LabelSettings_ih8p8")
+
+[node name="Label" type="Label" parent="ShopButton1" unique_id=1657831646]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 41.0
+offset_right = 404.0
+offset_bottom = 107.0
+text = "下个修整期商人将变为出售{}的商人"
+label_settings = SubResource("LabelSettings_agvpq")
+
+[node name="ShopButton2" parent="." unique_id=243612117 instance=ExtResource("3_06ifb")]
+layout_mode = 0
+offset_left = 299.0
+offset_top = 699.0
+offset_right = 893.0
+offset_bottom = 775.0
+text = ""
+autowrap_mode = 2
+pressed_desc = "乘着空闲时间，你同你的装备好好地磨合了一番"
+
+[node name="Label2" type="Label" parent="ShopButton2" unique_id=32079025]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -1.0
+offset_right = 220.0
+offset_bottom = 41.0
+text = "向{}靠近"
+label_settings = SubResource("LabelSettings_ih8p8")
+
+[node name="Label" type="Label" parent="ShopButton2" unique_id=2083982727]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 43.0
+offset_right = 404.0
+offset_bottom = 109.0
+text = "下个修整期商人将变为出售{}的商人"
+label_settings = SubResource("LabelSettings_agvpq")
+
+[node name="ShopButton3" parent="." unique_id=569287997 instance=ExtResource("3_06ifb")]
+layout_mode = 0
+offset_left = 299.0
+offset_top = 804.0
+offset_right = 893.0
+offset_bottom = 880.0
+text = ""
+autowrap_mode = 2
+pressed_desc = "你花了点时间给你认识的一位可信的熟人打了个电话。你们约定好售卖事宜，他提前为你拨付了钱款"
+
+[node name="Label2" type="Label" parent="ShopButton3" unique_id=725714758]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -1.0
+offset_right = 220.0
+offset_bottom = 41.0
+text = "向{}靠近"
+label_settings = SubResource("LabelSettings_ih8p8")
+
+[node name="Label" type="Label" parent="ShopButton3" unique_id=40450856]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 43.0
+offset_right = 406.0
+offset_bottom = 109.0
+text = "下个修整期商人将变为出售{}的商人"
+label_settings = SubResource("LabelSettings_agvpq")
+
+[node name="LeaveButton" type="Button" parent="." unique_id=1612002407]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 0
+offset_left = 1437.0
+offset_top = 860.0
+offset_right = 1837.0
+offset_bottom = 960.0
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_ih8p8")
+text = "离开"
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

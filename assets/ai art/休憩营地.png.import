@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bf7vmhistex31"
-path="res://.godot/imported/贵人.png-758d0991d9e1f318a61fd116129f5029.ctex"
+uid="uid://dbyq7ghpuflx7"
+path="res://.godot/imported/休憩营地.png-af4a0ba2548df83af6b8d34d7a2e4278.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/贵人.png"
-dest_files=["res://.godot/imported/贵人.png-758d0991d9e1f318a61fd116129f5029.ctex"]
+source_file="res://assets/ai art/休憩营地.png"
+dest_files=["res://.godot/imported/休憩营地.png-af4a0ba2548df83af6b8d34d7a2e4278.ctex"]
 
 [params]
 

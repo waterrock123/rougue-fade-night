@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Character" format=3 uid="uid://c282tqgwbadsp"]
 
 [ext_resource type="Script" uid="uid://dx5w85r6ff3q4" path="res://custom_resource/chararcter.gd" id="1_h4k1b"]
-[ext_resource type="Texture2D" uid="uid://de1epsfqbyw36" path="res://assets/浪子.png" id="1_uydww"]
+[ext_resource type="Texture2D" uid="uid://de1epsfqbyw36" path="res://assets/ai art/浪子.png" id="1_uydww"]
 [ext_resource type="Script" uid="uid://copgj7rv7yvot" path="res://scripts/rest_period/shop_keeper.gd" id="3_q840c"]
 [ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="3_x0hmj"]
 [ext_resource type="Resource" uid="uid://wlgt6wqudvrs" path="res://shopkeeper/甲画家.tres" id="4_8bywt"]

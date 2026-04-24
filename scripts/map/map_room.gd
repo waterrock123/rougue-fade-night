@@ -6,12 +6,12 @@ signal selected(room: Room)
 #
 const ICONS := {
 	Room.Type.NOT_ASSIGNED: [null, Vector2.ONE],
-	Room.Type.MONSTER: [preload("res://assets/art/tile_0103.png"), Vector2.ONE],
-	Room.Type.TREASURE: [preload("res://assets/art/tile_0089.png"), Vector2.ONE],
-	Room.Type.CAMPFIRE: [preload("res://assets/art/player_heart.png"), Vector2(0.6, 0.6)],
-	Room.Type.SHOP: [preload("res://assets/art/gold.png"), Vector2(0.6, 0.6)],
-	Room.Type.BOSS: [preload("res://assets/art/tile_0105.png"), Vector2(1.25, 1.25)],
-	Room.Type.EVENT: [preload("res://assets/art/rarity.png"), Vector2(0.9, 0.9)],
+	Room.Type.MONSTER: [preload("res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc226.png"), Vector2(2,2)],
+	Room.Type.TREASURE: [preload("res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc6.png"), Vector2(2,2)],
+	Room.Type.CAMPFIRE: [preload("res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc23.png"), Vector2(2, 2)],
+	Room.Type.SHOP: [preload("res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc25.png"), Vector2(2, 2)],
+	Room.Type.BOSS: [preload("res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc36.png"), Vector2(2.5, 2.5)],
+	Room.Type.EVENT: [preload("res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc13.png"), Vector2(2, 2)],
 }
 
 @onready var sprite_2d: Sprite2D = $Visuals/Sprite2D
