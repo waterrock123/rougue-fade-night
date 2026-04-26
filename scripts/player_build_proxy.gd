@@ -12,6 +12,14 @@ func _ready() -> void:
 	if player_build == null:
 		return
 
+	bind_player_build(player_build)
+
+
+func bind_player_build(new_player_build: PlayerBuild) -> void:
+	player_build = new_player_build
+	if player_build == null:
+		return
+
 	if stats_controller != null:
 		stats_controller.bind_player_build(player_build)
 
@@ -25,15 +33,13 @@ func get_stats_controller() -> StatsController:
 	return stats_controller
 
 
-# 优先从父 RestPeriod 的 run_stats 中拿 player_build。
-# 这样后面接入统一的 run 节点时，这里不用再改结构。
+# 优先向上查找带 run_stats 的父节点，兼容 Run 和 RestPeriod 两种挂载方式。
 func _resolve_player_build() -> void:
-	var rest_period := get_parent()
-	if rest_period == null:
-		return
-
-	if "run_stats" in rest_period:
-		var run_stats = rest_period.run_stats
-		if run_stats != null and run_stats.player_build != null:
-			player_build = run_stats.player_build
-			return
+	var node := get_parent()
+	while node != null:
+		if "run_stats" in node:
+			var resolved_run_stats = node.run_stats
+			if resolved_run_stats != null and resolved_run_stats.player_build != null:
+				player_build = resolved_run_stats.player_build
+				return
+		node = node.get_parent()

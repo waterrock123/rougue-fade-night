@@ -5,8 +5,11 @@
 [ext_resource type="Script" uid="uid://copgj7rv7yvot" path="res://scripts/rest_period/shop_keeper.gd" id="3_j1g56"]
 [ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="3_lkctu"]
 [ext_resource type="Script" uid="uid://bq6potbl53yc6" path="res://scripts/package_system/equipment.gd" id="4_j1g56"]
+[ext_resource type="Resource" uid="uid://wlgt6wqudvrs" path="res://shopkeeper/甲画家.tres" id="4_pld4q"]
 [ext_resource type="Script" uid="uid://dv58keclglu12" path="res://scripts/package_system/inventory.gd" id="5_306uh"]
 [ext_resource type="Resource" uid="uid://b478o2358l6xq" path="res://character_resource/warrior/warrior_stats.tres" id="6_8vju8"]
+[ext_resource type="Resource" uid="uid://07snhhfv258i" path="res://custom_resource/start_shop.tres" id="7_8vju8"]
+[ext_resource type="Resource" uid="uid://clq6naqkf40p0" path="res://custom_resource/common_shop_config.tres" id="8_pld4q"]
 
 [sub_resource type="Resource" id="Resource_pld4q"]
 script = ExtResource("3_lkctu")
@@ -138,4 +141,7 @@ background = ExtResource("1_wxqot")
 start_stats = ExtResource("6_8vju8")
 start_inventory = SubResource("Resource_nuqgh")
 start_equipment = SubResource("Resource_0w04y")
+start_shop = ExtResource("7_8vju8")
+start_shop_config = ExtResource("8_pld4q")
+shop_keeper_pool = Array[ExtResource("3_j1g56")]([ExtResource("4_pld4q")])
 metadata/_custom_type_script = "uid://dx5w85r6ff3q4"

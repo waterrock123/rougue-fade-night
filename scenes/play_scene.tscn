@@ -23,7 +23,6 @@
 [ext_resource type="Script" uid="uid://b5qcrfp85bvm1" path="res://scripts/entity/enemy_spawner.gd" id="17_bx6jv"]
 [ext_resource type="Script" uid="uid://bbp1b6impnqv1" path="res://custom_resource/battle_stats.gd" id="17_ixvqh"]
 [ext_resource type="Script" uid="uid://df3feoy7vmvbw" path="res://custom_resource/battle_wave_data.gd" id="18_ixvqh"]
-[ext_resource type="PackedScene" uid="uid://c2cicmdj7n24" path="res://entity/enemy/mushroom_monster.tscn" id="24_5kjkg"]
 
 [sub_resource type="Resource" id="Resource_q08at"]
 script = ExtResource("5_nu7cg")
@@ -419,9 +418,6 @@ text = "退出"
 script = ExtResource("17_bx6jv")
 battle_stats = SubResource("Resource_hjngv")
 spawn_around = NodePath("../Player")
-
-[node name="MushroomMonster" parent="." unique_id=153655557 instance=ExtResource("24_5kjkg")]
-position = Vector2(-162, 27)
 
 [connection signal="pressed" from="CanvasLayer/UI/PauseBtn" to="." method="_on_pause_btn_pressed"]
 [connection signal="pressed" from="CanvasLayer/UI/PauseMenu/ResumeBtn" to="CanvasLayer/UI/PauseMenu" method="_on_resume_btn_pressed"]

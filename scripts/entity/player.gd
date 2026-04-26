@@ -22,11 +22,11 @@ var spawn_location:Vector2
 var footstep_timer = 0.0
 
 
-@onready var bag_ui:PackageUI = $CanvasLayer/PackageUI
+@onready var bag_ui: PackageUI = get_node_or_null("CanvasLayer/PackageUI") as PackageUI
 @onready var ability_controller: AbilityController = $AbilityController
 @onready var footstep_effect: FootstepEffect = $FootstepEffect
-@onready var package_ui:PackageUI = $CanvasLayer/PackageUI
-@onready var attributes_panel = $CanvasLayer/AttributesPanel
+@onready var package_ui: PackageUI = get_node_or_null("CanvasLayer/PackageUI") as PackageUI
+@onready var attributes_panel: AttributesPanel = get_node_or_null("CanvasLayer/AttributesPanel") as AttributesPanel
 @onready var relic_controller: RelicController = $RelicController
 
 signal player_died(player:Player)
@@ -74,13 +74,15 @@ func _process(delta: float) -> void:
 
 func _handle_ui(player_inventory:Inventory,player_equipment:Equipment):
 	stats_controller.stats_data = stats_data
-	package_ui.bag_inventory = player_inventory
-	package_ui.equipment_inventory = player_equipment
+	if package_ui != null:
+		package_ui.bag_inventory = player_inventory
+		package_ui.equipment_inventory = player_equipment
 	relic_controller.player = self
 	relic_controller.equipment_inventory = player_equipment
 	relic_controller.refresh_all()
-	attributes_panel.stats_controller = stats_controller
-	attributes_panel.setup()
+	if attributes_panel != null:
+		attributes_panel.stats_controller = stats_controller
+		attributes_panel.setup()
 	
 	
 func bind_player_build(player_build: PlayerBuild) -> void:
@@ -187,6 +189,9 @@ func _handle_region_energy(delta: float):
 	
 #切换背包函数
 func toggle_bag():
+	if bag_ui == null or attributes_panel == null:
+		return
+
 	if is_bag_open == true:
 		bag_ui.close_bag()
 		attributes_panel.close_panel()

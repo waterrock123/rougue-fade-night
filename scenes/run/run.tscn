@@ -4,11 +4,25 @@
 [ext_resource type="PackedScene" uid="uid://cj583ge3ox1jx" path="res://scenes/map/map.tscn" id="2_l7o68"]
 [ext_resource type="PackedScene" uid="uid://d2qsc6k4jdm0e" path="res://scenes/package/package_ui.tscn" id="3_o4jfg"]
 [ext_resource type="PackedScene" uid="uid://xg2yg0ufepbu" path="res://scenes/ui/attributes_panel.tscn" id="4_gqbdr"]
+[ext_resource type="Script" uid="uid://buv7s01oyxdfh" path="res://scripts/player_build_proxy.gd" id="5_sbrde"]
+[ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="6_0v3m8"]
+[ext_resource type="Script" uid="uid://dlii28m125ylw" path="res://scripts/relic/relic_controller.gd" id="7_0qk61"]
 
 [node name="Run" type="Node" unique_id=1441645540]
 script = ExtResource("1_l7o68")
 
 [node name="CurrentView" type="Node" parent="." unique_id=2015609532]
+
+[node name="PlayerBuildProxy" type="Node" parent="." unique_id=1833172449]
+script = ExtResource("5_sbrde")
+
+[node name="StatsController" type="Node" parent="PlayerBuildProxy" unique_id=738287407]
+script = ExtResource("6_0v3m8")
+metadata/_custom_type_script = "uid://rm4yfg5qu4vg"
+
+[node name="RelicController" type="Node" parent="PlayerBuildProxy" unique_id=1730062972]
+script = ExtResource("7_0qk61")
+metadata/_custom_type_script = "uid://dlii28m125ylw"
 
 [node name="TopBar" type="CanvasLayer" parent="." unique_id=1556890237]
 layer = 3
@@ -51,3 +65,5 @@ offset_left = 174.0
 offset_top = 186.0
 offset_right = 590.0
 offset_bottom = 891.0
+
+[connection signal="pressed" from="TopBar/PackageButton" to="." method="_on_package_button_pressed"]

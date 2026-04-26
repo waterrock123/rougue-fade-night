@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="1_r0jc5"]
 [ext_resource type="Script" uid="uid://tv2ugdiy66fm" path="res://scripts/rest_period/shop/shop.gd" id="2_afrfu"]
+[ext_resource type="Resource" uid="uid://wlgt6wqudvrs" path="res://shopkeeper/甲画家.tres" id="3_afrfu"]
 
 [sub_resource type="Resource" id="Resource_r0jc5"]
 script = ExtResource("1_r0jc5")
@@ -22,4 +23,5 @@ metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 [resource]
 script = ExtResource("2_afrfu")
 current_slot = Array[ExtResource("1_r0jc5")]([SubResource("Resource_r0jc5"), SubResource("Resource_afrfu"), SubResource("Resource_e7m4w"), SubResource("Resource_fc3h0")])
+shopkeeper = ExtResource("3_afrfu")
 metadata/_custom_type_script = "uid://tv2ugdiy66fm"

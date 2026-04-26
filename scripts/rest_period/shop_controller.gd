@@ -30,9 +30,18 @@ func bind_run_stats(new_run_stats: RunStats) -> void:
 	_update_shop_ui()
 
 
+# 允许外部把本局共享的商店状态和配置绑定进来。
+# 这里不 duplicate，目的是让修整期里对商店的修改直接沉淀到 RunStats 中。
+func bind_shop_runtime(new_shop: Shop, new_shop_config: ShopConfig) -> void:
+	shop = new_shop
+	shop_config = new_shop_config
+	_bind_runtime_data()
+	_initialize_shop()
+
+
 # 进入商店时初始化数据、按钮数量和商品内容。
 func _initialize_shop() -> void:
-	if shop == null:
+	if shop == null or shop_config == null:
 		return
 
 	shop.ensure_slot_count()

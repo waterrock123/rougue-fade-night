@@ -57,6 +57,9 @@ func open_bag(player_inventroy: Inventory, player_equipment: Equipment):
 	set_player_inventory(player_inventroy)
 	set_player_equipment(player_equipment)
 
+	if bag_inventory == null or equipment_inventory == null:
+		return
+
 	if EventBus.equipment_update.is_connected(equipment_update):
 		EventBus.equipment_update.disconnect(equipment_update)
 	EventBus.equipment_update.connect(equipment_update)
@@ -84,6 +87,9 @@ func _input(event: InputEvent) -> void:
 
 # 把装备栏库存数据同步到 UI。
 func equipment_update():
+	if equipment_inventory == null:
+		return
+
 	if equipment_inventory.equip_slots.size() != equipment_slots.size():
 		return
 
@@ -108,6 +114,9 @@ func equipment_update():
 
 # 把背包库存数据同步到 UI。
 func bag_update():
+	if bag_inventory == null:
+		return
+
 	if bag_inventory.slots.size() != bag_slots.size():
 		return
 
