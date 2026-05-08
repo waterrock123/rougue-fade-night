@@ -21,6 +21,8 @@ metadata/_custom_type_script = "uid://cfgrgm03strrd"
 
 [node name="WeaponThrownAbility" type="Node" unique_id=1060057010]
 script = ExtResource("1_5xggd")
+id = "003"
+ability_name = "投斧"
 icon_texture = ExtResource("2_qwrdl")
 cooldown = 3.0
 energy_cost = 20.0

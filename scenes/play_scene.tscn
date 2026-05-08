@@ -9,9 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b3va48vjuatnw" path="res://assets/Cute_Fantasy_Free/Tiles/Path_Tile.png" id="4_a0jw4"]
 [ext_resource type="Resource" uid="uid://b478o2358l6xq" path="res://character_resource/warrior/warrior_stats.tres" id="4_ki1q6"]
 [ext_resource type="Texture2D" uid="uid://bt7oohlldfjov" path="res://assets/Cute_Fantasy_Free/Outdoor decoration/Outdoor_Decor_Free.png" id="5_5i074"]
-[ext_resource type="Script" uid="uid://dslu3weaxu5uy" path="res://custom_resource/player_bulid.gd" id="5_nu7cg"]
 [ext_resource type="PackedScene" uid="uid://gelec3ahehiy" path="res://entity/enemy/skeleton.tscn" id="6_da3qe"]
-[ext_resource type="Script" uid="uid://c20r6sitt53pf" path="res://scripts/run/run_stats.gd" id="6_wbuyy"]
 [ext_resource type="PackedScene" uid="uid://cew35ky6fcbff" path="res://entity/enemy/demon_mouse.tscn" id="8_7pyap"]
 [ext_resource type="PackedScene" uid="uid://dku861bpxyvin" path="res://scenes/ui/spell_bar.tscn" id="8_741iy"]
 [ext_resource type="Texture2D" uid="uid://mt6w21xdehqc" path="res://assets/UI/health_bar_main.png" id="9_0auek"]
@@ -20,22 +18,10 @@
 [ext_resource type="Script" uid="uid://bmeo8rojg2pfk" path="res://scripts/utils/player_health_bar_.gd" id="12_63tcr"]
 [ext_resource type="Script" uid="uid://08t38n6jwt2o" path="res://scripts/utils/player_energy_bar_.gd" id="13_qhxom"]
 [ext_resource type="Script" uid="uid://b03dmnu2j2oo1" path="res://scripts/utils/pause_menu.gd" id="14_dta8y"]
+[ext_resource type="PackedScene" uid="uid://bv8pww3kx7k3a" path="res://scenes/ui/passive_skill_bar.tscn" id="17_6sm6u"]
 [ext_resource type="Script" uid="uid://b5qcrfp85bvm1" path="res://scripts/entity/enemy_spawner.gd" id="17_bx6jv"]
 [ext_resource type="Script" uid="uid://bbp1b6impnqv1" path="res://custom_resource/battle_stats.gd" id="17_ixvqh"]
 [ext_resource type="Script" uid="uid://df3feoy7vmvbw" path="res://custom_resource/battle_wave_data.gd" id="18_ixvqh"]
-
-[sub_resource type="Resource" id="Resource_q08at"]
-script = ExtResource("5_nu7cg")
-player_stats = ExtResource("4_ki1q6")
-player_inventory = ExtResource("3_5kjkg")
-player_equipment = ExtResource("2_053dl")
-metadata/_custom_type_script = "uid://dslu3weaxu5uy"
-
-[sub_resource type="Resource" id="Resource_h65fk"]
-script = ExtResource("6_wbuyy")
-gold = 5
-player_build = SubResource("Resource_q08at")
-metadata/_custom_type_script = "uid://c20r6sitt53pf"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5i074"]
 texture = ExtResource("3_a0jw4")
@@ -188,14 +174,12 @@ events = [SubResource("InputEventKey_qhxom")]
 script = ExtResource("17_ixvqh")
 packed_enemies = Array[PackedScene]([ExtResource("8_7pyap"), ExtResource("6_da3qe")])
 max_enemies = 8
-metadata/_custom_type_script = "uid://by605mkhdx675"
 
 [node name="PlayScene" type="Node2D" unique_id=1148986753 node_paths=PackedStringArray("screen_transition", "player_health_bar", "pause_menu")]
 script = ExtResource("1_btd5q")
 screen_transition = NodePath("CanvasLayer/ColorRect")
 player_health_bar = NodePath("CanvasLayer/UI/PlayerHealthBar")
 pause_menu = NodePath("CanvasLayer/UI/PauseMenu")
-run_stats = SubResource("Resource_h65fk")
 
 [node name="Player" parent="." unique_id=1246165029 node_paths=PackedStringArray("spell_bar") instance=ExtResource("3_1p5oe")]
 unique_name_in_owner = true
@@ -252,10 +236,10 @@ mouse_filter = 2
 
 [node name="SpellBar" parent="CanvasLayer/UI" unique_id=107561432 instance=ExtResource("8_741iy")]
 layout_mode = 1
-offset_left = -47.0
-offset_top = -239.99994
-offset_right = 709.0
-offset_bottom = -40.0
+offset_left = -72.0
+offset_top = -315.0
+offset_right = 684.0
+offset_bottom = -115.00006
 scale = Vector2(0.6, 0.6)
 
 [node name="PlayerImage" type="Control" parent="CanvasLayer/UI" unique_id=365419589]
@@ -413,6 +397,13 @@ layout_mode = 2
 mouse_filter = 1
 theme_override_font_sizes/font_size = 35
 text = "退出"
+
+[node name="PassiveSkillBar" parent="CanvasLayer/UI" unique_id=2132894186 instance=ExtResource("17_6sm6u")]
+layout_mode = 0
+offset_left = 536.0
+offset_top = 845.0
+offset_right = 596.0
+offset_bottom = 965.0
 
 [node name="EnemySpawner" type="Node" parent="." unique_id=258742830 node_paths=PackedStringArray("spawn_around")]
 script = ExtResource("17_bx6jv")

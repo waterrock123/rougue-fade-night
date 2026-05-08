@@ -5,6 +5,7 @@ extends Node
 
 @onready var stats_controller: StatsController = $StatsController
 @onready var relic_controller: RelicController = $RelicController
+@onready var skill_controller: SkillController = $SkillController
 
 
 func _ready() -> void:
@@ -28,9 +29,16 @@ func bind_player_build(new_player_build: PlayerBuild) -> void:
 		relic_controller.equipment_inventory = player_build.player_equipment
 		relic_controller.refresh_all()
 
+	if skill_controller != null:
+		skill_controller.bind_player_build(player_build)
+
 
 func get_stats_controller() -> StatsController:
 	return stats_controller
+
+
+func get_skill_controller() -> SkillController:
+	return skill_controller
 
 
 # 优先向上查找带 run_stats 的父节点，兼容 Run 和 RestPeriod 两种挂载方式。

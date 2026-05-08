@@ -1,16 +1,27 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b8btces00enjb"]
 
 [ext_resource type="Texture2D" uid="uid://whh20yvsrwc8" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc106.png" id="1_6yacv"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_euawk"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_u6cck"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="2_8g1ou"]
+
+[sub_resource type="Resource" id="Resource_k731q"]
+script = ExtResource("2_8g1ou")
+add_stats = {
+"luck": 1.0
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
 
 [resource]
 script = ExtResource("1_u6cck")
-price = 3
 relic_name = "兑换券"
-level = 1
-id = "005"
 icon = ExtResource("1_6yacv")
 tooltip = "幸运+1，出售时立即免费刷新一次商店
-升级： 幸运+1，出售时获得一次免费的刷新机会
+升级： 出售时效果变为获得一次免费刷新
 "
+desc = "某种兑换卷，可以把它交给商人补充货物"
+price = 3
+level = 1
+id = "005"
+effects = Array[ExtResource("1_euawk")]([SubResource("Resource_k731q"), null])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

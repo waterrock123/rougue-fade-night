@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3 uid="uid://dd7dtv52dipv4"]
+
+[ext_resource type="Script" uid="uid://dm8dhxlxlwiq4" path="res://scripts/skill/passive_skill_effect.gd" id="1_1fhl4"]
+[ext_resource type="Script" uid="uid://duduak1r8l3a0" path="res://scripts/skill/passive_add_primary_stat_effect.gd" id="2_2x2p5"]
+[ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_wtamy"]
+[ext_resource type="Texture2D" uid="uid://dce7s2w2085gf" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb609.png" id="3_vqw7s"]
+
+[sub_resource type="Resource" id="Resource_yo1t2"]
+script = ExtResource("2_2x2p5")
+add_stats = {
+&"constitution": 3,
+&"strength": 2
+}
+metadata/_custom_type_script = "uid://duduak1r8l3a0"
+
+[resource]
+script = ExtResource("2_wtamy")
+effects = Array[ExtResource("1_1fhl4")]([SubResource("Resource_yo1t2")])
+id = &"002"
+skill_name = "强健肉体"
+desc = "体质+3，力量+2"
+icon = ExtResource("3_vqw7s")
+metadata/_custom_type_script = "uid://crxnh0qcjcfth"

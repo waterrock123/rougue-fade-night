@@ -40,6 +40,10 @@ window/stretch/mode="canvas_items"
 
 project/assembly_name="类吸血鬼幸存者"
 
+[global_group]
+
+run=""
+
 [input]
 
 leftmove={

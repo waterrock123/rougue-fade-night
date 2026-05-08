@@ -2,15 +2,34 @@
 
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_ite76"]
 [ext_resource type="Texture2D" uid="uid://dpljfndxehfqw" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1952.png" id="1_s5778"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_vpi15"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="2_8f7j6"]
+
+[sub_resource type="Resource" id="Resource_5tmue"]
+script = ExtResource("2_8f7j6")
+add_stats = {
+"speed": 1
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
+
+[sub_resource type="Resource" id="Resource_2lp4g"]
+script = ExtResource("2_8f7j6")
+add_stats = {
+"speed": 1
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
 
 [resource]
 script = ExtResource("1_ite76")
-price = 3
 relic_name = "布鞋"
-level = 1
-id = "006"
 icon = ExtResource("1_s5778")
 tooltip = " 速度+1
-升级：速度+2
+升级：速度额外+1
 "
+desc = "轻便舒适"
+price = 3
+level = 1
+id = "006"
+effects = Array[ExtResource("1_vpi15")]([SubResource("Resource_5tmue")])
+great_effects = Array[ExtResource("1_vpi15")]([SubResource("Resource_2lp4g")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

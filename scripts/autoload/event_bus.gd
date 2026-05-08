@@ -11,6 +11,10 @@ signal player_energy_changed(current_energy: float,max_energy:float)
 signal game_paused(paused: bool)
 #场景变更信号
 signal  scene_changed(scene: String)
+#战斗胜利信号
+signal battle_win()
+#战斗失败信号
+signal battle_lost()
 #打开背包信号 
 signal change_bag()
 #背包库存更新信号，背包库存数据发生变化时，发送这个信号，通知UI同步更新

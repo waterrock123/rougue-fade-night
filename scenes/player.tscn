@@ -6,17 +6,15 @@
 [ext_resource type="Texture2D" uid="uid://dw8fc63xsbh05" path="res://assets/AnimationSheet_Character.png" id="2_onrkg"]
 [ext_resource type="AudioStream" uid="uid://dko82pr0rywo4" path="res://assets/Sound/Dirt Walk 2.wav" id="3_f1ej7"]
 [ext_resource type="Script" uid="uid://cifh43jnsuld4" path="res://scripts/ability/core/ability_controller.gd" id="3_hqtel"]
-[ext_resource type="PackedScene" uid="uid://bkad3ppamt8x1" path="res://scenes/ability/slash_ability.tscn" id="4_2hs0m"]
 [ext_resource type="AudioStream" uid="uid://btpd18kk1beig" path="res://assets/Sound/Dirt Walk 3.wav" id="4_oprun"]
 [ext_resource type="AudioStream" uid="uid://befjyyf6renoa" path="res://assets/Sound/Dirt Walk 4.wav" id="5_a8ls1"]
-[ext_resource type="PackedScene" uid="uid://dbu2imgeyfp3t" path="res://scenes/ability/weapon_thrown_ability.tscn" id="6_fjrip"]
 [ext_resource type="AudioStream" uid="uid://skd8umn7fos7" path="res://assets/Sound/Dirt Walk 5.wav" id="6_qfm1y"]
 [ext_resource type="Texture2D" uid="uid://btc6x746w7abe" path="res://assets/meleeAttack_plusCharacters.png" id="6_tuyoq"]
 [ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="7_fulsm"]
-[ext_resource type="PackedScene" uid="uid://5uxluclcqj3n" path="res://scenes/ability/dash_ability.tscn" id="13_oprun"]
 [ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="14_a8ls1"]
 [ext_resource type="Script" uid="uid://b0c3hw6lsf13w" path="res://scripts/utils/footstep_effect.gd" id="14_f1ej7"]
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="16_stats"]
+[ext_resource type="Script" uid="uid://sfev31qv680q" path="res://scripts/skill/skill_controller.gd" id="17_skill"]
 [ext_resource type="Script" uid="uid://dlii28m125ylw" path="res://scripts/relic/relic_controller.gd" id="20_ke2ow"]
 
 [sub_resource type="Resource" id="Resource_4r5pv"]
@@ -285,21 +283,14 @@ autoplay = "idle"
 [node name="AbilityController" type="Node" parent="." unique_id=1535845309]
 script = ExtResource("3_hqtel")
 
-[node name="Slash" parent="AbilityController" unique_id=1784123215 instance=ExtResource("4_2hs0m")]
-cooldown = 0.5
-energy_cost = 0.0
-
-[node name="WeaponThrownAbility" parent="AbilityController" unique_id=1060057010 instance=ExtResource("6_fjrip")]
-cooldown = 2.0
-energy_cost = 10.0
-
-[node name="DashAbility" parent="AbilityController" unique_id=1517353635 instance=ExtResource("13_oprun")]
-
 [node name="StatsController" type="Node" parent="." unique_id=530816127]
 script = ExtResource("14_a8ls1")
 
 [node name="RelicController" type="Node" parent="." unique_id=566204184]
 script = ExtResource("20_ke2ow")
+
+[node name="SkillController" type="Node" parent="." unique_id=1506220123]
+script = ExtResource("17_skill")
 
 [node name="ModifierHandler" type="Node" parent="." unique_id=852903705]
 script = ExtResource("16_stats")

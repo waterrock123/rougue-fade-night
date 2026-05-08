@@ -21,3 +21,12 @@ func register_ability(ability:Ability,idx: int):
 	if idx >=0 and idx < spell_buttons.size():
 		var spell_button = spell_buttons[idx]
 		spell_button.set_ability(ability)
+
+
+func refresh_from_controller(ability_controller: AbilityController):
+	if ability_controller == null:
+		return
+
+	for idx in range(spell_buttons.size()):
+		var ability := ability_controller.abilities[idx] if idx < ability_controller.abilities.size() else null
+		spell_buttons[idx].set_ability(ability)

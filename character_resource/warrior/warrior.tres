@@ -10,6 +10,10 @@
 [ext_resource type="Resource" uid="uid://b478o2358l6xq" path="res://character_resource/warrior/warrior_stats.tres" id="6_8vju8"]
 [ext_resource type="Resource" uid="uid://07snhhfv258i" path="res://custom_resource/start_shop.tres" id="7_8vju8"]
 [ext_resource type="Resource" uid="uid://clq6naqkf40p0" path="res://custom_resource/common_shop_config.tres" id="8_pld4q"]
+[ext_resource type="Script" uid="uid://bdqgkeyiw7nj6" path="res://scripts/skill/skill_entry.gd" id="10_fobq8"]
+[ext_resource type="PackedScene" uid="uid://bkad3ppamt8x1" path="res://scenes/ability/slash_ability.tscn" id="11_k6upo"]
+[ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="12_5lh6f"]
+[ext_resource type="Texture2D" uid="uid://cv8dihitldu1i" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc727.png" id="12_k6upo"]
 
 [sub_resource type="Resource" id="Resource_pld4q"]
 script = ExtResource("3_lkctu")
@@ -133,15 +137,34 @@ script = ExtResource("5_306uh")
 slots = Array[ExtResource("3_lkctu")]([SubResource("Resource_watg2"), SubResource("Resource_sfcnn"), SubResource("Resource_trvhb"), SubResource("Resource_yyuua"), SubResource("Resource_t20s8"), SubResource("Resource_snmal"), SubResource("Resource_vipvm"), SubResource("Resource_aj1rf"), SubResource("Resource_ybits"), SubResource("Resource_0ptv7"), SubResource("Resource_7nhsb"), SubResource("Resource_8lidg"), SubResource("Resource_5myit"), SubResource("Resource_hsfrl"), SubResource("Resource_5mv6t"), SubResource("Resource_yk8vt"), SubResource("Resource_nnwuw"), SubResource("Resource_p22ln"), SubResource("Resource_65djh"), SubResource("Resource_27qu6"), SubResource("Resource_iabjv")])
 metadata/_custom_type_script = "uid://dv58keclglu12"
 
+[sub_resource type="Resource" id="Resource_ee1wb"]
+script = ExtResource("12_5lh6f")
+ability_scene = ExtResource("11_k6upo")
+base_cooldown = 0.5
+slot_type = &"Active"
+id = &"001"
+skill_name = "基础攻击-挥砍"
+desc = "最基本的攻击"
+icon = ExtResource("12_k6upo")
+metadata/_custom_type_script = "uid://bq1obcmna3x2j"
+
+[sub_resource type="Resource" id="Resource_t2vtr"]
+script = ExtResource("10_fobq8")
+skill_data = SubResource("Resource_ee1wb")
+slot_index = 0
+metadata/_custom_type_script = "uid://bdqgkeyiw7nj6"
+
 [resource]
 script = ExtResource("1_jpjxe")
 character_name = "战狂"
 description = "武器大师，狂战士，嗜血狂魔，不管用什么称呼他都掩盖不了其享受战斗的本质。接下来，他要挑战最强者。"
 background = ExtResource("1_wxqot")
 start_stats = ExtResource("6_8vju8")
+start_skill = SubResource("Resource_t2vtr")
 start_inventory = SubResource("Resource_nuqgh")
 start_equipment = SubResource("Resource_0w04y")
 start_shop = ExtResource("7_8vju8")
 start_shop_config = ExtResource("8_pld4q")
 shop_keeper_pool = Array[ExtResource("3_j1g56")]([ExtResource("4_pld4q")])
+main_attributes = Array[StringName]([&"strength", &"constitution"])
 metadata/_custom_type_script = "uid://dx5w85r6ff3q4"

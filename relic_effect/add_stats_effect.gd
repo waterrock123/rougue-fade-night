@@ -10,7 +10,10 @@ extends RelicEffect
 
 
 # 装备生效时，把这件遗物提供的属性加成注册到 StatsController。
-func on_activate(owner, relic_controller: RelicController = null, effect_key: String = "") -> void:
+func on_activate(relic_context:RelicContext,effect_key) -> void:
+	var owner = relic_context.owner
+	var relic_controller = relic_context.relic_controller
+	
 	var stats_controller := _get_stats_controller(owner, relic_controller)
 	if stats_controller == null:
 		return
@@ -20,7 +23,9 @@ func on_activate(owner, relic_controller: RelicController = null, effect_key: St
 
 
 # 卸下装备时，移除这件遗物注册过的属性加成。
-func on_deactivate(owner, relic_controller: RelicController = null, effect_key: String = "") -> void:
+func on_deactivate(relic_context:RelicContext,effect_key) -> void:
+	var owner = relic_context.owner
+	var relic_controller = relic_context.relic_controller
 	var stats_controller := _get_stats_controller(owner, relic_controller)
 	if stats_controller == null:
 		return

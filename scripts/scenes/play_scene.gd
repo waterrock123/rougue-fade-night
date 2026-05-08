@@ -12,17 +12,21 @@ var player: Player
 var pending_battle_stats: BattleStats
 
 @onready var enemy_spawner: EnemySpawner = $EnemySpawner
+@onready var spell_bar: SpellBar = $CanvasLayer/UI/SpellBar
+@onready var passive_skill_bar: PassiveSkillBar = $CanvasLayer/UI/PassiveSkillBar
 
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player") as Player
 	if run_stats != null and run_stats.player_build != null and player != null:
 		player.bind_player_build(run_stats.player_build)
+	_refresh_skill_ui()
 
 	if enemy_spawner != null and pending_battle_stats != null:
 		enemy_spawner.battle_stats = pending_battle_stats
 
-	player.player_died.connect(_handle_game_over)
+	if player != null and not player.player_died.is_connected(_handle_game_over):
+		player.player_died.connect(_handle_game_over)
 	if enemy_spawner != null:
 		enemy_spawner.battle_completed.connect(_handle_battle_completed)
 
@@ -46,39 +50,31 @@ func setup_run_battle(new_run_stats: RunStats, battle_stats: BattleStats) -> voi
 
 
 # 玩家战败后的处理。
-# 当前逻辑还是原来的“原地复活”流程，没有结束这一局。
+# 玩家死亡后不再原地复活，而是交给 Run 打开死亡界面。
 func _handle_game_over(dead_player: Player) -> void:
 	var tween:Tween = fade_in_overlay()
 	await tween.finished
-	dead_player.position = dead_player.spawn_location
-
-	tween = await fade_out_overlay()
-	await tween.finished
-
-	dead_player.current_health = dead_player.max_health
-	dead_player.current_energy = dead_player.max_energy
-	if dead_player.stats_controller != null:
-		dead_player.stats_controller.current_health = dead_player.current_health
-		dead_player.stats_controller.current_energy = dead_player.current_energy
-
-	dead_player.is_dead = false
-	EventBus.player_health_changed.emit(dead_player.current_health, dead_player.max_health)
+	_sync_player_build_state()
+	EventBus.battle_lost.emit()
 
 
 # 当 EnemySpawner 判断整场战斗已经完成时触发。
 # 这里会先把当前玩家状态写回构筑数据，再切去修整期。
 func _handle_battle_completed() -> void:
+	_restore_health_after_battle()
 	_sync_player_build_state()
 	var tween:Tween = fade_in_overlay()
 	await tween.finished
-
-	var run := _get_run()
-	if run != null:
-		run.change_to_rest_period()
-		return
-
-	EventBus.scene_changed.emit("rest_period")
-	get_tree().change_scene_to_packed(REST_PERIOD_SCENE)
+	
+	
+	EventBus.battle_win.emit()
+	#var run := _get_run()
+	#if run != null:
+		#run.change_to_rest_period()
+		#
+		#return
+#
+	#EventBus.scene_changed.emit("rest_period")
 
 
 # 屏幕淡出。
@@ -128,6 +124,31 @@ func _sync_player_build_state() -> void:
 
 	run_stats.player_build.current_health = player.current_health
 	run_stats.player_build.current_energy = player.current_energy
+
+
+# 每场战斗胜利后，按照当前体质点数恢复生命值。
+func _restore_health_after_battle() -> void:
+	if player == null or player.stats_controller == null:
+		return
+
+	var heal_amount := player.stats_controller.get_stat(&"constitution")
+	if heal_amount <= 0.0:
+		return
+
+	player.current_health = min(player.current_health + heal_amount, player.max_health)
+	player.stats_controller.current_health = player.current_health
+	player.stats_controller.sync_runtime_resources()
+	EventBus.player_health_changed.emit(player.current_health, player.max_health)
+
+
+# 进入战斗时刷新主动技能栏与被动技能栏，保证 UI 使用本局 PlayerBuild 的技能数据。
+func _refresh_skill_ui() -> void:
+	if player != null and spell_bar != null and player.ability_controller != null:
+		spell_bar.refresh_from_controller(player.ability_controller)
+
+	if passive_skill_bar != null:
+		var player_build := run_stats.player_build if run_stats != null else null
+		passive_skill_bar.refresh_from_player_build(player_build)
 
 
 # 向上查找当前 PlayScene 是否挂在 Run 节点下面。

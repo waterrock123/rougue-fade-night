@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bv8pww3kx7k3a"]
+
+[ext_resource type="PackedScene" uid="uid://dy01r4ver61x1" path="res://scenes/ui/passive_skill_ui.tscn" id="1_xxrwk"]
+[ext_resource type="Script" path="res://scripts/utils/passive_skill_bar.gd" id="2_xxrwk"]
+
+[node name="PassiveSkillBar" type="PanelContainer" unique_id=2132894186 node_paths=PackedStringArray("button_container")]
+offset_left = 83.0
+offset_top = 909.0
+offset_right = 143.0
+offset_bottom = 1029.0
+script = ExtResource("2_xxrwk")
+button_container = NodePath("MarginContainer/VBoxContainer")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1978427972]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1870676593]
+custom_minimum_size = Vector2(50, 110)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PassiveSkillUI" parent="MarginContainer/VBoxContainer" unique_id=919138493 instance=ExtResource("1_xxrwk")]
+layout_mode = 2
+
+[node name="PassiveSkillUI2" parent="MarginContainer/VBoxContainer" unique_id=1515704226 instance=ExtResource("1_xxrwk")]
+layout_mode = 2

@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://hh4l72tudqw7"]
+
+[ext_resource type="Script" uid="uid://c6p7heck63r38" path="res://scripts/level_up/skill_tool_tip_panel.gd" id="1_skill"]
+
+[node name="SkillToolTipPanel" type="PanelContainer" unique_id=2089106612]
+custom_minimum_size = Vector2(360, 180)
+script = ExtResource("1_skill")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1863962973]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1164503849]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=1013335277]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=552296754]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=2127340293]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Skill"
+
+[node name="LevelLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=541959780]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Lv.1"
+
+[node name="DescLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=696806083]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(252, 70)
+layout_mode = 2
+text = "Desc"
+autowrap_mode = 3

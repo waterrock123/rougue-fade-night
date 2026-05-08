@@ -92,7 +92,7 @@ func get_level_data(level: int) -> ShopLevelData:
 
 
 # 手动刷新商店商品。
-# 被冻结的格子保留原商品，其余格子从 shopkeeper 商品池中随机填充。
+# 主动刷新优先级高于冻结：会先解除所有冻结，再重新生成商品。
 func refresh() -> void:
 	if shop == null or shop.shopkeeper == null or run_stats == null:
 		return
@@ -103,6 +103,7 @@ func refresh() -> void:
 		return
 
 	run_stats.set_gold(run_stats.gold - refresh_cost)
+	shop.clear_all_frozen()
 	_roll_slots(0)
 	_sync_shop_ui()
 	_update_shop_ui()
@@ -110,18 +111,28 @@ func refresh() -> void:
 
 # 切换所有商店商品的冻结状态。
 func frezee() -> void:
-	if shop_slots.is_empty():
+	if shop == null or shop_slots.is_empty():
 		return
 
+	# 只让有商品的格子参与冻结判断，避免买空的格子把整体状态卡死。
+	var has_filled_slot := false
 	var should_freeze := false
 	for slot_button in shop_slots:
+		if slot_button.is_empty():
+			continue
+
+		has_filled_slot = true
 		if not slot_button.is_frozen:
 			should_freeze = true
 			break
 
+	if not has_filled_slot:
+		return
+
 	for slot_button in shop_slots:
 		if not slot_button.is_empty():
 			slot_button.set_frozen(should_freeze)
+			shop.set_slot_frozen(slot_button.slot_index, should_freeze)
 
 
 # 处理购买逻辑：双击商品格购买，并将遗物塞进库存的第一个空位。
@@ -147,6 +158,7 @@ func buy_relic(slot_index: int) -> void:
 	run_stats.set_gold(run_stats.gold - relic.price)
 	EventBus.buy_equipment.emit(relic)
 	slot_.item = null
+	shop.set_slot_frozen(slot_index, false)
 
 	var slot_button := shop_slots[slot_index]
 	slot_button.set_frozen(false)
@@ -236,6 +248,7 @@ func _sync_shop_ui() -> void:
 			shop.current_slot[slot_index] = slot_
 
 		shop_slots[slot_index].set_slot(slot_)
+		shop_slots[slot_index].set_frozen(shop.is_slot_frozen(slot_index))
 
 
 # 把指定范围内的格子重新随机补货。
@@ -255,11 +268,7 @@ func _roll_slots(start_index: int) -> void:
 			slot_ = Slot.new()
 			shop.current_slot[slot_index] = slot_
 
-		var slot_button: ShopEquipButton = null
-		if slot_index < shop_slots.size():
-			slot_button = shop_slots[slot_index]
-
-		if slot_button != null and slot_button.is_frozen:
+		if shop.is_slot_frozen(slot_index):
 			continue
 
 		slot_.item = _pick_random_relic(candidate_relics)

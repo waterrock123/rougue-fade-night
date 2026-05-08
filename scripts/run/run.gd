@@ -2,7 +2,9 @@ class_name Run
 extends Node
 
 const PLAY_SCENE_PATH := "res://scenes/play_scene.tscn"
+const LEVEL_UP_SCENE_PATH := "res://scenes/ability/level_up_controller.tscn"
 const REST_SCENE_PATH := "res://scenes/rest_period/rest_period.tscn"
+const DEATH_SCENE_PATH := "res://scenes/ui/death_screen.tscn"
 
 # 角色选择界面切场景后，会先把本次开局数据暂存在这里。
 static var pending_startup: RunStartup
@@ -14,6 +16,8 @@ static var pending_startup: RunStartup
 @onready var player_build_proxy: PlayerBuildProxy = $PlayerBuildProxy
 @onready var package_ui: PackageUI = $UI/PackageUI
 @onready var attributes_panel: AttributesPanel = $UI/AttributesPanel
+@onready var skill_overview_panel: SkillOverviewPanel = $UI/SkillOverviewPanel
+@onready var top_bar: CanvasLayer = $TopBar
 @onready var package_button: Button = $TopBar/PackageButton
 
 var run_stats: RunStats
@@ -37,8 +41,38 @@ func change_to_play_scene() -> void:
 	_open_battle_scene(current_room)
 
 
+# 战斗胜利后先进入升级奖励场景，由玩家选择奖励后再进入修整期。
+func change_to_level_up() -> void:
+	_show_top_bar()
+	_refresh_persistent_ui()
+
+	var level_up_scene_resource := load(LEVEL_UP_SCENE_PATH) as PackedScene
+	if level_up_scene_resource == null:
+		return
+
+	var level_up_scene := level_up_scene_resource.instantiate()
+	if level_up_scene == null:
+		return
+
+	_bind_run_stats(level_up_scene)
+	if level_up_scene.has_method("setup_level_up"):
+		level_up_scene.setup_level_up(
+			run_stats,
+			self,
+			_get_runtime_stats_controller(),
+			_get_runtime_skill_controller()
+		)
+
+	_replace_current_view(level_up_scene)
+	if attributes_panel != null:
+		attributes_panel.close_panel()
+	if map != null:
+		map.hide_map()
+
+
 # 战斗胜利后进入修整期，并发放本回合修整奖励金币。
 func change_to_rest_period() -> void:
+	_show_top_bar()
 	if run_stats != null:
 		run_stats.grant_rest_period_gold()
 	_refresh_persistent_ui()
@@ -57,8 +91,28 @@ func change_to_rest_period() -> void:
 		map.hide_map()
 
 
+# 玩家战败时打开死亡界面，由死亡界面决定重新开始或回主菜单。
+func change_to_death_screen() -> void:
+	_refresh_persistent_ui()
+	_close_persistent_panels()
+	_hide_top_bar()
+
+	var death_scene_resource := load(DEATH_SCENE_PATH) as PackedScene
+	if death_scene_resource == null:
+		return
+
+	var death_scene := death_scene_resource.instantiate()
+	if death_scene == null:
+		return
+
+	_replace_current_view(death_scene)
+	if map != null:
+		map.hide_map()
+
+
 # 修整期结束后返回地图，并解锁下一批可进入房间。
 func finish_rest_period() -> void:
+	_show_top_bar()
 	_clear_current_view()
 	_refresh_persistent_ui()
 
@@ -71,7 +125,13 @@ func finish_rest_period() -> void:
 func _connect_signals() -> void:
 	if map != null and not map.room_selected.is_connected(_on_map_room_selected):
 		map.room_selected.connect(_on_map_room_selected)
+	
+	if  not EventBus.battle_win.is_connected(change_to_level_up):
+		EventBus.battle_win.connect(change_to_level_up)
 
+	if not EventBus.battle_lost.is_connected(change_to_death_screen):
+		EventBus.battle_lost.connect(change_to_death_screen)
+	
 	if not EventBus.event_room_exited.is_connected(_on_event_room_exited):
 		EventBus.event_room_exited.connect(_on_event_room_exited)
 
@@ -105,8 +165,10 @@ func _initialize_new_run(startup: RunStartup) -> void:
 
 	var build := startup.create_player_build()
 	var shop := startup.create_shop()
+	if shop != null and not startup.picked_character.shop_keeper_pool.is_empty():
+		shop.shopkeeper = startup.picked_character.shop_keeper_pool.pick_random()
 	var shop_config := startup.create_shop_config()
-	run_stats.setup_new_run(build, shop, shop_config)
+	run_stats.setup_new_run(build, shop, shop_config, startup.picked_character)
 
 
 # 目前续档逻辑还没展开，这里先做最小兼容。
@@ -115,7 +177,7 @@ func _initialize_continued_run(startup: RunStartup) -> void:
 		var build := startup.create_player_build()
 		var shop := startup.create_shop()
 		var shop_config := startup.create_shop_config()
-		run_stats.setup_new_run(build, shop, shop_config)
+		run_stats.setup_new_run(build, shop, shop_config, startup.picked_character)
 
 
 # 把 run_stats.player_build 绑定给修整期常驻的属性与装备管理节点。
@@ -140,6 +202,10 @@ func _initialize_persistent_ui() -> void:
 		attributes_panel.setup()
 		attributes_panel.close_panel()
 
+	if skill_overview_panel != null:
+		skill_overview_panel.setup(run_stats.player_build)
+		skill_overview_panel.close_panel()
+
 
 # 当 RunStats 或 PlayerBuild 中的数据被更新后，刷新 Run 下常驻 UI。
 func _refresh_persistent_ui() -> void:
@@ -158,10 +224,17 @@ func _refresh_persistent_ui() -> void:
 	if attributes_panel != null:
 		attributes_panel.stats_controller = _get_runtime_stats_controller()
 		attributes_panel.setup()
-		if package_ui != null and package_ui.visible:
+		if package_ui != null and package_ui.visible and not _is_level_up_scene_open():
 			attributes_panel.open_panel()
 		else:
 			attributes_panel.close_panel()
+
+	if skill_overview_panel != null:
+		skill_overview_panel.setup(run_stats.player_build)
+		if package_ui != null and package_ui.visible:
+			skill_overview_panel.open_panel()
+		else:
+			skill_overview_panel.close_panel()
 
 
 # 生成并显示本局地图。
@@ -207,12 +280,19 @@ func _on_package_button_pressed() -> void:
 		package_ui.close_bag()
 		if attributes_panel != null:
 			attributes_panel.close_panel()
+		if skill_overview_panel != null:
+			skill_overview_panel.close_panel()
 	else:
 		package_ui.open_bag(run_stats.player_build.player_inventory, run_stats.player_build.player_equipment)
-		if attributes_panel != null:
+		if skill_overview_panel != null:
+			skill_overview_panel.setup(run_stats.player_build)
+			skill_overview_panel.open_panel()
+		if attributes_panel != null and not _is_level_up_scene_open():
 			attributes_panel.stats_controller = _get_runtime_stats_controller()
 			attributes_panel.setup()
 			attributes_panel.open_panel()
+		elif attributes_panel != null:
+			attributes_panel.close_panel()
 
 
 # 把地图房间对应的事件场景塞进 CurrentView。
@@ -224,6 +304,7 @@ func _open_event_room(room: Room) -> void:
 	if event_room == null:
 		return
 
+	_show_top_bar()
 	_bind_run_stats(event_room)
 	_replace_current_view(event_room)
 	if map != null:
@@ -246,6 +327,7 @@ func _open_battle_scene(room: Room) -> void:
 	if play_scene == null:
 		return
 
+	_show_top_bar()
 	if play_scene.has_method("setup_run_battle"):
 		play_scene.setup_run_battle(run_stats, room.battle_stats)
 	else:
@@ -288,9 +370,39 @@ func _get_current_scene() -> Node:
 	return current_view.get_child(0)
 
 
+func _is_level_up_scene_open() -> bool:
+	return _get_current_scene() is LevelUPController
+
+
+func _close_persistent_panels() -> void:
+	if package_ui != null:
+		package_ui.close_bag()
+	if attributes_panel != null:
+		attributes_panel.close_panel()
+	if skill_overview_panel != null:
+		skill_overview_panel.close_panel()
+
+
+func _show_top_bar() -> void:
+	if top_bar != null:
+		top_bar.show()
+
+
+func _hide_top_bar() -> void:
+	if top_bar != null:
+		top_bar.hide()
+
+
 # 获取 Run 下常驻的运行时属性控制器，供属性面板等 UI 读取。
 func _get_runtime_stats_controller() -> StatsController:
 	if player_build_proxy == null:
 		return null
 
 	return player_build_proxy.get_stats_controller()
+
+
+func _get_runtime_skill_controller() -> SkillController:
+	if player_build_proxy == null:
+		return null
+
+	return player_build_proxy.get_skill_controller()

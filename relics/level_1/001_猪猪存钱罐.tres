@@ -1,8 +1,13 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dh27ilfr1mpyk"]
 
 [ext_resource type="Texture2D" uid="uid://7p14ei4wisst" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc113.png" id="1_x2mh2"]
-[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://scripts/relic/relic_effect/relic_effect.gd" id="1_x4bmk"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_x4bmk"]
+[ext_resource type="Script" uid="uid://clbjgkxl2wtkk" path="res://relic_effect/battle_win_act_effect.gd" id="2_jmqgq"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_x4bmk"]
+
+[sub_resource type="Resource" id="Resource_tuncv"]
+script = ExtResource("2_jmqgq")
+metadata/_custom_type_script = "uid://clbjgkxl2wtkk"
 
 [resource]
 script = ExtResource("2_x4bmk")
@@ -13,6 +18,8 @@ tooltip = "出售时额外获得一资金
 "
 desc = "小猪的存钱罐，终会破碎"
 price = 3
+sell_price = 3
 level = 1
 id = "001"
+great_effects = Array[ExtResource("1_x4bmk")]([SubResource("Resource_tuncv")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

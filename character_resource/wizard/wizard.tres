@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="3_xta8r"]
 [ext_resource type="Script" uid="uid://bq6potbl53yc6" path="res://scripts/package_system/equipment.gd" id="4_ec3r0"]
 [ext_resource type="Script" uid="uid://dv58keclglu12" path="res://scripts/package_system/inventory.gd" id="5_4bbho"]
+[ext_resource type="Script" uid="uid://bdqgkeyiw7nj6" path="res://scripts/skill/skill_entry.gd" id="7_4bbho"]
 
 [sub_resource type="Resource" id="Resource_pkefs"]
 script = ExtResource("3_xta8r")

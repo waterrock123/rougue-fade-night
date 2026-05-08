@@ -1,16 +1,17 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cul4xumydwers"]
 
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_dwmja"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_ffdq6"]
 [ext_resource type="Texture2D" uid="uid://5ru0om5qh1ub" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc383.png" id="1_iejob"]
 
 [resource]
 script = ExtResource("1_ffdq6")
-price = 3
 relic_name = "雪球"
-level = 1
-id = "010"
-is_consumable = true
 icon = ExtResource("1_iejob")
 tooltip = "丢出立即对小范围的敌人造成群体减速
 "
+price = 3
+level = 1
+id = "010"
+is_consumable = true
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

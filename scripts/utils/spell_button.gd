@@ -67,15 +67,33 @@ func _shake():
 
 
 func set_ability(ability: Ability):
-	
 	self.ability = ability
+	if ability == null:
+		icon.texture = null
+		tooltip_text = ""
+		progress_bar.max_value = 0.0
+		cooldown_label.text = ""
+		cooldown_label.visible = false
+		return
+
 	icon.texture = ability.icon_texture
 	progress_bar.max_value = ability.cooldown
+	tooltip_text = " " if ability.skill_entry != null else ""
 	
 
 
 func _ready() -> void:
-	pass
+	# 子节点只负责显示，不抢按钮自身的点击和 tooltip 事件。
+	_set_child_mouse_filter_ignore(self)
+
+
+func _make_custom_tooltip(_for_text: String) -> Object:
+	if ability == null or ability.skill_entry == null:
+		return null
+
+	var tooltip := FloatText.SKILL_TOOL_TIP_PANEL.instantiate() as SkillToolTipPanel
+	tooltip.set_skill(ability.skill_entry)
+	return tooltip
 
 func _on_pressed() -> void:
 	
@@ -91,4 +109,10 @@ func _on_pressed() -> void:
 	
 	
 	
+
+func _set_child_mouse_filter_ignore(root: Node) -> void:
+	for child in root.get_children():
+		if child is Control:
+			(child as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_set_child_mouse_filter_ignore(child)
 	

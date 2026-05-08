@@ -7,8 +7,8 @@ var stats_controller:StatsController
 @export var attribute:String
 var value:int
 
-@onready var Icon:TextureRect = $HBoxContainer/Icon
-@onready var ValueLabel: Label = $HBoxContainer/DataLabel
+@onready var Icon:TextureRect = $Panel/HBoxContainer/Icon
+@onready var ValueLabel: Label = $Panel/HBoxContainer/DataLabel
 
 func setup(_stats_controller):
 	Icon.texture = icon

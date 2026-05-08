@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3 uid="uid://8hxhfowqbskh"]
+
+[ext_resource type="Script" uid="uid://dm8dhxlxlwiq4" path="res://scripts/skill/passive_skill_effect.gd" id="1_6uj04"]
+[ext_resource type="Script" uid="uid://duduak1r8l3a0" path="res://scripts/skill/passive_add_primary_stat_effect.gd" id="2_dmdbj"]
+[ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_g3hch"]
+[ext_resource type="Script" uid="uid://bq3rtfq7iswb" path="res://scripts/skill/passive_add_derived_stat_effect.gd" id="3_ks4cu"]
+[ext_resource type="Script" uid="uid://cdg388dv2ccd8" path="res://scripts/skill/passive_add_rest_gold_bonus_effect.gd" id="4_yipnq"]
+[ext_resource type="Texture2D" uid="uid://0r03yf8k7oyi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb175.png" id="5_1c4p6"]
+
+[sub_resource type="Resource" id="Resource_wjd18"]
+script = ExtResource("2_dmdbj")
+add_stats = {
+&"luck": 2
+}
+metadata/_custom_type_script = "uid://duduak1r8l3a0"
+
+[sub_resource type="Resource" id="Resource_k6i3e"]
+script = ExtResource("3_ks4cu")
+add_derived_stats = {
+"crit_chance": 0.02
+}
+metadata/_custom_type_script = "uid://bq3rtfq7iswb"
+
+[sub_resource type="Resource" id="Resource_qud3o"]
+script = ExtResource("4_yipnq")
+metadata/_custom_type_script = "uid://cdg388dv2ccd8"
+
+[resource]
+script = ExtResource("2_g3hch")
+effects = Array[ExtResource("1_6uj04")]([SubResource("Resource_wjd18"), SubResource("Resource_k6i3e"), SubResource("Resource_qud3o")])
+id = &"001"
+skill_name = "小幸运"
+desc = "幸运+2，暴击率+2%，每次进入修整期时额外获得1金币"
+icon = ExtResource("5_1c4p6")
+metadata/_custom_type_script = "uid://crxnh0qcjcfth"

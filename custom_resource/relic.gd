@@ -34,6 +34,7 @@ const LEVEL_TIP_COLORS := {
 
 @export_group("Gameplay")
 @export var price: int
+@export var sell_price: int = 2
 @export var level: int
 @export var leveltip: LevelTip
 @export var relic_type: RelicType
@@ -83,14 +84,14 @@ func _apply_effect_list(
 			continue
 
 		var effect_key := _build_effect_key(relic_key, effect_group, effect_index)
-
+		var relic_context = RelicContext.new(self,owner,relic_controller,relic_key,effect_list,effect_group,action)
 		match action:
 			"gain":
-				effect.on_gain(owner, relic_controller, effect_key)
+				effect.on_gain(relic_context, effect_key)
 			"activate":
-				effect.on_activate(owner, relic_controller, effect_key)
+				effect.on_activate(relic_context, effect_key)
 			"deactivate":
-				effect.on_deactivate(owner, relic_controller, effect_key)
+				effect.on_deactivate(relic_context, effect_key)
 
 
 # effect_key 里加入组别，避免 base[0] 和 great[0] 互相覆盖。

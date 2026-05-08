@@ -6,7 +6,7 @@
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.047058824)
 texture_filter = 1
-custom_minimum_size = Vector2(128, 128)
+custom_minimum_size = Vector2(96, 96)
 offset_right = 8.0
 offset_bottom = 8.0
 tooltip_text = "0"
@@ -24,7 +24,7 @@ mouse_filter = 2
 color = Color(0.4745098, 0.4745098, 0.5019608, 0.39607844)
 
 [node name="CenterContainer" type="CenterContainer" parent="SlotBackground" unique_id=1022126257]
-custom_minimum_size = Vector2(96, 96)
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

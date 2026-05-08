@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3 uid="uid://by16sebcpmgr2"]
+
+[ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="1_a14s6"]
+[ext_resource type="PackedScene" uid="uid://5uxluclcqj3n" path="res://scenes/ability/dash_ability.tscn" id="1_kdsfj"]
+[ext_resource type="Texture2D" uid="uid://cia5pwp6gj85x" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc793.png" id="2_1mgqj"]
+
+[resource]
+script = ExtResource("1_a14s6")
+ability_scene = ExtResource("1_kdsfj")
+base_cooldown = 0.5
+base_energy_cost = 5.0
+id = &"102"
+skill_name = "冲刺"
+desc = "向鼠标方向冲刺一段距离"
+icon = ExtResource("2_1mgqj")
+metadata/_custom_type_script = "uid://bq1obcmna3x2j"

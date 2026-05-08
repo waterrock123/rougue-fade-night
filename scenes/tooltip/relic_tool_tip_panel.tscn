@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://7ue22vy5xt8p" path="res://scripts/package_system/relic_tool_tip_panel.gd" id="1_ob8el"]
 [ext_resource type="FontFile" uid="uid://ehcx8jaw4rmu" path="res://assets/字体/Minecraft.ttf" id="2_j2wa7"]
+[ext_resource type="Texture2D" uid="uid://kd6fvrsfrcyi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc131.png" id="2_t45gq"]
+[ext_resource type="PackedScene" uid="uid://drnrxy5n678gs" path="res://scenes/tooltip/tag_ui.tscn" id="4_b160e"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nquxf"]
 bg_color = Color(0.43544763, 0.64404696, 0.8186585, 0.4)
@@ -19,6 +21,9 @@ bg_color = Color(0.5529412, 0.627451, 0.7254902, 0.4)
 
 [sub_resource type="LabelSettings" id="LabelSettings_b160e"]
 font = ExtResource("2_j2wa7")
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_ujwlb"]
 font_size = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w88kg"]
@@ -99,9 +104,44 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_t2wmv")
 text = "标题"
 horizontal_alignment = 1
 
+[node name="Panel" type="Panel" parent="VBoxContainer/NameLabel" unique_id=2073583624]
+custom_minimum_size = Vector2(70, 24)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -9.5
+offset_right = 74.0
+offset_bottom = 14.5
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t45gq")
+
+[node name="LevelLabel" type="Label" parent="VBoxContainer/NameLabel/Panel" unique_id=91256895]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.5
+offset_top = -35.0
+offset_right = 35.5
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "LV {0}"
+label_settings = SubResource("LabelSettings_b160e")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1288610482]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 0
+alignment = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1236113921]
 layout_mode = 2
@@ -110,27 +150,32 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(70, 70)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer/VBoxContainer" unique_id=2073583624]
-custom_minimum_size = Vector2(0, 70)
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer" unique_id=228545420]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_t45gq")
+theme_override_constants/separation = -1
+alignment = 1
 
-[node name="LevelLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/Panel" unique_id=91256895]
+[node name="PriceTexture" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=2042922902]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("2_t45gq")
+
+[node name="PriceLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=613130785]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 70)
-layout_mode = 0
-offset_right = 70.0
-offset_bottom = 70.0
-text = "LV {0}"
-label_settings = SubResource("LabelSettings_b160e")
+layout_mode = 2
+text = "{0}"
+label_settings = SubResource("LabelSettings_ujwlb")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="TagUI" parent="VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1396676509 instance=ExtResource("4_b160e")]
+layout_mode = 2
+
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer" unique_id=626096727]
 layout_mode = 2
-theme_override_constants/margin_left = 10
 
 [node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer/MarginContainer" unique_id=126080358]
 custom_minimum_size = Vector2(300, 0)

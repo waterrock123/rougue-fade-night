@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bvsjalkkg2xd0"]
 
 [ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_4expr"]
+[ext_resource type="Texture2D" uid="uid://bgwopgbm3rx27" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc724.png" id="2_do2dv"]
 [ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_veguy"]
 [ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="3_s1llj"]
 [ext_resource type="Script" uid="uid://bxl5nmydjpga5" path="res://scripts/ability/component/ability_get_targets.gd" id="4_6wqxi"]
@@ -26,6 +27,9 @@ metadata/_custom_type_script = "uid://cfgrgm03strrd"
 
 [node name="SkeletonSlash" type="Node" unique_id=571249044]
 script = ExtResource("1_4expr")
+id = "101"
+ability_name = "骷髅斩击"
+icon_texture = ExtResource("2_do2dv")
 
 [node name="AbilityAnimationRunner" type="Node" parent="." unique_id=856575273]
 script = ExtResource("2_veguy")

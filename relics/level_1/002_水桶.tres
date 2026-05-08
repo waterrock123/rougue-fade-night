@@ -1,17 +1,27 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dbuj4w6g5hwrv"]
 
-[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://scripts/relic/relic_effect/relic_effect.gd" id="1_8vcxj"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_8vcxj"]
 [ext_resource type="Texture2D" uid="uid://syn08agweoa4" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc340.png" id="1_v304p"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_8vcxj"]
+[ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://relic_effect/add_derived_stat_effect.gd" id="2_bwslt"]
+
+[sub_resource type="Resource" id="Resource_6k1ue"]
+script = ExtResource("2_bwslt")
+add_derived_stats = {
+"static_damage_reduction": 1.0
+}
+metadata/_custom_type_script = "uid://4jpjnif4k7sr"
 
 [resource]
 script = ExtResource("2_8vcxj")
 relic_name = "水桶"
 icon = ExtResource("1_v304p")
 tooltip = "获得一护甲
-升级：获得一护甲，战斗结束后额外恢复已损失血量的20%
+升级：战斗胜利后额外恢复已损失血量的20%
 "
+desc = "戴头上可以当头盔用"
 price = 3
 level = 1
 id = "002"
+effects = Array[ExtResource("1_8vcxj")]([SubResource("Resource_6k1ue")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

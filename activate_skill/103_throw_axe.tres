@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3 uid="uid://cvhamncq0ivuv"]
+
+[ext_resource type="PackedScene" uid="uid://dbu2imgeyfp3t" path="res://scenes/ability/weapon_thrown_ability.tscn" id="1_3nsqi"]
+[ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="1_l76lo"]
+[ext_resource type="Texture2D" uid="uid://p460ewicoidv" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1467.png" id="2_fgbf1"]
+
+[resource]
+script = ExtResource("1_l76lo")
+ability_scene = ExtResource("1_3nsqi")
+base_cooldown = 1.0
+base_energy_cost = 10.0
+id = &"103"
+skill_name = "投斧"
+desc = "向目标丢出投斧，攻击路径上的所有敌人"
+icon = ExtResource("2_fgbf1")
+metadata/_custom_type_script = "uid://bq1obcmna3x2j"

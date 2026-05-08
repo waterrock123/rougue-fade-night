@@ -15,6 +15,7 @@ func _ready() -> void:
 
 	if leave_button != null and not leave_button.pressed.is_connected(_on_leave_button_pressed):
 		leave_button.pressed.connect(_on_leave_button_pressed)
+	AudioController.play_bg_music("home")
 
 
 func _on_leave_button_pressed() -> void:

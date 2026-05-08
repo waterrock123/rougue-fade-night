@@ -8,9 +8,12 @@
 
 [node name="DashAbility" type="Node" unique_id=1517353635]
 script = ExtResource("1_snkkx")
+id = "002"
+ability_name = "冲刺"
 icon_texture = ExtResource("2_1tafh")
 cooldown = 1.0
 energy_cost = 5.0
+desc = "向鼠标方向冲刺"
 metadata/_custom_type_script = "uid://bd4gnnre2dfj7"
 
 [node name="AbilityPushBack" type="Node" parent="." unique_id=1936712454]

@@ -1,11 +1,17 @@
 class_name AbilityChargeToTarget
 extends AbilityComponent
 
-# Charge movement settings.
+# 冲锋位移组件。
+# 作用是让施法者朝目标方向冲一段距离：
+# 1. 优先使用前置组件写入到 context.targets 的目标；
+# 2. 如果前面没有提供目标，就自动寻找默认敌对目标；
+# 3. 这个组件只负责位移，不负责造成伤害。
+
 @export var charge_distance: float = 100.0
 @export var duration: float = 0.2
 @export var hit_width: float = 48.0
 @export var stop_at_target: bool = true
+
 
 func _activate(context: AbilityContext):
 	var caster := context.caster
@@ -41,7 +47,7 @@ func _activate(context: AbilityContext):
 	tween.tween_property(caster, "position", end_pos, duration)
 
 
-# Prefer the target found by previous components.
+# 优先读取前置组件已经选好的目标位置。
 func _resolve_target_position(context: AbilityContext):
 	if context.targets.size() > 0:
 		var first_target = context.targets[0]
@@ -53,6 +59,7 @@ func _resolve_target_position(context: AbilityContext):
 	return _find_default_target_position(context.caster)
 
 
+# 如果没有前置目标，就自动找一个默认敌对目标。
 func _find_default_target_position(caster: Entity):
 	if caster == null or caster.get_tree() == null:
 		return null

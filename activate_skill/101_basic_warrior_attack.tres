@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3 uid="uid://cgb026qamnnv4"]
+
+[ext_resource type="PackedScene" uid="uid://bkad3ppamt8x1" path="res://scenes/ability/slash_ability.tscn" id="1_r02ti"]
+[ext_resource type="Texture2D" uid="uid://ba0e3nv8ke6rj" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc671.png" id="2_xec2o"]
+[ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="3_kmx3m"]
+
+[resource]
+script = ExtResource("3_kmx3m")
+ability_scene = ExtResource("1_r02ti")
+base_cooldown = 0.5
+id = &"101"
+skill_name = "战狂-基础攻击"
+desc = "用力挥动斧头，受力量加成"
+icon = ExtResource("2_xec2o")
+metadata/_custom_type_script = "uid://bq1obcmna3x2j"

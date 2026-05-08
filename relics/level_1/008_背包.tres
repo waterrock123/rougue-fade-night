@@ -2,15 +2,16 @@
 
 [ext_resource type="Texture2D" uid="uid://dtio6xopjtg4o" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2031.png" id="1_0gee5"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_nah2x"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_njj3y"]
 
 [resource]
 script = ExtResource("1_nah2x")
-price = 3
 relic_name = "背包"
-level = 1
-id = "008"
 icon = ExtResource("1_0gee5")
 tooltip = "装备时获得额外一个储备空间格
 升级：装备时获得额外两个储备格
 "
+price = 3
+level = 1
+id = "008"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

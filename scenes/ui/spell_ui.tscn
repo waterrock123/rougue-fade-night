@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://dsq14t67lvr70"]
+
+[ext_resource type="Texture2D" uid="uid://byek2qgsu5wlx" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc759.png" id="1_l502c"]
+[ext_resource type="Script" path="res://scripts/level_up/spell_ui.gd" id="2_l502c"]
+
+[node name="SpellUI" type="Control" unique_id=1619124122]
+custom_minimum_size = Vector2(175, 175)
+layout_mode = 3
+anchor_left = 0.455
+anchor_top = 0.42000002
+anchor_right = 0.546
+anchor_bottom = 0.58100003
+offset_left = 86.39996
+offset_top = 86.399994
+offset_right = -88.32007
+offset_bottom = -87.48004
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_l502c")
+
+[node name="Panel" type="Panel" parent="." unique_id=2019496524]
+custom_minimum_size = Vector2(175, 175)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -87.5
+offset_top = -87.5
+offset_right = 87.5
+offset_bottom = 87.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=111901550]
+texture_filter = 1
+custom_minimum_size = Vector2(170, 170)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -85.0
+offset_top = -85.0
+offset_right = 85.0
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_l502c")

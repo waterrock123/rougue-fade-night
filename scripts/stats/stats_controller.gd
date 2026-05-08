@@ -51,6 +51,11 @@ func bind_player_build(new_player_build: PlayerBuild) -> void:
 	if player_build.player_stats != null:
 		stats_data = player_build.player_stats.duplicate(true)
 
+	var saved_current_health := player_build.current_health
+	var saved_current_energy := player_build.current_energy
+	var had_previous_health_stat := get_stat("max_health") > 0.0
+	var had_previous_energy_stat := get_stat("max_energy") > 0.0
+
 	current_health = player_build.current_health
 	current_energy = player_build.current_energy
 
@@ -59,15 +64,21 @@ func bind_player_build(new_player_build: PlayerBuild) -> void:
 	var max_health := get_stat("max_health")
 	var max_energy := get_stat("max_energy")
 
-	if player_build.current_health > 0.0:
-		current_health = min(player_build.current_health, max_health)
+	if not had_previous_health_stat:
+		if saved_current_health > 0.0:
+			current_health = min(saved_current_health, max_health)
+		else:
+			current_health = max_health
 	else:
-		current_health = max_health
+		current_health = min(current_health, max_health)
 
-	if player_build.current_energy > 0.0:
-		current_energy = min(player_build.current_energy, max_energy)
+	if not had_previous_energy_stat:
+		if saved_current_energy > 0.0:
+			current_energy = min(saved_current_energy, max_energy)
+		else:
+			current_energy = max_energy
 	else:
-		current_energy = max_energy
+		current_energy = min(current_energy, max_energy)
 
 	_sync_player_build()
 	EventBus.attribute_update.emit()
@@ -279,7 +290,8 @@ func _clamp_resources(previous_max_health: float, previous_max_energy: float) ->
 	if previous_max_health <= 0.0:
 		current_health = new_max_health
 	else:
-		current_health = min(current_health, new_max_health)
+		var health_ratio = clamp(current_health / previous_max_health, 0.0, 1.0)
+		current_health = new_max_health * health_ratio
 
 	if previous_max_energy <= 0.0:
 		current_energy = new_max_energy

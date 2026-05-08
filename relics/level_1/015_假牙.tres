@@ -1,15 +1,16 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dfiprj6w1e0qj"]
 
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_316bc"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_tp1fr"]
 [ext_resource type="Texture2D" uid="uid://bngdtlotywmv6" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc233.png" id="1_uvs2t"]
 
 [resource]
 script = ExtResource("1_tp1fr")
-price = 3
 relic_name = "假牙"
-level = 1
-id = "015"
 icon = ExtResource("1_uvs2t")
 tooltip = "魅力+1
 升级：魅力+2"
+price = 3
+level = 1
+id = "015"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

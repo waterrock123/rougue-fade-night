@@ -14,10 +14,12 @@
 [ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="8_l1ddx"]
 [ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="8_mfg4c"]
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="9_3r1hm"]
-[ext_resource type="Texture2D" uid="uid://bj3x3jeqqt834" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc975.png" id="9_4mg4g"]
 [ext_resource type="Script" uid="uid://cv047vl681hxu" path="res://scripts/ability/component/ability_charge_to_target.gd" id="10_l1ddx"]
 [ext_resource type="Script" uid="uid://77b05rqxjlqd" path="res://scripts/ability/component/ability_deal_damage_on_overlap.gd" id="11_a2xqf"]
+[ext_resource type="Script" uid="uid://ck8q2wvmbx015" path="res://scripts/ability/component/ability_trigger_components_on_sprite_frame.gd" id="12_vqj1s"]
+[ext_resource type="Script" uid="uid://di4y7j2fln2w7" path="res://scripts/ability/component/ability_animation_frame_event.gd" id="13_hn0st"]
 [ext_resource type="Resource" uid="uid://yvagqhe76xew" path="res://resource/enemy/mushroom_monster.tres" id="16_erme2"]
+[ext_resource type="Script" uid="uid://dcukpvvpmebnv" path="res://scripts/stats/damage_scaling_rule.gd" id="16_pvud1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i0f3v"]
 shader = ExtResource("2_3bex7")
@@ -425,6 +427,20 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="Resource" id="Resource_frame_event_charge"]
+script = ExtResource("13_hn0st")
+frame = 5
+component_names = Array[String](["AbilityChargeToTarget"])
+
+[sub_resource type="Resource" id="Resource_frame_event_damage"]
+script = ExtResource("13_hn0st")
+frame = 6
+component_names = Array[String](["AbilityDealDamageOnOverlap"])
+
+[sub_resource type="Resource" id="Resource_pvud1"]
+script = ExtResource("16_pvud1")
+metadata/_custom_type_script = "uid://dcukpvvpmebnv"
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7eecw"]
 size = Vector2(43.076927, 43.750004)
 
@@ -452,7 +468,7 @@ position = Vector2(-1.1920929e-07, -29.23077)
 sprite_frames = SubResource("SpriteFrames_xrus2")
 animation = &"attack"
 autoplay = "idle"
-frame = 9
+frame = 23
 frame_progress = 1.0
 
 [node name="AbilityController" type="Node" parent="." unique_id=1382481516]
@@ -461,29 +477,31 @@ metadata/_custom_type_script = "uid://cifh43jnsuld4"
 
 [node name="DashAttackAbility" type="Node" parent="AbilityController" unique_id=1830063269]
 script = ExtResource("8_mfg4c")
-icon_texture = ExtResource("9_4mg4g")
 cooldown = 5.0
 metadata/_custom_type_script = "uid://bd4gnnre2dfj7"
 
 [node name="AbilityAnimationRunner" type="Node" parent="AbilityController/DashAttackAbility" unique_id=1768468272]
 script = ExtResource("8_l1ddx")
 animation_name = "attack"
-exec_delay = 1.0
 metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
 
+[node name="AbilityTriggerComponentsOnSpriteFrame" type="Node" parent="AbilityController/DashAttackAbility" unique_id=1310063911]
+script = ExtResource("12_vqj1s")
+animation_name = "attack"
+animated_sprite_path = NodePath("../../../AnimatedSprite2D")
+frame_events = Array[ExtResource("13_hn0st")]([SubResource("Resource_frame_event_charge"), SubResource("Resource_frame_event_damage")])
+
 [node name="AbilityChargeToTarget" type="Node" parent="AbilityController/DashAttackAbility" unique_id=2018583222]
-editor_description = "移动组件，使实体向某个方向冲或反冲的组件，方向由鼠标决定"
+editor_description = "冲锋位移组件，优先朝 context.targets 中的目标冲锋；若没有目标，则自动寻找默认敌对目标。"
 script = ExtResource("10_l1ddx")
 charge_distance = 200.0
 duration = 2.0
-stop_at_target = false
-exec_delay = 1.0
 
 [node name="AbilityDealDamageOnOverlap" type="Node" parent="AbilityController/DashAttackAbility" unique_id=1499926634]
 script = ExtResource("11_a2xqf")
-active_duration = 1.5
+active_duration = 1.0
 damage = 12.0
-exec_delay = 0.2
+scaling_rule = SubResource("Resource_pvud1")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]
 

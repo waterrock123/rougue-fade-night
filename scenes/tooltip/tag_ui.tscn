@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://drnrxy5n678gs"]
+
+[ext_resource type="Script" uid="uid://mcc68g2a82iv" path="res://scenes/tooltip/tag_ui.gd" id="1_fkx1g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4qhbv"]
+bg_color = Color(0.48931736, 0.6517374, 0.4683466, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fkx1g"]
+outline_color = Color(0.9320426, 0.8283524, 3.85046e-07, 1)
+
+[node name="TagUI" type="HBoxContainer" unique_id=1396676509]
+alignment = 1
+script = ExtResource("1_fkx1g")
+
+[node name="Label" type="Label" parent="." unique_id=724863857]
+custom_minimum_size = Vector2(64, 24)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_4qhbv")
+text = "死亡"
+label_settings = SubResource("LabelSettings_fkx1g")
+horizontal_alignment = 1
+vertical_alignment = 1

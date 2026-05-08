@@ -1,0 +1,272 @@
+[gd_scene format=3 uid="uid://cub2lcla07yj0"]
+
+[ext_resource type="PackedScene" uid="uid://c84ugt0cixq4v" path="res://scenes/ui/reward_chose_button.tscn" id="1_ffqgm"]
+[ext_resource type="PackedScene" uid="uid://xg2yg0ufepbu" path="res://scenes/ui/attributes_panel.tscn" id="2_15pu7"]
+[ext_resource type="Script" uid="uid://dct0g75cglshw" path="res://scripts/level_up/level_up_reward.gd" id="2_w2dlv"]
+[ext_resource type="PackedScene" uid="uid://dsq14t67lvr70" path="res://scenes/ui/spell_ui.tscn" id="3_fobpd"]
+[ext_resource type="Texture2D" uid="uid://baalxngkjdyt0" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc7.png" id="3_vij0x"]
+[ext_resource type="Script" uid="uid://dedmh70pdbkgs" path="res://scripts/level_up/level_up_reward_pool.gd" id="3_xdrav"]
+[ext_resource type="Script" uid="uid://bu2h2b334tpo0" path="res://scripts/level_up/reward_grant_active_skill.gd" id="4_ahb88"]
+[ext_resource type="Texture2D" uid="uid://c4uka7tqkr1yj" path="res://assets/ai art/暖色调升级.png" id="4_mdcxe"]
+[ext_resource type="Script" uid="uid://vhoi2g57lqd2" path="res://scripts/level_up/level_up_controller.gd" id="5_15pu7"]
+[ext_resource type="Resource" uid="uid://by16sebcpmgr2" path="res://activate_skill/102_dash.tres" id="5_ysuf8"]
+[ext_resource type="Resource" uid="uid://cvhamncq0ivuv" path="res://activate_skill/103_throw_axe.tres" id="6_wpsi4"]
+[ext_resource type="Script" uid="uid://bi5mlqhper6cl" path="res://scripts/level_up/reward_grant_passive_skill.gd" id="7_ftceu"]
+[ext_resource type="Resource" uid="uid://8hxhfowqbskh" path="res://passive_skill/001_little_luck.tres" id="8_21ar5"]
+[ext_resource type="Resource" uid="uid://dd7dtv52dipv4" path="res://passive_skill/002_strong_body.tres" id="9_8p3ql"]
+[ext_resource type="Resource" uid="uid://b5arglqpe24k4" path="res://passive_skill/003_healthy.tres" id="10_jysh7"]
+
+[sub_resource type="Resource" id="Resource_774n4"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("5_ysuf8")
+id = &"001"
+title = "冲刺技能"
+desc = "向一个方向冲刺"
+icon = ExtResource("3_vij0x")
+metadata/_custom_type_script = "uid://bu2h2b334tpo0"
+
+[sub_resource type="Resource" id="Resource_stheq"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("6_wpsi4")
+metadata/_custom_type_script = "uid://bu2h2b334tpo0"
+
+[sub_resource type="Resource" id="Resource_fb6j1"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("8_21ar5")
+id = &"002"
+metadata/_custom_type_script = "uid://bi5mlqhper6cl"
+
+[sub_resource type="Resource" id="Resource_8buaq"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("9_8p3ql")
+metadata/_custom_type_script = "uid://bi5mlqhper6cl"
+
+[sub_resource type="Resource" id="Resource_atphq"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("10_jysh7")
+title = "健康体质"
+metadata/_custom_type_script = "uid://bi5mlqhper6cl"
+
+[sub_resource type="Resource" id="Resource_vgdht"]
+script = ExtResource("3_xdrav")
+rewards = Array[ExtResource("2_w2dlv")]([SubResource("Resource_774n4"), SubResource("Resource_stheq"), SubResource("Resource_fb6j1"), SubResource("Resource_8buaq"), SubResource("Resource_atphq"), null])
+metadata/_custom_type_script = "uid://dedmh70pdbkgs"
+
+[sub_resource type="LabelSettings" id="LabelSettings_ffqgm"]
+font_size = 36
+
+[sub_resource type="LabelSettings" id="LabelSettings_fobpd"]
+font_size = 48
+
+[node name="LevelUPController" type="Control" unique_id=919070801]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_15pu7")
+reward_pool = SubResource("Resource_vgdht")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=594043257]
+z_index = -3
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_mdcxe")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1848763250]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.72200006
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.2399292
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=227065793]
+custom_minimum_size = Vector2(0, 450)
+layout_mode = 2
+theme_override_constants/separation = 125
+alignment = 1
+
+[node name="RewardChoseButton" parent="MarginContainer/HBoxContainer" unique_id=39256168 instance=ExtResource("1_ffqgm")]
+layout_mode = 2
+
+[node name="RewardChoseButton2" parent="MarginContainer/HBoxContainer" unique_id=1243934123 instance=ExtResource("1_ffqgm")]
+layout_mode = 2
+
+[node name="RewardChoseButton3" parent="MarginContainer/HBoxContainer" unique_id=624233376 instance=ExtResource("1_ffqgm")]
+layout_mode = 2
+
+[node name="RewardChoseButton4" parent="MarginContainer/HBoxContainer" unique_id=233649349 instance=ExtResource("1_ffqgm")]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="." unique_id=1705889484]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 472.0
+offset_right = -384.0
+offset_bottom = 177.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Panel" unique_id=1547139131]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.48200002
+anchor_top = 0.36200002
+anchor_right = 0.48200002
+anchor_bottom = 0.36200002
+offset_left = -300.84802
+offset_top = -25.074005
+offset_right = 300.15198
+offset_bottom = 24.925995
+grow_horizontal = 2
+grow_vertical = 2
+text = "你升级了！"
+label_settings = SubResource("LabelSettings_ffqgm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TooltipLabel" type="Label" parent="Panel" unique_id=234065031]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.48200002
+anchor_top = 0.36200002
+anchor_right = 0.48200002
+anchor_bottom = 0.36200002
+offset_left = -300.84802
+offset_top = 36.925995
+offset_right = 300.15198
+offset_bottom = 86.925995
+grow_horizontal = 2
+grow_vertical = 2
+text = "你现在到达{0}级,获得{1}点{2}"
+label_settings = SubResource("LabelSettings_ffqgm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AttributesPanel" parent="." unique_id=51568401 instance=ExtResource("2_15pu7")]
+layout_mode = 1
+offset_left = -904.0
+offset_top = -407.0
+offset_right = -561.0
+offset_bottom = 54.0
+
+[node name="SkillContainer" type="MarginContainer" parent="." unique_id=936160843]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.45400003
+anchor_top = 0.22000001
+anchor_right = 0.97400004
+anchor_bottom = 0.53900003
+offset_left = -0.6800537
+offset_top = 12.399979
+offset_right = 4.919922
+offset_bottom = 27.879944
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SkillContainer" unique_id=905852890]
+layout_mode = 2
+
+[node name="ActiveSkill" type="MarginContainer" parent="SkillContainer/HBoxContainer" unique_id=1753498616]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="SkillContainer/HBoxContainer/ActiveSkill" unique_id=1544775005]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="SkillContainer/HBoxContainer/ActiveSkill/GridContainer" unique_id=323972538]
+custom_minimum_size = Vector2(175, 175)
+layout_mode = 2
+
+[node name="SpellUI" parent="SkillContainer/HBoxContainer/ActiveSkill/GridContainer/MarginContainer" unique_id=1619124122 instance=ExtResource("3_fobpd")]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="SkillContainer/HBoxContainer/ActiveSkill/GridContainer" unique_id=1428316481]
+custom_minimum_size = Vector2(175, 175)
+layout_mode = 2
+
+[node name="SpellUI" parent="SkillContainer/HBoxContainer/ActiveSkill/GridContainer/MarginContainer2" unique_id=509561302 instance=ExtResource("3_fobpd")]
+layout_mode = 2
+
+[node name="MarginContainer3" type="MarginContainer" parent="SkillContainer/HBoxContainer/ActiveSkill/GridContainer" unique_id=450455146]
+custom_minimum_size = Vector2(175, 175)
+layout_mode = 2
+
+[node name="SpellUI" parent="SkillContainer/HBoxContainer/ActiveSkill/GridContainer/MarginContainer3" unique_id=276664168 instance=ExtResource("3_fobpd")]
+layout_mode = 2
+
+[node name="MarginContainer4" type="MarginContainer" parent="SkillContainer/HBoxContainer/ActiveSkill/GridContainer" unique_id=1697270883]
+custom_minimum_size = Vector2(175, 175)
+layout_mode = 2
+
+[node name="SpellUI" parent="SkillContainer/HBoxContainer/ActiveSkill/GridContainer/MarginContainer4" unique_id=797897182 instance=ExtResource("3_fobpd")]
+layout_mode = 2
+
+[node name="PassiveSkill" type="MarginContainer" parent="SkillContainer/HBoxContainer" unique_id=1176698802]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="SkillContainer/HBoxContainer/PassiveSkill" unique_id=1949269528]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+columns = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="SkillContainer/HBoxContainer/PassiveSkill/GridContainer" unique_id=2014396707]
+custom_minimum_size = Vector2(175, 175)
+layout_mode = 2
+
+[node name="SpellUI" parent="SkillContainer/HBoxContainer/PassiveSkill/GridContainer/MarginContainer" unique_id=364713512 instance=ExtResource("3_fobpd")]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="SkillContainer/HBoxContainer/PassiveSkill/GridContainer" unique_id=824825940]
+custom_minimum_size = Vector2(175, 175)
+layout_mode = 2
+
+[node name="SpellUI" parent="SkillContainer/HBoxContainer/PassiveSkill/GridContainer/MarginContainer2" unique_id=436228534 instance=ExtResource("3_fobpd")]
+layout_mode = 2
+
+[node name="MarginContainer3" type="MarginContainer" parent="SkillContainer/HBoxContainer/PassiveSkill/GridContainer" unique_id=656172713]
+custom_minimum_size = Vector2(175, 175)
+layout_mode = 2
+
+[node name="SpellUI" parent="SkillContainer/HBoxContainer/PassiveSkill/GridContainer/MarginContainer3" unique_id=395473288 instance=ExtResource("3_fobpd")]
+layout_mode = 2
+
+[node name="MarginContainer4" type="MarginContainer" parent="SkillContainer/HBoxContainer/PassiveSkill/GridContainer" unique_id=840070546]
+custom_minimum_size = Vector2(175, 175)
+layout_mode = 2
+
+[node name="SpellUI" parent="SkillContainer/HBoxContainer/PassiveSkill/GridContainer/MarginContainer4" unique_id=1866768723 instance=ExtResource("3_fobpd")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="." unique_id=117289743]
+layout_mode = 0
+offset_left = 946.0
+offset_top = 180.0
+offset_right = 1152.0
+offset_bottom = 247.0
+text = "主动技能"
+label_settings = SubResource("LabelSettings_fobpd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=857724978]
+layout_mode = 0
+offset_left = 1455.0
+offset_top = 196.0
+offset_right = 1661.0
+offset_bottom = 263.0
+text = "被动技能"
+label_settings = SubResource("LabelSettings_fobpd")
+horizontal_alignment = 1
+vertical_alignment = 1

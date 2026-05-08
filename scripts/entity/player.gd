@@ -28,6 +28,7 @@ var footstep_timer = 0.0
 @onready var package_ui: PackageUI = get_node_or_null("CanvasLayer/PackageUI") as PackageUI
 @onready var attributes_panel: AttributesPanel = get_node_or_null("CanvasLayer/AttributesPanel") as AttributesPanel
 @onready var relic_controller: RelicController = $RelicController
+@onready var skill_controller: SkillController = get_node_or_null("SkillController") as SkillController
 
 signal player_died(player:Player)
 
@@ -51,6 +52,7 @@ func _ready() -> void:
 	EventBus.player_health_changed.emit(current_health,max_health)
 	EventBus.player_energy_changed.emit(current_energy,max_energy)
 	_handle_ui(player_inventory,player_equipment)
+	_refresh_spell_bar()
 	#health_bar.set_health(current_health ,max_health)
 	
 	
@@ -80,6 +82,8 @@ func _handle_ui(player_inventory:Inventory,player_equipment:Equipment):
 	relic_controller.player = self
 	relic_controller.equipment_inventory = player_equipment
 	relic_controller.refresh_all()
+	if skill_controller != null:
+		skill_controller.run_stats = _resolve_run_stats()
 	if attributes_panel != null:
 		attributes_panel.stats_controller = stats_controller
 		attributes_panel.setup()
@@ -101,6 +105,9 @@ func bind_player_build(player_build: PlayerBuild) -> void:
 		max_energy = stats_controller.get_stat("max_energy")
 
 	_handle_ui(player_inventory, player_equipment)
+	if skill_controller != null:
+		skill_controller.bind_player_build(player_build)
+	_refresh_spell_bar()
 	EventBus.player_health_changed.emit(current_health, max_health)
 	EventBus.player_energy_changed.emit(current_energy, max_energy)
 	
@@ -200,3 +207,20 @@ func toggle_bag():
 		bag_ui.open_bag(player_inventory,player_equipment)
 		attributes_panel.open_panel()
 		is_bag_open = true
+
+
+func _resolve_run_stats() -> RunStats:
+	var node := get_parent()
+	while node != null:
+		if "run_stats" in node:
+			return node.run_stats
+		node = node.get_parent()
+
+	return null
+
+
+func _refresh_spell_bar() -> void:
+	if spell_bar == null or ability_controller == null:
+		return
+
+	spell_bar.refresh_from_controller(ability_controller)

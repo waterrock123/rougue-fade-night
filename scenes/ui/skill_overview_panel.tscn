@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://b51prlgv3i56c"]
+
+[ext_resource type="Script" uid="uid://ch5u836yehjbj" path="res://scripts/utils/skill_overview_panel.gd" id="1_skill_overview"]
+[ext_resource type="PackedScene" uid="uid://dy01r4ver61x1" path="res://scenes/ui/passive_skill_ui.tscn" id="2_r07pe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.11372549, 0.12156863, 0.101960786, 0.86)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42745098, 0.8666667, 1, 0.68)
+border_blend = true
+corner_detail = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 22
+font_color = Color(0.88235295, 0.92941177, 0.84705883, 1)
+
+[node name="SkillOverviewPanel" type="PanelContainer" unique_id=1524463803]
+custom_minimum_size = Vector2(430, 170)
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+script = ExtResource("1_skill_overview")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=742566795]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=766343319]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ActiveLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=819206915]
+layout_mode = 2
+text = "主动技能"
+label_settings = SubResource("LabelSettings_title")
+
+[node name="ActiveSkillContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1870650626]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PassiveSkillUI" parent="MarginContainer/VBoxContainer/ActiveSkillContainer" unique_id=919138493 instance=ExtResource("2_r07pe")]
+layout_mode = 2
+
+[node name="PassiveLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=738813927]
+layout_mode = 2
+text = "被动技能"
+label_settings = SubResource("LabelSettings_title")
+
+[node name="PassiveSkillContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=884520686]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8

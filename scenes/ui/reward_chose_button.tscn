@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://c84ugt0cixq4v"]
+
+[ext_resource type="Texture2D" uid="uid://kccdp6dnujw7" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc606.png" id="1_l0rjd"]
+[ext_resource type="Texture2D" uid="uid://chmcdx77nujjh" path="res://assets/UI/Button_Simple.png" id="2_qkx7o"]
+
+[ext_resource type="Script" path="res://scripts/level_up/reward_chose_button.gd" id="3_15pu7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_15pu7"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_qkx7o"]
+font_size = 24
+
+[node name="RewardChoseButton" type="Button" unique_id=39256168]
+custom_minimum_size = Vector2(375, 450)
+script = ExtResource("3_15pu7")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1923296556]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1381500080]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1975366820]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+text = "死亡螺旋"
+label_settings = SubResource("LabelSettings_15pu7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Texture" type="TextureRect" parent="MarginContainer/VBoxContainer" unique_id=1642130252]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_l0rjd")
+
+[node name="DescLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=324211282]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(375, 150)
+layout_mode = 2
+size_flags_vertical = 3
+text = "总之这里是奖励描述"
+label_settings = SubResource("LabelSettings_qkx7o")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=155858741]
+modulate = Color(0.8784314, 0.8784314, 0.92156863, 0.4627451)
+z_index = -1
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qkx7o")

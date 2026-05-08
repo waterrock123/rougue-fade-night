@@ -2,28 +2,6 @@
 
 [ext_resource type="Script" uid="uid://wpt8s0ys3w7t" path="res://scripts/rest_period/rest_period.gd" id="1_b20nv"]
 [ext_resource type="PackedScene" uid="uid://dmoylnmxemj46" path="res://scenes/rest_period/shop.tscn" id="1_hcmc8"]
-[ext_resource type="Resource" uid="uid://c0mc7hdek780v" path="res://custom_resource/player_equipment.tres" id="2_e007f"]
-[ext_resource type="Resource" uid="uid://wl3kquh3l0yw" path="res://custom_resource/player_inventory.tres" id="3_k01t3"]
-[ext_resource type="Resource" uid="uid://b478o2358l6xq" path="res://character_resource/warrior/warrior_stats.tres" id="4_lslmv"]
-[ext_resource type="Script" uid="uid://dslu3weaxu5uy" path="res://custom_resource/player_bulid.gd" id="5_q10ky"]
-[ext_resource type="Script" uid="uid://c20r6sitt53pf" path="res://scripts/run/run_stats.gd" id="6_bd5ib"]
-[ext_resource type="Resource" uid="uid://07snhhfv258i" path="res://custom_resource/start_shop.tres" id="7_mm8lv"]
-[ext_resource type="Resource" uid="uid://clq6naqkf40p0" path="res://custom_resource/common_shop_config.tres" id="8_plqj4"]
-
-[sub_resource type="Resource" id="Resource_jk70i"]
-script = ExtResource("5_q10ky")
-player_stats = ExtResource("4_lslmv")
-player_inventory = ExtResource("3_k01t3")
-player_equipment = ExtResource("2_e007f")
-metadata/_custom_type_script = "uid://dslu3weaxu5uy"
-
-[sub_resource type="Resource" id="Resource_36mcm"]
-script = ExtResource("6_bd5ib")
-gold = 6
-player_build = SubResource("Resource_jk70i")
-shop = ExtResource("7_mm8lv")
-shop_config = ExtResource("8_plqj4")
-metadata/_custom_type_script = "uid://c20r6sitt53pf"
 
 [node name="RestPeriod" type="Control" unique_id=242219292]
 layout_mode = 3
@@ -33,7 +11,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_b20nv")
-run_stats = SubResource("Resource_36mcm")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="." unique_id=1599719739]
 

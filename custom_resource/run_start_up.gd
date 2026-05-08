@@ -23,6 +23,7 @@ func create_player_build() -> PlayerBuild:
 	build.player_equipment = _duplicate_resource(picked_character.start_equipment)
 	build.current_health = 0.0
 	build.current_energy = 0.0
+	_apply_start_skills(build)
 	return build
 
 
@@ -46,3 +47,18 @@ func _duplicate_resource(resource: Resource):
 	if resource == null:
 		return null
 	return resource.duplicate(true)
+
+
+# 把角色资源上配置的起始技能写入本局 PlayerBuild。
+# 这里同时兼容旧字段 start_skill 和新字段 start_skills。
+func _apply_start_skills(build: PlayerBuild) -> void:
+	if build == null or picked_character == null:
+		return
+
+	if picked_character.start_skill != null:
+		build.add_start_skill_entry(_duplicate_resource(picked_character.start_skill) as SkillEntry)
+
+	for skill_entry in picked_character.start_skills:
+		if skill_entry == null:
+			continue
+		build.add_start_skill_entry(_duplicate_resource(skill_entry) as SkillEntry)

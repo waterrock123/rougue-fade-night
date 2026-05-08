@@ -1,6 +1,7 @@
 extends Node
 @onready var damage_font = preload("res://resource/damage_font.tres")
 const RELIC_TOOL_TIP_PANEL = preload("res://scenes/tooltip/relic_tool_tip_panel.tscn")
+const SKILL_TOOL_TIP_PANEL = preload("res://scenes/tooltip/skill_tool_tip_panel.tscn")
 
 
 

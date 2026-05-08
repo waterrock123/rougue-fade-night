@@ -10,6 +10,9 @@
 [ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="5_p4xas"]
 [ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="6_4qwnk"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_78kyi"]
+load_path = "res://.godot/imported/fc994.png-83b06ac7ae2f8783f9fb262d7305ac4d.ctex"
+
 [sub_resource type="Resource" id="Resource_l214j"]
 script = ExtResource("5_p4xas")
 audio_streams = Array[AudioStream]([ExtResource("4_4ftk6")])
@@ -20,6 +23,9 @@ metadata/_custom_type_script = "uid://cfgrgm03strrd"
 
 [node name="FireballAbility" type="Node" unique_id=1060057010]
 script = ExtResource("1_vy2j5")
+id = "102"
+ability_name = "投掷火球"
+icon_texture = SubResource("CompressedTexture2D_78kyi")
 cooldown = 5.0
 energy_cost = 0.0
 
