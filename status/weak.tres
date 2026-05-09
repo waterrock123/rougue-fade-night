@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://ca50uqrh2nlx5"]
+
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="1_2j6bf"]
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="2_lsif3"]
+[ext_resource type="Script" uid="uid://dgo07v5uptqqr" path="res://scripts/status/status_add_stat_effect.gd" id="2_r2db2"]
+[ext_resource type="Texture2D" uid="uid://bx4ie4d1ckb52" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb678.png" id="3_km083"]
+
+[sub_resource type="Resource" id="Resource_srqnh"]
+script = ExtResource("2_r2db2")
+stat_name = &"strength"
+value_per_stack = -4.0
+metadata/_custom_type_script = "uid://dgo07v5uptqqr"
+
+[sub_resource type="Resource" id="Resource_gvtxf"]
+script = ExtResource("2_r2db2")
+stat_name = &"dexterity"
+value_per_stack = -4.0
+metadata/_custom_type_script = "uid://dgo07v5uptqqr"
+
+[sub_resource type="Resource" id="Resource_qlwdw"]
+script = ExtResource("2_r2db2")
+stat_name = &"speed"
+value_per_stack = -4.0
+metadata/_custom_type_script = "uid://dgo07v5uptqqr"
+
+[resource]
+script = ExtResource("2_lsif3")
+id = &"002"
+status_name = "虚弱"
+desc = "使处于此状态的生物力量、敏捷、速度属性都减少4点"
+icon = ExtResource("3_km083")
+duration = 5.0
+effects = Array[ExtResource("1_2j6bf")]([SubResource("Resource_srqnh"), SubResource("Resource_gvtxf"), SubResource("Resource_qlwdw")])
+metadata/_custom_type_script = "uid://halm05nhwnoo"

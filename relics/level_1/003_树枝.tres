@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_b2km7"]
 [ext_resource type="Texture2D" uid="uid://cl2uqk4f8ff8c" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc88.png" id="1_x34x0"]
 [ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="2_mkfrj"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_mkfrj"]
 
 [sub_resource type="Resource" id="Resource_40jbm"]
 script = ExtResource("2_mkfrj")
@@ -11,6 +12,18 @@ add_stats = {
 "strength": 2
 }
 metadata/_custom_type_script = "uid://neet2irr2m2g"
+
+[sub_resource type="Resource" id="Resource_mkfrj"]
+script = ExtResource("5_mkfrj")
+color = Color(0.93553066, 0.58101946, 0.41882953, 1)
+tag_name = "武器"
+metadata/_custom_type_script = "uid://bts8j8jm6rdpv"
+
+[sub_resource type="Resource" id="Resource_fmfs4"]
+script = ExtResource("5_mkfrj")
+color = Color(0.16023287, 0.7011614, 0.6852821, 1)
+tag_name = "剑"
+metadata/_custom_type_script = "uid://bts8j8jm6rdpv"
 
 [resource]
 script = ExtResource("1_4ckog")
@@ -20,6 +33,7 @@ tooltip = "力量+2
 升级：基础攻击范围略微扩大"
 price = 3
 level = 1
+tags = Array[ExtResource("5_mkfrj")]([SubResource("Resource_mkfrj"), SubResource("Resource_fmfs4")])
 id = "003"
 effects = Array[ExtResource("1_b2km7")]([SubResource("Resource_40jbm")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

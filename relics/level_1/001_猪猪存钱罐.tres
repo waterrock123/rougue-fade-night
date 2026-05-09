@@ -4,10 +4,17 @@
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_x4bmk"]
 [ext_resource type="Script" uid="uid://clbjgkxl2wtkk" path="res://relic_effect/battle_win_act_effect.gd" id="2_jmqgq"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_x4bmk"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_tuncv"]
 
 [sub_resource type="Resource" id="Resource_tuncv"]
 script = ExtResource("2_jmqgq")
 metadata/_custom_type_script = "uid://clbjgkxl2wtkk"
+
+[sub_resource type="Resource" id="Resource_gc842"]
+script = ExtResource("5_tuncv")
+color = Color(1, 0.69411767, 0, 1)
+tag_name = "经济"
+metadata/_custom_type_script = "uid://bts8j8jm6rdpv"
 
 [resource]
 script = ExtResource("2_x4bmk")
@@ -20,6 +27,11 @@ desc = "小猪的存钱罐，终会破碎"
 price = 3
 sell_price = 3
 level = 1
+leveltip = null
+upgrade_merge_count = null
+relic_type = null
+tags = Array[ExtResource("5_tuncv")]([SubResource("Resource_gc842")])
 id = "001"
+is_consumable = null
 great_effects = Array[ExtResource("1_x4bmk")]([SubResource("Resource_tuncv")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

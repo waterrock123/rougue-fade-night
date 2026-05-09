@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://deo7fecagb25h" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1791.png" id="1_083wb"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_nod8v"]
 [ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="2_ligxy"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_ligxy"]
 
 [sub_resource type="Resource" id="Resource_xtdos"]
 script = ExtResource("2_ligxy")

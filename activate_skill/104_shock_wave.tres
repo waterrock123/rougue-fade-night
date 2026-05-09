@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3 uid="uid://ccc7t6qdh4fsv"]
+
+[ext_resource type="PackedScene" uid="uid://bhg2e2hgirw4f" path="res://scenes/ability/shock_wave.tscn" id="1_duawi"]
+[ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="1_v85ic"]
+[ext_resource type="Texture2D" uid="uid://c5holtp1y3kid" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc763.png" id="2_kgjnm"]
+
+[resource]
+script = ExtResource("1_v85ic")
+ability_scene = ExtResource("1_duawi")
+base_cooldown = 4.0
+base_energy_cost = 15.0
+id = &"104"
+skill_name = "震荡波"
+desc = "以你为圆心对圆形范围内所有敌人造成伤害并将其击退使其获得5秒的虚弱状态"
+icon = ExtResource("2_kgjnm")
+metadata/_custom_type_script = "uid://bq1obcmna3x2j"

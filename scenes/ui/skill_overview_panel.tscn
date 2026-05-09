@@ -18,7 +18,7 @@ font_size = 22
 font_color = Color(0.88235295, 0.92941177, 0.84705883, 1)
 
 [node name="SkillOverviewPanel" type="PanelContainer" unique_id=1524463803]
-custom_minimum_size = Vector2(430, 170)
+custom_minimum_size = Vector2(230, 170)
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 script = ExtResource("1_skill_overview")
 

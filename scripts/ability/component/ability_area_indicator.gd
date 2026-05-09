@@ -3,11 +3,14 @@ extends AbilityComponent
 
 enum IndicatorShape {
 	LINE_RECT,
+	CIRCLE,
 }
 
 @export var shape: IndicatorShape = IndicatorShape.LINE_RECT
 @export var length: float = 520.0
 @export var width: float = 80.0
+@export var radius: float = 160.0
+@export var circle_segments: int = 48
 @export var fill_color: Color = Color(0.2, 0.75, 1.0, 0.22)
 @export var border_color: Color = Color(0.7, 0.95, 1.0, 0.85)
 @export var border_width: float = 3.0
@@ -84,6 +87,8 @@ func _update_indicator() -> void:
 	match shape:
 		IndicatorShape.LINE_RECT:
 			_update_line_rect()
+		IndicatorShape.CIRCLE:
+			_update_circle()
 
 
 func _update_line_rect() -> void:
@@ -108,3 +113,22 @@ func _update_line_rect() -> void:
 	border.points = points
 	border.global_position = caster.global_position
 	border.global_rotation = direction.angle()
+
+
+func _update_circle() -> void:
+	var caster := preview_context.caster
+	var points := PackedVector2Array()
+	var safe_segments: int = max(circle_segments, 12)
+
+	# 用多边形近似圆形，既能画半透明填充，也能画边框。
+	for index in range(safe_segments):
+		var angle := TAU * float(index) / float(safe_segments)
+		points.append(Vector2(cos(angle), sin(angle)) * radius)
+
+	polygon.polygon = points
+	polygon.global_position = caster.global_position
+	polygon.global_rotation = 0.0
+
+	border.points = points
+	border.global_position = caster.global_position
+	border.global_rotation = 0.0

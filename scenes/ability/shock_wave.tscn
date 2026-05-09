@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://bhg2e2hgirw4f"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_ul7ai"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_rv3mm"]
+[ext_resource type="Script" uid="uid://cwurh534m7762" path="res://scripts/ability/component/ability_area_indicator.gd" id="3_rv3mm"]
+[ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="4_jyefb"]
+[ext_resource type="Script" uid="uid://bxl5nmydjpga5" path="res://scripts/ability/component/ability_get_targets.gd" id="5_ost0g"]
+[ext_resource type="Script" uid="uid://f7xudf47t0wm" path="res://scripts/ability/component/ability_deal_damage.gd" id="6_hokhh"]
+[ext_resource type="Script" uid="uid://cnw12tdney8d5" path="res://scripts/ability/component/ability_knockback_targets.gd" id="7_g7dij"]
+[ext_resource type="Script" uid="uid://b4uob75uv1uqu" path="res://scripts/ability/component/ability_apply_status.gd" id="8_s11re"]
+[ext_resource type="Resource" uid="uid://ca50uqrh2nlx5" path="res://status/weak.tres" id="9_r2um8"]
+[ext_resource type="Script" uid="uid://cu47jfxlm080o" path="res://scripts/ability/component/ability_play_sound.gd" id="10_s5goq"]
+[ext_resource type="AudioStream" uid="uid://e35d2kxdffyf" path="res://assets/Sound/Spell Impact 3.wav" id="11_k15j7"]
+[ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="12_8x1hi"]
+[ext_resource type="Script" uid="uid://bj4m7sjslwicx" path="res://scripts/ability/component/ability_spawn_manifest.gd" id="13_a8yxr"]
+[ext_resource type="PackedScene" uid="uid://dturxjebx7fev" path="res://scenes/ability/manifest/shock_wave_manifest.tscn" id="14_h6teu"]
+
+[sub_resource type="Resource" id="Resource_b3qve"]
+script = ExtResource("12_8x1hi")
+audio_streams = Array[AudioStream]([ExtResource("11_k15j7")])
+volume_db = 2.0
+max_distance = 300
+bus = &"sfx"
+metadata/_custom_type_script = "uid://cfgrgm03strrd"
+
+[node name="ShockWave" type="Node" unique_id=837995743]
+script = ExtResource("1_ul7ai")
+cooldown = 4.0
+energy_cost = 15.0
+metadata/_custom_type_script = "uid://bd4gnnre2dfj7"
+
+[node name="AbilityAnimationRunner" type="Node" parent="." unique_id=1306414509]
+script = ExtResource("2_rv3mm")
+animation_name = "thrown"
+metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
+
+[node name="AbilityAreaIndicator" type="Node" parent="." unique_id=948585062]
+script = ExtResource("3_rv3mm")
+shape = 1
+fill_color = Color(0.9, 0.75, 0.25, 0.22)
+border_color = Color(1, 0.88, 0.35, 0.9)
+
+[node name="ShockWaveEffectGroup" type="Node" parent="." unique_id=120388530]
+script = ExtResource("4_jyefb")
+delay = 0.18
+
+[node name="SpawnShockWaveManifest" type="Node" parent="ShockWaveEffectGroup" unique_id=548276163]
+script = ExtResource("13_a8yxr")
+manifest_scene = ExtResource("14_h6teu")
+
+[node name="AbilityGetTargets" type="Node" parent="ShockWaveEffectGroup" unique_id=523910873]
+script = ExtResource("5_ost0g")
+radius = 160.0
+require_in_front = false
+
+[node name="AbilityDealDamage" type="Node" parent="ShockWaveEffectGroup" unique_id=1088226276]
+script = ExtResource("6_hokhh")
+damage = 12.0
+tags = Array[String](["skill", "shock_wave"])
+
+[node name="AbilityKnockbackTargets" type="Node" parent="ShockWaveEffectGroup" unique_id=654140238]
+script = ExtResource("7_g7dij")
+distance = 95.0
+
+[node name="AbilityApplyStatus" type="Node" parent="ShockWaveEffectGroup" unique_id=1868084393]
+script = ExtResource("8_s11re")
+status_data = ExtResource("9_r2um8")
+
+[node name="AbilityPlaySound" type="Node" parent="ShockWaveEffectGroup" unique_id=217710906]
+script = ExtResource("10_s5goq")
+audio_config = SubResource("Resource_b3qve")

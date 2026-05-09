@@ -16,7 +16,7 @@ func _activate(context: AbilityContext):
 		if target == null:
 			continue
 
-		var status_controller := target.get_status_controller() if target.has_method("get_status_controller") else null
+		var status_controller = target.get_status_controller() if target.has_method("get_status_controller") else null
 		if status_controller == null:
 			status_controller = target.get_node_or_null("StatusController") as StatusController
 		if status_controller == null:

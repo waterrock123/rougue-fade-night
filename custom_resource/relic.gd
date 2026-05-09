@@ -40,7 +40,7 @@ const LEVEL_TIP_COLORS := {
 # 几件同 id、未升级的遗物会自动合成为一件升级态遗物。
 @export var upgrade_merge_count: int = 3
 @export var relic_type: RelicType
-@export var tags: Array[String]
+@export var tags: Array[RelicTag]
 @export var id: String
 @export var is_consumable: bool = false
 @export var effects: Array[RelicEffect]

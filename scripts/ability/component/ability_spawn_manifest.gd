@@ -11,20 +11,22 @@ func _activate(context: AbilityContext):
 	if manifest_scene == null: return
 	
 	var ability_manifest = manifest_scene.instantiate() as AbilityManifest
+	if ability_manifest == null:
+		return
 	var caster = context.caster
 	if ability_manifest is ProjectileManifest:
 		ability_manifest.source = caster
 	#将场景实例化并添加到游玩场景中a
 	if  set_as_child:
 		caster.add_child(ability_manifest)
+		ability_manifest.position = spawn_offset
 		
 	else:
 		var root=get_tree().get_root()
-		ability_manifest.position=caster.position
 		root.add_child(ability_manifest)
+		ability_manifest.global_position = caster.global_position + spawn_offset
 	
 	
-	ability_manifest.position+=spawn_offset
 	ability_manifest.scale *= scale_multiplier
 	ability_manifest.activate(context)
 	

@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://sfev31qv680q" path="res://scripts/skill/skill_controller.gd" id="5_wo0nw"]
 [ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="6_0v3m8"]
 [ext_resource type="Script" uid="uid://dlii28m125ylw" path="res://scripts/relic/relic_controller.gd" id="7_0qk61"]
-[ext_resource type="Script" path="res://scripts/status/status_controller.gd" id="8_status"]
+[ext_resource type="Script" uid="uid://87nmt5jrle4v" path="res://scripts/status/status_controller.gd" id="8_status"]
 
 [node name="Run" type="Node" unique_id=1441645540 groups=["run"]]
 script = ExtResource("1_l7o68")
@@ -62,21 +62,21 @@ z_index = 1
 [node name="UI" type="CanvasLayer" parent="." unique_id=709289980]
 
 [node name="PackageUI" parent="UI" unique_id=1745782595 instance=ExtResource("3_o4jfg")]
-offset_left = 649.0
+offset_left = 550.0
 offset_top = 195.0
-offset_right = -476.0
+offset_right = -575.0
 offset_bottom = -364.0
 
 [node name="AttributesPanel" parent="UI" unique_id=51568401 instance=ExtResource("4_gqbdr")]
-offset_left = -718.0
+offset_left = -788.0
 offset_top = -338.0
-offset_right = -355.0
+offset_right = -425.0
 offset_bottom = 153.0
 
 [node name="SkillOverviewPanel" parent="UI" unique_id=812081274 instance=ExtResource("5_2m4rs")]
-offset_left = 1472.0
-offset_top = 253.0
-offset_right = 1902.0
-offset_bottom = 423.0
+offset_left = 1362.0
+offset_top = 311.0
+offset_right = 1592.0
+offset_bottom = 481.0
 
 [connection signal="pressed" from="TopBar/PackageButton" to="." method="_on_package_button_pressed"]
