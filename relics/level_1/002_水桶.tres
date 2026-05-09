@@ -3,14 +3,12 @@
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_8vcxj"]
 [ext_resource type="Texture2D" uid="uid://syn08agweoa4" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc340.png" id="1_v304p"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_8vcxj"]
-[ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://relic_effect/add_derived_stat_effect.gd" id="2_bwslt"]
+[ext_resource type="Script" uid="uid://ckyvmmqeo6o6e" path="res://relic_effect/add_status_effect.gd" id="2_8y77n"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="3_6k1ue"]
 
-[sub_resource type="Resource" id="Resource_6k1ue"]
-script = ExtResource("2_bwslt")
-add_derived_stats = {
-"static_damage_reduction": 1.0
-}
-metadata/_custom_type_script = "uid://4jpjnif4k7sr"
+[sub_resource type="Resource" id="Resource_fao66"]
+script = ExtResource("2_8y77n")
+status_data = ExtResource("3_6k1ue")
 
 [resource]
 script = ExtResource("2_8vcxj")
@@ -23,5 +21,5 @@ desc = "戴头上可以当头盔用"
 price = 3
 level = 1
 id = "002"
-effects = Array[ExtResource("1_8vcxj")]([SubResource("Resource_6k1ue")])
+effects = Array[ExtResource("1_8vcxj")]([SubResource("Resource_fao66")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="SkillDatabase" format=3 uid="uid://bun7kvdxsfsqa"]
+
+[ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="1_vyo3l"]
+[ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_6tfni"]
+[ext_resource type="Resource" uid="uid://cgb026qamnnv4" path="res://activate_skill/101_basic_warrior_attack.tres" id="2_xg1fi"]
+[ext_resource type="Script" uid="uid://cpamkpye8vuc4" path="res://skill_database.gd" id="3_mop7h"]
+[ext_resource type="Resource" uid="uid://by16sebcpmgr2" path="res://activate_skill/102_dash.tres" id="3_scku3"]
+[ext_resource type="Resource" uid="uid://cvhamncq0ivuv" path="res://activate_skill/103_throw_axe.tres" id="4_5w88j"]
+[ext_resource type="Resource" uid="uid://dd7dtv52dipv4" path="res://passive_skill/002_strong_body.tres" id="6_08ndy"]
+
+[resource]
+script = ExtResource("3_mop7h")
+active_skills = Array[ExtResource("1_vyo3l")]([ExtResource("2_xg1fi"), ExtResource("3_scku3"), ExtResource("4_5w88j"), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
+passive_skills = Array[ExtResource("2_6tfni")]([ExtResource("6_08ndy"), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
+metadata/_custom_type_script = "uid://cpamkpye8vuc4"

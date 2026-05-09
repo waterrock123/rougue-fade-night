@@ -4,15 +4,10 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_b6fyn"]
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_nje5y"]
 [ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="2_ipy8i"]
-[ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://relic_effect/add_derived_stat_effect.gd" id="3_34frq"]
 
 [sub_resource type="Resource" id="Resource_3u84c"]
 script = ExtResource("2_ipy8i")
 metadata/_custom_type_script = "uid://neet2irr2m2g"
-
-[sub_resource type="Resource" id="Resource_3lwrs"]
-script = ExtResource("3_34frq")
-metadata/_custom_type_script = "uid://4jpjnif4k7sr"
 
 [resource]
 script = ExtResource("1_b6fyn")
@@ -25,5 +20,4 @@ price = 3
 level = 1
 id = "007"
 effects = Array[ExtResource("1_nje5y")]([SubResource("Resource_3u84c")])
-great_effects = Array[ExtResource("1_nje5y")]([SubResource("Resource_3lwrs")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

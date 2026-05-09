@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3 uid="uid://bkgvtl5uepvkr"]
+
+[ext_resource type="Script" uid="uid://dm8dhxlxlwiq4" path="res://scripts/skill/passive_skill_effect.gd" id="1_gm8pm"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="2_7x27j"]
+[ext_resource type="Texture2D" uid="uid://cq38tmfycf508" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb856.png" id="2_f4hd6"]
+[ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_hl6x1"]
+[ext_resource type="Script" uid="uid://mfhoge8r1owa" path="res://scripts/skill/passive_full_equipment_armor_effect.gd" id="3_u0rw5"]
+
+[sub_resource type="Resource" id="Resource_u0rw5"]
+script = ExtResource("3_u0rw5")
+
+[resource]
+script = ExtResource("2_hl6x1")
+effects = Array[ExtResource("1_gm8pm")]([SubResource("Resource_u0rw5")])
+id = &"004"
+skill_name = "完备"
+desc = "装备栏为满时获得护甲+2"
+icon = ExtResource("2_f4hd6")
+metadata/_custom_type_script = "uid://crxnh0qcjcfth"

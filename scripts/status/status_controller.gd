@@ -1,0 +1,146 @@
+class_name StatusController
+extends Node
+
+signal status_changed()
+
+var statuses: Dictionary = {}
+
+@onready var stats_controller: StatsController = get_node_or_null("../StatsController") as StatsController
+@onready var target: Node = get_parent()
+
+
+func _process(delta: float) -> void:
+	if statuses.is_empty():
+		return
+
+	for status_id in statuses.keys().duplicate():
+		var instance := statuses[status_id] as StatusInstance
+		if instance == null:
+			continue
+
+		_tick_status(instance, delta)
+
+
+# 添加一个状态。
+# 同 id 的状态会合并成一个 StatusInstance，但会按 source_key 记录不同来源的层数。
+func add_status(
+	status_data: StatusData,
+	source: Node = null,
+	source_key: Variant = null,
+	stacks: int = 1
+) -> StatusInstance:
+	if status_data == null or status_data.id == &"":
+		return null
+
+	var status_id := status_data.id
+	var existing := statuses.get(status_id) as StatusInstance
+	if existing != null:
+		_reapply_status(existing, source, source_key, stacks)
+		status_changed.emit()
+		return existing
+
+	var instance := StatusInstance.new(status_data, self, target, source, source_key, stacks)
+	statuses[status_id] = instance
+	_apply_effects(instance)
+	status_changed.emit()
+	return instance
+
+
+func remove_status(status_id: StringName) -> void:
+	var instance := statuses.get(status_id) as StatusInstance
+	if instance == null:
+		return
+
+	_remove_effects(instance)
+	statuses.erase(status_id)
+	status_changed.emit()
+
+
+# 只移除某一个来源贡献的层数。
+# 例如两件装备都提供 armor，卸下一件时只移除那一件装备对应的护甲层数。
+func remove_status_source(status_id: StringName, source_key: Variant) -> void:
+	var instance := statuses.get(status_id) as StatusInstance
+	if instance == null:
+		return
+
+	_remove_effects(instance)
+	instance.remove_source(source_key)
+	if instance.has_no_sources():
+		statuses.erase(status_id)
+	else:
+		_apply_effects(instance)
+	status_changed.emit()
+
+
+func has_status(status_id: StringName) -> bool:
+	return statuses.has(status_id)
+
+
+func get_status(status_id: StringName) -> StatusInstance:
+	return statuses.get(status_id) as StatusInstance
+
+
+func clear_all_statuses() -> void:
+	for status_id in statuses.keys().duplicate():
+		remove_status(status_id)
+
+
+func get_stats_controller() -> StatsController:
+	if stats_controller == null:
+		stats_controller = get_node_or_null("../StatsController") as StatsController
+	return stats_controller
+
+
+func _reapply_status(instance: StatusInstance, source: Node, source_key: Variant, added_stacks: int) -> void:
+	if instance.status_data == null:
+		return
+
+	# 先撤掉旧效果，再按新的总层数重新应用，避免属性修饰器残留。
+	_remove_effects(instance)
+	instance.source = source
+	instance.source_key = source_key
+
+	match instance.status_data.stack_mode:
+		StatusData.StackMode.ADD_STACK:
+			instance.add_source_stacks(source_key, added_stacks)
+		StatusData.StackMode.REPLACE:
+			instance.set_source_stacks(source_key, added_stacks)
+		StatusData.StackMode.REFRESH:
+			instance.set_source_stacks(source_key, added_stacks)
+
+	if instance.status_data.refresh_duration_on_reapply:
+		instance.refresh_duration()
+
+	_apply_effects(instance)
+
+
+func _tick_status(instance: StatusInstance, delta: float) -> void:
+	if instance.status_data == null:
+		return
+
+	for effect in instance.status_data.effects:
+		if effect != null:
+			effect.on_tick(instance, delta)
+
+	if instance.is_temporary():
+		instance.remaining_duration = max(instance.remaining_duration - delta, 0.0)
+		if instance.remaining_duration <= 0.0:
+			remove_status(instance.get_status_id())
+
+
+func _apply_effects(instance: StatusInstance) -> void:
+	if instance.status_data == null:
+		return
+
+	for effect in instance.status_data.effects:
+		if effect != null:
+			effect.on_apply(instance)
+
+
+func _remove_effects(instance: StatusInstance) -> void:
+	if instance.status_data == null:
+		return
+
+	for effect in instance.status_data.effects:
+		if effect != null:
+			effect.on_remove(instance)

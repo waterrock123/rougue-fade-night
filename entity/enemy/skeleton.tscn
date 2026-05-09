@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="11_icxyw"]
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="12_ik2k2"]
 [ext_resource type="Resource" uid="uid://daijrx1c0axll" path="res://resource/enemy/skeleton.tres" id="12_iumoe"]
+[ext_resource type="Script" path="res://scripts/status/status_controller.gd" id="13_status"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i0f3v"]
 shader = ExtResource("2_haw2w")
@@ -386,5 +387,8 @@ metadata/_custom_type_script = "uid://rm4yfg5qu4vg"
 
 [node name="ModifierHandler" type="Node" parent="." unique_id=1658077185]
 script = ExtResource("12_ik2k2")
+
+[node name="StatusController" type="Node" parent="." unique_id=1812209643]
+script = ExtResource("13_status")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

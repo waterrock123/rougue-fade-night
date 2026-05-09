@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://di4y7j2fln2w7" path="res://scripts/ability/component/ability_animation_frame_event.gd" id="13_hn0st"]
 [ext_resource type="Resource" uid="uid://yvagqhe76xew" path="res://resource/enemy/mushroom_monster.tres" id="16_erme2"]
 [ext_resource type="Script" uid="uid://dcukpvvpmebnv" path="res://scripts/stats/damage_scaling_rule.gd" id="16_pvud1"]
+[ext_resource type="Script" path="res://scripts/status/status_controller.gd" id="17_status"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i0f3v"]
 shader = ExtResource("2_3bex7")
@@ -529,5 +530,8 @@ metadata/_custom_type_script = "uid://rm4yfg5qu4vg"
 
 [node name="ModifierHandler" type="Node" parent="." unique_id=42225585]
 script = ExtResource("9_3r1hm")
+
+[node name="StatusController" type="Node" parent="." unique_id=1812209643]
+script = ExtResource("17_status")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -9,6 +9,8 @@ const STARTING_GOLD := 0
 @export var shop: Shop
 @export var shop_config: ShopConfig
 @export var picked_character: Character
+# 待消费的免费装备三选一等级队列。每次遗物合成升级会加入一次机会。
+@export var pending_free_relic_choice_levels: Array[int] = []
 
 @export_group("修整期金币")
 # 第一次进入修整期时的基础奖励。
@@ -44,6 +46,7 @@ func setup_new_run(
 	shop_config = new_shop_config
 	picked_character = new_character
 	rest_period_count = 0
+	pending_free_relic_choice_levels.clear()
 	set_gold(STARTING_GOLD)
 
 
@@ -77,3 +80,40 @@ func add_rest_period_gold_growth(amount: int) -> void:
 # 重置修整期金币奖励的额外修正。
 func reset_rest_period_gold_modifiers() -> void:
 	rest_period_gold_flat_bonus = 0
+
+
+# 记录一次免费装备三选一机会，并锁定这次机会刷出的装备等阶。
+func queue_free_relic_choice(relic_level: int) -> void:
+	pending_free_relic_choice_levels.append(max(relic_level, 1))
+	if EventBus != null:
+		EventBus.free_relic_choice_changed.emit()
+
+
+func has_free_relic_choice() -> bool:
+	return not pending_free_relic_choice_levels.is_empty()
+
+
+# 取出最早获得的一次免费三选一机会。
+func pop_free_relic_choice_level() -> int:
+	if pending_free_relic_choice_levels.is_empty():
+		return -1
+
+	var relic_level := pending_free_relic_choice_levels[0]
+	pending_free_relic_choice_levels.remove_at(0)
+	return relic_level
+
+
+# 修整期结束时丢弃未使用的免费三选一机会，避免跨修整期保存。
+func clear_free_relic_choices() -> void:
+	if pending_free_relic_choice_levels.is_empty():
+		return
+
+	pending_free_relic_choice_levels.clear()
+	if EventBus != null:
+		EventBus.free_relic_choice_changed.emit()
+
+
+func get_free_relic_choice_level_for_now() -> int:
+	if shop == null:
+		return 1
+	return max(shop.level + 1, 1)

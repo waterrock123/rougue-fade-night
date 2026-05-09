@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://iglrgb4t03fi"]
 
 [ext_resource type="Script" uid="uid://cowqx35kqkydm" path="res://scripts/scenes/character_selector.gd" id="1_dy3sk"]
-[ext_resource type="Texture2D" uid="uid://cvp8l8jeu874m" path="res://assets/ai art/战狂.png" id="1_so2ut"]
+[ext_resource type="Texture2D" uid="uid://bt2smb81ra5yc" path="res://assets/ai art/战狂背景.png" id="2_dy3sk"]
 [ext_resource type="FontFile" uid="uid://d2wx8752b45ky" path="res://assets/字体/字魂像素积木体(商用需授权).ttf" id="2_ktnu4"]
 [ext_resource type="Texture2D" uid="uid://hqry68u0ulx1" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1467.png" id="2_otyuf"]
 [ext_resource type="Texture2D" uid="uid://e07s1f2281jf" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1781.png" id="3_ktnu4"]
@@ -118,16 +118,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_so2ut")
+texture = ExtResource("2_dy3sk")
 expand_mode = 1
 stretch_mode = 4
 
 [node name="CharacterText" type="VBoxContainer" parent="." unique_id=2077993443]
 layout_mode = 0
-offset_left = 339.0
-offset_top = 6.0
-offset_right = 1595.0
-offset_bottom = 631.0
+offset_left = 388.0
+offset_top = -5.0
+offset_right = 1644.0
+offset_bottom = 620.0
 
 [node name="Title" type="Label" parent="CharacterText" unique_id=1134241225]
 unique_name_in_owner = true

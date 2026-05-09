@@ -11,6 +11,15 @@ func apply(context: LevelUpRewardContext):
 	context.skill_controller.grant_active_skill(skill_data)
 
 
+func is_available(context: LevelUpRewardContext) -> bool:
+	if skill_data == null:
+		return false
+	if context == null or context.player_build == null:
+		return true
+
+	return context.player_build.find_active_skill_entry(skill_data.id) == null
+
+
 func get_display_title() -> String:
 	if not title.is_empty():
 		return title

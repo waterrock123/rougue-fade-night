@@ -8,8 +8,19 @@ var bg_music_player: AudioStreamPlayer2D = null
 var home_bg_music: AudioStream = preload("res://assets/Music/fantasy_home_bg.mp3")
 var battle_bg_music: AudioStream = preload("res://assets/Music/drams_battle.mp3")
 
+var get_item_sound: AudioStream = preload("res://assets/Sound/get_item.mp3")
+var level_up_item_sound: AudioStream = preload("res://assets/Sound/level_up_item.mp3")
+var lock_item_sound: AudioStream = preload("res://assets/Sound/lock_item.mp3")
+var sell_item_sound: AudioStream = preload("res://assets/Sound/sell_item.mp3")
+
 
 var bg_music: Dictionary = {"home": home_bg_music,"battle":battle_bg_music}
+var ui_sounds: Dictionary = {
+	"get_item": get_item_sound,
+	"level_up_item": level_up_item_sound,
+	"lock_item": lock_item_sound,
+	"sell_item": sell_item_sound,
+}
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -70,6 +81,17 @@ func play(clip_config: AudiioConfig,global_pos = Vector2.INF):
 	audio_player.play()
 	
 	return audio_player 
+
+
+func play_ui_sound(sound_name: StringName) -> void:
+	var stream := ui_sounds.get(String(sound_name)) as AudioStream
+	if stream == null:
+		return
+
+	var audio_config := AudiioConfig.new()
+	audio_config.audio_streams = [stream]
+	audio_config.bus = "sfx"
+	play(audio_config)
 	
 	
 	

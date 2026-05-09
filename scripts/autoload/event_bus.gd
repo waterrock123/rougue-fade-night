@@ -29,6 +29,10 @@ signal attribute_update()
 signal gold_changed()
 #装备购买信号,传递这个装备
 signal buy_equipment(equipment:Relic)
+# 遗物合成升级信号。只在“多件未升级同 id 遗物合成”时发出，用来发放免费三选一机会。
+signal relic_merged_to_levelup(upgraded_relic: Relic)
+# 免费遗物三选一机会变化信号，商店 UI 用它切入/继续奖励选择。
+signal free_relic_choice_changed()
 
 
 #退出地图信号，进入传入的房间的场景

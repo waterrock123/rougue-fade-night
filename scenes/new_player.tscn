@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://buikmj78ovb8g"]
+
+[node name="Character2D" type="CharacterBody2D" unique_id=1803239929]
+
+[node name="视觉容器" type="Node2D" parent="." unique_id=236542028]
+
+[node name="Skeleton2D" type="Skeleton2D" parent="视觉容器" unique_id=1822254701]
+
+[node name="胯部" type="Bone2D" parent="视觉容器/Skeleton2D" unique_id=178567526]
+
+[node name="躯干" type="Node2D" parent="视觉容器/Skeleton2D/胯部" unique_id=412986655]

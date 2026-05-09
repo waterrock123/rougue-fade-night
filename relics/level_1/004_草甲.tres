@@ -27,7 +27,6 @@ tooltip = "一护甲，受到伤害时有概率损坏
 升级： 体质+2，受到伤害时不再会损坏"
 price = 3
 level = 1
-leveltip = 1
 id = "004"
 effects = Array[ExtResource("1_eej11")]([SubResource("Resource_s1ykm")])
 great_effects = Array[ExtResource("1_eej11")]([SubResource("Resource_eej11")])

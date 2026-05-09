@@ -104,8 +104,9 @@ func _refresh_tooltip_label() -> void:
 # 先从配置的奖励池抽奖励，不足的数量再用角色主要属性奖励补齐。
 func _build_reward_options() -> Array[LevelUpReward]:
 	var rewards: Array[LevelUpReward] = []
+	var reward_context := _build_reward_context()
 	if reward_pool != null:
-		rewards = reward_pool.get_random_rewards(reward_count)
+		rewards = reward_pool.get_random_rewards(reward_count, reward_context)
 
 	var main_attributes := _get_main_attributes()
 	main_attributes.shuffle()

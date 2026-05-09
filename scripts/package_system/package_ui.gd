@@ -14,6 +14,8 @@ extends Control
 @onready var relic_ui_instance = preload("res://scenes/relic/relic_ui.tscn")
 
 var mouse_relic: RelicUI = null
+var sell_target: Control
+var run_stats: RunStats
 
 
 func _ready() -> void:
@@ -83,6 +85,17 @@ func close_bag():
 
 func _input(event: InputEvent) -> void:
 	relic_follow_mouse()
+	_update_sell_preview()
+
+	if mouse_relic != null and event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		if mouse_event.button_index == MOUSE_BUTTON_LEFT and not mouse_event.pressed:
+			_try_sell_mouse_relic()
+
+
+func set_sell_context(new_run_stats: RunStats, new_sell_target: Control) -> void:
+	run_stats = new_run_stats
+	sell_target = new_sell_target
 
 
 # 把装备栏库存数据同步到 UI。
@@ -96,11 +109,11 @@ func equipment_update():
 	for i in range(equipment_slots.size()):
 		var equipment_slot: Slot = equipment_inventory.equip_slots[i]
 		if !equipment_slot:
-			equipment_slots[i].reset_color()
+			_clear_slot_button(equipment_slots[i])
 			continue
 
 		if !equipment_slot.item:
-			equipment_slots[i].reset_color()
+			_clear_slot_button(equipment_slots[i])
 			continue
 
 		var relic_ui: RelicUI = equipment_slots[i].slot_button_slot_relic
@@ -123,11 +136,11 @@ func bag_update():
 	for i in range(bag_slots.size()):
 		var inventory_slot: Slot = bag_inventory.slots[i]
 		if !inventory_slot:
-			bag_slots[i].reset_color()
+			_clear_slot_button(bag_slots[i])
 			continue
 
 		if !inventory_slot.item:
-			bag_slots[i].reset_color()
+			_clear_slot_button(bag_slots[i])
 			continue
 
 		var relic_ui: RelicUI = bag_slots[i].slot_button_slot_relic
@@ -141,6 +154,10 @@ func bag_update():
 
 # 左键逻辑：维持原有拖拽、拾取和交换功能。
 func on_mouse_left_slot_button(slot_button):
+	if mouse_relic != null and _is_mouse_over_sell_target():
+		_try_sell_mouse_relic()
+		return
+
 	if slot_button.is_empty() and mouse_relic:
 		insert_relic_in_slot(slot_button)
 	elif !slot_button.is_empty() and !mouse_relic:
@@ -197,6 +214,7 @@ func take_relic_from_slot(slot_button):
 # 把鼠标上的物品放入目标格子。
 func insert_relic_in_slot(slot_button):
 	var relic_ = mouse_relic
+	relic_.hide_sell_price()
 	remove_child(mouse_relic)
 	mouse_relic = null
 	slot_button.insert(relic_)
@@ -217,3 +235,59 @@ func relic_follow_mouse():
 		return
 
 	mouse_relic.global_position = get_global_mouse_position()
+
+
+func _update_sell_preview() -> void:
+	if mouse_relic == null:
+		return
+
+	var relic := mouse_relic.relic
+	if relic == null:
+		mouse_relic.hide_sell_price()
+		return
+
+	if _is_mouse_over_sell_target():
+		mouse_relic.show_sell_price(relic.sell_price)
+	else:
+		mouse_relic.hide_sell_price()
+
+
+func _try_sell_mouse_relic() -> bool:
+	if mouse_relic == null or run_stats == null:
+		return false
+	if not _is_mouse_over_sell_target():
+		return false
+
+	var relic := mouse_relic.relic
+	if relic == null:
+		return false
+
+	run_stats.set_gold(run_stats.gold + max(relic.sell_price, 0))
+	AudioController.play_ui_sound(&"sell_item")
+	mouse_relic.hide_sell_price()
+	remove_child(mouse_relic)
+	mouse_relic.queue_free()
+	mouse_relic = null
+	return true
+
+
+func _is_mouse_over_sell_target() -> bool:
+	if sell_target == null or not is_instance_valid(sell_target) or not sell_target.visible:
+		return false
+
+	return sell_target.get_global_rect().has_point(get_global_mouse_position())
+
+
+# 数据格为空时，不只重置颜色，也要移除旧 RelicUI，避免合成后画面残留旧装备。
+func _clear_slot_button(slot_button) -> void:
+	if slot_button == null:
+		return
+
+	if slot_button.slot_button_slot_relic != null:
+		var relic_ui: RelicUI = slot_button.slot_button_slot_relic
+		if relic_ui.get_parent() == slot_button.center_container:
+			slot_button.center_container.remove_child(relic_ui)
+			relic_ui.queue_free()
+		slot_button.slot_button_slot_relic = null
+
+	slot_button.reset_color()

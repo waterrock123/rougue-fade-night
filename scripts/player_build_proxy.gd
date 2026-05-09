@@ -6,6 +6,7 @@ extends Node
 @onready var stats_controller: StatsController = $StatsController
 @onready var relic_controller: RelicController = $RelicController
 @onready var skill_controller: SkillController = $SkillController
+@onready var status_controller: StatusController = $StatusController
 
 
 func _ready() -> void:
@@ -39,6 +40,10 @@ func get_stats_controller() -> StatsController:
 
 func get_skill_controller() -> SkillController:
 	return skill_controller
+
+
+func get_status_controller() -> StatusController:
+	return status_controller
 
 
 # 优先向上查找带 run_stats 的父节点，兼容 Run 和 RestPeriod 两种挂载方式。

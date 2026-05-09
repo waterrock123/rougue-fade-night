@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://xg2yg0ufepbu" path="res://scenes/ui/attributes_panel.tscn" id="2_15pu7"]
 [ext_resource type="Script" uid="uid://dct0g75cglshw" path="res://scripts/level_up/level_up_reward.gd" id="2_w2dlv"]
 [ext_resource type="PackedScene" uid="uid://dsq14t67lvr70" path="res://scenes/ui/spell_ui.tscn" id="3_fobpd"]
-[ext_resource type="Texture2D" uid="uid://baalxngkjdyt0" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc7.png" id="3_vij0x"]
 [ext_resource type="Script" uid="uid://dedmh70pdbkgs" path="res://scripts/level_up/level_up_reward_pool.gd" id="3_xdrav"]
 [ext_resource type="Script" uid="uid://bu2h2b334tpo0" path="res://scripts/level_up/reward_grant_active_skill.gd" id="4_ahb88"]
 [ext_resource type="Texture2D" uid="uid://c4uka7tqkr1yj" path="res://assets/ai art/暖色调升级.png" id="4_mdcxe"]
@@ -15,14 +14,16 @@
 [ext_resource type="Resource" uid="uid://8hxhfowqbskh" path="res://passive_skill/001_little_luck.tres" id="8_21ar5"]
 [ext_resource type="Resource" uid="uid://dd7dtv52dipv4" path="res://passive_skill/002_strong_body.tres" id="9_8p3ql"]
 [ext_resource type="Resource" uid="uid://b5arglqpe24k4" path="res://passive_skill/003_healthy.tres" id="10_jysh7"]
+[ext_resource type="Script" uid="uid://dsjn1o6k18rw" path="res://scripts/level_up/reward_increase_stat.gd" id="10_vij0x"]
+[ext_resource type="Texture2D" uid="uid://g5et2endu85s" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc657.png" id="10_ysuf8"]
+[ext_resource type="Texture2D" uid="uid://bwtkek5bb6n4j" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc659.png" id="12_wpsi4"]
+[ext_resource type="Texture2D" uid="uid://dnkydavpabyg8" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc658.png" id="13_wpsi4"]
+[ext_resource type="Resource" uid="uid://bkgvtl5uepvkr" path="res://passive_skill/004_full_prepared.tres" id="14_ftceu"]
 
 [sub_resource type="Resource" id="Resource_774n4"]
 script = ExtResource("4_ahb88")
 skill_data = ExtResource("5_ysuf8")
 id = &"001"
-title = "冲刺技能"
-desc = "向一个方向冲刺"
-icon = ExtResource("3_vij0x")
 metadata/_custom_type_script = "uid://bu2h2b334tpo0"
 
 [sub_resource type="Resource" id="Resource_stheq"]
@@ -47,9 +48,41 @@ skill_data = ExtResource("10_jysh7")
 title = "健康体质"
 metadata/_custom_type_script = "uid://bi5mlqhper6cl"
 
+[sub_resource type="Resource" id="Resource_ahb88"]
+script = ExtResource("10_vij0x")
+stat_name = &"strength"
+id = &"006"
+title = "力量提升"
+desc = "力量提升一点"
+icon = ExtResource("10_ysuf8")
+metadata/_custom_type_script = "uid://dsjn1o6k18rw"
+
+[sub_resource type="Resource" id="Resource_ftceu"]
+script = ExtResource("10_vij0x")
+stat_name = &"constitution"
+id = &"007"
+title = "体质提升"
+desc = "体质提升一点"
+icon = ExtResource("12_wpsi4")
+metadata/_custom_type_script = "uid://dsjn1o6k18rw"
+
+[sub_resource type="Resource" id="Resource_21ar5"]
+script = ExtResource("10_vij0x")
+stat_name = &"dexterity"
+id = &"008"
+title = "提升敏捷"
+desc = "敏捷提升一点"
+icon = ExtResource("13_wpsi4")
+metadata/_custom_type_script = "uid://dsjn1o6k18rw"
+
+[sub_resource type="Resource" id="Resource_8p3ql"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("14_ftceu")
+metadata/_custom_type_script = "uid://bi5mlqhper6cl"
+
 [sub_resource type="Resource" id="Resource_vgdht"]
 script = ExtResource("3_xdrav")
-rewards = Array[ExtResource("2_w2dlv")]([SubResource("Resource_774n4"), SubResource("Resource_stheq"), SubResource("Resource_fb6j1"), SubResource("Resource_8buaq"), SubResource("Resource_atphq"), null])
+rewards = Array[ExtResource("2_w2dlv")]([SubResource("Resource_774n4"), SubResource("Resource_stheq"), SubResource("Resource_fb6j1"), SubResource("Resource_8buaq"), SubResource("Resource_atphq"), SubResource("Resource_ahb88"), SubResource("Resource_ftceu"), SubResource("Resource_21ar5"), SubResource("Resource_8p3ql")])
 metadata/_custom_type_script = "uid://dedmh70pdbkgs"
 
 [sub_resource type="LabelSettings" id="LabelSettings_ffqgm"]

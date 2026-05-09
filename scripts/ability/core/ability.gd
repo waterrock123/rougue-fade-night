@@ -14,6 +14,7 @@ var skill_entry: SkillEntry
 
 var current_cooldown: float
 var can_be_casted = false
+var preview_context: AbilityContext
 
 
 # 主动技能运行时注册后调用，把资源里的数据同步到 Ability 实例。
@@ -37,6 +38,32 @@ func  activate(entity: Entity):
 	var context=AbilityContext.new(entity,self)
 	
 	_activate_components(context)
+
+
+func has_cast_preview() -> bool:
+	for child in get_children():
+		if child is AbilityComponent and child.has_method("begin_preview"):
+			return true
+	return false
+
+
+# 按住技能键时调用，只启动“显示范围”等预览组件，不触发真正的技能效果。
+func begin_cast_preview(entity: Entity) -> void:
+	if not has_cast_preview():
+		return
+
+	preview_context = AbilityContext.new(entity, self)
+	for child in get_children():
+		if child is AbilityComponent and child.has_method("begin_preview"):
+			child.begin_preview(preview_context)
+
+
+# 松开技能键或取消施法时调用，让所有预览组件收尾隐藏。
+func end_cast_preview() -> void:
+	for child in get_children():
+		if child is AbilityComponent and child.has_method("end_preview"):
+			child.end_preview()
+	preview_context = null
 
 func _activate_components(context: AbilityContext):
 	for child in get_children():

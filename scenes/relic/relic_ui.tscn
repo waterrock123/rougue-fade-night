@@ -4,6 +4,24 @@
 [ext_resource type="Texture2D" uid="uid://cl2uqk4f8ff8c" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc88.png" id="2_sjsv8"]
 [ext_resource type="Texture2D" uid="uid://p6cwc7j4irry" path="res://assets/rarity.png" id="3_b1kfj"]
 [ext_resource type="Texture2D" uid="uid://bm3fe6k0bb606" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa1810.png" id="4_b1kfj"]
+[ext_resource type="Texture2D" uid="uid://cwwyds86sov82" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb131.png" id="5_wcluq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j32jk"]
+bg_color = Color(0.13095844, 0.6192269, 0.9999998, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85538536, 0.8276153, 7.70092e-07, 1)
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_ouelm"]
+font_size = 32
+font_color = Color(1, 1, 0.21568628, 1)
 
 [node name="RelicUI" type="Control" unique_id=1285776878]
 layout_mode = 3
@@ -50,3 +68,26 @@ offset_top = 15.0
 offset_right = 52.0
 offset_bottom = 55.0
 texture = ExtResource("4_b1kfj")
+
+[node name="Sellbox" type="PanelContainer" parent="." unique_id=100673701]
+visible = false
+layout_mode = 0
+offset_left = -56.0
+offset_top = -125.0
+offset_right = 64.0
+offset_bottom = -69.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_j32jk")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Sellbox" unique_id=1300081519]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Sellbox/HBoxContainer" unique_id=1210463022]
+texture_filter = 1
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("5_wcluq")
+
+[node name="SellLabel" type="Label" parent="Sellbox/HBoxContainer" unique_id=1940471306]
+layout_mode = 2
+text = "3"
+label_settings = SubResource("LabelSettings_ouelm")

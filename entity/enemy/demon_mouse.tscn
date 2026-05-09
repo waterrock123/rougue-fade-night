@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="9_npc04"]
 [ext_resource type="PackedScene" uid="uid://b08t552buecvq" path="res://scenes/hit_particles.tscn" id="10_lqaot"]
 [ext_resource type="Script" uid="uid://bxt142ar5bkmd" path="res://scripts/entity/pathfinding.gd" id="11_sg1qm"]
+[ext_resource type="Script" path="res://scripts/status/status_controller.gd" id="12_status"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i0f3v"]
 shader = ExtResource("2_dqrhk")
@@ -283,5 +284,8 @@ metadata/_custom_type_script = "uid://rm4yfg5qu4vg"
 
 [node name="ModifierHandler" type="Node" parent="." unique_id=42225585]
 script = ExtResource("9_npc04")
+
+[node name="StatusController" type="Node" parent="." unique_id=1812209643]
+script = ExtResource("12_status")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

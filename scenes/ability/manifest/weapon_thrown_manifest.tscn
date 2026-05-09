@@ -25,17 +25,17 @@ height = 18.0
 z_index = 100
 scale = Vector2(0.3, 0.3)
 script = ExtResource("1_a50mv")
-speed = 100.0
+speed = 200.0
 target_group = "enemy"
-max_distance = 300.0
+max_distance = 200.0
 is_rotate = true
 hit_sound = SubResource("Resource_yeulv")
-rotate_speed = 20.0
+rotate_speed = 50.0
+damage = 15.0
 is_penetrate = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1123908785]
 texture_filter = 1
-position = Vector2(6.6666665, -3.3333333)
 texture = SubResource("AtlasTexture_pwjyv")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=215287016]

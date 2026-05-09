@@ -32,6 +32,17 @@ func get_stats_controller() -> StatsController:
 	return effect_owner.get_node_or_null("StatsController") as StatsController
 
 
+func get_status_controller() -> StatusController:
+	var effect_owner := _get_effect_owner()
+	if effect_owner == null:
+		return null
+
+	if effect_owner.has_method("get_status_controller"):
+		return effect_owner.get_status_controller()
+
+	return effect_owner.get_node_or_null("StatusController") as StatusController
+
+
 # 根据当前装备栏状态刷新所有遗物效果。
 func refresh_all() -> void:
 	_resolve_context()

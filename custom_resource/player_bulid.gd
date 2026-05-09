@@ -15,6 +15,49 @@ extends Resource
 @export var owned_passive_skills: Array[SkillEntry] = []
 
 
+# 玩家构筑是否能接收一件遗物：背包有空位，或满背包但会立刻和背包/装备栏里的同 id 遗物合成。
+func can_accept_relic(relic: Relic) -> bool:
+	if relic == null or player_inventory == null:
+		return false
+
+	if player_inventory.has_empty_slot():
+		return true
+
+	return _can_merge_with_external_relic(relic)
+
+
+# 统一获得遗物入口。添加到背包后，立刻用背包+装备栏一起参与合成检测。
+func add_relic(relic: Relic) -> bool:
+	if relic == null or player_inventory == null:
+		return false
+
+	if player_inventory.has_empty_slot():
+		var success := player_inventory.add_relic(relic)
+		if success:
+			AudioController.play_ui_sound(&"get_item")
+		check_relic_merges()
+		return success
+
+	if _can_merge_with_external_relic(relic):
+		_merge_with_external_relic(relic)
+		return true
+
+	return false
+
+
+# 统一检测背包和装备栏中的未升级遗物，满足数量时合成一件升级态遗物。
+func check_relic_merges() -> void:
+	var checked_ids: Array[String] = []
+	for slot in _get_all_relic_slots():
+		if slot == null or slot.item == null:
+			continue
+		if checked_ids.has(slot.item.id):
+			continue
+
+		checked_ids.append(slot.item.id)
+		_try_merge_relic_id(slot.item.id)
+
+
 # 添加角色起始技能条目；根据 SkillData 类型自动放进主动或被动列表。
 func add_start_skill_entry(skill_entry: SkillEntry) -> SkillEntry:
 	if skill_entry == null or skill_entry.skill_data == null:
@@ -108,3 +151,108 @@ func _find_skill_entry(entries: Array[SkillEntry], skill_id: StringName) -> Skil
 			return entry
 
 	return null
+
+
+func _try_merge_relic_id(relic_id: String) -> void:
+	if relic_id.is_empty():
+		return
+
+	while true:
+		var matching_slots := _find_mergeable_slots(relic_id)
+		if matching_slots.is_empty():
+			return
+
+		var base_relic := matching_slots[0].item
+		var upgraded_relic := base_relic.duplicate(true) as Relic
+		upgraded_relic.leveltip = Relic.LevelTip.LEVELUP
+
+		# 第一件变成升级态，其余参与合成的格子清空。装备栏中的遗物也会参与。
+		matching_slots[0].item = upgraded_relic
+		for index in range(1, matching_slots.size()):
+			matching_slots[index].item = null
+
+		EventBus.relic_merged_to_levelup.emit(upgraded_relic)
+		AudioController.play_ui_sound(&"level_up_item")
+		EventBus.inventory_update.emit()
+		EventBus.equipment_update.emit()
+
+
+func _find_mergeable_slots(relic_id: String) -> Array[Slot]:
+	var result: Array[Slot] = []
+	var required_count := 3
+
+	for slot in _get_all_relic_slots():
+		if slot == null or slot.item == null:
+			continue
+
+		var relic := slot.item
+		if relic.id != relic_id:
+			continue
+		if relic.leveltip != Relic.LevelTip.UNLEVELUP:
+			continue
+
+		if result.is_empty():
+			required_count = max(relic.upgrade_merge_count, 2)
+		result.append(slot)
+
+		if result.size() >= required_count:
+			return result
+
+	return []
+
+
+func _get_all_relic_slots() -> Array[Slot]:
+	var result: Array[Slot] = []
+	# 装备栏优先参与排序；如果装备中的遗物参与合成，升级态会保留在装备栏位置。
+	if player_equipment != null:
+		for slot in player_equipment.equip_slots:
+			result.append(slot)
+
+	if player_inventory != null:
+		for slot in player_inventory.slots:
+			result.append(slot)
+
+	return result
+
+
+func _can_merge_with_external_relic(relic: Relic) -> bool:
+	if relic == null or relic.leveltip != Relic.LevelTip.UNLEVELUP:
+		return false
+
+	var required_count = max(relic.upgrade_merge_count, 2)
+	var existing_count := 0
+	for slot in _get_all_relic_slots():
+		if slot == null or slot.item == null:
+			continue
+		if slot.item.id == relic.id and slot.item.leveltip == Relic.LevelTip.UNLEVELUP:
+			existing_count += 1
+
+	return existing_count + 1 >= required_count
+
+
+func _merge_with_external_relic(relic: Relic) -> void:
+	var required_count = max(relic.upgrade_merge_count, 2)
+	var matching_slots: Array[Slot] = []
+
+	for slot in _get_all_relic_slots():
+		if slot == null or slot.item == null:
+			continue
+		if slot.item.id == relic.id and slot.item.leveltip == Relic.LevelTip.UNLEVELUP:
+			matching_slots.append(slot)
+		if matching_slots.size() >= required_count - 1:
+			break
+
+	if matching_slots.size() < required_count - 1:
+		return
+
+	var upgraded_relic := relic.duplicate(true) as Relic
+	upgraded_relic.leveltip = Relic.LevelTip.LEVELUP
+	matching_slots[0].item = upgraded_relic
+
+	for index in range(1, matching_slots.size()):
+		matching_slots[index].item = null
+
+	EventBus.relic_merged_to_levelup.emit(upgraded_relic)
+	AudioController.play_ui_sound(&"level_up_item")
+	EventBus.inventory_update.emit()
+	EventBus.equipment_update.emit()

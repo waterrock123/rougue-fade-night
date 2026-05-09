@@ -63,15 +63,23 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if is_dead: return
-	if  Input.is_action_just_pressed("ability_1"):
-		ability_controller.trigger_ability_by_idx(0)
-	if  Input.is_action_just_pressed("ability_2"):
-		ability_controller.trigger_ability_by_idx(1)
+	_handle_ability_input()
 	_handle_movement(delta)
 	_handle_footstep_sound(delta)
 	_handle_region_energy(delta)
 	_handle_animation() 
 	
+
+func _handle_ability_input() -> void:
+	_handle_ability_action("ability_1", 0)
+	_handle_ability_action("ability_2", 1)
+
+
+func _handle_ability_action(action_name: StringName, ability_index: int) -> void:
+	if Input.is_action_just_pressed(action_name):
+		ability_controller.begin_ability_preview_by_idx(ability_index)
+	if Input.is_action_just_released(action_name):
+		ability_controller.release_ability_preview_by_idx(ability_index)
 
 
 func _handle_ui(player_inventory:Inventory,player_equipment:Equipment):

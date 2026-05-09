@@ -4,8 +4,10 @@ extends Node
 var player_build: PlayerBuild
 var run_stats: RunStats
 var passive_effect_keys: Array[StringName] = []
+var active_passive_effects: Array[Dictionary] = []
 
 @onready var stats_controller: StatsController = get_node_or_null("../StatsController") as StatsController
+@onready var status_controller: StatusController = get_node_or_null("../StatusController") as StatusController
 @onready var ability_controller: AbilityController = get_node_or_null("../AbilityController") as AbilityController
 @onready var entity: Entity = get_parent() as Entity
 
@@ -52,7 +54,7 @@ func refresh_active_skills() -> void:
 		slot_index += 1
 
 
-# 被动技能负责把效果应用到 StatsController 等运行时系统。
+# 被动技能负责把效果应用到 StatsController、StatusController 等运行时系统。
 func refresh_passive_skills() -> void:
 	_clear_passive_effects()
 	if run_stats != null:
@@ -76,6 +78,10 @@ func refresh_passive_skills() -> void:
 
 			var context := _build_context(entry, effect_index)
 			effect.apply(context)
+			active_passive_effects.append({
+				"effect": effect,
+				"context": context,
+			})
 
 
 func grant_active_skill(skill_data: ActiveSkillData) -> SkillEntry:
@@ -113,6 +119,7 @@ func _build_context(skill_entry: SkillEntry, effect_index: int = -1) -> SkillCon
 	context.caster = entity
 	context.skill_controller = self
 	context.stats_controller = stats_controller
+	context.status_controller = status_controller
 	context.ability_controller = ability_controller
 	context.effect_key = _build_passive_effect_key(skill_entry, effect_index)
 	if context.effect_key is StringName and not passive_effect_keys.has(context.effect_key):
@@ -139,11 +146,18 @@ func _resolve_run_stats() -> RunStats:
 
 
 func _clear_passive_effects() -> void:
-	if stats_controller == null:
-		passive_effect_keys.clear()
-		return
+	# 先让被动效果走自己的 remove，便于条件型被动断开信号、移除状态。
+	for record in active_passive_effects:
+		var effect := record.get("effect") as PassiveSkillEffect
+		var context := record.get("context") as SkillContext
+		if effect != null and context != null:
+			effect.remove(context)
 
-	for effect_key in passive_effect_keys:
-		stats_controller.clear_effect_modifiers(effect_key)
+	active_passive_effects.clear()
+
+	# 兜底清理旧式属性修饰器，避免某些旧被动没有正确实现 remove 时残留。
+	if stats_controller != null:
+		for effect_key in passive_effect_keys:
+			stats_controller.clear_effect_modifiers(effect_key)
 
 	passive_effect_keys.clear()

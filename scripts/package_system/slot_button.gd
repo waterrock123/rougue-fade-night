@@ -68,17 +68,17 @@ func insert(relic_ui:RelicUI):
 func take_relic():
 	#记录抓取物品
 	var take_relic_ = slot_button_slot_relic 
+	var source_slot := slot_button_slot_relic.slot_
 	
-	#对格子对应的库存位置清空
-	slot_inventory.remove_slot(slot_button_slot_relic.slot_)
-	
-	#从容器中移除物品显示节点（让物品从格子里消失）
+	# 先从格子里摘下 UI，再改库存数据；否则 inventory_update 会把正在拿起的 RelicUI 清理掉。
 	center_container.remove_child(slot_button_slot_relic)
 	#把当前格子的物品节点设为null，重置格子状态
 	slot_button_slot_relic = null
 	
 	#重置颜色
 	reset_color()
+	#对格子对应的库存位置清空
+	slot_inventory.remove_slot(source_slot)
 	return take_relic_
 
 

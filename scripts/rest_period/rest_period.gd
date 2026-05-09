@@ -13,12 +13,17 @@ func _ready() -> void:
 		shop_controller.bind_run_stats(run_stats)
 		shop_controller.bind_shop_runtime(_get_run_shop(), _get_run_shop_config())
 
+	_bind_package_sell_target()
+
 	if leave_button != null and not leave_button.pressed.is_connected(_on_leave_button_pressed):
 		leave_button.pressed.connect(_on_leave_button_pressed)
 	AudioController.play_bg_music("home")
 
 
 func _on_leave_button_pressed() -> void:
+	if shop_controller != null:
+		shop_controller.cancel_free_choice_state()
+
 	var run := _get_run()
 	if run != null:
 		run.finish_rest_period()
@@ -46,3 +51,12 @@ func _get_run_shop_config() -> ShopConfig:
 		return null
 
 	return run_stats.shop_config
+
+
+func _bind_package_sell_target() -> void:
+	var run := _get_run()
+	if run == null or shop_controller == null:
+		return
+
+	if run.package_ui != null:
+		run.package_ui.set_sell_context(run_stats, shop_controller.money_token)

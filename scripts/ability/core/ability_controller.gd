@@ -5,6 +5,7 @@ var abilities: Array[Ability] = []
 var cooldowns: Dictionary = {}
 var runtime_abilities: Array[Ability] = []
 var runtime_ability_sources: Dictionary = {}
+var previewing_ability: Ability
 
 var entity: Entity
 
@@ -20,6 +21,20 @@ func trigger_ability_by_idx(idx: int):
 
 	var ability := abilities[idx]
 	trigger_ability(ability)
+
+
+func begin_ability_preview_by_idx(idx: int) -> void:
+	if idx < 0 or idx >= abilities.size():
+		return
+
+	begin_ability_preview(abilities[idx])
+
+
+func release_ability_preview_by_idx(idx: int) -> void:
+	if idx < 0 or idx >= abilities.size():
+		return
+
+	release_ability_preview(abilities[idx])
 
 
 func _process(delta: float) -> void:
@@ -84,6 +99,38 @@ func trigger_ability(ability: Ability):
 	cooldowns[ability] = ability.cooldown
 
 
+func begin_ability_preview(ability: Ability) -> void:
+	if ability == null or entity == null:
+		return
+	# 没有预览组件的旧技能仍然保持原逻辑：按下按键就直接释放。
+	if not ability.has_cast_preview():
+		trigger_ability(ability)
+		return
+	if not _can_be_cast(ability):
+		return
+
+	# 同一时间只允许预览一个技能，避免多个指示器叠在一起。
+	cancel_ability_preview()
+	previewing_ability = ability
+	ability.begin_cast_preview(entity)
+
+
+func release_ability_preview(ability: Ability) -> void:
+	if ability == null or ability != previewing_ability:
+		return
+
+	# 松开按键时关闭指示器，再走正式释放流程，冷却和能量仍由 trigger_ability 统一校验。
+	ability.end_cast_preview()
+	previewing_ability = null
+	trigger_ability(ability)
+
+
+func cancel_ability_preview() -> void:
+	if previewing_ability != null:
+		previewing_ability.end_cast_preview()
+		previewing_ability = null
+
+
 func _rebuild_ability_cache() -> void:
 	abilities.clear()
 	for child in get_children():
@@ -98,6 +145,8 @@ func _unregister_runtime_ability(ability: Ability) -> void:
 	abilities.erase(ability)
 	runtime_abilities.erase(ability)
 	cooldowns.erase(ability)
+	if previewing_ability == ability:
+		cancel_ability_preview()
 
 	if ability.get_parent() == self:
 		remove_child(ability)

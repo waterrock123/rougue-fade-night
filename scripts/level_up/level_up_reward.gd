@@ -12,6 +12,10 @@ func apply(context: LevelUpRewardContext):
 	pass
 
 
+func is_available(_context: LevelUpRewardContext) -> bool:
+	return true
+
+
 # 奖励按钮显示用标题。默认使用手填 title，子类可以改成读取 SkillData。
 func get_display_title() -> String:
 	return title

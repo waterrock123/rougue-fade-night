@@ -113,6 +113,8 @@ func change_to_death_screen() -> void:
 # 修整期结束后返回地图，并解锁下一批可进入房间。
 func finish_rest_period() -> void:
 	_show_top_bar()
+	if run_stats != null:
+		run_stats.clear_free_relic_choices()
 	_clear_current_view()
 	_refresh_persistent_ui()
 
@@ -134,6 +136,15 @@ func _connect_signals() -> void:
 	
 	if not EventBus.event_room_exited.is_connected(_on_event_room_exited):
 		EventBus.event_room_exited.connect(_on_event_room_exited)
+
+	if not EventBus.relic_merged_to_levelup.is_connected(_on_relic_merged_to_levelup):
+		EventBus.relic_merged_to_levelup.connect(_on_relic_merged_to_levelup)
+
+	if not EventBus.inventory_update.is_connected(_on_player_relic_slots_changed):
+		EventBus.inventory_update.connect(_on_player_relic_slots_changed)
+
+	if not EventBus.equipment_update.is_connected(_on_player_relic_slots_changed):
+		EventBus.equipment_update.connect(_on_player_relic_slots_changed)
 
 	if package_button != null and not package_button.pressed.is_connected(_on_package_button_pressed):
 		package_button.pressed.connect(_on_package_button_pressed)
@@ -268,6 +279,22 @@ func _on_event_room_exited() -> void:
 		return
 
 	_open_battle_scene(current_room)
+
+
+# 只要发生“未升级遗物合成升级”的行为，就按当时商店等级锁定一次免费三选一机会。
+func _on_relic_merged_to_levelup(_upgraded_relic: Relic) -> void:
+	if run_stats == null:
+		return
+
+	run_stats.queue_free_relic_choice(run_stats.get_free_relic_choice_level_for_now())
+
+
+# 背包或装备栏变化时，用 PlayerBuild 统一检测合成，保证装备栏里的遗物也能参与。
+func _on_player_relic_slots_changed() -> void:
+	if run_stats == null or run_stats.player_build == null:
+		return
+
+	run_stats.player_build.check_relic_merges()
 
 
 # 顶部按钮控制常驻背包界面的开关。

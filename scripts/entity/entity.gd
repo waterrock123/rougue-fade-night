@@ -19,6 +19,7 @@ var energy_timer = 0.0
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var stats_controller: StatsController = get_node_or_null("StatsController") as StatsController
+@onready var status_controller: StatusController = get_node_or_null("StatusController") as StatusController
 
 
 func _ready() -> void:
@@ -79,6 +80,10 @@ func spend_energy(energy: float):
 
 func apply_runtime_stats(_final_stats: Dictionary) -> void:
 	pass
+
+
+func get_status_controller() -> StatusController:
+	return status_controller
 
 
 func lock_movement(duration: float) -> void:

@@ -6,12 +6,17 @@
 [ext_resource type="Texture2D" uid="uid://f3ys7sxf35ul" path="res://assets/甲画家/001.png" id="2_xetfq"]
 
 [node name="ShopKeeperUI" type="Control" unique_id=1674262274]
+custom_minimum_size = Vector2(300, 300)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xetfq")
@@ -38,14 +43,14 @@ theme_override_constants/separation = 10
 layout_mode = 2
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=276971716]
+[node name="GoldBar" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=276971716]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/HBoxContainer" unique_id=81851163]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/GoldBar" unique_id=81851163]
 layout_mode = 2
 texture = ExtResource("1_3btcy")
 
-[node name="GoldLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/HBoxContainer" unique_id=1199970054]
+[node name="GoldLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/GoldBar" unique_id=1199970054]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 40

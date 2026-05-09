@@ -1,0 +1,166 @@
+[gd_resource type="Resource" script_class="BattleStatsPool" format=3 uid="uid://ddoyayrnwfrsn"]
+
+[ext_resource type="Script" uid="uid://bbp1b6impnqv1" path="res://custom_resource/battle_stats.gd" id="1_3gn5m"]
+[ext_resource type="PackedScene" uid="uid://cew35ky6fcbff" path="res://entity/enemy/demon_mouse.tscn" id="2_r8pbn"]
+[ext_resource type="PackedScene" uid="uid://gelec3ahehiy" path="res://entity/enemy/skeleton.tscn" id="3_8uf21"]
+[ext_resource type="Script" uid="uid://df3feoy7vmvbw" path="res://custom_resource/battle_wave_data.gd" id="4_6j6aj"]
+[ext_resource type="PackedScene" uid="uid://c2cicmdj7n24" path="res://entity/enemy/mushroom_monster.tscn" id="5_f1yte"]
+[ext_resource type="Script" uid="uid://7r8m0gpgxung" path="res://custom_resource/battle_stats_pool.gd" id="6_4gy3b"]
+
+[sub_resource type="Resource" id="Resource_f17u5"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("2_r8pbn"), ExtResource("3_8uf21")])
+max_enemies = 6
+spawn_interval = 0.0
+spawn_batch_size = 3
+next_wave_delay = 0.2
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_b56te"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("2_r8pbn"), ExtResource("3_8uf21")])
+max_enemies = 5
+spawn_interval = 0.0
+spawn_batch_size = 3
+next_wave_delay = 0.2
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_x2kg6"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("2_r8pbn"), ExtResource("2_r8pbn")])
+max_enemies = 4
+spawn_interval = 0.2
+spawn_batch_size = 4
+next_wave_delay = 0.2
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_mrjnl"]
+script = ExtResource("1_3gn5m")
+weight = 1.0
+packed_enemies = Array[PackedScene]([ExtResource("2_r8pbn"), ExtResource("3_8uf21")])
+max_enemies = 15
+spawn_interval = 9.0
+spawn_batch_size = 6
+waves = Array[ExtResource("4_6j6aj")]([SubResource("Resource_f17u5"), SubResource("Resource_b56te"), SubResource("Resource_x2kg6")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
+[sub_resource type="Resource" id="Resource_tmgcv"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("3_8uf21")])
+max_enemies = 6
+spawn_interval = 0.2
+spawn_batch_size = 6
+next_wave_delay = 1.0
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_omedl"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("2_r8pbn"), ExtResource("2_r8pbn")])
+max_enemies = 4
+spawn_interval = 0.3
+spawn_batch_size = 2
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_3xi6f"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("2_r8pbn")])
+max_enemies = 4
+spawn_interval = 0.5
+spawn_batch_size = 4
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_rqo2c"]
+script = ExtResource("1_3gn5m")
+weight = 1.0
+packed_enemies = Array[PackedScene]([null, null])
+waves = Array[ExtResource("4_6j6aj")]([SubResource("Resource_tmgcv"), SubResource("Resource_omedl"), SubResource("Resource_3xi6f")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
+[sub_resource type="Resource" id="Resource_xks3a"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("2_r8pbn"), ExtResource("5_f1yte")])
+max_enemies = 6
+spawn_interval = 9.0
+spawn_batch_size = 3
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_78kcs"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("3_8uf21"), ExtResource("5_f1yte")])
+max_enemies = 4
+spawn_interval = 3.0
+spawn_batch_size = 2
+next_wave_delay = 10.0
+advance_mode = 0
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_e07uo"]
+script = ExtResource("1_3gn5m")
+battle_tier = 1
+weight = 2.0
+waves = Array[ExtResource("4_6j6aj")]([SubResource("Resource_xks3a"), SubResource("Resource_78kcs")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
+[sub_resource type="Resource" id="Resource_2kc6l"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("2_r8pbn"), ExtResource("5_f1yte"), ExtResource("3_8uf21")])
+max_enemies = 6
+spawn_interval = 3.0
+spawn_batch_size = 2
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_eix18"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("5_f1yte")])
+max_enemies = 3
+spawn_interval = 3.0
+advance_mode = 0
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_58ndj"]
+script = ExtResource("1_3gn5m")
+battle_tier = 1
+weight = 2.0
+waves = Array[ExtResource("4_6j6aj")]([SubResource("Resource_2kc6l"), SubResource("Resource_eix18")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
+[sub_resource type="Resource" id="Resource_25aov"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("5_f1yte")])
+max_enemies = 10
+spawn_batch_size = 2
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_nykyp"]
+script = ExtResource("1_3gn5m")
+battle_tier = 2
+weight = 1.0
+waves = Array[ExtResource("4_6j6aj")]([SubResource("Resource_25aov")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
+[sub_resource type="Resource" id="Resource_etaqi"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("5_f1yte"), ExtResource("3_8uf21")])
+max_enemies = 8
+spawn_interval = 10.0
+spawn_batch_size = 4
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_hs4c0"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("2_r8pbn")])
+max_enemies = 10
+spawn_batch_size = 2
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_uclq6"]
+script = ExtResource("1_3gn5m")
+battle_tier = 2
+weight = 1.0
+waves = Array[ExtResource("4_6j6aj")]([SubResource("Resource_etaqi"), SubResource("Resource_hs4c0")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
+[resource]
+script = ExtResource("6_4gy3b")
+pool = Array[ExtResource("1_3gn5m")]([SubResource("Resource_mrjnl"), SubResource("Resource_rqo2c"), SubResource("Resource_e07uo"), SubResource("Resource_58ndj"), SubResource("Resource_nykyp"), SubResource("Resource_uclq6")])
+metadata/_custom_type_script = "uid://7r8m0gpgxung"
