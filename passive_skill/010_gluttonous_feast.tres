@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3 uid="uid://c1h42c3llc2wd"]
+
+[ext_resource type="Script" uid="uid://dm8dhxlxlwiq4" path="res://scripts/skill/passive_skill_effect.gd" id="1_base"]
+[ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_data"]
+[ext_resource type="Texture2D" uid="uid://ci50hmleiny28" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1052.png" id="2_ymqoh"]
+
+[resource]
+script = ExtResource("2_data")
+id = &"010"
+skill_name = "饕餮盛宴"
+desc = "{constitution}+6。战斗结束后所有装备栏的装备都会被销毁，每销毁一件，随后获得一次随机属性永久提升，提升数值为被销毁装备的阶数。"
+icon = ExtResource("2_ymqoh")
+metadata/_custom_type_script = "uid://crxnh0qcjcfth"

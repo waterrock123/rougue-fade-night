@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3 uid="uid://ddsl6tcm1kcgt"]
+
+[ext_resource type="Script" uid="uid://dm8dhxlxlwiq4" path="res://scripts/skill/passive_skill_effect.gd" id="1_base"]
+[ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_data"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="2_eh658"]
+[ext_resource type="Script" uid="uid://bbffh0rvdkw1u" path="res://scripts/skill/passive_full_equipment_stats_and_armor_effect.gd" id="3_full"]
+[ext_resource type="Script" uid="uid://cch7nrj5m02g2" path="res://scripts/skill/passive_battle_end_upgrade_left_relic_effect.gd" id="4_upgrade"]
+[ext_resource type="Texture2D" uid="uid://v2riupjk3g2c" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb869.png" id="5_rhxk7"]
+
+[sub_resource type="Resource" id="Resource_full"]
+script = ExtResource("3_full")
+
+[sub_resource type="Resource" id="Resource_upgrade"]
+script = ExtResource("4_upgrade")
+
+[resource]
+script = ExtResource("2_data")
+effects = Array[ExtResource("1_base")]([SubResource("Resource_full"), SubResource("Resource_upgrade")])
+id = &"006"
+skill_name = "点器生灵"
+desc = "装备栏全满时获得{armor}+1。战斗结束后，使装备栏最左边一件未升级的装备升级。"
+icon = ExtResource("5_rhxk7")
+metadata/_custom_type_script = "uid://crxnh0qcjcfth"

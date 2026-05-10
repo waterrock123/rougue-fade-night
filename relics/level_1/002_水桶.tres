@@ -21,8 +21,8 @@ metadata/_custom_type_script = "uid://bts8j8jm6rdpv"
 script = ExtResource("2_8vcxj")
 relic_name = "水桶"
 icon = ExtResource("1_v304p")
-tooltip = "获得一护甲
-升级：战斗胜利后额外恢复已损失血量的20%
+tooltip = "获得一{armor}
+升级：战斗胜利后额外{heal}已损失血量的20%
 "
 desc = "戴头上可以当头盔用"
 price = 3

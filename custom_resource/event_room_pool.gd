@@ -5,4 +5,4 @@ extends Resource
 
 
 func get_random() -> PackedScene:
-	return event_rooms.pick_random()
+	return RunRng.pick(event_rooms)

@@ -54,7 +54,10 @@ func _generate_initial_grid() -> Array[Array]:
 		for slot_index in vertical_slots:
 			var room := Room.new()
 			var centered_y := (float(slot_index) - 1.5) * Y_DIST
-			var offset := Vector2(randf_range(-PLACEMENT_RANDOMNESS, PLACEMENT_RANDOMNESS), randf_range(-PLACEMENT_RANDOMNESS, PLACEMENT_RANDOMNESS))
+			var offset := Vector2(
+				RunRng.randf_range(-PLACEMENT_RANDOMNESS, PLACEMENT_RANDOMNESS),
+				RunRng.randf_range(-PLACEMENT_RANDOMNESS, PLACEMENT_RANDOMNESS)
+			)
 			room.position = Vector2(floor_index * X_DIST, centered_y) + offset
 			room.row = floor_index
 			room.column = slot_index
@@ -69,9 +72,9 @@ func _generate_initial_grid() -> Array[Array]:
 
 func _get_random_vertical_slots() -> Array[int]:
 	var slot_pool := [0, 1, 2, 3]
-	slot_pool.shuffle()
+	RunRng.shuffle_array(slot_pool)
 
-	var room_count := randi_range(MIN_ROOMS_PER_FLOOR, MAX_ROOMS_PER_FLOOR)
+	var room_count := RunRng.randi_range(MIN_ROOMS_PER_FLOOR, MAX_ROOMS_PER_FLOOR)
 	var selected: Array[int] = []
 	for slot_index in range(room_count):
 		selected.append(int(slot_pool[slot_index]))
@@ -89,7 +92,7 @@ func _connect_columns() -> void:
 			candidates.sort_custom(func(a: Room, b: Room): return abs(a.column - room.column) < abs(b.column - room.column))
 
 			var connection_count = min(PATH_MAX_CONNECTIONS, candidates.size())
-			if connection_count > 1 and randf() < 0.45:
+			if connection_count > 1 and RunRng.randf() < 0.45:
 				connection_count = 2
 			else:
 				connection_count = 1
@@ -186,7 +189,7 @@ func _get_event_scene_for_room(room: Room) -> PackedScene:
 
 
 func _get_random_room_type_by_weight() -> Room.Type:
-	var roll := randf_range(0.0, random_room_type_total_weight)
+	var roll := RunRng.randf_range(0.0, random_room_type_total_weight)
 
 	for type: Room.Type in random_room_type_weights:
 		if random_room_type_weights[type] > roll:

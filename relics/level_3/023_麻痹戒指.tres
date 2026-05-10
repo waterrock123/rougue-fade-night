@@ -10,7 +10,7 @@ relic_name = "麻痹戒指"
 level = 3
 id = "023"
 icon = ExtResource("1_1facf")
-tooltip = "基础攻击有概率使敌人麻痹
-升级：麻痹敌人会拥有易伤效果
+tooltip = "基础攻击有概率使敌人{paralysis}
+升级：{paralysis}敌人会拥有{vulnerable}效果
 "
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

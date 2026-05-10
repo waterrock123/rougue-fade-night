@@ -1,16 +1,18 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://ba0va1q5ux0en"]
 
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_ae12b"]
 [ext_resource type="Texture2D" uid="uid://dhrdhhamibha6" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2024.png" id="1_ijc2k"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_eve32"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_n1lpw"]
 
 [resource]
 script = ExtResource("2_eve32")
-price = 3
 relic_name = "保暖裤"
+icon = ExtResource("1_ijc2k")
+tooltip = "{freeze}状态持续的时间-50%，{constitution}+1
+升级：你{freeze}状态持续的时间-75%，{constitution}+2
+"
+price = 3
 level = 2
 id = "019"
-icon = ExtResource("1_ijc2k")
-tooltip = "冰冻状态持续的时间-50%，体质+1
-升级：你冰冻状态持续的时间-75%，体质+2
-"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

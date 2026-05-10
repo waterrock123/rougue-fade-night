@@ -8,7 +8,7 @@
 script = ExtResource("1_ffdq6")
 relic_name = "雪球"
 icon = ExtResource("1_iejob")
-tooltip = "丢出立即对小范围的敌人造成群体减速
+tooltip = "丢出立即对小范围的敌人造成群体{slow}
 "
 price = 3
 level = 1

@@ -19,9 +19,13 @@ static var pending_startup: RunStartup
 @onready var skill_overview_panel: SkillOverviewPanel = $UI/SkillOverviewPanel
 @onready var top_bar: CanvasLayer = $TopBar
 @onready var package_button: Button = $TopBar/PackageButton
+@onready var pause_button: Button = $TopBar/PauseButton
+@onready var pause_menu: PauseMenu = $UI/PauseMenu
 
 var run_stats: RunStats
 var current_room: Room
+var pending_map_save_data: Dictionary = {}
+var pending_current_room_data: Dictionary = {}
 
 
 # 先准备本局数据，再初始化常驻节点和地图流程。
@@ -31,6 +35,7 @@ func _ready() -> void:
 	_initialize_persistent_ui()
 	_connect_signals()
 	_initialize_map()
+	_save_current_run()
 
 
 # 主动进入当前房间对应的战斗场景。
@@ -68,6 +73,7 @@ func change_to_level_up() -> void:
 		attributes_panel.close_panel()
 	if map != null:
 		map.hide_map()
+	_save_current_run()
 
 
 # 战斗胜利后进入修整期，并发放本回合修整奖励金币。
@@ -89,6 +95,8 @@ func change_to_rest_period() -> void:
 	_replace_current_view(rest_scene)
 	if map != null:
 		map.hide_map()
+	_open_package_for_rest_period()
+	_save_current_run()
 
 
 # 玩家战败时打开死亡界面，由死亡界面决定重新开始或回主菜单。
@@ -108,6 +116,7 @@ func change_to_death_screen() -> void:
 	_replace_current_view(death_scene)
 	if map != null:
 		map.hide_map()
+	SaveManager.delete_save()
 
 
 # 修整期结束后返回地图，并解锁下一批可进入房间。
@@ -121,6 +130,7 @@ func finish_rest_period() -> void:
 	if map != null:
 		map.show_map()
 		map.unlock_next_rooms()
+	_save_current_run()
 
 
 # 统一连接 Run 关心的常驻信号。
@@ -149,6 +159,15 @@ func _connect_signals() -> void:
 	if package_button != null and not package_button.pressed.is_connected(_on_package_button_pressed):
 		package_button.pressed.connect(_on_package_button_pressed)
 
+	if pause_button != null and not pause_button.pressed.is_connected(_on_pause_button_pressed):
+		pause_button.pressed.connect(_on_pause_button_pressed)
+
+	if not EventBus.gold_changed.is_connected(_save_current_run):
+		EventBus.gold_changed.connect(_save_current_run)
+
+	if not EventBus.free_relic_choice_changed.is_connected(_save_current_run):
+		EventBus.free_relic_choice_changed.connect(_save_current_run)
+
 
 # Run 自己负责创建一份新的 RunStats，并用 RunStartup 把它补完整。
 func _initialize_run_state() -> void:
@@ -174,21 +193,31 @@ func _initialize_new_run(startup: RunStartup) -> void:
 		push_warning("RunStartup 中没有有效的角色数据，无法开始新的一局。")
 		return
 
+	RunRng.start_new_run()
 	var build := startup.create_player_build()
 	var shop := startup.create_shop()
 	if shop != null and not startup.picked_character.shop_keeper_pool.is_empty():
-		shop.shopkeeper = startup.picked_character.shop_keeper_pool.pick_random()
+		shop.shopkeeper = RunRng.pick(startup.picked_character.shop_keeper_pool)
 	var shop_config := startup.create_shop_config()
 	run_stats.setup_new_run(build, shop, shop_config, startup.picked_character)
 
 
 # 目前续档逻辑还没展开，这里先做最小兼容。
-func _initialize_continued_run(startup: RunStartup) -> void:
-	if startup.can_start_new_run():
-		var build := startup.create_player_build()
-		var shop := startup.create_shop()
-		var shop_config := startup.create_shop_config()
-		run_stats.setup_new_run(build, shop, shop_config, startup.picked_character)
+func _initialize_continued_run(_startup: RunStartup) -> void:
+	var save_data := SaveManager.load_save_data()
+	if save_data.is_empty():
+		push_warning("没有可用存档，无法继续游戏。")
+		return
+
+	SaveManager.restore_rng(save_data)
+	var loaded_run_stats := SaveManager.build_run_stats_from_save(save_data)
+	if loaded_run_stats == null:
+		push_warning("存档中的 RunStats 无法恢复。")
+		return
+
+	run_stats = loaded_run_stats
+	pending_map_save_data = SaveManager.get_saved_map_data(save_data)
+	pending_current_room_data = SaveManager.get_saved_current_room_data(save_data)
 
 
 # 把 run_stats.player_build 绑定给修整期常驻的属性与装备管理节点。
@@ -253,7 +282,11 @@ func _initialize_map() -> void:
 	if map == null:
 		return
 
-	map.generate_new_map()
+	if pending_map_save_data.is_empty():
+		map.generate_new_map()
+	else:
+		map.load_from_save_data(pending_map_save_data)
+		current_room = _find_room_from_map_data(pending_current_room_data)
 	map.show_map()
 
 
@@ -271,6 +304,7 @@ func _resolve_startup() -> RunStartup:
 func _on_map_room_selected(room: Room) -> void:
 	current_room = room
 	_open_event_room(room)
+	_save_current_run()
 
 
 # 事件场景点击离开后，进入该房间绑定的战斗场景。
@@ -295,9 +329,11 @@ func _on_player_relic_slots_changed() -> void:
 		return
 
 	run_stats.player_build.check_relic_merges()
+	_save_current_run()
 
 
 # 顶部按钮控制常驻背包界面的开关。
+
 func _on_package_button_pressed() -> void:
 	if package_ui == null or run_stats == null or run_stats.player_build == null:
 		push_warning("Run 当前没有可用的玩家背包数据。")
@@ -320,6 +356,32 @@ func _on_package_button_pressed() -> void:
 			attributes_panel.open_panel()
 		elif attributes_panel != null:
 			attributes_panel.close_panel()
+
+
+# Run 顶栏的暂停按钮负责全局暂停，并显示“继续 / 退出到主菜单”的选择。
+
+func _on_pause_button_pressed() -> void:
+	if pause_menu == null:
+		return
+
+	_save_current_run()
+	EventBus.game_paused.emit(true)
+	get_tree().paused = true
+	pause_menu.show()
+
+
+func _open_package_for_rest_period() -> void:
+	if package_ui == null or run_stats == null or run_stats.player_build == null:
+		return
+
+	package_ui.open_bag(run_stats.player_build.player_inventory, run_stats.player_build.player_equipment)
+	if skill_overview_panel != null:
+		skill_overview_panel.setup(run_stats.player_build)
+		skill_overview_panel.open_panel()
+	if attributes_panel != null:
+		attributes_panel.stats_controller = _get_runtime_stats_controller()
+		attributes_panel.setup()
+		attributes_panel.open_panel()
 
 
 # 把地图房间对应的事件场景塞进 CurrentView。
@@ -433,3 +495,24 @@ func _get_runtime_skill_controller() -> SkillController:
 		return null
 
 	return player_build_proxy.get_skill_controller()
+
+
+func _find_room_from_map_data(data: Dictionary) -> Room:
+	if map == null or data.is_empty():
+		return null
+
+	var row := int(data.get("row", -1))
+	var column := int(data.get("column", -1))
+	for floor in map.map_data:
+		for room: Room in floor:
+			if room.row == row and room.column == column:
+				return room
+	return null
+
+
+# 所有“本局状态已经变动”的关键节点统一走这里保存，避免每个系统单独知道存档细节。
+func _save_current_run() -> void:
+	if run_stats == null:
+		return
+
+	SaveManager.save_run(self)

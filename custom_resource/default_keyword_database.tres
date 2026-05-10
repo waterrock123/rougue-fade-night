@@ -1,0 +1,162 @@
+[gd_resource type="Resource" script_class="KeywordDatabase" format=3 uid="uid://43iaiydh8o6o"]
+
+[ext_resource type="Script" uid="uid://bkgl6exi5mm4l" path="res://custom_resource/keyword_database.gd" id="1_db"]
+[ext_resource type="Script" uid="uid://ch81dd8m0eyf" path="res://custom_resource/keyword_data.gd" id="2_data"]
+
+[sub_resource type="Resource" id="KeywordData_armor"]
+script = ExtResource("2_data")
+id = &"armor"
+display_name = "护甲"
+desc = "减少受到的固定伤害。"
+color = Color(0.55, 0.78, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_weak"]
+script = ExtResource("2_data")
+id = &"weak"
+display_name = "虚弱"
+desc = "力量、敏捷、速度降低。"
+color = Color(0.85, 0.68, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_strength"]
+script = ExtResource("2_data")
+id = &"strength"
+display_name = "力量"
+desc = "主要属性之一，通常增强近战与物理类伤害。"
+color = Color(1, 0.45, 0.38, 1)
+
+[sub_resource type="Resource" id="KeywordData_dexterity"]
+script = ExtResource("2_data")
+id = &"dexterity"
+display_name = "敏捷"
+desc = "主要属性之一，通常增强远程伤害，并影响灵巧类效果。"
+color = Color(0.55, 1, 0.52, 1)
+
+[sub_resource type="Resource" id="KeywordData_intelligence"]
+script = ExtResource("2_data")
+id = &"intelligence"
+display_name = "智力"
+desc = "主要属性之一，通常影响法术、技能或特殊效果。"
+color = Color(0.55, 0.78, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_constitution"]
+script = ExtResource("2_data")
+id = &"constitution"
+display_name = "体质"
+desc = "主要属性之一，提高最大生命值，并影响战斗后的恢复量。"
+color = Color(1, 0.62, 0.42, 1)
+
+[sub_resource type="Resource" id="KeywordData_speed"]
+script = ExtResource("2_data")
+id = &"speed"
+display_name = "速度"
+desc = "影响实体的移动速度。"
+color = Color(0.62, 0.95, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_charm"]
+script = ExtResource("2_data")
+id = &"charm"
+display_name = "魅力"
+desc = "主要属性之一，可用于商店、社交或特殊装备效果。"
+color = Color(1, 0.65, 0.95, 1)
+
+[sub_resource type="Resource" id="KeywordData_luck"]
+script = ExtResource("2_data")
+id = &"luck"
+display_name = "幸运"
+desc = "主要属性之一，通常影响概率类效果。"
+color = Color(1, 0.92, 0.45, 1)
+
+[sub_resource type="Resource" id="KeywordData_bleed"]
+script = ExtResource("2_data")
+id = &"bleed"
+display_name = "流血"
+desc = "持续伤害类状态，通常会在一段时间内反复造成伤害。"
+color = Color(0.92, 0.12, 0.12, 1)
+
+[sub_resource type="Resource" id="KeywordData_freeze"]
+script = ExtResource("2_data")
+id = &"freeze"
+display_name = "冻结"
+desc = "控制类状态，通常会限制目标行动或延缓其行动。"
+color = Color(0.55, 0.9, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_sleep"]
+script = ExtResource("2_data")
+id = &"sleep"
+display_name = "睡眠"
+desc = "控制类状态，通常会让目标暂时失去行动能力。"
+color = Color(0.72, 0.65, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_paralysis"]
+script = ExtResource("2_data")
+id = &"paralysis"
+display_name = "麻痹"
+desc = "控制类状态，通常会打断或限制目标行动。"
+color = Color(1, 0.88, 0.28, 1)
+
+[sub_resource type="Resource" id="KeywordData_slow"]
+script = ExtResource("2_data")
+id = &"slow"
+display_name = "减速"
+desc = "负面状态，降低目标移动速度。"
+color = Color(0.5, 0.75, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_gold"]
+script = ExtResource("2_data")
+id = &"gold"
+display_name = "金币"
+desc = "本局中的商店货币，可用于购买装备或刷新商店。"
+color = Color(1, 0.8, 0.25, 1)
+
+[sub_resource type="Resource" id="KeywordData_shop_refresh"]
+script = ExtResource("2_data")
+id = &"shop_refresh"
+display_name = "商店刷新"
+desc = "重新生成商店中的可购买装备。"
+color = Color(0.65, 0.95, 0.8, 1)
+
+[sub_resource type="Resource" id="KeywordData_active_skill"]
+script = ExtResource("2_data")
+id = &"active_skill"
+display_name = "主动技能"
+desc = "需要玩家主动按键释放的技能。"
+color = Color(0.75, 0.75, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_consumable"]
+script = ExtResource("2_data")
+id = &"consumable"
+display_name = "消耗品"
+desc = "使用后会消耗或触发一次性效果的装备。"
+color = Color(0.95, 0.75, 0.45, 1)
+
+[sub_resource type="Resource" id="KeywordData_physical_damage"]
+script = ExtResource("2_data")
+id = &"physical_damage"
+display_name = "物理伤害"
+desc = "常见伤害类型，可被护甲或其他减伤效果影响。"
+color = Color(0.95, 0.62, 0.5, 1)
+
+[sub_resource type="Resource" id="KeywordData_heal"]
+script = ExtResource("2_data")
+id = &"heal"
+display_name = "恢复"
+desc = "回复生命值，但通常不会超过最大生命值。"
+color = Color(0.55, 1, 0.55, 1)
+
+[sub_resource type="Resource" id="KeywordData_sharp"]
+script = ExtResource("2_data")
+id = &"sharp"
+display_name = "锋锐"
+desc = "进攻类增益，通常代表更强的攻击能力。"
+color = Color(1, 0.55, 0.35, 1)
+
+[sub_resource type="Resource" id="KeywordData_vulnerable"]
+script = ExtResource("2_data")
+id = &"vulnerable"
+display_name = "易伤"
+desc = "负面状态，通常会使目标受到更多伤害。"
+color = Color(1, 0.42, 0.42, 1)
+
+[resource]
+script = ExtResource("1_db")
+keywords = Array[ExtResource("2_data")]([SubResource("KeywordData_armor"), SubResource("KeywordData_weak"), SubResource("KeywordData_strength"), SubResource("KeywordData_dexterity"), SubResource("KeywordData_intelligence"), SubResource("KeywordData_constitution"), SubResource("KeywordData_speed"), SubResource("KeywordData_charm"), SubResource("KeywordData_luck"), SubResource("KeywordData_bleed"), SubResource("KeywordData_freeze"), SubResource("KeywordData_sleep"), SubResource("KeywordData_paralysis"), SubResource("KeywordData_slow"), SubResource("KeywordData_gold"), SubResource("KeywordData_shop_refresh"), SubResource("KeywordData_active_skill"), SubResource("KeywordData_consumable"), SubResource("KeywordData_physical_damage"), SubResource("KeywordData_heal"), SubResource("KeywordData_sharp"), SubResource("KeywordData_vulnerable")])

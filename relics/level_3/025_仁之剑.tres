@@ -1,16 +1,18 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://lkwfsiovbeu1"]
 
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_1ul2k"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_dpvba"]
 [ext_resource type="Texture2D" uid="uid://dvvtyu5yb8wpm" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1453.png" id="1_ysl17"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_8xtvj"]
 
 [resource]
 script = ExtResource("1_1ul2k")
-price = 4
 relic_name = "仁之剑"
-level = 3
-id = "025"
 icon = ExtResource("1_ysl17")
-tooltip = "+2智力，+2敏捷
+tooltip = "+2{intelligence}，+2{dexterity}
 升级：立即获得一把义之剑
 "
+price = 4
+level = 3
+id = "025"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

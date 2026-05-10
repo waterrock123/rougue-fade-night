@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://wpt8s0ys3w7t" path="res://scripts/rest_period/rest_period.gd" id="1_b20nv"]
 [ext_resource type="PackedScene" uid="uid://dmoylnmxemj46" path="res://scenes/rest_period/shop.tscn" id="1_hcmc8"]
+[ext_resource type="Texture2D" uid="uid://b5tbyqeb7xjvw" path="res://assets/ai art/商店背景图.png" id="2_hcmc8"]
 
 [node name="RestPeriod" type="Control" unique_id=242219292]
 layout_mode = 3
@@ -13,6 +14,14 @@ grow_vertical = 2
 script = ExtResource("1_b20nv")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="." unique_id=1599719739]
+
+[node name="TextureRect" type="TextureRect" parent="BackgroundLayer" unique_id=684929638]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_hcmc8")
 
 [node name="DecorationLayer" type="CanvasLayer" parent="." unique_id=2139998450]
 

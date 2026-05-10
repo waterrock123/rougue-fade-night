@@ -13,8 +13,8 @@ metadata/_custom_type_script = "uid://neet2irr2m2g"
 script = ExtResource("1_b6fyn")
 relic_name = "绑带"
 icon = ExtResource("1_1mg4h")
-tooltip = "敏捷+2
-升级：护甲+1
+tooltip = "{dexterity}+2
+升级：{armor}+1
 "
 price = 3
 level = 1

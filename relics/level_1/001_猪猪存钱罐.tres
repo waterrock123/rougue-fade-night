@@ -20,8 +20,8 @@ metadata/_custom_type_script = "uid://bts8j8jm6rdpv"
 script = ExtResource("2_x4bmk")
 relic_name = "猪猪存钱罐"
 icon = ExtResource("1_x2mh2")
-tooltip = "出售时额外获得一资金
-升级： 携带时，每经过一场战斗，出售时获得获得的资金+1
+tooltip = "出售时额外获得一{gold}
+升级： 携带时，每经过一场战斗，出售时获得获得的{gold}+1
 "
 desc = "小猪的存钱罐，终会破碎"
 price = 3

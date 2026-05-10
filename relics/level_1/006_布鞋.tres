@@ -23,8 +23,8 @@ metadata/_custom_type_script = "uid://neet2irr2m2g"
 script = ExtResource("1_ite76")
 relic_name = "布鞋"
 icon = ExtResource("1_s5778")
-tooltip = " 速度+1
-升级：速度额外+1
+tooltip = " {speed}+1
+升级：{speed}额外+1
 "
 desc = "轻便舒适"
 price = 3

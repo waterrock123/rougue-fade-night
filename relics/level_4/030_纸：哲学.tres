@@ -10,6 +10,6 @@ relic_name = "纸：哲学"
 level = 4
 id = "030"
 icon = ExtResource("1_v2e8v")
-tooltip = "智力+2，幸运+3
+tooltip = "{intelligence}+2，{luck}+3
 升级：所有技能冷却时间减少30%"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

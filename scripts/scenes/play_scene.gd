@@ -67,6 +67,7 @@ func _handle_battle_completed() -> void:
 	await tween.finished
 	
 	
+	EventBus.battle_rewards_resolving.emit()
 	EventBus.battle_win.emit()
 	#var run := _get_run()
 	#if run != null:

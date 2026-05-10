@@ -59,6 +59,32 @@ func generate_new_map() -> void:
 	unlock_floor(0)
 
 
+# 读档时用保存下来的房间数据重建地图，而不是重新随机生成。
+func load_from_save_data(save_data: Dictionary) -> void:
+	if save_data.is_empty():
+		generate_new_map()
+		return
+
+	floors_climbed = int(save_data.get("floors_climbed", 0))
+	map_data = _deserialize_map_data(save_data.get("floors", []))
+	last_room = _find_room_by_key(save_data.get("last_room", {}) as Dictionary)
+	create_map()
+
+	if last_room == null:
+		unlock_floor(floors_climbed)
+	else:
+		unlock_next_rooms()
+
+
+# 保存地图的结构、已选房间和当前进度；PackedScene/Resource 用路径保存。
+func get_save_data() -> Dictionary:
+	return {
+		"floors_climbed": floors_climbed,
+		"last_room": _serialize_room_key(last_room),
+		"floors": _serialize_map_data(),
+	}
+
+
 func create_map() -> void:
 	_clear_visuals()
 
@@ -157,3 +183,116 @@ func _center_map_visuals() -> void:
 
 func _move_camera(delta_x: float) -> void:
 	camera_2d.position.x = clamp(camera_2d.position.x + delta_x, camera_min_x, camera_max_x)
+
+
+func _serialize_map_data() -> Array:
+	var result := []
+	for floor in map_data:
+		var floor_data := []
+		for room: Room in floor:
+			floor_data.append({
+				"type": int(room.type),
+				"row": room.row,
+				"column": room.column,
+				"position_x": room.position.x,
+				"position_y": room.position.y,
+				"selected": room.selected,
+				"battle_stats_path": room.battle_stats.resource_path if room.battle_stats != null else "",
+				"event_scene_path": room.event_scene.resource_path if room.event_scene != null else "",
+				"next_rooms": _serialize_next_room_keys(room),
+			})
+		result.append(floor_data)
+	return result
+
+
+func _deserialize_map_data(saved_floors) -> Array[Array]:
+	var result: Array[Array] = []
+	var room_lookup := {}
+	if not (saved_floors is Array):
+		return result
+
+	for floor_data in saved_floors:
+		var floor_rooms: Array[Room] = []
+		if not (floor_data is Array):
+			result.append(floor_rooms)
+			continue
+
+		for room_data in floor_data:
+			var data := room_data as Dictionary
+			var room := Room.new()
+			room.type = int(data.get("type", Room.Type.EVENT))
+			room.row = int(data.get("row", 0))
+			room.column = int(data.get("column", 0))
+			room.position = Vector2(float(data.get("position_x", 0.0)), float(data.get("position_y", 0.0)))
+			room.selected = bool(data.get("selected", false))
+			room.battle_stats = _load_resource_or_null(str(data.get("battle_stats_path", ""))) as BattleStats
+			room.event_scene = _load_resource_or_null(str(data.get("event_scene_path", ""))) as PackedScene
+			room.next_rooms = []
+			floor_rooms.append(room)
+			room_lookup[_room_lookup_key(room.row, room.column)] = room
+
+		result.append(floor_rooms)
+
+	_restore_room_connections(saved_floors, room_lookup)
+	return result
+
+
+func _restore_room_connections(saved_floors: Array, room_lookup: Dictionary) -> void:
+	for floor_data in saved_floors:
+		if not (floor_data is Array):
+			continue
+
+		for room_data in floor_data:
+			var data := room_data as Dictionary
+			var room := room_lookup.get(_room_lookup_key(int(data.get("row", 0)), int(data.get("column", 0)))) as Room
+			if room == null:
+				continue
+
+			for next_room_data in data.get("next_rooms", []):
+				var next_key := next_room_data as Dictionary
+				var next_room := room_lookup.get(_room_lookup_key(int(next_key.get("row", 0)), int(next_key.get("column", 0)))) as Room
+				if next_room != null:
+					room.next_rooms.append(next_room)
+
+
+func _serialize_next_room_keys(room: Room) -> Array:
+	var result := []
+	if room == null:
+		return result
+
+	for next_room in room.next_rooms:
+		result.append(_serialize_room_key(next_room))
+	return result
+
+
+func _serialize_room_key(room: Room) -> Dictionary:
+	if room == null:
+		return {}
+
+	return {
+		"row": room.row,
+		"column": room.column,
+	}
+
+
+func _find_room_by_key(data: Dictionary) -> Room:
+	if data.is_empty():
+		return null
+
+	var row := int(data.get("row", -1))
+	var column := int(data.get("column", -1))
+	for floor in map_data:
+		for room: Room in floor:
+			if room.row == row and room.column == column:
+				return room
+	return null
+
+
+func _room_lookup_key(row: int, column: int) -> String:
+	return "%s:%s" % [row, column]
+
+
+func _load_resource_or_null(path: String) -> Resource:
+	if path.is_empty() or not ResourceLoader.exists(path):
+		return null
+	return load(path)

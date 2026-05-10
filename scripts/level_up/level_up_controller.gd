@@ -4,6 +4,7 @@ extends Control
 @export var reward_pool: LevelUpRewardPool
 @export var reward_count: int = 4
 @export var primary_attribute_reward_amount: float = 1.0
+@export var keyword_database: KeywordDatabase = preload("res://custom_resource/default_keyword_database.tres")
 
 var run_stats: RunStats
 var run: Run
@@ -11,7 +12,7 @@ var stats_controller: StatsController
 var skill_controller: SkillController
 
 @onready var reward_container: HBoxContainer = $MarginContainer/HBoxContainer
-@onready var tooltip_label: Label = %TooltipLabel
+@onready var tooltip_label: RichTextLabel = %TooltipLabel
 @onready var attributes_panel: AttributesPanel = $AttributesPanel
 @onready var active_skill_grid: GridContainer = $SkillContainer/HBoxContainer/ActiveSkill/GridContainer
 @onready var passive_skill_grid: GridContainer = $SkillContainer/HBoxContainer/PassiveSkill/GridContainer
@@ -98,7 +99,7 @@ func _refresh_tooltip_label() -> void:
 	if tooltip_label == null:
 		return
 
-	tooltip_label.text = "选择一个升级奖励，确认后前往修整期。"
+	_set_tooltip_text("选择一个升级奖励，确认后前往修整期。")
 
 
 # 先从配置的奖励池抽奖励，不足的数量再用角色主要属性奖励补齐。
@@ -144,13 +145,13 @@ func _on_reward_focused(reward: LevelUpReward) -> void:
 
 	if reward is RewardIncreaseStat:
 		var stat_reward := reward as RewardIncreaseStat
-		tooltip_label.text = "选择后：%s +%s" % [
+		_set_tooltip_text("选择后：%s +%s" % [
 			_get_attribute_display_name(stat_reward.stat_name),
 			str(int(stat_reward.amount))
-		]
+		])
 		return
 
-	tooltip_label.text = reward.get_display_desc()
+	_set_tooltip_text(reward.get_display_desc())
 
 
 # 点击奖励后应用效果，并把流程交还给 Run 进入修整期。
@@ -236,3 +237,12 @@ func _get_attribute_display_name(stat_name: StringName) -> String:
 			return "幸运"
 		_:
 			return String(stat_name)
+
+
+func _set_tooltip_text(raw_text: String) -> void:
+	if tooltip_label == null:
+		return
+
+	var result := KeywordTextFormatter.format_text(raw_text, keyword_database)
+	tooltip_label.clear()
+	tooltip_label.append_text(result.bbcode_text)

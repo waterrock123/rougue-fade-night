@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3 uid="uid://5kn83beerw2k"]
+
+[ext_resource type="Script" uid="uid://dm8dhxlxlwiq4" path="res://scripts/skill/passive_skill_effect.gd" id="1_base"]
+[ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_data"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="3_qln81"]
+[ext_resource type="Script" uid="uid://drq3rb4ffgjsk" path="res://scripts/skill/passive_unique_equipment_stats_effect.gd" id="3_unique"]
+[ext_resource type="Script" uid="uid://bbffh0rvdkw1u" path="res://scripts/skill/passive_full_equipment_stats_and_armor_effect.gd" id="4_full"]
+[ext_resource type="Texture2D" uid="uid://cddcsi2p4kkpo" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb729.png" id="5_ivtw6"]
+
+[sub_resource type="Resource" id="Resource_unique"]
+script = ExtResource("3_unique")
+
+[sub_resource type="Resource" id="Resource_full"]
+script = ExtResource("4_full")
+full_equipment_stats = {
+"charm": 1,
+"constitution": 1,
+"dexterity": 1,
+"intelligence": 1,
+"luck": 1,
+"speed": 1,
+"strength": 1
+}
+
+[resource]
+script = ExtResource("2_data")
+effects = Array[ExtResource("1_base")]([SubResource("Resource_unique"), SubResource("Resource_full")])
+id = &"005"
+skill_name = "全副武装"
+desc = "每穿戴一件不同的装备，获得{strength}和{dexterity}+1。装备栏全满时获得{armor}+1与全属性+1。"
+icon = ExtResource("5_ivtw6")
+metadata/_custom_type_script = "uid://crxnh0qcjcfth"

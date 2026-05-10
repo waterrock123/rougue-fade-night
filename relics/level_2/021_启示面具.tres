@@ -10,7 +10,7 @@ relic_name = "启示面具"
 level = 2
 id = "021"
 icon = ExtResource("1_noj6d")
-tooltip = "战斗结束时有25%的概率获得一次免费商店刷新的机会，智力+1
-升级：概率提升至45%，智力+2
+tooltip = "战斗结束时有25%的概率获得一次免费{shop_refresh}的机会，{intelligence}+1
+升级：概率提升至45%，{intelligence}+2
 "
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

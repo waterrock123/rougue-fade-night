@@ -10,7 +10,7 @@ relic_name = "纸：物理学"
 level = 4
 id = "031"
 icon = ExtResource("1_ibs8c")
-tooltip = "智力+2，力量+3
-升级：获得2锋锐，2护甲
+tooltip = "{intelligence}+2，{strength}+3
+升级：获得2{sharp}，2{armor}
 "
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

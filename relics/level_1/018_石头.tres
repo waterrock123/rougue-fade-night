@@ -10,6 +10,6 @@ relic_name = "石头"
 level = 1
 id = "018"
 icon = ExtResource("1_focei")
-tooltip = "向目标方向投掷一颗石块，伤害同时受力量与敏捷加成，如果背包内有同名的消耗品则装备一个同名消耗品
+tooltip = "向目标方向投掷一颗石块，伤害同时受{strength}与{dexterity}加成，如果背包内有同名的{consumable}则装备一个同名{consumable}
 升级：伤害增加"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

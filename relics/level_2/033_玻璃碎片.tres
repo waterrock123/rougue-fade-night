@@ -3,13 +3,14 @@
 [ext_resource type="Texture2D" uid="uid://bu1xrnyetrmgj" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc213.png" id="1_f40yg"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_fajyd"]
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_xpxx2"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_anhve"]
 
 [resource]
 script = ExtResource("1_fajyd")
 relic_name = "玻璃碎片"
 icon = ExtResource("1_f40yg")
-tooltip = "体质减1，护甲+1，受到伤害时对伤害来源造成流血
-升级：护甲+2
+tooltip = "{constitution}减1，{armor}+1，受到伤害时对伤害来源造成{bleed}
+升级：{armor}+2
 "
 price = 3
 level = 2

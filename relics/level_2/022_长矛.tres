@@ -1,15 +1,17 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bmrvulcnh3w6d"]
 
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_44hbg"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_iwq40"]
 [ext_resource type="Texture2D" uid="uid://ck1pmy4dddyno" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1461.png" id="1_lxeix"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_rmdvy"]
 
 [resource]
 script = ExtResource("1_iwq40")
-price = 3
 relic_name = "长矛"
+icon = ExtResource("1_lxeix")
+tooltip = "{strength}+2，基础攻击最后一段会投出一杆长矛，造成{dexterity}50%+{strength}50%的{physical_damage}
+升级：投出两杆长矛"
+price = 3
 level = 2
 id = "022"
-icon = ExtResource("1_lxeix")
-tooltip = "力量+2，基础攻击最后一段会投出一杆长矛，造成敏捷50%+力量50%的物理伤害
-升级：投出两杆长矛"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

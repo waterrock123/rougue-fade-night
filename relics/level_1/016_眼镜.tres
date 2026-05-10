@@ -10,7 +10,7 @@ relic_name = "眼镜"
 level = 1
 id = "016"
 icon = ExtResource("1_ohaud")
-tooltip = "智力+1
-升级：智力+2
+tooltip = "{intelligence}+1
+升级：{intelligence}+2
 "
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

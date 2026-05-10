@@ -10,6 +10,6 @@ relic_name = "法师帽"
 level = 3
 id = "027"
 icon = ExtResource("1_ntnbx")
-tooltip = "智力+3，释放主动技能时将获得智力+1，并在30秒倒计时后清空所有此智力加成效果
-升级：智力+4，释放主动技能时获得智力+1"
+tooltip = "{intelligence}+3，释放{active_skill}时将获得{intelligence}+1，并在30秒倒计时后清空所有此{intelligence}加成效果
+升级：{intelligence}+4，释放{active_skill}时获得{intelligence}+1"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

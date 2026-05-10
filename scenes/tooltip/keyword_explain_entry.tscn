@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://2y04rl5xoj16"]
+
+[ext_resource type="Script" path="res://scripts/keyword/keyword_explain_entry.gd" id="1_entry"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 6.0
+content_margin_top = 4.0
+content_margin_right = 6.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.12, 0.14, 0.82)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_name"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 6.0
+content_margin_bottom = 2.0
+bg_color = Color(0.55, 0.78, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="LabelSettings" id="LabelSettings_bjes7"]
+
+[node name="KeywordExplainEntry" type="PanelContainer" unique_id=154047214]
+custom_minimum_size = Vector2(180, 70)
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+script = ExtResource("1_entry")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=887708990]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=27182370]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/MarginContainer" unique_id=1573450922]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_name")
+text = "关键词"
+label_settings = SubResource("LabelSettings_bjes7")
+
+[node name="DescLabel" type="Label" parent="VBoxContainer" unique_id=837787551]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 30)
+layout_mode = 2
+text = "关键词55555555555555555555555555555555555555555555555555"
+autowrap_mode = 3

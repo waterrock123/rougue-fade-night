@@ -11,7 +11,7 @@ level = 1
 id = "017"
 is_consumable = true
 icon = ExtResource("1_ynyvc")
-tooltip = "使用后力量+2，恢复1生命
-升级：使用后力量+3，恢复1生命
+tooltip = "使用后{strength}+2，{heal}1生命
+升级：使用后{strength}+3，{heal}1生命
 "
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

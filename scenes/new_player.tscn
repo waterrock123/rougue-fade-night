@@ -1,11 +1,103 @@
 [gd_scene format=3 uid="uid://buikmj78ovb8g"]
 
+[ext_resource type="Texture2D" uid="uid://dqv5rju6lw68a" path="res://assets/人物骨骼素材/战狂/躯干.png" id="1_arqjq"]
+[ext_resource type="Texture2D" uid="uid://d0vc2kjt78ef1" path="res://assets/人物骨骼素材/战狂/左大腿.png" id="2_2dryk"]
+[ext_resource type="Texture2D" uid="uid://bm4x21ktgtcoy" path="res://assets/人物骨骼素材/战狂/左小腿.png" id="3_t483v"]
+[ext_resource type="Texture2D" uid="uid://bp2aumfool61t" path="res://assets/人物骨骼素材/战狂/右大腿.png" id="4_pkuya"]
+[ext_resource type="Texture2D" uid="uid://dc0t7k1i18n5q" path="res://assets/人物骨骼素材/战狂/右小腿.png" id="5_if3ei"]
+
+[sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_v21ou"]
+target_nodepath = NodePath("../左小腿目标")
+joint_one_bone_idx = 2
+joint_one_bone2d_node = NodePath("胯部/左大腿")
+joint_two_bone_idx = 3
+joint_two_bone2d_node = NodePath("胯部/左大腿/左小腿")
+
+[sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_2uj3n"]
+enabled = true
+modification_count = 1
+modifications/0 = SubResource("SkeletonModification2DTwoBoneIK_v21ou")
+
 [node name="Character2D" type="CharacterBody2D" unique_id=1803239929]
 
 [node name="视觉容器" type="Node2D" parent="." unique_id=236542028]
 
 [node name="Skeleton2D" type="Skeleton2D" parent="视觉容器" unique_id=1822254701]
+modification_stack = SubResource("SkeletonModificationStack2D_2uj3n")
 
 [node name="胯部" type="Bone2D" parent="视觉容器/Skeleton2D" unique_id=178567526]
+position = Vector2(-1, -233)
+rotation = -0.02377686
 
-[node name="躯干" type="Node2D" parent="视觉容器/Skeleton2D/胯部" unique_id=412986655]
+[node name="躯干" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=1280355780]
+position = Vector2(10, -102)
+rotation = -1.4743224
+scale = Vector2(2.6546416, -2022.0747)
+auto_calculate_length_and_angle = false
+length = 1.0
+bone_angle = -0.95499986
+
+[node name="身体" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干" unique_id=163176702]
+position = Vector2(0.3089218, -0.00018260814)
+rotation = -0.017779125
+scale = Vector2(0.027741805, -0.3756761)
+skew = -1.5529188
+texture = ExtResource("1_arqjq")
+offset = Vector2(-6.56, 19.71)
+
+[node name="Bone2D" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干" unique_id=1898984481]
+metadata/_local_pose_override_enabled_ = true
+
+[node name="左大腿" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=1097985254]
+position = Vector2(43, 13.000004)
+rotation = -0.31906936
+scale = Vector2(0.9999999, 0.9999999)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="左大腿2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/左大腿" unique_id=1219188741]
+z_index = -1
+position = Vector2(-0.22885704, 0.9734554)
+rotation = 0.2194334
+texture = ExtResource("2_2dryk")
+offset = Vector2(-8.515, 25.04)
+
+[node name="左小腿" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/左大腿" unique_id=1936199558]
+position = Vector2(-20.081367, 89.78717)
+rotation = 0.32533294
+scale = Vector2(0.9999999, 0.9999999)
+auto_calculate_length_and_angle = false
+length = 90.0
+bone_angle = 90.0
+
+[node name="左小腿2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/左大腿/左小腿" unique_id=1990617735]
+position = Vector2(-0.07955551, -1.5555763)
+rotation = -0.008653894
+texture = ExtResource("3_t483v")
+offset = Vector2(-7.85, 45.4)
+
+[node name="右大腿" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=1800549637]
+position = Vector2(-37, 19)
+rotation = -0.018574774
+
+[node name="右大腿2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/右大腿" unique_id=1284142742]
+z_index = -1
+position = Vector2(-1, -2)
+rotation = 0.25907636
+texture = ExtResource("4_pkuya")
+offset = Vector2(18.395, 30.685)
+
+[node name="右小腿" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/右大腿" unique_id=2021626420]
+position = Vector2(-1, 94)
+rotation = 1.6195161
+auto_calculate_length_and_angle = false
+length = 90.0
+bone_angle = 0.0
+
+[node name="右小腿2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/右大腿/右小腿" unique_id=47529929]
+position = Vector2(-0.9794178, 0.7759743)
+rotation = -1.8683087
+texture = ExtResource("5_if3ei")
+offset = Vector2(-4.84, 34.135)
+
+[node name="左小腿目标" type="Marker2D" parent="视觉容器" unique_id=182164689]
+position = Vector2(62, -14)

@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://ehcx8jaw4rmu" path="res://assets/字体/Minecraft.ttf" id="2_j2wa7"]
 [ext_resource type="Texture2D" uid="uid://kd6fvrsfrcyi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc131.png" id="2_t45gq"]
 [ext_resource type="PackedScene" uid="uid://drnrxy5n678gs" path="res://scenes/tooltip/tag_ui.tscn" id="4_b160e"]
+[ext_resource type="PackedScene" uid="uid://bngqstk1ov5vy" path="res://scenes/tooltip/keyword_explain_panel.tscn" id="5_keyword"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nquxf"]
 bg_color = Color(0.43544763, 0.64404696, 0.8186585, 0.4)
@@ -29,74 +30,30 @@ font_size = 24
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w88kg"]
 bg_color = Color(0.5529412, 0.627451, 0.7372549, 0.4)
 
-[sub_resource type="LabelSettings" id="LabelSettings_ob8el"]
-line_spacing = 2.0
-
-[sub_resource type="FontFile" id="FontFile_yc0hv"]
-subpixel_positioning = 0
-msdf_pixel_range = 14
-msdf_size = 128
-cache/0/variation_coordinates = {}
-cache/0/face_index = 0
-cache/0/embolden = 0.0
-cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
-cache/0/spacing_top = 0
-cache/0/spacing_bottom = 0
-cache/0/spacing_space = 0
-cache/0/spacing_glyph = 0
-cache/0/baseline_offset = 0.0
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/17/0/ascent = 0.0
-cache/0/17/0/descent = 0.0
-cache/0/17/0/underline_position = 0.0
-cache/0/17/0/underline_thickness = 0.0
-cache/0/17/0/scale = 1.0
-cache/0/20/0/ascent = 0.0
-cache/0/20/0/descent = 0.0
-cache/0/20/0/underline_position = 0.0
-cache/0/20/0/underline_thickness = 0.0
-cache/0/20/0/scale = 1.0
-cache/0/19/0/ascent = 0.0
-cache/0/19/0/descent = 0.0
-cache/0/19/0/underline_position = 0.0
-cache/0/19/0/underline_thickness = 0.0
-cache/0/19/0/scale = 1.0
-cache/0/18/0/ascent = 0.0
-cache/0/18/0/descent = 0.0
-cache/0/18/0/underline_position = 0.0
-cache/0/18/0/underline_thickness = 0.0
-cache/0/18/0/scale = 1.0
-
-[sub_resource type="LabelSettings" id="LabelSettings_j4fx0"]
-line_spacing = 2.0
-font = SubResource("FontFile_yc0hv")
-font_color = Color(0.7107411, 0.71074116, 0.7107411, 1)
-outline_size = 1
-shadow_size = 2
-shadow_color = Color(0.6705309, 0.0004928589, 0.70459026, 0)
-
 [node name="ToolTipPanel" type="PanelContainer" unique_id=2089707652]
 custom_minimum_size = Vector2(300, 300)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1484.0
+offset_left = 2.0
+offset_right = -1227.0
 offset_bottom = -752.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_nquxf")
 script = ExtResource("1_ob8el")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1891179308]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=816068886]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1891179308]
 layout_mode = 2
 
-[node name="NameLabel" type="Label" parent="VBoxContainer" unique_id=1467345438]
+[node name="NameLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1467345438]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 35
@@ -104,7 +61,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_t2wmv")
 text = "标题"
 horizontal_alignment = 1
 
-[node name="Panel" type="Panel" parent="VBoxContainer/NameLabel" unique_id=2073583624]
+[node name="Panel" type="Panel" parent="HBoxContainer/VBoxContainer/NameLabel" unique_id=2073583624]
 custom_minimum_size = Vector2(70, 24)
 layout_mode = 1
 anchors_preset = 4
@@ -117,7 +74,7 @@ offset_bottom = 14.5
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_t45gq")
 
-[node name="LevelLabel" type="Label" parent="VBoxContainer/NameLabel/Panel" unique_id=91256895]
+[node name="LevelLabel" type="Label" parent="HBoxContainer/VBoxContainer/NameLabel/Panel" unique_id=91256895]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 1
@@ -137,33 +94,33 @@ label_settings = SubResource("LabelSettings_b160e")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1288610482]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1288610482]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 alignment = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1236113921]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1236113921]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer" unique_id=200274439]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=200274439]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(70, 70)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer" unique_id=228545420]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=228545420]
 layout_mode = 2
 theme_override_constants/separation = -1
 alignment = 1
 
-[node name="PriceTexture" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=2042922902]
+[node name="PriceTexture" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=2042922902]
 texture_filter = 1
 layout_mode = 2
 texture = ExtResource("2_t45gq")
 
-[node name="PriceLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=613130785]
+[node name="PriceLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=613130785]
 unique_name_in_owner = true
 layout_mode = 2
 text = "{0}"
@@ -171,36 +128,43 @@ label_settings = SubResource("LabelSettings_ujwlb")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TagUI" parent="VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1396676509 instance=ExtResource("4_b160e")]
+[node name="TagUI" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1396676509 instance=ExtResource("4_b160e")]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer" unique_id=626096727]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=626096727]
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer/MarginContainer" unique_id=126080358]
+[node name="Panel" type="Panel" parent="HBoxContainer/VBoxContainer/HBoxContainer/MarginContainer" unique_id=126080358]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_w88kg")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/MarginContainer" unique_id=1501908959]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/MarginContainer" unique_id=1501908959]
 layout_mode = 2
 
-[node name="TooltipLabel" type="Label" parent="VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=1880431931]
+[node name="TooltipLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=1880431931]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 200)
 layout_mode = 2
 text = "装备后可使用额外技能： 丢出冰锥，对锥形范围内的所有敌人造成伤害并概率施加冻结
 无法升级"
-label_settings = SubResource("LabelSettings_ob8el")
+fit_content = true
+scroll_active = false
 autowrap_mode = 2
 
-[node name="DescLabel" type="Label" parent="VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=132898476]
+[node name="DescLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=132898476]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 50)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_font_sizes/font_size = 15
 text = "这里是占位符"
-label_settings = SubResource("LabelSettings_j4fx0")
+fit_content = true
+scroll_active = false
 autowrap_mode = 2
+
+[node name="KeywordExplainPanel" parent="HBoxContainer" unique_id=692207155 instance=ExtResource("5_keyword")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0

@@ -4,11 +4,13 @@ extends Button
 signal reward_chosen(reward: LevelUpReward)
 signal reward_focused(reward: LevelUpReward)
 
+@export var keyword_database: KeywordDatabase = preload("res://custom_resource/default_keyword_database.tres")
+
 var reward: LevelUpReward
 
 @onready var name_label: Label = %NameLabel
 @onready var icon_texture: TextureRect = %Texture
-@onready var desc_label: Label = %DescLabel
+@onready var desc_label: RichTextLabel = %DescLabel
 
 
 # 绑定一个升级奖励，并刷新按钮上的名称、图标和描述。
@@ -21,7 +23,7 @@ func setup(new_reward: LevelUpReward) -> void:
 		return
 
 	name_label.text = reward.get_display_title()
-	desc_label.text = reward.get_display_desc()
+	_set_rich_desc(reward.get_display_desc())
 	icon_texture.texture = reward.get_display_icon()
 
 
@@ -55,3 +57,12 @@ func _set_child_mouse_filter_ignore(root: Node) -> void:
 		if child is Control:
 			(child as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_set_child_mouse_filter_ignore(child)
+
+
+func _set_rich_desc(raw_desc: String) -> void:
+	if desc_label == null:
+		return
+
+	var result := KeywordTextFormatter.format_text(raw_desc, keyword_database)
+	desc_label.clear()
+	desc_label.append_text(result.bbcode_text)

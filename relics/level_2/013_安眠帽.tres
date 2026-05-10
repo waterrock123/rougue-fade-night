@@ -10,7 +10,7 @@ relic_name = "安眠猫"
 level = 2
 id = "013"
 icon = ExtResource("1_q3hpw")
-tooltip = "每场战斗第一次进入睡眠状态时恢复10%的hp，并获得随机属性提升+1
-升级：每次进入睡眠状态时恢复12%的hp，并获得随机属性+2
+tooltip = "每场战斗第一次进入{sleep}状态时{heal}10%的hp，并获得随机属性提升+1
+升级：每次进入{sleep}状态时{heal}12%的hp，并获得随机属性+2
 "
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

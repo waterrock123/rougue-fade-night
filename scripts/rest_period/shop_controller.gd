@@ -96,6 +96,7 @@ func level_up() -> void:
 		_sync_shop_ui()
 
 	_update_shop_ui()
+	_save_run_if_available()
 
 
 func get_level_data(level: int) -> ShopLevelData:
@@ -126,6 +127,7 @@ func refresh() -> void:
 	_sync_shop_ui()
 	_update_shop_ui()
 	_try_start_free_relic_choice()
+	_save_run_if_available()
 
 
 # 切换所有商店商品的冻结状态。
@@ -158,6 +160,7 @@ func frezee() -> void:
 		if not slot_button.is_empty():
 			slot_button.set_frozen(should_freeze)
 			shop.set_slot_frozen(slot_button.slot_index, should_freeze)
+	_save_run_if_available()
 
 
 # 处理购买逻辑：双击商品格购买，并将遗物塞进库存的第一个空位。
@@ -197,6 +200,7 @@ func buy_relic(slot_index: int) -> void:
 	slot_button.clear_relic()
 	_update_shop_ui()
 	_try_start_free_relic_choice()
+	_save_run_if_available()
 
 
 func _on_buy_equipment(relic: Relic) -> void:
@@ -340,7 +344,7 @@ func _pick_random_relic(candidate_relics: Array[Relic]) -> Relic:
 	if candidate_relics.is_empty():
 		return null
 
-	var relic: Relic = candidate_relics.pick_random()
+	var relic: Relic = RunRng.pick(candidate_relics)
 	if relic == null:
 		return null
 
@@ -414,6 +418,7 @@ func _buy_free_choice_relic(slot_index: int) -> void:
 
 	EventBus.buy_equipment.emit(relic)
 	_end_free_relic_choice(true)
+	_save_run_if_available()
 
 
 func _save_shop_state() -> void:
@@ -464,7 +469,7 @@ func _roll_free_choice_slots(choice_level: int) -> bool:
 
 	var start_index := 0
 	if shop.slot_count > slot_count:
-		start_index = randi_range(0, shop.slot_count - slot_count)
+		start_index = RunRng.randi_range(0, shop.slot_count - slot_count)
 
 	var candidate_relics := _get_available_relics_by_level(choice_level)
 	if candidate_relics.is_empty():
@@ -538,3 +543,9 @@ func _is_left_click(event: InputEvent) -> bool:
 		var mouse_event := event as InputEventMouseButton
 		return mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed
 	return false
+
+
+func _save_run_if_available() -> void:
+	var current_run := get_tree().get_first_node_in_group("run") as Run
+	if current_run != null:
+		SaveManager.save_run(current_run)

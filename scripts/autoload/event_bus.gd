@@ -13,6 +13,8 @@ signal game_paused(paused: bool)
 signal  scene_changed(scene: String)
 #战斗胜利信号
 signal battle_win()
+# 战斗胜利结算信号。会在切换升级/修整场景前触发，供被动技能处理吞噬装备、升级装备等局内结算。
+signal battle_rewards_resolving()
 #战斗失败信号
 signal battle_lost()
 #打开背包信号 

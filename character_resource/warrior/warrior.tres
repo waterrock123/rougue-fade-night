@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://dv58keclglu12" path="res://scripts/package_system/inventory.gd" id="5_306uh"]
 [ext_resource type="Resource" uid="uid://b478o2358l6xq" path="res://character_resource/warrior/warrior_stats.tres" id="6_8vju8"]
 [ext_resource type="Resource" uid="uid://07snhhfv258i" path="res://custom_resource/start_shop.tres" id="7_8vju8"]
+[ext_resource type="Resource" uid="uid://dbuj4w6g5hwrv" path="res://relics/level_1/002_水桶.tres" id="8_5lh6f"]
 [ext_resource type="Resource" uid="uid://clq6naqkf40p0" path="res://custom_resource/common_shop_config.tres" id="8_pld4q"]
 [ext_resource type="Script" uid="uid://bdqgkeyiw7nj6" path="res://scripts/skill/skill_entry.gd" id="10_fobq8"]
 [ext_resource type="PackedScene" uid="uid://bkad3ppamt8x1" path="res://scenes/ability/slash_ability.tscn" id="11_k6upo"]
@@ -50,6 +51,7 @@ metadata/_custom_type_script = "uid://bq6potbl53yc6"
 
 [sub_resource type="Resource" id="Resource_watg2"]
 script = ExtResource("3_lkctu")
+item = ExtResource("8_5lh6f")
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_sfcnn"]

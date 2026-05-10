@@ -10,6 +10,6 @@ relic_name = "纸：心理学"
 level = 4
 id = "029"
 icon = ExtResource("1_wcvj7")
-tooltip = "魅力+5
+tooltip = "{charm}+5
 升级：装备时能够看见事件获得的物品"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

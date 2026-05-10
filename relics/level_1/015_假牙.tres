@@ -8,8 +8,8 @@
 script = ExtResource("1_tp1fr")
 relic_name = "假牙"
 icon = ExtResource("1_uvs2t")
-tooltip = "魅力+1
-升级：魅力+2"
+tooltip = "{charm}+1
+升级：{charm}+2"
 price = 3
 level = 1
 id = "015"

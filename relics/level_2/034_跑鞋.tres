@@ -3,13 +3,14 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_btdyy"]
 [ext_resource type="Texture2D" uid="uid://cksrnywjo7du1" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2162.png" id="1_nc31r"]
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_ohkpg"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_t1jhc"]
 
 [resource]
 script = ExtResource("1_btdyy")
 relic_name = "跑鞋"
 icon = ExtResource("1_nc31r")
-tooltip = "速度+2
-升级：速度+4"
+tooltip = "{speed}+2
+升级：{speed}+4"
 price = 3
 level = 2
 id = "034"

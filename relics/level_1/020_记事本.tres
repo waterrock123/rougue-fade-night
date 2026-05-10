@@ -10,7 +10,7 @@ relic_name = "记事本"
 level = 1
 id = "020"
 icon = ExtResource("1_l0y4q")
-tooltip = "装备时，每杀二十个怪物获得一金币
-升级：每杀15个怪物获得一资金
+tooltip = "装备时，每杀二十个怪物获得一{gold}
+升级：每杀15个怪物获得一{gold}
 "
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

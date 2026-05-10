@@ -17,8 +17,8 @@ metadata/_custom_type_script = "uid://neet2irr2m2g"
 script = ExtResource("1_u6cck")
 relic_name = "兑换券"
 icon = ExtResource("1_6yacv")
-tooltip = "幸运+1，出售时立即免费刷新一次商店
-升级： 出售时效果变为获得一次免费刷新
+tooltip = "{luck}+1，出售时立即免费{shop_refresh}一次
+升级： 出售时效果变为获得一次免费{shop_refresh}
 "
 desc = "某种兑换卷，可以把它交给商人补充货物"
 price = 3

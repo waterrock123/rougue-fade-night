@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://hh4l72tudqw7"]
 
 [ext_resource type="Script" uid="uid://c6p7heck63r38" path="res://scripts/level_up/skill_tool_tip_panel.gd" id="1_skill"]
+[ext_resource type="PackedScene" path="res://scenes/tooltip/keyword_explain_panel.tscn" id="2_keyword"]
 
 [node name="SkillToolTipPanel" type="PanelContainer" unique_id=2089106612]
 custom_minimum_size = Vector2(360, 180)
@@ -39,9 +40,15 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Lv.1"
 
-[node name="DescLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=696806083]
+[node name="DescLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=696806083]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(252, 70)
 layout_mode = 2
 text = "Desc"
 autowrap_mode = 3
+fit_content = true
+scroll_active = false
+
+[node name="KeywordExplainPanel" parent="MarginContainer/HBoxContainer/VBoxContainer" instance=ExtResource("2_keyword")]
+unique_name_in_owner = true
+layout_mode = 2

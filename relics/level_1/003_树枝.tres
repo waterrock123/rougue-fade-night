@@ -29,7 +29,7 @@ metadata/_custom_type_script = "uid://bts8j8jm6rdpv"
 script = ExtResource("1_4ckog")
 relic_name = "树枝"
 icon = ExtResource("1_x34x0")
-tooltip = "力量+2
+tooltip = "{strength}+2
 升级：基础攻击范围略微扩大"
 price = 3
 level = 1

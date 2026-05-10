@@ -26,8 +26,8 @@ metadata/_custom_type_script = "uid://neet2irr2m2g"
 script = ExtResource("1_nod8v")
 relic_name = "粗糙匕首"
 icon = ExtResource("1_083wb")
-tooltip = "敏捷+2，速度+2，进入战斗时立即流失5点生命
-升级：敏捷+1，速度+1
+tooltip = "{dexterity}+2，{speed}+2，进入战斗时立即流失5点生命
+升级：{dexterity}+1，{speed}+1
 "
 desc = "使用时可能会伤到手，小心"
 price = 3

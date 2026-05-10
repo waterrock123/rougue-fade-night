@@ -2,14 +2,10 @@
 
 [ext_resource type="Texture2D" uid="uid://kccdp6dnujw7" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc606.png" id="1_l0rjd"]
 [ext_resource type="Texture2D" uid="uid://chmcdx77nujjh" path="res://assets/UI/Button_Simple.png" id="2_qkx7o"]
-
-[ext_resource type="Script" path="res://scripts/level_up/reward_chose_button.gd" id="3_15pu7"]
+[ext_resource type="Script" uid="uid://dh3cr3wncdg85" path="res://scripts/level_up/reward_chose_button.gd" id="3_15pu7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_15pu7"]
 font_size = 48
-
-[sub_resource type="LabelSettings" id="LabelSettings_qkx7o"]
-font_size = 24
 
 [node name="RewardChoseButton" type="Button" unique_id=39256168]
 custom_minimum_size = Vector2(375, 450)
@@ -45,16 +41,16 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("1_l0rjd")
 
-[node name="DescLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=324211282]
+[node name="DescLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer" unique_id=324211282]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(375, 150)
 layout_mode = 2
 size_flags_vertical = 3
 text = "总之这里是奖励描述"
-label_settings = SubResource("LabelSettings_qkx7o")
+fit_content = true
+scroll_active = false
+autowrap_mode = 2
 horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=155858741]
 modulate = Color(0.8784314, 0.8784314, 0.92156863, 0.4627451)

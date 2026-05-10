@@ -10,6 +10,6 @@ relic_name = "冰锥"
 level = 2
 id = "011"
 icon = ExtResource("1_mqn28")
-tooltip = "装备后可使用额外技能： 丢出冰锥，对锥形范围内的所有敌人造成伤害并概率施加冻结
+tooltip = "装备后可使用额外{active_skill}： 丢出冰锥，对锥形范围内的所有敌人造成伤害并概率施加{freeze}
 无法升级"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

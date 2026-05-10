@@ -24,8 +24,8 @@ metadata/_custom_type_script = "uid://neet2irr2m2g"
 script = ExtResource("1_as5od")
 relic_name = "草甲"
 icon = ExtResource("1_1xjfc")
-tooltip = "一护甲，受到伤害时有概率损坏
-升级： 体质+2，受到伤害时不再会损坏"
+tooltip = "一{armor}，受到伤害时有概率损坏
+升级： {constitution}+2，受到伤害时不再会损坏"
 price = 3
 level = 1
 id = "004"
