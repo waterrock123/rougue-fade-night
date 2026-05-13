@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RelicTag" format=3 uid="uid://ba8bqffo5j43c"]
+
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="1_pdfav"]
+
+[resource]
+script = ExtResource("1_pdfav")
+color = Color(0.39962342, 0.42330208, 0.77547973, 1)
+tag_name = "诅咒"
+metadata/_custom_type_script = "uid://bts8j8jm6rdpv"

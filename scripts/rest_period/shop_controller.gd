@@ -16,6 +16,8 @@ extends Control
 var shop_slots: Array[ShopEquipButton] = []
 var shop_button_scene := preload("res://scenes/rest_period/shop_equip_button.tscn")
 const FREE_CHOICE_SLOT_COUNT := 3
+const BASE_RELIC_ROLL_WEIGHT := 1.0
+const PREFERRED_TAG_WEIGHT_BONUS := 2.0
 
 var is_free_choice_active: bool = false
 var free_choice_level: int = -1
@@ -100,6 +102,9 @@ func level_up() -> void:
 
 
 func get_level_data(level: int) -> ShopLevelData:
+	if shop_config == null:
+		return null
+
 	for data in shop_config.level_data:
 		if data.level == level:
 			return data
@@ -198,6 +203,8 @@ func buy_relic(slot_index: int) -> void:
 	var slot_button := shop_slots[slot_index]
 	slot_button.set_frozen(false)
 	slot_button.clear_relic()
+	if money_token != null:
+		money_token.speak_buy()
 	_update_shop_ui()
 	_try_start_free_relic_choice()
 	_save_run_if_available()
@@ -249,6 +256,12 @@ func _connect_signals() -> void:
 	if not EventBus.free_relic_choice_changed.is_connected(_on_free_relic_choice_changed):
 		EventBus.free_relic_choice_changed.connect(_on_free_relic_choice_changed)
 
+	if not EventBus.inventory_update.is_connected(_sync_shop_match_highlights):
+		EventBus.inventory_update.connect(_sync_shop_match_highlights)
+
+	if not EventBus.equipment_update.is_connected(_sync_shop_match_highlights):
+		EventBus.equipment_update.connect(_sync_shop_match_highlights)
+
 
 # 把运行时数据绑定给 UI 子节点。
 func _bind_runtime_data() -> void:
@@ -288,6 +301,8 @@ func _sync_shop_ui() -> void:
 
 		shop_slots[slot_index].set_slot(slot_)
 		shop_slots[slot_index].set_frozen(shop.is_slot_frozen(slot_index))
+
+	_sync_shop_match_highlights()
 
 
 # 把指定范围内的格子重新随机补货。
@@ -344,11 +359,71 @@ func _pick_random_relic(candidate_relics: Array[Relic]) -> Relic:
 	if candidate_relics.is_empty():
 		return null
 
-	var relic: Relic = RunRng.pick(candidate_relics)
+	var relic := _pick_weighted_relic(candidate_relics)
 	if relic == null:
 		return null
 
 	return relic.duplicate(true) as Relic
+
+
+# 商店老板的 havetag 会提高带有对应标签遗物的刷新权重，但不排除其他遗物。
+func _pick_weighted_relic(candidate_relics: Array[Relic]) -> Relic:
+	var total_weight := 0.0
+	var weighted_entries: Array[Dictionary] = []
+
+	for relic in candidate_relics:
+		if relic == null:
+			continue
+
+		var weight := _get_relic_roll_weight(relic)
+		total_weight += weight
+		weighted_entries.append({
+			"relic": relic,
+			"accumulated_weight": total_weight,
+		})
+
+	if weighted_entries.is_empty():
+		return null
+
+	var roll := RunRng.randf_range(0.0, total_weight)
+	for entry in weighted_entries:
+		if float(entry["accumulated_weight"]) >= roll:
+			return entry["relic"] as Relic
+
+	return weighted_entries.back()["relic"] as Relic
+
+
+func _get_relic_roll_weight(relic: Relic) -> float:
+	var weight := BASE_RELIC_ROLL_WEIGHT
+	var matched_tag_count := _get_preferred_tag_match_count(relic)
+	weight += matched_tag_count * PREFERRED_TAG_WEIGHT_BONUS
+	return max(weight, 0.01)
+
+
+func _get_preferred_tag_match_count(relic: Relic) -> int:
+	if relic == null or shop == null or shop.shopkeeper == null:
+		return 0
+	if shop.shopkeeper.havetag.is_empty() or relic.tags.is_empty():
+		return 0
+
+	var count := 0
+	for preferred_tag in shop.shopkeeper.havetag:
+		if preferred_tag == null:
+			continue
+		if _relic_has_tag(relic, preferred_tag):
+			count += 1
+
+	return count
+
+
+func _relic_has_tag(relic: Relic, target_tag: RelicTag) -> bool:
+	for tag in relic.tags:
+		if tag == null:
+			continue
+		# 优先用资源引用判断；如果以后复制了 tag 资源，也用 tag_name 做兜底匹配。
+		if tag == target_tag or tag.tag_name == target_tag.tag_name:
+			return true
+	return false
 
 
 func _on_free_relic_choice_changed() -> void:
@@ -417,6 +492,8 @@ func _buy_free_choice_relic(slot_index: int) -> void:
 		return
 
 	EventBus.buy_equipment.emit(relic)
+	if money_token != null:
+		money_token.speak_buy()
 	_end_free_relic_choice(true)
 	_save_run_if_available()
 
@@ -538,6 +615,55 @@ func _get_player_build() -> PlayerBuild:
 	return run_stats.player_build
 
 
+# 根据玩家当前拥有的遗物 id，刷新商店格子的“可合成/同款提示”金光。
+func _sync_shop_match_highlights() -> void:
+	var owned_relic_ids := _get_owned_relic_ids()
+	for slot_button in shop_slots:
+		if slot_button == null:
+			continue
+
+		var relic := slot_button._get_slot_relic_data()
+		var has_match := relic != null and owned_relic_ids.has(relic.id)
+		slot_button.set_owned_match_highlight(has_match)
+
+
+func _get_owned_relic_ids() -> Dictionary:
+	var result := {}
+	var player_build := _get_player_build()
+	if player_build == null:
+		return result
+
+	_collect_relic_ids_from_inventory(result, player_build.player_inventory)
+	_collect_relic_ids_from_equipment(result, player_build.player_equipment)
+	return result
+
+
+func _collect_relic_ids_from_inventory(result: Dictionary, inventory: Inventory) -> void:
+	if inventory == null:
+		return
+
+	for slot in inventory.slots:
+		_add_relic_id_from_slot(result, slot)
+
+
+func _collect_relic_ids_from_equipment(result: Dictionary, equipment: Equipment) -> void:
+	if equipment == null:
+		return
+
+	for slot in equipment.equip_slots:
+		_add_relic_id_from_slot(result, slot)
+
+
+func _add_relic_id_from_slot(result: Dictionary, slot: Slot) -> void:
+	if slot == null or slot.item == null:
+		return
+	if slot.item.id.is_empty():
+		return
+
+	# 升级态和未升级态同 id 视为同一件装备，所以只记录 id。
+	result[slot.item.id] = true
+
+
 func _is_left_click(event: InputEvent) -> bool:
 	if event is InputEventMouseButton:
 		var mouse_event := event as InputEventMouseButton
@@ -548,4 +674,4 @@ func _is_left_click(event: InputEvent) -> bool:
 func _save_run_if_available() -> void:
 	var current_run := get_tree().get_first_node_in_group("run") as Run
 	if current_run != null:
-		SaveManager.save_run(current_run)
+		current_run.save_current_run()

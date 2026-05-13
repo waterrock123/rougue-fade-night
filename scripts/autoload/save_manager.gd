@@ -25,10 +25,12 @@ func save_run(run: Run) -> bool:
 
 	var save_data := {
 		"version": SAVE_VERSION,
+		"flow_state": run.current_flow_state,
 		"rng": RunRng.get_save_data(),
 		"run_stats": _serialize_run_stats(run.run_stats),
 		"map": run.map.get_save_data() if run.map != null and run.map.has_method("get_save_data") else {},
 		"current_room": _serialize_room_key(run.current_room),
+		"level_up_rewards": _serialize_level_up_rewards(run.level_up_reward_options),
 	}
 
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -79,8 +81,10 @@ func build_run_stats_from_save(save_data: Dictionary) -> RunStats:
 	var result := RunStats.new()
 	result.player_build = _deserialize_player_build(run_stats_data.get("player_build", {}) as Dictionary)
 	result.shop = _deserialize_shop(run_stats_data.get("shop", {}) as Dictionary)
-	result.shop_config = _load_resource_or_null(str(run_stats_data.get("shop_config_path", ""))) as ShopConfig
 	result.picked_character = _load_resource_or_null(str(run_stats_data.get("character_path", ""))) as Character
+	result.shop_config = _load_resource_or_null(str(run_stats_data.get("shop_config_path", ""))) as ShopConfig
+	if result.shop_config == null and result.picked_character != null and result.picked_character.start_shop_config != null:
+		result.shop_config = result.picked_character.start_shop_config.duplicate(true) as ShopConfig
 	result.base_rest_period_gold = int(run_stats_data.get("base_rest_period_gold", result.base_rest_period_gold))
 	result.rest_period_gold_growth = int(run_stats_data.get("rest_period_gold_growth", result.rest_period_gold_growth))
 	result.rest_period_gold_flat_bonus = int(run_stats_data.get("rest_period_gold_flat_bonus", result.rest_period_gold_flat_bonus))
@@ -96,6 +100,14 @@ func get_saved_map_data(save_data: Dictionary) -> Dictionary:
 
 func get_saved_current_room_data(save_data: Dictionary) -> Dictionary:
 	return save_data.get("current_room", {}) as Dictionary
+
+
+func get_saved_flow_state(save_data: Dictionary) -> String:
+	return str(save_data.get("flow_state", Run.FLOW_MAP))
+
+
+func get_saved_level_up_rewards(save_data: Dictionary) -> Array[LevelUpReward]:
+	return _deserialize_level_up_rewards(save_data.get("level_up_rewards", []))
 
 
 func _serialize_run_stats(run_stats: RunStats) -> Dictionary:
@@ -296,6 +308,100 @@ func _serialize_skill_entries(entries: Array[SkillEntry]) -> Array:
 			"skill_data": _serialize_skill_data(entry.skill_data),
 		})
 	return result
+
+
+func _serialize_level_up_rewards(rewards: Array[LevelUpReward]) -> Array:
+	var result := []
+	for reward in rewards:
+		if reward == null:
+			continue
+
+		var data := {
+			"type": _get_reward_type(reward),
+			"id": String(reward.id),
+			"title": reward.title,
+			"desc": reward.desc,
+			"icon_path": _get_resource_path(reward.icon),
+			"rarity": reward.rarity,
+		}
+
+		if reward is RewardGrantActiveSkill:
+			data["skill_data"] = _serialize_skill_data((reward as RewardGrantActiveSkill).skill_data)
+		elif reward is RewardGrantPassiveSkill:
+			data["skill_data"] = _serialize_skill_data((reward as RewardGrantPassiveSkill).skill_data)
+		elif reward is RewardIncreaseStat:
+			var stat_reward := reward as RewardIncreaseStat
+			data["stat_name"] = String(stat_reward.stat_name)
+			data["amount"] = stat_reward.amount
+		elif reward is RewardUpgradeSkill:
+			var upgrade_reward := reward as RewardUpgradeSkill
+			data["target_skill_id"] = String(upgrade_reward.target_skill_id)
+			data["target_skill_data"] = _serialize_skill_data(upgrade_reward.target_skill_data)
+			data["search_passive_first"] = upgrade_reward.search_passive_first
+
+		result.append(data)
+	return result
+
+
+func _deserialize_level_up_rewards(data) -> Array[LevelUpReward]:
+	var result: Array[LevelUpReward] = []
+	if not (data is Array):
+		return result
+
+	for reward_data in data:
+		var reward := _deserialize_level_up_reward(reward_data as Dictionary)
+		if reward != null:
+			result.append(reward)
+	return result
+
+
+func _deserialize_level_up_reward(data: Dictionary) -> LevelUpReward:
+	if data.is_empty():
+		return null
+
+	var reward_type := str(data.get("type", ""))
+	var reward: LevelUpReward = null
+	match reward_type:
+		"grant_active_skill":
+			var active_reward := RewardGrantActiveSkill.new()
+			active_reward.skill_data = _deserialize_skill_data(data.get("skill_data", {}) as Dictionary, true) as ActiveSkillData
+			reward = active_reward
+		"grant_passive_skill":
+			var passive_reward := RewardGrantPassiveSkill.new()
+			passive_reward.skill_data = _deserialize_skill_data(data.get("skill_data", {}) as Dictionary, false) as PassiveSkillData
+			reward = passive_reward
+		"increase_stat":
+			var stat_reward := RewardIncreaseStat.new()
+			stat_reward.stat_name = StringName(str(data.get("stat_name", "")))
+			stat_reward.amount = float(data.get("amount", 1.0))
+			reward = stat_reward
+		"upgrade_skill":
+			var upgrade_reward := RewardUpgradeSkill.new()
+			upgrade_reward.target_skill_id = StringName(str(data.get("target_skill_id", "")))
+			upgrade_reward.target_skill_data = _deserialize_skill_data(data.get("target_skill_data", {}) as Dictionary, bool(data.get("search_passive_first", false)))
+			upgrade_reward.search_passive_first = bool(data.get("search_passive_first", false))
+			reward = upgrade_reward
+		_:
+			reward = LevelUpReward.new()
+
+	reward.id = StringName(str(data.get("id", "")))
+	reward.title = str(data.get("title", ""))
+	reward.desc = str(data.get("desc", ""))
+	reward.icon = _load_resource_or_null(str(data.get("icon_path", ""))) as Texture2D
+	reward.rarity = int(data.get("rarity", 0))
+	return reward
+
+
+func _get_reward_type(reward: LevelUpReward) -> String:
+	if reward is RewardGrantActiveSkill:
+		return "grant_active_skill"
+	if reward is RewardGrantPassiveSkill:
+		return "grant_passive_skill"
+	if reward is RewardIncreaseStat:
+		return "increase_stat"
+	if reward is RewardUpgradeSkill:
+		return "upgrade_skill"
+	return "base"
 
 
 func _deserialize_skill_entries(data, active: bool) -> Array[SkillEntry]:

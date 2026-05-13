@@ -16,12 +16,45 @@ shadow_color = Color(0.49455744, 0.18269193, 0.21664724, 0.6)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_agvpq"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_u7vlr"]
+font_size = 30
+
 [node name="Button" type="Button" unique_id=1416983139]
+custom_minimum_size = Vector2(600, 76)
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_ih8p8")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_agvpq")
-text = "第一个抉择"
 script = ExtResource("1_u7vlr")
+
+[node name="DescLabel" type="Label" parent="." unique_id=237290542]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.125
+anchor_top = 0.053000003
+anchor_right = 0.90000004
+anchor_bottom = 0.605
+offset_left = -51.0
+offset_top = -0.028000355
+offset_right = -51.0
+offset_bottom = 0.019996643
+grow_horizontal = 2
+text = "这里是描述"
+label_settings = SubResource("LabelSettings_u7vlr")
+
+[node name="DetailLabel" type="RichTextLabel" parent="." unique_id=1638030003]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.057000004
+anchor_top = 0.592
+anchor_right = 0.998
+anchor_bottom = 0.961
+offset_left = -0.20000076
+offset_top = 0.00799942
+offset_right = -10.799988
+offset_bottom = -0.036003113
+text = "这里是详细效果解释"
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]

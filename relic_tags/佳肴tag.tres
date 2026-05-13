@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RelicTag" format=3 uid="uid://c550wl6lihytk"]
+
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="1_6ttbe"]
+
+[resource]
+script = ExtResource("1_6ttbe")
+color = Color(0.78698426, 0.72997284, 0.422237, 1)
+tag_name = "佳肴"
+metadata/_custom_type_script = "uid://bts8j8jm6rdpv"

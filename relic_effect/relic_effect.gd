@@ -20,6 +20,13 @@ func on_activate(relic_context:RelicContext,effect_key) -> void:
 func on_deactivate(relic_context:RelicContext,effect_key) -> void:
 	pass
 
+
+# 使用消耗品时触发。
+# 只有 Relic.use_consumable() 会分发到这里，避免消耗品刚装备时就立刻生效。
+func on_use(relic_context:RelicContext,effect_key) -> void:
+	pass
+
+
 #遗物售卖时触发
 # 适合做一次性的注册、监听
 func on_sold(relic_context:RelicContext,effect_key) -> void:

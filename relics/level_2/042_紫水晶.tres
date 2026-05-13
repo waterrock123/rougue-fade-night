@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://d0sbxqpp1rwqk"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_oein4"]
+[ext_resource type="Texture2D" uid="uid://cxmxcc6ye50ow" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc166.png" id="2_4kncv"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_gtx23"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_byjvb"]
+[ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="5_gtx23"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="6_byjvb"]
+
+[resource]
+script = ExtResource("3_gtx23")
+relic_name = "紫水晶"
+icon = ExtResource("2_4kncv")
+tooltip = "{charm}+2
+升级：闪避率+5%"
+desc = "一块未经处理的紫水晶，若是处理得当的话其价值将大大提升"
+price = 3
+level = 2
+tags = Array[ExtResource("4_byjvb")]([ExtResource("5_gtx23"), ExtResource("6_byjvb")])
+id = "042"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

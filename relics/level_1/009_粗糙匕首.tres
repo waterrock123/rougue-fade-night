@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_nod8v"]
 [ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="2_ligxy"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_ligxy"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="6_bp3r8"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="7_fkfmr"]
 
 [sub_resource type="Resource" id="Resource_xtdos"]
 script = ExtResource("2_ligxy")
@@ -32,6 +34,7 @@ tooltip = "{dexterity}+2，{speed}+2，进入战斗时立即流失5点生命
 desc = "使用时可能会伤到手，小心"
 price = 3
 level = 1
+tags = Array[ExtResource("5_ligxy")]([ExtResource("6_bp3r8"), ExtResource("7_fkfmr")])
 id = "009"
 effects = Array[ExtResource("1_64iw6")]([SubResource("Resource_xtdos")])
 great_effects = Array[ExtResource("1_64iw6")]([SubResource("Resource_bp3r8")])

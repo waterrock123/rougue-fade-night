@@ -36,3 +36,16 @@ offset_right = 1889.0
 offset_bottom = 268.0
 theme_override_font_sizes/font_size = 30
 text = "结束修整"
+
+[node name="FadeLayer" type="CanvasLayer" parent="." unique_id=1984131674]
+layer = 100
+
+[node name="FadeRect" type="ColorRect" parent="FadeLayer" unique_id=2134731378]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)

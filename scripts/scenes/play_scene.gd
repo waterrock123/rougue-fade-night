@@ -14,13 +14,16 @@ var pending_battle_stats: BattleStats
 @onready var enemy_spawner: EnemySpawner = $EnemySpawner
 @onready var spell_bar: SpellBar = $CanvasLayer/UI/SpellBar
 @onready var passive_skill_bar: PassiveSkillBar = $CanvasLayer/UI/PassiveSkillBar
+@onready var consumable_container: ConsumableContainer = $CanvasLayer/UI/ConsumableContainer
 
+var consumable_use_count := 0
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player") as Player
 	if run_stats != null and run_stats.player_build != null and player != null:
 		player.bind_player_build(run_stats.player_build)
 	_refresh_skill_ui()
+	_refresh_consumable_ui()
 
 	if enemy_spawner != null and pending_battle_stats != null:
 		enemy_spawner.battle_stats = pending_battle_stats
@@ -32,6 +35,20 @@ func _ready() -> void:
 
 	AudioController.play_bg_music("battle")
 	EventBus.game_paused.connect(_handle_pause)
+	if not EventBus.equipment_update.is_connected(_refresh_consumable_ui):
+		EventBus.equipment_update.connect(_refresh_consumable_ui)
+
+
+func _exit_tree() -> void:
+	if EventBus.game_paused.is_connected(_handle_pause):
+		EventBus.game_paused.disconnect(_handle_pause)
+	if EventBus.equipment_update.is_connected(_refresh_consumable_ui):
+		EventBus.equipment_update.disconnect(_refresh_consumable_ui)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("use_consumable"):
+		_use_equipped_consumable()
 
 
 func setup_run_battle(new_run_stats: RunStats, battle_stats: BattleStats) -> void:
@@ -150,6 +167,76 @@ func _refresh_skill_ui() -> void:
 	if passive_skill_bar != null:
 		var player_build := run_stats.player_build if run_stats != null else null
 		passive_skill_bar.refresh_from_player_build(player_build)
+
+
+# 刷新左上角消耗品栏：只显示当前装备栏里第一个消耗品。
+func _refresh_consumable_ui() -> void:
+	if consumable_container == null:
+		return
+
+	consumable_container.set_relic(_get_equipped_consumable_relic())
+
+
+# Q 使用消耗品：触发遗物的 use 效果，然后从装备栏移除。
+func _use_equipped_consumable() -> void:
+	if player == null or run_stats == null or run_stats.player_build == null:
+		return
+
+	var equipment := run_stats.player_build.player_equipment
+	if equipment == null:
+		return
+
+	var consumable_slot_index := _find_equipped_consumable_slot_index(equipment)
+	if consumable_slot_index < 0:
+		return
+
+	var slot := equipment.equip_slots[consumable_slot_index]
+	if slot == null or slot.item == null:
+		return
+
+	var relic := slot.item
+	if not relic.is_consumable:
+		return
+
+	consumable_use_count += 1
+	var relic_key := "consumable_use_%s_%s_%s" % [consumable_slot_index, relic.id, consumable_use_count]
+	relic.use_consumable(player, player.relic_controller, relic_key)
+	slot.item = null
+
+	EventBus.equipment_update.emit()
+	EventBus.attribute_update.emit()
+	_refresh_consumable_ui()
+	_sync_player_build_state()
+
+
+func _get_equipped_consumable_relic() -> Relic:
+	if run_stats == null or run_stats.player_build == null:
+		return null
+
+	var equipment := run_stats.player_build.player_equipment
+	if equipment == null:
+		return null
+
+	var slot_index := _find_equipped_consumable_slot_index(equipment)
+	if slot_index < 0:
+		return null
+
+	var slot := equipment.equip_slots[slot_index]
+	return slot.item if slot != null else null
+
+
+func _find_equipped_consumable_slot_index(equipment: Equipment) -> int:
+	if equipment == null:
+		return -1
+
+	for slot_index in range(equipment.equip_slots.size()):
+		var slot := equipment.equip_slots[slot_index]
+		if slot == null or slot.item == null:
+			continue
+		if slot.item.is_consumable:
+			return slot_index
+
+	return -1
 
 
 # 向上查找当前 PlayScene 是否挂在 Run 节点下面。

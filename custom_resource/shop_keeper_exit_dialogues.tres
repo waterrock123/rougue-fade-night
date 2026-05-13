@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ShopKeeperDialoguePool" format=3]
+
+[ext_resource type="Script" path="res://custom_resource/shop_keeper_dialogue_pool.gd" id="1_pool"]
+
+[resource]
+script = ExtResource("1_pool")
+lines = Array[String](["下次带着更多金币回来，当然，也要带着命回来。", "路上小心。别把我卖你的东西弄丢了。", "愿你的下一场战斗比你的砍价水平更可靠。"])

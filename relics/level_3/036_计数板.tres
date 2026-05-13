@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://clwhsdcumoqp1"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_h85hc"]
+[ext_resource type="Texture2D" uid="uid://3kewvedotnr2" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc219.png" id="2_ge8km"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_t3rvj"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_gsl13"]
+[ext_resource type="Resource" uid="uid://d1qaxn6s7eqj0" path="res://relic_tags/历战tag.tres" id="5_wbmt1"]
+[ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="6_dhmcf"]
+
+[resource]
+script = ExtResource("2_t3rvj")
+relic_name = "计数板"
+icon = ExtResource("2_ge8km")
+tooltip = "智力+2，每次战斗胜利后法力最大上限+2
+升级：{intelligence}额外+2"
+price = 4
+level = 3
+tags = Array[ExtResource("3_gsl13")]([ExtResource("5_wbmt1"), ExtResource("6_dhmcf")])
+id = "036"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

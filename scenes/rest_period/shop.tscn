@@ -125,6 +125,7 @@ horizontal_alignment = 1
 
 [node name="EquipContainer" type="HBoxContainer" parent="VBoxContainer/BuyContainer" unique_id=1331567679]
 unique_name_in_owner = true
+z_index = -1
 custom_minimum_size = Vector2(690, 230)
 layout_mode = 2
 size_flags_vertical = 8

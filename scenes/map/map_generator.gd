@@ -99,8 +99,11 @@ func _connect_columns() -> void:
 
 			for candidate_index in range(connection_count):
 				var next_room = candidates[candidate_index]
-				if not room.next_rooms.has(next_room):
-					room.next_rooms.append(next_room)
+				_try_add_non_crossing_connection(room, next_room, current_floor)
+
+			# 如果候选边都因为防交叉被跳过，至少补一条最近的不交叉连线。
+			if room.next_rooms.is_empty():
+				_connect_to_nearest_non_crossing_room(room, candidates, current_floor)
 
 		_ensure_each_room_has_parent(floor_index)
 
@@ -113,16 +116,71 @@ func _ensure_each_room_has_parent(floor_index: int) -> void:
 		if _room_has_parent(next_room):
 			continue
 
-		var nearest_parent := current_floor[0]
-		var nearest_distance = abs(nearest_parent.column - next_room.column)
-		for room in current_floor:
-			var distance = abs(room.column - next_room.column)
-			if distance < nearest_distance:
-				nearest_parent = room
-				nearest_distance = distance
+		var parents := current_floor.duplicate()
+		parents.sort_custom(func(a: Room, b: Room): return abs(a.column - next_room.column) < abs(b.column - next_room.column))
+		for parent in parents:
+			if _try_add_non_crossing_connection(parent, next_room, current_floor):
+				break
+		if not _room_has_parent(next_room):
+			_replace_crossing_connections_and_add(parents[0], next_room, current_floor)
 
-		if not nearest_parent.next_rooms.has(next_room):
-			nearest_parent.next_rooms.append(next_room)
+
+func _connect_to_nearest_non_crossing_room(room: Room, candidates: Array, current_floor: Array[Room]) -> void:
+	for candidate in candidates:
+		if _try_add_non_crossing_connection(room, candidate, current_floor):
+			return
+
+
+# 添加连线的唯一入口：先检查是否会和同一段列间已有连线交叉，再真正写入 next_rooms。
+func _try_add_non_crossing_connection(from_room: Room, to_room: Room, current_floor: Array[Room]) -> bool:
+	if from_room == null or to_room == null:
+		return false
+	if from_room.next_rooms.has(to_room):
+		return true
+	if _would_connection_cross(from_room, to_room, current_floor):
+		return false
+
+	from_room.next_rooms.append(to_room)
+	return true
+
+
+# 判断 from_room -> to_room 是否会造成“上方房间连到下方、下方房间连到上方”的交叉线。
+func _would_connection_cross(from_room: Room, to_room: Room, current_floor: Array[Room]) -> bool:
+	for other_from in current_floor:
+		if other_from == null or other_from == from_room:
+			continue
+
+		for other_to in other_from.next_rooms:
+			if other_to == null or other_to == to_room:
+				continue
+			if _is_crossing_connection(from_room, to_room, other_from, other_to):
+				return true
+
+	return false
+
+
+# 极少数情况下，为了保证下一列房间至少有一个父节点，会移除冲突边后再补上必需连线。
+func _replace_crossing_connections_and_add(from_room: Room, to_room: Room, current_floor: Array[Room]) -> void:
+	if from_room == null or to_room == null:
+		return
+
+	for other_from in current_floor:
+		if other_from == null or other_from == from_room:
+			continue
+
+		for index in range(other_from.next_rooms.size() - 1, -1, -1):
+			var other_to := other_from.next_rooms[index]
+			if other_to != null and _is_crossing_connection(from_room, to_room, other_from, other_to):
+				other_from.next_rooms.remove_at(index)
+
+	if not from_room.next_rooms.has(to_room):
+		from_room.next_rooms.append(to_room)
+
+
+func _is_crossing_connection(a_from: Room, a_to: Room, b_from: Room, b_to: Room) -> bool:
+	var from_delta := a_from.column - b_from.column
+	var to_delta := a_to.column - b_to.column
+	return from_delta * to_delta < 0
 
 
 func _room_has_parent(room: Room) -> bool:

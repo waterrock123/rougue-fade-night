@@ -80,6 +80,8 @@ script = ExtResource("16_stats")
 [node name="StatusController" type="Node" parent="." unique_id=902118001]
 script = ExtResource("21_status")
 
+[node name="VFXController" type="Node" parent="." unique_id=1537434221]
+
 [node name="Weapon" type="Sprite2D" parent="." unique_id=1276098786]
 z_index = -1
 texture_filter = 1
@@ -139,5 +141,8 @@ initial_velocity_max = 120.0
 scale_amount_curve = SubResource("Curve_jej6c")
 color = Color(0.96156305, 0.8252434, 0.6902239, 1)
 color_ramp = SubResource("Gradient_f1ej7")
+
+[node name="VFXAnchor" type="Node2D" parent="." unique_id=377015520]
+position = Vector2(0, 15)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

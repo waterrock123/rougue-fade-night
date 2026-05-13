@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dji30520xerq1"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_l5acs"]
+[ext_resource type="Texture2D" uid="uid://hw73femsrt0f" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc81.png" id="2_fjyer"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_xesd1"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_fjyer"]
+[ext_resource type="Resource" uid="uid://dxale3ttna2jk" path="res://relic_tags/火炎tag.tres" id="5_00ani"]
+[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="6_8jaqb"]
+
+[resource]
+script = ExtResource("2_xesd1")
+relic_name = "燃烧瓶"
+icon = ExtResource("2_fjyer")
+tooltip = "使用后对范围内的所有敌人造成一次20点火焰伤害并使其处于{burn}，持续10秒
+升级：使用后的范围火焰伤害提升到50点"
+price = 3
+level = 2
+tags = Array[ExtResource("3_fjyer")]([ExtResource("5_00ani"), ExtResource("6_8jaqb")])
+id = "040"
+is_consumable = true
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

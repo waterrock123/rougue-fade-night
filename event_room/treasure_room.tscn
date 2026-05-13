@@ -7,17 +7,6 @@
 [sub_resource type="LabelSettings" id="LabelSettings_o06u0"]
 font_size = 40
 
-[sub_resource type="LabelSettings" id="LabelSettings_ih8p8"]
-font_size = 30
-
-[sub_resource type="LabelSettings" id="LabelSettings_agvpq"]
-font_size = 20
-font_color = Color(1, 1, 0.19607843, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_ntkc2"]
-font_size = 20
-font_color = Color(0.7629252, 0.13366583, 4.813075e-07, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8p8"]
 bg_color = Color(0.45390636, 0.1925627, 0, 1)
 border_width_left = 2
@@ -58,7 +47,7 @@ offset_bottom = 1081.0
 texture = ExtResource("2_ox3px")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="." unique_id=1797618010]
+[node name="DescLabel" type="Label" parent="." unique_id=1797618010]
 custom_minimum_size = Vector2(700, 0)
 layout_mode = 0
 offset_left = 138.0
@@ -76,26 +65,10 @@ offset_left = 157.0
 offset_top = 599.0
 offset_right = 751.0
 offset_bottom = 675.0
-text = ""
 autowrap_mode = 2
-
-[node name="Label2" type="Label" parent="GoldButton" unique_id=816652215]
-layout_mode = 0
-offset_left = 40.0
-offset_top = -1.0
-offset_right = 220.0
-offset_bottom = 41.0
-text = "拿一大袋金币走"
-label_settings = SubResource("LabelSettings_ih8p8")
-
-[node name="Label" type="Label" parent="GoldButton" unique_id=1657831646]
-layout_mode = 0
-offset_left = 55.0
-offset_top = 41.0
-offset_right = 404.0
-offset_bottom = 107.0
-text = "获得6资金"
-label_settings = SubResource("LabelSettings_agvpq")
+pressed_desc = Array[String](["你往背包里塞足够的金币，爬了上去，真好"])
+desc_text = "拿些金币"
+detail_text = "获得6金币"
 
 [node name="EquipButton" parent="." unique_id=243612117 instance=ExtResource("3_0lu7k")]
 layout_mode = 0
@@ -103,26 +76,10 @@ offset_left = 158.0
 offset_top = 702.0
 offset_right = 752.0
 offset_bottom = 778.0
-text = ""
 autowrap_mode = 2
-
-[node name="Label2" type="Label" parent="EquipButton" unique_id=32079025]
-layout_mode = 0
-offset_left = 40.0
-offset_top = -1.0
-offset_right = 220.0
-offset_bottom = 41.0
-text = "挑两件装备走"
-label_settings = SubResource("LabelSettings_ih8p8")
-
-[node name="Label" type="Label" parent="EquipButton" unique_id=2083982727]
-layout_mode = 0
-offset_left = 55.0
-offset_top = 43.0
-offset_right = 404.0
-offset_bottom = 109.0
-text = "获得随机两件装备"
-label_settings = SubResource("LabelSettings_agvpq")
+pressed_desc = Array[String](["你挑了两件装备上去，差点又掉了下来，还好你只拿了两件"])
+desc_text = "拿些装备"
+detail_text = "获得随机两件不高于你当前商店等级的装备"
 
 [node name="AllButton" parent="." unique_id=569287997 instance=ExtResource("3_0lu7k")]
 layout_mode = 0
@@ -130,35 +87,10 @@ offset_left = 158.0
 offset_top = 807.0
 offset_right = 752.0
 offset_bottom = 883.0
-text = ""
 autowrap_mode = 2
-
-[node name="Label2" type="Label" parent="AllButton" unique_id=725714758]
-layout_mode = 0
-offset_left = 40.0
-offset_top = -1.0
-offset_right = 220.0
-offset_bottom = 41.0
-text = "我全都要"
-label_settings = SubResource("LabelSettings_ih8p8")
-
-[node name="Label" type="Label" parent="AllButton" unique_id=40450856]
-layout_mode = 0
-offset_left = 57.0
-offset_top = 43.0
-offset_right = 406.0
-offset_bottom = 109.0
-text = "获得6资金和随机两件装备，"
-label_settings = SubResource("LabelSettings_agvpq")
-
-[node name="Label3" type="Label" parent="AllButton" unique_id=1783333327]
-layout_mode = 0
-offset_left = 307.0
-offset_top = 43.0
-offset_right = 656.0
-offset_bottom = 109.0
-text = "有60%概率永久失去两点速度"
-label_settings = SubResource("LabelSettings_ntkc2")
+pressed_desc = Array[String](["你费了九牛二虎的劲爬了上来，很幸运的，你没有再摔下去", "你在爬上去的时候不小心被落下的石块砸到了腿，但依靠着对宝物的贪婪，你还是爬了上来，至少钱和宝贝都在"])
+desc_text = "我全都要"
+detail_text = "获得6金币和随机两件不高于当前商店等级的装备，有70%失去四点速度"
 
 [node name="LeaveButton" type="Button" parent="." unique_id=1612002407]
 custom_minimum_size = Vector2(400, 100)

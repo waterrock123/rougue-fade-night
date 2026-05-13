@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="ShopKeeper" format=3 uid="uid://cwuyyy0m65xgi"]
+
+[ext_resource type="Script" uid="uid://2d8755uj7qel" path="res://custom_resource/shop_keeper_dialogue_pool.gd" id="1_3qq7e"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_nxnih"]
+[ext_resource type="Script" uid="uid://copgj7rv7yvot" path="res://scripts/rest_period/shop_keeper.gd" id="2_3qq7e"]
+[ext_resource type="Resource" uid="uid://4vcxfl378axq" path="res://relics/level_1/039_打火机.tres" id="3_002qs"]
+[ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="3_a37mm"]
+[ext_resource type="Texture2D" uid="uid://bhjhc82bbrg16" path="res://assets/商人立绘/魔王-日常.png" id="4_bkrw4"]
+[ext_resource type="Resource" uid="uid://yn5mnarlwgag" path="res://relics/level_1/018_石头.tres" id="4_iwuni"]
+[ext_resource type="Resource" uid="uid://dxale3ttna2jk" path="res://relic_tags/火炎tag.tres" id="4_oviye"]
+[ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="5_fbfiw"]
+[ext_resource type="Resource" uid="uid://dh27ilfr1mpyk" path="res://relics/level_1/001_猪猪存钱罐.tres" id="5_w405u"]
+[ext_resource type="Resource" uid="uid://sragcrfs3csv" path="res://relics/level_1/007_绑带.tres" id="6_tyyc0"]
+[ext_resource type="Resource" uid="uid://d0sbxqpp1rwqk" path="res://relics/level_2/042_紫水晶.tres" id="7_3p22a"]
+[ext_resource type="Resource" uid="uid://hni8tjhtfd11" path="res://relics/level_2/021_启示面具.tres" id="8_a37mm"]
+[ext_resource type="Resource" uid="uid://dji30520xerq1" path="res://relics/level_2/040_燃烧瓶.tres" id="9_oviye"]
+[ext_resource type="Resource" uid="uid://bmrvulcnh3w6d" path="res://relics/level_2/022_长矛.tres" id="10_fbfiw"]
+[ext_resource type="Resource" uid="uid://lkwfsiovbeu1" path="res://relics/level_3/025_仁之剑.tres" id="11_euaak"]
+[ext_resource type="Resource" uid="uid://by8386a1n6u6m" path="res://relics/level_3/026_义之剑.tres" id="12_qdfw0"]
+[ext_resource type="Resource" uid="uid://d1vgykrwsovjo" path="res://relics/level_3/027_法师帽.tres" id="13_wcj0b"]
+[ext_resource type="Resource" uid="uid://dns0xmw7sphti" path="res://relics/level_4/032_酒.tres" id="14_sk0tl"]
+[ext_resource type="Resource" uid="uid://b60x57pftaemg" path="res://relics/level_4/029_纸：心理学.tres" id="15_akun5"]
+[ext_resource type="Resource" uid="uid://b52xfrprpj0xf" path="res://relics/level_4/038_玉箸.tres" id="16_w405u"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="18_tyyc0"]
+
+[sub_resource type="Resource" id="Resource_bkrw4"]
+script = ExtResource("1_3qq7e")
+lines = Array[String](["老实说，我很想免费送给你，但是交易是这样的，我们之间的情分还没到这一地步。", "再多买点，我或许会邀请你到我的庄园来玩。", "每一件物品中都有一个梦。", "我头上的红花很土？那是你没欣赏的能力。"])
+metadata/_custom_type_script = "uid://2d8755uj7qel"
+
+[sub_resource type="Resource" id="Resource_sdg1l"]
+script = ExtResource("1_3qq7e")
+lines = Array[String](["早上好，中午好，以及晚上好。", "我已经开始讨厌这份工作了。", "我好像在梦里见过你。"])
+metadata/_custom_type_script = "uid://2d8755uj7qel"
+
+[sub_resource type="Resource" id="Resource_741p7"]
+script = ExtResource("1_3qq7e")
+lines = Array[String](["再见，再见，愿你的梦永不破碎。", "我有一个白色的妹妹，你要是见到她就跟她说：“我想她了”。"])
+metadata/_custom_type_script = "uid://2d8755uj7qel"
+
+[sub_resource type="Resource" id="Resource_1loh5"]
+script = ExtResource("1_3qq7e")
+lines = Array[String](["又收集了一个梦，希望它不要太早破碎。", "各取所需，平等的交易。", "想要我的火么？什么，不想？好吧，给你金币，没有情调的家伙。"])
+metadata/_custom_type_script = "uid://2d8755uj7qel"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_002qs"]
+atlas = ExtResource("4_bkrw4")
+region = Rect2(0, 168.15549, 1079, 1273.8887)
+
+[resource]
+script = ExtResource("2_3qq7e")
+name = "环"
+relics = Array[ExtResource("1_nxnih")]([ExtResource("3_002qs"), ExtResource("4_iwuni"), ExtResource("5_w405u"), ExtResource("6_tyyc0"), ExtResource("7_3p22a"), ExtResource("8_a37mm"), ExtResource("9_oviye"), ExtResource("10_fbfiw"), ExtResource("11_euaak"), ExtResource("12_qdfw0"), ExtResource("13_wcj0b"), ExtResource("14_sk0tl"), ExtResource("15_akun5"), ExtResource("16_w405u")])
+texture = SubResource("AtlasTexture_002qs")
+havetag = Array[ExtResource("18_tyyc0")]([ExtResource("3_a37mm"), ExtResource("4_oviye"), ExtResource("5_fbfiw")])
+enter_rest_period_dialogues = SubResource("Resource_sdg1l")
+exit_rest_period_dialogues = SubResource("Resource_741p7")
+buy_relic_dialogues = SubResource("Resource_bkrw4")
+sell_relic_dialogues = SubResource("Resource_1loh5")
+metadata/_custom_type_script = "uid://copgj7rv7yvot"

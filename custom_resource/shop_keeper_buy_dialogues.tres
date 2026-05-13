@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ShopKeeperDialoguePool" format=3]
+
+[ext_resource type="Script" path="res://custom_resource/shop_keeper_dialogue_pool.gd" id="1_pool"]
+
+[resource]
+script = ExtResource("1_pool")
+lines = Array[String](["好眼光，这东西看起来就想跟你走。", "成交。别问来路，问就是艺术。", "买得漂亮，它现在属于你的麻烦了。"])

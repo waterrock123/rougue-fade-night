@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RelicTag" format=3 uid="uid://cfe7h01goi5di"]
+
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="1_5xf7y"]
+
+[resource]
+script = ExtResource("1_5xf7y")
+color = Color(0.35656506, 0.35656488, 0.3565649, 1)
+tag_name = "守御"
+metadata/_custom_type_script = "uid://bts8j8jm6rdpv"

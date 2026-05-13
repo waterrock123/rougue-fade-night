@@ -1,16 +1,21 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://lbwkide0vl11"]
 
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_a062s"]
 [ext_resource type="Texture2D" uid="uid://2xsol331kygm" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc107.png" id="1_ibs8c"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_qnj25"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_vw56v"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_6uu6p"]
+[ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="6_qj3gf"]
 
 [resource]
 script = ExtResource("2_qnj25")
-price = 4
 relic_name = "纸：物理学"
-level = 4
-id = "031"
 icon = ExtResource("1_ibs8c")
 tooltip = "{intelligence}+2，{strength}+3
 升级：获得2{sharp}，2{armor}
 "
+price = 4
+level = 4
+tags = Array[ExtResource("4_vw56v")]([ExtResource("5_6uu6p"), ExtResource("6_qj3gf")])
+id = "031"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

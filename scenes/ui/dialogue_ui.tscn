@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://ben04n11ttuko"]
+
+[ext_resource type="Script" uid="uid://0onekvpcthhf" path="res://scenes/ui/dialogue_ui.gd" id="1_y3syv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y3syv"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(0.94049895, 0.6891022, 0.37606788, 0.9882353)
+border_color = Color(0.98790354, 0.9114106, 0.78357714, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 10.0
+expand_margin_top = 3.0
+expand_margin_right = 10.0
+expand_margin_bottom = 3.0
+shadow_color = Color(0.16445974, 0.16445976, 0.16445968, 0.6)
+shadow_size = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qn8cy"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(0.99215686, 0.9254902, 0.8509804, 0.9882353)
+border_color = Color(0.8715714, 0.6686026, 0.27685234, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+shadow_color = Color(0.16445974, 0.16445976, 0.16445968, 0.6)
+shadow_size = 1
+
+[node name="DialogueUI" type="Control" unique_id=930619154]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_y3syv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=986677625]
+layout_mode = 0
+offset_right = 210.0
+offset_bottom = 40.0
+theme_override_constants/separation = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=1027208554]
+custom_minimum_size = Vector2(25, 20)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_y3syv")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/PanelContainer" unique_id=1197475382]
+unique_name_in_owner = true
+z_as_relative = false
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/default_color = Color(0.34906504, 0.34906504, 0.34906498, 1)
+text = "名称"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1892314371]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="BoxContainer" type="BoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1158550361]
+layout_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer" unique_id=1145021083]
+z_index = -1
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qn8cy")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/PanelContainer2" unique_id=1570507537]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/default_color = Color(0.22911215, 0.22911215, 0.22911215, 1)
+text = "你好啊小子，总之里是一串描述，你懂得"
+fit_content = true
+scroll_active = false
+
+[node name="BoxContainer" type="BoxContainer" parent="VBoxContainer" unique_id=684726417]
+layout_mode = 2
+
+[node name="Polygon2D" type="Polygon2D" parent="VBoxContainer/BoxContainer" unique_id=1717447114]
+position = Vector2(159, 6.999998)
+scale = Vector2(1, 1.1666666)
+color = Color(0.99215686, 0.9254902, 0.8509804, 0.9882353)
+offset = Vector2(12, 1)
+antialiased = true
+polygon = PackedVector2Array(-24, -2, -5, -2, 3, 11.857147)
+uv = PackedVector2Array(-24, -2, -5, -2, -12, 4)

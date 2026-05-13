@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://crmfbx8choeqx"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_8ooic"]
+[ext_resource type="Texture2D" uid="uid://yiuicd8ajffg" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc553.png" id="2_6a8ks"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_aesa0"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_ijqf2"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_aesa0"]
+[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="6_ijqf2"]
+[ext_resource type="Script" uid="uid://dpt6dmel3jpq4" path="res://relic_effect/use_self_damage_effect.gd" id="7_self_damage"]
+[ext_resource type="Script" uid="uid://cpg3ugpuxdn6w" path="res://relic_effect/use_add_stats_effect.gd" id="8_add_stats"]
+[ext_resource type="Script" uid="uid://wwdg54imaves" path="res://relic_effect/use_heal_effect.gd" id="9_heal"]
+
+[sub_resource type="Resource" id="Resource_self_damage"]
+script = ExtResource("7_self_damage")
+damage = 5.0
+
+[sub_resource type="Resource" id="Resource_add_stats"]
+script = ExtResource("8_add_stats")
+add_stats = {
+"constitution": 1.0,
+"intelligence": 2.0,
+"strength": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_heal"]
+script = ExtResource("9_heal")
+heal_amount = 6.0
+
+[resource]
+script = ExtResource("3_aesa0")
+relic_name = "鲜艳蔬菜"
+icon = ExtResource("2_6a8ks")
+tooltip = "使用后立即受到5点伤害并获得{strength}+1，{intelligence}+2，{constitution}+1
+升级：使用后额外{heal}6点生命"
+price = 3
+level = 1
+tags = Array[ExtResource("4_ijqf2")]([ExtResource("5_aesa0"), ExtResource("6_ijqf2")])
+id = "037"
+is_consumable = true
+effects = Array[ExtResource("1_8ooic")]([SubResource("Resource_self_damage"), SubResource("Resource_add_stats")])
+great_effects = Array[ExtResource("1_8ooic")]([SubResource("Resource_heal")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

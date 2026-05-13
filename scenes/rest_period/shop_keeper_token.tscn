@@ -3,7 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://kd6fvrsfrcyi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc131.png" id="1_3btcy"]
 [ext_resource type="Script" uid="uid://ch0xyu2exscq0" path="res://scripts/rest_period/shop_keeper_token.gd" id="1_xetfq"]
 [ext_resource type="Texture2D" uid="uid://bhbs4aswuifoi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc12.png" id="2_onbcb"]
-[ext_resource type="Texture2D" uid="uid://f3ys7sxf35ul" path="res://assets/甲画家/001.png" id="2_xetfq"]
+[ext_resource type="Texture2D" uid="uid://f3ys7sxf35ul" path="res://assets/商人立绘/甲画家.png" id="2_xetfq"]
+[ext_resource type="PackedScene" uid="uid://ben04n11ttuko" path="res://scenes/ui/dialogue_ui.tscn" id="5_uox1t"]
 
 [node name="ShopKeeperUI" type="Control" unique_id=1674262274]
 custom_minimum_size = Vector2(300, 300)
@@ -22,6 +23,7 @@ grow_vertical = 2
 script = ExtResource("1_xetfq")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=581687892]
+z_index = -1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -69,17 +71,28 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Lv 5"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1872015433]
-custom_minimum_size = Vector2(50, 200)
+[node name="HBoxContainer2" type="BoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1481208911]
 layout_mode = 2
-alignment = 1
+size_flags_horizontal = 4
+size_flags_vertical = 3
+vertical = true
 
 [node name="ShopKeeperTexture" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer2" unique_id=320149646]
 unique_name_in_owner = true
 z_index = 1
+texture_filter = 1
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
+size_flags_vertical = 3
 texture = ExtResource("2_xetfq")
 expand_mode = 4
 stretch_mode = 6
 flip_h = true
+
+[node name="DialogueUI" parent="." unique_id=930619154 instance=ExtResource("5_uox1t")]
+z_as_relative = false
+layout_mode = 0
+offset_left = -100.0
+offset_top = 40.0
+offset_right = -100.0
+offset_bottom = 40.0

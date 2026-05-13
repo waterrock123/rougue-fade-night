@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RelicTag" format=3 uid="uid://hwfpda2ygcic"]
+
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="1_ry6rs"]
+
+[resource]
+script = ExtResource("1_ry6rs")
+color = Color(0.16023287, 0.7011614, 0.6852821, 1)
+tag_name = "剑"
+metadata/_custom_type_script = "uid://bts8j8jm6rdpv"

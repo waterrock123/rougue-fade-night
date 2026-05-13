@@ -14,6 +14,8 @@ extends Control
 @onready var relic_ui_instance = preload("res://scenes/relic/relic_ui.tscn")
 
 var mouse_relic: RelicUI = null
+var mouse_relic_source_is_equipment := false
+var equipment_locked := false
 var sell_target: Control
 var run_stats: RunStats
 
@@ -81,6 +83,10 @@ func open_bag(player_inventroy: Inventory, player_equipment: Equipment):
 
 func close_bag():
 	hide()
+
+
+func set_equipment_locked(locked: bool) -> void:
+	equipment_locked = locked
 
 
 func _input(event: InputEvent) -> void:
@@ -158,7 +164,13 @@ func on_mouse_left_slot_button(slot_button):
 		_try_sell_mouse_relic()
 		return
 
+	if _is_equipment_operation_locked(slot_button):
+		_show_screen_tip("处于战斗中，无法穿戴/卸下装备")
+		return
+
 	if slot_button.is_empty() and mouse_relic:
+		if not _can_insert_mouse_relic_in_slot(slot_button):
+			return
 		insert_relic_in_slot(slot_button)
 	elif !slot_button.is_empty() and !mouse_relic:
 		take_relic_from_slot(slot_button)
@@ -166,6 +178,8 @@ func on_mouse_left_slot_button(slot_button):
 		var slot_relic_id = slot_button.slot_button_slot_relic.slot_.item.id
 		var mouse_relic_id = mouse_relic.relic.id
 		if slot_relic_id != mouse_relic_id:
+			if not _can_insert_mouse_relic_in_slot(slot_button):
+				return
 			swap_relic(slot_button)
 
 
@@ -173,9 +187,14 @@ func on_mouse_left_slot_button(slot_button):
 func on_mouse_right_bag_slot_button(slot_button):
 	if mouse_relic or slot_button.is_empty():
 		return
+	if equipment_locked:
+		_show_screen_tip("处于战斗中，无法穿戴/卸下装备")
+		return
 
 	var empty_equipment_slot = _find_first_empty_slot(equipment_slots)
 	if empty_equipment_slot == null:
+		return
+	if not _can_equip_relic_to_slot(_get_slot_button_relic(slot_button), empty_equipment_slot):
 		return
 
 	var relic_ui = slot_button.take_relic()
@@ -185,6 +204,9 @@ func on_mouse_right_bag_slot_button(slot_button):
 # 右键装备栏格子：自动卸装到背包中索引最小的空位。
 func on_mouse_right_equipment_slot_button(slot_button):
 	if mouse_relic or slot_button.is_empty():
+		return
+	if equipment_locked:
+		_show_screen_tip("处于战斗中，无法穿戴/卸下装备")
 		return
 
 	var empty_bag_slot = _find_first_empty_slot(bag_slots)
@@ -206,6 +228,7 @@ func _find_first_empty_slot(slots: Array):
 
 # 从格子中抓取物品，让它跟随鼠标。
 func take_relic_from_slot(slot_button):
+	mouse_relic_source_is_equipment = _is_equipment_slot_button(slot_button)
 	mouse_relic = slot_button.take_relic()
 	add_child(mouse_relic)
 	relic_follow_mouse()
@@ -217,6 +240,7 @@ func insert_relic_in_slot(slot_button):
 	relic_.hide_sell_price()
 	remove_child(mouse_relic)
 	mouse_relic = null
+	mouse_relic_source_is_equipment = false
 	slot_button.insert(relic_)
 
 
@@ -225,6 +249,7 @@ func swap_relic(slot_button):
 	var one_relic = slot_button.take_relic()
 	insert_relic_in_slot(slot_button)
 	mouse_relic = one_relic
+	mouse_relic_source_is_equipment = _is_equipment_slot_button(slot_button)
 	add_child(mouse_relic)
 	relic_follow_mouse()
 
@@ -264,10 +289,12 @@ func _try_sell_mouse_relic() -> bool:
 
 	run_stats.set_gold(run_stats.gold + max(relic.sell_price, 0))
 	AudioController.play_ui_sound(&"sell_item")
+	EventBus.relic_sold.emit(relic)
 	mouse_relic.hide_sell_price()
 	remove_child(mouse_relic)
 	mouse_relic.queue_free()
 	mouse_relic = null
+	mouse_relic_source_is_equipment = false
 	return true
 
 
@@ -291,3 +318,59 @@ func _clear_slot_button(slot_button) -> void:
 		slot_button.slot_button_slot_relic = null
 
 	slot_button.reset_color()
+
+
+func _is_equipment_operation_locked(slot_button) -> bool:
+	if not equipment_locked:
+		return false
+	if mouse_relic != null:
+		return mouse_relic_source_is_equipment or _is_equipment_slot_button(slot_button)
+	return _is_equipment_slot_button(slot_button)
+
+
+func _is_equipment_slot_button(slot_button) -> bool:
+	return equipment_slots.has(slot_button)
+
+
+func _get_slot_button_relic(slot_button) -> Relic:
+	if slot_button == null or slot_button.slot_button_slot_relic == null:
+		return null
+	if slot_button.slot_button_slot_relic.slot_ == null:
+		return null
+	return slot_button.slot_button_slot_relic.slot_.item
+
+
+func _can_insert_mouse_relic_in_slot(slot_button) -> bool:
+	if mouse_relic == null:
+		return false
+	if not _is_equipment_slot_button(slot_button):
+		return true
+	return _can_equip_relic_to_slot(mouse_relic.relic, slot_button)
+
+
+func _can_equip_relic_to_slot(relic: Relic, target_equipment_slot) -> bool:
+	if relic == null:
+		return false
+	if not relic.is_consumable:
+		return true
+	if not _has_other_equipped_consumable(target_equipment_slot):
+		return true
+
+	_show_screen_tip("只能装备一个消耗品")
+	return false
+
+
+func _has_other_equipped_consumable(excluded_equipment_slot = null) -> bool:
+	for equipment_button in equipment_slots:
+		if equipment_button == excluded_equipment_slot:
+			continue
+		var relic := _get_slot_button_relic(equipment_button)
+		if relic != null and relic.is_consumable:
+			return true
+
+	return false
+
+
+func _show_screen_tip(message: String) -> void:
+	if FloatText != null and FloatText.has_method("show_screen_tip"):
+		FloatText.show_screen_tip(message)

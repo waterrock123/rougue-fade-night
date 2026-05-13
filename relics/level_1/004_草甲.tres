@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://relic_effect/add_derived_stat_effect.gd" id="2_d2mm2"]
 [ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="3_s1ykm"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="6_d2mm2"]
+[ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="7_s1ykm"]
 
 [sub_resource type="Resource" id="Resource_s1ykm"]
 script = ExtResource("2_d2mm2")
@@ -28,6 +29,7 @@ tooltip = "一{armor}，受到伤害时有概率损坏
 升级： {constitution}+2，受到伤害时不再会损坏"
 price = 3
 level = 1
+tags = Array[ExtResource("6_d2mm2")]([ExtResource("7_s1ykm")])
 id = "004"
 effects = Array[ExtResource("1_eej11")]([SubResource("Resource_s1ykm")])
 great_effects = Array[ExtResource("1_eej11")]([SubResource("Resource_eej11")])

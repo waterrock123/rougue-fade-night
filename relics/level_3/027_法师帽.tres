@@ -1,15 +1,20 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://d1vgykrwsovjo"]
 
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_auwin"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_jefis"]
 [ext_resource type="Texture2D" uid="uid://cqydg2ri170x3" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2008.png" id="1_ntnbx"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_0bxrd"]
+[ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="5_h6n31"]
+[ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="6_rkt2b"]
 
 [resource]
 script = ExtResource("1_jefis")
-price = 4
 relic_name = "法师帽"
-level = 3
-id = "027"
 icon = ExtResource("1_ntnbx")
 tooltip = "{intelligence}+3，释放{active_skill}时将获得{intelligence}+1，并在30秒倒计时后清空所有此{intelligence}加成效果
 升级：{intelligence}+4，释放{active_skill}时获得{intelligence}+1"
+price = 4
+level = 3
+tags = Array[ExtResource("4_0bxrd")]([ExtResource("5_h6n31"), ExtResource("6_rkt2b")])
+id = "027"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

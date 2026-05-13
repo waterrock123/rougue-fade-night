@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="ShopKeeper" format=3 uid="uid://baqgr32nycpsi"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_725fs"]
+[ext_resource type="Script" uid="uid://2d8755uj7qel" path="res://custom_resource/shop_keeper_dialogue_pool.gd" id="1_wpb77"]
+[ext_resource type="Script" uid="uid://copgj7rv7yvot" path="res://scripts/rest_period/shop_keeper.gd" id="2_3gj5w"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="2_u3850"]
+[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="3_kprfs"]
+[ext_resource type="Resource" uid="uid://cc8goxbeph36b" path="res://relics/level_1/017_生肉.tres" id="3_n5ma4"]
+[ext_resource type="Texture2D" uid="uid://d3al31f3u1305" path="res://assets/enemy/Mushroom/Mushroom with VFX/Mushroom-Idle.png" id="4_2c6nr"]
+[ext_resource type="Resource" uid="uid://yn5mnarlwgag" path="res://relics/level_1/018_石头.tres" id="4_krfpc"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="4_vfqc0"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="5_5nr7l"]
+[ext_resource type="Resource" uid="uid://crmfbx8choeqx" path="res://relics/level_1/037_鲜艳蔬菜.tres" id="5_fl8d3"]
+[ext_resource type="Resource" uid="uid://biuud4wl111k8" path="res://relics/level_1/008_背包.tres" id="6_rw3kd"]
+[ext_resource type="Resource" uid="uid://bv2vo4gw6m5p" path="res://relics/level_1/006_布鞋.tres" id="7_u3850"]
+[ext_resource type="Resource" uid="uid://ba0va1q5ux0en" path="res://relics/level_2/019_保暖裤.tres" id="8_kprfs"]
+[ext_resource type="Resource" uid="uid://bniw0iud7ve6r" path="res://relics/level_2/014_瞌睡虫.tres" id="9_vfqc0"]
+[ext_resource type="Resource" uid="uid://4nued0p5erg8" path="res://relics/level_2/011_冰锥.tres" id="10_5nr7l"]
+[ext_resource type="Resource" uid="uid://bg42r85wsu4xp" path="res://relics/level_2/035_安全帽.tres" id="11_texjh"]
+[ext_resource type="Resource" uid="uid://bp0ofkarkcenj" path="res://relics/level_1/004_草甲.tres" id="12_1kri0"]
+[ext_resource type="Resource" uid="uid://30fyxdceccid" path="res://relics/level_2/043_焖子.tres" id="13_6uqwd"]
+[ext_resource type="Resource" uid="uid://btupyhcwiq5cg" path="res://relics/level_2/044_奶酪.tres" id="14_i1a1a"]
+[ext_resource type="Resource" uid="uid://csup06ocv6g6s" path="res://relics/level_2/045_小罐盐.tres" id="15_i36v5"]
+[ext_resource type="Resource" uid="uid://fx8lt5qmvqgl" path="res://relics/level_3/024_古怪餐盘.tres" id="16_w5gai"]
+
+[sub_resource type="Resource" id="Resource_igax5"]
+script = ExtResource("1_wpb77")
+lines = Array[String](["绝对划算！", "绝对好吃！"])
+metadata/_custom_type_script = "uid://2d8755uj7qel"
+
+[sub_resource type="Resource" id="Resource_17x8v"]
+script = ExtResource("1_wpb77")
+lines = Array[String](["别攻击我！我是正常蘑菇怪！", "先声明一下，我这不是胖，是大胃袋。", "我这卖的小零食可是全草原最廉价的了！"])
+metadata/_custom_type_script = "uid://2d8755uj7qel"
+
+[sub_resource type="Resource" id="Resource_g2k06"]
+script = ExtResource("1_wpb77")
+lines = Array[String](["希望下次见面时别再认错蘑菇了。", "欢迎再来啊！", "小心外面那些坏蘑菇啊，它们都因为大魔王给的工资甘愿俯首称臣。"])
+metadata/_custom_type_script = "uid://2d8755uj7qel"
+
+[sub_resource type="Resource" id="Resource_bjbtn"]
+script = ExtResource("1_wpb77")
+lines = Array[String](["不知道这玩意儿能不能吃。。。", "就值这个价，不能再多了！", "不支持讲价，请谅解！"])
+metadata/_custom_type_script = "uid://2d8755uj7qel"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vyj8d"]
+atlas = ExtResource("4_2c6nr")
+region = Rect2(96.66597, 25, 42.000015, 42)
+
+[resource]
+script = ExtResource("2_3gj5w")
+name = "良子"
+relics = Array[ExtResource("1_725fs")]([ExtResource("3_n5ma4"), ExtResource("4_krfpc"), ExtResource("5_fl8d3"), ExtResource("6_rw3kd"), ExtResource("7_u3850"), ExtResource("8_kprfs"), ExtResource("9_vfqc0"), ExtResource("10_5nr7l"), ExtResource("11_texjh"), ExtResource("12_1kri0"), ExtResource("13_6uqwd"), ExtResource("14_i1a1a"), ExtResource("15_i36v5"), ExtResource("16_w5gai")])
+texture = SubResource("AtlasTexture_vyj8d")
+havetag = Array[ExtResource("2_u3850")]([ExtResource("3_kprfs"), ExtResource("4_vfqc0"), ExtResource("5_5nr7l")])
+enter_rest_period_dialogues = SubResource("Resource_17x8v")
+exit_rest_period_dialogues = SubResource("Resource_g2k06")
+buy_relic_dialogues = SubResource("Resource_igax5")
+sell_relic_dialogues = SubResource("Resource_bjbtn")
+metadata/_custom_type_script = "uid://copgj7rv7yvot"

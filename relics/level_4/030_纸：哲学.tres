@@ -1,15 +1,20 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://clbn7v5c0qmbe"]
 
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_rki12"]
 [ext_resource type="Texture2D" uid="uid://2xsol331kygm" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc107.png" id="1_v2e8v"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_pmcs1"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_jbui4"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_35bto"]
+[ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="6_ob3cc"]
 
 [resource]
 script = ExtResource("2_pmcs1")
-price = 4
 relic_name = "纸：哲学"
-level = 4
-id = "030"
 icon = ExtResource("1_v2e8v")
 tooltip = "{intelligence}+2，{luck}+3
 升级：所有技能冷却时间减少30%"
+price = 4
+level = 4
+tags = Array[ExtResource("4_jbui4")]([ExtResource("5_35bto"), ExtResource("6_ob3cc")])
+id = "030"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

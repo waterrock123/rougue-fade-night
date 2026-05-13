@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ShopKeeperDialoguePool" format=3]
+
+[ext_resource type="Script" path="res://custom_resource/shop_keeper_dialogue_pool.gd" id="1_pool"]
+
+[resource]
+script = ExtResource("1_pool")
+lines = Array[String](["嗯，我会给它找个更容易被坑的新主人。", "收下了。你舍弃的，也许正是别人梦寐以求的。", "卖得果断，背包轻一点，命也许就长一点。"])

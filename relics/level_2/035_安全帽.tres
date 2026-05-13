@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bg42r85wsu4xp"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_kbdsp"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_2yno0"]
+[ext_resource type="Texture2D" uid="uid://hj270n1hnpl8" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1905.png" id="2_dqkce"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_dqkce"]
+[ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="5_ru6j8"]
+
+[resource]
+script = ExtResource("2_2yno0")
+relic_name = "安全帽"
+icon = ExtResource("2_dqkce")
+tooltip = "获得{armor}，以及5%的减伤
+升级：额外获得5%减伤"
+desc = "铁制头盔，很有安全感"
+price = 3
+level = 2
+tags = Array[ExtResource("3_dqkce")]([ExtResource("5_ru6j8")])
+id = "035"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

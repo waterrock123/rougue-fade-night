@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://casslmxjhumbc"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_hdhmg"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_cxeil"]
+
+[node name="RageAbility" type="Node" unique_id=844985799]
+script = ExtResource("1_hdhmg")
+metadata/_custom_type_script = "uid://bd4gnnre2dfj7"
+
+[node name="AbilityAnimationRunner" type="Node" parent="." unique_id=576453970]
+script = ExtResource("2_cxeil")
+metadata/_custom_type_script = "uid://cx36jbtv3sk6r"

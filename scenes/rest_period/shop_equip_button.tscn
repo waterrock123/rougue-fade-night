@@ -3,10 +3,16 @@
 [ext_resource type="Script" uid="uid://cv34c1k4vht73" path="res://scripts/rest_period/shop_equip_button.gd" id="1_b02xn"]
 [ext_resource type="Texture2D" uid="uid://kd6fvrsfrcyi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc131.png" id="2_htygr"]
 [ext_resource type="PackedScene" uid="uid://cixsw8rjlprgx" path="res://scenes/relic/relic_ui.tscn" id="3_htygr"]
+[ext_resource type="PackedScene" uid="uid://drnrxy5n678gs" path="res://scenes/tooltip/tag_ui.tscn" id="4_odgb3"]
+[ext_resource type="FontFile" uid="uid://ehcx8jaw4rmu" path="res://assets/字体/Minecraft.ttf" id="5_lghvm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_htygr"]
 font_size = 36
 font_color = Color(0.8991099, 0.97366613, 0.99999994, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_efdnk"]
+font = ExtResource("5_lghvm")
+font_size = 21
 
 [node name="ShopEquipButton" type="Button" unique_id=590682203]
 custom_minimum_size = Vector2(230, 230)
@@ -27,7 +33,6 @@ mouse_filter = 1
 color = Color(0.31764707, 0.4509804, 0.8235294, 0.36078432)
 
 [node name="Glod" type="TextureRect" parent="SlotBackground" unique_id=146746769]
-visible = false
 texture_filter = 1
 layout_mode = 0
 offset_left = 59.0
@@ -39,7 +44,6 @@ texture = ExtResource("2_htygr")
 
 [node name="NumberLabel" type="Label" parent="SlotBackground" unique_id=1789331719]
 unique_name_in_owner = true
-visible = false
 layout_mode = 0
 offset_left = 125.0
 offset_top = -25.0
@@ -73,3 +77,36 @@ text = "等待补货"
 
 [node name="RelicUI" parent="SlotBackground/CenterContainer" unique_id=1285776878 instance=ExtResource("3_htygr")]
 layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="SlotBackground" unique_id=715755561]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 46.0
+offset_top = 30.0
+offset_right = 190.0
+offset_bottom = 53.0
+text = "遗物名称"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SlotBackground" unique_id=1759720386]
+custom_minimum_size = Vector2(70, 80)
+layout_mode = 0
+offset_left = 3.0
+offset_top = 142.0
+offset_right = 73.0
+offset_bottom = 222.0
+alignment = 2
+
+[node name="TagUI" parent="SlotBackground/VBoxContainer" unique_id=1396676509 instance=ExtResource("4_odgb3")]
+layout_mode = 2
+
+[node name="LevelLabel" type="Label" parent="SlotBackground" unique_id=445385897]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 78.0
+offset_top = 169.0
+offset_right = 140.0
+offset_bottom = 192.0
+text = "LV {0}"
+label_settings = SubResource("LabelSettings_efdnk")

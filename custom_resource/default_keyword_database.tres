@@ -157,6 +157,22 @@ display_name = "易伤"
 desc = "负面状态，通常会使目标受到更多伤害。"
 color = Color(1, 0.42, 0.42, 1)
 
+[sub_resource type="Resource" id="Resource_5ukev"]
+script = ExtResource("2_data")
+id = &"burn"
+display_name = "燃烧"
+desc = "每秒受到10点火焰伤害"
+color = Color(0.8582719, 0.2831542, 5.7756904e-07, 1)
+metadata/_custom_type_script = "uid://ch81dd8m0eyf"
+
+[sub_resource type="Resource" id="Resource_gdm1y"]
+script = ExtResource("2_data")
+id = &"rage"
+display_name = "暴怒"
+desc = "初始技能的冷却大幅度减少（减少80%），且其伤害附带额外的伤害（附带体质点数/2向下取整）"
+color = Color(0.9529412, 0.21960784, 0, 1)
+metadata/_custom_type_script = "uid://ch81dd8m0eyf"
+
 [resource]
 script = ExtResource("1_db")
-keywords = Array[ExtResource("2_data")]([SubResource("KeywordData_armor"), SubResource("KeywordData_weak"), SubResource("KeywordData_strength"), SubResource("KeywordData_dexterity"), SubResource("KeywordData_intelligence"), SubResource("KeywordData_constitution"), SubResource("KeywordData_speed"), SubResource("KeywordData_charm"), SubResource("KeywordData_luck"), SubResource("KeywordData_bleed"), SubResource("KeywordData_freeze"), SubResource("KeywordData_sleep"), SubResource("KeywordData_paralysis"), SubResource("KeywordData_slow"), SubResource("KeywordData_gold"), SubResource("KeywordData_shop_refresh"), SubResource("KeywordData_active_skill"), SubResource("KeywordData_consumable"), SubResource("KeywordData_physical_damage"), SubResource("KeywordData_heal"), SubResource("KeywordData_sharp"), SubResource("KeywordData_vulnerable")])
+keywords = Array[ExtResource("2_data")]([SubResource("KeywordData_armor"), SubResource("KeywordData_weak"), SubResource("KeywordData_strength"), SubResource("KeywordData_dexterity"), SubResource("KeywordData_intelligence"), SubResource("KeywordData_constitution"), SubResource("KeywordData_speed"), SubResource("KeywordData_charm"), SubResource("KeywordData_luck"), SubResource("KeywordData_bleed"), SubResource("KeywordData_freeze"), SubResource("KeywordData_sleep"), SubResource("KeywordData_paralysis"), SubResource("KeywordData_slow"), SubResource("KeywordData_gold"), SubResource("KeywordData_shop_refresh"), SubResource("KeywordData_active_skill"), SubResource("KeywordData_consumable"), SubResource("KeywordData_physical_damage"), SubResource("KeywordData_heal"), SubResource("KeywordData_sharp"), SubResource("KeywordData_vulnerable"), SubResource("Resource_5ukev"), SubResource("Resource_gdm1y")])

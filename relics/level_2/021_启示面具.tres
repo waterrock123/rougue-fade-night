@@ -1,16 +1,20 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://hni8tjhtfd11"]
 
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_euej6"]
 [ext_resource type="Texture2D" uid="uid://6a0o57n2x4p" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2077.png" id="1_noj6d"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_oefip"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_y1onj"]
+[ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="5_o4gv3"]
 
 [resource]
 script = ExtResource("1_oefip")
-price = 3
 relic_name = "启示面具"
-level = 2
-id = "021"
 icon = ExtResource("1_noj6d")
 tooltip = "战斗结束时有25%的概率获得一次免费{shop_refresh}的机会，{intelligence}+1
 升级：概率提升至45%，{intelligence}+2
 "
+price = 3
+level = 2
+tags = Array[ExtResource("4_y1onj")]([ExtResource("5_o4gv3")])
+id = "021"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cksrnywjo7du1" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2162.png" id="1_nc31r"]
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_ohkpg"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_t1jhc"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_xb4r2"]
 
 [resource]
 script = ExtResource("1_btdyy")
@@ -13,5 +14,6 @@ tooltip = "{speed}+2
 升级：{speed}+4"
 price = 3
 level = 2
+tags = Array[ExtResource("4_t1jhc")]([ExtResource("5_xb4r2")])
 id = "034"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

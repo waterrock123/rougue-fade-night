@@ -10,6 +10,8 @@ var run_stats: RunStats
 var run: Run
 var stats_controller: StatsController
 var skill_controller: SkillController
+var fixed_rewards: Array[LevelUpReward] = []
+var current_rewards: Array[LevelUpReward] = []
 
 @onready var reward_container: HBoxContainer = $MarginContainer/HBoxContainer
 @onready var tooltip_label: RichTextLabel = %TooltipLabel
@@ -28,12 +30,14 @@ func setup_level_up(
 	new_run_stats: RunStats,
 	new_run: Run,
 	new_stats_controller: StatsController,
-	new_skill_controller: SkillController
+	new_skill_controller: SkillController,
+	new_fixed_rewards: Array[LevelUpReward] = []
 ) -> void:
 	run_stats = new_run_stats
 	run = new_run
 	stats_controller = new_stats_controller
 	skill_controller = new_skill_controller
+	fixed_rewards = new_fixed_rewards
 	_refresh_all_ui()
 
 
@@ -62,7 +66,8 @@ func _refresh_all_ui() -> void:
 
 # 初始化升级奖励按钮；奖励池不足时，会用角色主要属性奖励补足。
 func _refresh_rewards() -> void:
-	var rewards := _build_reward_options()
+	var rewards := fixed_rewards if not fixed_rewards.is_empty() else _build_reward_options()
+	current_rewards = rewards
 	var buttons := reward_container.get_children()
 
 	for index in range(buttons.size()):
@@ -122,6 +127,10 @@ func _build_reward_options() -> Array[LevelUpReward]:
 		attr_index += 1
 
 	return rewards
+
+
+func get_current_rewards() -> Array[LevelUpReward]:
+	return current_rewards
 
 
 # 将一个主要属性包装成可点击领取的升级奖励。

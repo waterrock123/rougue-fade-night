@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_p5yeo"]
 [ext_resource type="Texture2D" uid="uid://dkx0qt84j06yr" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc195.png" id="1_vl3ke"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_qfxid"]
+[ext_resource type="Resource" uid="uid://box5044uf2gqf" path="res://relic_tags/疗愈tag.tres" id="5_wfkrr"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="6_po6jf"]
 
 [resource]
 script = ExtResource("1_p5yeo")
@@ -14,5 +16,6 @@ tooltip = "每次释放{active_skill}后有10%概率陷入{sleep}状态，持续
 "
 price = 3
 level = 2
+tags = Array[ExtResource("4_qfxid")]([ExtResource("5_wfkrr"), ExtResource("6_po6jf")])
 id = "014"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -11,6 +11,6 @@ base_cooldown = 4.0
 base_energy_cost = 15.0
 id = &"104"
 skill_name = "震荡波"
-desc = "以你为圆心对圆形范围内所有敌人造成伤害并将其击退使其获得5秒的虚弱状态"
+desc = "以你为圆心对圆形范围内所有敌人造成伤害并将其击退使其获得5秒的{weak}状态"
 icon = ExtResource("2_kgjnm")
 metadata/_custom_type_script = "uid://bq1obcmna3x2j"

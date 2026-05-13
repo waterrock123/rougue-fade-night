@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://cy73mk3s7ig85"]
+
+[ext_resource type="Texture2D" uid="uid://djbldcvfo4swr" path="res://assets/art/line.png" id="1_lhlpc"]
+[ext_resource type="Shader" uid="uid://dev08xae6ph0n" path="res://shaders/rage_aura_vfx.gdshader" id="2_4075w"]
+[ext_resource type="Texture2D" uid="uid://mt6w21xdehqc" path="res://assets/UI/health_bar_main.png" id="2_nprr1"]
+
+[sub_resource type="Curve" id="Curve_lhlpc"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.70285714, 0.7338582), 0.0, 0.0, 0, 0, Vector2(1, 0.12553436), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_nprr1"]
+curve = SubResource("Curve_lhlpc")
+
+[sub_resource type="Gradient" id="Gradient_4075w"]
+colors = PackedColorArray(0.9192808, 4.47616e-06, 1.1551381e-06, 1, 0.49506837, 0, 0.04298096, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6f533"]
+gradient = SubResource("Gradient_4075w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_62yvs"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(0.835, 1.26, 1)
+emission_shape = 3
+emission_box_extents = Vector3(-1.265, 6.19, 1)
+angle_min = 1.0728835e-05
+angle_max = 1.0728835e-05
+direction = Vector3(0, 0, 0)
+spread = 0.0
+flatness = 0.5
+initial_velocity_min = 5.0
+initial_velocity_max = 15.0
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 9.49949e-08
+gravity = Vector3(0, 0, 0)
+scale_min = 0.0
+scale_max = 0.5
+color = Color(0.7397895, 1.9372628e-06, 9.62615e-07, 1)
+color_ramp = SubResource("GradientTexture1D_6f533")
+alpha_curve = SubResource("CurveTexture_nprr1")
+anim_speed_min = 0.19999999
+anim_speed_max = 1.0
+anim_offset_max = 0.4786
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nprr1"]
+shader = ExtResource("2_4075w")
+
+[node name="RageAuraVFX" type="Node2D" unique_id=532462814]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1194982386]
+texture_filter = 1
+rotation = 4.712389
+amount = 50
+texture = ExtResource("1_lhlpc")
+lifetime = 2.5
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_62yvs")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2142960992]
+z_index = -1
+texture_filter = 1
+material = SubResource("ShaderMaterial_nprr1")
+position = Vector2(0, 4)
+rotation = -0.0654901
+scale = Vector2(0.365, 0.365)
+skew = -1.4503686
+texture = ExtResource("2_nprr1")

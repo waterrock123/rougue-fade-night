@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://f3ys7sxf35ul"
-path="res://.godot/imported/001.png-e719560ef87959cfdba809dd534a20bd.ctex"
+uid="uid://bhjhc82bbrg16"
+path="res://.godot/imported/魔王-日常.png-17ad99a4e5cd0d512d131afc447d0e51.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/甲画家/001.png"
-dest_files=["res://.godot/imported/001.png-e719560ef87959cfdba809dd534a20bd.ctex"]
+source_file="res://assets/商人立绘/魔王-日常.png"
+dest_files=["res://.godot/imported/魔王-日常.png-17ad99a4e5cd0d512d131afc447d0e51.ctex"]
 
 [params]
 

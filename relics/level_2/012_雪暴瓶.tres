@@ -1,14 +1,20 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://c7bi31uqsfk7y"]
 
 [ext_resource type="Texture2D" uid="uid://cmvaoht0eg0pt" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc55.png" id="1_1xkss"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_t8xwq"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_vb4bm"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_o1j4c"]
+[ext_resource type="Resource" uid="uid://sptmtn6uua85" path="res://relic_tags/寒霜tag.tres" id="5_a1qcm"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="6_m3fpd"]
 
 [resource]
 script = ExtResource("1_vb4bm")
-price = 3
 relic_name = "雪暴瓶"
-level = 2
-id = "012"
 icon = ExtResource("1_1xkss")
-tooltip = "装备后移动路径会短暂出现冰霜路径，经过路径的敌人会受到伤害"
+tooltip = "装备后移动路径会短暂出现冰霜路径，经过路径的敌人会受到冰冻伤害并短暂减速数秒
+升级：减速时长增加"
+price = 3
+level = 2
+tags = Array[ExtResource("4_o1j4c")]([ExtResource("5_a1qcm"), ExtResource("6_m3fpd")])
+id = "012"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

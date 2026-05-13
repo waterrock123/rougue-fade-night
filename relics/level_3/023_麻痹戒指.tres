@@ -2,15 +2,19 @@
 
 [ext_resource type="Texture2D" uid="uid://cjy8mjeva76tx" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2185.png" id="1_1facf"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_04ykv"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_cbkjy"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_oy87m"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_iowux"]
 
 [resource]
 script = ExtResource("1_04ykv")
-price = 4
 relic_name = "麻痹戒指"
-level = 3
-id = "023"
 icon = ExtResource("1_1facf")
 tooltip = "基础攻击有概率使敌人{paralysis}
 升级：{paralysis}敌人会拥有{vulnerable}效果
 "
+price = 4
+level = 3
+tags = Array[ExtResource("4_oy87m")]([ExtResource("5_iowux")])
+id = "023"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

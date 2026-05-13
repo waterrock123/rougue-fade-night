@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_nifkt"]
 [ext_resource type="Texture2D" uid="uid://dsa7jy2j566xq" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1448.png" id="1_ylhgr"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_1e8mh"]
+[ext_resource type="Resource" uid="uid://hwfpda2ygcic" path="res://relic_tags/剑tag.tres" id="5_obwj5"]
+[ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="6_k2ho6"]
 
 [resource]
 script = ExtResource("1_byonn")
@@ -14,5 +16,6 @@ tooltip = "+2{charm}，+2{strength}
 "
 price = 4
 level = 3
+tags = Array[ExtResource("4_1e8mh")]([ExtResource("5_obwj5"), ExtResource("6_k2ho6")])
 id = "026"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

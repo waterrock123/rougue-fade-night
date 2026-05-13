@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_fajyd"]
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_xpxx2"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_anhve"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_ahfsu"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="6_f7f58"]
 
 [resource]
 script = ExtResource("1_fajyd")
@@ -14,5 +16,6 @@ tooltip = "{constitution}减1，{armor}+1，受到伤害时对伤害来源造成
 "
 price = 3
 level = 2
+tags = Array[ExtResource("4_anhve")]([ExtResource("5_ahfsu"), ExtResource("6_f7f58")])
 id = "033"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

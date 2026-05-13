@@ -2,15 +2,17 @@
 
 [ext_resource type="Texture2D" uid="uid://dqv5rju6lw68a" path="res://assets/人物骨骼素材/战狂/躯干.png" id="1_arqjq"]
 [ext_resource type="Texture2D" uid="uid://d0vc2kjt78ef1" path="res://assets/人物骨骼素材/战狂/左大腿.png" id="2_2dryk"]
+[ext_resource type="Texture2D" uid="uid://c831vyv7xcx2n" path="res://assets/人物骨骼素材/战狂/左大臂.png" id="2_t483v"]
+[ext_resource type="Texture2D" uid="uid://chy8jwt3w3fxf" path="res://assets/人物骨骼素材/战狂/左小臂.png" id="3_pkuya"]
 [ext_resource type="Texture2D" uid="uid://bm4x21ktgtcoy" path="res://assets/人物骨骼素材/战狂/左小腿.png" id="3_t483v"]
 [ext_resource type="Texture2D" uid="uid://bp2aumfool61t" path="res://assets/人物骨骼素材/战狂/右大腿.png" id="4_pkuya"]
 [ext_resource type="Texture2D" uid="uid://dc0t7k1i18n5q" path="res://assets/人物骨骼素材/战狂/右小腿.png" id="5_if3ei"]
 
 [sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_v21ou"]
 target_nodepath = NodePath("../左小腿目标")
-joint_one_bone_idx = 2
+joint_one_bone_idx = 4
 joint_one_bone2d_node = NodePath("胯部/左大腿")
-joint_two_bone_idx = 3
+joint_two_bone_idx = 5
 joint_two_bone2d_node = NodePath("胯部/左大腿/左小腿")
 
 [sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_2uj3n"]
@@ -30,28 +32,51 @@ position = Vector2(-1, -233)
 rotation = -0.02377686
 
 [node name="躯干" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=1280355780]
-position = Vector2(10, -102)
+position = Vector2(-0.43149376, -108.040794)
 rotation = -1.4743224
 scale = Vector2(2.6546416, -2022.0747)
-auto_calculate_length_and_angle = false
-length = 1.0
-bone_angle = -0.95499986
 
 [node name="身体" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干" unique_id=163176702]
-position = Vector2(0.3089218, -0.00018260814)
+position = Vector2(0.4304309, -0.00095054996)
 rotation = -0.017779125
 scale = Vector2(0.027741805, -0.3756761)
 skew = -1.5529188
 texture = ExtResource("1_arqjq")
-offset = Vector2(-6.56, 19.71)
+offset = Vector2(-0.095, 26.39)
 
-[node name="Bone2D" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干" unique_id=1898984481]
+[node name="左大臂" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干" unique_id=1131475858]
+position = Vector2(10.521732, -0.026265861)
+scale = Vector2(1.0000002, 1.0000002)
+
+[node name="左大臂" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干/左大臂" unique_id=2047142585]
+z_index = -1
+position = Vector2(-2.4437904e-06, 3.2014214e-10)
+rotation = -0.018025154
+scale = Vector2(0.027365198, -0.3757036)
+skew = -1.5526737
+texture = ExtResource("2_t483v")
+offset = Vector2(-10.38, 0.31)
+
+[node name="左小臂" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干/左大臂" unique_id=1424169245]
+position = Vector2(-19.071455, -0.01025284)
+
+[node name="左小臂" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干/左大臂/左小臂" unique_id=89987804]
+position = Vector2(0.37570494, 3.592079e-05)
+rotation = 3.1415632
+scale = Vector2(0.37660414, -0.008448215)
+skew = -1.5122095
+texture = ExtResource("3_pkuya")
+offset = Vector2(20.64, -27.77)
+
+[node name="左手" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干/左大臂/左小臂" unique_id=733342828]
+position = Vector2(-14.705134, -0.027686026)
+rotation = 3.141389
 metadata/_local_pose_override_enabled_ = true
 
 [node name="左大腿" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=1097985254]
 position = Vector2(43, 13.000004)
-rotation = -0.31906936
-scale = Vector2(0.9999999, 0.9999999)
+rotation = -0.3190694
+scale = Vector2(0.99999976, 0.99999976)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="左大腿2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/左大腿" unique_id=1219188741]
@@ -63,8 +88,8 @@ offset = Vector2(-8.515, 25.04)
 
 [node name="左小腿" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/左大腿" unique_id=1936199558]
 position = Vector2(-20.081367, 89.78717)
-rotation = 0.32533294
-scale = Vector2(0.9999999, 0.9999999)
+rotation = 0.32533297
+scale = Vector2(0.99999976, 0.99999976)
 auto_calculate_length_and_angle = false
 length = 90.0
 bone_angle = 90.0

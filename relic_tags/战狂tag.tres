@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RelicTag" format=3 uid="uid://bhvriwrr7jduc"]
+
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="1_04yqn"]
+
+[resource]
+script = ExtResource("1_04yqn")
+color = Color(0.67058825, 0.16470589, 0, 1)
+tag_name = "战狂"
+metadata/_custom_type_script = "uid://bts8j8jm6rdpv"

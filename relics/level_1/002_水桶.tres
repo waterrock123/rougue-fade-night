@@ -6,16 +6,11 @@
 [ext_resource type="Script" uid="uid://ckyvmmqeo6o6e" path="res://relic_effect/add_status_effect.gd" id="2_8y77n"]
 [ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="3_6k1ue"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="6_k4nik"]
+[ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="7_6l0l3"]
 
 [sub_resource type="Resource" id="Resource_fao66"]
 script = ExtResource("2_8y77n")
 status_data = ExtResource("3_6k1ue")
-
-[sub_resource type="Resource" id="Resource_k4nik"]
-script = ExtResource("6_k4nik")
-color = Color(0.5662982, 0.5662982, 0.5662982, 1)
-tag_name = "守御"
-metadata/_custom_type_script = "uid://bts8j8jm6rdpv"
 
 [resource]
 script = ExtResource("2_8vcxj")
@@ -31,7 +26,7 @@ level = 1
 leveltip = null
 upgrade_merge_count = null
 relic_type = null
-tags = Array[ExtResource("6_k4nik")]([SubResource("Resource_k4nik")])
+tags = Array[ExtResource("6_k4nik")]([ExtResource("7_6l0l3")])
 id = "002"
 is_consumable = null
 effects = Array[ExtResource("1_8vcxj")]([SubResource("Resource_fao66")])

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://4vcxfl378axq"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_cubw4"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_30nas"]
+[ext_resource type="Texture2D" uid="uid://c66s8r3r12nva" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc83.png" id="2_84yn4"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_84yn4"]
+[ext_resource type="Resource" uid="uid://dxale3ttna2jk" path="res://relic_tags/火炎tag.tres" id="5_8qtyl"]
+
+[resource]
+script = ExtResource("2_30nas")
+relic_name = "打火机"
+icon = ExtResource("2_84yn4")
+tooltip = "受到伤害时会对伤害来源造成20点火焰伤害
+升级:火焰伤害提升到30点"
+price = 3
+level = 1
+tags = Array[ExtResource("3_84yn4")]([ExtResource("5_8qtyl")])
+id = "039"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

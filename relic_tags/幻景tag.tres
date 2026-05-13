@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RelicTag" format=3 uid="uid://lkyp1jdnq73x"]
+
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="1_c7nvv"]
+
+[resource]
+script = ExtResource("1_c7nvv")
+color = Color(0.88263255, 0.5725327, 0.82843924, 1)
+tag_name = "幻景"
+metadata/_custom_type_script = "uid://bts8j8jm6rdpv"

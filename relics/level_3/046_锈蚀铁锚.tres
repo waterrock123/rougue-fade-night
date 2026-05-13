@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://5pdqffl8htbk"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_x22fj"]
+[ext_resource type="Texture2D" uid="uid://b86vyjhe2apvr" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc397.png" id="2_vpf2e"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_fuh1q"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_sh5al"]
+[ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="5_m1t8r"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="6_h4vse"]
+
+[resource]
+script = ExtResource("3_fuh1q")
+relic_name = "锈蚀铁锚"
+icon = ExtResource("2_vpf2e")
+tooltip = "{strength}+4,{speed}-2,{dexterity}-4
+升级:{armor}+3，获得10%减伤"
+price = 4
+level = 3
+tags = Array[ExtResource("4_sh5al")]([ExtResource("5_m1t8r"), ExtResource("6_h4vse")])
+id = "046"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,27 +1,40 @@
 [gd_resource type="Resource" script_class="ShopKeeper" format=3 uid="uid://wlgt6wqudvrs"]
 
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_pbcn3"]
-[ext_resource type="Resource" uid="uid://dh27ilfr1mpyk" path="res://relics/level_1/001_猪猪存钱罐.tres" id="2_juhd8"]
-[ext_resource type="Resource" uid="uid://dbuj4w6g5hwrv" path="res://relics/level_1/002_水桶.tres" id="3_b65uq"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_36ohw"]
 [ext_resource type="Resource" uid="uid://vmqtujtywfno" path="res://relics/level_1/003_树枝.tres" id="4_f4h6g"]
-[ext_resource type="Resource" uid="uid://bp0ofkarkcenj" path="res://relics/level_1/004_草甲.tres" id="5_j7smn"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_bwypv"]
 [ext_resource type="Resource" uid="uid://b8btces00enjb" path="res://relics/level_1/005_兑换券.tres" id="6_51gky"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="6_p38o4"]
+[ext_resource type="Resource" uid="uid://d1qaxn6s7eqj0" path="res://relic_tags/历战tag.tres" id="7_g1ugy"]
 [ext_resource type="Resource" uid="uid://biuud4wl111k8" path="res://relics/level_1/008_背包.tres" id="7_oujcj"]
 [ext_resource type="Resource" uid="uid://c1g8aud5vm53l" path="res://relics/level_1/009_粗糙匕首.tres" id="8_j0ucy"]
-[ext_resource type="Resource" uid="uid://bniw0iud7ve6r" path="res://relics/level_2/014_瞌睡虫.tres" id="9_grmec"]
-[ext_resource type="Resource" uid="uid://bmrvulcnh3w6d" path="res://relics/level_2/022_长矛.tres" id="10_36ohw"]
-[ext_resource type="Resource" uid="uid://ba0va1q5ux0en" path="res://relics/level_2/019_保暖裤.tres" id="11_bwypv"]
+[ext_resource type="Resource" uid="uid://d36ixcyejkyxx" path="res://relics/level_2/041_染血画笔.tres" id="10_51gky"]
+[ext_resource type="Resource" uid="uid://c2tb2kljvvjy0" path="res://relics/level_2/020_记事本.tres" id="11_oujcj"]
+[ext_resource type="Resource" uid="uid://dfiprj6w1e0qj" path="res://relics/level_1/015_假牙.tres" id="12_j0ucy"]
 [ext_resource type="Resource" uid="uid://lbhfny3jbyt2" path="res://relics/level_2/033_玻璃碎片.tres" id="12_p38o4"]
-[ext_resource type="Resource" uid="uid://d4lumkj3sulbt" path="res://relics/level_2/034_跑鞋.tres" id="13_g1ugy"]
-[ext_resource type="Resource" uid="uid://fx8lt5qmvqgl" path="res://relics/level_3/024_古怪餐盘.tres" id="14_wwpgn"]
-[ext_resource type="Resource" uid="uid://lkwfsiovbeu1" path="res://relics/level_3/025_仁之剑.tres" id="15_yfx18"]
-[ext_resource type="Resource" uid="uid://by8386a1n6u6m" path="res://relics/level_3/026_义之剑.tres" id="16_hqen1"]
+[ext_resource type="Resource" uid="uid://csup06ocv6g6s" path="res://relics/level_2/045_小罐盐.tres" id="13_grmec"]
+[ext_resource type="Resource" uid="uid://d0sbxqpp1rwqk" path="res://relics/level_2/042_紫水晶.tres" id="14_36ohw"]
+[ext_resource type="Resource" uid="uid://5pdqffl8htbk" path="res://relics/level_3/046_锈蚀铁锚.tres" id="15_bwypv"]
+[ext_resource type="Resource" uid="uid://clwhsdcumoqp1" path="res://relics/level_3/036_计数板.tres" id="16_p38o4"]
+[ext_resource type="Resource" uid="uid://c1yrtyseoj81p" path="res://relics/level_3/023_麻痹戒指.tres" id="17_g1ugy"]
 [ext_resource type="Script" uid="uid://copgj7rv7yvot" path="res://scripts/rest_period/shop_keeper.gd" id="17_juhd8"]
-[ext_resource type="Texture2D" uid="uid://f3ys7sxf35ul" path="res://assets/甲画家/001.png" id="18_juhd8"]
+[ext_resource type="Resource" uid="uid://bg42r85wsu4xp" path="res://relics/level_2/035_安全帽.tres" id="18_wwpgn"]
+[ext_resource type="Resource" uid="uid://cpf0y8fiyp86c" path="res://custom_resource/shop_keeper_enter_dialogues.tres" id="19_enter"]
+[ext_resource type="Resource" uid="uid://t3t4ph4ab4ll" path="res://relics/level_1/016_眼镜.tres" id="19_yfx18"]
+[ext_resource type="Resource" path="res://custom_resource/shop_keeper_exit_dialogues.tres" id="20_exit"]
+[ext_resource type="Resource" path="res://custom_resource/shop_keeper_buy_dialogues.tres" id="21_buy"]
+[ext_resource type="Texture2D" uid="uid://f3ys7sxf35ul" path="res://assets/商人立绘/甲画家.png" id="22_hqen1"]
+[ext_resource type="Resource" path="res://custom_resource/shop_keeper_sell_dialogues.tres" id="22_sell"]
 
 [resource]
 script = ExtResource("17_juhd8")
 name = "甲画家"
-relics = Array[ExtResource("1_pbcn3")]([ExtResource("2_juhd8"), ExtResource("3_b65uq"), ExtResource("4_f4h6g"), ExtResource("5_j7smn"), ExtResource("6_51gky"), ExtResource("7_oujcj"), ExtResource("8_j0ucy"), ExtResource("9_grmec"), ExtResource("10_36ohw"), ExtResource("11_bwypv"), ExtResource("12_p38o4"), ExtResource("13_g1ugy"), ExtResource("14_wwpgn"), ExtResource("15_yfx18"), ExtResource("16_hqen1")])
-texture = ExtResource("18_juhd8")
+relics = Array[ExtResource("1_pbcn3")]([ExtResource("4_f4h6g"), ExtResource("6_51gky"), ExtResource("7_oujcj"), ExtResource("8_j0ucy"), ExtResource("12_p38o4"), ExtResource("10_51gky"), ExtResource("11_oujcj"), ExtResource("12_j0ucy"), ExtResource("13_grmec"), ExtResource("14_36ohw"), ExtResource("15_bwypv"), ExtResource("16_p38o4"), ExtResource("17_g1ugy"), ExtResource("18_wwpgn"), ExtResource("19_yfx18")])
+texture = ExtResource("22_hqen1")
+havetag = Array[ExtResource("4_36ohw")]([ExtResource("5_bwypv"), ExtResource("6_p38o4"), ExtResource("7_g1ugy")])
+enter_rest_period_dialogues = ExtResource("19_enter")
+exit_rest_period_dialogues = ExtResource("20_exit")
+buy_relic_dialogues = ExtResource("21_buy")
+sell_relic_dialogues = ExtResource("22_sell")
 metadata/_custom_type_script = "uid://copgj7rv7yvot"

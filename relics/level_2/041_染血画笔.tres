@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://d36ixcyejkyxx"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_71jyc"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_2kl53"]
+[ext_resource type="Texture2D" uid="uid://cq71xm4h2037j" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc82.png" id="2_jpja3"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_jpja3"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_x7w58"]
+[ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="6_2e1n4"]
+
+[resource]
+script = ExtResource("2_2kl53")
+relic_name = "染血画笔"
+icon = ExtResource("2_jpja3")
+tooltip = "进入战斗时立即损失5点生命，每次损失生命时都使法力值+5
+升级：进入战斗时损失的生命变为2"
+price = 3
+level = 2
+tags = Array[ExtResource("3_jpja3")]([ExtResource("5_x7w58"), ExtResource("6_2e1n4")])
+id = "041"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

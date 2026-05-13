@@ -1,15 +1,20 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b60x57pftaemg"]
 
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_fdlco"]
 [ext_resource type="Texture2D" uid="uid://2xsol331kygm" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc107.png" id="1_wcvj7"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_01bth"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_tec42"]
+[ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="5_djlhf"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="6_nfyou"]
 
 [resource]
 script = ExtResource("2_01bth")
-price = 4
 relic_name = "纸：心理学"
-level = 4
-id = "029"
 icon = ExtResource("1_wcvj7")
 tooltip = "{charm}+5
 升级：装备时能够看见事件获得的物品"
+price = 4
+level = 4
+tags = Array[ExtResource("4_tec42")]([ExtResource("5_djlhf"), ExtResource("6_nfyou")])
+id = "029"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

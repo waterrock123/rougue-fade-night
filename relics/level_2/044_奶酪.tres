@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://btupyhcwiq5cg"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_s6lda"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_3ksnw"]
+[ext_resource type="Texture2D" uid="uid://brp441fukbail" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc497.png" id="2_ghwv6"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_43c52"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_hj7sc"]
+[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="6_omkkm"]
+
+[resource]
+script = ExtResource("2_3ksnw")
+relic_name = "奶酪"
+icon = ExtResource("2_ghwv6")
+tooltip = "使用后立即恢复50%的法力值
+升级：使用额外+2{speed}"
+price = 3
+level = 2
+tags = Array[ExtResource("3_43c52")]([ExtResource("5_hj7sc"), ExtResource("6_omkkm")])
+id = "044"
+is_consumable = true
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

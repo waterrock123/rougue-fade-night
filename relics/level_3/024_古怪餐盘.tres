@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://molh8wtkeqrg" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc49.png" id="1_ssc8s"]
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_tcmtn"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_skarc"]
+[ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_skarc"]
 
 [resource]
 script = ExtResource("1_5ixu4")
@@ -14,5 +15,6 @@ tooltip = "使用{consumable}后，若背包内还有其他{consumable}则立即
 "
 price = 4
 level = 3
+tags = Array[ExtResource("4_skarc")]([ExtResource("5_skarc")])
 id = "024"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

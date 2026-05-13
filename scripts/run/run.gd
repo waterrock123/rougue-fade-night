@@ -5,6 +5,9 @@ const PLAY_SCENE_PATH := "res://scenes/play_scene.tscn"
 const LEVEL_UP_SCENE_PATH := "res://scenes/ability/level_up_controller.tscn"
 const REST_SCENE_PATH := "res://scenes/rest_period/rest_period.tscn"
 const DEATH_SCENE_PATH := "res://scenes/ui/death_screen.tscn"
+const FLOW_MAP := "map"
+const FLOW_EVENT_ROOM := "event_room"
+const FLOW_LEVEL_UP := "level_up"
 
 # 角色选择界面切场景后，会先把本次开局数据暂存在这里。
 static var pending_startup: RunStartup
@@ -26,6 +29,11 @@ var run_stats: RunStats
 var current_room: Room
 var pending_map_save_data: Dictionary = {}
 var pending_current_room_data: Dictionary = {}
+var pending_flow_state: String = FLOW_MAP
+var current_flow_state: String = FLOW_MAP
+var level_up_checkpoint_locked := false
+var level_up_reward_options: Array[LevelUpReward] = []
+var battle_active := false
 
 
 # 先准备本局数据，再初始化常驻节点和地图流程。
@@ -35,7 +43,9 @@ func _ready() -> void:
 	_initialize_persistent_ui()
 	_connect_signals()
 	_initialize_map()
-	_save_current_run()
+	_restore_saved_flow_view()
+	if current_flow_state == FLOW_MAP:
+		_save_current_run()
 
 
 # 主动进入当前房间对应的战斗场景。
@@ -48,7 +58,11 @@ func change_to_play_scene() -> void:
 
 # 战斗胜利后先进入升级奖励场景，由玩家选择奖励后再进入修整期。
 func change_to_level_up() -> void:
+	current_flow_state = FLOW_LEVEL_UP
+	level_up_checkpoint_locked = false
+	battle_active = false
 	_show_top_bar()
+	_set_package_equipment_locked(false)
 	_refresh_persistent_ui()
 
 	var level_up_scene_resource := load(LEVEL_UP_SCENE_PATH) as PackedScene
@@ -65,20 +79,26 @@ func change_to_level_up() -> void:
 			run_stats,
 			self,
 			_get_runtime_stats_controller(),
-			_get_runtime_skill_controller()
+			_get_runtime_skill_controller(),
+			level_up_reward_options
 		)
 
 	_replace_current_view(level_up_scene)
+	if level_up_scene.has_method("get_current_rewards"):
+		level_up_reward_options = level_up_scene.get_current_rewards()
 	if attributes_panel != null:
 		attributes_panel.close_panel()
 	if map != null:
 		map.hide_map()
-	_save_current_run()
+	_save_current_run(true)
+	level_up_checkpoint_locked = true
 
 
 # 战斗胜利后进入修整期，并发放本回合修整奖励金币。
 func change_to_rest_period() -> void:
+	battle_active = false
 	_show_top_bar()
+	_set_package_equipment_locked(false)
 	if run_stats != null:
 		run_stats.grant_rest_period_gold()
 	_refresh_persistent_ui()
@@ -96,14 +116,15 @@ func change_to_rest_period() -> void:
 	if map != null:
 		map.hide_map()
 	_open_package_for_rest_period()
-	_save_current_run()
 
 
 # 玩家战败时打开死亡界面，由死亡界面决定重新开始或回主菜单。
 func change_to_death_screen() -> void:
+	battle_active = false
 	_refresh_persistent_ui()
 	_close_persistent_panels()
 	_hide_top_bar()
+	_set_package_equipment_locked(false)
 
 	var death_scene_resource := load(DEATH_SCENE_PATH) as PackedScene
 	if death_scene_resource == null:
@@ -121,16 +142,21 @@ func change_to_death_screen() -> void:
 
 # 修整期结束后返回地图，并解锁下一批可进入房间。
 func finish_rest_period() -> void:
+	current_flow_state = FLOW_MAP
+	level_up_checkpoint_locked = false
+	battle_active = false
 	_show_top_bar()
+	_set_package_equipment_locked(false)
 	if run_stats != null:
 		run_stats.clear_free_relic_choices()
+	level_up_reward_options.clear()
 	_clear_current_view()
 	_refresh_persistent_ui()
 
 	if map != null:
 		map.show_map()
 		map.unlock_next_rooms()
-	_save_current_run()
+	_save_current_run(true)
 
 
 # 统一连接 Run 关心的常驻信号。
@@ -194,6 +220,10 @@ func _initialize_new_run(startup: RunStartup) -> void:
 		return
 
 	RunRng.start_new_run()
+	current_flow_state = FLOW_MAP
+	pending_flow_state = FLOW_MAP
+	level_up_checkpoint_locked = false
+	level_up_reward_options.clear()
 	var build := startup.create_player_build()
 	var shop := startup.create_shop()
 	if shop != null and not startup.picked_character.shop_keeper_pool.is_empty():
@@ -218,6 +248,10 @@ func _initialize_continued_run(_startup: RunStartup) -> void:
 	run_stats = loaded_run_stats
 	pending_map_save_data = SaveManager.get_saved_map_data(save_data)
 	pending_current_room_data = SaveManager.get_saved_current_room_data(save_data)
+	pending_flow_state = SaveManager.get_saved_flow_state(save_data)
+	current_flow_state = pending_flow_state
+	level_up_checkpoint_locked = current_flow_state == FLOW_LEVEL_UP
+	level_up_reward_options = SaveManager.get_saved_level_up_rewards(save_data)
 
 
 # 把 run_stats.player_build 绑定给修整期常驻的属性与装备管理节点。
@@ -235,6 +269,7 @@ func _initialize_persistent_ui() -> void:
 
 	if package_ui != null:
 		package_ui.open_bag(run_stats.player_build.player_inventory, run_stats.player_build.player_equipment)
+		package_ui.set_equipment_locked(false)
 		package_ui.close_bag()
 
 	if attributes_panel != null:
@@ -290,6 +325,18 @@ func _initialize_map() -> void:
 	map.show_map()
 
 
+# 继续游戏时按照存档中的流程状态恢复 CurrentView，而不是一律停在地图。
+func _restore_saved_flow_view() -> void:
+	match pending_flow_state:
+		FLOW_EVENT_ROOM:
+			if current_room != null:
+				_open_event_room(current_room)
+		FLOW_LEVEL_UP:
+			change_to_level_up()
+		_:
+			current_flow_state = FLOW_MAP
+
+
 # 优先读取角色选择场景传来的临时启动数据，其次再使用场景上兜底的导出资源。
 func _resolve_startup() -> RunStartup:
 	if pending_startup != null:
@@ -303,8 +350,11 @@ func _resolve_startup() -> RunStartup:
 # 记录当前被选择的房间，并进入它的事件场景。
 func _on_map_room_selected(room: Room) -> void:
 	current_room = room
+	current_flow_state = FLOW_EVENT_ROOM
+	level_up_checkpoint_locked = false
+	battle_active = false
 	_open_event_room(room)
-	_save_current_run()
+	_save_current_run(true)
 
 
 # 事件场景点击离开后，进入该房间绑定的战斗场景。
@@ -329,6 +379,8 @@ func _on_player_relic_slots_changed() -> void:
 		return
 
 	run_stats.player_build.check_relic_merges()
+	if battle_active:
+		return
 	_save_current_run()
 
 
@@ -394,6 +446,8 @@ func _open_event_room(room: Room) -> void:
 		return
 
 	_show_top_bar()
+	battle_active = false
+	_set_package_equipment_locked(false)
 	_bind_run_stats(event_room)
 	_replace_current_view(event_room)
 	if map != null:
@@ -417,6 +471,8 @@ func _open_battle_scene(room: Room) -> void:
 		return
 
 	_show_top_bar()
+	battle_active = true
+	_set_package_equipment_locked(true)
 	if play_scene.has_method("setup_run_battle"):
 		play_scene.setup_run_battle(run_stats, room.battle_stats)
 	else:
@@ -482,6 +538,11 @@ func _hide_top_bar() -> void:
 		top_bar.hide()
 
 
+func _set_package_equipment_locked(locked: bool) -> void:
+	if package_ui != null:
+		package_ui.set_equipment_locked(locked)
+
+
 # 获取 Run 下常驻的运行时属性控制器，供属性面板等 UI 读取。
 func _get_runtime_stats_controller() -> StatsController:
 	if player_build_proxy == null:
@@ -511,8 +572,18 @@ func _find_room_from_map_data(data: Dictionary) -> Room:
 
 
 # 所有“本局状态已经变动”的关键节点统一走这里保存，避免每个系统单独知道存档细节。
-func _save_current_run() -> void:
+func save_current_run() -> void:
+	_save_current_run()
+
+
+func _save_current_run(force: bool = false) -> void:
 	if run_stats == null:
+		return
+	if level_up_checkpoint_locked and not force:
+		return
+	# 事件房间只在“进入房间时”保存检查点。
+	# 这样事件奖励/惩罚如果还没通过后续战斗结算，就不会在中途退出时永久写入存档。
+	if current_flow_state == FLOW_EVENT_ROOM and not force:
 		return
 
 	SaveManager.save_run(self)

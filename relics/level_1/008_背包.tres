@@ -3,6 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://dtio6xopjtg4o" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2031.png" id="1_0gee5"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_nah2x"]
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_njj3y"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_fqrbn"]
+[ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="5_3n5e7"]
+[ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="6_0immt"]
 
 [resource]
 script = ExtResource("1_nah2x")
@@ -13,5 +16,6 @@ tooltip = "装备时获得额外一个储备空间格
 "
 price = 3
 level = 1
+tags = Array[ExtResource("4_fqrbn")]([ExtResource("5_3n5e7"), ExtResource("6_0immt")])
 id = "008"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

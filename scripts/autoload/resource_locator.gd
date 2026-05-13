@@ -28,6 +28,6 @@ func go_to_home_scene():
 	# 如果当前还在一局 Run 里，回主菜单前先保存一次，方便“继续游戏”接上。
 	var current_run := get_tree().get_first_node_in_group("run") as Run
 	if current_run != null:
-		SaveManager.save_run(current_run)
+		current_run.save_current_run()
 	EventBus.scene_changed.emit("home")
 	get_tree().change_scene_to_packed(packed_home_scene)

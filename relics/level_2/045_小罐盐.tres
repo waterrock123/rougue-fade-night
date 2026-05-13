@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://csup06ocv6g6s"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_o3mmb"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_ig22q"]
+[ext_resource type="Texture2D" uid="uid://cxrmoexkdwecl" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc411.png" id="2_qyark"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_qyark"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_vebx5"]
+[ext_resource type="Resource" uid="uid://d1qaxn6s7eqj0" path="res://relic_tags/历战tag.tres" id="6_vebx5"]
+
+[resource]
+script = ExtResource("2_ig22q")
+relic_name = "小罐盐"
+icon = ExtResource("2_qyark")
+tooltip = "使用{consumable}时+2点{strength}，若{consumable}拥有原料tag则再额外+2点{constitution}
+升级:每次战斗胜利后若背包内存在拥有原料tag物品，则使最多两个拥有原料tag的物品出售价格+1"
+price = 3
+level = 2
+tags = Array[ExtResource("3_qyark")]([ExtResource("5_vebx5"), ExtResource("6_vebx5")])
+id = "045"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

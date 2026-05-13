@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://30fyxdceccid"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_84e6j"]
+[ext_resource type="Texture2D" uid="uid://b2plxx0um2jqo" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc547.png" id="2_cclpt"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_lhptm"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_t2reu"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="5_3wfkf"]
+[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="6_2e7vf"]
+
+[resource]
+script = ExtResource("2_lhptm")
+relic_name = "焖子"
+icon = ExtResource("2_cclpt")
+tooltip = "使用后立即{heal}10生命值，并使体质+2
+升级：体质提升变为永久提升"
+price = 3
+level = 2
+tags = Array[ExtResource("3_t2reu")]([ExtResource("5_3wfkf"), ExtResource("6_2e7vf")])
+id = "043"
+is_consumable = true
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

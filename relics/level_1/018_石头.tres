@@ -2,14 +2,20 @@
 
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_ek5fo"]
 [ext_resource type="Texture2D" uid="uid://dqr0sxa2cltnl" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc384.png" id="1_focei"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_gg7rv"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_48avn"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_5dj37"]
+[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="6_p82my"]
 
 [resource]
 script = ExtResource("1_ek5fo")
-price = 3
 relic_name = "石头"
-level = 1
-id = "018"
 icon = ExtResource("1_focei")
 tooltip = "向目标方向投掷一颗石块，伤害同时受{strength}与{dexterity}加成，如果背包内有同名的{consumable}则装备一个同名{consumable}
 升级：伤害增加"
+price = 3
+level = 1
+tags = Array[ExtResource("4_48avn")]([ExtResource("5_5dj37"), ExtResource("6_p82my")])
+id = "018"
+is_consumable = true
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

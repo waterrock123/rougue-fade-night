@@ -4,9 +4,21 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_b6fyn"]
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_nje5y"]
 [ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="2_ipy8i"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_nje5y"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="6_ipy8i"]
 
 [sub_resource type="Resource" id="Resource_3u84c"]
 script = ExtResource("2_ipy8i")
+add_stats = {
+"dexterity": 2
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
+
+[sub_resource type="Resource" id="Resource_34frq"]
+script = ExtResource("2_ipy8i")
+add_stats = {
+"speed": 1
+}
 metadata/_custom_type_script = "uid://neet2irr2m2g"
 
 [resource]
@@ -14,10 +26,13 @@ script = ExtResource("1_b6fyn")
 relic_name = "绑带"
 icon = ExtResource("1_1mg4h")
 tooltip = "{dexterity}+2
-升级：{armor}+1
+升级：{speed}+1
 "
+desc = "缠在腿上可以让你走得更远"
 price = 3
 level = 1
+tags = Array[ExtResource("5_nje5y")]([ExtResource("6_ipy8i")])
 id = "007"
 effects = Array[ExtResource("1_nje5y")]([SubResource("Resource_3u84c")])
+great_effects = Array[ExtResource("1_nje5y")]([SubResource("Resource_34frq")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

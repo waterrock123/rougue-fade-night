@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3 uid="uid://2k5fwxavfgog"]
+
+[ext_resource type="Texture2D" uid="uid://cj7fehrfhruvo" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1319.png" id="1_ftir3"]
+[ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="1_ry8ga"]
+[ext_resource type="PackedScene" uid="uid://casslmxjhumbc" path="res://scenes/ability/rage_ability.tscn" id="1_w8u2e"]
+
+[resource]
+script = ExtResource("1_ry8ga")
+ability_scene = ExtResource("1_w8u2e")
+base_cooldown = 5.0
+base_energy_cost = 10.0
+id = &"105"
+skill_name = "暴怒"
+desc = "进入{rage}状态，持续10秒"
+icon = ExtResource("1_ftir3")
+metadata/_custom_type_script = "uid://bq1obcmna3x2j"

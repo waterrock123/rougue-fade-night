@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b52xfrprpj0xf"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_no2q1"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_8sf0n"]
+[ext_resource type="Texture2D" uid="uid://bhj8yildvrwfk" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1757.png" id="2_tn1aa"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_iesnd"]
+[ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_04dbt"]
+[ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="6_p3r88"]
+
+[resource]
+script = ExtResource("2_8sf0n")
+relic_name = "玉箸"
+icon = ExtResource("2_tn1aa")
+tooltip = "在战斗中使用消耗品后将永久提升随机属性一点，每场战斗最多触发五次
+升级：第一次使用消耗品时额外触发一次永久提升属性效果"
+price = 4
+level = 4
+tags = Array[ExtResource("3_iesnd")]([ExtResource("5_04dbt"), ExtResource("6_p3r88")])
+id = "038"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"
