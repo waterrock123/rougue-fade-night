@@ -11,16 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://cct0ad0ln84v1" path="res://assets/enemy/Mushroom/Mushroom with VFX/Mushroom-Run.png" id="6_4mg4g"]
 [ext_resource type="Script" uid="uid://bxt142ar5bkmd" path="res://scripts/entity/pathfinding.gd" id="6_ggmwl"]
 [ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="7_5v34o"]
-[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="8_l1ddx"]
-[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="8_mfg4c"]
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="9_3r1hm"]
-[ext_resource type="Script" uid="uid://cv047vl681hxu" path="res://scripts/ability/component/ability_charge_to_target.gd" id="10_l1ddx"]
-[ext_resource type="Script" uid="uid://77b05rqxjlqd" path="res://scripts/ability/component/ability_deal_damage_on_overlap.gd" id="11_a2xqf"]
-[ext_resource type="Script" uid="uid://ck8q2wvmbx015" path="res://scripts/ability/component/ability_trigger_components_on_sprite_frame.gd" id="12_vqj1s"]
-[ext_resource type="Script" uid="uid://di4y7j2fln2w7" path="res://scripts/ability/component/ability_animation_frame_event.gd" id="13_hn0st"]
+[ext_resource type="PackedScene" uid="uid://bncllhk48jflf" path="res://scenes/ability/dash_attack_ability.tscn" id="9_4mg4g"]
 [ext_resource type="Resource" uid="uid://yvagqhe76xew" path="res://resource/enemy/mushroom_monster.tres" id="16_erme2"]
-[ext_resource type="Script" uid="uid://dcukpvvpmebnv" path="res://scripts/stats/damage_scaling_rule.gd" id="16_pvud1"]
-[ext_resource type="Script" path="res://scripts/status/status_controller.gd" id="17_status"]
+[ext_resource type="Script" uid="uid://87nmt5jrle4v" path="res://scripts/status/status_controller.gd" id="17_status"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i0f3v"]
 shader = ExtResource("2_3bex7")
@@ -428,20 +422,6 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="Resource" id="Resource_frame_event_charge"]
-script = ExtResource("13_hn0st")
-frame = 5
-component_names = Array[String](["AbilityChargeToTarget"])
-
-[sub_resource type="Resource" id="Resource_frame_event_damage"]
-script = ExtResource("13_hn0st")
-frame = 6
-component_names = Array[String](["AbilityDealDamageOnOverlap"])
-
-[sub_resource type="Resource" id="Resource_pvud1"]
-script = ExtResource("16_pvud1")
-metadata/_custom_type_script = "uid://dcukpvvpmebnv"
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7eecw"]
 size = Vector2(43.076927, 43.750004)
 
@@ -455,7 +435,7 @@ scale = Vector2(1.3, 1.3)
 script = ExtResource("1_d2rl5")
 speed = 30.0
 sprite_faces_left_by_default = true
-stop_distance = 100.0
+stop_distance = 50.0
 aggresive = true
 memory = 10.0
 chase_distance = 110.0
@@ -476,33 +456,7 @@ frame_progress = 1.0
 script = ExtResource("4_pjqlh")
 metadata/_custom_type_script = "uid://cifh43jnsuld4"
 
-[node name="DashAttackAbility" type="Node" parent="AbilityController" unique_id=1830063269]
-script = ExtResource("8_mfg4c")
-cooldown = 5.0
-metadata/_custom_type_script = "uid://bd4gnnre2dfj7"
-
-[node name="AbilityAnimationRunner" type="Node" parent="AbilityController/DashAttackAbility" unique_id=1768468272]
-script = ExtResource("8_l1ddx")
-animation_name = "attack"
-metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
-
-[node name="AbilityTriggerComponentsOnSpriteFrame" type="Node" parent="AbilityController/DashAttackAbility" unique_id=1310063911]
-script = ExtResource("12_vqj1s")
-animation_name = "attack"
-animated_sprite_path = NodePath("../../../AnimatedSprite2D")
-frame_events = Array[ExtResource("13_hn0st")]([SubResource("Resource_frame_event_charge"), SubResource("Resource_frame_event_damage")])
-
-[node name="AbilityChargeToTarget" type="Node" parent="AbilityController/DashAttackAbility" unique_id=2018583222]
-editor_description = "冲锋位移组件，优先朝 context.targets 中的目标冲锋；若没有目标，则自动寻找默认敌对目标。"
-script = ExtResource("10_l1ddx")
-charge_distance = 200.0
-duration = 2.0
-
-[node name="AbilityDealDamageOnOverlap" type="Node" parent="AbilityController/DashAttackAbility" unique_id=1499926634]
-script = ExtResource("11_a2xqf")
-active_duration = 1.0
-damage = 12.0
-scaling_rule = SubResource("Resource_pvud1")
+[node name="DashAttackAbility" parent="AbilityController" unique_id=245868803 instance=ExtResource("9_4mg4g")]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]
 
@@ -533,5 +487,8 @@ script = ExtResource("9_3r1hm")
 
 [node name="StatusController" type="Node" parent="." unique_id=1812209643]
 script = ExtResource("17_status")
+
+[node name="VFXAnchor" type="Node2D" parent="." unique_id=169720445]
+position = Vector2(0, 1.5384617)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

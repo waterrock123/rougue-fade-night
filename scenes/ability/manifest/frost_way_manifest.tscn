@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://8rmn2unjwg1t"]
+
+[ext_resource type="Texture2D" uid="uid://cws7yyi7lk1wl" path="res://assets/Effect and Bullet 16x16/Effect and Bullet 16x16/Water Effect and Bullet 16x16.png" id="5_i2rvp"]
+[ext_resource type="Script" uid="uid://ofxn6sg258sy" path="res://scripts/ability/manifest/ground_periodic_damage_manifest.gd" id="6_ground_dot"]
+[ext_resource type="Resource" uid="uid://djm4abm3cg48d" path="res://status/frost_slow.tres" id="7_frost_slow"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdr86"]
+atlas = ExtResource("5_i2rvp")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrrd7"]
+atlas = ExtResource("5_i2rvp")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x717n"]
+atlas = ExtResource("5_i2rvp")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vgy26"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdr86")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrrd7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x717n")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1k854"]
+size = Vector2(15, 20)
+
+[node name="FrostWayManifest" type="Node2D" unique_id=844717220]
+z_index = -1
+script = ExtResource("6_ground_dot")
+fade_duration = 0.9
+damage_on_spawn = true
+tags = Array[String](["ground", "frost_trail", "relic"])
+on_tick_status = ExtResource("7_frost_slow")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=15184359]
+z_index = -1
+texture_filter = 1
+position = Vector2(0.79999983, 0)
+scale = Vector2(1.2, 1.309)
+sprite_frames = SubResource("SpriteFrames_vgy26")
+autoplay = "default"
+frame_progress = 0.26449466
+
+[node name="Area2D" type="Area2D" parent="." unique_id=655491536]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=317675700]
+position = Vector2(0.5, 1)
+shape = SubResource("RectangleShape2D_1k854")

@@ -1,3 +1,4 @@
+## 给当前 AbilityContext.targets 中的目标添加 StatusData 状态。适合做中毒、减速、眩晕、护甲等 buff/debuff。
 class_name AbilityApplyStatus
 extends AbilityComponent
 

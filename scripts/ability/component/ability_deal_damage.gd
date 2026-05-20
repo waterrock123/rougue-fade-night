@@ -1,3 +1,4 @@
+## 对 AbilityContext.targets 中的实体造成一次 DamageData 伤害。支持暴击、伤害类型、标签和属性成长公式。
 class_name AbilityDealDamage
 extends AbilityComponent
 
@@ -11,8 +12,12 @@ extends AbilityComponent
 # 对当前上下文中的目标逐个造成伤害。
 # 这里负责创建 DamageData，并把“这次攻击的成长公式”一起塞进去。
 func _activate(context: AbilityContext):
+	if context == null or not context.is_caster_action_valid():
+		return
 	var targets = context.targets
 	for target in targets:
+		if not context.is_caster_action_valid():
+			return
 		if target != null and target is Entity:
 			var damage_data := DamageData.create(
 				damage,
@@ -21,7 +26,9 @@ func _activate(context: AbilityContext):
 				context.caster,
 				target,
 				can_crit,
-				scaling_rule
+				scaling_rule,
+				context.ability.id if context.ability != null else &"",
+				context.ability.runtime_slot_index if context.ability != null else -1
 			)
 			target.apply_damage(damage_data)
 

@@ -1,3 +1,4 @@
+## 动画关键帧触发组件。监听施法者 AnimatedSprite2D 的指定动画帧，手动触发同级技能组件。
 class_name AbilityTriggerComponentsOnSpriteFrame
 extends AbilityComponent
 
@@ -14,7 +15,7 @@ extends AbilityComponent
 func _activate(context: AbilityContext):
 	var caster := context.caster
 	var ability := context.ability
-	if caster == null or ability == null:
+	if caster == null or ability == null or not context.is_caster_action_valid():
 		return
 
 	var animated_sprite := _resolve_animated_sprite(caster)
@@ -27,6 +28,8 @@ func _activate(context: AbilityContext):
 		_try_trigger_frame_events(animated_sprite.frame, context, triggered_frames)
 
 	var frame_callback := func():
+		if not context.is_caster_action_valid():
+			return
 		if animated_sprite.animation != animation_name:
 			return
 		_try_trigger_frame_events(animated_sprite.frame, context, triggered_frames)
@@ -35,6 +38,8 @@ func _activate(context: AbilityContext):
 
 	if wait_for_animation_end:
 		while is_instance_valid(animated_sprite) and animated_sprite.animation == animation_name and animated_sprite.is_playing():
+			if not context.is_caster_action_valid():
+				break
 			await get_tree().process_frame
 	else:
 		await get_tree().process_frame
@@ -45,6 +50,8 @@ func _activate(context: AbilityContext):
 
 # 遍历当前帧对应的所有事件，并手动触发目标组件。
 func _try_trigger_frame_events(current_frame: int, context: AbilityContext, triggered_frames: Dictionary) -> void:
+	if context == null or not context.is_caster_action_valid():
+		return
 	for frame_event in frame_events:
 		if frame_event == null:
 			continue
@@ -60,10 +67,12 @@ func _try_trigger_frame_events(current_frame: int, context: AbilityContext, trig
 # 触发一组同级技能组件。
 func _trigger_components(frame_event: AbilityAnimationFrameEvent, context: AbilityContext) -> void:
 	var ability := context.ability
-	if ability == null:
+	if ability == null or not context.is_caster_action_valid():
 		return
 
 	for component_name in frame_event.component_names:
+		if not context.is_caster_action_valid():
+			return
 		if component_name.is_empty():
 			continue
 		ability.trigger_component_by_name(component_name, context)

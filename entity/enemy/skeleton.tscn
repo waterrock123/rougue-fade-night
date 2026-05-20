@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="11_icxyw"]
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="12_ik2k2"]
 [ext_resource type="Resource" uid="uid://daijrx1c0axll" path="res://resource/enemy/skeleton.tres" id="12_iumoe"]
-[ext_resource type="Script" path="res://scripts/status/status_controller.gd" id="13_status"]
+[ext_resource type="Script" uid="uid://87nmt5jrle4v" path="res://scripts/status/status_controller.gd" id="13_status"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i0f3v"]
 shader = ExtResource("2_haw2w")
@@ -340,8 +340,9 @@ colors = PackedColorArray(0.9326247, 0.9326248, 0.93262464, 1, 0.6862745, 0.6862
 
 [node name="Skeleton" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
-scale = Vector2(0.8, 0.8)
+scale = Vector2(0.6, 0.6)
 script = ExtResource("1_ivqcw")
+stop_distance = 40.0
 aggresive = true
 memory = 5.0
 hit_particles = NodePath("HitParticles")
@@ -390,5 +391,8 @@ script = ExtResource("12_ik2k2")
 
 [node name="StatusController" type="Node" parent="." unique_id=1812209643]
 script = ExtResource("13_status")
+
+[node name="VFXAnchor" type="Node2D" parent="." unique_id=1794685461]
+position = Vector2(0, 28.333334)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

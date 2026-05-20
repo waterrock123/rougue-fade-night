@@ -45,6 +45,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if is_dead: return
 	movement_lock_timer = max(0.0, movement_lock_timer - delta)
+	if not can_act():
+		velocity = Vector2.ZERO
+		current_speed = 0.0
+		last_position = position
+		return
 	var distance = position.distance_to(player.position)
 	if !aggresive:
 		

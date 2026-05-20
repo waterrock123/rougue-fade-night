@@ -11,7 +11,14 @@
 [sub_resource type="Resource" id="Resource_40jbm"]
 script = ExtResource("2_mkfrj")
 add_stats = {
-"strength": 2
+"strength": 1
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
+
+[sub_resource type="Resource" id="Resource_fmfs4"]
+script = ExtResource("2_mkfrj")
+add_stats = {
+"charm": 1
 }
 metadata/_custom_type_script = "uid://neet2irr2m2g"
 
@@ -19,11 +26,13 @@ metadata/_custom_type_script = "uid://neet2irr2m2g"
 script = ExtResource("1_4ckog")
 relic_name = "树枝"
 icon = ExtResource("1_x34x0")
-tooltip = "{strength}+2
-升级：基础攻击范围略微扩大"
+tooltip = "{strength}+1
+升级：{charm}+1"
+desc = "谁没有用树枝做剑的小时候呢？"
 price = 3
 level = 1
 tags = Array[ExtResource("5_mkfrj")]([ExtResource("6_fmfs4"), ExtResource("7_bpq1d")])
 id = "003"
 effects = Array[ExtResource("1_b2km7")]([SubResource("Resource_40jbm")])
+great_effects = Array[ExtResource("1_b2km7")]([SubResource("Resource_fmfs4")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

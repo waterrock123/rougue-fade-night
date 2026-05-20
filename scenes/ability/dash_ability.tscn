@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://dyaagqy816wo4" path="res://scripts/ability/component/ability_push_back.gd" id="2_17238"]
 [ext_resource type="Script" uid="uid://dtdkg5dwq1bd6" path="res://scripts/ability/component/ability_turn_to_mouse.gd" id="4_1tafh"]
 [ext_resource type="Script" uid="uid://bbopxugc08u0m" path="res://scripts/ability/component/ability_clone_self.gd" id="5_45ffm"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_grant_invulnerability.gd" id="6_invuln"]
 
 [node name="DashAbility" type="Node" unique_id=1517353635]
 script = ExtResource("1_snkkx")
@@ -23,6 +24,10 @@ duration = 0.2
 frequenct = -1
 revert = true
 metadata/_custom_type_script = "uid://dyaagqy816wo4"
+
+[node name="AbilityGrantInvulnerability" type="Node" parent="." unique_id=1961812357]
+script = ExtResource("6_invuln")
+duration = 0.22
 
 [node name="AbilityTurnToMouse" type="Node" parent="." unique_id=1076950555]
 script = ExtResource("4_1tafh")

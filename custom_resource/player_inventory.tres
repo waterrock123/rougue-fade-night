@@ -2,36 +2,30 @@
 
 [ext_resource type="Script" uid="uid://dv58keclglu12" path="res://scripts/package_system/inventory.gd" id="1_5ob81"]
 [ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="2_iogdf"]
-[ext_resource type="Resource" uid="uid://dh27ilfr1mpyk" path="res://relics/level_1/001_猪猪存钱罐.tres" id="3_8x5c4"]
-[ext_resource type="Resource" uid="uid://dbuj4w6g5hwrv" path="res://relics/level_1/002_水桶.tres" id="4_wlci1"]
-[ext_resource type="Resource" uid="uid://vmqtujtywfno" path="res://relics/level_1/003_树枝.tres" id="5_26hqu"]
-[ext_resource type="Resource" uid="uid://bp0ofkarkcenj" path="res://relics/level_1/004_草甲.tres" id="6_oeyhb"]
-[ext_resource type="Resource" uid="uid://b8btces00enjb" path="res://relics/level_1/005_兑换券.tres" id="7_jdmn8"]
+[ext_resource type="Resource" uid="uid://4nued0p5erg8" path="res://relics/level_2/011_极寒之星.tres" id="3_fp0rg"]
+[ext_resource type="Resource" uid="uid://c7bi31uqsfk7y" path="res://relics/level_2/012_雪暴瓶.tres" id="4_gixvt"]
 
 [sub_resource type="Resource" id="Resource_jdmn8"]
 script = ExtResource("2_iogdf")
-item = ExtResource("3_8x5c4")
+item = ExtResource("3_fp0rg")
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_jk0sp"]
 script = ExtResource("2_iogdf")
 limit_tag = Array[String]([""])
-item = ExtResource("4_wlci1")
+item = ExtResource("4_gixvt")
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_ic4o0"]
 script = ExtResource("2_iogdf")
-item = ExtResource("5_26hqu")
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_ay5e6"]
 script = ExtResource("2_iogdf")
-item = ExtResource("6_oeyhb")
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_wcuog"]
 script = ExtResource("2_iogdf")
-item = ExtResource("7_jdmn8")
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_fxedk"]
@@ -44,58 +38,72 @@ metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_xhxtu"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_hr77e"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_oqq1u"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_aghhq"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_2g4yl"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_j0cna"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_k6kmk"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_725yq"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_w7kcb"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_7ay6b"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_0f867"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_7538f"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_5cul5"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_0fqy2"]
 script = ExtResource("2_iogdf")
+is_locked = true
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [resource]

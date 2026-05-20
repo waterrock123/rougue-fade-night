@@ -5,15 +5,24 @@
 [ext_resource type="Texture2D" uid="uid://c66s8r3r12nva" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc83.png" id="2_84yn4"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_84yn4"]
 [ext_resource type="Resource" uid="uid://dxale3ttna2jk" path="res://relic_tags/火炎tag.tres" id="5_8qtyl"]
+[ext_resource type="Script" uid="uid://b7n18o6jjky3w" path="res://relic_effect/damage_retaliation_effect.gd" id="6_retaliation"]
+
+[sub_resource type="Resource" id="Resource_retaliation"]
+script = ExtResource("6_retaliation")
+levelup_bonus_damage = 10.0
+tags = Array[String](["retaliation", "fire", "lighter"])
+metadata/_custom_type_script = "uid://b7n18o6jjky3w"
 
 [resource]
 script = ExtResource("2_30nas")
 relic_name = "打火机"
 icon = ExtResource("2_84yn4")
-tooltip = "受到伤害时会对伤害来源造成20点火焰伤害
-升级:火焰伤害提升到30点"
+tooltip = "受到伤害时，对伤害来源造成20点火焰反伤。
+升级：反伤提高到30点。"
+desc = "敢靠近的人都烫他一下。"
 price = 3
 level = 1
 tags = Array[ExtResource("3_84yn4")]([ExtResource("5_8qtyl")])
 id = "039"
+effects = Array[ExtResource("1_cubw4")]([SubResource("Resource_retaliation")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -5,13 +5,13 @@
 [resource]
 script = ExtResource("1_4dnys")
 entity_name = "warrior"
-base_max_health = 35.0
+base_max_health = 5500.0
 base_max_energy = 10.0
 base_energy_regen_tick_value = 5.0
 base_damage_reduction_rate = 0.05
 base_crit_chance = 0.0
 base_move_speed = 50.0
-strength = 50
+strength = 7
 dexterity = 4
 intelligence = 4
 constitution = 7

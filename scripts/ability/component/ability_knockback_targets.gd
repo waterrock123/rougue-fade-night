@@ -1,3 +1,4 @@
+## 击退目标组件。把 AbilityContext.targets 中的实体沿远离施法者的方向推出一段距离。
 class_name AbilityKnockbackTargets
 extends AbilityComponent
 

@@ -8,6 +8,7 @@ const DEATH_SCENE_PATH := "res://scenes/ui/death_screen.tscn"
 const FLOW_MAP := "map"
 const FLOW_EVENT_ROOM := "event_room"
 const FLOW_LEVEL_UP := "level_up"
+const FLOW_STARTING_SKILL := "starting_skill"
 
 # 角色选择界面切场景后，会先把本次开局数据暂存在这里。
 static var pending_startup: RunStartup
@@ -94,6 +95,43 @@ func change_to_level_up() -> void:
 	level_up_checkpoint_locked = true
 
 
+# 新开局时先进入一次特殊奖励界面，只抽主动技能，让玩家第一场战斗更有操作空间。
+func change_to_starting_skill_select() -> void:
+	current_flow_state = FLOW_STARTING_SKILL
+	level_up_checkpoint_locked = false
+	battle_active = false
+	_show_top_bar()
+	_set_package_equipment_locked(false)
+	_refresh_persistent_ui()
+	_close_persistent_panels()
+
+	var level_up_scene_resource := load(LEVEL_UP_SCENE_PATH) as PackedScene
+	if level_up_scene_resource == null:
+		return
+
+	var level_up_scene := level_up_scene_resource.instantiate()
+	if level_up_scene == null:
+		return
+
+	_bind_run_stats(level_up_scene)
+	if level_up_scene.has_method("setup_starting_skill"):
+		level_up_scene.setup_starting_skill(
+			run_stats,
+			self,
+			_get_runtime_stats_controller(),
+			_get_runtime_skill_controller(),
+			level_up_reward_options
+		)
+
+	_replace_current_view(level_up_scene)
+	if level_up_scene.has_method("get_current_rewards"):
+		level_up_reward_options = level_up_scene.get_current_rewards()
+	if map != null:
+		map.hide_map()
+	_save_current_run(true)
+	level_up_checkpoint_locked = true
+
+
 # 战斗胜利后进入修整期，并发放本回合修整奖励金币。
 func change_to_rest_period() -> void:
 	battle_active = false
@@ -148,6 +186,7 @@ func finish_rest_period() -> void:
 	_show_top_bar()
 	_set_package_equipment_locked(false)
 	if run_stats != null:
+		_clear_locked_inventory_relics()
 		run_stats.clear_free_relic_choices()
 	level_up_reward_options.clear()
 	_clear_current_view()
@@ -156,6 +195,30 @@ func finish_rest_period() -> void:
 	if map != null:
 		map.show_map()
 		map.unlock_next_rooms()
+	_save_current_run(true)
+
+
+func _clear_locked_inventory_relics() -> void:
+	if run_stats == null or run_stats.player_build == null:
+		return
+
+	run_stats.player_build.clear_locked_inventory_relics()
+
+
+# 开局技能选完后，才正式露出地图，进入正常跑图流程。
+func finish_starting_skill_select() -> void:
+	current_flow_state = FLOW_MAP
+	level_up_checkpoint_locked = false
+	battle_active = false
+	level_up_reward_options.clear()
+	_clear_current_view()
+	_refresh_persistent_ui()
+	_close_persistent_panels()
+	_show_top_bar()
+	_set_package_equipment_locked(false)
+
+	if map != null:
+		map.show_map()
 	_save_current_run(true)
 
 
@@ -194,6 +257,12 @@ func _connect_signals() -> void:
 	if not EventBus.free_relic_choice_changed.is_connected(_save_current_run):
 		EventBus.free_relic_choice_changed.connect(_save_current_run)
 
+	if not EventBus.level_up_reward_refresh_changed.is_connected(_save_current_run):
+		EventBus.level_up_reward_refresh_changed.connect(_save_current_run)
+
+	if not EventBus.shop_free_refresh_changed.is_connected(_save_current_run):
+		EventBus.shop_free_refresh_changed.connect(_save_current_run)
+
 
 # Run 自己负责创建一份新的 RunStats，并用 RunStartup 把它补完整。
 func _initialize_run_state() -> void:
@@ -220,8 +289,8 @@ func _initialize_new_run(startup: RunStartup) -> void:
 		return
 
 	RunRng.start_new_run()
-	current_flow_state = FLOW_MAP
-	pending_flow_state = FLOW_MAP
+	current_flow_state = FLOW_STARTING_SKILL
+	pending_flow_state = FLOW_STARTING_SKILL
 	level_up_checkpoint_locked = false
 	level_up_reward_options.clear()
 	var build := startup.create_player_build()
@@ -333,6 +402,8 @@ func _restore_saved_flow_view() -> void:
 				_open_event_room(current_room)
 		FLOW_LEVEL_UP:
 			change_to_level_up()
+		FLOW_STARTING_SKILL:
+			change_to_starting_skill_select()
 		_:
 			current_flow_state = FLOW_MAP
 
@@ -574,6 +645,12 @@ func _find_room_from_map_data(data: Dictionary) -> Room:
 # 所有“本局状态已经变动”的关键节点统一走这里保存，避免每个系统单独知道存档细节。
 func save_current_run() -> void:
 	_save_current_run()
+
+
+# LevelUPController 刷新奖励后，把新结果写回 Run，保证当前升级界面检查点可存档恢复。
+func update_level_up_reward_options(new_rewards: Array[LevelUpReward], force_save: bool = true) -> void:
+	level_up_reward_options = new_rewards.duplicate()
+	_save_current_run(force_save)
 
 
 func _save_current_run(force: bool = false) -> void:

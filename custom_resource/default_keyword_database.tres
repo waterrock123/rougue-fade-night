@@ -77,7 +77,7 @@ color = Color(0.92, 0.12, 0.12, 1)
 script = ExtResource("2_data")
 id = &"freeze"
 display_name = "冻结"
-desc = "控制类状态，通常会限制目标行动或延缓其行动。"
+desc = "控制类状态，使目标无法执行任何行动，体质可以减免此状态持续时间"
 color = Color(0.55, 0.9, 1, 1)
 
 [sub_resource type="Resource" id="KeywordData_sleep"]

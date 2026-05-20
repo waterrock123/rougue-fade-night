@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://bncllhk48jflf"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_qarow"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_npjyl"]
+[ext_resource type="Script" uid="uid://ck8q2wvmbx015" path="res://scripts/ability/component/ability_trigger_components_on_sprite_frame.gd" id="3_8tn3c"]
+[ext_resource type="Script" uid="uid://di4y7j2fln2w7" path="res://scripts/ability/component/ability_animation_frame_event.gd" id="4_ngp2e"]
+[ext_resource type="Script" uid="uid://cv047vl681hxu" path="res://scripts/ability/component/ability_charge_to_target.gd" id="5_ljsln"]
+[ext_resource type="Script" uid="uid://77b05rqxjlqd" path="res://scripts/ability/component/ability_deal_damage_on_overlap.gd" id="6_v71io"]
+[ext_resource type="Script" uid="uid://dcukpvvpmebnv" path="res://scripts/stats/damage_scaling_rule.gd" id="7_x1rga"]
+
+[sub_resource type="Resource" id="Resource_frame_event_charge"]
+script = ExtResource("4_ngp2e")
+frame = 5
+component_names = Array[String](["AbilityChargeToTarget"])
+
+[sub_resource type="Resource" id="Resource_frame_event_damage"]
+script = ExtResource("4_ngp2e")
+frame = 6
+component_names = Array[String](["AbilityDealDamageOnOverlap"])
+
+[sub_resource type="Resource" id="Resource_pvud1"]
+script = ExtResource("7_x1rga")
+metadata/_custom_type_script = "uid://dcukpvvpmebnv"
+
+[node name="DashAttackAbility" type="Node" unique_id=245868803]
+script = ExtResource("1_qarow")
+cooldown = 5.0
+metadata/_custom_type_script = "uid://bd4gnnre2dfj7"
+
+[node name="AbilityAnimationRunner" type="Node" parent="." unique_id=1442571050]
+script = ExtResource("2_npjyl")
+animation_name = "attack"
+metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
+
+[node name="AbilityTriggerComponentsOnSpriteFrame" type="Node" parent="." unique_id=917717556]
+script = ExtResource("3_8tn3c")
+animation_name = "attack"
+animated_sprite_path = NodePath("../../../AnimatedSprite2D")
+frame_events = Array[ExtResource("4_ngp2e")]([SubResource("Resource_frame_event_charge"), SubResource("Resource_frame_event_damage")])
+
+[node name="AbilityChargeToTarget" type="Node" parent="." unique_id=1451924238]
+editor_description = "冲锋位移组件，优先朝 context.targets 中的目标冲锋；若没有目标，则自动寻找默认敌对目标。"
+script = ExtResource("5_ljsln")
+duration = 2.0
+
+[node name="AbilityDealDamageOnOverlap" type="Node" parent="." unique_id=1706185141]
+script = ExtResource("6_v71io")
+active_duration = 1.0
+damage = 12.0
+scaling_rule = SubResource("Resource_pvud1")

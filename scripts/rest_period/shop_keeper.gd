@@ -5,6 +5,7 @@ extends Resource
 @export var relics: Array[Relic]
 @export var texture: Texture2D
 @export var havetag:Array[RelicTag]
+@export_multiline() var shop_desc:String
 
 @export_group("Dialogue")
 @export var enter_rest_period_dialogues: ShopKeeperDialoguePool

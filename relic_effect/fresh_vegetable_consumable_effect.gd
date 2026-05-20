@@ -1,15 +1,21 @@
+## 鲜艳蔬菜专用的复合消耗品效果。
+## 使用后可按配置对自己造成伤害、获得本场属性加成，并可额外治疗。
 class_name FreshVegetableConsumableEffect
 extends RelicEffect
 
+
+## 使用时对自己造成的伤害，0 表示不造成伤害。
 @export var self_damage: float = 0.0
+## 使用时恢复的生命值，0 表示不治疗。
 @export var heal_amount: float = 0.0
+## 使用后获得的本场一级属性加成，示例：{"constitution": 1}。
 @export var add_stats: Dictionary = {}
 
 
-# 鲜艳蔬菜的使用效果：
-# 1. 可配置自伤，用于表现“鲜艳但危险”的代价。
-# 2. 可配置本场战斗内的一级属性加成。
-# 3. 可配置直接治疗，升级态效果可以单独用一份资源只填治疗值。
+## 鲜艳蔬菜的使用效果：
+## 1. 可配置自伤，用于表现“鲜艳但危险”的代价。
+## 2. 可配置本场战斗内的一级属性加成。
+## 3. 可配置直接治疗，升级态效果可以单独用一份资源只填治疗值。
 func on_use(relic_context: RelicContext, effect_key) -> void:
 	if relic_context == null or relic_context.owner == null:
 		return

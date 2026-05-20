@@ -33,6 +33,8 @@ name = "甲画家"
 relics = Array[ExtResource("1_pbcn3")]([ExtResource("4_f4h6g"), ExtResource("6_51gky"), ExtResource("7_oujcj"), ExtResource("8_j0ucy"), ExtResource("12_p38o4"), ExtResource("10_51gky"), ExtResource("11_oujcj"), ExtResource("12_j0ucy"), ExtResource("13_grmec"), ExtResource("14_36ohw"), ExtResource("15_bwypv"), ExtResource("16_p38o4"), ExtResource("17_g1ugy"), ExtResource("18_wwpgn"), ExtResource("19_yfx18")])
 texture = ExtResource("22_hqen1")
 havetag = Array[ExtResource("4_36ohw")]([ExtResource("5_bwypv"), ExtResource("6_p38o4"), ExtResource("7_g1ugy")])
+shop_desc = "古怪的商人正在检查自己的每一件货物，看见你的到来，他赶忙放下了手里的物件。
+“嘿，有没有兴趣当我的模特？”"
 enter_rest_period_dialogues = ExtResource("19_enter")
 exit_rest_period_dialogues = ExtResource("20_exit")
 buy_relic_dialogues = ExtResource("21_buy")

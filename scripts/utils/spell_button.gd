@@ -16,11 +16,9 @@ var binded_key: String = "":
 	set(key):
 		
 		binded_key = key
-		shortcut = Shortcut.new()
-		var input_key = InputEventKey.new()
-		input_key.keycode = key.unicode_at(0)
-		
-		shortcut.events = [input_key]
+		# 技能输入由 Player 统一读取 InputMap。
+		# 这里不再设置 Button.shortcut，避免键盘触发按钮 pressed 后绕过技能预览流程。
+		shortcut = null
 		cooldown_label.text = ""
 		keybind_label.text = key
 

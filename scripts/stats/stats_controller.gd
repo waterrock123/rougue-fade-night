@@ -16,6 +16,7 @@ const PRIMARY_STATS: Array[StringName] = [
 var final_stats: Dictionary = {}
 var modifiers: Array[Modifier] = []
 var effect_modifiers: Dictionary = {}
+var outgoing_damage_bonus_modifiers: Dictionary = {}
 var current_health: float = 0.0
 var current_energy: float = 0.0
 var player_build: PlayerBuild
@@ -130,6 +131,20 @@ func clear_effect_modifiers(source_key: Variant) -> void:
 	if effect_modifiers.has(source_key):
 		effect_modifiers.erase(source_key)
 		recompute_stats()
+
+
+# 注册某个状态/被动提供的出伤加成。
+func set_outgoing_damage_bonus_modifier(source_key: Variant, modifier_data: Dictionary) -> void:
+	if source_key == null:
+		return
+	outgoing_damage_bonus_modifiers[str(source_key)] = modifier_data.duplicate(true)
+
+
+# 清除某个来源注册的出伤加成。
+func clear_outgoing_damage_bonus_modifier(source_key: Variant) -> void:
+	if source_key == null:
+		return
+	outgoing_damage_bonus_modifiers.erase(str(source_key))
 
 
 # 对外统一读取最终属性。
@@ -276,10 +291,83 @@ func process_incoming_damage(damage_data: DamageData) -> DamageData:
 
 # 从 DamageData 上挂载的成长规则里计算额外伤害。
 func _get_outgoing_damage_bonus(damage_data: DamageData) -> float:
-	if damage_data == null or damage_data.scaling_rule == null:
+	if damage_data == null:
 		return 0.0
 
-	return max(damage_data.scaling_rule.get_bonus_damage(self, damage_data), 0.0)
+	var bonus := 0.0
+	if damage_data.scaling_rule != null:
+		bonus += max(damage_data.scaling_rule.get_bonus_damage(self, damage_data), 0.0)
+	bonus += _get_registered_outgoing_damage_bonus(damage_data)
+	return max(bonus, 0.0)
+
+
+# 计算由状态/被动注册的额外出伤，例如暴怒的“初始技能附带体质伤害”。
+func _get_registered_outgoing_damage_bonus(damage_data: DamageData) -> float:
+	var bonus := 0.0
+	for modifier_data in outgoing_damage_bonus_modifiers.values():
+		if not _outgoing_damage_modifier_matches(damage_data, modifier_data):
+			continue
+
+		bonus += float(modifier_data.get("flat_bonus", 0.0))
+		var formula := str(modifier_data.get("flat_bonus_formula", ""))
+		if not formula.is_empty():
+			bonus += _evaluate_damage_bonus_formula(formula, damage_data)
+		bonus += damage_data.base_damage * float(modifier_data.get("percent_bonus", 0.0))
+
+	return bonus
+
+
+func _outgoing_damage_modifier_matches(damage_data: DamageData, modifier_data: Dictionary) -> bool:
+	var target_ids: Array = modifier_data.get("target_ability_ids", [])
+	if not target_ids.is_empty() and not target_ids.has(damage_data.source_ability_id):
+		return false
+
+	var target_slots: Array = modifier_data.get("target_slot_indices", [])
+	if not target_slots.is_empty() and not target_slots.has(damage_data.source_ability_slot_index):
+		return false
+
+	var required_tags: Array = modifier_data.get("required_tags", [])
+	for required_tag in required_tags:
+		if not damage_data.tags.has(str(required_tag)):
+			return false
+
+	var required_damage_types: Array = modifier_data.get("required_damage_types", [])
+	for required_damage_type in required_damage_types:
+		if not damage_data.damage_types.has(int(required_damage_type)):
+			return false
+
+	return true
+
+
+func _evaluate_damage_bonus_formula(formula: String, damage_data: DamageData) -> float:
+	var expression := Expression.new()
+	var values := {
+		"base_damage": damage_data.base_damage,
+		"final_damage": damage_data.final_damage,
+		"strength": get_stat("strength"),
+		"dexterity": get_stat("dexterity"),
+		"intelligence": get_stat("intelligence"),
+		"constitution": get_stat("constitution"),
+		"speed": get_stat("speed"),
+		"charm": get_stat("charm"),
+		"luck": get_stat("luck"),
+	}
+	var input_names: PackedStringArray = []
+	var input_values: Array = []
+	for key in values.keys():
+		input_names.append(String(key))
+		input_values.append(values[key])
+
+	if expression.parse(formula, input_names) != OK:
+		push_warning("StatsController damage bonus formula parse failed: %s" % formula)
+		return 0.0
+
+	var result = expression.execute(input_values, self, true)
+	if expression.has_execute_failed():
+		push_warning("StatsController damage bonus formula execute failed: %s" % formula)
+		return 0.0
+
+	return max(float(result), 0.0)
 
 
 # 最大生命/能量变化后，夹取当前资源值。

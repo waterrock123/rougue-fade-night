@@ -48,25 +48,33 @@ delay = 0.18
 [node name="SpawnShockWaveManifest" type="Node" parent="ShockWaveEffectGroup" unique_id=548276163]
 script = ExtResource("13_a8yxr")
 manifest_scene = ExtResource("14_h6teu")
+scale_multiplier = 0.8
+use_directional_offset = true
+forward_offset = 20.0
+rotate_to_direction = false
 
 [node name="AbilityGetTargets" type="Node" parent="ShockWaveEffectGroup" unique_id=523910873]
 script = ExtResource("5_ost0g")
 radius = 80.0
-require_in_front = false
+exec_delay = 0.35
 
 [node name="AbilityDealDamage" type="Node" parent="ShockWaveEffectGroup" unique_id=1088226276]
 script = ExtResource("6_hokhh")
-damage = 12.0
+damage = 25.0
 tags = Array[String](["skill", "shock_wave"])
+exec_delay = 0.4
 
 [node name="AbilityKnockbackTargets" type="Node" parent="ShockWaveEffectGroup" unique_id=654140238]
 script = ExtResource("7_g7dij")
 distance = 95.0
+exec_delay = 0.4
 
 [node name="AbilityApplyStatus" type="Node" parent="ShockWaveEffectGroup" unique_id=1868084393]
 script = ExtResource("8_s11re")
 status_data = ExtResource("9_r2um8")
+exec_delay = 0.4
 
 [node name="AbilityPlaySound" type="Node" parent="ShockWaveEffectGroup" unique_id=217710906]
 script = ExtResource("10_s5goq")
 audio_config = SubResource("Resource_b3qve")
+exec_delay = 0.4

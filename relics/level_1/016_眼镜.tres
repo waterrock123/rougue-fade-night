@@ -3,19 +3,37 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_b85uu"]
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_em8rp"]
 [ext_resource type="Texture2D" uid="uid://cf2460n1dq3pv" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2064.png" id="1_ohaud"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="2_ltmlo"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_ltmlo"]
 [ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_ttqtj"]
 [ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="6_gofn2"]
+
+[sub_resource type="Resource" id="Resource_ttqtj"]
+script = ExtResource("2_ltmlo")
+add_stats = {
+"intelligence": 1
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
+
+[sub_resource type="Resource" id="Resource_gofn2"]
+script = ExtResource("2_ltmlo")
+add_stats = {
+"intelligence": 1
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
 
 [resource]
 script = ExtResource("1_b85uu")
 relic_name = "眼镜"
 icon = ExtResource("1_ohaud")
 tooltip = "{intelligence}+1
-升级：{intelligence}+2
+升级：{intelligence}+1
 "
+desc = "戴上会显得更智慧。。。吗？"
 price = 3
 level = 1
 tags = Array[ExtResource("4_ltmlo")]([ExtResource("5_ttqtj"), ExtResource("6_gofn2")])
 id = "016"
+effects = Array[ExtResource("1_em8rp")]([SubResource("Resource_ttqtj")])
+great_effects = Array[ExtResource("1_em8rp")]([SubResource("Resource_gofn2")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

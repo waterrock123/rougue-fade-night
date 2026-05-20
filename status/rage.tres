@@ -3,6 +3,24 @@
 [ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="1_46god"]
 [ext_resource type="Texture2D" uid="uid://cj7fehrfhruvo" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1319.png" id="2_hnsxn"]
 [ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="2_y4b8y"]
+[ext_resource type="Script" uid="uid://dlgb65tljueu1" path="res://scripts/status/status_ability_cooldown_effect.gd" id="3_cooldown"]
+[ext_resource type="Script" uid="uid://che7kmq2aehba" path="res://scripts/status/status_outgoing_damage_bonus_effect.gd" id="4_damage"]
+[ext_resource type="PackedScene" uid="uid://cy73mk3s7ig85" path="res://scenes/entity_aura_vfx/rage_aura_vfx.tscn" id="5_6wtuy"]
+[ext_resource type="Script" uid="uid://hb3lr7eojcjc" path="res://scripts/status/status_visual_effect.gd" id="5_visual"]
+
+[sub_resource type="Resource" id="Resource_cooldown"]
+script = ExtResource("3_cooldown")
+target_slot_indices = Array[int]([0])
+cooldown_multiplier = 0.2
+
+[sub_resource type="Resource" id="Resource_damage"]
+script = ExtResource("4_damage")
+target_slot_indices = Array[int]([0])
+flat_bonus_formula = "floor(constitution / 2.0)"
+
+[sub_resource type="Resource" id="Resource_visual"]
+script = ExtResource("5_visual")
+vfx_scene = ExtResource("5_6wtuy")
 
 [resource]
 script = ExtResource("2_y4b8y")
@@ -10,4 +28,6 @@ id = &"rage"
 status_name = "暴怒"
 desc = "初始技能的冷却大幅度减少（减少80%），且其伤害附带额外的伤害（附带体质点数/2向下取整）"
 icon = ExtResource("2_hnsxn")
+duration = 10.0
+effects = Array[ExtResource("1_46god")]([SubResource("Resource_cooldown"), SubResource("Resource_damage"), SubResource("Resource_visual")])
 metadata/_custom_type_script = "uid://halm05nhwnoo"

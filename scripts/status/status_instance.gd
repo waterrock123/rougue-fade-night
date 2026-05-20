@@ -10,6 +10,8 @@ var source_key: Variant
 var source_stacks: Dictionary = {}
 var stacks: int = 1
 var remaining_duration: float = -1.0
+var duration_revision: int = 0
+var duration_adjusted_effect_revisions: Dictionary = {}
 
 
 func _init(
@@ -76,6 +78,7 @@ func refresh_duration() -> void:
 	if status_data == null:
 		return
 	remaining_duration = status_data.duration
+	duration_revision += 1
 
 
 func _recalculate_stacks() -> void:

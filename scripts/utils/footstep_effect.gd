@@ -9,3 +9,10 @@ func  play():
 	if !feet_1.emitting: feet_1.restart()
 	await get_tree().create_timer(0.2).timeout
 	if !feet_2.emitting: feet_2.restart()
+
+
+func stop() -> void:
+	if feet_1 != null:
+		feet_1.emitting = false
+	if feet_2 != null:
+		feet_2.emitting = false

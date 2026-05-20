@@ -90,6 +90,8 @@ func build_run_stats_from_save(save_data: Dictionary) -> RunStats:
 	result.rest_period_gold_flat_bonus = int(run_stats_data.get("rest_period_gold_flat_bonus", result.rest_period_gold_flat_bonus))
 	result.rest_period_count = int(run_stats_data.get("rest_period_count", result.rest_period_count))
 	result.pending_free_relic_choice_levels = _to_int_array(run_stats_data.get("pending_free_relic_choice_levels", []))
+	result.level_up_reward_refresh_count = int(run_stats_data.get("level_up_reward_refresh_count", 0))
+	result.shop_free_refresh_count = int(run_stats_data.get("shop_free_refresh_count", 0))
 	result.set_gold(int(run_stats_data.get("gold", result.gold)))
 	return result
 
@@ -122,6 +124,8 @@ func _serialize_run_stats(run_stats: RunStats) -> Dictionary:
 		"rest_period_gold_flat_bonus": run_stats.rest_period_gold_flat_bonus,
 		"rest_period_count": run_stats.rest_period_count,
 		"pending_free_relic_choice_levels": run_stats.pending_free_relic_choice_levels,
+		"level_up_reward_refresh_count": run_stats.level_up_reward_refresh_count,
+		"shop_free_refresh_count": run_stats.shop_free_refresh_count,
 	}
 
 
@@ -248,10 +252,11 @@ func _deserialize_slots(data) -> Array[Slot]:
 
 func _serialize_slot(slot: Slot) -> Dictionary:
 	if slot == null:
-		return {"limit_tag": [], "item": {}}
+		return {"limit_tag": [], "is_locked": false, "item": {}}
 
 	return {
 		"limit_tag": slot.limit_tag,
+		"is_locked": slot.is_locked,
 		"item": _serialize_relic(slot.item),
 	}
 
@@ -259,6 +264,7 @@ func _serialize_slot(slot: Slot) -> Dictionary:
 func _deserialize_slot(data: Dictionary) -> Slot:
 	var slot := Slot.new()
 	slot.limit_tag = _to_string_array(data.get("limit_tag", []))
+	slot.is_locked = bool(data.get("is_locked", false))
 	slot.item = _deserialize_relic(data.get("item", {}) as Dictionary)
 	return slot
 
@@ -299,6 +305,9 @@ func _serialize_skill_entries(entries: Array[SkillEntry]) -> Array:
 	var result := []
 	for entry in entries:
 		if entry == null:
+			continue
+		# 装备/状态提供的临时技能会由对应效果在读档后重新生成，不写进永久存档。
+		if entry.is_temporary:
 			continue
 
 		result.append({

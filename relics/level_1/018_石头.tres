@@ -6,16 +6,28 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_48avn"]
 [ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_5dj37"]
 [ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="6_p82my"]
+[ext_resource type="Script" uid="uid://bhut27hdbbym8" path="res://relic_effect/use_spawn_manifest_effect.gd" id="7_spawn"]
+[ext_resource type="PackedScene" uid="uid://63u3lnirmdva" path="res://scenes/ability/manifest/consumable_stone_manifest.tscn" id="8_manifest"]
+
+[sub_resource type="Resource" id="Resource_stone_throw"]
+script = ExtResource("7_spawn")
+manifest_scene = ExtResource("8_manifest")
+levelup_manifest_property_overrides = {
+"damage": 80.0
+}
+metadata/_custom_type_script = "uid://bhut27hdbbym8"
 
 [resource]
 script = ExtResource("1_ek5fo")
 relic_name = "石头"
 icon = ExtResource("1_focei")
-tooltip = "向目标方向投掷一颗石块，伤害同时受{strength}与{dexterity}加成，如果背包内有同名的{consumable}则装备一个同名{consumable}
-升级：伤害增加"
+tooltip = "向鼠标方向投掷一颗石块，造成50基础伤害，伤害同时受{strength}与{dexterity}加成。
+升级：基础伤害增加到80"
+desc = "这可不是颗小石头啊"
 price = 3
 level = 1
 tags = Array[ExtResource("4_48avn")]([ExtResource("5_5dj37"), ExtResource("6_p82my")])
 id = "018"
 is_consumable = true
+effects = Array[ExtResource("1_gg7rv")]([SubResource("Resource_stone_throw")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

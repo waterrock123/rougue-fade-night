@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://dvmhv8tn1od0g"]
+
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="1_t6dgk"]
+[ext_resource type="Script" uid="uid://hb3lr7eojcjc" path="res://scripts/status/status_visual_effect.gd" id="2_gneih"]
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="2_pmp52"]
+[ext_resource type="Texture2D" uid="uid://ch72uinambdyd" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc687.png" id="2_ptyt4"]
+[ext_resource type="PackedScene" uid="uid://cf8glgj6ldboc" path="res://scenes/entity_aura_vfx/sleep_vfx.tscn" id="3_gneih"]
+[ext_resource type="Script" uid="uid://bam0h0kpnlj7e" path="res://scripts/status/status_control_effect.gd" id="4_ippxe"]
+[ext_resource type="Script" uid="uid://b28vhroj18l6s" path="res://scripts/status/status_remove_on_damage_effect.gd" id="5_wakeup"]
+
+[sub_resource type="Resource" id="Resource_ippxe"]
+script = ExtResource("2_gneih")
+vfx_scene = ExtResource("3_gneih")
+metadata/_custom_type_script = "uid://hb3lr7eojcjc"
+
+[sub_resource type="Resource" id="Resource_kl6qk"]
+script = ExtResource("4_ippxe")
+reduction_stat = &""
+reduction_mode = 0
+metadata/_custom_type_script = "uid://bam0h0kpnlj7e"
+
+[sub_resource type="Resource" id="Resource_wakeup"]
+script = ExtResource("5_wakeup")
+
+[resource]
+script = ExtResource("2_pmp52")
+id = &"sleep"
+status_name = "沉睡"
+desc = "控制类状态，使目标无法执行任何行动并停止动画；受到伤害时立即解除此状态"
+icon = ExtResource("2_ptyt4")
+effects = Array[ExtResource("1_t6dgk")]([SubResource("Resource_ippxe"), SubResource("Resource_kl6qk"), SubResource("Resource_wakeup")])
+metadata/_custom_type_script = "uid://halm05nhwnoo"

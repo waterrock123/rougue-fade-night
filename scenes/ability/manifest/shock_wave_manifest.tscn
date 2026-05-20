@@ -1,58 +1,43 @@
 [gd_scene format=3 uid="uid://dturxjebx7fev"]
 
-[ext_resource type="Texture2D" uid="uid://dj478u4qhjisi" path="res://assets/shockwavespritesheets/Dark-Bolt.png" id="1_0cr8v"]
+[ext_resource type="Texture2D" uid="uid://bebi7okt0ekq3" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 5/sprite-sheet.png" id="2_2bf0b"]
 [ext_resource type="Script" uid="uid://bsck4nxrmfr7y" path="res://scripts/ability/manifest/animated_ability_manifest.gd" id="2_script"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2bf0b"]
-atlas = ExtResource("1_0cr8v")
-region = Rect2(0, 0, 64, 88)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_r8760"]
-atlas = ExtResource("1_0cr8v")
-region = Rect2(64, 0, 64, 88)
+atlas = ExtResource("2_2bf0b")
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lbdhp"]
-atlas = ExtResource("1_0cr8v")
-region = Rect2(128, 0, 64, 88)
+atlas = ExtResource("2_2bf0b")
+region = Rect2(128, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4vba8"]
-atlas = ExtResource("1_0cr8v")
-region = Rect2(192, 0, 64, 88)
+atlas = ExtResource("2_2bf0b")
+region = Rect2(0, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_142wn"]
-atlas = ExtResource("1_0cr8v")
-region = Rect2(256, 0, 64, 88)
+atlas = ExtResource("2_2bf0b")
+region = Rect2(128, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bcm6h"]
-atlas = ExtResource("1_0cr8v")
-region = Rect2(320, 0, 64, 88)
+atlas = ExtResource("2_2bf0b")
+region = Rect2(0, 256, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nndfw"]
-atlas = ExtResource("1_0cr8v")
-region = Rect2(384, 0, 64, 88)
+atlas = ExtResource("2_2bf0b")
+region = Rect2(128, 256, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0vo4s"]
-atlas = ExtResource("1_0cr8v")
-region = Rect2(448, 0, 64, 88)
+atlas = ExtResource("2_2bf0b")
+region = Rect2(0, 384, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tp7se"]
-atlas = ExtResource("1_0cr8v")
-region = Rect2(512, 0, 64, 88)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_q2kpl"]
-atlas = ExtResource("1_0cr8v")
-region = Rect2(576, 0, 64, 88)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ni1x8"]
-atlas = ExtResource("1_0cr8v")
-region = Rect2(640, 0, 64, 88)
+atlas = ExtResource("2_2bf0b")
+region = Rect2(128, 384, 128, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_juj3x"]
 animations = [{
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2bf0b")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_r8760")
 }, {
@@ -76,12 +61,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tp7se")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_q2kpl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ni1x8")
 }],
 "loop": false,
 "name": &"default",
@@ -99,5 +78,5 @@ position = Vector2(3.0000076, 3.000002)
 scale = Vector2(2.34375, 1.715909)
 sprite_frames = SubResource("SpriteFrames_juj3x")
 autoplay = "default"
-frame = 10
+frame = 7
 frame_progress = 1.0

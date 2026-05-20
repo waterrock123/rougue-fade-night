@@ -93,6 +93,17 @@ text = "1"
 label_settings = SubResource("LabelSettings_2bgkr")
 horizontal_alignment = 1
 
+[node name="CountLabel" type="Label" parent="VBoxContainer/MarginContainer/FunctionContainer/RefreshButton" unique_id=2019060043]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 124.0
+offset_top = -14.0
+offset_right = 190.0
+offset_bottom = 17.0
+text = "x0"
+label_settings = SubResource("LabelSettings_2bgkr")
+
 [node name="BuyContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=2051462326]
 layout_mode = 2
 alignment = 2

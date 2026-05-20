@@ -21,14 +21,9 @@ tooltip = "获得一{armor}
 "
 desc = "戴头上可以当头盔用"
 price = 3
-sell_price = null
 level = 1
-leveltip = null
-upgrade_merge_count = null
-relic_type = null
 tags = Array[ExtResource("6_k4nik")]([ExtResource("7_6l0l3")])
 id = "002"
-is_consumable = null
 effects = Array[ExtResource("1_8vcxj")]([SubResource("Resource_fao66")])
-great_effects = null
+great_effects = Array[ExtResource("1_8vcxj")]([null])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

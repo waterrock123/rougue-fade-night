@@ -1,3 +1,4 @@
+## 动画帧事件数据。配合 AbilityTriggerComponentsOnSpriteFrame 使用，用来配置“动画播放到第几帧时触发哪些组件”。
 class_name AbilityAnimationFrameEvent
 extends Resource
 

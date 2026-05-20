@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://63u3lnirmdva"]
+
+[ext_resource type="Script" uid="uid://2w51uq128cy0" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1_ejvxv"]
+[ext_resource type="AudioStream" uid="uid://bfj8vxy0sfsyh" path="res://assets/Sound/Sword Impact Hit 1.wav" id="2_e0o7b"]
+[ext_resource type="AudioStream" uid="uid://c7vdv8qlqgw3q" path="res://assets/Sound/Sword Impact Hit 2.wav" id="3_d1xfo"]
+[ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="4_1y5vp"]
+[ext_resource type="Script" uid="uid://dcukpvvpmebnv" path="res://scripts/stats/damage_scaling_rule.gd" id="5_e0o7b"]
+[ext_resource type="Texture2D" uid="uid://dqr0sxa2cltnl" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc384.png" id="6_e0o7b"]
+
+[sub_resource type="Resource" id="Resource_yeulv"]
+script = ExtResource("4_1y5vp")
+audio_streams = Array[AudioStream]([ExtResource("2_e0o7b"), ExtResource("3_d1xfo")])
+max_distance = 300
+bus = &"sfx"
+metadata/_custom_type_script = "uid://cfgrgm03strrd"
+
+[sub_resource type="Resource" id="Resource_1y5vp"]
+script = ExtResource("5_e0o7b")
+ranged_formula = "dexterity"
+metadata/_custom_type_script = "uid://dcukpvvpmebnv"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_36yfb"]
+radius = 30.0
+height = 60.0
+
+[node name="ConsumableStoneManifest" type="Node2D" unique_id=1293196864]
+z_index = 100
+scale = Vector2(0.3, 0.3)
+script = ExtResource("1_ejvxv")
+speed = 300.0
+target_group = "enemy"
+max_distance = 300.0
+is_rotate = true
+hit_sound = SubResource("Resource_yeulv")
+rotate_speed = 60.0
+damage = 50.0
+damage_types = Array[int]([0, 1])
+scaling_rule = SubResource("Resource_1y5vp")
+is_penetrate = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1123908785]
+texture_filter = 1
+texture = ExtResource("6_e0o7b")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=215287016]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=147456712]
+shape = SubResource("CapsuleShape2D_36yfb")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

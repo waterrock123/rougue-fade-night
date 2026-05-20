@@ -3,143 +3,18 @@
 [ext_resource type="Script" uid="uid://dx5w85r6ff3q4" path="res://custom_resource/chararcter.gd" id="1_jpjxe"]
 [ext_resource type="Texture2D" uid="uid://bt2smb81ra5yc" path="res://assets/ai art/战狂背景.png" id="1_k6upo"]
 [ext_resource type="Script" uid="uid://copgj7rv7yvot" path="res://scripts/rest_period/shop_keeper.gd" id="3_j1g56"]
-[ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="3_lkctu"]
-[ext_resource type="Script" uid="uid://bq6potbl53yc6" path="res://scripts/package_system/equipment.gd" id="4_j1g56"]
 [ext_resource type="Resource" uid="uid://wlgt6wqudvrs" path="res://shopkeeper/甲画家.tres" id="4_pld4q"]
 [ext_resource type="Resource" uid="uid://cwuyyy0m65xgi" path="res://shopkeeper/环.tres" id="5_0w04y"]
-[ext_resource type="Script" uid="uid://dv58keclglu12" path="res://scripts/package_system/inventory.gd" id="5_306uh"]
 [ext_resource type="Resource" uid="uid://b478o2358l6xq" path="res://character_resource/warrior/warrior_stats.tres" id="6_8vju8"]
 [ext_resource type="Resource" uid="uid://baqgr32nycpsi" path="res://shopkeeper/良子.tres" id="6_watg2"]
+[ext_resource type="Resource" uid="uid://c0mc7hdek780v" path="res://custom_resource/player_equipment.tres" id="7_5lh6f"]
 [ext_resource type="Resource" uid="uid://07snhhfv258i" path="res://custom_resource/start_shop.tres" id="7_8vju8"]
-[ext_resource type="Resource" uid="uid://dbuj4w6g5hwrv" path="res://relics/level_1/002_水桶.tres" id="8_5lh6f"]
+[ext_resource type="Resource" uid="uid://wl3kquh3l0yw" path="res://custom_resource/player_inventory.tres" id="8_lbmex"]
 [ext_resource type="Resource" uid="uid://clq6naqkf40p0" path="res://custom_resource/common_shop_config.tres" id="8_pld4q"]
 [ext_resource type="Script" uid="uid://bdqgkeyiw7nj6" path="res://scripts/skill/skill_entry.gd" id="10_fobq8"]
 [ext_resource type="PackedScene" uid="uid://bkad3ppamt8x1" path="res://scenes/ability/slash_ability.tscn" id="11_k6upo"]
 [ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="12_5lh6f"]
 [ext_resource type="Texture2D" uid="uid://cv8dihitldu1i" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc727.png" id="12_k6upo"]
-
-[sub_resource type="Resource" id="Resource_pld4q"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_caef6"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_4aaw8"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_fobq8"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_k6upo"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_5lh6f"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_lbmex"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_0w04y"]
-script = ExtResource("4_j1g56")
-equip_slots = Array[ExtResource("3_lkctu")]([SubResource("Resource_pld4q"), SubResource("Resource_caef6"), SubResource("Resource_4aaw8"), SubResource("Resource_fobq8"), SubResource("Resource_k6upo"), SubResource("Resource_5lh6f"), SubResource("Resource_lbmex")])
-metadata/_custom_type_script = "uid://bq6potbl53yc6"
-
-[sub_resource type="Resource" id="Resource_watg2"]
-script = ExtResource("3_lkctu")
-item = ExtResource("8_5lh6f")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_sfcnn"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_trvhb"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_yyuua"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_t20s8"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_snmal"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_vipvm"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_aj1rf"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_ybits"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_0ptv7"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_7nhsb"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_8lidg"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_5myit"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_hsfrl"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_5mv6t"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_yk8vt"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_nnwuw"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_p22ln"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_65djh"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_27qu6"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_iabjv"]
-script = ExtResource("3_lkctu")
-metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
-
-[sub_resource type="Resource" id="Resource_nuqgh"]
-script = ExtResource("5_306uh")
-slots = Array[ExtResource("3_lkctu")]([SubResource("Resource_watg2"), SubResource("Resource_sfcnn"), SubResource("Resource_trvhb"), SubResource("Resource_yyuua"), SubResource("Resource_t20s8"), SubResource("Resource_snmal"), SubResource("Resource_vipvm"), SubResource("Resource_aj1rf"), SubResource("Resource_ybits"), SubResource("Resource_0ptv7"), SubResource("Resource_7nhsb"), SubResource("Resource_8lidg"), SubResource("Resource_5myit"), SubResource("Resource_hsfrl"), SubResource("Resource_5mv6t"), SubResource("Resource_yk8vt"), SubResource("Resource_nnwuw"), SubResource("Resource_p22ln"), SubResource("Resource_65djh"), SubResource("Resource_27qu6"), SubResource("Resource_iabjv")])
-metadata/_custom_type_script = "uid://dv58keclglu12"
 
 [sub_resource type="Resource" id="Resource_ee1wb"]
 script = ExtResource("12_5lh6f")
@@ -165,8 +40,8 @@ description = "武器大师，狂战士，嗜血狂魔，不管用什么称呼�
 background = ExtResource("1_k6upo")
 start_stats = ExtResource("6_8vju8")
 start_skill = SubResource("Resource_t2vtr")
-start_inventory = SubResource("Resource_nuqgh")
-start_equipment = SubResource("Resource_0w04y")
+start_inventory = ExtResource("8_lbmex")
+start_equipment = ExtResource("7_5lh6f")
 start_shop = ExtResource("7_8vju8")
 start_shop_config = ExtResource("8_pld4q")
 shop_keeper_pool = Array[ExtResource("3_j1g56")]([ExtResource("4_pld4q"), ExtResource("5_0w04y"), ExtResource("6_watg2")])

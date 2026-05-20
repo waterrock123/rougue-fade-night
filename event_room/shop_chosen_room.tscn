@@ -59,15 +59,38 @@ text = "你在草原上找到了一处十分静谧的集市，当你走进时发
 label_settings = SubResource("LabelSettings_o06u0")
 autowrap_mode = 2
 
-[node name="ShopButton1" parent="." unique_id=1416983139 instance=ExtResource("3_06ifb")]
+[node name="ShopButton2" parent="." unique_id=1416983139 instance=ExtResource("3_06ifb")]
 layout_mode = 0
 offset_left = 298.0
-offset_top = 596.0
-offset_right = 892.0
-offset_bottom = 672.0
-text = ""
+offset_top = 718.0
+offset_right = 898.0
+offset_bottom = 794.0
 autowrap_mode = 2
-pressed_desc = Array[String](["又睡了好一会儿，你感觉身上的疲惫已经一扫而空了"])
+pressed_desc = Array[String](["对应商人的shopdesc"])
+desc_text = "看向出售{接下来是商人的3个tag},{},{}物品的商人"
+detail_text = "下次进入修整期时商店商人替换为{这里是商人的名称}"
+
+[node name="ShopButton3" parent="." unique_id=691935617 instance=ExtResource("3_06ifb")]
+layout_mode = 0
+offset_left = 298.0
+offset_top = 608.0
+offset_right = 898.0
+offset_bottom = 684.0
+autowrap_mode = 2
+pressed_desc = Array[String](["对应商人的shopdesc"])
+desc_text = "看向出售{接下来是商人的3个tag},{},{}物品的商人"
+detail_text = "下次进入修整期时商店商人替换为{这里是商人的名称}"
+
+[node name="ShopButton4" parent="." unique_id=1677369096 instance=ExtResource("3_06ifb")]
+layout_mode = 0
+offset_left = 298.0
+offset_top = 823.0
+offset_right = 898.0
+offset_bottom = 899.0
+autowrap_mode = 2
+pressed_desc = Array[String](["对应商人的shopdesc"])
+desc_text = "看向出售{},{},{}物品的商人"
+detail_text = "下次进入修整期时商店商人替换为{这里是商人的名称}"
 
 [node name="LeaveButton" type="Button" parent="." unique_id=1612002407]
 custom_minimum_size = Vector2(400, 100)

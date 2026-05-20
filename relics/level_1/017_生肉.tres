@@ -3,16 +3,37 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_dryjf"]
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_g4prv"]
 [ext_resource type="Texture2D" uid="uid://dug3pt567d3er" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc488.png" id="1_ynyvc"]
+[ext_resource type="Script" uid="uid://wwdg54imaves" path="res://relic_effect/use_heal_effect.gd" id="2_ri2hn"]
+[ext_resource type="Script" uid="uid://cpg3ugpuxdn6w" path="res://relic_effect/use_add_stats_effect.gd" id="3_1auj1"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_ri2hn"]
 [ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="5_1auj1"]
 [ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="6_afv6a"]
+
+[sub_resource type="Resource" id="Resource_1auj1"]
+script = ExtResource("2_ri2hn")
+heal_amount = 3.0
+metadata/_custom_type_script = "uid://wwdg54imaves"
+
+[sub_resource type="Resource" id="Resource_afv6a"]
+script = ExtResource("3_1auj1")
+add_stats = {
+"strength": 2
+}
+metadata/_custom_type_script = "uid://cpg3ugpuxdn6w"
+
+[sub_resource type="Resource" id="Resource_w4hg3"]
+script = ExtResource("3_1auj1")
+add_stats = {
+"strength": 1
+}
+metadata/_custom_type_script = "uid://cpg3ugpuxdn6w"
 
 [resource]
 script = ExtResource("1_dryjf")
 relic_name = "生肉"
 icon = ExtResource("1_ynyvc")
-tooltip = "使用后{strength}+2，{heal}1生命
-升级：使用后{strength}+3，{heal}1生命
+tooltip = "使用后{strength}+2，{heal}3生命
+升级：使用后{strength}额外+1
 "
 desc = "建议烤烤再吃"
 price = 3
@@ -20,4 +41,6 @@ level = 1
 tags = Array[ExtResource("4_ri2hn")]([ExtResource("5_1auj1"), ExtResource("6_afv6a")])
 id = "017"
 is_consumable = true
+effects = Array[ExtResource("1_g4prv")]([SubResource("Resource_1auj1"), SubResource("Resource_afv6a")])
+great_effects = Array[ExtResource("1_g4prv")]([SubResource("Resource_w4hg3")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

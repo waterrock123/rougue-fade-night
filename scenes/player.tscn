@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://sfev31qv680q" path="res://scripts/skill/skill_controller.gd" id="17_skill"]
 [ext_resource type="Script" uid="uid://dlii28m125ylw" path="res://scripts/relic/relic_controller.gd" id="20_ke2ow"]
 [ext_resource type="Script" uid="uid://87nmt5jrle4v" path="res://scripts/status/status_controller.gd" id="21_status"]
+[ext_resource type="Script" uid="uid://8d3v6u0uxkk7" path="res://scripts/vfx/entity_vfx_controller.gd" id="22_vfx"]
 
 [sub_resource type="Resource" id="Resource_4r5pv"]
 script = ExtResource("7_fulsm")
@@ -49,6 +50,7 @@ offsets = PackedFloat32Array(0.24120604, 1)
 colors = PackedColorArray(0.9607843, 0.8235294, 0.6901961, 1, 0.9607843, 0.8235294, 0.6901961, 0)
 
 [node name="Player" type="Node2D" unique_id=1601335846 node_paths=PackedStringArray("weapon")]
+z_index = 100
 script = ExtResource("1_onrkg")
 speed = 100.0
 weapon = NodePath("Weapon")
@@ -81,6 +83,7 @@ script = ExtResource("16_stats")
 script = ExtResource("21_status")
 
 [node name="VFXController" type="Node" parent="." unique_id=1537434221]
+script = ExtResource("22_vfx")
 
 [node name="Weapon" type="Sprite2D" parent="." unique_id=1276098786]
 z_index = -1
@@ -143,6 +146,8 @@ color = Color(0.96156305, 0.8252434, 0.6902239, 1)
 color_ramp = SubResource("Gradient_f1ej7")
 
 [node name="VFXAnchor" type="Node2D" parent="." unique_id=377015520]
+z_index = 20
+z_as_relative = false
 position = Vector2(0, 15)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

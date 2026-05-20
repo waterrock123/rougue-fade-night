@@ -63,6 +63,11 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if is_dead: return
+	if not can_act():
+		is_moving = false
+		footstep_effect.stop()
+		footstep_timer = 0.0
+		return
 	_handle_ability_input()
 	_handle_movement(delta)
 	_handle_footstep_sound(delta)
@@ -71,9 +76,17 @@ func _process(delta: float) -> void:
 	
 
 func _handle_ability_input() -> void:
-	_handle_ability_action("ability_1", 0)
-	_handle_ability_action("ability_2", 1)
+	# ability_1 永远对应技能槽 1，ability_2 对应技能槽 2，以此类推。
+	# 一个 action 可以绑定多个按键，例如 ability_1 同时绑定鼠标左键和键盘 1。
+	var action_number := 1
+	while true:
+		var action_name := StringName("ability_%s" % str(action_number))
+		if not InputMap.has_action(action_name):
+			break
 
+		var ability_index := action_number - 1
+		_handle_ability_action(action_name, ability_index)
+		action_number += 1
 
 func _handle_ability_action(action_name: StringName, ability_index: int) -> void:
 	if Input.is_action_just_pressed(action_name):

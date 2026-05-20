@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://b44o355325f22"]
+
+[ext_resource type="Texture2D" uid="uid://313csfw3voyr" path="res://assets/art/arrow_small.png" id="1_flol5"]
+[ext_resource type="Texture2D" uid="uid://7eek2jxk3xu8" path="res://assets/art/arrow_small_disabled.png" id="2_sk78d"]
+
+[sub_resource type="Theme" id="Theme_flol5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fgeyd"]
+font_size = 32
+
+[node name="PictorialBook" type="Control" unique_id=1596445638]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="." unique_id=2058758307]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.50600004
+anchor_bottom = 1.0
+offset_right = -0.52008057
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel" unique_id=236335094]
+layout_mode = 0
+offset_left = 284.0
+offset_top = 77.0
+offset_right = 456.0
+offset_bottom = 127.0
+scale = Vector2(1.5, 1.5)
+theme = SubResource("Theme_flol5")
+
+[node name="TextureButton" type="TextureButton" parent="Panel/HBoxContainer" unique_id=1635603830]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture_normal = ExtResource("1_flol5")
+texture_pressed = ExtResource("2_sk78d")
+stretch_mode = 4
+flip_h = true
+
+[node name="DivideLabel" type="Label" parent="Panel/HBoxContainer" unique_id=45847615]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "装备"
+label_settings = SubResource("LabelSettings_fgeyd")
+
+[node name="TextureButton2" type="TextureButton" parent="Panel/HBoxContainer" unique_id=66132687]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture_normal = ExtResource("1_flol5")
+texture_pressed = ExtResource("2_sk78d")
+stretch_mode = 4
+
+[node name="GridContainer" type="GridContainer" parent="Panel" unique_id=872804782]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel2" type="Panel" parent="." unique_id=2069729535]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.505
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.5999756
+grow_horizontal = 0
+grow_vertical = 2

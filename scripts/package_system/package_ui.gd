@@ -3,6 +3,7 @@ extends Control
 
 @onready var bag_slot_container: GridContainer = $PanelContainer/MarginContainer/VBoxContainer/BagSlotContainer
 @onready var relic_container: HBoxContainer = $PanelContainer/MarginContainer/VBoxContainer/RelicContainer
+@onready var locked_item_tip_label: Label = %TooltipLabel
 
 @onready var bag_slots: Array = $PanelContainer/MarginContainer/VBoxContainer/BagSlotContainer.get_children()
 @onready var equipment_slots: Array = $PanelContainer/MarginContainer/VBoxContainer/RelicContainer.get_children()
@@ -78,11 +79,28 @@ func open_bag(player_inventroy: Inventory, player_equipment: Equipment):
 	for equipment_button in equipment_slots:
 		equipment_button.equipment_inventory = equipment_inventory
 
+	_refresh_locked_item_tip()
 	show()
 
 
 func close_bag():
+	_refresh_locked_item_tip()
 	hide()
+
+
+# 离开修整期前，如果玩家正拿着从锁格中取出的临时装备，也一并销毁。
+# 这样可以避免“拿在鼠标上”的锁格装备绕过离开修整期的清理逻辑。
+func clear_locked_mouse_relic() -> void:
+	if mouse_relic == null:
+		return
+	if mouse_relic.slot_ == null or not mouse_relic.slot_.is_locked:
+		return
+
+	if mouse_relic.get_parent() == self:
+		remove_child(mouse_relic)
+	mouse_relic.queue_free()
+	mouse_relic = null
+	mouse_relic_source_is_equipment = false
 
 
 func set_equipment_locked(locked: bool) -> void:
@@ -141,6 +159,9 @@ func bag_update():
 
 	for i in range(bag_slots.size()):
 		var inventory_slot: Slot = bag_inventory.slots[i]
+		if inventory_slot != null and bag_slots[i].has_method("set_locked_state"):
+			bag_slots[i].set_locked_state(inventory_slot.is_locked)
+
 		if !inventory_slot:
 			_clear_slot_button(bag_slots[i])
 			continue
@@ -156,6 +177,8 @@ func bag_update():
 
 		relic_ui.slot_ = inventory_slot
 		relic_ui.slot_relic_update()
+
+	_refresh_locked_item_tip()
 
 
 # 左键逻辑：维持原有拖拽、拾取和交换功能。
@@ -209,7 +232,7 @@ func on_mouse_right_equipment_slot_button(slot_button):
 		_show_screen_tip("处于战斗中，无法穿戴/卸下装备")
 		return
 
-	var empty_bag_slot = _find_first_empty_slot(bag_slots)
+	var empty_bag_slot = _find_first_empty_unlocked_bag_slot()
 	if empty_bag_slot == null:
 		return
 
@@ -221,6 +244,14 @@ func on_mouse_right_equipment_slot_button(slot_button):
 func _find_first_empty_slot(slots: Array):
 	for slot_button in slots:
 		if slot_button.is_empty():
+			return slot_button
+
+	return null
+
+
+func _find_first_empty_unlocked_bag_slot():
+	for slot_button in bag_slots:
+		if slot_button.is_empty() and not _is_locked_bag_slot(slot_button):
 			return slot_button
 
 	return null
@@ -288,6 +319,7 @@ func _try_sell_mouse_relic() -> bool:
 		return false
 
 	run_stats.set_gold(run_stats.gold + max(relic.sell_price, 0))
+	relic.sell_relic(self, null, "sold_%s" % relic.id)
 	AudioController.play_ui_sound(&"sell_item")
 	EventBus.relic_sold.emit(relic)
 	mouse_relic.hide_sell_price()
@@ -303,6 +335,15 @@ func _is_mouse_over_sell_target() -> bool:
 		return false
 
 	return sell_target.get_global_rect().has_point(get_global_mouse_position())
+
+
+func get_sell_shop_controller() -> ShopController:
+	var node := sell_target
+	while node != null:
+		if node is ShopController:
+			return node as ShopController
+		node = node.get_parent()
+	return null
 
 
 # 数据格为空时，不只重置颜色，也要移除旧 RelicUI，避免合成后画面残留旧装备。
@@ -343,9 +384,32 @@ func _get_slot_button_relic(slot_button) -> Relic:
 func _can_insert_mouse_relic_in_slot(slot_button) -> bool:
 	if mouse_relic == null:
 		return false
+	if _is_locked_bag_slot(slot_button):
+		if slot_button.is_empty():
+			_show_screen_tip("该背包格尚未解锁，不能主动放入装备")
+			return false
+		return true
 	if not _is_equipment_slot_button(slot_button):
 		return true
 	return _can_equip_relic_to_slot(mouse_relic.relic, slot_button)
+
+
+func _is_locked_bag_slot(slot_button) -> bool:
+	if slot_button == null or not bag_slots.has(slot_button):
+		return false
+	if not slot_button.has_method("is_locked"):
+		return false
+	return slot_button.is_locked()
+
+
+func _refresh_locked_item_tip() -> void:
+	if locked_item_tip_label == null:
+		return
+	if bag_inventory == null:
+		locked_item_tip_label.hide()
+		return
+
+	locked_item_tip_label.visible = bag_inventory.has_locked_items()
 
 
 func _can_equip_relic_to_slot(relic: Relic, target_equipment_slot) -> bool:

@@ -90,6 +90,8 @@ func _close_run_package_ui() -> void:
 		return
 
 	if run.package_ui != null:
+		if run.package_ui.has_method("clear_locked_mouse_relic"):
+			run.package_ui.clear_locked_mouse_relic()
 		run.package_ui.close_bag()
 	if run.attributes_panel != null:
 		run.attributes_panel.close_panel()

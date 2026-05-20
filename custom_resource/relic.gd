@@ -82,6 +82,14 @@ func use_consumable(owner, relic_controller: RelicController = null, relic_key: 
 		_apply_effect_list(owner, relic_controller, relic_key, great_effects, "great", "use")
 
 
+# 出售遗物时执行售卖效果。某些遗物会在卖出后触发刷新、返利等一次性效果。
+func sell_relic(owner, relic_controller: RelicController = null, relic_key: String = "") -> void:
+	_apply_effect_list(owner, relic_controller, relic_key, effects, "base", "sold")
+
+	if leveltip == LevelTip.LEVELUP:
+		_apply_effect_list(owner, relic_controller, relic_key, great_effects, "great", "sold")
+
+
 # 对一组效果做统一分发，避免基础效果和强化效果写两份几乎一样的逻辑。
 func _apply_effect_list(
 	owner,
@@ -107,6 +115,8 @@ func _apply_effect_list(
 				effect.on_deactivate(relic_context, effect_key)
 			"use":
 				effect.on_use(relic_context, effect_key)
+			"sold":
+				effect.on_sold(relic_context, effect_key)
 
 
 # effect_key 里加入组别，避免 base[0] 和 great[0] 互相覆盖。

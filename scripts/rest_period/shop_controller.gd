@@ -10,6 +10,7 @@ extends Control
 @onready var freeze_button: Button = %FrezeButton
 @onready var level_up_button: Button = %LevelUpButton
 @onready var refresh_cost_label: Label = %RefreshCost
+@onready var free_refresh_count_label: Label = get_node_or_null("%CountLabel") as Label
 @onready var level_up_cost_label: Label = %LevelUpNumber
 @onready var money_token: ShopKeeperUI = $VBoxContainer/BuyContainer/ShowContainer/MoneyToken
 
@@ -118,21 +119,23 @@ func refresh() -> void:
 		return
 
 	var refresh_cost := _get_refresh_cost()
-	if run_stats.gold < refresh_cost:
+	if run_stats.shop_free_refresh_count > 0:
+		run_stats.spend_shop_free_refresh_count()
+	elif run_stats.gold < refresh_cost:
 		push_warning("Not enough gold to refresh shop.")
 		return
+	else:
+		run_stats.set_gold(run_stats.gold - refresh_cost)
 
-	run_stats.set_gold(run_stats.gold - refresh_cost)
+	_do_refresh_shop_slots()
 
-	if is_free_choice_active:
-		_end_free_relic_choice(false)
 
-	shop.clear_all_frozen()
-	_roll_slots(0)
-	_sync_shop_ui()
-	_update_shop_ui()
-	_try_start_free_relic_choice()
-	_save_run_if_available()
+# 不消耗金币、不消耗储存次数的立即免费刷新。用于未升级兑换券的出售效果。
+func refresh_for_free() -> void:
+	if shop == null or shop.shopkeeper == null:
+		return
+
+	_do_refresh_shop_slots()
 
 
 # 切换所有商店商品的冻结状态。
@@ -244,6 +247,9 @@ func _connect_signals() -> void:
 	if not EventBus.gold_changed.is_connected(_update_shop_ui):
 		EventBus.gold_changed.connect(_update_shop_ui)
 
+	if not EventBus.shop_free_refresh_changed.is_connected(_update_shop_ui):
+		EventBus.shop_free_refresh_changed.connect(_update_shop_ui)
+
 	if not refresh_button.gui_input.is_connected(_on_refresh_button_gui_input):
 		refresh_button.gui_input.connect(_on_refresh_button_gui_input)
 
@@ -333,7 +339,12 @@ func _update_shop_ui() -> void:
 		money_token.updata_ui()
 
 	if refresh_cost_label != null:
-		refresh_cost_label.text = str(_get_refresh_cost())
+		refresh_cost_label.text = "0" if _has_free_refresh_count() else str(_get_refresh_cost())
+
+	if free_refresh_count_label != null:
+		var free_count := _get_free_refresh_count()
+		free_refresh_count_label.visible = free_count > 0
+		free_refresh_count_label.text = "x%s" % str(free_count)
 
 	if level_up_cost_label != null:
 		var next_level_data := get_level_data(shop.level + 1) if shop != null else null
@@ -353,6 +364,28 @@ func _get_available_relics() -> Array[Relic]:
 			result.append(relic)
 
 	return result
+
+
+func _do_refresh_shop_slots() -> void:
+	if is_free_choice_active:
+		_end_free_relic_choice(false)
+
+	shop.clear_all_frozen()
+	_roll_slots(0)
+	_sync_shop_ui()
+	_update_shop_ui()
+	_try_start_free_relic_choice()
+	_save_run_if_available()
+
+
+func _has_free_refresh_count() -> bool:
+	return _get_free_refresh_count() > 0
+
+
+func _get_free_refresh_count() -> int:
+	if run_stats == null:
+		return 0
+	return max(run_stats.shop_free_refresh_count, 0)
 
 
 func _pick_random_relic(candidate_relics: Array[Relic]) -> Relic:

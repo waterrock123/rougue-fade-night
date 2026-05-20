@@ -4,6 +4,12 @@
 [ext_resource type="Shader" uid="uid://dev08xae6ph0n" path="res://shaders/rage_aura_vfx.gdshader" id="2_4075w"]
 [ext_resource type="Texture2D" uid="uid://mt6w21xdehqc" path="res://assets/UI/health_bar_main.png" id="2_nprr1"]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4075w"]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
 [sub_resource type="Curve" id="Curve_lhlpc"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.70285714, 0.7338582), 0.0, 0.0, 0, 0, Vector2(1, 0.12553436), 0.0, 0.0, 0, 0]
 point_count = 3
@@ -48,6 +54,7 @@ shader = ExtResource("2_4075w")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1194982386]
 texture_filter = 1
+material = SubResource("CanvasItemMaterial_4075w")
 rotation = 4.712389
 amount = 50
 texture = ExtResource("1_lhlpc")
@@ -55,12 +62,12 @@ lifetime = 2.5
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_62yvs")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2142960992]
+[node name="RageAura" type="Sprite2D" parent="." unique_id=2142960992]
 z_index = -1
 texture_filter = 1
 material = SubResource("ShaderMaterial_nprr1")
 position = Vector2(0, 4)
 rotation = -0.0654901
-scale = Vector2(0.365, 0.365)
+scale = Vector2(0.42, 0.42)
 skew = -1.4503686
 texture = ExtResource("2_nprr1")

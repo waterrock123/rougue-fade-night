@@ -1,3 +1,4 @@
+## 施法者前推组件。让施法者朝面向方向小幅位移，常用于近战挥击、突进起手的手感补偿。
 class_name AbilityPushBack
 extends AbilityComponent
 #出于手感考虑改成往前进

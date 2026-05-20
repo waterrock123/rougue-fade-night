@@ -1,3 +1,4 @@
+## 鼠标位置目标组件。把当前鼠标世界坐标写入 AbilityContext.targets，常用于投射物方向、范围落点、指示器释放位置。
 class_name AbilityTargetCursor
 extends AbilityComponent
 

@@ -16,12 +16,14 @@
 [ext_resource type="Resource" uid="uid://b5arglqpe24k4" path="res://passive_skill/003_healthy.tres" id="10_jysh7"]
 [ext_resource type="Resource" uid="uid://bkgvtl5uepvkr" path="res://passive_skill/004_full_prepared.tres" id="14_ftceu"]
 [ext_resource type="Resource" uid="uid://ccc7t6qdh4fsv" path="res://activate_skill/104_shock_wave.tres" id="15_21ar5"]
-[ext_resource type="Resource" path="res://passive_skill/005_full_armed.tres" id="16_full_armed"]
-[ext_resource type="Resource" path="res://passive_skill/006_living_implements.tres" id="17_living"]
-[ext_resource type="Resource" path="res://passive_skill/007_iron_body.tres" id="18_iron"]
-[ext_resource type="Resource" path="res://passive_skill/008_invincible_body.tres" id="19_invincible"]
-[ext_resource type="Resource" path="res://passive_skill/009_pica.tres" id="20_pica"]
-[ext_resource type="Resource" path="res://passive_skill/010_gluttonous_feast.tres" id="21_feast"]
+[ext_resource type="Resource" uid="uid://5kn83beerw2k" path="res://passive_skill/005_full_armed.tres" id="16_full_armed"]
+[ext_resource type="Resource" uid="uid://ddsl6tcm1kcgt" path="res://passive_skill/006_living_implements.tres" id="17_living"]
+[ext_resource type="Resource" uid="uid://2k5fwxavfgog" path="res://activate_skill/105_rage.tres" id="18_774n4"]
+[ext_resource type="Resource" uid="uid://c7bcfkt7n21i2" path="res://passive_skill/007_iron_body.tres" id="18_iron"]
+[ext_resource type="Resource" uid="uid://dav4f07gmlb3m" path="res://passive_skill/008_invincible_body.tres" id="19_invincible"]
+[ext_resource type="Resource" uid="uid://c7uwygrkk87qn" path="res://passive_skill/009_pica.tres" id="20_pica"]
+[ext_resource type="Resource" uid="uid://c1h42c3llc2wd" path="res://passive_skill/010_gluttonous_feast.tres" id="21_feast"]
+[ext_resource type="Texture2D" uid="uid://c14ouppshivcm" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2124.png" id="24_stheq"]
 
 [sub_resource type="Resource" id="Resource_774n4"]
 script = ExtResource("4_ahb88")
@@ -91,9 +93,14 @@ script = ExtResource("7_ftceu")
 skill_data = ExtResource("21_feast")
 metadata/_custom_type_script = "uid://bi5mlqhper6cl"
 
+[sub_resource type="Resource" id="Resource_252cq"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("18_774n4")
+metadata/_custom_type_script = "uid://bu2h2b334tpo0"
+
 [sub_resource type="Resource" id="Resource_vgdht"]
 script = ExtResource("3_xdrav")
-rewards = Array[ExtResource("2_w2dlv")]([SubResource("Resource_774n4"), SubResource("Resource_stheq"), SubResource("Resource_fb6j1"), SubResource("Resource_8buaq"), SubResource("Resource_atphq"), SubResource("Resource_8p3ql"), SubResource("Resource_jysh7"), SubResource("Resource_full_armed_reward"), SubResource("Resource_living_reward"), SubResource("Resource_iron_reward"), SubResource("Resource_invincible_reward"), SubResource("Resource_pica_reward"), SubResource("Resource_feast_reward")])
+rewards = Array[ExtResource("2_w2dlv")]([SubResource("Resource_774n4"), SubResource("Resource_stheq"), SubResource("Resource_fb6j1"), SubResource("Resource_8buaq"), SubResource("Resource_atphq"), SubResource("Resource_8p3ql"), SubResource("Resource_jysh7"), SubResource("Resource_full_armed_reward"), SubResource("Resource_living_reward"), SubResource("Resource_iron_reward"), SubResource("Resource_invincible_reward"), SubResource("Resource_pica_reward"), SubResource("Resource_feast_reward"), SubResource("Resource_252cq")])
 metadata/_custom_type_script = "uid://dedmh70pdbkgs"
 
 [sub_resource type="LabelSettings" id="LabelSettings_ffqgm"]
@@ -101,6 +108,21 @@ font_size = 36
 
 [sub_resource type="LabelSettings" id="LabelSettings_fobpd"]
 font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_fb6j1"]
+font_size = 32
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8buaq"]
+bg_color = Color(0.98005956, 0.8875993, 0.8757823, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="LevelUPController" type="Control" unique_id=919070801]
 layout_mode = 3
@@ -314,3 +336,32 @@ text = "被动技能"
 label_settings = SubResource("LabelSettings_fobpd")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HBoxContainer2" type="VBoxContainer" parent="." unique_id=989084714]
+layout_mode = 0
+offset_left = 459.0
+offset_top = 419.0
+offset_right = 769.0
+offset_bottom = 483.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer2" unique_id=200886639]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer2/HBoxContainer" unique_id=1322663583]
+layout_mode = 2
+texture = ExtResource("24_stheq")
+
+[node name="RefreshLabel" type="Label" parent="HBoxContainer2/HBoxContainer" unique_id=722615082]
+layout_mode = 2
+text = "剩余刷新次数：1"
+label_settings = SubResource("LabelSettings_fb6j1")
+
+[node name="RefreshButton" type="Button" parent="HBoxContainer2" unique_id=249338837]
+custom_minimum_size = Vector2(150, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_8buaq")
+text = "刷新"

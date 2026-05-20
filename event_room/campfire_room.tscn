@@ -55,8 +55,7 @@ offset_top = 334.0
 offset_right = 838.0
 offset_bottom = 506.0
 size_flags_vertical = 3
-text = "天气阴沉，但你找到了一处遗弃的营地，点亮篝火，你好好地休息了一会儿
-已恢复20%生命值"
+text = "天气阴沉，但你找到了一处遗弃的营地，该思索一下该干些什么了"
 label_settings = SubResource("LabelSettings_o06u0")
 autowrap_mode = 2
 
@@ -69,7 +68,7 @@ offset_bottom = 675.0
 autowrap_mode = 2
 pressed_desc = Array[String](["又睡了好一会儿，你感觉身上的疲惫已经一扫而空了"])
 desc_text = "继续休息，补足体力"
-detail_text = "恢复20%生命"
+detail_text = "恢复30%生命"
 
 [node name="SharpButton" parent="." unique_id=243612117 instance=ExtResource("3_w8bjp")]
 layout_mode = 0
@@ -78,9 +77,9 @@ offset_top = 702.0
 offset_right = 752.0
 offset_bottom = 778.0
 autowrap_mode = 2
-pressed_desc = Array[String](["乘着空闲时间，你同你的装备好好地磨合了一番"])
-desc_text = "与一把武器同调"
-detail_text = "选择一把武器，使其升级"
+pressed_desc = Array[String](["乘着空闲时间，你同你的装备好好地磨合了一番，令人惊喜的是其中一件装备似乎发生些神奇的变化"])
+desc_text = "与装备同调"
+detail_text = "使背包或装备栏随机一件未升级装备升级"
 
 [node name="AbilityButton" parent="." unique_id=569287997 instance=ExtResource("3_w8bjp")]
 layout_mode = 0

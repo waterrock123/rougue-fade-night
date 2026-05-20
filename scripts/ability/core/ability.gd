@@ -10,6 +10,7 @@ var icon_texture: Texture2D
 var desc:String
 var skill_data: ActiveSkillData
 var skill_entry: SkillEntry
+var runtime_slot_index: int = -1
 
 
 var current_cooldown: float

@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bebtvdpqxg7bl"]
+
+[ext_resource type="Texture2D" uid="uid://cq38tmfycf508" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb856.png" id="1_qlv4y"]
+[ext_resource type="Script" uid="uid://coxuybtxun3hu" path="res://scripts/ui/status_ui.gd" id="2_status"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1aqle"]
+font_size = 36
+
+[sub_resource type="LabelSettings" id="LabelSettings_h3ruk"]
+font_size = 36
+
+[node name="StatusUI" type="HBoxContainer" unique_id=1309433293]
+mouse_filter = 0
+script = ExtResource("2_status")
+
+[node name="StatusIcon" type="TextureRect" parent="." unique_id=487570184]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_qlv4y")
+
+[node name="StackLabel" type="Label" parent="StatusIcon" unique_id=492493756]
+layout_mode = 0
+offset_left = 51.0
+offset_top = 27.0
+offset_right = 72.0
+offset_bottom = 77.0
+text = "2"
+label_settings = SubResource("LabelSettings_1aqle")
+horizontal_alignment = 1
+
+[node name="DurationLabel" type="Label" parent="." unique_id=1866794240]
+layout_mode = 2
+text = ":12.2s"
+label_settings = SubResource("LabelSettings_h3ruk")

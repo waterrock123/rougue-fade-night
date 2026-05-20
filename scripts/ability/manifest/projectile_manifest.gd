@@ -20,6 +20,8 @@ extends AbilityManifest
 @onready var sprite2d: Sprite2D = $Sprite2D
 
 var source: Entity
+var source_ability_id: StringName = &""
+var source_ability_slot_index: int = -1
 var current_dir = Vector2.ZERO
 var current_distance = 0.0
 
@@ -27,6 +29,8 @@ var current_distance = 0.0
 # 初始化投射物飞行方向和来源。
 func activate(context: AbilityContext):
 	source = context.caster
+	source_ability_id = context.ability.id if context.ability != null else &""
+	source_ability_slot_index = context.ability.runtime_slot_index if context.ability != null else -1
 	if not EventBus.game_paused.is_connected(_handle_game_pause):
 		EventBus.game_paused.connect(_handle_game_pause)
 	if not EventBus.scene_changed.is_connected(_handle_scene_changed):
@@ -47,6 +51,9 @@ func _exit_tree() -> void:
 # 推进投射物移动，并在超过最远距离时销毁。
 func _process(delta: float) -> void:
 	if source != null and not is_instance_valid(source):
+		queue_free()
+		return
+	if source != null and source.is_dead:
 		queue_free()
 		return
 
@@ -81,6 +88,9 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		return
 
 	if parent is Entity:
+		if parent.has_method("can_be_targeted") and not parent.can_be_targeted():
+			return
+
 		var valid_source := _get_valid_source()
 		if source != null and valid_source == null:
 			queue_free()
@@ -93,7 +103,9 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			valid_source,
 			parent,
 			can_crit,
-			scaling_rule
+			scaling_rule,
+			source_ability_id,
+			source_ability_slot_index
 		)
 		parent.apply_damage(damage_data)
 

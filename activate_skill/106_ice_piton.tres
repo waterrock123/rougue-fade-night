@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3 uid="uid://bug11jkl0035v"]
+
+[ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="1_gwtjr"]
+[ext_resource type="PackedScene" uid="uid://d1xk73lo2sxqk" path="res://scenes/ability/Iception_ability.tscn" id="1_xomgd"]
+[ext_resource type="Texture2D" uid="uid://djo21cbcsjug7" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1018.png" id="2_hd5ru"]
+
+[resource]
+script = ExtResource("1_gwtjr")
+ability_scene = ExtResource("1_xomgd")
+base_cooldown = 5.0
+base_energy_cost = 15.0
+id = &"106"
+skill_name = "冰锥齐射"
+desc = "以扇形排布释放五根冰锥，每根冰锥的基础伤害为30，且有30%概率使敌人{freeze}"
+icon = ExtResource("2_hd5ru")
+metadata/_custom_type_script = "uid://bq1obcmna3x2j"

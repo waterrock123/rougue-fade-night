@@ -3,18 +3,37 @@
 [ext_resource type="Texture2D" uid="uid://cmvaoht0eg0pt" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc55.png" id="1_1xkss"]
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_t8xwq"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_vb4bm"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="2_o1j4c"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_o1j4c"]
 [ext_resource type="Resource" uid="uid://sptmtn6uua85" path="res://relic_tags/寒霜tag.tres" id="5_a1qcm"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="6_m3fpd"]
+[ext_resource type="Script" uid="uid://dqx6s3klpd6kf" path="res://relic_effect/spawn_owner_trail_manifest_effect.gd" id="7_trail_effect"]
+[ext_resource type="PackedScene" uid="uid://8rmn2unjwg1t" path="res://scenes/ability/manifest/frost_way_manifest.tscn" id="8_frost_way"]
+
+[sub_resource type="Resource" id="FrostTrailEffect"]
+script = ExtResource("7_trail_effect")
+manifest_scene = ExtResource("8_frost_way")
+spawn_interval = 0.22
+min_spawn_distance = 10.0
+initial_spawn = false
+
+[sub_resource type="Resource" id="Resource_a1qcm"]
+script = ExtResource("2_o1j4c")
+add_stats = {
+"speed": 2
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
 
 [resource]
 script = ExtResource("1_vb4bm")
 relic_name = "雪暴瓶"
 icon = ExtResource("1_1xkss")
-tooltip = "装备后移动路径会短暂出现冰霜路径，经过路径的敌人会受到冰冻伤害并短暂减速数秒
-升级：减速时长增加"
+tooltip = "装备后移动的路径上会短暂出现冰霜残迹，经过路径的敌人会受到2点冰冻伤害并短暂减速2秒
+升级：{speed}+2"
 price = 3
 level = 2
 tags = Array[ExtResource("4_o1j4c")]([ExtResource("5_a1qcm"), ExtResource("6_m3fpd")])
 id = "012"
+effects = Array[ExtResource("1_t8xwq")]([SubResource("FrostTrailEffect")])
+great_effects = Array[ExtResource("1_t8xwq")]([SubResource("Resource_a1qcm")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -6,16 +6,30 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_81iu8"]
 [ext_resource type="Resource" uid="uid://box5044uf2gqf" path="res://relic_tags/疗愈tag.tres" id="5_8kmwx"]
 [ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="6_8p5xd"]
+[ext_resource type="Script" uid="uid://xl8yw7ajdy02" path="res://relic_effect/status_enter_reward_effect.gd" id="7_sleep_reward"]
+
+[sub_resource type="Resource" id="Resource_81iu8"]
+script = ExtResource("7_sleep_reward")
+ignore_when_relic_levelup = true
+metadata/_custom_type_script = "uid://xl8yw7ajdy02"
+
+[sub_resource type="Resource" id="SleepRewardLevelup"]
+script = ExtResource("7_sleep_reward")
+trigger_once_per_activate = false
+heal_max_health_percent = 0.12
+random_stat_amount = 2.0
 
 [resource]
 script = ExtResource("1_6sciu")
-relic_name = "安眠猫"
+relic_name = "安眠帽"
 icon = ExtResource("1_q3hpw")
 tooltip = "每场战斗第一次进入{sleep}状态时{heal}10%的hp，并获得随机属性提升+1
-升级：每次进入{sleep}状态时{heal}12%的hp，并获得随机属性+2
+升级：效果变为每次进入{sleep}状态时{heal}12%的hp，并获得随机属性+2
 "
 price = 3
 level = 2
 tags = Array[ExtResource("4_81iu8")]([ExtResource("5_8kmwx"), ExtResource("6_8p5xd")])
 id = "013"
+effects = Array[ExtResource("1_trmgw")]([SubResource("Resource_81iu8")])
+great_effects = Array[ExtResource("1_trmgw")]([SubResource("SleepRewardLevelup")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

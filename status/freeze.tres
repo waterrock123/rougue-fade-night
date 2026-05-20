@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://base5t85al4ns"]
+
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="1_d51uh"]
+[ext_resource type="Script" uid="uid://hb3lr7eojcjc" path="res://scripts/status/status_visual_effect.gd" id="2_ae5ee"]
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="2_noo8k"]
+[ext_resource type="Texture2D" uid="uid://c0erbudv37jom" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1089.png" id="2_y03lq"]
+[ext_resource type="PackedScene" uid="uid://dx6hdqotfqpfh" path="res://scenes/entity_aura_vfx/freeze_vfx.tscn" id="3_uvrt3"]
+[ext_resource type="Script" uid="uid://bam0h0kpnlj7e" path="res://scripts/status/status_control_effect.gd" id="4_control"]
+
+[sub_resource type="Resource" id="Resource_uvrt3"]
+script = ExtResource("4_control")
+metadata/_custom_type_script = "uid://bam0h0kpnlj7e"
+
+[sub_resource type="Resource" id="Resource_0m16l"]
+script = ExtResource("2_ae5ee")
+vfx_scene = ExtResource("3_uvrt3")
+refresh_existing = true
+metadata/_custom_type_script = "uid://hb3lr7eojcjc"
+
+[resource]
+script = ExtResource("2_noo8k")
+id = &"freeze"
+status_name = "冻结"
+desc = "控制类状态，使目标无法执行任何行动并停止动画；体质越高，持续时间越短。"
+icon = ExtResource("2_y03lq")
+duration = 2.0
+effects = Array[ExtResource("1_d51uh")]([SubResource("Resource_uvrt3"), SubResource("Resource_0m16l")])
+metadata/_custom_type_script = "uid://halm05nhwnoo"

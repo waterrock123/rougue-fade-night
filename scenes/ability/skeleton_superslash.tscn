@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://d2cluru4sv1ny"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_6ngqy"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_pkjrd"]
+[ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="3_inxg0"]
+[ext_resource type="Script" uid="uid://bxl5nmydjpga5" path="res://scripts/ability/component/ability_get_targets.gd" id="4_qt7ne"]
+[ext_resource type="Script" uid="uid://f7xudf47t0wm" path="res://scripts/ability/component/ability_deal_damage.gd" id="5_wym55"]
+[ext_resource type="Script" uid="uid://dcukpvvpmebnv" path="res://scripts/stats/damage_scaling_rule.gd" id="6_npbvs"]
+[ext_resource type="Script" uid="uid://cu47jfxlm080o" path="res://scripts/ability/component/ability_play_sound.gd" id="7_lvnrf"]
+[ext_resource type="AudioStream" uid="uid://bfj8vxy0sfsyh" path="res://assets/Sound/Sword Impact Hit 1.wav" id="8_e38r7"]
+[ext_resource type="AudioStream" uid="uid://c7vdv8qlqgw3q" path="res://assets/Sound/Sword Impact Hit 2.wav" id="9_cf6or"]
+[ext_resource type="AudioStream" uid="uid://cqxc2cx4bdue1" path="res://assets/Sound/Sword Impact Hit 3.wav" id="10_bxwui"]
+[ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="11_yis2r"]
+[ext_resource type="Script" uid="uid://clk5ln8ax2vh1" path="res://scripts/ability/component/ability_enemy_telegraph.gd" id="12_telegraph"]
+[ext_resource type="Script" uid="uid://bm3se2ase8cin" path="res://scripts/ability/component/ability_lock_movement.gd" id="13_lock"]
+[ext_resource type="Script" uid="uid://bj4m7sjslwicx" path="res://scripts/ability/component/ability_spawn_manifest.gd" id="14_qt7ne"]
+[ext_resource type="PackedScene" uid="uid://bf47dlny011na" path="res://scenes/ability/manifest/skeleton_slash_manifest.tscn" id="15_wym55"]
+
+[sub_resource type="Resource" id="Resource_do2dv"]
+script = ExtResource("6_npbvs")
+formula_mode = 1
+metadata/_custom_type_script = "uid://dcukpvvpmebnv"
+
+[sub_resource type="Resource" id="Resource_025o3"]
+script = ExtResource("11_yis2r")
+audio_streams = Array[AudioStream]([ExtResource("8_e38r7"), ExtResource("9_cf6or"), ExtResource("10_bxwui")])
+volume_db = 5.0
+bus = &"sfx"
+metadata/_custom_type_script = "uid://cfgrgm03strrd"
+
+[node name="SkeletonSuperSlash" type="Node" unique_id=571249044]
+script = ExtResource("1_6ngqy")
+
+[node name="AbilityLockMovement" type="Node" parent="." unique_id=492034158]
+script = ExtResource("13_lock")
+lock_duration = 1.5
+
+[node name="ShortSlashTelegraph" type="Node" parent="." unique_id=1080833835]
+script = ExtResource("12_telegraph")
+direction_mode = 1
+range = 75.0
+angle_degrees = 100.0
+warning_duration = 0.36
+
+[node name="AbilityAnimationRunner" type="Node" parent="." unique_id=856575273]
+script = ExtResource("2_pkjrd")
+animation_name = "slash"
+metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
+
+[node name="DealDamageGroup" type="Node" parent="." unique_id=1224669303]
+script = ExtResource("3_inxg0")
+delay = 0.8
+
+[node name="AbilityGetTargets" type="Node" parent="DealDamageGroup" unique_id=1666407496]
+script = ExtResource("4_qt7ne")
+radius = 60.0
+target_mode = 1
+direction_mode = 4
+metadata/_custom_type_script = "uid://bxl5nmydjpga5"
+
+[node name="AbilityDealDamage" type="Node" parent="DealDamageGroup" unique_id=124570909]
+script = ExtResource("5_wym55")
+damage = 30.0
+scaling_rule = SubResource("Resource_do2dv")
+metadata/_custom_type_script = "uid://f7xudf47t0wm"
+
+[node name="PlayImpactSound" type="Node" parent="DealDamageGroup/AbilityDealDamage" unique_id=1134532102]
+script = ExtResource("7_lvnrf")
+audio_config = SubResource("Resource_025o3")
+metadata/_custom_type_script = "uid://cu47jfxlm080o"
+
+[node name="ShortSlashTelegraph2" type="Node" parent="DealDamageGroup" unique_id=915138032]
+script = ExtResource("12_telegraph")
+shape = 1
+direction_mode = 3
+range = 25.0
+angle_degrees = 360.0
+width = 40.0
+circle_segments = 25
+forward_offset = 75.0
+warning_duration = 0.5
+border_width = 1.0
+exec_delay = 0.3
+
+[node name="AbilitySpawnManifest" type="Node" parent="DealDamageGroup" unique_id=1925651899]
+script = ExtResource("14_qt7ne")
+manifest_scene = ExtResource("15_wym55")
+use_directional_offset = true
+forward_offset = 75.0
+exec_delay = 0.5
+metadata/_custom_type_script = "uid://bj4m7sjslwicx"

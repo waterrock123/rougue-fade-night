@@ -11,6 +11,10 @@ const STARTING_GOLD := 0
 @export var picked_character: Character
 # 待消费的免费装备三选一等级队列。每次遗物合成升级会加入一次机会。
 @export var pending_free_relic_choice_levels: Array[int] = []
+# 玩家可用的升级奖励刷新次数。初始为 0，后续可以由事件、遗物或被动技能增加。
+@export var level_up_reward_refresh_count: int = 0
+# 玩家可储存的免费商店刷新次数。可跨修整期保存。
+@export var shop_free_refresh_count: int = 0
 
 @export_group("修整期金币")
 # 第一次进入修整期时的基础奖励。
@@ -46,6 +50,8 @@ func setup_new_run(
 	shop_config = new_shop_config
 	picked_character = new_character
 	rest_period_count = 0
+	level_up_reward_refresh_count = 0
+	shop_free_refresh_count = 0
 	pending_free_relic_choice_levels.clear()
 	set_gold(STARTING_GOLD)
 
@@ -117,3 +123,49 @@ func get_free_relic_choice_level_for_now() -> int:
 	if shop == null:
 		return 1
 	return max(shop.level + 1, 1)
+
+
+# 增加升级奖励刷新次数，供事件房、遗物、被动等系统调用。
+func add_level_up_reward_refresh_count(amount: int) -> void:
+	if amount <= 0:
+		return
+
+	level_up_reward_refresh_count += amount
+	if EventBus != null:
+		EventBus.level_up_reward_refresh_changed.emit()
+
+
+# 尝试消耗一次刷新次数；成功返回 true，失败表示次数不足。
+func spend_level_up_reward_refresh_count(amount: int = 1) -> bool:
+	if amount <= 0:
+		return true
+	if level_up_reward_refresh_count < amount:
+		return false
+
+	level_up_reward_refresh_count -= amount
+	if EventBus != null:
+		EventBus.level_up_reward_refresh_changed.emit()
+	return true
+
+
+# 增加可储存的免费商店刷新次数，供兑换券、事件或奖励调用。
+func add_shop_free_refresh_count(amount: int = 1) -> void:
+	if amount <= 0:
+		return
+
+	shop_free_refresh_count += amount
+	if EventBus != null:
+		EventBus.shop_free_refresh_changed.emit()
+
+
+# 尝试消耗一次免费商店刷新次数；成功返回 true。
+func spend_shop_free_refresh_count(amount: int = 1) -> bool:
+	if amount <= 0:
+		return true
+	if shop_free_refresh_count < amount:
+		return false
+
+	shop_free_refresh_count -= amount
+	if EventBus != null:
+		EventBus.shop_free_refresh_changed.emit()
+	return true

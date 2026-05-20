@@ -20,7 +20,7 @@ func can_accept_relic(relic: Relic) -> bool:
 	if relic == null or player_inventory == null:
 		return false
 
-	if player_inventory.has_empty_slot():
+	if player_inventory.can_accept_relic(relic):
 		return true
 
 	return _can_merge_with_external_relic(relic)
@@ -31,7 +31,7 @@ func add_relic(relic: Relic) -> bool:
 	if relic == null or player_inventory == null:
 		return false
 
-	if player_inventory.has_empty_slot():
+	if player_inventory.has_empty_slot() or player_inventory.has_empty_locked_slot():
 		var success := player_inventory.add_relic(relic)
 		if success:
 			AudioController.play_ui_sound(&"get_item")
@@ -43,6 +43,18 @@ func add_relic(relic: Relic) -> bool:
 		return true
 
 	return false
+
+
+# 离开修整期时清理锁格中的临时装备。
+# 锁格只负责给玩家整理背包的缓冲空间，不会把装备永久带到下一段流程。
+func clear_locked_inventory_relics() -> int:
+	if player_inventory == null:
+		return 0
+
+	var cleared_count := player_inventory.clear_locked_items()
+	if cleared_count > 0:
+		check_relic_merges()
+	return cleared_count
 
 
 # 统一检测背包和装备栏中的未升级遗物，满足数量时合成一件升级态遗物。
@@ -77,7 +89,7 @@ func grant_active_skill(skill_data: ActiveSkillData) -> SkillEntry:
 	if skill_data == null:
 		return null
 
-	var existing := find_active_skill_entry(skill_data.id)
+	var existing := find_permanent_active_skill_entry(skill_data.id)
 	if existing != null:
 		existing.level_up()
 		return existing
@@ -87,6 +99,46 @@ func grant_active_skill(skill_data: ActiveSkillData) -> SkillEntry:
 	entry.slot_index = owned_active_skills.size()
 	owned_active_skills.append(entry)
 	return entry
+
+
+# 添加一个临时主动技能。
+# 装备、事件、状态提供的技能走这里，方便卸下装备或状态结束时精准移除，不污染永久构筑。
+func grant_temporary_active_skill(skill_data: ActiveSkillData, source_key: StringName) -> SkillEntry:
+	if skill_data == null or source_key == &"":
+		return null
+
+	var permanent_existing := find_permanent_active_skill_entry(skill_data.id)
+	if permanent_existing != null and not permanent_existing.is_temporary:
+		return permanent_existing
+
+	for entry in owned_active_skills:
+		if entry == null:
+			continue
+		if entry.is_temporary and entry.temporary_source_key == source_key:
+			return entry
+
+	var entry := SkillEntry.new()
+	entry.skill_data = skill_data
+	entry.is_temporary = true
+	entry.temporary_source_key = source_key
+	entry.slot_index = owned_active_skills.size()
+	owned_active_skills.append(entry)
+	return entry
+
+
+# 移除指定来源提供的临时主动技能。
+func remove_temporary_active_skill(source_key: StringName) -> void:
+	if source_key == &"":
+		return
+
+	for index in range(owned_active_skills.size() - 1, -1, -1):
+		var entry := owned_active_skills[index]
+		if entry == null:
+			continue
+		if entry.is_temporary and entry.temporary_source_key == source_key:
+			owned_active_skills.remove_at(index)
+
+	_reindex_active_skill_slots()
 
 
 # 添加一个被动技能条目；如果已经拥有，则只负责升级。
@@ -141,6 +193,13 @@ func find_active_skill_entry(skill_id: StringName) -> SkillEntry:
 	return _find_skill_entry(owned_active_skills, skill_id)
 
 
+func find_permanent_active_skill_entry(skill_id: StringName) -> SkillEntry:
+	for entry in owned_active_skills:
+		if entry != null and not entry.is_temporary and entry.get_skill_id() == skill_id:
+			return entry
+	return null
+
+
 func find_passive_skill_entry(skill_id: StringName) -> SkillEntry:
 	return _find_skill_entry(owned_passive_skills, skill_id)
 
@@ -151,6 +210,13 @@ func _find_skill_entry(entries: Array[SkillEntry], skill_id: StringName) -> Skil
 			return entry
 
 	return null
+
+
+func _reindex_active_skill_slots() -> void:
+	for index in range(owned_active_skills.size()):
+		var entry := owned_active_skills[index]
+		if entry != null:
+			entry.slot_index = index
 
 
 func _try_merge_relic_id(relic_id: String) -> void:

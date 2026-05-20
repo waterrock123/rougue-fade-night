@@ -1,5 +1,5 @@
+## 转向鼠标组件。让施法者面向当前鼠标世界坐标，适合玩家主动技能释放前调整朝向。
 class_name AbilityTurnToMouse
-
 extends AbilityComponent
 
 

@@ -1,3 +1,4 @@
+## 冲锋位移组件。让施法者朝 AbilityContext 中的目标或默认敌对目标冲刺一段距离；只负责位移，不负责伤害。
 class_name AbilityChargeToTarget
 extends AbilityComponent
 
@@ -42,6 +43,8 @@ func _activate(context: AbilityContext):
 
 	var end_pos := caster.position + charge_dir * actual_distance
 	var tween := caster.create_tween()
+	if caster.has_method("register_action_tween"):
+		caster.register_action_tween(tween)
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.set_ease(Tween.EASE_OUT)
 	tween.tween_property(caster, "position", end_pos, duration)

@@ -53,6 +53,8 @@ name = "环"
 relics = Array[ExtResource("1_nxnih")]([ExtResource("3_002qs"), ExtResource("4_iwuni"), ExtResource("5_w405u"), ExtResource("6_tyyc0"), ExtResource("7_3p22a"), ExtResource("8_a37mm"), ExtResource("9_oviye"), ExtResource("10_fbfiw"), ExtResource("11_euaak"), ExtResource("12_qdfw0"), ExtResource("13_wcj0b"), ExtResource("14_sk0tl"), ExtResource("15_akun5"), ExtResource("16_w405u")])
 texture = SubResource("AtlasTexture_002qs")
 havetag = Array[ExtResource("18_tyyc0")]([ExtResource("3_a37mm"), ExtResource("4_oviye"), ExtResource("5_fbfiw")])
+shop_desc = "奇怪的紫发女子笑了笑，似乎早预料到你回来
+“我可是在这里等待好久了。”"
 enter_rest_period_dialogues = SubResource("Resource_sdg1l")
 exit_rest_period_dialogues = SubResource("Resource_741p7")
 buy_relic_dialogues = SubResource("Resource_bkrw4")

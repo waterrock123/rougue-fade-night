@@ -25,8 +25,8 @@ metadata/_custom_type_script = "uid://neet2irr2m2g"
 script = ExtResource("1_as5od")
 relic_name = "草甲"
 icon = ExtResource("1_1xjfc")
-tooltip = "一{armor}，受到伤害时有概率损坏
-升级： {constitution}+2，受到伤害时不再会损坏"
+tooltip = "一{armor}
+升级： {constitution}+2"
 price = 3
 level = 1
 tags = Array[ExtResource("6_d2mm2")]([ExtResource("7_s1ykm")])

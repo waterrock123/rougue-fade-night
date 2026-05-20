@@ -37,6 +37,10 @@ signal relic_sold(relic: Relic)
 signal relic_merged_to_levelup(upgraded_relic: Relic)
 # 免费遗物三选一机会变化信号，商店 UI 用它切入/继续奖励选择。
 signal free_relic_choice_changed()
+# 升级奖励刷新次数变化信号，升级奖励界面用它刷新按钮状态。
+signal level_up_reward_refresh_changed()
+# 商店免费刷新次数变化信号，商店 UI 用它刷新价格与次数显示。
+signal shop_free_refresh_changed()
 
 
 #退出地图信号，进入传入的房间的场景

@@ -1,7 +1,8 @@
+## 碰撞命中伤害组件。在短时间窗口内监听指定 Area2D，目标进入碰撞区域时才造成伤害，适合冲撞、旋风斩、AOE 范围等技能。
 class_name AbilityDealDamageOnOverlap
 extends AbilityComponent
 
-# Active window for overlap-based damage.
+# 碰撞判定的激活时间窗口。
 @export var active_duration: float = 0.2
 @export var hit_once_per_activation: bool = true
 @export var collision_area_path: NodePath = ^"Area2D"
@@ -23,6 +24,8 @@ func _activate(context: AbilityContext):
 	var elapsed := 0.0
 
 	while elapsed < active_duration:
+		if context == null or not context.is_caster_action_valid():
+			return
 		var targets := _collect_overlap_targets(caster)
 		context.targets = targets
 
@@ -37,7 +40,9 @@ func _activate(context: AbilityContext):
 				caster,
 				target,
 				can_crit,
-				scaling_rule
+				scaling_rule,
+				context.ability.id if context.ability != null else &"",
+				context.ability.runtime_slot_index if context.ability != null else -1
 			)
 			target.apply_damage(damage_data)
 			hit_cache[target] = true
@@ -90,6 +95,8 @@ func _collect_overlap_targets(caster: Entity) -> Array[Entity]:
 
 
 func _is_valid_target(caster: Entity, target: Entity) -> bool:
+	if target.has_method("can_be_targeted") and not target.can_be_targeted():
+		return false
 	if caster.is_in_group("enemy"):
 		return target.is_in_group("player")
 	if caster.is_in_group("player"):

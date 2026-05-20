@@ -1,3 +1,4 @@
+## 残影/分身视觉组件。根据施法者当前贴图生成若干残影，适合冲刺、闪避、快速移动等技能的表现。
 class_name AbilityCloneSelf
 extends AbilityComponent
 #克隆残影数量

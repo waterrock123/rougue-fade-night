@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://bf47dlny011na"]
+
+[ext_resource type="Texture2D" uid="uid://bapt2lcul6oo1" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 1/sprite-sheet.png" id="2_2khw6"]
+[ext_resource type="AudioStream" uid="uid://cqxc2cx4bdue1" path="res://assets/Sound/Sword Impact Hit 3.wav" id="2_r83gm"]
+[ext_resource type="Script" uid="uid://csx5cflg0vbtm" path="res://scripts/ability/manifest/animated_hitbox_manifest.gd" id="2_script"]
+[ext_resource type="AudioStream" uid="uid://lxkx7y372taw" path="res://assets/Sound/Sword Attack 3.wav" id="3_tsjmr"]
+[ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="4_7ieo2"]
+
+[sub_resource type="Resource" id="Resource_4xujy"]
+script = ExtResource("4_7ieo2")
+audio_streams = Array[AudioStream]([ExtResource("2_r83gm"), ExtResource("3_tsjmr")])
+metadata/_custom_type_script = "uid://cfgrgm03strrd"
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2khw6"]
+blend_mode = 2
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qpn3o"]
+atlas = ExtResource("2_2khw6")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1pue"]
+atlas = ExtResource("2_2khw6")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r83gm"]
+atlas = ExtResource("2_2khw6")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tsjmr"]
+atlas = ExtResource("2_2khw6")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ieo2"]
+atlas = ExtResource("2_2khw6")
+region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4xujy"]
+atlas = ExtResource("2_2khw6")
+region = Rect2(128, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vl37f"]
+atlas = ExtResource("2_2khw6")
+region = Rect2(0, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hv2si"]
+atlas = ExtResource("2_2khw6")
+region = Rect2(128, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjb7h"]
+atlas = ExtResource("2_2khw6")
+region = Rect2(0, 512, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ajg2d"]
+atlas = ExtResource("2_2khw6")
+region = Rect2(128, 512, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vgy26"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qpn3o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e1pue")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r83gm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tsjmr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ieo2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4xujy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vl37f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hv2si")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjb7h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ajg2d")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s33uf"]
+radius = 25.0
+
+[node name="SkeletonSlashManifest" type="Node2D" unique_id=844717220]
+z_index = 90
+script = ExtResource("2_script")
+damage_frames = Array[int]([2, 6])
+damage = 12.0
+hit_sound = SubResource("Resource_4xujy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=15184359]
+z_index = -1
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_2khw6")
+position = Vector2(3.0000076, 3.000002)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_vgy26")
+autoplay = "default"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=655491536]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=317675700]
+shape = SubResource("CircleShape2D_s33uf")

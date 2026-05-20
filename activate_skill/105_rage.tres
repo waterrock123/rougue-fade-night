@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("1_ry8ga")
 ability_scene = ExtResource("1_w8u2e")
-base_cooldown = 5.0
+base_cooldown = 10.0
 base_energy_cost = 10.0
 id = &"105"
 skill_name = "暴怒"

@@ -1,11 +1,15 @@
+## 消耗品使用时增加一级属性的效果。
+## 加成注册到运行时 StatsController，一般用于只在当前战斗内生效的临时属性。
 class_name UseAddStatsEffect
 extends RelicEffect
 
+
+## 使用后增加的一级属性字典，示例：{"strength": 2, "speed": 1}。
 @export var add_stats: Dictionary = {}
 
 
-# 使用消耗品时添加本场运行时属性修饰。
-# 这里只注册 Modifier，不直接修改 StatsData，因此战斗结束重新绑定构筑数据后会自然失效。
+## 使用消耗品时添加本场运行时属性修饰。
+## 这里只注册 Modifier，不直接修改 StatsData，因此战斗结束重新绑定构筑数据后会自然失效。
 func on_use(relic_context: RelicContext, effect_key) -> void:
 	if relic_context == null or add_stats.is_empty():
 		return

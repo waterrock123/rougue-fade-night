@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://d1xk73lo2sxqk"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_len5x"]
+[ext_resource type="Script" uid="uid://cwurh534m7762" path="res://scripts/ability/component/ability_area_indicator.gd" id="3_qx31q"]
+[ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="5_8hmil"]
+[ext_resource type="PackedScene" uid="uid://dhdokw7plwdkw" path="res://scenes/ability/manifest/Icepitonmanifest.tscn" id="6_50fu2"]
+[ext_resource type="Script" uid="uid://bt3s00xfv2uei" path="res://scripts/ability/component/ability_spawn_manifest_fan.gd" id="14_lfrae"]
+
+[node name="Icepiton" type="Node" unique_id=571249044]
+script = ExtResource("1_len5x")
+energy_cost = 20.0
+
+[node name="AbilityAreaIndicator" type="Node" parent="." unique_id=615992693]
+script = ExtResource("3_qx31q")
+shape = 3
+length = 300.0
+width = 40.0
+radius = 40.0
+angle_degrees = 120.0
+fan_line_count = 5
+fan_spread_angle_degrees = 120.0
+metadata/_custom_type_script = "uid://cwurh534m7762"
+
+[node name="AbilityComponentGroup" type="Node" parent="." unique_id=660069136]
+script = ExtResource("5_8hmil")
+metadata/_custom_type_script = "uid://cyw5u4hf1f3i7"
+
+[node name="AbilitySpawnManifest" type="Node" parent="AbilityComponentGroup" unique_id=205386047]
+script = ExtResource("14_lfrae")
+manifest_scene = ExtResource("6_50fu2")
+manifest_count = 5
+spread_angle_degrees = 120.0
+target_distance = 300.0

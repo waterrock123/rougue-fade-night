@@ -3,14 +3,19 @@
 [ext_resource type="Texture2D" uid="uid://whh20yvsrwc8" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc106.png" id="1_6yacv"]
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_euawk"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_u6cck"]
-[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="2_8g1ou"]
+[ext_resource type="Script" uid="uid://cvv55p7xrpqw0" path="res://relic_effect/sell_shop_refresh_effect.gd" id="2_k731q"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="3_rxx4v"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_8g1ou"]
 [ext_resource type="Resource" uid="uid://bmipmd2ww6hum" path="res://relic_tags/好好顾客tag.tres" id="6_k731q"]
 
-[sub_resource type="Resource" id="Resource_k731q"]
-script = ExtResource("2_8g1ou")
+[sub_resource type="Resource" id="Resource_rxx4v"]
+script = ExtResource("2_k731q")
+metadata/_custom_type_script = "uid://cvv55p7xrpqw0"
+
+[sub_resource type="Resource" id="Resource_vw6uc"]
+script = ExtResource("3_rxx4v")
 add_stats = {
-"luck": 1.0
+"luck": 1
 }
 metadata/_custom_type_script = "uid://neet2irr2m2g"
 
@@ -26,5 +31,6 @@ price = 3
 level = 1
 tags = Array[ExtResource("5_8g1ou")]([ExtResource("6_k731q")])
 id = "005"
-effects = Array[ExtResource("1_euawk")]([SubResource("Resource_k731q"), null])
+effects = Array[ExtResource("1_euawk")]([SubResource("Resource_rxx4v"), SubResource("Resource_vw6uc")])
+great_effects = Array[ExtResource("1_euawk")]([null])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

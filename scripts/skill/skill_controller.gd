@@ -37,8 +37,10 @@ func refresh_active_skills() -> void:
 	for entry in player_build.owned_active_skills:
 		if entry == null or not entry.is_equipped:
 			continue
-		if slot_index >= player_build.active_skill_slot_limit:
-			break
+
+		# 普通技能受技能栏上限限制；装备/状态给的临时技能视作额外技能，允许挂到后续槽位。
+		if not entry.is_temporary and slot_index >= player_build.active_skill_slot_limit:
+			continue
 
 		var skill_data := entry.skill_data as ActiveSkillData
 		if skill_data == null or skill_data.ability_scene == null:
@@ -49,6 +51,7 @@ func refresh_active_skills() -> void:
 			_build_active_source_key(entry)
 		)
 		if runtime_ability != null:
+			runtime_ability.runtime_slot_index = slot_index
 			runtime_ability.apply_skill_data(skill_data, entry)
 
 		slot_index += 1
