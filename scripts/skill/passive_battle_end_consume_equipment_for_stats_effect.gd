@@ -68,6 +68,7 @@ func _consume_leftmost(context: SkillContext, equipment: Equipment) -> void:
 
 		var consumed_relic := slot.item
 		slot.item = null
+		EventBus.relic_removed.emit(consumed_relic, "destroyed")
 		_grant_random_permanent_stat(context, consumed_relic)
 		_emit_updates()
 		return
@@ -81,6 +82,7 @@ func _consume_all(context: SkillContext, equipment: Equipment) -> void:
 
 		var consumed_relic := slot.item
 		slot.item = null
+		EventBus.relic_removed.emit(consumed_relic, "destroyed")
 		_grant_random_permanent_stat(context, consumed_relic)
 		consumed_any = true
 

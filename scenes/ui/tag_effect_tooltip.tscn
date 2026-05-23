@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://dtb0mybrx65sq"]
+
+[ext_resource type="PackedScene" uid="uid://drnrxy5n678gs" path="res://scenes/tooltip/tag_ui.tscn" id="1_dbnat"]
+[ext_resource type="Texture2D" uid="uid://fkoxupajdnkr" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb85.png" id="2_43n81"]
+[ext_resource type="Script" path="res://scenes/ui/tag_effect_tooltip.gd" id="3_tag_effect_tooltip"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_m7x2r"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_twxxo"]
+font_color = Color(1, 1, 0, 1)
+
+[node name="TagEffectTooltip" type="VBoxContainer" unique_id=2000091988]
+custom_minimum_size = Vector2(350, 80)
+size_flags_vertical = 0
+script = ExtResource("3_tag_effect_tooltip")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=130825459]
+layout_mode = 2
+alignment = 1
+
+[node name="TagUI" parent="HBoxContainer" unique_id=1396676509 instance=ExtResource("1_dbnat")]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer" unique_id=1468143908]
+layout_mode = 2
+texture = ExtResource("2_43n81")
+
+[node name="TagEffectName" type="Label" parent="HBoxContainer" unique_id=1956198320]
+unique_name_in_owner = true
+layout_mode = 2
+text = "{tag_effect_name}"
+label_settings = SubResource("LabelSettings_m7x2r")
+horizontal_alignment = 1
+
+[node name="CountLabel" type="Label" parent="HBoxContainer" unique_id=2037053278]
+layout_mode = 2
+text = "已激活 或 3/4（前一个数字为tag计数，后一个为激活需要的计数）"
+label_settings = SubResource("LabelSettings_twxxo")
+
+[node name="TagEffectDesc" type="RichTextLabel" parent="." unique_id=1731384971]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "总之这里是效果总之这里是效果总之这里是效果总之这里是效果总之这里是效果"
+fit_content = true
+scroll_active = false
+autowrap_mode = 1
+horizontal_alignment = 1

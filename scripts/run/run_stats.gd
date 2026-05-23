@@ -9,12 +9,23 @@ const STARTING_GOLD := 0
 @export var shop: Shop
 @export var shop_config: ShopConfig
 @export var picked_character: Character
+# 本局每个 tag 选中的套装效果。局外选择系统完成后，只需要在开局时填充这里。
+@export var selected_tag_effects: Array[TagEffect] = []
+# 已经触发过的一次性 tag 效果 id，防止读档、装备刷新或进入战斗时重复结算。
+@export var completed_once_tag_effect_ids: Array[StringName] = []
 # 待消费的免费装备三选一等级队列。每次遗物合成升级会加入一次机会。
 @export var pending_free_relic_choice_levels: Array[int] = []
 # 玩家可用的升级奖励刷新次数。初始为 0，后续可以由事件、遗物或被动技能增加。
 @export var level_up_reward_refresh_count: int = 0
 # 玩家可储存的免费商店刷新次数。可跨修整期保存。
 @export var shop_free_refresh_count: int = 0
+# 持久状态层数。用于“战斗胜利后获得锋锐”这类跨战斗保留的状态。
+@export var persistent_status_stacks: Dictionary = {}
+
+# 下面两个字典只保存“当前激活效果”的运行时修正，不进存档。
+# key 是效果来源，value 是具体参数；效果失效时会按 key 移除，避免互相覆盖。
+var shop_intelligence_payment_sources: Dictionary = {}
+var consumable_keep_chance_sources: Dictionary = {}
 
 @export_group("修整期金币")
 # 第一次进入修整期时的基础奖励。
@@ -52,8 +63,25 @@ func setup_new_run(
 	rest_period_count = 0
 	level_up_reward_refresh_count = 0
 	shop_free_refresh_count = 0
+	completed_once_tag_effect_ids.clear()
 	pending_free_relic_choice_levels.clear()
+	persistent_status_stacks.clear()
+	shop_intelligence_payment_sources.clear()
+	consumable_keep_chance_sources.clear()
 	set_gold(STARTING_GOLD)
+
+
+func is_tag_effect_once_completed(effect_id: StringName) -> bool:
+	return completed_once_tag_effect_ids.has(effect_id)
+
+
+func mark_tag_effect_once_completed(effect_id: StringName) -> void:
+	if effect_id == &"":
+		return
+	if completed_once_tag_effect_ids.has(effect_id):
+		return
+
+	completed_once_tag_effect_ids.append(effect_id)
 
 
 # 计算本次进入修整期应获得的金币。
@@ -169,3 +197,95 @@ func spend_shop_free_refresh_count(amount: int = 1) -> bool:
 	if EventBus != null:
 		EventBus.shop_free_refresh_changed.emit()
 	return true
+
+
+# 注册“金币不足时可消耗智力购物”的来源。多个来源同时存在时取消耗最低的那个。
+func set_shop_intelligence_payment(source_key: String, intelligence_cost: int) -> void:
+	if source_key.is_empty() or intelligence_cost <= 0:
+		return
+
+	shop_intelligence_payment_sources[source_key] = intelligence_cost
+
+
+func clear_shop_intelligence_payment(source_key: String) -> void:
+	if source_key.is_empty():
+		return
+
+	shop_intelligence_payment_sources.erase(source_key)
+
+
+func can_pay_shop_with_intelligence() -> bool:
+	return _get_shop_intelligence_cost() > 0
+
+
+# 尝试永久消耗智力支付一次商品。文本设定是“没有金币时”，所以这里要求金币为 0。
+func spend_intelligence_for_shop_purchase() -> bool:
+	var cost := _get_shop_intelligence_cost()
+	if cost <= 0 or gold > 0:
+		return false
+	if player_build == null or player_build.player_stats == null:
+		return false
+	if player_build.player_stats.intelligence < cost:
+		return false
+
+	player_build.player_stats.intelligence -= cost
+	if EventBus != null:
+		EventBus.attribute_update.emit()
+	return true
+
+
+func _get_shop_intelligence_cost() -> int:
+	var result := 0
+	for value in shop_intelligence_payment_sources.values():
+		var cost := int(value)
+		if cost <= 0:
+			continue
+		if result == 0 or cost < result:
+			result = cost
+	return result
+
+
+# 注册“使用消耗品时不消耗”的概率来源。结算时取最高概率，避免多个来源线性爆炸。
+func set_consumable_keep_chance(source_key: String, chance: float) -> void:
+	if source_key.is_empty():
+		return
+
+	consumable_keep_chance_sources[source_key] = clamp(chance, 0.0, 1.0)
+
+
+func clear_consumable_keep_chance(source_key: String) -> void:
+	if source_key.is_empty():
+		return
+
+	consumable_keep_chance_sources.erase(source_key)
+
+
+func roll_keep_consumable() -> bool:
+	var chance := get_consumable_keep_chance()
+	if chance <= 0.0:
+		return false
+
+	return randf() <= chance
+
+
+func get_consumable_keep_chance() -> float:
+	var result := 0.0
+	for value in consumable_keep_chance_sources.values():
+		result = max(result, float(value))
+	return clamp(result, 0.0, 1.0)
+
+
+# 记录跨战斗保留的状态层数，常用于“每次战斗胜利后获得一层锋锐”。
+func add_persistent_status_stacks(status_id: StringName, stacks: int = 1) -> void:
+	if status_id == &"" or stacks <= 0:
+		return
+
+	var key := String(status_id)
+	persistent_status_stacks[key] = int(persistent_status_stacks.get(key, 0)) + stacks
+
+
+func get_persistent_status_stacks(status_id: StringName) -> int:
+	if status_id == &"":
+		return 0
+
+	return int(persistent_status_stacks.get(String(status_id), 0))

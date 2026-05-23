@@ -111,6 +111,7 @@ func clear_locked_items() -> int:
 		if slot_.item == null:
 			continue
 
+		EventBus.relic_removed.emit(slot_.item, "destroyed")
 		slot_.item = null
 		cleared_count += 1
 

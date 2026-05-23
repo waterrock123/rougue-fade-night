@@ -1,0 +1,142 @@
+[gd_scene format=3 uid="uid://fvn5k47cufng"]
+
+[ext_resource type="FontFile" uid="uid://ehcx8jaw4rmu" path="res://assets/字体/Minecraft.ttf" id="1_7h20h"]
+[ext_resource type="Texture2D" uid="uid://bprxjcouww8e6" path="res://assets/ai art/Tag效果设置界面.png" id="1_ew0kv"]
+[ext_resource type="PackedScene" uid="uid://biv1hiflg8g33" path="res://scenes/tag_effect_show_button.tscn" id="2_dkmin"]
+[ext_resource type="Script" uid="uid://b51q1k037cb0e" path="res://scripts/tag_effect/tag_effect_chose_panel.gd" id="2_panel_script"]
+[ext_resource type="PackedScene" uid="uid://dmd7mos7q5ews" path="res://scenes/effect_detail_ui.tscn" id="4_wwb8y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwb8y"]
+bg_color = Color(0.80714, 0.5766774, 0.5730574, 0.43400002)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dkmin"]
+bg_color = Color(0.9310191, 0.42078656, 0.33767915, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_ew0kv"]
+font = ExtResource("1_7h20h")
+font_size = 64
+
+[sub_resource type="LabelSettings" id="LabelSettings_wwb8y"]
+font_size = 64
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_34tw0"]
+bg_color = Color(0.57263106, 0.5938226, 0.7035021, 0.44313726)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1.92523e-06, 0.695593, 0.7770371, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="TagEffectChosePanel" type="Control" unique_id=705049281]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_panel_script")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=500083263]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ew0kv")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1286122290]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.35900003
+anchor_bottom = 1.0
+offset_right = 32.71997
+
+[node name="Panel" type="Panel" parent="CenterContainer" unique_id=1999769869]
+custom_minimum_size = Vector2(689, 1080)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wwb8y")
+
+[node name="TagList" type="VBoxContainer" parent="CenterContainer" unique_id=1338363024]
+custom_minimum_size = Vector2(689, 1080)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/TagList" unique_id=586803012]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_dkmin")
+text = "Tag列表"
+label_settings = SubResource("LabelSettings_ew0kv")
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/TagList" unique_id=851977914]
+custom_minimum_size = Vector2(0, 989)
+layout_mode = 2
+scroll_hint_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/TagList/ScrollContainer" unique_id=1870101729]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="TagEffectShowButton" parent="CenterContainer/TagList/ScrollContainer/VBoxContainer" unique_id=1454295476 instance=ExtResource("2_dkmin")]
+layout_mode = 2
+
+[node name="TagEffectShowButton2" parent="CenterContainer/TagList/ScrollContainer/VBoxContainer" unique_id=1602139779 instance=ExtResource("2_dkmin")]
+layout_mode = 2
+
+[node name="TagEffectShowButton3" parent="CenterContainer/TagList/ScrollContainer/VBoxContainer" unique_id=378233794 instance=ExtResource("2_dkmin")]
+layout_mode = 2
+
+[node name="ExitButton" type="Button" parent="." unique_id=1749368261]
+layout_mode = 0
+offset_left = 1690.0
+offset_top = 39.0
+offset_right = 1883.0
+offset_bottom = 135.0
+theme_override_font_sizes/font_size = 64
+text = "退出"
+
+[node name="Label" type="Label" parent="." unique_id=142693785]
+layout_mode = 0
+offset_left = 1116.0
+offset_top = 108.0
+offset_right = 1500.0
+offset_bottom = 196.0
+text = "对应效果选择"
+label_settings = SubResource("LabelSettings_wwb8y")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=535421497]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 726.0
+offset_top = 220.0
+offset_right = 1905.0
+offset_bottom = 1068.0
+
+[node name="Panel" type="Panel" parent="MarginContainer" unique_id=279452775]
+custom_minimum_size = Vector2(1179, 848)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_34tw0")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer" unique_id=512455720]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer" unique_id=1409396953]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="EffectDetail" parent="MarginContainer/ScrollContainer/VBoxContainer" unique_id=1011377350 instance=ExtResource("4_wwb8y")]
+layout_mode = 2
+
+[node name="EffectDetail2" parent="MarginContainer/ScrollContainer/VBoxContainer" unique_id=1734899212 instance=ExtResource("4_wwb8y")]
+layout_mode = 2
+
+[node name="EffectDetail3" parent="MarginContainer/ScrollContainer/VBoxContainer" unique_id=2036156262 instance=ExtResource("4_wwb8y")]
+layout_mode = 2

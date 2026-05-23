@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="TagBattleWinPersistentStatusEffect" format=3 uid="uid://sw4m7byc8yw5"]
+
+[ext_resource type="Script" uid="uid://c8yax13nmuvln" path="res://scripts/tag_effect/tag_battle_win_persistent_status_effect.gd" id="1_effect"]
+[ext_resource type="Resource" uid="uid://d1qaxn6s7eqj0" path="res://relic_tags/历战tag.tres" id="2_tag"]
+[ext_resource type="Texture2D" uid="uid://dpb7j368r3qf1" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc207.png" id="3_icon"]
+[ext_resource type="Resource" uid="uid://6in46238n4im" path="res://status/sharp.tres" id="4_status"]
+
+[resource]
+script = ExtResource("1_effect")
+status_data = ExtResource("4_status")
+id = &"veteran_sharp"
+tag = ExtResource("2_tag")
+effect_name = "磨砺锋锐"
+icon = ExtResource("3_icon")
+desc = "装备不同的历战达到 3 件后，每次战斗胜利获得 1 层{sharp}。"

@@ -1,10 +1,8 @@
 ## 消耗品使用时生成 AbilityManifest 的通用效果。
-## 适合复用给石头、飞刀、炸弹、药瓶等“使用后像技能一样生成实体”的消耗品。
+## 适合复用给石头、雪球、炸弹、药瓶等“使用后像技能一样生成实体”的消耗品。
 class_name UseSpawnManifestEffect
 extends RelicEffect
 
-
-## Manifest 的瞄准方式。
 enum TargetMode {
 	## 朝鼠标所在世界坐标发射，最适合玩家主动使用的投掷物。
 	MOUSE_POSITION,
@@ -14,6 +12,13 @@ enum TargetMode {
 	NEAREST_GROUP,
 }
 
+enum PreviewShape {
+	NONE,
+	LINE_RECT,
+	TARGET_CIRCLE_IN_RANGE,
+}
+
+const DEFAULT_PREVIEW_RADIUS := 320.0
 
 ## 使用时要生成的 AbilityManifest 场景。
 @export var manifest_scene: PackedScene
@@ -36,6 +41,21 @@ enum TargetMode {
 ## 遗物处于升级态时额外覆盖 Manifest 属性。示例：{"damage": 80.0}。
 @export var levelup_manifest_property_overrides: Dictionary = {}
 
+@export_group("Aim Preview")
+## 开启后，消耗品会像主动技能一样：按住显示指示范围，松开才使用。
+@export var use_hold_to_aim: bool = false
+## 消耗品预览形状。石头适合 LINE_RECT，雪球适合 TARGET_CIRCLE_IN_RANGE。
+@export var preview_shape: PreviewShape = PreviewShape.NONE
+@export var preview_length: float = 300.0
+@export var preview_width: float = 60.0
+## 大圆预览半径。小于等于 0 时，会优先读取 Manifest 的 max_range，避免 UI 和实际落点距离不一致。
+@export var preview_radius: float = 0.0
+@export var preview_target_radius: float = 36.0
+@export var preview_fill_color: Color = Color(0.2, 0.75, 1.0, 0.16)
+@export var preview_border_color: Color = Color(0.75, 0.95, 1.0, 0.8)
+@export var preview_target_fill_color: Color = Color(0.2, 0.75, 1.0, 0.3)
+@export var preview_target_border_color: Color = Color(0.9, 1.0, 1.0, 0.95)
+
 
 ## 使用消耗品时生成 Manifest，并伪造一个 AbilityContext 供现有投射物/命中逻辑复用。
 func on_use(relic_context: RelicContext, _effect_key) -> void:
@@ -52,7 +72,7 @@ func on_use(relic_context: RelicContext, _effect_key) -> void:
 	if manifest == null:
 		return
 
-	var target_position := _get_target_position(caster)
+	var target_position := _get_target_position(caster, relic_context)
 	if target_position.distance_squared_to(caster.global_position) <= 0.001:
 		var fallback_direction := caster.get_facing_direction()
 		if fallback_direction == Vector2.ZERO:
@@ -79,6 +99,82 @@ func on_use(relic_context: RelicContext, _effect_key) -> void:
 	manifest.activate(context)
 
 
+func has_aim_preview() -> bool:
+	return use_hold_to_aim and preview_shape != PreviewShape.NONE
+
+
+## 把资源里配置的预览参数写入运行时指示器。
+func configure_indicator(indicator: AbilityAreaIndicator) -> void:
+	if indicator == null:
+		return
+
+	indicator.shape = _to_indicator_shape()
+	indicator.length = preview_length
+	indicator.width = preview_width
+	indicator.radius = _get_effective_preview_radius()
+	indicator.target_radius = preview_target_radius
+	indicator.fill_color = preview_fill_color
+	indicator.border_color = preview_border_color
+	indicator.target_fill_color = preview_target_fill_color
+	indicator.target_border_color = preview_target_border_color
+
+
+## 松开消耗品按键时重新计算目标点，保证实际落点与指示范围一致。
+func get_aim_target_position(caster: Entity) -> Vector2:
+	if caster == null:
+		return Vector2.ZERO
+
+	var mouse_position := caster.get_global_mouse_position()
+	var effective_radius := _get_effective_preview_radius()
+	if preview_shape == PreviewShape.TARGET_CIRCLE_IN_RANGE and effective_radius > 0.0:
+		var offset := mouse_position - caster.global_position
+		if offset.length() > effective_radius:
+			return caster.global_position + offset.normalized() * effective_radius
+	return mouse_position
+
+
+func _get_effective_preview_radius() -> float:
+	if preview_radius > 0.0:
+		return preview_radius
+
+	var override_range := _get_range_from_overrides()
+	if override_range > 0.0:
+		return override_range
+
+	var manifest_range := _get_manifest_float_property(&"max_range")
+	if manifest_range > 0.0:
+		return manifest_range
+
+	return DEFAULT_PREVIEW_RADIUS
+
+
+func _get_range_from_overrides() -> float:
+	if manifest_property_overrides.has("max_range"):
+		return float(manifest_property_overrides["max_range"])
+	if manifest_property_overrides.has(&"max_range"):
+		return float(manifest_property_overrides[&"max_range"])
+	return 0.0
+
+
+func _get_manifest_float_property(property_name: StringName) -> float:
+	if manifest_scene == null:
+		return 0.0
+
+	var manifest := manifest_scene.instantiate()
+	if manifest == null:
+		return 0.0
+
+	var value := 0.0
+	for property_info in manifest.get_property_list():
+		if StringName(property_info.get("name", "")) != property_name:
+			continue
+		value = float(manifest.get(property_name))
+		break
+
+	manifest.free()
+	return value
+
+
 func _add_manifest_to_scene(caster: Entity, manifest: AbilityManifest, spawn_position: Vector2) -> void:
 	if set_as_child:
 		caster.add_child(manifest)
@@ -92,7 +188,10 @@ func _add_manifest_to_scene(caster: Entity, manifest: AbilityManifest, spawn_pos
 	manifest.global_position = spawn_position
 
 
-func _get_target_position(caster: Entity) -> Vector2:
+func _get_target_position(caster: Entity, relic_context: RelicContext = null) -> Vector2:
+	if relic_context != null and relic_context.use_target_position is Vector2:
+		return relic_context.use_target_position
+
 	match target_mode:
 		TargetMode.MOUSE_POSITION:
 			return caster.get_global_mouse_position()
@@ -134,3 +233,13 @@ func _find_nearest_target(caster: Entity) -> Node2D:
 func _apply_property_overrides(manifest: AbilityManifest, overrides: Dictionary) -> void:
 	for property_name in overrides.keys():
 		manifest.set(StringName(property_name), overrides[property_name])
+
+
+func _to_indicator_shape() -> AbilityAreaIndicator.IndicatorShape:
+	match preview_shape:
+		PreviewShape.TARGET_CIRCLE_IN_RANGE:
+			return AbilityAreaIndicator.IndicatorShape.TARGET_CIRCLE_IN_RANGE
+		PreviewShape.LINE_RECT:
+			return AbilityAreaIndicator.IndicatorShape.LINE_RECT
+
+	return AbilityAreaIndicator.IndicatorShape.LINE_RECT

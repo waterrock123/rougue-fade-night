@@ -31,6 +31,8 @@ extends AbilityManifest
 ## 每点幸运提高多少触发概率，例如 0.01 表示每点幸运 +1%。
 @export var luck_chance_bonus_per_point: float = 0.0
 @export var on_hit_status_stacks: int = 1
+## 本次施加状态的持续时间覆盖。INF 表示使用 StatusData 资源里的默认 duration。
+@export var on_hit_status_duration_override: float = INF
 
 @onready var animated_sprite: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
 @onready var hit_area: Area2D = get_node_or_null("Area2D") as Area2D
@@ -169,7 +171,7 @@ func _try_apply_on_hit_status(target: Entity, valid_source: Entity) -> void:
 		return
 
 	var source_key := "%s_%s" % [source_ability_id, on_hit_status.id]
-	status_controller.add_status(on_hit_status, valid_source, source_key, on_hit_status_stacks)
+	status_controller.add_status(on_hit_status, valid_source, source_key, on_hit_status_stacks, on_hit_status_duration_override)
 
 
 func _get_luck_status_bonus(valid_source: Entity) -> float:

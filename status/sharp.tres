@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://6in46238n4im"]
+
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="1_status"]
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="1_woupm"]
+[ext_resource type="Script" uid="uid://che7kmq2aehba" path="res://scripts/status/status_outgoing_damage_bonus_effect.gd" id="2_effect"]
+[ext_resource type="Texture2D" uid="uid://dgt05lmyqbws" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa1006.png" id="3_icon"]
+
+[sub_resource type="Resource" id="Resource_sharp_damage"]
+script = ExtResource("2_effect")
+flat_bonus = 1.0
+
+[resource]
+script = ExtResource("1_status")
+id = &"sharp"
+status_name = "锋锐"
+desc = "每层使你造成的伤害固定提高 1 点。"
+icon = ExtResource("3_icon")
+max_stacks = 99
+stack_mode = 1
+effects = Array[ExtResource("1_woupm")]([SubResource("Resource_sharp_damage")])

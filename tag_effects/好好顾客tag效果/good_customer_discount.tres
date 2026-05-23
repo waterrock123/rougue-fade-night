@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TagShopRandomDiscountEffect" format=3 uid="uid://bp7fp78yko5wu"]
+
+[ext_resource type="Script" uid="uid://bd6ywa0osqotm" path="res://scripts/tag_effect/tag_shop_random_discount_effect.gd" id="1_effect"]
+[ext_resource type="Resource" uid="uid://bmipmd2ww6hum" path="res://relic_tags/好好顾客tag.tres" id="2_tag"]
+[ext_resource type="Texture2D" uid="uid://c30laa603mr7o" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc200.png" id="3_icon"]
+
+[resource]
+script = ExtResource("1_effect")
+id = &"good_customer_discount"
+tag = ExtResource("2_tag")
+effect_name = "顾客优惠"
+icon = ExtResource("3_icon")
+desc = "装备不同的好好顾客达到 3 件后，战斗结束后的商店有概率出现随机折扣商品。"
+metadata/_custom_type_script = "res://scripts/tag_effect/tag_shop_random_discount_effect.gd"

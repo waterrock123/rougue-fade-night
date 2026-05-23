@@ -9,12 +9,15 @@ enum IndicatorShape {
 	CIRCLE,
 	SECTOR,
 	FAN_LINE_RECTS,
+	TARGET_CIRCLE_IN_RANGE,
 }
 
 @export var shape: IndicatorShape = IndicatorShape.LINE_RECT
 @export var length: float = 520.0
 @export var width: float = 80.0
 @export var radius: float = 160.0
+## shape 为 TARGET_CIRCLE_IN_RANGE 时，小圆代表真正落点/爆炸范围。
+@export var target_radius: float = 48.0
 @export var circle_segments: int = 48
 
 @export_group("Sector")
@@ -32,12 +35,17 @@ enum IndicatorShape {
 @export var fill_color: Color = Color(0.2, 0.75, 1.0, 0.22)
 @export var border_color: Color = Color(0.7, 0.95, 1.0, 0.85)
 @export var border_width: float = 3.0
+## 目标小圆可以用更亮的颜色，和大范围圈区分开。
+@export var target_fill_color: Color = Color(0.2, 0.75, 1.0, 0.34)
+@export var target_border_color: Color = Color(0.85, 1.0, 1.0, 0.95)
 ## 指示区域应该像画在地面上一样，默认放在角色和投射物下面，避免挡住人物。
 @export var indicator_z_index: int = -2
 
 var preview_context: AbilityContext
 var polygon: Polygon2D
 var border: Line2D
+var target_polygon: Polygon2D
+var target_border: Line2D
 var fan_polygons: Array[Polygon2D] = []
 var fan_borders: Array[Line2D] = []
 
@@ -90,6 +98,7 @@ func _ensure_nodes() -> void:
 	if border.get_parent() == null:
 		root.add_child(border)
 
+	_ensure_target_nodes()
 	_ensure_fan_nodes(fan_line_count)
 
 
@@ -99,6 +108,12 @@ func _set_indicator_visible(visible: bool) -> void:
 		polygon.visible = single_visible
 	if border != null:
 		border.visible = single_visible
+
+	var target_visible := visible and shape == IndicatorShape.TARGET_CIRCLE_IN_RANGE
+	if target_polygon != null:
+		target_polygon.visible = target_visible
+	if target_border != null:
+		target_border.visible = target_visible
 
 	var fan_visible := visible and shape == IndicatorShape.FAN_LINE_RECTS
 	for node in fan_polygons:
@@ -123,6 +138,8 @@ func _update_indicator() -> void:
 			_update_sector()
 		IndicatorShape.FAN_LINE_RECTS:
 			_update_fan_line_rects()
+		IndicatorShape.TARGET_CIRCLE_IN_RANGE:
+			_update_target_circle_in_range()
 
 
 func _update_line_rect() -> void:
@@ -156,6 +173,54 @@ func _update_circle() -> void:
 	border.points = points
 	border.global_position = caster.global_position
 	border.global_rotation = 0.0
+
+
+func _update_target_circle_in_range() -> void:
+	var caster := preview_context.caster
+	var range_points := _build_circle_points(radius)
+	var target_points := _build_circle_points(target_radius)
+	var target_position := get_clamped_target_position()
+
+	# 大圆表示“最多能丢到哪里”，小圆表示松开后真正落点/爆炸范围。
+	polygon.polygon = range_points
+	polygon.global_position = caster.global_position
+	polygon.global_rotation = 0.0
+
+	border.points = range_points
+	border.global_position = caster.global_position
+	border.global_rotation = 0.0
+
+	target_polygon.polygon = target_points
+	target_polygon.global_position = target_position
+	target_polygon.global_rotation = 0.0
+
+	target_border.points = target_points
+	target_border.global_position = target_position
+	target_border.global_rotation = 0.0
+
+
+func get_clamped_target_position() -> Vector2:
+	if preview_context == null or preview_context.caster == null:
+		return Vector2.ZERO
+
+	var caster := preview_context.caster
+	var mouse_position := caster.get_global_mouse_position()
+	var offset := mouse_position - caster.global_position
+	if radius > 0.0 and offset.length() > radius:
+		return caster.global_position + offset.normalized() * radius
+	return mouse_position
+
+
+func _build_circle_points(circle_radius: float) -> PackedVector2Array:
+	var points := PackedVector2Array()
+	var safe_segments: int = max(circle_segments, 12)
+
+	# 用多边形近似圆形，既能画半透明填充，也能画边框。
+	for index in range(safe_segments):
+		var angle := TAU * float(index) / float(safe_segments)
+		points.append(Vector2(cos(angle), sin(angle)) * circle_radius)
+
+	return points
 
 
 func _update_sector() -> void:
@@ -272,6 +337,25 @@ func _ensure_fan_nodes(count: int) -> void:
 		fan_borders.append(fan_border)
 
 
+func _ensure_target_nodes() -> void:
+	var root := _get_visual_root()
+	if target_polygon == null or not is_instance_valid(target_polygon):
+		target_polygon = Polygon2D.new()
+		target_polygon.color = target_fill_color
+		target_polygon.z_index = indicator_z_index + 2
+		target_polygon.visible = false
+		root.add_child(target_polygon)
+
+	if target_border == null or not is_instance_valid(target_border):
+		target_border = Line2D.new()
+		target_border.default_color = target_border_color
+		target_border.width = border_width
+		target_border.closed = true
+		target_border.z_index = indicator_z_index + 3
+		target_border.visible = false
+		root.add_child(target_border)
+
+
 func _get_visual_root() -> Node:
 	var root := get_tree().current_scene
 	return root if root != null else get_tree().root
@@ -282,6 +366,10 @@ func _free_single_nodes() -> void:
 		polygon.queue_free()
 	if border != null and is_instance_valid(border):
 		border.queue_free()
+	if target_polygon != null and is_instance_valid(target_polygon):
+		target_polygon.queue_free()
+	if target_border != null and is_instance_valid(target_border):
+		target_border.queue_free()
 
 
 func _free_fan_nodes() -> void:

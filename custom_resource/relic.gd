@@ -72,14 +72,19 @@ func deactivate_relic(owner, relic_controller: RelicController = null, relic_key
 
 
 # 使用消耗品时执行基础效果；如果是升级态，再额外执行强化效果。
-func use_consumable(owner, relic_controller: RelicController = null, relic_key: String = "") -> void:
+func use_consumable(
+	owner,
+	relic_controller: RelicController = null,
+	relic_key: String = "",
+	use_target_position: Variant = null
+) -> void:
 	if not is_consumable:
 		return
 
-	_apply_effect_list(owner, relic_controller, relic_key, effects, "base", "use")
+	_apply_effect_list(owner, relic_controller, relic_key, effects, "base", "use", use_target_position)
 
 	if leveltip == LevelTip.LEVELUP:
-		_apply_effect_list(owner, relic_controller, relic_key, great_effects, "great", "use")
+		_apply_effect_list(owner, relic_controller, relic_key, great_effects, "great", "use", use_target_position)
 
 
 # 出售遗物时执行售卖效果。某些遗物会在卖出后触发刷新、返利等一次性效果。
@@ -97,7 +102,8 @@ func _apply_effect_list(
 	relic_key: String,
 	effect_list: Array[RelicEffect],
 	effect_group: String,
-	action: String
+	action: String,
+	use_target_position: Variant = null
 ) -> void:
 	for effect_index in range(effect_list.size()):
 		var effect := effect_list[effect_index]
@@ -105,7 +111,16 @@ func _apply_effect_list(
 			continue
 
 		var effect_key := _build_effect_key(relic_key, effect_group, effect_index)
-		var relic_context = RelicContext.new(self,owner,relic_controller,relic_key,effect_list,effect_group,action)
+		var relic_context = RelicContext.new(
+			self,
+			owner,
+			relic_controller,
+			relic_key,
+			effect_list,
+			effect_group,
+			action,
+			use_target_position
+		)
 		match action:
 			"gain":
 				effect.on_gain(relic_context, effect_key)

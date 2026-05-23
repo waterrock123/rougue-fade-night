@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dwmwk842h1xwy"]
+
+[ext_resource type="Texture2D" uid="uid://d28nxinhh8cb2" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb383.png" id="1_xo4b7"]
+[ext_resource type="Script" uid="uid://bqu6q28nsbeiq" path="res://scripts/ability/manifest/thrown_arc_impact_manifest.gd" id="2_script"]
+[ext_resource type="Resource" uid="uid://djm4abm3cg48d" path="res://status/frost_slow.tres" id="3_frost_slow"]
+[ext_resource type="Texture2D" uid="uid://bcavwqhxp2yej" path="res://assets/UI/health_bar_overlay.png" id="4_qyhpk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t1v0t"]
+radius = 18.027756
+
+[node name="SnowballThrownManifest" type="Node2D" unique_id=571685119]
+z_index = 80
+script = ExtResource("2_script")
+max_range = 120.0
+visual_rotate_speed = 8.0
+impact_status = ExtResource("3_frost_slow")
+impact_status_duration_override = 5.0
+
+[node name="VisualPivot" type="Node2D" parent="." unique_id=1502761289]
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualPivot" unique_id=1454154964]
+texture_filter = 1
+texture = ExtResource("1_xo4b7")
+
+[node name="Shadow" type="Sprite2D" parent="VisualPivot" unique_id=1215572487]
+modulate = Color(1, 1, 1, 0.5764706)
+texture_filter = 1
+position = Vector2(0, 0.9999981)
+scale = Vector2(0.671875, 0.640625)
+texture = ExtResource("4_qyhpk")
+
+[node name="ImpactArea" type="Area2D" parent="." unique_id=787836734]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ImpactArea" unique_id=669023969]
+shape = SubResource("CircleShape2D_t1v0t")
+
+[node name="ImpactVFX" type="Node2D" parent="." unique_id=1949600868]
+visible = false

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="TagAbsorbEquippedRelicsEffect" format=3 uid="uid://b4yv2x5h0qwyn"]
+
+[ext_resource type="Texture2D" uid="uid://dne83joygtt20" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2075.png" id="1_c6ap5"]
+[ext_resource type="Script" uid="uid://ba0tb32nr7t7w" path="res://scripts/tag_effect/tag_absorb_equipped_relics_effect.gd" id="2_gdxdw"]
+[ext_resource type="Resource" uid="uid://5lm52h2ywjf7" path="res://relics/special/101_众饰之戒.tres" id="3_8hojx"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="4_3evhl"]
+
+[resource]
+script = ExtResource("2_gdxdw")
+special_relic = ExtResource("3_8hojx")
+id = &"accessory_lord_of_rings"
+tag = ExtResource("4_3evhl")
+effect_name = "指环王"
+icon = ExtResource("1_c6ap5")
+desc = "装备不同的饰品达到 6 件时，永久获得一件特殊饰品；它会摧毁并吸收当前装备栏中所有饰品的效果。"
+required_count = 6
+is_once = true

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="TagRemovedRelicHealEffect" format=3 uid="uid://d1d0yw2c7hmpg"]
+
+[ext_resource type="Script" uid="uid://bbw76yubmn8q3" path="res://scripts/tag_effect/tag_removed_relic_heal_effect.gd" id="1_effect"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="2_tag"]
+[ext_resource type="Texture2D" uid="uid://37en3svlpkeb" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc203.png" id="3_icon"]
+
+[resource]
+script = ExtResource("1_effect")
+id = &"ingredient_fresh"
+tag = ExtResource("2_tag")
+effect_name = "新鲜"
+icon = ExtResource("3_icon")
+desc = "拥有不同的原料达到 2 件后，装备栏或背包内的原料被使用、售卖或销毁时，恢复 1 点生命值。"
+required_count = 2
+count_source = 1
+metadata/_custom_type_script = "res://scripts/tag_effect/tag_removed_relic_heal_effect.gd"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="TagPurchaseUpgradeChanceEffect" format=3 uid="uid://c4s4p36uyfvx8"]
+
+[ext_resource type="Script" uid="uid://uwunbdnxlr0y" path="res://scripts/tag_effect/tag_purchase_upgrade_chance_effect.gd" id="1_effect"]
+[ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="2_tag"]
+[ext_resource type="Texture2D" uid="uid://clrwfdtxrcsty" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc202.png" id="3_icon"]
+
+[resource]
+script = ExtResource("1_effect")
+id = &"insight_selective"
+tag = ExtResource("2_tag")
+effect_name = "精挑细选"
+icon = ExtResource("3_icon")
+desc = "拥有不同的洞察达到 2 件后，购买的装备有 2% 概率直接升级；背包内的装备也能用于激活套装效果。"
+required_count = 2
+count_source = 1
+metadata/_custom_type_script = "res://scripts/tag_effect/tag_purchase_upgrade_chance_effect.gd"

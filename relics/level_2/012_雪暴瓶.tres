@@ -30,6 +30,7 @@ relic_name = "雪暴瓶"
 icon = ExtResource("1_1xkss")
 tooltip = "装备后移动的路径上会短暂出现冰霜残迹，经过路径的敌人会受到2点冰冻伤害并短暂减速2秒
 升级：{speed}+2"
+desc = "可惜我们不会跳"
 price = 3
 level = 2
 tags = Array[ExtResource("4_o1j4c")]([ExtResource("5_a1qcm"), ExtResource("6_m3fpd")])

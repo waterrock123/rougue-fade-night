@@ -322,6 +322,7 @@ func _try_sell_mouse_relic() -> bool:
 	relic.sell_relic(self, null, "sold_%s" % relic.id)
 	AudioController.play_ui_sound(&"sell_item")
 	EventBus.relic_sold.emit(relic)
+	EventBus.relic_removed.emit(relic, "sold")
 	mouse_relic.hide_sell_price()
 	remove_child(mouse_relic)
 	mouse_relic.queue_free()

@@ -11,7 +11,7 @@
 script = ExtResource("1_iwq40")
 relic_name = "长矛"
 icon = ExtResource("1_lxeix")
-tooltip = "{strength}+2，基础攻击最后一段会投出一杆长矛，造成{dexterity}50%+{strength}50%的{physical_damage}
+tooltip = "{strength}+2，主动技能释放时概率投出一杆长矛，造成{dexterity}50%+{strength}50%的{physical_damage}
 升级：投出两杆长矛"
 price = 3
 level = 2

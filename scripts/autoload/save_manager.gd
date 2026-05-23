@@ -92,6 +92,9 @@ func build_run_stats_from_save(save_data: Dictionary) -> RunStats:
 	result.pending_free_relic_choice_levels = _to_int_array(run_stats_data.get("pending_free_relic_choice_levels", []))
 	result.level_up_reward_refresh_count = int(run_stats_data.get("level_up_reward_refresh_count", 0))
 	result.shop_free_refresh_count = int(run_stats_data.get("shop_free_refresh_count", 0))
+	result.persistent_status_stacks = _to_int_dictionary(run_stats_data.get("persistent_status_stacks", {}))
+	result.selected_tag_effects = _deserialize_tag_effects(run_stats_data.get("selected_tag_effects", []))
+	result.completed_once_tag_effect_ids = _to_string_name_array(run_stats_data.get("completed_once_tag_effect_ids", []))
 	result.set_gold(int(run_stats_data.get("gold", result.gold)))
 	return result
 
@@ -126,6 +129,9 @@ func _serialize_run_stats(run_stats: RunStats) -> Dictionary:
 		"pending_free_relic_choice_levels": run_stats.pending_free_relic_choice_levels,
 		"level_up_reward_refresh_count": run_stats.level_up_reward_refresh_count,
 		"shop_free_refresh_count": run_stats.shop_free_refresh_count,
+		"persistent_status_stacks": run_stats.persistent_status_stacks,
+		"selected_tag_effects": _serialize_tag_effects(run_stats.selected_tag_effects),
+		"completed_once_tag_effect_ids": _string_name_array_to_strings(run_stats.completed_once_tag_effect_ids),
 	}
 
 
@@ -480,6 +486,33 @@ func _deserialize_skill_data(data: Dictionary, active: bool) -> SkillData:
 	return passive_data
 
 
+func _serialize_tag_effects(tag_effects: Array[TagEffect]) -> Array:
+	var result := []
+	for tag_effect in tag_effects:
+		if tag_effect == null:
+			continue
+		result.append({
+			"path": _get_resource_path(tag_effect),
+			"id": String(tag_effect.id),
+		})
+	return result
+
+
+func _deserialize_tag_effects(data) -> Array[TagEffect]:
+	var result: Array[TagEffect] = []
+	if not (data is Array):
+		return result
+
+	for value in data:
+		var effect_data := value as Dictionary
+		var effect := _load_resource_or_null(str(effect_data.get("path", ""))) as TagEffect
+		if effect == null:
+			effect = _find_tag_effect_by_id(str(effect_data.get("id", "")))
+		if effect != null:
+			result.append(effect.duplicate(true) as TagEffect)
+	return result
+
+
 func _fill_basic_skill_data(skill_data: SkillData, data: Dictionary) -> void:
 	skill_data.id = StringName(str(data.get("id", "")))
 	skill_data.skill_name = str(data.get("skill_name", ""))
@@ -524,6 +557,12 @@ func _find_skill_by_id(skill_id: String, active: bool) -> SkillData:
 
 	var dirs := ["res://activate_skill"] if active else ["res://passive_skill"]
 	return _find_resource_by_id_in_dirs(skill_id, dirs) as SkillData
+
+
+func _find_tag_effect_by_id(effect_id: String) -> TagEffect:
+	if effect_id.is_empty():
+		return null
+	return _find_resource_by_id_in_dirs(effect_id, ["res://tag_effects"]) as TagEffect
 
 
 func _find_resource_by_id_in_dirs(resource_id: String, dirs: Array) -> Resource:
@@ -591,6 +630,16 @@ func _to_string_name_array(data) -> Array[StringName]:
 	if data is Array:
 		for value in data:
 			result.append(StringName(str(value)))
+	return result
+
+
+func _to_int_dictionary(data) -> Dictionary:
+	var result := {}
+	if not (data is Dictionary):
+		return result
+
+	for key in (data as Dictionary).keys():
+		result[str(key)] = int((data as Dictionary)[key])
 	return result
 
 

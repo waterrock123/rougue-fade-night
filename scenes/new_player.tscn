@@ -1,128 +1,269 @@
 [gd_scene format=3 uid="uid://buikmj78ovb8g"]
 
-[ext_resource type="Texture2D" uid="uid://dqv5rju6lw68a" path="res://assets/人物骨骼素材/战狂/躯干.png" id="1_arqjq"]
-[ext_resource type="Texture2D" uid="uid://d0vc2kjt78ef1" path="res://assets/人物骨骼素材/战狂/左大腿.png" id="2_2dryk"]
-[ext_resource type="Texture2D" uid="uid://c831vyv7xcx2n" path="res://assets/人物骨骼素材/战狂/左大臂.png" id="2_t483v"]
-[ext_resource type="Texture2D" uid="uid://chy8jwt3w3fxf" path="res://assets/人物骨骼素材/战狂/左小臂.png" id="3_pkuya"]
-[ext_resource type="Texture2D" uid="uid://bm4x21ktgtcoy" path="res://assets/人物骨骼素材/战狂/左小腿.png" id="3_t483v"]
-[ext_resource type="Texture2D" uid="uid://bp2aumfool61t" path="res://assets/人物骨骼素材/战狂/右大腿.png" id="4_pkuya"]
-[ext_resource type="Texture2D" uid="uid://dc0t7k1i18n5q" path="res://assets/人物骨骼素材/战狂/右小腿.png" id="5_if3ei"]
+[ext_resource type="Texture2D" uid="uid://byikecwuam0ut" path="res://assets/人物骨骼素材/战狂/左大臂.png" id="2_t483v"]
+[ext_resource type="Texture2D" uid="uid://cvw2uj4gd8rq4" path="res://assets/人物骨骼素材/战狂/右手.png" id="3_2dryk"]
+[ext_resource type="Texture2D" uid="uid://bob06kt7av1na" path="res://assets/人物骨骼素材/战狂/右臂.png" id="4_t483v"]
+[ext_resource type="Texture2D" uid="uid://1eojf6ry8a2u" path="res://assets/人物骨骼素材/战狂/左手.png" id="5_bovn1"]
+[ext_resource type="Texture2D" uid="uid://dr8amnby1okb4" path="res://assets/人物骨骼素材/战狂/右大臂.png" id="5_pkuya"]
+[ext_resource type="Texture2D" uid="uid://dnjpe2rjg2hll" path="res://assets/人物骨骼素材/战狂/左臂.png" id="6_0qby2"]
+[ext_resource type="Texture2D" uid="uid://dwkco5lppccyk" path="res://assets/人物骨骼素材/战狂/躯干.png" id="6_if3ei"]
+[ext_resource type="Texture2D" uid="uid://bafme61r0wf33" path="res://assets/人物骨骼素材/战狂/0fdbbb4b2a79358db65f6cdabfbe1f48.jpg" id="7_0qby2"]
+[ext_resource type="Texture2D" uid="uid://br5dpk1pcfcrp" path="res://assets/人物骨骼素材/战狂/右脚.png" id="7_pkuya"]
+[ext_resource type="Texture2D" uid="uid://hurnbl1x81od" path="res://assets/人物骨骼素材/战狂/左脚.png" id="7_v21ou"]
+[ext_resource type="Texture2D" uid="uid://by471iokjo3g1" path="res://assets/人物骨骼素材/战狂/左腿.png" id="8_2uj3n"]
+[ext_resource type="Texture2D" uid="uid://bgx2ujppjeb3i" path="res://assets/人物骨骼素材/战狂/右腿.png" id="8_if3ei"]
+[ext_resource type="Texture2D" uid="uid://dfhl3n8t55cft" path="res://assets/人物骨骼素材/战狂/脸.png" id="9_0qby2"]
+[ext_resource type="Texture2D" uid="uid://vexaxsf0jogr" path="res://assets/人物骨骼素材/战狂/左眼.png" id="10_5s4g8"]
+[ext_resource type="Texture2D" uid="uid://s44yq2ujygb7" path="res://assets/人物骨骼素材/战狂/裙摆.png" id="15_o45cr"]
+[ext_resource type="Texture2D" uid="uid://dophkgn6p58ed" path="res://assets/人物骨骼素材/战狂/腰带.png" id="16_4fr7e"]
+
+[sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_2dryk"]
+target_nodepath = NodePath("../右手目标")
+flip_bend_direction = true
+joint_one_bone_idx = 2
+joint_one_bone2d_node = NodePath("胯部/躯干/右臂")
+joint_two_bone_idx = 3
+joint_two_bone2d_node = NodePath("胯部/躯干/右臂/右小臂")
+
+[sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_pkuya"]
+target_nodepath = NodePath("../右脚目标")
+joint_one_bone_idx = 11
+joint_one_bone2d_node = NodePath("胯部/右腿")
+joint_two_bone_idx = 12
+joint_two_bone2d_node = NodePath("胯部/右腿/右脚")
 
 [sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_v21ou"]
-target_nodepath = NodePath("../左小腿目标")
-joint_one_bone_idx = 4
-joint_one_bone2d_node = NodePath("胯部/左大腿")
-joint_two_bone_idx = 5
-joint_two_bone2d_node = NodePath("胯部/左大腿/左小腿")
+target_nodepath = NodePath("../左脚目标")
+joint_one_bone_idx = 9
+joint_one_bone2d_node = NodePath("胯部/左腿")
+joint_two_bone_idx = 10
+joint_two_bone2d_node = NodePath("胯部/左腿/左脚")
 
-[sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_2uj3n"]
+[sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_7rew6"]
+target_nodepath = NodePath("../左手目标")
+flip_bend_direction = true
+joint_one_bone_idx = 5
+joint_one_bone2d_node = NodePath("胯部/躯干/左臂")
+joint_two_bone_idx = 6
+joint_two_bone2d_node = NodePath("胯部/躯干/左臂/左小臂")
+
+[sub_resource type="SkeletonModification2DLookAt" id="SkeletonModification2DLookAt_b2f8q"]
+bone_index = 8
+bone2d_node = NodePath("胯部/躯干/头")
+target_nodepath = NodePath("../头目标")
+
+[sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_t483v"]
 enabled = true
-modification_count = 1
-modifications/0 = SubResource("SkeletonModification2DTwoBoneIK_v21ou")
+modification_count = 5
+modifications/0 = SubResource("SkeletonModification2DTwoBoneIK_2dryk")
+modifications/1 = SubResource("SkeletonModification2DTwoBoneIK_pkuya")
+modifications/2 = SubResource("SkeletonModification2DTwoBoneIK_v21ou")
+modifications/3 = SubResource("SkeletonModification2DTwoBoneIK_7rew6")
+modifications/4 = SubResource("SkeletonModification2DLookAt_b2f8q")
 
 [node name="Character2D" type="CharacterBody2D" unique_id=1803239929]
 
-[node name="视觉容器" type="Node2D" parent="." unique_id=236542028]
+[node name="0Fdbbb4b2a79358Db65f6Cdabfbe1f48" type="Sprite2D" parent="." unique_id=2124938261]
+visible = false
+modulate = Color(1, 1, 1, 0.36862746)
+z_index = 7
+position = Vector2(-4, -382)
+scale = Vector2(0.48, 0.48)
+texture = ExtResource("7_0qby2")
 
-[node name="Skeleton2D" type="Skeleton2D" parent="视觉容器" unique_id=1822254701]
-modification_stack = SubResource("SkeletonModificationStack2D_2uj3n")
+[node name="视觉容器" type="Node2D" parent="." unique_id=201891909]
 
-[node name="胯部" type="Bone2D" parent="视觉容器/Skeleton2D" unique_id=178567526]
-position = Vector2(-1, -233)
-rotation = -0.02377686
+[node name="Skeleton2D" type="Skeleton2D" parent="视觉容器" unique_id=2132112981]
+modification_stack = SubResource("SkeletonModificationStack2D_t483v")
 
-[node name="躯干" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=1280355780]
-position = Vector2(-0.43149376, -108.040794)
-rotation = -1.4743224
-scale = Vector2(2.6546416, -2022.0747)
+[node name="胯部" type="Bone2D" parent="视觉容器/Skeleton2D" unique_id=1470483040]
+position = Vector2(4, -219)
+auto_calculate_length_and_angle = false
+length = 25.812
+bone_angle = 270.0
 
-[node name="身体" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干" unique_id=163176702]
-position = Vector2(0.4304309, -0.00095054996)
-rotation = -0.017779125
-scale = Vector2(0.027741805, -0.3756761)
-skew = -1.5529188
-texture = ExtResource("1_arqjq")
-offset = Vector2(-0.095, 26.39)
+[node name="躯干" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=1234158814]
+position = Vector2(-3, -71)
 
-[node name="左大臂" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干" unique_id=1131475858]
-position = Vector2(10.521732, -0.026265861)
-scale = Vector2(1.0000002, 1.0000002)
+[node name="右臂" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干" unique_id=540795105]
+position = Vector2(29, -47)
+metadata/_local_pose_override_enabled_ = true
 
-[node name="左大臂" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干/左大臂" unique_id=2047142585]
-z_index = -1
-position = Vector2(-2.4437904e-06, 3.2014214e-10)
-rotation = -0.018025154
-scale = Vector2(0.027365198, -0.3757036)
-skew = -1.5526737
+[node name="右小臂" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干/右臂" unique_id=888887554]
+position = Vector2(22, 77)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="右手" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干/右臂/右小臂" unique_id=1924118087]
+position = Vector2(17, 45)
+
+[node name="右手2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干/右臂/右小臂/右手" unique_id=1321407460]
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("3_2dryk")
+offset = Vector2(-8.95, 33.895)
+
+[node name="右臂" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干/右臂/右小臂" unique_id=2127724982]
+z_index = 1
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("4_t483v")
+offset = Vector2(-8.815, 74.61)
+
+[node name="右大臂" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干/右臂" unique_id=835645340]
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("5_pkuya")
+offset = Vector2(11.26, 114.625)
+
+[node name="左臂" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干" unique_id=2023973823]
+position = Vector2(-45, -49)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="左小臂" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干/左臂" unique_id=738843902]
+position = Vector2(-22, 75)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="左手" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干/左臂/左小臂" unique_id=344595886]
+position = Vector2(-25, 56)
+
+[node name="左手2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干/左臂/左小臂/左手" unique_id=292652229]
+z_index = 5
+position = Vector2(-1.49, 3.35)
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("5_bovn1")
+offset = Vector2(0, 0.375)
+
+[node name="左臂" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干/左臂/左小臂" unique_id=628798219]
+z_index = 4
+position = Vector2(-15.875, 23.685)
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("6_0qby2")
+
+[node name="左大臂" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干/左臂" unique_id=115115051]
+z_index = 2
+position = Vector2(-19, 29)
+scale = Vector2(0.24000001, 0.24000001)
 texture = ExtResource("2_t483v")
-offset = Vector2(-10.38, 0.31)
 
-[node name="左小臂" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干/左大臂" unique_id=1424169245]
-position = Vector2(-19.071455, -0.01025284)
+[node name="躯干2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干" unique_id=514372161]
+z_index = 1
+position = Vector2(-10.535, 4.2)
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("6_if3ei")
 
-[node name="左小臂" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干/左大臂/左小臂" unique_id=89987804]
-position = Vector2(0.37570494, 3.592079e-05)
-rotation = 3.1415632
-scale = Vector2(0.37660414, -0.008448215)
-skew = -1.5122095
-texture = ExtResource("3_pkuya")
-offset = Vector2(20.64, -27.77)
-
-[node name="左手" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干/左大臂/左小臂" unique_id=733342828]
-position = Vector2(-14.705134, -0.027686026)
-rotation = 3.141389
+[node name="头" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干" unique_id=1690483828]
+position = Vector2(-10, -83)
+rotation = 1.6580063
+scale = Vector2(0.9999985, 0.9999985)
+auto_calculate_length_and_angle = false
+length = 36.589
+bone_angle = -160.94096
 metadata/_local_pose_override_enabled_ = true
 
-[node name="左大腿" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=1097985254]
-position = Vector2(43, 13.000004)
-rotation = -0.3190694
-scale = Vector2(0.99999976, 0.99999976)
+[node name="脸" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干/头" unique_id=1828253886]
+z_index = 1
+rotation = -1.7034414
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("9_0qby2")
+offset = Vector2(-37.115, -116.965)
+
+[node name="左角" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干/头" unique_id=750845193]
+position = Vector2(-140.68675, 36.121464)
+rotation = -0.09465098
+auto_calculate_length_and_angle = false
+length = 16.0
+bone_angle = 0.0
 metadata/_local_pose_override_enabled_ = true
 
-[node name="左大腿2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/左大腿" unique_id=1219188741]
-z_index = -1
-position = Vector2(-0.22885704, 0.9734554)
-rotation = 0.2194334
-texture = ExtResource("2_2dryk")
-offset = Vector2(-8.515, 25.04)
+[node name="右角" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干/头" unique_id=992534928]
+position = Vector2(-146.09773, -33.734413)
+rotation = -0.09465098
+metadata/_local_pose_override_enabled_ = true
 
-[node name="左小腿" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/左大腿" unique_id=1936199558]
-position = Vector2(-20.081367, 89.78717)
-rotation = 0.32533297
-scale = Vector2(0.99999976, 0.99999976)
+[node name="左眼" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干/头" unique_id=560548977]
+position = Vector2(-35.44946, 23.417532)
+rotation = -0.29064918
+metadata/_local_pose_override_enabled_ = true
+
+[node name="左眼2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/躯干/头/左眼" unique_id=1027862187]
+z_index = 1
+position = Vector2(-8.361989, 1.7546916)
+rotation = -1.43117
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("10_5s4g8")
+
+[node name="右眼" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/躯干/头" unique_id=1838601772]
+position = Vector2(-43.59915, -44.0932)
+rotation = -0.2720659
+scale = Vector2(0.99999917, 0.99999917)
+metadata/_local_pose_override_enabled_ = true
+
+[node name="左腿" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=995593532]
+position = Vector2(-30, 33)
+
+[node name="左脚" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/左腿" unique_id=286119726]
+position = Vector2(-6, 66)
 auto_calculate_length_and_angle = false
 length = 90.0
 bone_angle = 90.0
 
-[node name="左小腿2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/左大腿/左小腿" unique_id=1990617735]
-position = Vector2(-0.07955551, -1.5555763)
-rotation = -0.008653894
-texture = ExtResource("3_t483v")
-offset = Vector2(-7.85, 45.4)
+[node name="左脚2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/左腿/左脚" unique_id=1109100005]
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("7_v21ou")
+offset = Vector2(-21.545, 190.685)
 
-[node name="右大腿" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=1800549637]
-position = Vector2(-37, 19)
-rotation = -0.018574774
+[node name="左腿2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/左腿" unique_id=580540806]
+z_index = -2
+position = Vector2(-3.93, 12.785)
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("8_2uj3n")
 
-[node name="右大腿2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/右大腿" unique_id=1284142742]
-z_index = -1
-position = Vector2(-1, -2)
-rotation = 0.25907636
-texture = ExtResource("4_pkuya")
-offset = Vector2(18.395, 30.685)
+[node name="右腿" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=769067533]
+position = Vector2(20, 44)
 
-[node name="右小腿" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/右大腿" unique_id=2021626420]
-position = Vector2(-1, 94)
-rotation = 1.6195161
+[node name="右脚" type="Bone2D" parent="视觉容器/Skeleton2D/胯部/右腿" unique_id=1478561942]
+position = Vector2(2, 61)
 auto_calculate_length_and_angle = false
 length = 90.0
-bone_angle = 0.0
+bone_angle = 84.122
 
-[node name="右小腿2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/右大腿/右小腿" unique_id=47529929]
-position = Vector2(-0.9794178, 0.7759743)
-rotation = -1.8683087
-texture = ExtResource("5_if3ei")
-offset = Vector2(-4.84, 34.135)
+[node name="右脚2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/右腿/右脚" unique_id=1004473060]
+position = Vector2(9.105, 35.455)
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("7_pkuya")
 
-[node name="左小腿目标" type="Marker2D" parent="视觉容器" unique_id=182164689]
-position = Vector2(62, -14)
+[node name="右腿2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/右腿" unique_id=978522419]
+z_index = -3
+position = Vector2(3.8146973e-06, 1.9073486e-06)
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("8_if3ei")
+offset = Vector2(-11.675, -11.15)
+
+[node name="裙摆" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=504315182]
+position = Vector2(-2, 14)
+
+[node name="裙摆2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/裙摆" unique_id=515395789]
+z_index = 3
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("15_o45cr")
+offset = Vector2(-72.465, 288.28)
+
+[node name="腰带" type="Bone2D" parent="视觉容器/Skeleton2D/胯部" unique_id=1787702561]
+
+[node name="腰带2" type="Sprite2D" parent="视觉容器/Skeleton2D/胯部/腰带" unique_id=2035209826]
+z_index = 3
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("16_4fr7e")
+offset = Vector2(-50.725, 38.95)
+
+[node name="右手目标" type="Marker2D" parent="视觉容器" unique_id=1700976820]
+position = Vector2(131, -331)
+
+[node name="右脚目标" type="Marker2D" parent="视觉容器" unique_id=993668467]
+position = Vector2(24, -14)
+
+[node name="左脚目标" type="Marker2D" parent="视觉容器" unique_id=466360687]
+position = Vector2(-33, -27)
+
+[node name="左手目标" type="Marker2D" parent="视觉容器" unique_id=1417529218]
+position = Vector2(-97, -191)
+
+[node name="头目标" type="Marker2D" parent="视觉容器" unique_id=500351191]
+position = Vector2(9, -410)

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="RelicTag" format=3 uid="uid://b5pj0gwwux13c"]
+
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="1_t5lpd"]
+
+[resource]
+script = ExtResource("1_t5lpd")
+metadata/_custom_type_script = "uid://bts8j8jm6rdpv"

@@ -81,6 +81,15 @@ offset_bottom = 775.0
 theme_override_font_sizes/font_size = 48
 text = "图鉴"
 
+[node name="TagSetButton" type="Button" parent="." unique_id=1380949835]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 695.0
+offset_right = 411.0
+offset_bottom = 775.0
+theme_override_font_sizes/font_size = 48
+text = "设置套装效果"
+
 [connection signal="pressed" from="PlayBtn" to="." method="_on_play_btn_pressed"]
 [connection signal="pressed" from="ContinueBtn" to="." method="_on_continue_btn_pressed"]
 [connection signal="pressed" from="ExitBtn" to="." method="_on_exit_btn_pressed"]

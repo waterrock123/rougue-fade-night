@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="TagPurchaseRebateEffect" format=3]
+
+[ext_resource type="Script" path="res://scripts/tag_effect/tag_purchase_rebate_effect.gd" id="1_effect"]
+[ext_resource type="Resource" path="res://relic_tags/好好顾客tag.tres" id="2_tag"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc201.png" id="3_icon"]
+
+[resource]
+script = ExtResource("1_effect")
+id = &"good_customer_rebate"
+tag = ExtResource("2_tag")
+effect_name = "购买返利"
+icon = ExtResource("3_icon")
+desc = "装备不同的好好顾客达到 5 件后，每次修整期购买的前两件装备会返还金币，数值等于你已装备的好好顾客数量。"
+required_count = 5
+count_source = 0
+is_once = false
+purchases_per_rest_period = 2
+gold_per_matching_equipped_relic = 1

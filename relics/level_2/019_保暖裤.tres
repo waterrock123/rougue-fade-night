@@ -5,16 +5,36 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_eve32"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_n1lpw"]
 [ext_resource type="Resource" uid="uid://box5044uf2gqf" path="res://relic_tags/疗愈tag.tres" id="5_n1lpw"]
+[ext_resource type="Script" uid="uid://dwxvc83aoxn1s" path="res://relic_effect/status_duration_multiplier_effect.gd" id="6_freeze_duration"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+
+[sub_resource type="Resource" id="Resource_freeze_half"]
+script = ExtResource("6_freeze_duration")
+metadata/_custom_type_script = "res://relic_effect/status_duration_multiplier_effect.gd"
+
+[sub_resource type="Resource" id="Resource_freeze_half_levelup"]
+script = ExtResource("6_freeze_duration")
+metadata/_custom_type_script = "res://relic_effect/status_duration_multiplier_effect.gd"
+
+[sub_resource type="Resource" id="Resource_constitution_levelup"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"constitution": 2
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
 
 [resource]
 script = ExtResource("2_eve32")
 relic_name = "保暖裤"
 icon = ExtResource("1_ijc2k")
-tooltip = "{freeze}状态持续的时间-50%，{constitution}+1
+tooltip = "{freeze}状态持续的时间-50%
 升级：你{freeze}状态持续的时间-75%，{constitution}+2
 "
+desc = "实际秋裤desu"
 price = 3
 level = 2
 tags = Array[ExtResource("4_n1lpw")]([ExtResource("5_n1lpw")])
 id = "019"
+effects = Array[ExtResource("1_ae12b")]([SubResource("Resource_freeze_half")])
+great_effects = Array[ExtResource("1_ae12b")]([SubResource("Resource_freeze_half_levelup"), SubResource("Resource_constitution_levelup")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

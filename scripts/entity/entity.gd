@@ -3,6 +3,7 @@ extends Node2D
 
 signal died(entity: Entity)
 signal damage_taken(damage_data: DamageData)
+signal damage_dealt(damage_data: DamageData)
 
 @export var max_health: float = 50.0
 @export var max_energy: float = 50.0
@@ -79,9 +80,13 @@ func apply_damage(damage_event):
 		_show_damage_taken_effect()
 		show_damage_popup(damage_data)
 		damage_taken.emit(damage_data)
+		if damage_data.source != null and is_instance_valid(damage_data.source):
+			damage_data.source.damage_dealt.emit(damage_data)
 
 	_handle_damage_callback(damage_data)
 	if current_health == 0:
+		if is_in_group("enemy"):
+			EventBus.enemy_killed.emit(self, damage_data.source)
 		_die()
 
 	return damage_data

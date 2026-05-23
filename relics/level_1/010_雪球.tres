@@ -6,16 +6,30 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_86qam"]
 [ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="5_ef3ie"]
 [ext_resource type="Resource" uid="uid://sptmtn6uua85" path="res://relic_tags/寒霜tag.tres" id="6_2kt36"]
+[ext_resource type="Script" uid="uid://bhut27hdbbym8" path="res://relic_effect/use_spawn_manifest_effect.gd" id="7_spawn"]
+[ext_resource type="PackedScene" uid="uid://dwmwk842h1xwy" path="res://scenes/ability/manifest/snowball_thrown_manifest.tscn" id="8_manifest"]
+
+[sub_resource type="Resource" id="Resource_snowball_throw"]
+script = ExtResource("7_spawn")
+manifest_scene = ExtResource("8_manifest")
+levelup_manifest_property_overrides = {
+"damage": 50.0
+}
+use_hold_to_aim = true
+preview_shape = 2
+metadata/_custom_type_script = "uid://bhut27hdbbym8"
 
 [resource]
 script = ExtResource("1_ffdq6")
 relic_name = "雪球"
 icon = ExtResource("1_iejob")
-tooltip = "丢出立即对小范围的敌人造成群体{slow}
-"
+tooltip = "丢出立即对小范围的敌人造成40点基础伤害并给与减速5秒
+升级:基础伤害提升到50点"
+desc = "超级大雪球！！！"
 price = 3
 level = 1
 tags = Array[ExtResource("4_86qam")]([ExtResource("5_ef3ie"), ExtResource("6_2kt36")])
 id = "010"
 is_consumable = true
+effects = Array[ExtResource("1_dwmja")]([SubResource("Resource_snowball_throw")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

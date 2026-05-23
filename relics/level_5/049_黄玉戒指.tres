@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cykyvngs4et7a"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_k1plf"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_kh4xn"]
+[ext_resource type="Texture2D" uid="uid://dmhfahrkvn4au" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1847.png" id="2_th0i0"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_w27db"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_c3aqj"]
+[ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="6_6b84d"]
+[ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="7_moi3h"]
+
+[resource]
+script = ExtResource("2_kh4xn")
+relic_name = "黄玉戒指"
+icon = ExtResource("2_th0i0")
+tooltip = "装备后解锁五个背包格子，获得5护甲，且受到伤害后立即恢复2点生命
+升级：随机获得一件升级的物品，其等阶等于你的商店等级"
+price = 5
+level = 5
+tags = Array[ExtResource("3_w27db")]([ExtResource("5_c3aqj"), ExtResource("6_6b84d"), ExtResource("7_moi3h")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

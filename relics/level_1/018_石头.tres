@@ -15,6 +15,9 @@ manifest_scene = ExtResource("8_manifest")
 levelup_manifest_property_overrides = {
 "damage": 80.0
 }
+use_hold_to_aim = true
+preview_shape = 1
+preview_width = 46.0
 metadata/_custom_type_script = "uid://bhut27hdbbym8"
 
 [resource]

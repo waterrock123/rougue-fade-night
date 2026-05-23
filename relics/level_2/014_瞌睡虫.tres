@@ -6,16 +6,34 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_qfxid"]
 [ext_resource type="Resource" uid="uid://box5044uf2gqf" path="res://relic_tags/疗愈tag.tres" id="5_wfkrr"]
 [ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="6_po6jf"]
+[ext_resource type="Script" uid="uid://bpk421mxmj4qu" path="res://relic_effect/active_skill_self_status_chance_effect.gd" id="7_self_sleep"]
+[ext_resource type="Script" uid="uid://bxkmgbchc14pg" path="res://relic_effect/outgoing_damage_status_chance_effect.gd" id="8_hit_sleep"]
+[ext_resource type="Resource" uid="uid://dvmhv8tn1od0g" path="res://status/sleep.tres" id="9_sleep"]
+
+[sub_resource type="Resource" id="Resource_self_sleep"]
+script = ExtResource("7_self_sleep")
+status_data = ExtResource("9_sleep")
+duration_override = 2.0
+metadata/_custom_type_script = "res://relic_effect/active_skill_self_status_chance_effect.gd"
+
+[sub_resource type="Resource" id="Resource_hit_sleep"]
+script = ExtResource("8_hit_sleep")
+status_data = ExtResource("9_sleep")
+duration_override = 2.0
+metadata/_custom_type_script = "res://relic_effect/outgoing_damage_status_chance_effect.gd"
 
 [resource]
 script = ExtResource("1_p5yeo")
 relic_name = "瞌睡虫"
 icon = ExtResource("1_vl3ke")
 tooltip = "每次释放{active_skill}后有10%概率陷入{sleep}状态，持续两秒
-升级：每次释放{active_skill}后有10%概率陷入{sleep}状态，持续两秒，你的攻击有5%概率使敌人{sleep}
+升级：你的造成的伤害有5%概率使敌人{sleep}，持续
 "
+desc = "睡了睡。。。"
 price = 3
 level = 2
 tags = Array[ExtResource("4_qfxid")]([ExtResource("5_wfkrr"), ExtResource("6_po6jf")])
 id = "014"
+effects = Array[ExtResource("1_hiido")]([SubResource("Resource_self_sleep")])
+great_effects = Array[ExtResource("1_hiido")]([SubResource("Resource_hit_sleep")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

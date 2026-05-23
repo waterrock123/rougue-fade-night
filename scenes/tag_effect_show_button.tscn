@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://biv1hiflg8g33"]
+
+[ext_resource type="Texture2D" uid="uid://dcklxsqjofnm2" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc86.png" id="1_hwxon"]
+[ext_resource type="Script" path="res://scripts/tag_effect/tag_effect_show_button.gd" id="2_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hwxon"]
+bg_color = Color(0.788747, 0.52773803, 0.4269775, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dua2t"]
+bg_color = Color(0.5622193, 0.34359604, 0.25674096, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6rsnw"]
+bg_color = Color(0.636575, 0.3972312, 0.30230775, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_34tw0"]
+bg_color = Color(0.9882353, 0.78039217, 0.8509804, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_6rsnw"]
+font_size = 64
+outline_color = Color(0.52156866, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_elioh"]
+font_size = 64
+
+[node name="TagEffectShowButton" type="Button" unique_id=1454295476]
+custom_minimum_size = Vector2(689, 128)
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_hwxon")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dua2t")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6rsnw")
+toggle_mode = true
+script = ExtResource("2_script")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=2071034803]
+custom_minimum_size = Vector2(689, 128)
+layout_mode = 1
+offset_right = 689.0
+offset_bottom = 128.0
+
+[node name="TagLabel" type="Label" parent="HBoxContainer" unique_id=1556072882]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_34tw0")
+text = "饰品："
+label_settings = SubResource("LabelSettings_6rsnw")
+
+[node name="TagEffectIcon" type="TextureRect" parent="HBoxContainer" unique_id=268552743]
+layout_mode = 2
+texture = ExtResource("1_hwxon")
+stretch_mode = 5
+
+[node name="TagEffectName" type="Label" parent="HBoxContainer" unique_id=564632570]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "指环王"
+label_settings = SubResource("LabelSettings_elioh")
+
+[node name="CountLabel" type="Label" parent="HBoxContainer" unique_id=1749904187]
+layout_mode = 2
+text = "4"
+label_settings = SubResource("LabelSettings_elioh")
+horizontal_alignment = 2

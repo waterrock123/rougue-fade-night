@@ -19,7 +19,7 @@ relic_name = "打火机"
 icon = ExtResource("2_84yn4")
 tooltip = "受到伤害时，对伤害来源造成20点火焰反伤。
 升级：反伤提高到30点。"
-desc = "敢靠近的人都烫他一下。"
+desc = "敢靠近的人都烫他一下"
 price = 3
 level = 1
 tags = Array[ExtResource("3_84yn4")]([ExtResource("5_8qtyl")])

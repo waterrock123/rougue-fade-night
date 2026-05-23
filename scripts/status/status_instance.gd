@@ -20,7 +20,8 @@ func _init(
 	new_target: Node,
 	new_source: Node = null,
 	new_source_key: Variant = null,
-	initial_stacks: int = 1
+	initial_stacks: int = 1,
+	duration_override: float = INF
 ) -> void:
 	status_data = new_status_data
 	controller = new_controller
@@ -28,7 +29,7 @@ func _init(
 	source = new_source
 	source_key = new_source_key
 	if status_data != null:
-		remaining_duration = status_data.duration
+		remaining_duration = status_data.duration if is_inf(duration_override) else duration_override
 	set_source_stacks(new_source_key, initial_stacks)
 
 
@@ -74,10 +75,10 @@ func is_temporary() -> bool:
 	return remaining_duration > 0.0
 
 
-func refresh_duration() -> void:
+func refresh_duration(duration_override: float = INF) -> void:
 	if status_data == null:
 		return
-	remaining_duration = status_data.duration
+	remaining_duration = status_data.duration if is_inf(duration_override) else duration_override
 	duration_revision += 1
 
 

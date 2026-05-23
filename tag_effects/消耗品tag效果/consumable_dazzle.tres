@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="TagConsumableUseStatEffect" format=3]
+
+[ext_resource type="Script" path="res://scripts/tag_effect/tag_consumable_use_stat_effect.gd" id="1_effect"]
+[ext_resource type="Resource" path="res://relic_tags/消耗品tag.tres" id="2_tag"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc210.png" id="3_icon"]
+
+[resource]
+script = ExtResource("1_effect")
+id = &"consumable_dazzle"
+tag = ExtResource("2_tag")
+effect_name = "眼花缭乱"
+icon = ExtResource("3_icon")
+desc = "拥有不同的{consumable}达到 2 件后，背包内的{consumable}也能计数；战斗中每次使用消耗品时，敏捷+2，持续到战斗结束。"
+required_count = 2
+count_source = 1
+is_once = false
+stats_per_trigger = {
+"dexterity": 2
+}
+max_triggers_per_battle = -1

@@ -4,6 +4,8 @@ extends AbilityComponent
 
 @export var status_data: StatusData
 @export var stacks: int = 1
+## 本次施加状态的持续时间覆盖。INF 表示使用 StatusData 资源里的默认 duration。
+@export var duration_override: float = INF
 
 
 # 给当前 AbilityContext 里的目标添加状态。
@@ -23,7 +25,7 @@ func _activate(context: AbilityContext):
 		if status_controller == null:
 			continue
 
-		status_controller.add_status(status_data, context.caster, context.ability.id, stacks)
+		status_controller.add_status(status_data, context.caster, context.ability.id, stacks, duration_override)
 
 
 func _resolve_target(target_data) -> Node:

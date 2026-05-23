@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://5lm52h2ywjf7"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_6uawk"]
+[ext_resource type="Texture2D" uid="uid://blu56r36htxcx" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2189.png" id="2_vlmqq"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_33734"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_cv5jf"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_v3cyp"]
+
+[resource]
+script = ExtResource("3_33734")
+relic_name = "众饰之戒"
+icon = ExtResource("2_vlmqq")
+tooltip = "吸收当前装备栏中饰品的效果。"
+desc = "所有饰品的光泽汇聚成一枚戒指。"
+level = 6
+relic_type = 1
+tags = Array[ExtResource("4_cv5jf")]([ExtResource("5_v3cyp")])
+id = "special_accessory_ring"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

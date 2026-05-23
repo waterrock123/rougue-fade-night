@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="TagPermanentStatsOnceEffect" format=3 uid="uid://itoengk0tonp"]
+
+[ext_resource type="Script" uid="uid://c5hxyjk31j4a7" path="res://scripts/tag_effect/tag_permanent_stats_once_effect.gd" id="1_effect"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="2_tag"]
+[ext_resource type="Texture2D" uid="uid://ck51jayuw185w" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc204.png" id="3_icon"]
+
+[resource]
+script = ExtResource("1_effect")
+stat_bonuses = {
+"constitution": 2,
+"luck": 2
+}
+id = &"cuisine_full_flavor"
+tag = ExtResource("2_tag")
+effect_name = "色香味俱全"
+icon = ExtResource("3_icon")
+desc = "装备不同的{佳肴}达到 3 件后，永久获得{constitution}+2 与{luck}+2。"
+is_once = true

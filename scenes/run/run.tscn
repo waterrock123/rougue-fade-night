@@ -10,7 +10,8 @@
 [ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="6_0v3m8"]
 [ext_resource type="Script" uid="uid://dlii28m125ylw" path="res://scripts/relic/relic_controller.gd" id="7_0qk61"]
 [ext_resource type="Script" uid="uid://87nmt5jrle4v" path="res://scripts/status/status_controller.gd" id="8_status"]
-[ext_resource type="Script" uid="uid://cqabg4e74w75f" path="res://scripts/utils/pause_menu.gd" id="9_pause"]
+[ext_resource type="Script" uid="uid://b03dmnu2j2oo1" path="res://scripts/utils/pause_menu.gd" id="9_pause"]
+[ext_resource type="PackedScene" uid="uid://1b7oa5v5iha0" path="res://scenes/ui/tag_effect_ui.tscn" id="12_cnkn7"]
 
 [node name="Run" type="Node" unique_id=1441645540 groups=["run"]]
 script = ExtResource("1_l7o68")
@@ -81,8 +82,8 @@ offset_right = 1592.0
 offset_bottom = 481.0
 
 [node name="PauseMenu" type="VBoxContainer" parent="UI" unique_id=754443801]
-visible = false
 process_mode = 3
+visible = false
 offset_left = 795.0
 offset_top = 394.0
 offset_right = 1125.0
@@ -91,16 +92,22 @@ theme_override_constants/separation = 20
 script = ExtResource("9_pause")
 
 [node name="ResumeBtn" type="Button" parent="UI/PauseMenu" unique_id=2005698150]
-layout_mode = 2
 custom_minimum_size = Vector2(330, 72)
+layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "继续"
 
 [node name="ExitBtn" type="Button" parent="UI/PauseMenu" unique_id=1632273350]
-layout_mode = 2
 custom_minimum_size = Vector2(330, 72)
+layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "退出到主菜单"
+
+[node name="TagEffectBar" parent="UI" unique_id=103643733 instance=ExtResource("12_cnkn7")]
+offset_left = 176.0
+offset_top = 657.0
+offset_right = 184.63998
+offset_bottom = 657.07996
 
 [connection signal="pressed" from="TopBar/PackageButton" to="." method="_on_package_button_pressed"]
 [connection signal="pressed" from="UI/PauseMenu/ResumeBtn" to="UI/PauseMenu" method="_on_resume_btn_pressed"]

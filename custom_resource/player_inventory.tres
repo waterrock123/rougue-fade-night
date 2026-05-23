@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b4dlvouu1hbb8" path="res://scripts/package_system/slot.gd" id="2_iogdf"]
 [ext_resource type="Resource" uid="uid://4nued0p5erg8" path="res://relics/level_2/011_极寒之星.tres" id="3_fp0rg"]
 [ext_resource type="Resource" uid="uid://c7bi31uqsfk7y" path="res://relics/level_2/012_雪暴瓶.tres" id="4_gixvt"]
+[ext_resource type="Resource" uid="uid://cul4xumydwers" path="res://relics/level_1/010_雪球.tres" id="5_pfous"]
 
 [sub_resource type="Resource" id="Resource_jdmn8"]
 script = ExtResource("2_iogdf")
@@ -18,6 +19,7 @@ metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_ic4o0"]
 script = ExtResource("2_iogdf")
+item = ExtResource("5_pfous")
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_ay5e6"]

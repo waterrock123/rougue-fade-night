@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="TagAddStatsEffect" format=3 uid="uid://baieqevw2fuyf"]
+
+[ext_resource type="Texture2D" uid="uid://dcklxsqjofnm2" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc86.png" id="1_fu75h"]
+[ext_resource type="Script" uid="uid://c11kvb7hq7pwe" path="res://scripts/tag_effect/tag_add_stats_effect.gd" id="2_jhmvj"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="3_83bum"]
+
+[resource]
+script = ExtResource("2_jhmvj")
+add_stats = {
+"charm": 7
+}
+id = &"accessory_pearl_luxury"
+tag = ExtResource("3_83bum")
+effect_name = "珠光宝气"
+icon = ExtResource("1_fu75h")
+desc = "装备不同的饰品达到 3 件时，{charm}+7。"

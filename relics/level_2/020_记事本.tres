@@ -6,17 +6,24 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_3tw63"]
 [ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="5_oydgn"]
 [ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="6_pbut1"]
+[ext_resource type="Script" uid="uid://cen8n8w5dtjxd" path="res://relic_effect/kill_count_gold_effect.gd" id="7_kill_gold"]
+
+[sub_resource type="Resource" id="Resource_kill_gold"]
+script = ExtResource("7_kill_gold")
+levelup_gold_per_reward = 2
+metadata/_custom_type_script = "res://relic_effect/kill_count_gold_effect.gd"
 
 [resource]
 script = ExtResource("3_v54rx")
 relic_name = "记事本"
 icon = ExtResource("2_8y364")
-tooltip = "装备时，每杀二十个怪物获得一{gold}
-升级：效果变为每杀15个怪物获得一{gold}
+tooltip = "装备时，每杀20个怪物获得1{gold}
+升级：效果变为每杀20个怪物获得2{gold}
 "
 desc = "将死亡记录其上，仔细查看，总会有惊喜。"
 price = 3
 level = 2
 tags = Array[ExtResource("4_3tw63")]([ExtResource("5_oydgn"), ExtResource("6_pbut1")])
 id = "020"
+effects = Array[ExtResource("1_rej1n")]([SubResource("Resource_kill_gold")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

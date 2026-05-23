@@ -9,6 +9,7 @@ const FLOW_MAP := "map"
 const FLOW_EVENT_ROOM := "event_room"
 const FLOW_LEVEL_UP := "level_up"
 const FLOW_STARTING_SKILL := "starting_skill"
+const TAG_EFFECT_DATABASE := preload("res://custom_resource/default_tag_effect_database.tres")
 
 # 角色选择界面切场景后，会先把本次开局数据暂存在这里。
 static var pending_startup: RunStartup
@@ -21,6 +22,7 @@ static var pending_startup: RunStartup
 @onready var package_ui: PackageUI = $UI/PackageUI
 @onready var attributes_panel: AttributesPanel = $UI/AttributesPanel
 @onready var skill_overview_panel: SkillOverviewPanel = $UI/SkillOverviewPanel
+@onready var tag_effect_ui: TagEffectUI = $UI/TagEffectBar
 @onready var top_bar: CanvasLayer = $TopBar
 @onready var package_button: Button = $TopBar/PackageButton
 @onready var pause_button: Button = $TopBar/PauseButton
@@ -35,13 +37,16 @@ var current_flow_state: String = FLOW_MAP
 var level_up_checkpoint_locked := false
 var level_up_reward_options: Array[LevelUpReward] = []
 var battle_active := false
+var tag_effect_controller: TagEffectController
 
 
 # 先准备本局数据，再初始化常驻节点和地图流程。
 func _ready() -> void:
 	_initialize_run_state()
+	_ensure_default_tag_effect_selection()
 	_initialize_runtime_proxy()
 	_initialize_persistent_ui()
+	_initialize_tag_effect_controller()
 	_connect_signals()
 	_initialize_map()
 	_restore_saved_flow_view()
@@ -154,6 +159,8 @@ func change_to_rest_period() -> void:
 	if map != null:
 		map.hide_map()
 	_open_package_for_rest_period()
+	# 商店与常驻 UI 都初始化完成后，再通知套装效果进入本次修整期。
+	EventBus.rest_period_started.emit()
 
 
 # 玩家战败时打开死亡界面，由死亡界面决定重新开始或回主菜单。
@@ -315,6 +322,7 @@ func _initialize_continued_run(_startup: RunStartup) -> void:
 		return
 
 	run_stats = loaded_run_stats
+	_ensure_default_tag_effect_selection()
 	pending_map_save_data = SaveManager.get_saved_map_data(save_data)
 	pending_current_room_data = SaveManager.get_saved_current_room_data(save_data)
 	pending_flow_state = SaveManager.get_saved_flow_state(save_data)
@@ -351,6 +359,20 @@ func _initialize_persistent_ui() -> void:
 		skill_overview_panel.close_panel()
 
 
+func _initialize_tag_effect_controller() -> void:
+	if run_stats == null or run_stats.player_build == null or player_build_proxy == null:
+		return
+
+	if tag_effect_controller == null:
+		tag_effect_controller = TagEffectController.new()
+		tag_effect_controller.name = "TagEffectController"
+		add_child(tag_effect_controller)
+
+	tag_effect_controller.bind_context(run_stats, player_build_proxy, _load_default_tag_effects())
+	if tag_effect_ui != null:
+		tag_effect_ui.bind_controller(tag_effect_controller)
+
+
 # 当 RunStats 或 PlayerBuild 中的数据被更新后，刷新 Run 下常驻 UI。
 func _refresh_persistent_ui() -> void:
 	if run_stats == null or run_stats.player_build == null:
@@ -379,6 +401,9 @@ func _refresh_persistent_ui() -> void:
 			skill_overview_panel.open_panel()
 		else:
 			skill_overview_panel.close_panel()
+
+	if tag_effect_controller != null:
+		tag_effect_controller.refresh()
 
 
 # 生成并显示本局地图。
@@ -416,6 +441,21 @@ func _resolve_startup() -> RunStartup:
 		return startup
 
 	return run_startup
+
+
+func _ensure_default_tag_effect_selection() -> void:
+	if run_stats == null:
+		return
+	if not run_stats.selected_tag_effects.is_empty():
+		return
+
+	run_stats.selected_tag_effects = _load_default_tag_effects()
+
+
+func _load_default_tag_effects() -> Array[TagEffect]:
+	var database := TAG_EFFECT_DATABASE.duplicate(true) as TagEffectDatabase
+	database.load_selection()
+	return database.get_selected_effects()
 
 
 # 记录当前被选择的房间，并进入它的事件场景。

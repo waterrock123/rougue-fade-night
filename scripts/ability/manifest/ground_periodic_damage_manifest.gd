@@ -24,6 +24,8 @@ extends AbilityManifest
 ## 每次造成伤害时顺便施加的状态，可为空。雪暴瓶可用它施加短暂减速。
 @export var on_tick_status: StatusData
 @export var on_tick_status_stacks: int = 1
+## 本次施加状态的持续时间覆盖。INF 表示使用 StatusData 资源里的默认 duration。
+@export var on_tick_status_duration_override: float = INF
 
 @onready var hit_area: Area2D = get_node_or_null("Area2D") as Area2D
 @onready var animated_sprite: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
@@ -116,7 +118,7 @@ func _apply_status_to_target(target: Entity, valid_source: Entity) -> void:
 		return
 
 	var source_key := "%s_%s" % [tags[0] if not tags.is_empty() else "ground_manifest", on_tick_status.id]
-	status_controller.add_status(on_tick_status, valid_source, source_key, on_tick_status_stacks)
+	status_controller.add_status(on_tick_status, valid_source, source_key, on_tick_status_stacks, on_tick_status_duration_override)
 
 
 func _get_entity_from_area(area: Area2D) -> Entity:

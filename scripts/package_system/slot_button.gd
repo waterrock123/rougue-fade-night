@@ -32,12 +32,22 @@ func reset_color():
 	tooltip_text = ""
 
 
+# 设置有物品时的格子视觉。
+# 背包刷新锁定状态时也会调用，避免有物品的格子被重置成空格颜色并丢失 tooltip。
+func set_occupied_visual() -> void:
+	slot_background.color = Color(0.332, 0.455, 0.32, 0.86) if slot_locked else Color(0.402, 0.547, 0.371, 0.8)
+	tooltip_text = " "
+
+
 # 同步数据层的锁定状态到按钮视觉层。
 func set_locked_state(locked: bool) -> void:
 	slot_locked = locked
 	if disable_icon != null:
 		disable_icon.visible = locked
-	reset_color()
+	if slot_button_slot_relic != null:
+		set_occupied_visual()
+	else:
+		reset_color()
 
 
 func is_locked() -> bool:
@@ -65,8 +75,7 @@ func _get_slot_relic_data() -> Relic:
 # 放入遗物 UI，并把数据同步回背包对应的 Slot。
 func insert(relic_ui: RelicUI):
 	slot_button_slot_relic = relic_ui
-	slot_background.color = Color(0.332, 0.455, 0.32, 0.86) if slot_locked else Color(0.402, 0.547, 0.371, 0.8)
-	tooltip_text = " "
+	set_occupied_visual()
 	center_container.add_child(slot_button_slot_relic)
 
 	if slot_button_slot_relic.slot_ == null or slot_inventory == null:

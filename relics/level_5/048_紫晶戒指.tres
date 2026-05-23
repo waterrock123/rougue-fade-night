@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://c6tjfch17oduu"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_88b6q"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_03xiq"]
+[ext_resource type="Texture2D" uid="uid://cgefv8i3rc32k" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1845.png" id="2_f523s"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_2qdvw"]
+[ext_resource type="Resource" uid="uid://dxale3ttna2jk" path="res://relic_tags/火炎tag.tres" id="5_hjxqr"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="6_8ais3"]
+[ext_resource type="Resource" uid="uid://b5pj0gwwux13c" path="res://relic_tags/聚众.tres" id="7_wjs2y"]
+
+[resource]
+script = ExtResource("2_03xiq")
+relic_name = "紫晶戒指"
+icon = ExtResource("2_f523s")
+tooltip = "释放技能时有概率召唤魂火，魂火会持续灼烧其周围的敌人造成火焰伤害，魂火的属性受你的属性加成
+升级：魂火死亡时会提升你的随机属性一点"
+price = 5
+level = 5
+tags = Array[ExtResource("3_2qdvw")]([ExtResource("5_hjxqr"), ExtResource("6_8ais3"), ExtResource("7_wjs2y")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

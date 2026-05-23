@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bni8h4u3y7wpe"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_kbdhc"]
+[ext_resource type="Texture2D" uid="uid://dnf7inlit561e" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc119.png" id="2_6v40e"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_pkv4m"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_sg6p2"]
+[ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_v2j3r"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="6_xitat"]
+
+[resource]
+script = ExtResource("2_pkv4m")
+relic_name = "暴走平底锅"
+icon = ExtResource("2_6v40e")
+tooltip = "减伤+20%，获得时将所有背包中所有带原料标签的物品变为升级状态
+升级：使背包内所有带原料标签的物品变为更高一阶的带佳肴标签物品"
+price = 5
+level = 5
+tags = Array[ExtResource("3_sg6p2")]([ExtResource("5_v2j3r"), ExtResource("6_xitat")])
+id = "047"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

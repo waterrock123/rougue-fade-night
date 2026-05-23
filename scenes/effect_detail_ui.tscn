@@ -1,0 +1,133 @@
+[gd_scene load_steps=8 format=3 uid="uid://dmd7mos7q5ews"]
+
+[ext_resource type="Texture2D" uid="uid://3tjpe4yy34bn" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc69.png" id="1_osgtc"]
+[ext_resource type="Script" path="res://scripts/tag_effect/tag_effect_detail_ui.gd" id="2_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hjb0k"]
+bg_color = Color(0.33966804, 0.65351224, 0.719057, 0.45882353)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_ea03q"]
+font_size = 64
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5oyup"]
+bg_color = Color(0.2415365, 0.49974775, 0.66618323, 0.71900004)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_co2om"]
+bg_color = Color(0.9999996, 0.98886913, 0.7624515, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.87137425, 0.7434136, 0.9630365, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w6ivl"]
+bg_color = Color(0.9098166, 0.5632333, 0.5841876, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.87137425, 0.7434136, 0.9630365, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="EffectDetail" type="VBoxContainer" unique_id=1011377350]
+custom_minimum_size = Vector2(1179, 0)
+script = ExtResource("2_script")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="." unique_id=1427869415]
+layout_mode = 2
+alignment = 1
+
+[node name="EffectName" type="Panel" parent="VBoxContainer2" unique_id=216956005]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hjb0k")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/EffectName" unique_id=1886477812]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="icon" type="TextureRect" parent="VBoxContainer2/EffectName/HBoxContainer" unique_id=551357781]
+layout_mode = 2
+texture = ExtResource("1_osgtc")
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="VBoxContainer2/EffectName/HBoxContainer" unique_id=68388405]
+layout_mode = 2
+text = "这里是tageffect名"
+label_settings = SubResource("LabelSettings_ea03q")
+
+[node name="DetailDesc" type="RichTextLabel" parent="VBoxContainer2" unique_id=1840868785]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 64
+theme_override_font_sizes/bold_font_size = 64
+theme_override_font_sizes/bold_italics_font_size = 64
+theme_override_font_sizes/italics_font_size = 64
+theme_override_font_sizes/mono_font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_5oyup")
+text = "总之这里是各种效果描述"
+
+[node name="ChosenButton" type="Button" parent="VBoxContainer2/DetailDesc" unique_id=12842920]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -87.0
+offset_right = -14.0
+offset_bottom = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_disabled_color = Color(1, 1, 1, 0.4)
+theme_override_styles/normal = SubResource("StyleBoxFlat_co2om")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_w6ivl")
+toggle_mode = true
+text = "已启用/未启用"

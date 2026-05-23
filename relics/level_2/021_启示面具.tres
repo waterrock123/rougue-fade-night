@@ -5,16 +5,40 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_oefip"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_y1onj"]
 [ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="5_o4gv3"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="6_add_stats"]
+[ext_resource type="Script" uid="uid://bykvt0qhrl7q8" path="res://relic_effect/battle_end_shop_refresh_chance_effect.gd" id="7_refresh_chance"]
+
+[sub_resource type="Resource" id="Resource_int_base"]
+script = ExtResource("6_add_stats")
+add_stats = {
+"intelligence": 1
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
+
+[sub_resource type="Resource" id="Resource_refresh_chance"]
+script = ExtResource("7_refresh_chance")
+levelup_chance = 0.45
+metadata/_custom_type_script = "res://relic_effect/battle_end_shop_refresh_chance_effect.gd"
+
+[sub_resource type="Resource" id="Resource_int_levelup"]
+script = ExtResource("6_add_stats")
+add_stats = {
+"intelligence": 1
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
 
 [resource]
 script = ExtResource("1_oefip")
 relic_name = "启示面具"
 icon = ExtResource("1_noj6d")
 tooltip = "战斗结束时有25%的概率获得一次免费{shop_refresh}的机会，{intelligence}+1
-升级：概率提升至45%，{intelligence}+2
+升级：概率提升至45%，{intelligence}+1
 "
+desc = "戴上面具就能看到商人的闪光点"
 price = 3
 level = 2
 tags = Array[ExtResource("4_y1onj")]([ExtResource("5_o4gv3")])
 id = "021"
+effects = Array[ExtResource("1_euej6")]([SubResource("Resource_int_base"), SubResource("Resource_refresh_chance")])
+great_effects = Array[ExtResource("1_euej6")]([SubResource("Resource_int_levelup")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

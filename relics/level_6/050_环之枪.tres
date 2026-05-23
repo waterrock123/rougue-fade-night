@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bfgbhb41txiyl"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_nh8js"]
+[ext_resource type="Texture2D" uid="uid://vcqmumbdqdpj" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1720.png" id="2_fo3lu"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_euj4w"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_s3gtv"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_qy0lr"]
+[ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="6_h2yxp"]
+[ext_resource type="Resource" uid="uid://b5pj0gwwux13c" path="res://relic_tags/聚众.tres" id="7_3ld33"]
+
+[resource]
+script = ExtResource("3_euj4w")
+relic_name = "环之枪"
+icon = ExtResource("2_fo3lu")
+tooltip = "敏捷+4，速度+4，进入战斗时会生成两个固定的盟友为你作战
+升级：进入战斗时额外生成两个盟友"
+price = 6
+level = 6
+tags = Array[ExtResource("4_s3gtv")]([ExtResource("5_qy0lr"), ExtResource("6_h2yxp"), ExtResource("7_3ld33")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

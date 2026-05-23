@@ -5,6 +5,8 @@ extends PassiveSkillEffect
 # 例如“护甲+1”会通过 armor 状态接入同 id 多来源叠层系统，而不是直接写死派生属性。
 @export var status_data: StatusData
 @export var stacks: int = 1
+## 本次施加状态的持续时间覆盖。INF 表示使用 StatusData 资源里的默认 duration。
+@export var duration_override: float = INF
 
 
 func apply(context: SkillContext) -> void:
@@ -12,7 +14,7 @@ func apply(context: SkillContext) -> void:
 	if status_controller == null or status_data == null:
 		return
 
-	status_controller.add_status(status_data, _get_source_node(context), context.effect_key, stacks)
+	status_controller.add_status(status_data, _get_source_node(context), context.effect_key, stacks, duration_override)
 
 
 func remove(context: SkillContext) -> void:

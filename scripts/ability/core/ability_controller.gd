@@ -1,6 +1,8 @@
 class_name AbilityController
 extends Node
 
+signal ability_triggered(ability: Ability, caster: Entity)
+
 var abilities: Array[Ability] = []
 var cooldowns: Dictionary = {}
 var cooldown_modifiers: Dictionary = {}
@@ -103,6 +105,7 @@ func trigger_ability(ability: Ability):
 
 	entity.spend_energy(ability.energy_cost)
 	ability.activate(entity)
+	ability_triggered.emit(ability, entity)
 	cooldowns[ability] = _get_modified_cooldown(ability)
 
 

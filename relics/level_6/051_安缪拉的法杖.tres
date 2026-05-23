@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://iyosos1vh3wj"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_8p88a"]
+[ext_resource type="Texture2D" uid="uid://cpv55tvl12t7" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1690.png" id="2_64i5l"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_gl2u7"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_64i5l"]
+
+[resource]
+script = ExtResource("2_gl2u7")
+relic_name = "安缪拉的法杖"
+icon = ExtResource("2_64i5l")
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

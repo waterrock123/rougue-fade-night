@@ -27,7 +27,8 @@ func add_status(
 	status_data: StatusData,
 	source: Node = null,
 	source_key: Variant = null,
-	stacks: int = 1
+	stacks: int = 1,
+	duration_override: float = INF
 ) -> StatusInstance:
 	if status_data == null or status_data.id == &"":
 		return null
@@ -35,11 +36,11 @@ func add_status(
 	var status_id := status_data.id
 	var existing := statuses.get(status_id) as StatusInstance
 	if existing != null:
-		_reapply_status(existing, source, source_key, stacks)
+		_reapply_status(existing, source, source_key, stacks, duration_override)
 		status_changed.emit()
 		return existing
 
-	var instance := StatusInstance.new(status_data, self, target, source, source_key, stacks)
+	var instance := StatusInstance.new(status_data, self, target, source, source_key, stacks, duration_override)
 	statuses[status_id] = instance
 	_apply_effects(instance)
 	status_changed.emit()
@@ -91,7 +92,13 @@ func get_stats_controller() -> StatsController:
 	return stats_controller
 
 
-func _reapply_status(instance: StatusInstance, source: Node, source_key: Variant, added_stacks: int) -> void:
+func _reapply_status(
+	instance: StatusInstance,
+	source: Node,
+	source_key: Variant,
+	added_stacks: int,
+	duration_override: float = INF
+) -> void:
 	if instance.status_data == null:
 		return
 
@@ -109,7 +116,7 @@ func _reapply_status(instance: StatusInstance, source: Node, source_key: Variant
 			instance.set_source_stacks(source_key, added_stacks)
 
 	if instance.status_data.refresh_duration_on_reapply:
-		instance.refresh_duration()
+		instance.refresh_duration(duration_override)
 
 	_apply_effects(instance)
 

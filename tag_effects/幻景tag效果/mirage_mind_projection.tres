@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="TagShopIntelligencePaymentEffect" format=3 uid="uid://r6q250bj35gw"]
+
+[ext_resource type="Script" uid="uid://bxn63dsxlumot" path="res://scripts/tag_effect/tag_shop_intelligence_payment_effect.gd" id="1_effect"]
+[ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="2_tag"]
+[ext_resource type="Texture2D" uid="uid://veqndkgivmww" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc208.png" id="3_icon"]
+
+[resource]
+script = ExtResource("1_effect")
+id = &"mirage_mind_projection"
+tag = ExtResource("2_tag")
+effect_name = "心灵投影"
+icon = ExtResource("3_icon")
+desc = "拥有不同的幻景达到 5 件后，背包内的幻景也能计数；没有金币时，可以永久消耗 3 点{intelligence}购买一件商品。"
+required_count = 5
+count_source = 1
+metadata/_custom_type_script = "res://scripts/tag_effect/tag_shop_intelligence_payment_effect.gd"

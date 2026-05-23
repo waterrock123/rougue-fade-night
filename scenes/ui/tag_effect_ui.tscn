@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://1b7oa5v5iha0"]
+
+[ext_resource type="PackedScene" uid="uid://dtb0mybrx65sq" path="res://scenes/ui/tag_effect_tooltip.tscn" id="1_ywooy"]
+[ext_resource type="Script" uid="uid://bgbum74brg64" path="res://scenes/ui/tag_effect_ui.gd" id="2_tag_effect_ui"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ywooy"]
+bg_color = Color(0.48235294, 0.5529412, 0.6627451, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_etb3p"]
+bg_color = Color(0.31926897, 0.6289709, 0.86807346, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_76n74"]
+bg_color = Color(0.48235294, 0.5529412, 0.6627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m7x2r"]
+bg_color = Color(0.31764707, 0.627451, 0.8666667, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vmv0f"]
+bg_color = Color(0.4836164, 0.55160505, 0.6634806, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.6907615, 0.6032025, 1)
+
+[node name="TagEffectBar" type="FoldableContainer" unique_id=103643733]
+anchors_preset = -1
+anchor_right = 0.18300001
+anchor_bottom = 0.224
+offset_right = 8.639984
+offset_bottom = 0.07998657
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/title_panel = SubResource("StyleBoxFlat_ywooy")
+theme_override_styles/title_hover_panel = SubResource("StyleBoxFlat_etb3p")
+theme_override_styles/title_collapsed_panel = SubResource("StyleBoxFlat_76n74")
+theme_override_styles/title_collapsed_hover_panel = SubResource("StyleBoxFlat_m7x2r")
+theme_override_styles/panel = SubResource("StyleBoxFlat_vmv0f")
+title = "已激活tag效果"
+title_alignment = 1
+script = ExtResource("2_tag_effect_ui")
+
+[node name="VBoxContainer" type="ScrollContainer" parent="." unique_id=295010520]
+layout_mode = 2
+follow_focus = true
+scroll_hint_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=857222843]
+layout_mode = 2
+alignment = 1
+
+[node name="TagEffectTooltip" parent="VBoxContainer/VBoxContainer" unique_id=2000091988 instance=ExtResource("1_ywooy")]
+visible = false
+layout_mode = 2
+alignment = 1

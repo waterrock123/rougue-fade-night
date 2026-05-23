@@ -189,16 +189,17 @@ func buy_relic(slot_index: int) -> void:
 		return
 
 	var relic := slot_.item
-	if run_stats.gold < relic.price:
-		push_warning("Not enough gold to buy relic: %s" % relic.relic_name)
-		return
 	if not player_build.can_accept_relic(relic):
 		push_warning("Inventory is full, cannot buy relic: %s" % relic.relic_name)
 		return
+	if not _pay_relic_cost(relic):
+		push_warning("Not enough gold to buy relic: %s" % relic.relic_name)
+		return
 
-	run_stats.set_gold(run_stats.gold - relic.price)
+	EventBus.relic_purchase_preprocess.emit(relic)
 	suppress_free_choice_start = true
 	EventBus.buy_equipment.emit(relic)
+	EventBus.relic_purchased.emit(relic)
 	suppress_free_choice_start = false
 	slot_.item = null
 	shop.set_slot_frozen(slot_index, false)
@@ -262,6 +263,9 @@ func _connect_signals() -> void:
 	if not EventBus.free_relic_choice_changed.is_connected(_on_free_relic_choice_changed):
 		EventBus.free_relic_choice_changed.connect(_on_free_relic_choice_changed)
 
+	if not EventBus.shop_inventory_update.is_connected(_on_shop_inventory_update):
+		EventBus.shop_inventory_update.connect(_on_shop_inventory_update)
+
 	if not EventBus.inventory_update.is_connected(_sync_shop_match_highlights):
 		EventBus.inventory_update.connect(_sync_shop_match_highlights)
 
@@ -309,6 +313,11 @@ func _sync_shop_ui() -> void:
 		shop_slots[slot_index].set_frozen(shop.is_slot_frozen(slot_index))
 
 	_sync_shop_match_highlights()
+
+
+func _on_shop_inventory_update() -> void:
+	_sync_shop_ui()
+	_update_shop_ui()
 
 
 # 把指定范围内的格子重新随机补货。
@@ -524,11 +533,30 @@ func _buy_free_choice_relic(slot_index: int) -> void:
 		push_warning("Inventory is full, cannot take free relic: %s" % relic.relic_name)
 		return
 
+	EventBus.relic_purchase_preprocess.emit(relic)
 	EventBus.buy_equipment.emit(relic)
+	EventBus.relic_purchased.emit(relic)
 	if money_token != null:
 		money_token.speak_buy()
 	_end_free_relic_choice(true)
 	_save_run_if_available()
+
+
+# 优先用金币付款；若激活了对应套装且金币为 0，则允许永久消耗智力购买。
+func _pay_relic_cost(relic: Relic) -> bool:
+	if run_stats == null or relic == null:
+		return false
+
+	var price = max(relic.price, 0)
+	if run_stats.gold >= price:
+		run_stats.set_gold(run_stats.gold - price)
+		return true
+
+	if run_stats.can_pay_shop_with_intelligence() and run_stats.spend_intelligence_for_shop_purchase():
+		_refresh_run_ui_if_available()
+		return true
+
+	return false
 
 
 func _save_shop_state() -> void:
@@ -708,3 +736,9 @@ func _save_run_if_available() -> void:
 	var current_run := get_tree().get_first_node_in_group("run") as Run
 	if current_run != null:
 		current_run.save_current_run()
+
+
+func _refresh_run_ui_if_available() -> void:
+	var current_run := get_tree().get_first_node_in_group("run") as Run
+	if current_run != null and current_run.has_method("_refresh_persistent_ui"):
+		current_run.call("_refresh_persistent_ui")
