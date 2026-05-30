@@ -36,6 +36,33 @@ static func format_text(raw_text: String, keyword_database: KeywordDatabase) -> 
 	return result
 
 
+# 将 {keyword} 转成纯文本名称，给普通 Label 使用；需要颜色时仍然使用 format_text。
+static func format_text_plain(raw_text: String, keyword_database: KeywordDatabase) -> String:
+	if raw_text.is_empty():
+		return ""
+
+	var regex := RegEx.new()
+	var compile_error := regex.compile("\\{([A-Za-z0-9_:-]+)\\}")
+	if compile_error != OK:
+		return raw_text
+
+	var matches := regex.search_all(raw_text)
+	var cursor := 0
+	var output := ""
+
+	for match_result in matches:
+		output += raw_text.substr(cursor, match_result.get_start() - cursor)
+
+		var keyword_id := StringName(match_result.get_string(1))
+		var keyword := keyword_database.get_keyword(keyword_id) if keyword_database != null else null
+		output += keyword.display_name if keyword != null else match_result.get_string(0)
+
+		cursor = match_result.get_end()
+
+	output += raw_text.substr(cursor)
+	return output
+
+
 static func _build_keyword_bbcode(keyword: KeywordData) -> String:
 	var color_html := keyword.color.to_html(false)
 	var keyword_name: String = _escape_bbcode(keyword.display_name)

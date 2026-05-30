@@ -1,0 +1,104 @@
+[gd_scene format=3 uid="uid://7hxdgvhlgv5r"]
+
+[ext_resource type="Texture2D" uid="uid://dbyq7ghpuflx7" path="res://assets/ai art/休憩营地.png" id="2_tnqlo"]
+[ext_resource type="PackedScene" uid="uid://csqwkpx1kbsbr" path="res://event_room/event_button.tscn" id="3_llmx2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_o06u0"]
+font_size = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8p8"]
+bg_color = Color(0.45390636, 0.1925627, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.49455744, 0.18269193, 0.21664724, 0.6)
+
+[node name="BossRoom" type="Control" unique_id=652731172]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=500561060]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.111652605, 0.032517143, 0.08517177, 0.7411765)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=499646323]
+modulate = Color(1, 1, 1, 0.6509804)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 1925.0
+offset_bottom = 1081.0
+texture = ExtResource("2_tnqlo")
+expand_mode = 1
+
+[node name="DescLabel" type="Label" parent="." unique_id=1797618010]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 0
+offset_left = 138.0
+offset_top = 334.0
+offset_right = 838.0
+offset_bottom = 506.0
+size_flags_vertical = 3
+text = "大敌当前，要做好完全的准备"
+label_settings = SubResource("LabelSettings_o06u0")
+autowrap_mode = 2
+
+[node name="RestButton" parent="." unique_id=1416983139 instance=ExtResource("3_llmx2")]
+layout_mode = 0
+offset_left = 157.0
+offset_top = 599.0
+offset_right = 751.0
+offset_bottom = 675.0
+autowrap_mode = 2
+pressed_desc = Array[String](["治疗伤势，休养生息，为大敌做好准备"])
+desc_text = "疗愈伤势"
+detail_text = "恢复35%生命"
+
+[node name="SharpButton" parent="." unique_id=243612117 instance=ExtResource("3_llmx2")]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 702.0
+offset_right = 752.0
+offset_bottom = 778.0
+autowrap_mode = 2
+pressed_desc = Array[String](["乘着空闲时间，你同你的装备好好地磨合了一番，令人惊喜的是其中一件装备似乎发生些神奇的变化"])
+desc_text = "打磨兵器"
+detail_text = "使背包或装备栏随机一件未升级装备升级"
+
+[node name="AbilityButton" parent="." unique_id=569287997 instance=ExtResource("3_llmx2")]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 807.0
+offset_right = 752.0
+offset_bottom = 883.0
+autowrap_mode = 2
+pressed_desc = Array[String](["你花了点时间锻炼自己的力量，对于下一次的提升，你已有更好的体悟"])
+desc_text = "磨炼技艺"
+detail_text = "获得一次刷新升级奖励的机会"
+
+[node name="LeaveButton" type="Button" parent="." unique_id=1612002407]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 0
+offset_left = 1437.0
+offset_top = 860.0
+offset_right = 1837.0
+offset_bottom = 960.0
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_ih8p8")
+text = "离开"
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

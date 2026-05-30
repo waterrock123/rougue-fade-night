@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dqibmq5tc3rqg"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_2i8p0"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_d57ya"]
+[ext_resource type="Texture2D" uid="uid://cyl3j2exqw1ev" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2101.png" id="2_ug177"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_ug177"]
+[ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="5_j18yg"]
+[ext_resource type="Resource" uid="uid://bpyxiv6nfwnu5" path="res://relic_tags/创生tag.tres" id="6_j18yg"]
+
+[resource]
+script = ExtResource("2_d57ya")
+relic_name = "花衬衫"
+icon = ExtResource("2_ug177")
+tooltip = "魅力+2，每购买3次装备使下次战斗中产生一只悬赏精英怪
+升级:魅力额外+2"
+desc = "夏威夷感的衬衫，穿出去会吸引怪物围殴"
+price = 4
+level = 3
+tags = Array[ExtResource("3_ug177")]([ExtResource("5_j18yg"), ExtResource("6_j18yg")])
+id = "071"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

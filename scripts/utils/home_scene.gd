@@ -5,6 +5,7 @@ const TAG_EFFECT_CHOSE_PANEL_SCENE := preload("res://scenes/tag_effect_chose_pan
 
 @onready var continue_btn: Button = $ContinueBtn
 @onready var tag_set_button: Button = $TagSetButton
+@onready var book_button: Button = $BookButton
 
 var tag_effect_panel: TagEffectChosePanel
 
@@ -14,6 +15,8 @@ func _ready() -> void:
 	_update_continue_button()
 	if tag_set_button != null and not tag_set_button.pressed.is_connected(_on_tag_set_button_pressed):
 		tag_set_button.pressed.connect(_on_tag_set_button_pressed)
+	if book_button != null and not book_button.pressed.is_connected(_on_book_button_pressed):
+		book_button.pressed.connect(_on_book_button_pressed)
 
 
 func _on_play_btn_pressed() -> void:
@@ -32,6 +35,10 @@ func _on_continue_btn_pressed() -> void:
 
 func _on_exit_btn_pressed() -> void:
 	get_tree().quit()
+
+
+func _on_book_button_pressed() -> void:
+	ResourceLocator.go_to_pictorial_book_scene()
 
 
 func _on_tag_set_button_pressed() -> void:

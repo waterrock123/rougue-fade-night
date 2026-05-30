@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://bhyx731fhouxj"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_gsbs6"]
+
+[resource]
+script = ExtResource("1_gsbs6")
+entity_name = "goldskeleton"
+base_max_health = 50.0
+base_max_energy = 20.0
+base_energy_regen_tick_value = 5.0
+base_dodge_rate = 0.01
+base_move_speed = 20.0
+strength = 5
+dexterity = 5
+constitution = 5
+speed = 4
+luck = 3
+metadata/_custom_type_script = "uid://yiy2gawxifk8"

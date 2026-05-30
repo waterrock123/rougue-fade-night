@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dne83joygtt20" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2075.png" id="1_c6ap5"]
 [ext_resource type="Script" uid="uid://ba0tb32nr7t7w" path="res://scripts/tag_effect/tag_absorb_equipped_relics_effect.gd" id="2_gdxdw"]
-[ext_resource type="Resource" uid="uid://5lm52h2ywjf7" path="res://relics/special/101_众饰之戒.tres" id="3_8hojx"]
+[ext_resource type="Resource" uid="uid://5lm52h2ywjf7" path="res://relics/special/201_众饰之戒.tres" id="3_8hojx"]
 [ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="4_3evhl"]
 
 [resource]

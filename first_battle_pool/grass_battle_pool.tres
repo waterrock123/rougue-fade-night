@@ -4,8 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://cew35ky6fcbff" path="res://entity/enemy/demon_mouse.tscn" id="2_r8pbn"]
 [ext_resource type="PackedScene" uid="uid://gelec3ahehiy" path="res://entity/enemy/skeleton.tscn" id="3_8uf21"]
 [ext_resource type="Script" uid="uid://df3feoy7vmvbw" path="res://custom_resource/battle_wave_data.gd" id="4_6j6aj"]
+[ext_resource type="Script" uid="uid://cexev0ncxqe1h" path="res://custom_resource/enemy_spawn_entry.gd" id="5_8uf21"]
 [ext_resource type="PackedScene" uid="uid://c2cicmdj7n24" path="res://entity/enemy/mushroom_monster.tscn" id="5_f1yte"]
 [ext_resource type="Script" uid="uid://7r8m0gpgxung" path="res://custom_resource/battle_stats_pool.gd" id="6_4gy3b"]
+[ext_resource type="PackedScene" uid="uid://b7nuwnhas4ban" path="res://entity/enemy/treepeople.tscn" id="6_r8pbn"]
+[ext_resource type="PackedScene" uid="uid://cmtlep1bvt6r8" path="res://entity/enemy/gold_skeleton.tscn" id="8_6j6aj"]
+[ext_resource type="PackedScene" uid="uid://d3c4gj5mnavks" path="res://entity/enemy/skeleton_boss.tscn" id="9_f1yte"]
 
 [sub_resource type="Resource" id="Resource_f17u5"]
 script = ExtResource("4_6j6aj")
@@ -126,9 +130,9 @@ metadata/_custom_type_script = "uid://bbp1b6impnqv1"
 
 [sub_resource type="Resource" id="Resource_25aov"]
 script = ExtResource("4_6j6aj")
-packed_enemies = Array[PackedScene]([ExtResource("5_f1yte")])
-max_enemies = 10
-spawn_batch_size = 2
+packed_enemies = Array[PackedScene]([ExtResource("5_f1yte"), ExtResource("6_r8pbn"), ExtResource("3_8uf21")])
+max_enemies = 15
+spawn_batch_size = 3
 metadata/_custom_type_script = "uid://df3feoy7vmvbw"
 
 [sub_resource type="Resource" id="Resource_nykyp"]
@@ -148,7 +152,7 @@ metadata/_custom_type_script = "uid://df3feoy7vmvbw"
 
 [sub_resource type="Resource" id="Resource_hs4c0"]
 script = ExtResource("4_6j6aj")
-packed_enemies = Array[PackedScene]([ExtResource("2_r8pbn")])
+packed_enemies = Array[PackedScene]([ExtResource("2_r8pbn"), ExtResource("6_r8pbn")])
 max_enemies = 10
 spawn_batch_size = 2
 metadata/_custom_type_script = "uid://df3feoy7vmvbw"
@@ -160,7 +164,47 @@ weight = 1.0
 waves = Array[ExtResource("4_6j6aj")]([SubResource("Resource_etaqi"), SubResource("Resource_hs4c0")])
 metadata/_custom_type_script = "uid://bbp1b6impnqv1"
 
+[sub_resource type="Resource" id="Resource_f1yte"]
+script = ExtResource("5_8uf21")
+enemy_scene = ExtResource("8_6j6aj")
+count = 2
+spawn_batch_size = 2
+spawn_role = &"minion"
+spawn_position_mode = 2
+spawn_offset = Vector2(200, 200)
+
+[sub_resource type="Resource" id="Resource_3u3va"]
+script = ExtResource("5_8uf21")
+enemy_scene = ExtResource("9_f1yte")
+spawn_role = &"boss"
+spawn_position_mode = 2
+spawn_offset = Vector2(-200, -200)
+
+[sub_resource type="Resource" id="Resource_4gy3b"]
+script = ExtResource("4_6j6aj")
+fixed_spawns = Array[ExtResource("5_8uf21")]([SubResource("Resource_f1yte"), SubResource("Resource_3u3va")])
+packed_enemies = Array[PackedScene]([ExtResource("5_f1yte"), ExtResource("3_8uf21"), ExtResource("2_r8pbn"), ExtResource("6_r8pbn")])
+max_enemies = 12
+spawn_interval = 0.8
+spawn_batch_size = 3
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_dnyu2"]
+script = ExtResource("4_6j6aj")
+packed_enemies = Array[PackedScene]([ExtResource("6_r8pbn")])
+max_enemies = 2
+spawn_interval = 5.0
+advance_mode = 0
+metadata/_custom_type_script = "uid://df3feoy7vmvbw"
+
+[sub_resource type="Resource" id="Resource_r8pbn"]
+script = ExtResource("1_3gn5m")
+battle_tier = 3
+weight = 1.0
+waves = Array[ExtResource("4_6j6aj")]([SubResource("Resource_4gy3b"), SubResource("Resource_dnyu2")])
+metadata/_custom_type_script = "uid://bbp1b6impnqv1"
+
 [resource]
 script = ExtResource("6_4gy3b")
-pool = Array[ExtResource("1_3gn5m")]([SubResource("Resource_mrjnl"), SubResource("Resource_rqo2c"), SubResource("Resource_e07uo"), SubResource("Resource_58ndj"), SubResource("Resource_nykyp"), SubResource("Resource_uclq6")])
+pool = Array[ExtResource("1_3gn5m")]([SubResource("Resource_mrjnl"), SubResource("Resource_rqo2c"), SubResource("Resource_e07uo"), SubResource("Resource_58ndj"), SubResource("Resource_nykyp"), SubResource("Resource_uclq6"), SubResource("Resource_r8pbn")])
 metadata/_custom_type_script = "uid://7r8m0gpgxung"

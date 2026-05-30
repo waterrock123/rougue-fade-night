@@ -128,6 +128,29 @@ func can_be_targeted() -> bool:
 	return not is_dead and not is_invulnerable()
 
 
+## 阵营判断：玩家本体、玩家友军和召唤物都属于玩家侧。
+## 不直接把召唤物加入 player 组，是为了避免触发只该属于玩家本体的 UI/存档/死亡逻辑。
+func is_player_side() -> bool:
+	return is_in_group("player") or is_in_group("player_ally") or is_in_group("summon_pet")
+
+
+## 阵营判断：目前敌人侧主要由 enemy 组表示，后续如果有敌方召唤物也可以在这里扩展。
+func is_enemy_side() -> bool:
+	return is_in_group("enemy")
+
+
+## 统一判断一个实体是否匹配目标组。
+## 当旧技能写 target_group = "player" 时，现在会命中整个玩家侧，包括召唤物。
+func matches_target_group(group_name: StringName) -> bool:
+	if group_name == &"":
+		return true
+	if group_name == &"player":
+		return is_player_side()
+	if group_name == &"enemy":
+		return is_enemy_side()
+	return is_in_group(String(group_name))
+
+
 func can_act() -> bool:
 	return not is_dead and action_lock_sources.is_empty()
 

@@ -41,7 +41,8 @@ z_index = -1
 script = ExtResource("6_ground_dot")
 fade_duration = 0.9
 damage_on_spawn = true
-tags = Array[String](["ground", "frost_trail", "relic"])
+damage = 1.0
+tags = Array[String](["manifest", "ground", "periodic", "aoe", "frost_trail", "relic"])
 on_tick_status = ExtResource("7_frost_slow")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=15184359]

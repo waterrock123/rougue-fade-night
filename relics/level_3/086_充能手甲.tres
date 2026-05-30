@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bhh684312wwfv"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_tp0l6"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_84q6a"]
+[ext_resource type="Texture2D" uid="uid://d1xg5rq5ik2qu" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2172.png" id="2_xlcc0"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_8jfui"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_2yyr0"]
+[ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="6_k3xqx"]
+
+[resource]
+script = ExtResource("2_84q6a")
+relic_name = "充能手甲"
+icon = ExtResource("2_xlcc0")
+tooltip = "力量+1，每释放除基础攻击外的主动技能时都使你的力量+1，最多五次，持续到战斗结束，当达到五次力量加成时使你的近战伤害额外+5
+升级：护甲+3"
+desc = "随着战斗它的力量越来越强"
+price = 4
+level = 3
+tags = Array[ExtResource("3_8jfui")]([ExtResource("5_2yyr0"), ExtResource("6_k3xqx")])
+id = "086"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

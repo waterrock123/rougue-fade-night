@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://s6m6ip7h64o7"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_stats"]
+
+[resource]
+script = ExtResource("1_stats")
+entity_name = "强壮鼠鼠"
+base_max_health = 18.0
+strength = 4
+dexterity = 7
+constitution = 4
+speed = 7
+charm = 5
+luck = 10

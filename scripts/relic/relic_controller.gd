@@ -6,6 +6,7 @@ extends Node
 @export var player_build: PlayerBuild
 
 var active_relic_entries: Array[Dictionary] = []
+var deferred_refresh_requested := false
 
 
 func _ready() -> void:
@@ -14,7 +15,18 @@ func _ready() -> void:
 	if not EventBus.equipment_update.is_connected(_on_equipment_changed):
 		EventBus.equipment_update.connect(_on_equipment_changed)
 
-	call_deferred("refresh_all")
+	# 子节点 ready 时，Run/Player 可能还没把 PlayerBuild 传下来。
+	# 这次延迟刷新只是兜底；如果外部已经主动 refresh_all()，它会被跳过。
+	deferred_refresh_requested = true
+	call_deferred("_refresh_all_deferred")
+
+
+func _exit_tree() -> void:
+	if EventBus.equipment_update.is_connected(_on_equipment_changed):
+		EventBus.equipment_update.disconnect(_on_equipment_changed)
+
+	# 场景销毁时也清理装备效果，避免监听全局信号的遗物效果残留到下一场景。
+	_deactivate_all_relics()
 
 
 # 提供给 RelicEffect 使用的统一查询入口。
@@ -45,6 +57,7 @@ func get_status_controller() -> StatusController:
 
 # 根据当前装备栏状态刷新所有遗物效果。
 func refresh_all() -> void:
+	deferred_refresh_requested = false
 	_resolve_context()
 	_deactivate_all_relics()
 
@@ -73,6 +86,13 @@ func refresh_all() -> void:
 
 
 func _on_equipment_changed() -> void:
+	refresh_all()
+
+
+func _refresh_all_deferred() -> void:
+	if not deferred_refresh_requested:
+		return
+
 	refresh_all()
 
 

@@ -449,6 +449,7 @@ func _serialize_skill_data(skill_data: SkillData) -> Dictionary:
 		"rarity": skill_data.rarity,
 		"max_level": skill_data.max_level,
 		"tags": _string_name_array_to_strings(skill_data.tags),
+		"allowed_character_ids": _string_name_array_to_strings(skill_data.allowed_character_ids),
 		"is_active": skill_data is ActiveSkillData,
 	}
 
@@ -521,6 +522,7 @@ func _fill_basic_skill_data(skill_data: SkillData, data: Dictionary) -> void:
 	skill_data.rarity = int(data.get("rarity", 0))
 	skill_data.max_level = int(data.get("max_level", 1))
 	skill_data.tags = _to_string_name_array(data.get("tags", []))
+	skill_data.allowed_character_ids = _to_string_name_array(data.get("allowed_character_ids", []))
 
 
 func _serialize_room_key(room: Room) -> Dictionary:

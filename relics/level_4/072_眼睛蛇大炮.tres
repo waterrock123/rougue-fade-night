@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://8bgqyca4ofp4"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_jixes"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_4pu0i"]
+[ext_resource type="Texture2D" uid="uid://erbop8labins" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1376.png" id="2_you37"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_ekesi"]
+[ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="4_ekesi"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_you37"]
+
+[resource]
+script = ExtResource("2_4pu0i")
+relic_name = "眼镜蛇大炮"
+icon = ExtResource("2_you37")
+tooltip = "获得时若背包内存在原料则随机将其中一个其消耗并随机获得3件同等阶的带有弹药标签的装备；装备后可以用眼镜蛇大炮作为主动技能
+升级:眼睛蛇大炮的基础伤害额外提升100"
+price = 4
+level = 4
+relic_type = 1
+tags = Array[ExtResource("3_ekesi")]([ExtResource("4_ekesi"), ExtResource("5_you37")])
+id = "072"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

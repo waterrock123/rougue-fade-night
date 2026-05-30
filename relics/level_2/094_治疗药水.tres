@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dkdqpx76oxhae"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_g08gr"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_1udk2"]
+[ext_resource type="Texture2D" uid="uid://b1ko67iwjqhq0" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc267.png" id="2_kvoom"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_0g2dy"]
+[ext_resource type="Resource" uid="uid://dv8tumu8brwpy" path="res://relic_tags/加工品tag.tres" id="5_h0r4v"]
+[ext_resource type="Resource" uid="uid://box5044uf2gqf" path="res://relic_tags/疗愈tag.tres" id="6_2thod"]
+[ext_resource type="Script" uid="uid://u46v2g0g7qi7" path="res://relic_effect/use_random_heal_effect.gd" id="7_random_heal"]
+[ext_resource type="Script" uid="uid://dvicueslqp0ws" path="res://relic_effect/use_heal_max_health_percent_effect.gd" id="8_max_heal"]
+[ext_resource type="Script" uid="uid://dq1bcjv3l3ued" path="res://relic_effect/use_permanent_stats_effect.gd" id="9_perm_stats"]
+
+[sub_resource type="Resource" id="Resource_random_heal"]
+script = ExtResource("7_random_heal")
+min_heal_amount = 2
+max_heal_amount = 8
+
+[sub_resource type="Resource" id="Resource_max_health_heal"]
+script = ExtResource("8_max_heal")
+
+[sub_resource type="Resource" id="Resource_levelup_constitution"]
+script = ExtResource("9_perm_stats")
+add_stats = {
+"constitution": 1
+}
+
+[resource]
+script = ExtResource("2_1udk2")
+relic_name = "治疗药水"
+icon = ExtResource("2_kvoom")
+tooltip = "恢复2至8的生命并额外恢复最大生命值25%的生命
+升级:使用后永久提升一点体质"
+desc = "正规设备生产的补给品"
+price = 3
+level = 2
+tags = Array[ExtResource("3_0g2dy")]([ExtResource("5_h0r4v"), ExtResource("6_2thod")])
+id = "094"
+is_consumable = true
+effects = Array[ExtResource("1_g08gr")]([SubResource("Resource_random_heal"), SubResource("Resource_max_health_heal")])
+great_effects = Array[ExtResource("1_g08gr")]([SubResource("Resource_levelup_constitution")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

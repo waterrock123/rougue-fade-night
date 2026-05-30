@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://j0hi3qec8u58"]
+
+[ext_resource type="Texture2D" uid="uid://hw73femsrt0f" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc81.png" id="1_texture"]
+[ext_resource type="Script" uid="uid://bqu6q28nsbeiq" path="res://scripts/ability/manifest/thrown_arc_impact_manifest.gd" id="2_script"]
+[ext_resource type="Resource" uid="uid://dpc0afxoxvyte" path="res://status/burn.tres" id="3_burn"]
+[ext_resource type="Texture2D" uid="uid://bcavwqhxp2yej" path="res://assets/UI/health_bar_overlay.png" id="4_shadow"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_impact"]
+radius = 44.0
+
+[node name="MolotovImpactManifest" type="Node2D" unique_id=1126507681]
+z_index = 80
+script = ExtResource("2_script")
+flight_time = 0.42
+arc_height = 48.0
+max_range = 150.0
+free_delay_after_impact = 0.12
+damage = 20.0
+damage_types = Array[int]([2])
+tags = Array[String](["manifest", "relic", "consumable", "thrown", "thrown_arc", "molotov", "fire", "aoe"])
+impact_status = ExtResource("3_burn")
+impact_status_duration_override = 10.0
+
+[node name="VisualPivot" type="Node2D" parent="." unique_id=329873282]
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualPivot" unique_id=1922097674]
+texture_filter = 1
+texture = ExtResource("1_texture")
+
+[node name="Shadow" type="Sprite2D" parent="VisualPivot" unique_id=1574333026]
+texture_filter = 1
+position = Vector2(0, 8)
+scale = Vector2(0.8, 0.35)
+texture = ExtResource("4_shadow")
+
+[node name="ImpactArea" type="Area2D" parent="." unique_id=1228730174]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ImpactArea" unique_id=1032239231]
+shape = SubResource("CircleShape2D_impact")
+
+[node name="ImpactVFX" type="Node2D" parent="." unique_id=707566094]
+visible = false

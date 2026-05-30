@@ -18,12 +18,75 @@ func _ready():
 	_rebuild_ability_cache()
 
 
-func trigger_ability_by_idx(idx: int):
+func trigger_ability_by_idx(idx: int) -> bool:
 	if idx < 0 or idx >= abilities.size():
-		return
+		return false
 
 	var ability := abilities[idx]
-	trigger_ability(ability)
+	return trigger_ability(ability)
+
+
+# AI 使用：从第一个可释放技能开始尝试，适合只有单一攻击方式的小怪。
+func trigger_first_available_ability() -> bool:
+	for ability in abilities:
+		if trigger_ability(ability):
+			return true
+	return false
+
+
+# AI 使用：从指定索引开始循环寻找可释放技能，成功后返回下一次应该继续尝试的位置。
+func trigger_next_available_ability(start_idx: int = 0) -> int:
+	if abilities.is_empty():
+		return 0
+
+	var safe_start := wrapi(start_idx, 0, abilities.size())
+	for offset in range(abilities.size()):
+		var index := (safe_start + offset) % abilities.size()
+		if trigger_ability(abilities[index]):
+			return (index + 1) % abilities.size()
+
+	return safe_start
+
+
+# AI 使用：在所有可释放技能里随机挑一个，适合技能顺序不固定的精英怪或 Boss。
+func trigger_random_available_ability() -> bool:
+	var castable_abilities := get_castable_abilities()
+	if castable_abilities.is_empty():
+		return false
+
+	return trigger_ability(castable_abilities.pick_random())
+
+
+## AI 使用：只尝试释放“当前目标距离”满足技能 AI 距离配置的技能。
+func trigger_first_available_ability_for_ai(target_distance: float, fallback_cast_range: float) -> bool:
+	for ability in abilities:
+		if _can_ai_cast(ability, target_distance, fallback_cast_range) and trigger_ability(ability):
+			return true
+	return false
+
+
+## AI 使用：循环寻找当前距离可释放的技能，适合有多技能轮换的敌人/Boss。
+func trigger_next_available_ability_for_ai(start_idx: int, target_distance: float, fallback_cast_range: float) -> int:
+	if abilities.is_empty():
+		return -1
+
+	var safe_start := wrapi(start_idx, 0, abilities.size())
+	for offset in range(abilities.size()):
+		var index := (safe_start + offset) % abilities.size()
+		var ability := abilities[index]
+		if _can_ai_cast(ability, target_distance, fallback_cast_range) and trigger_ability(ability):
+			return (index + 1) % abilities.size()
+
+	return -1
+
+
+## AI 使用：在当前距离可释放的技能里随机挑一个。
+func trigger_random_available_ability_for_ai(target_distance: float, fallback_cast_range: float) -> bool:
+	var castable_abilities := get_ai_castable_abilities(target_distance, fallback_cast_range)
+	if castable_abilities.is_empty():
+		return false
+
+	return trigger_ability(castable_abilities.pick_random())
 
 
 func begin_ability_preview_by_idx(idx: int) -> void:
@@ -50,7 +113,29 @@ func _process(delta: float) -> void:
 		ability.can_be_casted = _can_be_cast(ability)
 
 
-func _can_be_cast(ability: Ability):
+func can_cast_ability(ability: Ability) -> bool:
+	return _can_be_cast(ability)
+
+
+func get_castable_abilities() -> Array[Ability]:
+	var result: Array[Ability] = []
+	for ability in abilities:
+		if _can_be_cast(ability):
+			result.append(ability)
+	return result
+
+
+func get_ai_castable_abilities(target_distance: float, fallback_cast_range: float) -> Array[Ability]:
+	var result: Array[Ability] = []
+	for ability in abilities:
+		if _can_ai_cast(ability, target_distance, fallback_cast_range):
+			result.append(ability)
+	return result
+
+
+func _can_be_cast(ability: Ability) -> bool:
+	if ability == null:
+		return false
 	if entity == null:
 		return false
 	if entity.has_method("can_act") and not entity.can_act():
@@ -58,6 +143,13 @@ func _can_be_cast(ability: Ability):
 
 	var cd = cooldowns.get(ability, 0.0)
 	return cd == 0 and ability.energy_cost <= entity.current_energy
+
+
+func _can_ai_cast(ability: Ability, target_distance: float, fallback_cast_range: float) -> bool:
+	if not _can_be_cast(ability):
+		return false
+
+	return ability.can_ai_cast_at_distance(target_distance, fallback_cast_range)
 
 
 # 运行时注册一个主动技能场景，并返回实例化后的 Ability。
@@ -89,24 +181,25 @@ func clear_runtime_abilities():
 	runtime_ability_sources.clear()
 
 
-func trigger_ability(ability: Ability):
+func trigger_ability(ability: Ability) -> bool:
 	if ability == null:
-		return
+		return false
 	if entity == null:
-		return
+		return false
 	if entity.is_dead:
-		return
+		return false
 	if entity.has_method("can_act") and not entity.can_act():
-		return
+		return false
 	if cooldowns.get(ability, 0.0) > 0.0:
-		return
+		return false
 	if entity.current_energy < ability.energy_cost:
-		return
+		return false
 
 	entity.spend_energy(ability.energy_cost)
 	ability.activate(entity)
 	ability_triggered.emit(ability, entity)
 	cooldowns[ability] = _get_modified_cooldown(ability)
+	return true
 
 
 # 注册一个由状态/被动提供的冷却修正。

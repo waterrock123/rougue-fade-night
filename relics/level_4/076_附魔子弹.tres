@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cxvxk4e2rw86j"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_5xjmn"]
+[ext_resource type="Texture2D" uid="uid://7jrxsio28yoh" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc185.png" id="2_byl2h"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_jiva6"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_o536w"]
+[ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="5_vttrs"]
+[ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="6_fee41"]
+
+[resource]
+script = ExtResource("2_jiva6")
+relic_name = "附魔子弹"
+icon = ExtResource("2_byl2h")
+tooltip = "你的飞行道具有2%的概率在造成伤害的同时使对方陷入冰冻，麻痹，燃烧，流血中某一个状态3秒
+升级：概率提升至5%"
+desc = "元素子弹，酷！"
+price = 4
+tags = Array[ExtResource("3_o536w")]([ExtResource("5_vttrs"), ExtResource("6_fee41")])
+id = "076"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

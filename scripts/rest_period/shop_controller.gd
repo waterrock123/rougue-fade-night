@@ -199,6 +199,7 @@ func buy_relic(slot_index: int) -> void:
 	EventBus.relic_purchase_preprocess.emit(relic)
 	suppress_free_choice_start = true
 	EventBus.buy_equipment.emit(relic)
+	_trigger_relic_gain_effects(relic, "shop_buy_%s" % str(slot_index))
 	EventBus.relic_purchased.emit(relic)
 	suppress_free_choice_start = false
 	slot_.item = null
@@ -381,6 +382,7 @@ func _do_refresh_shop_slots() -> void:
 
 	shop.clear_all_frozen()
 	_roll_slots(0)
+	EventBus.shop_refreshed.emit(shop)
 	_sync_shop_ui()
 	_update_shop_ui()
 	_try_start_free_relic_choice()
@@ -535,6 +537,7 @@ func _buy_free_choice_relic(slot_index: int) -> void:
 
 	EventBus.relic_purchase_preprocess.emit(relic)
 	EventBus.buy_equipment.emit(relic)
+	_trigger_relic_gain_effects(relic, "free_choice_%s" % str(slot_index))
 	EventBus.relic_purchased.emit(relic)
 	if money_token != null:
 		money_token.speak_buy()
@@ -668,6 +671,15 @@ func _get_player_inventory() -> Inventory:
 		return null
 
 	return run_stats.player_build.player_inventory
+
+
+# 购买/免费三选一获得遗物后，统一触发“获得时”效果。
+# 目前 PlayerBuild 是纯数据资源，所以由商店节点作为上下文 owner，方便效果访问 run_stats。
+func _trigger_relic_gain_effects(relic: Relic, relic_key: String) -> void:
+	if relic == null:
+		return
+
+	relic.gain_relic(self, null, relic_key)
 
 
 func _get_player_build() -> PlayerBuild:

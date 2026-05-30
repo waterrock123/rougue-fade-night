@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bcvu1fkk3tfpp"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_yy8yx"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_24utm"]
+[ext_resource type="Texture2D" uid="uid://c40qg0bhgvgwi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc414.png" id="2_y5dn8"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_ivq4j"]
+[ext_resource type="Script" uid="uid://dpt6dmel3jpq4" path="res://relic_effect/use_self_damage_effect.gd" id="4_self_damage"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_knrtp"]
+[ext_resource type="Script" uid="uid://csm4tskvy0ae0" path="res://relic_effect/use_add_derived_stats_effect.gd" id="5_use_derived"]
+[ext_resource type="Script" uid="uid://dvfu2xggfnqa8" path="res://relic_effect/use_permanent_derived_stats_effect.gd" id="6_perm_derived"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="7_rrmyg"]
+
+[sub_resource type="Resource" id="Resource_self_damage"]
+script = ExtResource("4_self_damage")
+damage = 10.0
+tags = Array[String](["consumable", "self_damage", "cursed_food"])
+
+[sub_resource type="Resource" id="Resource_temp_crit"]
+script = ExtResource("5_use_derived")
+add_derived_stats = {
+"crit_chance": 0.05
+}
+ignore_when_relic_levelup = true
+
+[sub_resource type="Resource" id="Resource_levelup_temp_crit"]
+script = ExtResource("5_use_derived")
+add_derived_stats = {
+"crit_chance": 0.1
+}
+
+[sub_resource type="Resource" id="Resource_levelup_perm_crit"]
+script = ExtResource("6_perm_derived")
+add_derived_stats = {
+"crit_chance": 0.02
+}
+
+[resource]
+script = ExtResource("2_24utm")
+relic_name = "西湖醋鱼"
+icon = ExtResource("2_y5dn8")
+tooltip = "使用后失去10点生命，并获得{crit_chance}+5%，持续至战斗结束
+升级：使用后失去10点生命，获得{crit_chance}+10%，并永久获得{crit_chance}+2%"
+desc = "不能浪费食物。。。"
+price = 3
+level = 1
+tags = Array[ExtResource("3_ivq4j")]([ExtResource("5_knrtp"), ExtResource("7_rrmyg")])
+id = "053"
+is_consumable = true
+effects = Array[ExtResource("1_yy8yx")]([SubResource("Resource_self_damage"), SubResource("Resource_temp_crit")])
+great_effects = Array[ExtResource("1_yy8yx")]([SubResource("Resource_levelup_temp_crit"), SubResource("Resource_levelup_perm_crit")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

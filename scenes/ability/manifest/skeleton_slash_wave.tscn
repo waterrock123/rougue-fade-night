@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://d0jcnh6im7alt"]
+
+[ext_resource type="Script" uid="uid://haxj03uhi7y7" path="res://scripts/ability/manifest/animated_projectile_manifest.gd" id="1_005pc"]
+[ext_resource type="Texture2D" uid="uid://cws7yyi7lk1wl" path="res://assets/Effect and Bullet 16x16/Effect and Bullet 16x16/Water Effect and Bullet 16x16.png" id="2_3tjd8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atc7d"]
+atlas = ExtResource("2_3tjd8")
+region = Rect2(192, 48, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7fe0"]
+atlas = ExtResource("2_3tjd8")
+region = Rect2(160, 48, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_005pc"]
+atlas = ExtResource("2_3tjd8")
+region = Rect2(176, 48, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwlkf"]
+atlas = ExtResource("2_3tjd8")
+region = Rect2(192, 48, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_62pf0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_atc7d")
+}],
+"loop": true,
+"name": &"repeatable",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7fe0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_005pc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwlkf")
+}],
+"loop": false,
+"name": &"start",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_icepiton"]
+size = Vector2(32, 94)
+
+[node name="SkeletonSlashWave" type="Node2D" unique_id=1293196864]
+z_index = 100
+position = Vector2(-3, -1)
+script = ExtResource("1_005pc")
+speed = 200.0
+target_group = &"player"
+max_distance = 200.0
+is_penetrate = true
+hit_animation = &""
+damage = 30.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=854942008]
+texture_filter = 1
+position = Vector2(-3, 0)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_62pf0")
+animation = &"start"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=215287016]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=147456712]
+position = Vector2(3, 0)
+shape = SubResource("RectangleShape2D_icepiton")

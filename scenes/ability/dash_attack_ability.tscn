@@ -41,7 +41,7 @@ frame_events = Array[ExtResource("4_ngp2e")]([SubResource("Resource_frame_event_
 [node name="AbilityChargeToTarget" type="Node" parent="." unique_id=1451924238]
 editor_description = "冲锋位移组件，优先朝 context.targets 中的目标冲锋；若没有目标，则自动寻找默认敌对目标。"
 script = ExtResource("5_ljsln")
-duration = 2.0
+duration = 0.6
 
 [node name="AbilityDealDamageOnOverlap" type="Node" parent="." unique_id=1706185141]
 script = ExtResource("6_v71io")

@@ -6,6 +6,22 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_qyark"]
 [ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_vebx5"]
 [ext_resource type="Resource" uid="uid://d1qaxn6s7eqj0" path="res://relic_tags/历战tag.tres" id="6_vebx5"]
+[ext_resource type="Script" uid="uid://b8cr3xapm0cbd" path="res://relic_effect/consumable_use_stats_effect.gd" id="7_consumable_stats"]
+[ext_resource type="Script" uid="uid://cgn0qi7lysctu" path="res://relic_effect/battle_win_increase_tagged_inventory_sell_price_effect.gd" id="8_sell_price_bonus"]
+
+[sub_resource type="Resource" id="Resource_consumable_stats"]
+script = ExtResource("7_consumable_stats")
+base_add_stats = {
+"strength": 2.0
+}
+bonus_tag = ExtResource("5_vebx5")
+bonus_add_stats = {
+"constitution": 2.0
+}
+
+[sub_resource type="Resource" id="Resource_levelup_sell_price"]
+script = ExtResource("8_sell_price_bonus")
+target_tag = ExtResource("5_vebx5")
 
 [resource]
 script = ExtResource("2_ig22q")
@@ -17,4 +33,6 @@ price = 3
 level = 2
 tags = Array[ExtResource("3_qyark")]([ExtResource("5_vebx5"), ExtResource("6_vebx5")])
 id = "045"
+effects = Array[ExtResource("1_o3mmb")]([SubResource("Resource_consumable_stats")])
+great_effects = Array[ExtResource("1_o3mmb")]([SubResource("Resource_levelup_sell_price")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

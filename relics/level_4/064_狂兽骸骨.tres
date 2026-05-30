@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://yifd4454edg2"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_tnims"]
+[ext_resource type="Texture2D" uid="uid://c3eop67w7e7eh" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc231.png" id="2_6n318"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_fo35q"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_udaqv"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_8el2b"]
+
+[resource]
+script = ExtResource("3_fo35q")
+relic_name = "狂兽骸骨"
+icon = ExtResource("2_6n318")
+tooltip = "体质+5，力量+4，未造成伤害或未受到伤害超过5秒将会自动释放冲撞技能：向随机某个方向冲撞一段距离，使被冲撞的敌人和自己都受到伤害
+升级：获得2护甲"
+desc = "某只巨大变异野猪的骸骨，拿着时会想让人到处乱拱"
+price = 4
+level = 4
+tags = Array[ExtResource("4_udaqv")]([ExtResource("5_8el2b")])
+id = "064"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

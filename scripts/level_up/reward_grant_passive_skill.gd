@@ -14,6 +14,8 @@ func apply(context: LevelUpRewardContext):
 func is_available(context: LevelUpRewardContext) -> bool:
 	if skill_data == null:
 		return false
+	if context != null and not skill_data.is_available_for_character(context.picked_character):
+		return false
 	if context == null or context.player_build == null:
 		return true
 

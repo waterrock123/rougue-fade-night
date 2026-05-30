@@ -214,6 +214,7 @@ func _build_derived_stats(data: StatsData, primary_stats: Dictionary) -> Diction
 		"damage_reduction_rate": data.base_damage_reduction_rate,
 		"static_damage_reduction": float(data.base_static_damage_reduction),
 		"cooldown_reduction": data.base_cooldown_reduction + speed * 0.002,
+		"projectile_range_bonus_rate": 0.0,
 	}
 
 

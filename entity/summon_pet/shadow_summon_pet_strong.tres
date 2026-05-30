@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://cwcfcukbermef"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_ir0dk"]
+
+[resource]
+script = ExtResource("1_ir0dk")
+entity_name = "strong_shadow_summon_pet"
+base_max_health = 80.0
+base_max_energy = 35.0
+base_energy_regen_tick_value = 6.0
+base_dodge_rate = 0.02
+base_move_speed = 32.0
+strength = 8
+dexterity = 8
+constitution = 8
+speed = 6
+luck = 5

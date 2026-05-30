@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b0tl38jrb78o4"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_76dta"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_0882i"]
+[ext_resource type="Texture2D" uid="uid://b8bq77uq4fif2" path="res://assets/art/tile_0124.png" id="2_d2kce"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_i2p7x"]
+[ext_resource type="Resource" uid="uid://b5pj0gwwux13c" path="res://relic_tags/聚众.tres" id="5_t80dw"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="6_27med"]
+[ext_resource type="Script" uid="uid://dg8rknwsp01wd" path="res://relic_effect/battle_start_summon_pet_by_tags_effect.gd" id="7_summon"]
+[ext_resource type="PackedScene" uid="uid://btf0vbc6guvxu" path="res://entity/summon_pet/mouse_summon_pet.tscn" id="8_mouse"]
+[ext_resource type="Resource" uid="uid://s6m6ip7h64o7" path="res://entity/summon_pet/mouse_summon_pet_strong.tres" id="9_strong"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="10_material"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="11_cuisine"]
+
+[sub_resource type="Resource" id="Resource_summon_mouse"]
+script = ExtResource("7_summon")
+pet_scene = ExtResource("8_mouse")
+levelup_pet_stats = ExtResource("9_strong")
+counted_tags = Array[ExtResource("3_i2p7x")]([ExtResource("10_material"), ExtResource("11_cuisine")])
+base_summon_count = 1
+count_equipment = false
+count_inventory = true
+count_each_relic_once = true
+min_spawn_distance = 34.0
+spawn_radius = 92.0
+
+[resource]
+script = ExtResource("2_0882i")
+relic_name = "鼠鼠窝"
+icon = ExtResource("2_d2kce")
+tooltip = "战斗开始时召唤一只鼠鼠盟友，背包内每有一件带有原料或佳肴标签的装备，则额外召唤一只鼠鼠盟友
+升级：召唤的鼠鼠更加强大"
+desc = "不要小看鼠鼠的力量！！！"
+price = 3
+level = 2
+tags = Array[ExtResource("3_i2p7x")]([ExtResource("5_t80dw"), ExtResource("6_27med")])
+id = "090"
+effects = Array[ExtResource("1_76dta")]([SubResource("Resource_summon_mouse")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

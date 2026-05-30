@@ -12,6 +12,12 @@ var active_passive_effects: Array[Dictionary] = []
 @onready var entity: Entity = get_parent() as Entity
 
 
+func _exit_tree() -> void:
+	# 战斗场景释放时要主动移除被动效果，尤其是监听 EventBus 的战斗结算类被动。
+	# 否则旧 SkillController 的上下文会残留到下一场战斗，造成重复触发。
+	_clear_passive_effects()
+
+
 func bind_player_build(new_player_build: PlayerBuild) -> void:
 	player_build = new_player_build
 	run_stats = _resolve_run_stats()

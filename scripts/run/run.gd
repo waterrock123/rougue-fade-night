@@ -5,6 +5,7 @@ const PLAY_SCENE_PATH := "res://scenes/play_scene.tscn"
 const LEVEL_UP_SCENE_PATH := "res://scenes/ability/level_up_controller.tscn"
 const REST_SCENE_PATH := "res://scenes/rest_period/rest_period.tscn"
 const DEATH_SCENE_PATH := "res://scenes/ui/death_screen.tscn"
+const VICTORY_SCENE_PATH := "res://scenes/ui/victory_screen.tscn"
 const FLOW_MAP := "map"
 const FLOW_EVENT_ROOM := "event_room"
 const FLOW_LEVEL_UP := "level_up"
@@ -185,6 +186,29 @@ func change_to_death_screen() -> void:
 	SaveManager.delete_save()
 
 
+# Boss 战胜利后打开通关界面，并删除这局存档，避免回主菜单后还能继续已通关的局。
+func change_to_victory_screen() -> void:
+	battle_active = false
+	level_up_checkpoint_locked = false
+	level_up_reward_options.clear()
+	_close_persistent_panels()
+	_hide_top_bar()
+	_set_package_equipment_locked(false)
+	SaveManager.delete_save()
+
+	var victory_scene_resource := load(VICTORY_SCENE_PATH) as PackedScene
+	if victory_scene_resource == null:
+		return
+
+	var victory_scene := victory_scene_resource.instantiate()
+	if victory_scene == null:
+		return
+
+	_replace_current_view(victory_scene)
+	if map != null:
+		map.hide_map()
+
+
 # 修整期结束后返回地图，并解锁下一批可进入房间。
 func finish_rest_period() -> void:
 	current_flow_state = FLOW_MAP
@@ -236,6 +260,9 @@ func _connect_signals() -> void:
 	
 	if  not EventBus.battle_win.is_connected(change_to_level_up):
 		EventBus.battle_win.connect(change_to_level_up)
+
+	if not EventBus.game_victory.is_connected(change_to_victory_screen):
+		EventBus.game_victory.connect(change_to_victory_screen)
 
 	if not EventBus.battle_lost.is_connected(change_to_death_screen):
 		EventBus.battle_lost.connect(change_to_death_screen)
@@ -358,6 +385,9 @@ func _initialize_persistent_ui() -> void:
 		skill_overview_panel.setup(run_stats.player_build)
 		skill_overview_panel.close_panel()
 
+	if tag_effect_ui != null:
+		tag_effect_ui.close_panel()
+
 
 func _initialize_tag_effect_controller() -> void:
 	if run_stats == null or run_stats.player_build == null or player_build_proxy == null:
@@ -401,6 +431,12 @@ func _refresh_persistent_ui() -> void:
 			skill_overview_panel.open_panel()
 		else:
 			skill_overview_panel.close_panel()
+
+	if tag_effect_ui != null:
+		if package_ui != null and package_ui.visible:
+			tag_effect_ui.open_panel()
+		else:
+			tag_effect_ui.close_panel()
 
 	if tag_effect_controller != null:
 		tag_effect_controller.refresh()
@@ -508,11 +544,15 @@ func _on_package_button_pressed() -> void:
 			attributes_panel.close_panel()
 		if skill_overview_panel != null:
 			skill_overview_panel.close_panel()
+		if tag_effect_ui != null:
+			tag_effect_ui.close_panel()
 	else:
 		package_ui.open_bag(run_stats.player_build.player_inventory, run_stats.player_build.player_equipment)
 		if skill_overview_panel != null:
 			skill_overview_panel.setup(run_stats.player_build)
 			skill_overview_panel.open_panel()
+		if tag_effect_ui != null:
+			tag_effect_ui.open_panel()
 		if attributes_panel != null and not _is_level_up_scene_open():
 			attributes_panel.stats_controller = _get_runtime_stats_controller()
 			attributes_panel.setup()
@@ -541,6 +581,8 @@ func _open_package_for_rest_period() -> void:
 	if skill_overview_panel != null:
 		skill_overview_panel.setup(run_stats.player_build)
 		skill_overview_panel.open_panel()
+	if tag_effect_ui != null:
+		tag_effect_ui.open_panel()
 	if attributes_panel != null:
 		attributes_panel.stats_controller = _get_runtime_stats_controller()
 		attributes_panel.setup()
@@ -637,6 +679,8 @@ func _close_persistent_panels() -> void:
 		attributes_panel.close_panel()
 	if skill_overview_panel != null:
 		skill_overview_panel.close_panel()
+	if tag_effect_ui != null:
+		tag_effect_ui.close_panel()
 
 
 func _show_top_bar() -> void:

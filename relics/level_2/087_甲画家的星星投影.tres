@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://x0kxnt4y6v1m"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_i2vuc"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_rxxwv"]
+[ext_resource type="Texture2D" uid="uid://du4m1va14o1n3" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc831.png" id="2_wp5di"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_6n368"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_q7pnc"]
+[ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="6_a61ts"]
+[ext_resource type="Resource" uid="uid://bmipmd2ww6hum" path="res://relic_tags/好好顾客tag.tres" id="7_m1b0c"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="8_add_stats"]
+[ext_resource type="Script" uid="uid://ckyvmmqeo6o6e" path="res://relic_effect/add_status_effect.gd" id="9_add_status"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="10_armor"]
+[ext_resource type="Script" uid="uid://wg6y0dh7quxl" path="res://relic_effect/periodic_self_damage_by_stat_effect.gd" id="11_periodic_damage"]
+[ext_resource type="Script" uid="uid://44me2i0dm7xk" path="res://relic_effect/sold_tagged_relic_gold_bonus_effect.gd" id="12_sell_bonus"]
+
+[sub_resource type="Resource" id="Resource_charm"]
+script = ExtResource("8_add_stats")
+add_stats = {
+"charm": 2
+}
+
+[sub_resource type="Resource" id="Resource_armor"]
+script = ExtResource("9_add_status")
+status_data = ExtResource("10_armor")
+stacks = 5
+
+[sub_resource type="Resource" id="Resource_star_self_damage"]
+script = ExtResource("11_periodic_damage")
+tags = Array[String](["relic", "curse", "star_projection", "periodic_self_damage"])
+
+[sub_resource type="Resource" id="Resource_curse_sell_bonus"]
+script = ExtResource("12_sell_bonus")
+target_tag_name = "诅咒"
+required_shopkeeper_name = "甲画家"
+
+[resource]
+script = ExtResource("2_rxxwv")
+relic_name = "甲画家的星星投影"
+icon = ExtResource("2_wp5di")
+tooltip = "每过15秒你受到一次伤害等同于你魅力值的攻击，你的魅力+2，护甲+5
+升级：在甲画家处出售诅咒物品时额外获得1金币"
+desc = "甲画家总喜欢在脚下放一个小装置，这样就能在身上投影出红色、白色的十字星了"
+price = 3
+level = 2
+tags = Array[ExtResource("3_6n368")]([ExtResource("5_q7pnc"), ExtResource("6_a61ts"), ExtResource("7_m1b0c")])
+id = "087"
+effects = Array[ExtResource("1_i2vuc")]([SubResource("Resource_charm"), SubResource("Resource_armor"), SubResource("Resource_star_self_damage")])
+great_effects = Array[ExtResource("1_i2vuc")]([SubResource("Resource_curse_sell_bonus")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://78lsm0644e2"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_m0qc3"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_j51lf"]
+[ext_resource type="Script" uid="uid://ck8q2wvmbx015" path="res://scripts/ability/component/ability_trigger_components_on_sprite_frame.gd" id="3_th0jo"]
+[ext_resource type="Script" uid="uid://di4y7j2fln2w7" path="res://scripts/ability/component/ability_animation_frame_event.gd" id="4_mi7sq"]
+[ext_resource type="Script" uid="uid://cv047vl681hxu" path="res://scripts/ability/component/ability_charge_to_target.gd" id="5_3edaw"]
+[ext_resource type="Script" uid="uid://77b05rqxjlqd" path="res://scripts/ability/component/ability_deal_damage_on_overlap.gd" id="6_03c20"]
+[ext_resource type="Script" uid="uid://dcukpvvpmebnv" path="res://scripts/stats/damage_scaling_rule.gd" id="7_vm6ra"]
+[ext_resource type="Script" uid="uid://bxl5nmydjpga5" path="res://scripts/ability/component/ability_get_targets.gd" id="8_mi7sq"]
+[ext_resource type="Script" uid="uid://bm3se2ase8cin" path="res://scripts/ability/component/ability_lock_movement.gd" id="9_3edaw"]
+[ext_resource type="Script" uid="uid://f7xudf47t0wm" path="res://scripts/ability/component/ability_deal_damage.gd" id="10_03c20"]
+
+[sub_resource type="Resource" id="Resource_frame_event_charge"]
+script = ExtResource("4_mi7sq")
+frame = 1
+component_names = Array[String](["AbilityChargeToTarget"])
+
+[sub_resource type="Resource" id="Resource_frame_event_damage"]
+script = ExtResource("4_mi7sq")
+frame = 1
+component_names = Array[String](["AbilityDealDamageOnOverlap"])
+
+[sub_resource type="Resource" id="Resource_vm6ra"]
+script = ExtResource("4_mi7sq")
+frame = 6
+component_names = Array[String](["AbilityGetTarget", "AbilityLockMovement"])
+metadata/_custom_type_script = "uid://di4y7j2fln2w7"
+
+[sub_resource type="Resource" id="Resource_ymp3t"]
+script = ExtResource("4_mi7sq")
+frame = 7
+component_names = Array[String](["AbilityDealDamage"])
+metadata/_custom_type_script = "uid://di4y7j2fln2w7"
+
+[sub_resource type="Resource" id="Resource_pvud1"]
+script = ExtResource("7_vm6ra")
+metadata/_custom_type_script = "uid://dcukpvvpmebnv"
+
+[node name="DashAttackAbility" type="Node" unique_id=245868803]
+script = ExtResource("1_m0qc3")
+cooldown = 5.0
+metadata/_custom_type_script = "uid://bd4gnnre2dfj7"
+
+[node name="AbilityAnimationRunner" type="Node" parent="." unique_id=1442571050]
+script = ExtResource("2_j51lf")
+animation_name = "dashattack"
+metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
+
+[node name="AbilityTriggerComponentsOnSpriteFrame" type="Node" parent="." unique_id=917717556]
+script = ExtResource("3_th0jo")
+animation_name = "dashattack"
+animated_sprite_path = NodePath("../../../AnimatedSprite2D")
+frame_events = Array[ExtResource("4_mi7sq")]([SubResource("Resource_frame_event_charge"), SubResource("Resource_frame_event_damage"), SubResource("Resource_vm6ra"), SubResource("Resource_ymp3t")])
+
+[node name="AbilityChargeToTarget" type="Node" parent="." unique_id=1451924238]
+editor_description = "冲锋位移组件，优先朝 context.targets 中的目标冲锋；若没有目标，则自动寻找默认敌对目标。"
+script = ExtResource("5_3edaw")
+charge_distance = 150.0
+duration = 0.5
+hit_width = 30.0
+
+[node name="AbilityDealDamageOnOverlap" type="Node" parent="." unique_id=1706185141]
+script = ExtResource("6_03c20")
+active_duration = 0.7
+damage = 30.0
+scaling_rule = SubResource("Resource_pvud1")
+
+[node name="AbilityGetTarget" type="Node" parent="." unique_id=1782418786]
+script = ExtResource("8_mi7sq")
+target_mode = 2
+metadata/_custom_type_script = "uid://bxl5nmydjpga5"
+
+[node name="AbilityLockMovement" type="Node" parent="." unique_id=1584972728]
+script = ExtResource("9_3edaw")
+lock_duration = 0.2
+metadata/_custom_type_script = "uid://bm3se2ase8cin"
+
+[node name="AbilityDealDamage" type="Node" parent="." unique_id=557719540]
+script = ExtResource("10_03c20")
+damage = 30.0
+metadata/_custom_type_script = "uid://f7xudf47t0wm"

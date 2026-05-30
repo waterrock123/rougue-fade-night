@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dgpea5lhpnj5p"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_uckiq"]
+[ext_resource type="Texture2D" uid="uid://dacak53wc10vp" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1449.png" id="2_c528j"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_ht23t"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_c528j"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_qiujb"]
+[ext_resource type="Resource" uid="uid://hwfpda2ygcic" path="res://relic_tags/剑tag.tres" id="6_rqhfs"]
+[ext_resource type="Resource" uid="uid://bhvriwrr7jduc" path="res://relic_tags/战狂tag.tres" id="7_wi4jm"]
+
+[resource]
+script = ExtResource("2_ht23t")
+relic_name = "大剑"
+icon = ExtResource("2_c528j")
+tooltip = "{strength}+7,{dexterity}-2，{speed}
+升级：每隔数秒，使用基础攻击时会附带一次大剑的横扫攻击"
+desc = "拜托，随手就能掏出一把大剑真的很酷"
+price = 4
+level = 3
+tags = Array[ExtResource("3_c528j")]([ExtResource("5_qiujb"), ExtResource("6_rqhfs"), ExtResource("7_wi4jm")])
+id = "059"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bjfdsx6neb4wi"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_tv363"]
+[ext_resource type="Texture2D" uid="uid://c3p16j8sv8ka1" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc224.png" id="2_uygou"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_ynbgo"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_mvaqs"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_c5g7r"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="6_add_stats"]
+[ext_resource type="Script" uid="uid://66tc0kh76b5a" path="res://relic_effect/sell_gold_bonus_effect.gd" id="7_sell_bonus"]
+
+[sub_resource type="Resource" id="Resource_strength"]
+script = ExtResource("6_add_stats")
+add_stats = {
+"strength": 1
+}
+
+[sub_resource type="Resource" id="Resource_sell_bonus"]
+script = ExtResource("7_sell_bonus")
+bonus_gold = 2
+
+[resource]
+script = ExtResource("3_ynbgo")
+relic_name = "废弃金属"
+icon = ExtResource("2_uygou")
+tooltip = "{strength}+1
+升级：自身{sell_price}+2"
+desc = "每天去工地捡垃圾不仅可以锻炼身体还可以赚钱"
+price = 3
+level = 1
+tags = Array[ExtResource("4_mvaqs")]([ExtResource("5_c5g7r")])
+id = "056"
+effects = Array[ExtResource("1_tv363")]([SubResource("Resource_strength")])
+great_effects = Array[ExtResource("1_tv363")]([SubResource("Resource_sell_bonus")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

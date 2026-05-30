@@ -293,6 +293,7 @@ func _build_reward_context() -> LevelUpRewardContext:
 	var context := LevelUpRewardContext.new()
 	context.run_stats = run_stats
 	context.player_build = run_stats.player_build if run_stats != null else null
+	context.picked_character = run_stats.picked_character if run_stats != null else null
 	context.skill_controller = skill_controller
 	context.stats_controller = stats_controller
 	return context

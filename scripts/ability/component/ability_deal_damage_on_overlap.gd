@@ -97,8 +97,8 @@ func _collect_overlap_targets(caster: Entity) -> Array[Entity]:
 func _is_valid_target(caster: Entity, target: Entity) -> bool:
 	if target.has_method("can_be_targeted") and not target.can_be_targeted():
 		return false
-	if caster.is_in_group("enemy"):
-		return target.is_in_group("player")
-	if caster.is_in_group("player"):
-		return target.is_in_group("enemy")
+	if caster.is_enemy_side():
+		return target.is_player_side()
+	if caster.is_player_side():
+		return target.is_enemy_side()
 	return target != caster

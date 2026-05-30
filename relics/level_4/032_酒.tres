@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://23e7ycmww3yl" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc51.png" id="1_hulel"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_gto0o"]
 [ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="5_37d3f"]
-[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="6_2norx"]
 [ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="7_ivtw3"]
 
 [resource]
@@ -17,7 +16,7 @@ tooltip = "获得随机属性+1，重复五次，持续到战斗结束
 "
 price = 4
 level = 4
-tags = Array[ExtResource("4_gto0o")]([ExtResource("5_37d3f"), ExtResource("6_2norx"), ExtResource("7_ivtw3")])
+tags = Array[ExtResource("4_gto0o")]([ExtResource("5_37d3f"), ExtResource("7_ivtw3")])
 id = "032"
 is_consumable = true
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

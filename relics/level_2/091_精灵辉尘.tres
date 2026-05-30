@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://ba463yf673mmv"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_nbtfa"]
+[ext_resource type="Texture2D" uid="uid://vyjwg0kt0hk6" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc159.png" id="2_4lsd7"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_qblf4"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_jloae"]
+[ext_resource type="Resource" uid="uid://b5pj0gwwux13c" path="res://relic_tags/聚众.tres" id="5_04yx8"]
+[ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="6_5l7hg"]
+[ext_resource type="Script" uid="uid://cxu4m14y3mqvf" path="res://relic_effect/first_damage_summon_pet_effect.gd" id="7_first_damage"]
+[ext_resource type="PackedScene" uid="uid://bncwwrtn2mjdf" path="res://entity/summon_pet/spirit_summon_pet.tscn" id="8_spirit"]
+
+[sub_resource type="Resource" id="Resource_first_damage_spirit"]
+script = ExtResource("7_first_damage")
+pet_scene = ExtResource("8_spirit")
+min_spawn_distance = 48.0
+spawn_radius = 104.0
+
+[resource]
+script = ExtResource("2_qblf4")
+relic_name = "精灵辉尘"
+icon = ExtResource("2_4lsd7")
+tooltip = "每场战斗第一次受到伤害时将产生一只小精灵盟友
+升级：额外产生一只小精灵盟友"
+price = 3
+level = 2
+tags = Array[ExtResource("3_jloae")]([ExtResource("5_04yx8"), ExtResource("6_5l7hg")])
+id = "091"
+effects = Array[ExtResource("1_nbtfa")]([SubResource("Resource_first_damage_spirit")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_4expr"]
 [ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_veguy"]
+[ext_resource type="Script" uid="uid://bm3se2ase8cin" path="res://scripts/ability/component/ability_lock_movement.gd" id="3_do2dv"]
 [ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="3_s1llj"]
 [ext_resource type="Script" uid="uid://bxl5nmydjpga5" path="res://scripts/ability/component/ability_get_targets.gd" id="4_6wqxi"]
 [ext_resource type="Script" uid="uid://f7xudf47t0wm" path="res://scripts/ability/component/ability_deal_damage.gd" id="4_jboct"]
@@ -32,14 +33,21 @@ script = ExtResource("2_veguy")
 animation_name = "slash"
 metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
 
+[node name="AbilityLockMovement" type="Node" parent="." unique_id=1040980104]
+script = ExtResource("3_do2dv")
+lock_duration = 1.0
+metadata/_custom_type_script = "uid://bm3se2ase8cin"
+
 [node name="DealDamageGroup" type="Node" parent="." unique_id=1224669303]
 script = ExtResource("3_s1llj")
 delay = 0.5
 
 [node name="AbilityGetTargets" type="Node" parent="DealDamageGroup" unique_id=1666407496]
 script = ExtResource("4_6wqxi")
+search_shape = 1
 target_mode = 1
 direction_mode = 3
+sector_angle = 120.0
 metadata/_custom_type_script = "uid://bxl5nmydjpga5"
 
 [node name="AbilityDealDamage" type="Node" parent="DealDamageGroup" unique_id=124570909]

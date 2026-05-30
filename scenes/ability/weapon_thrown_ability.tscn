@@ -6,11 +6,11 @@
 [ext_resource type="Script" uid="uid://dtdkg5dwq1bd6" path="res://scripts/ability/component/ability_turn_to_mouse.gd" id="4_5xggd"]
 [ext_resource type="Script" uid="uid://6eu75168av5o" path="res://scripts/ability/component/ability_target_cursor.gd" id="5_nco7h"]
 [ext_resource type="Script" uid="uid://bj4m7sjslwicx" path="res://scripts/ability/component/ability_spawn_manifest.gd" id="5_o4bnd"]
-[ext_resource type="PackedScene" uid="uid://b4gwboiqs6vmh" path="res://scenes/ability/manifest/weapon_thrown_manifest.tscn" id="6_5xggd"]
 [ext_resource type="Script" uid="uid://cu47jfxlm080o" path="res://scripts/ability/component/ability_play_sound.gd" id="8_o4bnd"]
 [ext_resource type="AudioStream" uid="uid://lxkx7y372taw" path="res://assets/Sound/Sword Attack 3.wav" id="9_qwrdl"]
 [ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="10_wiii1"]
 [ext_resource type="Script" uid="uid://cwurh534m7762" path="res://scripts/ability/component/ability_area_indicator.gd" id="11_area"]
+[ext_resource type="PackedScene" uid="uid://t037vly17u5c" path="res://scenes/ability/manifest/weapon_thrown_manifest.tscn" id="11_qwrdl"]
 
 [sub_resource type="Resource" id="Resource_c1f23"]
 script = ExtResource("10_wiii1")
@@ -28,6 +28,7 @@ energy_cost = 20.0
 script = ExtResource("11_area")
 length = 200.0
 width = 20.0
+auto_activate = false
 
 [node name="AbilityAnimationRunner" type="Node" parent="." unique_id=850684855]
 script = ExtResource("2_nco7h")
@@ -54,5 +55,5 @@ metadata/_custom_type_script = "uid://6eu75168av5o"
 
 [node name="SpawnManifest" type="Node" parent="DelayedSpawn" unique_id=1165092228]
 script = ExtResource("5_o4bnd")
-manifest_scene = ExtResource("6_5xggd")
+manifest_scene = ExtResource("11_qwrdl")
 scale_multiplier = 4.0

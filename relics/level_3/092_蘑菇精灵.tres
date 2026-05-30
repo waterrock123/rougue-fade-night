@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://djyx2r36163g1"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_5vhtu"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_0k35f"]
+[ext_resource type="Texture2D" uid="uid://ukkbdgi3w5b6" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc248.png" id="2_lajim"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_kem6e"]
+[ext_resource type="Resource" uid="uid://b5pj0gwwux13c" path="res://relic_tags/聚众.tres" id="5_e41rf"]
+[ext_resource type="Resource" uid="uid://bpyxiv6nfwnu5" path="res://relic_tags/创生tag.tres" id="6_bemrf"]
+
+[resource]
+script = ExtResource("2_0k35f")
+relic_name = "“蘑菇精灵”"
+icon = ExtResource("2_lajim")
+tooltip = "进入战斗后召唤一个强大的蘑菇精灵盟友
+升级：进入战斗后有50%概率会出现强大的冒险者敌人，击败它可获得额外金币奖励"
+desc = "致敬传奇文章《蘑菇精灵》"
+relic_type = 1
+tags = Array[ExtResource("3_kem6e")]([ExtResource("5_e41rf"), ExtResource("6_bemrf")])
+id = "092"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

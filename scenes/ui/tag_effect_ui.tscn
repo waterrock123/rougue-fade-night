@@ -26,6 +26,7 @@ border_width_bottom = 1
 border_color = Color(1, 0.6907615, 0.6032025, 1)
 
 [node name="TagEffectBar" type="FoldableContainer" unique_id=103643733]
+visible = false
 anchors_preset = -1
 anchor_right = 0.18300001
 anchor_bottom = 0.224

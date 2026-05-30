@@ -173,6 +173,56 @@ desc = "初始技能的冷却大幅度减少（减少80%），且其伤害附带
 color = Color(0.9529412, 0.21960784, 0, 1)
 metadata/_custom_type_script = "uid://ch81dd8m0eyf"
 
+[sub_resource type="Resource" id="Resource_d14dd"]
+script = ExtResource("2_data")
+id = &"consume"
+display_name = "消耗"
+desc = "通常作为某些装备的效果的代价，使消耗的对象被销毁，若不存在则也不执行其对应的效果"
+color = Color(0.89288765, 0.4832611, 0.15505815, 1)
+metadata/_custom_type_script = "uid://ch81dd8m0eyf"
+
+[sub_resource type="Resource" id="KeywordData_projectile"]
+script = ExtResource("2_data")
+id = &"projectile"
+display_name = "投射物"
+desc = "沿直线飞行并在命中时结算效果的攻击体，不包含抛物线落地结算的抛射物。"
+color = Color(0.78, 0.9, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_thrown"]
+script = ExtResource("2_data")
+id = &"thrown"
+display_name = "抛射物"
+desc = "沿抛物线飞行，通常在落地时结算范围效果的攻击体。"
+color = Color(0.72, 0.84, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_all_primary_stats"]
+script = ExtResource("2_data")
+id = &"all_primary_stats"
+display_name = "全属性"
+desc = "全部一级属性：力量、敏捷、智力、体质、速度、魅力、幸运。"
+color = Color(1, 0.86, 0.5, 1)
+
+[sub_resource type="Resource" id="KeywordData_crit_chance"]
+script = ExtResource("2_data")
+id = &"crit_chance"
+display_name = "暴击率"
+desc = "造成伤害时触发暴击的概率。暴击伤害通常会按暴击伤害倍率放大。"
+color = Color(1, 0.78, 0.32, 1)
+
+[sub_resource type="Resource" id="KeywordData_sell_price"]
+script = ExtResource("2_data")
+id = &"sell_price"
+display_name = "售价"
+desc = "把装备出售给商店时可以获得的金币数量。"
+color = Color(1, 0.72, 0.25, 1)
+
+[sub_resource type="Resource" id="KeywordData_level_up_refresh"]
+script = ExtResource("2_data")
+id = &"level_up_refresh"
+display_name = "升级奖励刷新"
+desc = "在升级奖励界面重新随机一组奖励的机会。"
+color = Color(0.72, 1, 0.78, 1)
+
 [resource]
 script = ExtResource("1_db")
-keywords = Array[ExtResource("2_data")]([SubResource("KeywordData_armor"), SubResource("KeywordData_weak"), SubResource("KeywordData_strength"), SubResource("KeywordData_dexterity"), SubResource("KeywordData_intelligence"), SubResource("KeywordData_constitution"), SubResource("KeywordData_speed"), SubResource("KeywordData_charm"), SubResource("KeywordData_luck"), SubResource("KeywordData_bleed"), SubResource("KeywordData_freeze"), SubResource("KeywordData_sleep"), SubResource("KeywordData_paralysis"), SubResource("KeywordData_slow"), SubResource("KeywordData_gold"), SubResource("KeywordData_shop_refresh"), SubResource("KeywordData_active_skill"), SubResource("KeywordData_consumable"), SubResource("KeywordData_physical_damage"), SubResource("KeywordData_heal"), SubResource("KeywordData_sharp"), SubResource("KeywordData_vulnerable"), SubResource("Resource_5ukev"), SubResource("Resource_gdm1y")])
+keywords = Array[ExtResource("2_data")]([SubResource("KeywordData_armor"), SubResource("KeywordData_weak"), SubResource("KeywordData_strength"), SubResource("KeywordData_dexterity"), SubResource("KeywordData_intelligence"), SubResource("KeywordData_constitution"), SubResource("KeywordData_speed"), SubResource("KeywordData_charm"), SubResource("KeywordData_luck"), SubResource("KeywordData_bleed"), SubResource("KeywordData_freeze"), SubResource("KeywordData_sleep"), SubResource("KeywordData_paralysis"), SubResource("KeywordData_slow"), SubResource("KeywordData_gold"), SubResource("KeywordData_shop_refresh"), SubResource("KeywordData_active_skill"), SubResource("KeywordData_consumable"), SubResource("KeywordData_physical_damage"), SubResource("KeywordData_heal"), SubResource("KeywordData_sharp"), SubResource("KeywordData_vulnerable"), SubResource("Resource_5ukev"), SubResource("Resource_gdm1y"), SubResource("Resource_d14dd"), SubResource("KeywordData_projectile"), SubResource("KeywordData_thrown"), SubResource("KeywordData_all_primary_stats"), SubResource("KeywordData_crit_chance"), SubResource("KeywordData_sell_price"), SubResource("KeywordData_level_up_refresh")])

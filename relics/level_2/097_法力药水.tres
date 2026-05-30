@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dyrhfniv12lm0"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_8acke"]
+[ext_resource type="Texture2D" uid="uid://bsm6ejqvrc57v" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc400.png" id="2_cistl"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_5t6vd"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_rjyu5"]
+[ext_resource type="Resource" uid="uid://dv8tumu8brwpy" path="res://relic_tags/加工品tag.tres" id="5_krcab"]
+[ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="6_ad0nq"]
+[ext_resource type="Script" uid="uid://biivm48c1dqqr" path="res://relic_effect/use_restore_energy_percent_effect.gd" id="7_restore_energy"]
+[ext_resource type="Script" uid="uid://csm4tskvy0ae0" path="res://relic_effect/use_add_derived_stats_effect.gd" id="8_add_derived"]
+
+[sub_resource type="Resource" id="Resource_restore_energy"]
+script = ExtResource("7_restore_energy")
+
+[sub_resource type="Resource" id="Resource_levelup_max_energy"]
+script = ExtResource("8_add_derived")
+add_derived_stats = {
+"max_energy": 10
+}
+
+[resource]
+script = ExtResource("3_5t6vd")
+relic_name = "法力药水"
+icon = ExtResource("2_cistl")
+tooltip = "使用后恢复最大法力值50%的法力
+升级：使最大法力值+10，持续至战斗结束"
+price = 3
+level = 2
+tags = Array[ExtResource("4_rjyu5")]([ExtResource("5_krcab"), ExtResource("6_ad0nq")])
+id = "097"
+is_consumable = true
+effects = Array[ExtResource("1_8acke")]([SubResource("Resource_restore_energy")])
+great_effects = Array[ExtResource("1_8acke")]([SubResource("Resource_levelup_max_energy")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

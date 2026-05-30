@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cjvrqdrcxf3sa"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_wmklt"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_f8uga"]
+[ext_resource type="Texture2D" uid="uid://er8q7mp0wp4h" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc125.png" id="2_xo88p"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_pkog1"]
+[ext_resource type="Resource" uid="uid://cwcfcukbermef" path="res://entity/summon_pet/shadow_summon_pet_strong.tres" id="5_hte7y"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_mnyiq"]
+[ext_resource type="Resource" uid="uid://dxpiqnx480mos" path="res://entity/summon_pet/shadow_summon_pet.tres" id="6_ucf83"]
+[ext_resource type="Resource" uid="uid://b5pj0gwwux13c" path="res://relic_tags/聚众.tres" id="6_vxpf0"]
+[ext_resource type="PackedScene" uid="uid://c0fy8cj68665o" path="res://entity/summon_pet/shadow_summon_pet.tscn" id="7_hte7y"]
+[ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="7_mirage_tag"]
+[ext_resource type="Script" uid="uid://dg8rknwsp01wd" path="res://relic_effect/battle_start_summon_pet_by_tags_effect.gd" id="8_summon_effect"]
+
+[sub_resource type="Resource" id="Resource_mnyiq"]
+script = ExtResource("8_summon_effect")
+pet_scene = ExtResource("7_hte7y")
+normal_pet_stats = ExtResource("6_ucf83")
+levelup_pet_stats = ExtResource("5_hte7y")
+counted_tags = Array[ExtResource("3_pkog1")]([ExtResource("7_mirage_tag"), ExtResource("5_mnyiq")])
+metadata/_custom_type_script = "uid://dg8rknwsp01wd"
+
+[resource]
+script = ExtResource("2_f8uga")
+relic_name = "放映机"
+icon = ExtResource("2_xo88p")
+tooltip = "装备的其它装备每携带有一个幻景或诅咒标签，进入战斗时就召唤一个影子召唤物盟友协助战斗
+升级：召唤影子盟友更加强大"
+desc = "可以放映录像带以及其他什么别的东西"
+price = 5
+level = 5
+leveltip = 1
+tags = Array[ExtResource("3_pkog1")]([ExtResource("5_mnyiq"), ExtResource("6_vxpf0")])
+id = "084"
+effects = Array[ExtResource("1_wmklt")]([SubResource("Resource_mnyiq")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

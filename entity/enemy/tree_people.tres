@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://d3lioybl5s5rc"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_8sbn4"]
+
+[resource]
+script = ExtResource("1_8sbn4")
+entity_name = "treepeople"
+base_max_health = 100.0
+base_static_damage_reduction = 2
+base_move_speed = 10.0
+strength = 5
+dexterity = 4
+intelligence = 6
+constitution = 10
+speed = 2
+luck = 4
+metadata/_custom_type_script = "uid://yiy2gawxifk8"

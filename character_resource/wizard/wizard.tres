@@ -133,6 +133,7 @@ metadata/_custom_type_script = "uid://dv58keclglu12"
 
 [resource]
 script = ExtResource("1_hx1pq")
+id = &"wizard"
 character_name = "贵人"
 description = "元素，契约，通灵，诸多玄之又玄的力量被她掌握在手中，她举手投足都展现着神秘。不过目前她似乎因为没有得到应有的尊重而生闷气。"
 background = ExtResource("1_nvmwb")

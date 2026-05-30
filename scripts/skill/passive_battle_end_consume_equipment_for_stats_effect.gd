@@ -6,7 +6,7 @@ enum ConsumeMode {
 	ALL,
 }
 
-# 战斗胜利后销毁装备，并按被销毁装备的阶数永久提升随机一级属性。
+# 战斗胜利后消耗装备，并按被消耗装备的阶数永久提升随机一级属性。
 # LEFTMOST 只吃最左边一件；ALL 会吃掉装备栏里全部装备。
 @export var consume_mode: ConsumeMode = ConsumeMode.LEFTMOST
 @export var candidate_stats: Array[StringName] = [
@@ -67,8 +67,7 @@ func _consume_leftmost(context: SkillContext, equipment: Equipment) -> void:
 			continue
 
 		var consumed_relic := slot.item
-		slot.item = null
-		EventBus.relic_removed.emit(consumed_relic, "destroyed")
+		RelicConsumption.consume_slot(slot, context.caster, _get_relic_controller(context), _build_consume_key(context, consumed_relic), false)
 		_grant_random_permanent_stat(context, consumed_relic)
 		_emit_updates()
 		return
@@ -81,8 +80,7 @@ func _consume_all(context: SkillContext, equipment: Equipment) -> void:
 			continue
 
 		var consumed_relic := slot.item
-		slot.item = null
-		EventBus.relic_removed.emit(consumed_relic, "destroyed")
+		RelicConsumption.consume_slot(slot, context.caster, _get_relic_controller(context), _build_consume_key(context, consumed_relic), false)
 		_grant_random_permanent_stat(context, consumed_relic)
 		consumed_any = true
 
@@ -127,6 +125,17 @@ func _get_equipment(context: SkillContext) -> Equipment:
 	if context.player_build == null:
 		return null
 	return context.player_build.player_equipment
+
+
+func _get_relic_controller(context: SkillContext) -> RelicController:
+	if context == null or context.caster == null:
+		return null
+	return context.caster.get_node_or_null("RelicController") as RelicController
+
+
+func _build_consume_key(context: SkillContext, relic: Relic) -> String:
+	var relic_id = relic.id if relic != null else "unknown"
+	return "%s_consumed_%s_%s" % [str(context.effect_key), relic_id, Time.get_ticks_msec()]
 
 
 func _get_context_key(context: SkillContext) -> String:

@@ -17,6 +17,13 @@ enum DirectionMode {
 	LOCKED_CONTEXT,
 }
 
+enum OriginMode {
+	## 预警从施法者脚下展开，适合斩击、喷吐、冲锋等前方技能。
+	CASTER,
+	## 预警以当前 AbilityContext.targets[0] 的位置为中心，适合根须缠绕、落雷、地刺等定点技能。
+	FIRST_TARGET,
+}
+
 @export_category("预警形状")
 @export var shape: TelegraphShape = TelegraphShape.SECTOR
 @export var direction_mode: DirectionMode = DirectionMode.FACING
@@ -27,6 +34,7 @@ enum DirectionMode {
 @export var circle_segments: int = 48
 
 @export_category("预警位置")
+@export var origin_mode: OriginMode = OriginMode.CASTER
 @export var origin_offset: Vector2 = Vector2.ZERO
 ## 沿预警方向向前偏移，适合把第二段 AOE 放到第一段攻击末端。
 @export var forward_offset: float = 0.0
@@ -175,7 +183,18 @@ func _get_warning_position(context: AbilityContext, direction: Vector2) -> Vecto
 		var normalized_direction := direction.normalized()
 		var right := Vector2(-normalized_direction.y, normalized_direction.x)
 		offset += normalized_direction * forward_offset + right * side_offset
-	return context.caster.global_position + offset
+	return _get_origin_position(context) + offset
+
+
+func _get_origin_position(context: AbilityContext) -> Vector2:
+	if origin_mode == OriginMode.FIRST_TARGET and not context.targets.is_empty():
+		var target = context.targets[0]
+		if target is Node2D:
+			return (target as Node2D).global_position
+		if target is Vector2:
+			return target
+
+	return context.caster.global_position
 
 
 # 淡入和轻微脉冲能让预警更醒目，但保持低成本，方便大量怪物复用。

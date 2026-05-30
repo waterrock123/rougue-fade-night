@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dywxdfssmxmxp"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" uid="uid://bm3se2ase8cin" path="res://scripts/ability/component/ability_lock_movement.gd" id="2_lock"]
+[ext_resource type="Script" uid="uid://b0gyxc2jp1mkt" path="res://scripts/ability/component/ability_apply_status_to_caster.gd" id="3_apply_self"]
+[ext_resource type="Resource" uid="uid://dy6em1kpc7fhu" path="res://status/thorn_armor.tres" id="4_status"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="5_hat2m"]
+
+[node name="ThornArmor" type="Node" unique_id=1555705934]
+script = ExtResource("1_ability")
+cooldown = 12.0
+energy_cost = 0.0
+
+[node name="AbilityAnimationRunner" type="Node" parent="." unique_id=96113877]
+script = ExtResource("5_hat2m")
+animation_name = "attack"
+metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
+
+[node name="CastLock" type="Node" parent="." unique_id=1066290593]
+script = ExtResource("2_lock")
+lock_duration = 0.35
+
+[node name="ApplyThornArmor" type="Node" parent="." unique_id=1597777676]
+script = ExtResource("3_apply_self")
+status_data = ExtResource("4_status")

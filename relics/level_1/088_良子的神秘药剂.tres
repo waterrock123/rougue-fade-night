@@ -1,0 +1,91 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://ch376jrm52b7o"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_fgxtn"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_csdrr"]
+[ext_resource type="Texture2D" uid="uid://bor7m7xlio3ct" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc506.png" id="2_ghg8t"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_ceiju"]
+[ext_resource type="Resource" uid="uid://bmipmd2ww6hum" path="res://relic_tags/好好顾客tag.tres" id="5_0vyyi"]
+[ext_resource type="Resource" uid="uid://dv8tumu8brwpy" path="res://relic_tags/加工品tag.tres" id="6_otiq5"]
+[ext_resource type="Script" uid="uid://d26ylam2nagj5" path="res://relic_effect/use_weighted_random_effect.gd" id="7_random"]
+[ext_resource type="Script" uid="uid://dho8bn2y7bjsk" path="res://relic_effect/weighted_relic_effect_option.gd" id="8_option"]
+[ext_resource type="Script" uid="uid://bwwo8lgqv2f6c" path="res://relic_effect/use_level_up_reward_refresh_effect.gd" id="10_reward_refresh"]
+[ext_resource type="Script" uid="uid://cpg3ugpuxdn6w" path="res://relic_effect/use_add_stats_effect.gd" id="11_add_stats"]
+[ext_resource type="Script" uid="uid://dpt6dmel3jpq4" path="res://relic_effect/use_self_damage_effect.gd" id="12_self_damage"]
+[ext_resource type="Script" uid="uid://bkhkbyofijesm" path="res://relic_effect/use_gold_effect.gd" id="14_gold"]
+
+[sub_resource type="Resource" id="Resource_option_missing_heal"]
+script = ExtResource("8_option")
+option_name = "missing_heal"
+weight = 3.0
+
+[sub_resource type="Resource" id="Resource_reward_refresh"]
+script = ExtResource("10_reward_refresh")
+
+[sub_resource type="Resource" id="Resource_option_reward_refresh"]
+script = ExtResource("8_option")
+option_name = "reward_refresh"
+weight = 2.0
+effects = Array[ExtResource("1_fgxtn")]([SubResource("Resource_reward_refresh")])
+
+[sub_resource type="Resource" id="Resource_all_stats"]
+script = ExtResource("11_add_stats")
+add_stats = {
+"charm": 1,
+"constitution": 1,
+"dexterity": 1,
+"intelligence": 1,
+"luck": 1,
+"speed": 1,
+"strength": 1
+}
+
+[sub_resource type="Resource" id="Resource_option_all_stats"]
+script = ExtResource("8_option")
+option_name = "all_stats"
+weight = 2.0
+effects = Array[ExtResource("1_fgxtn")]([SubResource("Resource_all_stats")])
+
+[sub_resource type="Resource" id="Resource_self_damage"]
+script = ExtResource("12_self_damage")
+damage = 5.0
+tags = Array[String](["consumable", "self_damage", "mystery_potion"])
+
+[sub_resource type="Resource" id="Resource_option_self_damage"]
+script = ExtResource("8_option")
+option_name = "self_damage"
+effects = Array[ExtResource("1_fgxtn")]([SubResource("Resource_self_damage")])
+
+[sub_resource type="Resource" id="Resource_option_grant_relics"]
+script = ExtResource("8_option")
+option_name = "grant_shop_relics"
+require_levelup = true
+
+[sub_resource type="Resource" id="Resource_gold"]
+script = ExtResource("14_gold")
+gold_amount = 10
+
+[sub_resource type="Resource" id="Resource_option_gold"]
+script = ExtResource("8_option")
+option_name = "gold"
+weight = 2.0
+require_levelup = true
+effects = Array[ExtResource("1_fgxtn")]([SubResource("Resource_gold")])
+
+[sub_resource type="Resource" id="Resource_weighted_random"]
+script = ExtResource("7_random")
+options = Array[ExtResource("8_option")]([SubResource("Resource_option_missing_heal"), SubResource("Resource_option_reward_refresh"), SubResource("Resource_option_all_stats"), SubResource("Resource_option_self_damage"), SubResource("Resource_option_grant_relics"), SubResource("Resource_option_gold")])
+
+[resource]
+script = ExtResource("2_csdrr")
+relic_name = "良子的神秘药剂"
+icon = ExtResource("2_ghg8t")
+tooltip = "使用后随机触发一种效果：{heal}已损失生命的30%；获得一次{level_up_refresh}机会；{all_primary_stats}+1；受到5点伤害
+升级：随机池额外加入随机获得3件当前商店等阶的装备、获得10{gold}"
+desc = "良子用自己的孢子制作的药剂，其效果十分神秘"
+price = 3
+level = 1
+tags = Array[ExtResource("3_ceiju")]([ExtResource("5_0vyyi"), ExtResource("6_otiq5")])
+id = "088"
+is_consumable = true
+effects = Array[ExtResource("1_fgxtn")]([SubResource("Resource_weighted_random")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

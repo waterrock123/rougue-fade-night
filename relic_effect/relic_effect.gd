@@ -32,3 +32,9 @@ func on_use(relic_context: RelicContext, effect_key) -> void:
 ## 适合做出售后返利、刷新商店、触发特殊事件等一次性逻辑。
 func on_sold(relic_context: RelicContext, effect_key) -> void:
 	pass
+
+
+## 遗物被“消耗”时触发。
+## “消耗”是由用具、技能、被动等效果主动销毁另一件装备的行为，和普通使用消耗品、出售、锁格清理销毁分开。
+func on_consumed(relic_context: RelicContext, effect_key) -> void:
+	pass

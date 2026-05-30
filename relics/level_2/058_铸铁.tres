@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://c4w1m61khmqax"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_dqbmn"]
+[ext_resource type="Texture2D" uid="uid://2r0lggqoxric" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc218.png" id="2_50vx1"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_ub1wb"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_50vx1"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_50vx1"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="6_add_stats"]
+[ext_resource type="Script" uid="uid://ckyvmmqeo6o6e" path="res://relic_effect/add_status_effect.gd" id="7_add_status"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="8_armor"]
+[ext_resource type="Script" uid="uid://culkglfbrhrdy" path="res://relic_effect/consumed_grant_random_shop_relic_effect.gd" id="9_consumed_grant"]
+
+[sub_resource type="Resource" id="Resource_speed_down"]
+script = ExtResource("6_add_stats")
+add_stats = {
+"speed": -2
+}
+
+[sub_resource type="Resource" id="Resource_armor"]
+script = ExtResource("7_add_status")
+status_data = ExtResource("8_armor")
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_consumed_level2_reward"]
+script = ExtResource("9_consumed_grant")
+ignore_when_relic_levelup = true
+
+[sub_resource type="Resource" id="Resource_consumed_shop_level_reward"]
+script = ExtResource("9_consumed_grant")
+use_shop_level_as_max_level = true
+
+[resource]
+script = ExtResource("2_ub1wb")
+relic_name = "铸铁"
+icon = ExtResource("2_50vx1")
+tooltip = "{speed}-2,{armor}+2;被消耗时随机获得一件不高于lv2的装备
+升级：随机获得装备效果变为消耗时随机得一件不高于商店等阶的装备"
+desc = "只有力量达标扛着钢卷也没问题"
+price = 3
+level = 2
+tags = Array[ExtResource("3_50vx1")]([ExtResource("5_50vx1")])
+id = "058"
+effects = Array[ExtResource("1_dqbmn")]([SubResource("Resource_speed_down"), SubResource("Resource_armor"), SubResource("Resource_consumed_level2_reward")])
+great_effects = Array[ExtResource("1_dqbmn")]([SubResource("Resource_consumed_shop_level_reward")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

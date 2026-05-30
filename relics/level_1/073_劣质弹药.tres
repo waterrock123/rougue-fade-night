@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b5adlceomqy47"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_c2vt8"]
+[ext_resource type="Texture2D" uid="uid://c30laa603mr7o" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc200.png" id="2_aqar4"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_bqvtx"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_aqar4"]
+[ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="5_aqar4"]
+[ext_resource type="Script" uid="uid://cfh8744clikxq" path="res://relic_effect/add_outgoing_damage_bonus_effect.gd" id="6_damage_bonus"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+
+[sub_resource type="Resource" id="Resource_projectile_bonus"]
+script = ExtResource("6_damage_bonus")
+required_tags = Array[String](["projectile"])
+flat_bonus = 1.0
+
+[sub_resource type="Resource" id="Resource_levelup_dexterity"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"dexterity": 1
+}
+
+[resource]
+script = ExtResource("2_bqvtx")
+relic_name = "劣质弹药"
+icon = ExtResource("2_aqar4")
+tooltip = "装备后你的{projectile}额外造成1点伤害；{sell_price}降低为1
+升级：{dexterity}+1"
+price = 1
+sell_price = 1
+tags = Array[ExtResource("3_aqar4")]([ExtResource("5_aqar4")])
+id = "073"
+effects = Array[ExtResource("1_c2vt8")]([SubResource("Resource_projectile_bonus")])
+great_effects = Array[ExtResource("1_c2vt8")]([SubResource("Resource_levelup_dexterity")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

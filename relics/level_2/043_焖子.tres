@@ -5,7 +5,26 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_lhptm"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_t2reu"]
 [ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="5_3wfkf"]
-[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="6_2e7vf"]
+[ext_resource type="Script" uid="uid://wwdg54imaves" path="res://relic_effect/use_heal_effect.gd" id="7_heal"]
+[ext_resource type="Script" uid="uid://cpg3ugpuxdn6w" path="res://relic_effect/use_add_stats_effect.gd" id="8_temp_stats"]
+[ext_resource type="Script" uid="uid://dq1bcjv3l3ued" path="res://relic_effect/use_permanent_stats_effect.gd" id="9_permanent_stats"]
+
+[sub_resource type="Resource" id="Resource_heal"]
+script = ExtResource("7_heal")
+heal_amount = 10.0
+
+[sub_resource type="Resource" id="Resource_temp_constitution"]
+script = ExtResource("8_temp_stats")
+add_stats = {
+"constitution": 2.0
+}
+ignore_when_relic_levelup = true
+
+[sub_resource type="Resource" id="Resource_levelup_permanent_constitution"]
+script = ExtResource("9_permanent_stats")
+add_stats = {
+"constitution": 2
+}
 
 [resource]
 script = ExtResource("2_lhptm")
@@ -15,7 +34,9 @@ tooltip = "使用后立即{heal}10生命值，并使体质+2
 升级：体质提升变为永久提升"
 price = 3
 level = 2
-tags = Array[ExtResource("3_t2reu")]([ExtResource("5_3wfkf"), ExtResource("6_2e7vf")])
+tags = Array[ExtResource("3_t2reu")]([ExtResource("5_3wfkf")])
 id = "043"
 is_consumable = true
+effects = Array[ExtResource("1_84e6j")]([SubResource("Resource_heal"), SubResource("Resource_temp_constitution")])
+great_effects = Array[ExtResource("1_84e6j")]([SubResource("Resource_levelup_permanent_constitution")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

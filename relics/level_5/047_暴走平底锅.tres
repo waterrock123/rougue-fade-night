@@ -11,8 +11,8 @@
 script = ExtResource("2_pkv4m")
 relic_name = "暴走平底锅"
 icon = ExtResource("2_6v40e")
-tooltip = "减伤+20%，获得时将所有背包中所有带原料标签的物品变为升级状态
-升级：使背包内所有带原料标签的物品变为更高一阶的带佳肴标签物品"
+tooltip = "减伤+20%，获得时消耗所有背包中所有带原料标签的物品并获得其升级状态下的原物品
+升级：消耗背包内所有带原料标签的物品并获得同等数量的随机更高一阶的带佳肴标签物品"
 price = 5
 level = 5
 tags = Array[ExtResource("3_sg6p2")]([ExtResource("5_v2j3r"), ExtResource("6_xitat")])

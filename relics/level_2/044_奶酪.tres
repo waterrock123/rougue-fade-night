@@ -5,7 +5,17 @@
 [ext_resource type="Texture2D" uid="uid://brp441fukbail" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc497.png" id="2_ghwv6"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_43c52"]
 [ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_hj7sc"]
-[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="6_omkkm"]
+[ext_resource type="Script" uid="uid://biivm48c1dqqr" path="res://relic_effect/use_restore_energy_percent_effect.gd" id="7_restore_energy"]
+[ext_resource type="Script" uid="uid://cpg3ugpuxdn6w" path="res://relic_effect/use_add_stats_effect.gd" id="8_add_stats"]
+
+[sub_resource type="Resource" id="Resource_restore_energy"]
+script = ExtResource("7_restore_energy")
+
+[sub_resource type="Resource" id="Resource_levelup_speed"]
+script = ExtResource("8_add_stats")
+add_stats = {
+"speed": 2.0
+}
 
 [resource]
 script = ExtResource("2_3ksnw")
@@ -15,7 +25,9 @@ tooltip = "使用后立即恢复50%的法力值
 升级：使用额外+2{speed}"
 price = 3
 level = 2
-tags = Array[ExtResource("3_43c52")]([ExtResource("5_hj7sc"), ExtResource("6_omkkm")])
+tags = Array[ExtResource("3_43c52")]([ExtResource("5_hj7sc")])
 id = "044"
 is_consumable = true
+effects = Array[ExtResource("1_s6lda")]([SubResource("Resource_restore_energy")])
+great_effects = Array[ExtResource("1_s6lda")]([SubResource("Resource_levelup_speed")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

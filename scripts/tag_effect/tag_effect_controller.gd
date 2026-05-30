@@ -58,6 +58,7 @@ func refresh() -> void:
 		)
 		var can_activate := effect.can_activate(context)
 		var completed_once := effect.is_once and context.is_once_completed()
+		var owned_tag_relics := _collect_owned_relics_for_tag(effect.tag)
 
 		current_snapshots.append({
 			"effect": effect,
@@ -65,6 +66,8 @@ func refresh() -> void:
 			"name": effect.get_display_name(),
 			"desc": effect.desc,
 			"count": counted_relics.size(),
+			"owned_count": owned_tag_relics.size(),
+			"has_owned_tag": not owned_tag_relics.is_empty(),
 			"required_count": effect.required_count,
 			"is_active": can_activate and not effect.is_once,
 			"is_completed": completed_once,
@@ -128,6 +131,19 @@ func _collect_counted_relics(effect: TagEffect) -> Array[Relic]:
 	return result
 
 
+# UI 展示用：只要背包或装备栏拥有该 tag 的装备，就说明这个 tag 对玩家当前构筑有关。
+func _collect_owned_relics_for_tag(tag: RelicTag) -> Array[Relic]:
+	var result: Array[Relic] = []
+	var seen_ids: Array[String] = []
+	if run_stats == null or run_stats.player_build == null:
+		return result
+
+	var player_build := run_stats.player_build
+	_collect_owned_tag_from_slots(player_build.player_equipment.equip_slots if player_build.player_equipment != null else [], tag, seen_ids, result)
+	_collect_owned_tag_from_slots(player_build.player_inventory.slots if player_build.player_inventory != null else [], tag, seen_ids, result)
+	return result
+
+
 func _collect_from_slots(slots: Array, effect: TagEffect, seen_ids: Array[String], result: Array[Relic]) -> void:
 	for slot in slots:
 		if slot == null or slot.item == null:
@@ -137,6 +153,19 @@ func _collect_from_slots(slots: Array, effect: TagEffect, seen_ids: Array[String
 		if relic == null or seen_ids.has(relic.id):
 			continue
 		if _relic_has_tag(relic, effect.tag):
+			seen_ids.append(relic.id)
+			result.append(relic)
+
+
+func _collect_owned_tag_from_slots(slots: Array, tag: RelicTag, seen_ids: Array[String], result: Array[Relic]) -> void:
+	for slot in slots:
+		if slot == null or slot.item == null:
+			continue
+
+		var relic := slot.item as Relic
+		if relic == null or seen_ids.has(relic.id):
+			continue
+		if _relic_has_tag(relic, tag):
 			seen_ids.append(relic.id)
 			result.append(relic)
 

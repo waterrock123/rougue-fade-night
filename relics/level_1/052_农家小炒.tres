@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://1qhp4ajyjw0k"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_r7ebe"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_1foiy"]
+[ext_resource type="Texture2D" uid="uid://bh2egvrs58yw7" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc586.png" id="2_f56mq"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_4m6xa"]
+[ext_resource type="Script" uid="uid://cpg3ugpuxdn6w" path="res://relic_effect/use_add_stats_effect.gd" id="4_use_stats"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="5_aqekr"]
+[ext_resource type="Script" uid="uid://dq1bcjv3l3ued" path="res://relic_effect/use_permanent_stats_effect.gd" id="5_perm_stats"]
+
+[sub_resource type="Resource" id="Resource_use_all_stats"]
+script = ExtResource("4_use_stats")
+add_stats = {
+"charm": 1,
+"constitution": 1,
+"dexterity": 1,
+"intelligence": 1,
+"luck": 1,
+"speed": 1,
+"strength": 1
+}
+ignore_when_relic_levelup = true
+
+[sub_resource type="Resource" id="Resource_perm_all_stats"]
+script = ExtResource("5_perm_stats")
+add_stats = {
+"charm": 1,
+"constitution": 1,
+"dexterity": 1,
+"intelligence": 1,
+"luck": 1,
+"speed": 1,
+"strength": 1
+}
+
+[resource]
+script = ExtResource("2_1foiy")
+relic_name = "农家小炒"
+icon = ExtResource("2_f56mq")
+tooltip = "使用后获得{all_primary_stats}+1，持续到战斗结束
+升级：改为永久获得{all_primary_stats}+1"
+desc = "在混乱大陆上难得的稀有佳肴，据说只有龙国人会做炒菜"
+price = 4
+level = 1
+relic_type = 1
+tags = Array[ExtResource("3_4m6xa")]([ExtResource("5_aqekr")])
+id = "052"
+is_consumable = true
+effects = Array[ExtResource("1_r7ebe")]([SubResource("Resource_use_all_stats")])
+great_effects = Array[ExtResource("1_r7ebe")]([SubResource("Resource_perm_all_stats")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

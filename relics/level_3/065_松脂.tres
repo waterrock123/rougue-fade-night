@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bbo8bw1cukvtw"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_1hak8"]
+[ext_resource type="Texture2D" uid="uid://b4vkavqqun2vq" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc468.png" id="2_0f26f"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_28mg6"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_bgqhe"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_hiwed"]
+[ext_resource type="Resource" uid="uid://dxale3ttna2jk" path="res://relic_tags/火炎tag.tres" id="6_mo5ec"]
+
+[resource]
+script = ExtResource("2_28mg6")
+relic_name = "松脂"
+icon = ExtResource("2_0f26f")
+tooltip = "使用后使基础攻击附带10点火焰伤害，持续30秒
+升级：效果持续至战斗结束"
+price = 4
+level = 3
+tags = Array[ExtResource("3_bgqhe")]([ExtResource("5_hiwed"), ExtResource("6_mo5ec")])
+id = "065"
+is_consumable = true
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

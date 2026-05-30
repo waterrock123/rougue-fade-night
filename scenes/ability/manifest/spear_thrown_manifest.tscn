@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://b4gwboiqs6vmh"]
+
+[ext_resource type="Script" uid="uid://2w51uq128cy0" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1_6oocf"]
+[ext_resource type="AudioStream" uid="uid://bfj8vxy0sfsyh" path="res://assets/Sound/Sword Impact Hit 1.wav" id="2_2lqqq"]
+[ext_resource type="AudioStream" uid="uid://c7vdv8qlqgw3q" path="res://assets/Sound/Sword Impact Hit 2.wav" id="3_b76gp"]
+[ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="4_4dsu6"]
+[ext_resource type="Texture2D" uid="uid://btc6x746w7abe" path="res://assets/meleeAttack_plusCharacters.png" id="5_0rvvk"]
+
+[sub_resource type="Resource" id="Resource_yeulv"]
+script = ExtResource("4_4dsu6")
+audio_streams = Array[AudioStream]([ExtResource("2_2lqqq"), ExtResource("3_b76gp")])
+max_distance = 300
+bus = &"sfx"
+metadata/_custom_type_script = "uid://cfgrgm03strrd"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s66hv"]
+atlas = ExtResource("5_0rvvk")
+region = Rect2(115.979675, 0.036762714, 7.0579987, 16.01927)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_36yfb"]
+radius = 4.5
+height = 33.33333
+
+[node name="SpearThrownAbilityManifest" type="Node2D" unique_id=1293196864]
+z_index = 100
+rotation = 1.5707964
+scale = Vector2(0.3, 0.3)
+script = ExtResource("1_6oocf")
+speed = 300.0
+target_group = "enemy"
+max_distance = 200.0
+hit_sound = SubResource("Resource_yeulv")
+rotate_speed = 50.0
+damage = 15.0
+is_penetrate = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1123908785]
+texture_filter = 1
+position = Vector2(0, 6)
+scale = Vector2(1, 1.75)
+texture = SubResource("AtlasTexture_s66hv")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=215287016]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=147456712]
+position = Vector2(0, 6.666667)
+shape = SubResource("CapsuleShape2D_36yfb")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

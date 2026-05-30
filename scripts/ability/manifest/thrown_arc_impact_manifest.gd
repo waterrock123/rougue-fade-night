@@ -21,7 +21,7 @@ extends AbilityManifest
 @export var damage: float = 40.0
 @export var can_crit: bool = true
 @export var damage_types: Array[int] = [DamageData.DamageType.PHYSICAL, DamageData.DamageType.ICE]
-@export var tags: Array[String] = ["relic", "consumable", "thrown", "aoe"]
+@export var tags: Array[String] = ["manifest", "relic", "consumable", "thrown", "thrown_arc", "aoe"]
 @export var scaling_rule: DamageScalingRule
 
 @export_group("落地状态")
@@ -157,12 +157,12 @@ func _get_target_entity_from_area(area: Area2D) -> Entity:
 		return null
 
 	var parent := area.get_parent()
-	if parent == null or not parent.is_in_group(target_group):
-		return null
-	if not (parent is Entity):
+	if parent == null or not (parent is Entity):
 		return null
 
 	var entity := parent as Entity
+	if not entity.matches_target_group(StringName(target_group)):
+		return null
 	if entity.has_method("can_be_targeted") and not entity.can_be_targeted():
 		return null
 	return entity

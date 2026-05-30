@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://c8nha1dnysic8"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_ylrsa"]
+[ext_resource type="Texture2D" uid="uid://5h8s6qy85hld" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc413.png" id="2_4rp6t"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_j81dr"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_2luub"]
+[ext_resource type="Resource" uid="uid://box5044uf2gqf" path="res://relic_tags/疗愈tag.tres" id="5_0ve57"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="6_nfm52"]
+[ext_resource type="Script" uid="uid://du7ear1mwl7mx" path="res://relic_effect/use_heal_missing_health_percent_effect.gd" id="7_missing_heal"]
+[ext_resource type="Script" uid="uid://dq1bcjv3l3ued" path="res://relic_effect/use_permanent_stats_effect.gd" id="8_perm_stats"]
+
+[sub_resource type="Resource" id="Resource_base_missing_heal"]
+script = ExtResource("7_missing_heal")
+heal_missing_percent = 0.2
+ignore_when_relic_levelup = true
+
+[sub_resource type="Resource" id="Resource_levelup_missing_heal"]
+script = ExtResource("7_missing_heal")
+
+[sub_resource type="Resource" id="Resource_levelup_constitution"]
+script = ExtResource("8_perm_stats")
+add_stats = {
+"constitution": 4
+}
+
+[resource]
+script = ExtResource("3_j81dr")
+relic_name = "猪脚饭"
+icon = ExtResource("2_4rp6t")
+tooltip = "使用后恢复已损失生命的20%
+升级：使用后恢复已损失生命的30%并永久提升四点体质"
+price = 3
+level = 2
+tags = Array[ExtResource("4_2luub")]([ExtResource("5_0ve57"), ExtResource("6_nfm52")])
+id = "054"
+is_consumable = true
+effects = Array[ExtResource("1_ylrsa")]([SubResource("Resource_base_missing_heal")])
+great_effects = Array[ExtResource("1_ylrsa")]([SubResource("Resource_levelup_missing_heal"), SubResource("Resource_levelup_constitution")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

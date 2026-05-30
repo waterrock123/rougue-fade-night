@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dsrh1c6ygnef5"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_5agwv"]
+[ext_resource type="Texture2D" uid="uid://csc3mfhqjn6r2" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc526.png" id="2_ibhut"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_ogvi3"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_rn6cu"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="5_hwdwo"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="6_cqv5w"]
+
+[resource]
+script = ExtResource("2_ogvi3")
+relic_name = "披萨"
+icon = ExtResource("2_ibhut")
+tooltip = "使用后提升敏捷与速度两点，闪避率+10%持续到战斗结束
+升级：使用后额外永久得5%的闪避率"
+desc = "据说在上面放菠萝会遭到诅咒"
+price = 4
+level = 3
+tags = Array[ExtResource("3_rn6cu")]([ExtResource("5_hwdwo"), ExtResource("6_cqv5w")])
+id = "055"
+is_consumable = true
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

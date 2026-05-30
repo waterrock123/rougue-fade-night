@@ -67,12 +67,45 @@ func _find_default_target_position(caster: Entity):
 	if caster == null or caster.get_tree() == null:
 		return null
 
-	var target_group := "player"
-	if caster.is_in_group("player"):
-		target_group = "enemy"
-
-	var target = caster.get_tree().get_first_node_in_group(target_group)
-	if target is Entity:
-		return (target as Entity).global_position
+	var target := _find_nearest_opponent(caster)
+	if target != null:
+		return target.global_position
 
 	return null
+
+
+func _find_nearest_opponent(caster: Entity) -> Entity:
+	var nearest: Entity
+	var nearest_distance := INF
+	var groups: Array[StringName] = _get_opponent_groups(caster)
+
+	for group_name in groups:
+		for node in caster.get_tree().get_nodes_in_group(String(group_name)):
+			if not (node is Entity):
+				continue
+
+			var candidate := node as Entity
+			if caster.is_enemy_side() and not candidate.is_player_side():
+				continue
+			if caster.is_player_side() and not candidate.is_enemy_side():
+				continue
+			if candidate.has_method("can_be_targeted") and not candidate.can_be_targeted():
+				continue
+
+			var distance := caster.global_position.distance_to(candidate.global_position)
+			if distance < nearest_distance:
+				nearest_distance = distance
+				nearest = candidate
+
+	return nearest
+
+
+func _get_opponent_groups(caster: Entity) -> Array[StringName]:
+	var groups: Array[StringName] = []
+	if caster.is_enemy_side():
+		groups.append(&"player")
+		groups.append(&"player_ally")
+		groups.append(&"summon_pet")
+	else:
+		groups.append(&"enemy")
+	return groups

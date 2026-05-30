@@ -220,6 +220,9 @@ func _get_battle_for_room(room: Room) -> BattleStats:
 	if battle_stats_pool == null or room == null:
 		return null
 
+	if room.type == Room.Type.BOSS:
+		return battle_stats_pool.get_random_battle_for_tier(3)
+
 	var tier := 0
 	if room.row >= 4:
 		tier = 2
@@ -242,6 +245,8 @@ func _get_event_scene_for_room(room: Room) -> PackedScene:
 				var random_event := event_room_pool.get_random()
 				if random_event != null:
 					return random_event
+		Room.Type.BOSS:
+			return CAMPFIRE_EVENT_SCENE
 
 	return GENERIC_EVENT_SCENE
 

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cojleg738250n"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_7evni"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_x6cr8"]
+[ext_resource type="Texture2D" uid="uid://b2rtuigc3muh4" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc148.png" id="2_y1vq7"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_y1vq7"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_y1vq7"]
+
+[resource]
+script = ExtResource("2_x6cr8")
+relic_name = "钢铁"
+icon = ExtResource("2_y1vq7")
+tooltip = "力量+2，减伤率+5%;被消耗时立即获得一件带有凶器或守御标签同等阶装备
+升级:被消耗时获得的装备变为升级状态"
+price = 4
+level = 3
+tags = Array[ExtResource("3_y1vq7")]([ExtResource("5_y1vq7")])
+id = "063"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

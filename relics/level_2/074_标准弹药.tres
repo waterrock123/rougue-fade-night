@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://15lspafrf1wt"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_k453e"]
+[ext_resource type="Texture2D" uid="uid://lxbbca4nn77t" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc189.png" id="2_7b0lt"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_wrtsn"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_7b0lt"]
+[ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="5_7b0lt"]
+[ext_resource type="Script" uid="uid://cfh8744clikxq" path="res://relic_effect/add_outgoing_damage_bonus_effect.gd" id="6_damage_bonus"]
+[ext_resource type="Script" uid="uid://cc11te21ho7ah" path="res://relic_effect/active_skill_cooldown_modifier_effect.gd" id="7_cooldown"]
+
+[sub_resource type="Resource" id="Resource_projectile_bonus"]
+script = ExtResource("6_damage_bonus")
+required_tags = Array[String](["projectile"])
+flat_bonus = 1.0
+
+[sub_resource type="Resource" id="Resource_basic_cooldown"]
+script = ExtResource("7_cooldown")
+target_slot_indices = Array[int]([0])
+cooldown_multiplier = 0.98
+
+[resource]
+script = ExtResource("2_wrtsn")
+relic_name = "标准弹药"
+icon = ExtResource("2_7b0lt")
+tooltip = "装备后你的飞行道具额外造成1点伤害；售价降低为2
+升级:基础攻击的冷却-2%"
+desc = "一袋“标准”弹药，不符合标准的武器也可以使用这些弹药"
+price = 2
+level = 2
+tags = Array[ExtResource("3_7b0lt")]([ExtResource("5_7b0lt")])
+id = "074"
+effects = Array[ExtResource("1_k453e")]([SubResource("Resource_projectile_bonus")])
+great_effects = Array[ExtResource("1_k453e")]([SubResource("Resource_basic_cooldown")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

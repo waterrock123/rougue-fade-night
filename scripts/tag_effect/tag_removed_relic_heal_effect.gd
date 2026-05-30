@@ -3,7 +3,7 @@ class_name TagRemovedRelicHealEffect
 extends TagEffect
 
 @export var heal_amount: float = 1.0
-@export var valid_reasons: Array[String] = ["used", "sold", "destroyed"]
+@export var valid_reasons: Array[String] = ["used", "sold", "destroyed", "consumed"]
 
 var active_contexts: Dictionary = {}
 

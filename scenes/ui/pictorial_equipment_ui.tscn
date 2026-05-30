@@ -1,0 +1,133 @@
+[gd_scene format=3 uid="uid://dlqom454mpwmd"]
+
+[ext_resource type="Texture2D" uid="uid://di8gfwkt88wwg" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc111.png" id="1_0gb3m"]
+[ext_resource type="PackedScene" uid="uid://drnrxy5n678gs" path="res://scenes/tooltip/tag_ui.tscn" id="2_72olm"]
+[ext_resource type="Texture2D" uid="uid://dl8mue4vmjiid" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1810.png" id="3_72olm"]
+[ext_resource type="Script" path="res://scripts/ui/pictorial_equipment_ui.gd" id="4_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_74g7d"]
+bg_color = Color(0.58077294, 0.9002545, 0.76049864, 0.6509804)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 2
+shadow_offset = Vector2(2, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_72olm"]
+bg_color = Color(1.92523e-07, 0.58669555, 0.43446556, 0.6509804)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3wgh7"]
+bg_color = Color(2.2260473e-07, 0.20269352, 0.14142212, 0.6509804)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 2
+shadow_offset = Vector2(5, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_eu3ln"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_ey76m"]
+font_size = 32
+
+[node name="PictorialEquipmentUI" type="CenterContainer" unique_id=2111745671]
+script = ExtResource("4_script")
+
+[node name="Button" type="Button" parent="." unique_id=1589350433]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_74g7d")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_72olm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3wgh7")
+toggle_mode = true
+
+[node name="Icon" type="TextureRect" parent="Button" unique_id=137521987]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_0gb3m")
+
+[node name="NameLabel" type="Label" parent="Button" unique_id=449290765]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -45.0
+offset_right = 64.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "这里名称"
+label_settings = SubResource("LabelSettings_eu3ln")
+
+[node name="LevelLabel" type="Label" parent="Button" unique_id=1390607085]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 62.0
+offset_bottom = 45.0
+text = "Lv.1"
+label_settings = SubResource("LabelSettings_ey76m")
+
+[node name="TagList" type="VBoxContainer" parent="Button" unique_id=809854473]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -108.0
+offset_right = 66.0
+offset_bottom = -40.0
+grow_vertical = 0
+alignment = 2
+
+[node name="TagUI" parent="Button/TagList" unique_id=1396676509 instance=ExtResource("2_72olm")]
+layout_mode = 2
+
+[node name="UniqueIcon" type="TextureRect" parent="Button" unique_id=322047957]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 209.0
+offset_top = 9.0
+offset_right = 249.0
+offset_bottom = 49.0
+texture = ExtResource("3_72olm")

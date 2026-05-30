@@ -12,4 +12,5 @@ id = &"101"
 skill_name = "战狂-基础攻击"
 desc = "用力挥动斧头，受力量加成"
 icon = ExtResource("2_xec2o")
+allowed_character_ids = Array[StringName]([&"warrior"])
 metadata/_custom_type_script = "uid://bq1obcmna3x2j"

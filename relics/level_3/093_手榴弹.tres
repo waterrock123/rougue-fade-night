@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://btspnrrpv4nau"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_6ulqx"]
+[ext_resource type="Texture2D" uid="uid://bkuq036nwf1fs" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc764.png" id="2_ky8u2"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_xr3b8"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_bfrl1"]
+[ext_resource type="Resource" uid="uid://dv8tumu8brwpy" path="res://relic_tags/加工品tag.tres" id="5_assi6"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="6_san8b"]
+
+[resource]
+script = ExtResource("2_xr3b8")
+relic_name = "手榴弹"
+icon = ExtResource("2_ky8u2")
+tooltip = "抛射后对大范围敌人造成300伤害
+升级:手榴弹的伤害范围更大"
+price = 4
+level = 3
+tags = Array[ExtResource("3_bfrl1")]([ExtResource("5_assi6"), ExtResource("6_san8b")])
+id = "093"
+is_consumable = true
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

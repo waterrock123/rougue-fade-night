@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RelicTag" format=3 uid="uid://bpyxiv6nfwnu5"]
+
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="1_g8n4x"]
+
+[resource]
+script = ExtResource("1_g8n4x")
+color = Color(0.8467492, 0.5519555, 0.48684502, 1)
+tag_name = "创生"
+metadata/_custom_type_script = "uid://bts8j8jm6rdpv"

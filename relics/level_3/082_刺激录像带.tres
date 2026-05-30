@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bkdfrl31hipu2"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_0ii1d"]
+[ext_resource type="Texture2D" uid="uid://4t78cfg03nqh" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc9.png" id="2_0hu0n"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_x4rx1"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_bwepo"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_wxg5c"]
+[ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="6_nfoqe"]
+
+[resource]
+script = ExtResource("2_x4rx1")
+relic_name = "刺激录像带"
+icon = ExtResource("2_0hu0n")
+tooltip = "魅力+2，每场战斗仅一次，第一次受到伤害时进入迅疾状态5秒
+升级：速度+2"
+desc = "内容刺激的赛车比赛选手第一视角剪辑合集"
+price = 4
+level = 3
+tags = Array[ExtResource("3_bwepo")]([ExtResource("5_wxg5c"), ExtResource("6_nfoqe")])
+id = "082"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

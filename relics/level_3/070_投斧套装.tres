@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://w6822uhymcpj"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_d5u2c"]
+[ext_resource type="Texture2D" uid="uid://bluikevo852vj" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1464.png" id="2_a2jhe"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_kp6ng"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_teueq"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_kp6ng"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="6_teueq"]
+
+[resource]
+script = ExtResource("3_kp6ng")
+relic_name = "投斧套装"
+icon = ExtResource("2_a2jhe")
+tooltip = "使用除基础攻击以外的主动技能时会积攒一把投斧，使用基础攻击时会自动向攻击方向丢出投斧
+升级：积攒的投斧变为可以回旋的版本"
+desc = "一套放置投斧的装备，可以方便地抽出投斧攻击"
+price = 6
+level = 3
+relic_type = 1
+tags = Array[ExtResource("4_teueq")]([ExtResource("5_kp6ng"), ExtResource("6_teueq")])
+id = "070"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

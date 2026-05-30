@@ -47,6 +47,16 @@ const LEVEL_TIP_COLORS := {
 @export var great_effects: Array[RelicEffect]
 
 
+# 返回当前遗物真正用于 UI 预览和出售结算的售价。
+# 某些效果并不直接修改 sell_price，而是通过效果资源提供额外售价加成。
+func get_effective_sell_price() -> int:
+	var result := sell_price
+	result += _get_sell_bonus_from_effects(effects)
+	if leveltip == LevelTip.LEVELUP:
+		result += _get_sell_bonus_from_effects(great_effects)
+	return max(result, 0)
+
+
 # 获得遗物时执行基础效果；如果是升级态，再额外执行强化效果。
 func gain_relic(owner, relic_controller: RelicController = null, relic_key: String = "") -> void:
 	_apply_effect_list(owner, relic_controller, relic_key, effects, "base", "gain")
@@ -95,6 +105,15 @@ func sell_relic(owner, relic_controller: RelicController = null, relic_key: Stri
 		_apply_effect_list(owner, relic_controller, relic_key, great_effects, "great", "sold")
 
 
+# 遗物被用具、技能或被动“消耗”时执行。
+# 注意：这里不负责从背包/装备栏移除自身，移除动作由 RelicConsumption 统一处理。
+func consume_relic(owner, relic_controller: RelicController = null, relic_key: String = "") -> void:
+	_apply_effect_list(owner, relic_controller, relic_key, effects, "base", "consumed")
+
+	if leveltip == LevelTip.LEVELUP:
+		_apply_effect_list(owner, relic_controller, relic_key, great_effects, "great", "consumed")
+
+
 # 对一组效果做统一分发，避免基础效果和强化效果写两份几乎一样的逻辑。
 func _apply_effect_list(
 	owner,
@@ -132,8 +151,18 @@ func _apply_effect_list(
 				effect.on_use(relic_context, effect_key)
 			"sold":
 				effect.on_sold(relic_context, effect_key)
+			"consumed":
+				effect.on_consumed(relic_context, effect_key)
 
 
 # effect_key 里加入组别，避免 base[0] 和 great[0] 互相覆盖。
 func _build_effect_key(relic_key: String, effect_group: String, effect_index: int) -> String:
 	return "%s_%s_effect_%s" % [relic_key, effect_group, effect_index]
+
+
+func _get_sell_bonus_from_effects(effect_list: Array[RelicEffect]) -> int:
+	var result := 0
+	for effect in effect_list:
+		if effect != null and effect.has_method("get_sell_gold_bonus"):
+			result += int(effect.get_sell_gold_bonus())
+	return result

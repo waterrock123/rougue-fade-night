@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_anim"]
+[ext_resource type="Script" uid="uid://bm3se2ase8cin" path="res://scripts/ability/component/ability_lock_movement.gd" id="3_lock"]
+[ext_resource type="Script" uid="uid://bj4m7sjslwicx" path="res://scripts/ability/component/ability_spawn_manifest.gd" id="4_spawn"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/spirit_healing_field_manifest.tscn" id="5_field"]
+
+[node name="SpiritHealingField" type="Node"]
+script = ExtResource("1_ability")
+cooldown = 7.0
+energy_cost = 0.0
+ai_max_cast_distance = 180.0
+ai_infer_cast_range_from_components = false
+
+[node name="AbilityAnimationRunner" type="Node" parent="."]
+script = ExtResource("2_anim")
+animation_name = "cast"
+
+[node name="CastLock" type="Node" parent="."]
+script = ExtResource("3_lock")
+lock_duration = 0.45
+
+[node name="SpawnHealingField" type="Node" parent="."]
+script = ExtResource("4_spawn")
+manifest_scene = ExtResource("5_field")
+rotate_to_direction = false

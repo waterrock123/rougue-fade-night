@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bhqkmb5olrxn5"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_hfqlt"]
+[ext_resource type="Texture2D" uid="uid://djol72vm5g67t" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc705.png" id="2_rg4a1"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_rjg4b"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_qnu2n"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_yuro4"]
+[ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="6_hfqlt"]
+[ext_resource type="Script" uid="uid://eohqkq4ji6vs" path="res://relic_effect/outgoing_damage_extra_hit_chance_effect.gd" id="7_extra_hit"]
+
+[sub_resource type="Resource" id="Resource_base_extra_hit"]
+script = ExtResource("7_extra_hit")
+required_tags = Array[String](["projectile"])
+extra_tags = Array[String](["relic", "scope_extra_hit"])
+ignore_when_relic_levelup = true
+
+[sub_resource type="Resource" id="Resource_levelup_extra_hit"]
+script = ExtResource("7_extra_hit")
+trigger_chance = 0.35
+required_tags = Array[String](["projectile"])
+extra_tags = Array[String](["relic", "scope_extra_hit"])
+
+[resource]
+script = ExtResource("3_rjg4b")
+relic_name = "瞄准镜"
+icon = ExtResource("2_rg4a1")
+tooltip = "当你的投射物造成伤害时有25%概率额外造成一次基础数值为5的伤害
+升级：概率提升到35%"
+desc = "看得更准，打的更狠"
+price = 3
+level = 2
+tags = Array[ExtResource("4_qnu2n")]([ExtResource("5_yuro4"), ExtResource("6_hfqlt")])
+id = "068"
+effects = Array[ExtResource("1_hfqlt")]([SubResource("Resource_base_extra_hit")])
+great_effects = Array[ExtResource("1_hfqlt")]([SubResource("Resource_levelup_extra_hit")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

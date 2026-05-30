@@ -25,5 +25,4 @@ level = 1
 tags = Array[ExtResource("6_k4nik")]([ExtResource("7_6l0l3")])
 id = "002"
 effects = Array[ExtResource("1_8vcxj")]([SubResource("Resource_fao66")])
-great_effects = Array[ExtResource("1_8vcxj")]([null])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

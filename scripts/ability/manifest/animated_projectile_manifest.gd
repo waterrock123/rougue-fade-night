@@ -21,7 +21,7 @@ extends AbilityManifest
 @export var damage: float = 10.0
 @export var can_crit: bool = true
 @export var damage_types: Array[int] = [DamageData.DamageType.RANGED]
-@export var tags: Array[String] = ["projectile"]
+@export var tags: Array[String] = ["manifest", "projectile", "animated_projectile", "ranged"]
 @export var scaling_rule: DamageScalingRule = DamageScalingRule.new()
 
 @export_group("On Hit Status")
@@ -67,6 +67,7 @@ func activate(context: AbilityContext) -> void:
 	source = context.caster
 	source_ability_id = context.ability.id if context.ability != null else &""
 	source_ability_slot_index = context.ability.runtime_slot_index if context.ability != null else -1
+	_apply_projectile_range_bonus()
 
 	if not EventBus.game_paused.is_connected(_handle_game_pause):
 		EventBus.game_paused.connect(_handle_game_pause)
@@ -215,7 +216,7 @@ func _get_entity_from_area(area: Area2D) -> Entity:
 		return null
 
 	var entity := parent as Entity
-	if target_group != &"" and not entity.is_in_group(String(target_group)):
+	if not entity.matches_target_group(target_group):
 		return null
 	if source != null and is_instance_valid(source) and entity == source:
 		return null
@@ -272,3 +273,17 @@ func _handle_game_pause(pause: bool) -> void:
 func _handle_scene_changed(scene: String) -> void:
 	if scene == "home":
 		queue_free()
+
+
+func _apply_projectile_range_bonus() -> void:
+	if source == null or source.stats_controller == null:
+		return
+
+	var bonus_rate = max(source.stats_controller.get_stat(&"projectile_range_bonus_rate"), 0.0)
+	if bonus_rate <= 0.0:
+		return
+	if not tags.has("projectile"):
+		return
+
+	# 动画投射物同样吃“投射物增程”，但抛射类 manifest 不会走到这里。
+	max_distance *= 1.0 + bonus_rate

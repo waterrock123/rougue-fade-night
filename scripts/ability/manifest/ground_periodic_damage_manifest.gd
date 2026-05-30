@@ -16,7 +16,7 @@ extends AbilityManifest
 @export var damage: float = 2.0
 @export var can_crit: bool = false
 @export var damage_types: Array[int] = [DamageData.DamageType.ICE]
-@export var tags: Array[String] = ["ground", "frost_trail"]
+@export var tags: Array[String] = ["manifest", "ground", "periodic", "aoe", "frost_trail"]
 @export var scaling_rule: DamageScalingRule = DamageScalingRule.new()
 @export var tick_sound: AudiioConfig
 
@@ -130,7 +130,7 @@ func _get_entity_from_area(area: Area2D) -> Entity:
 		return null
 
 	var entity := parent as Entity
-	if target_group != &"" and not entity.is_in_group(String(target_group)):
+	if not entity.matches_target_group(target_group):
 		return null
 	if source != null and is_instance_valid(source) and entity == source:
 		return null

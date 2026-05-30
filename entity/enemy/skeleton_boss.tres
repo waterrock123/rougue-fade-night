@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://cmt5vociifd4o"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_0j4ct"]
+
+[resource]
+script = ExtResource("1_0j4ct")
+entity_name = "super_skeleton"
+base_max_health = 1000.0
+base_max_energy = 50.0
+base_energy_regen_tick_value = 5.0
+base_dodge_rate = 0.02
+base_move_speed = 20.0
+strength = 7
+dexterity = 8
+intelligence = 4
+constitution = 4
+speed = 5
+charm = -2
+luck = 2
+metadata/_custom_type_script = "uid://yiy2gawxifk8"

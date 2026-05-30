@@ -5,7 +5,24 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_xesd1"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_fjyer"]
 [ext_resource type="Resource" uid="uid://dxale3ttna2jk" path="res://relic_tags/火炎tag.tres" id="5_00ani"]
-[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="6_8jaqb"]
+[ext_resource type="Script" uid="uid://bhut27hdbbym8" path="res://relic_effect/use_spawn_manifest_effect.gd" id="7_spawn"]
+[ext_resource type="PackedScene" uid="uid://j0hi3qec8u58" path="res://scenes/ability/manifest/molotov_impact_manifest.tscn" id="8_manifest"]
+[ext_resource type="Resource" uid="uid://dv8tumu8brwpy" path="res://relic_tags/加工品tag.tres" id="8_xd3uu"]
+
+[sub_resource type="Resource" id="Resource_molotov"]
+script = ExtResource("7_spawn")
+manifest_scene = ExtResource("8_manifest")
+levelup_manifest_property_overrides = {
+"damage": 50.0
+}
+use_hold_to_aim = true
+preview_shape = 2
+preview_radius = 150.0
+preview_target_radius = 44.0
+preview_fill_color = Color(1, 0.25, 0.05, 0.1)
+preview_border_color = Color(1, 0.45, 0.12, 0.65)
+preview_target_fill_color = Color(1, 0.2, 0.05, 0.22)
+preview_target_border_color = Color(1, 0.7, 0.18, 0.9)
 
 [resource]
 script = ExtResource("2_xesd1")
@@ -15,7 +32,8 @@ tooltip = "使用后对范围内的所有敌人造成一次20点火焰伤害并�
 升级：使用后的范围火焰伤害提升到50点"
 price = 3
 level = 2
-tags = Array[ExtResource("3_fjyer")]([ExtResource("5_00ani"), ExtResource("6_8jaqb")])
+tags = Array[ExtResource("3_fjyer")]([ExtResource("5_00ani"), ExtResource("8_xd3uu")])
 id = "040"
 is_consumable = true
+effects = Array[ExtResource("1_l5acs")]([SubResource("Resource_molotov")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

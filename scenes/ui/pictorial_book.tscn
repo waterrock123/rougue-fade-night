@@ -1,7 +1,11 @@
 [gd_scene format=3 uid="uid://b44o355325f22"]
 
+[ext_resource type="Texture2D" uid="uid://vroo8ie32nlr" path="res://assets/ai art/图鉴背景.png" id="1_fgeyd"]
 [ext_resource type="Texture2D" uid="uid://313csfw3voyr" path="res://assets/art/arrow_small.png" id="1_flol5"]
 [ext_resource type="Texture2D" uid="uid://7eek2jxk3xu8" path="res://assets/art/arrow_small_disabled.png" id="2_sk78d"]
+[ext_resource type="PackedScene" uid="uid://dlqom454mpwmd" path="res://scenes/ui/pictorial_equipment_ui.tscn" id="4_fgeyd"]
+[ext_resource type="PackedScene" uid="uid://bom68ek5h4i6t" path="res://scenes/ui/equipment_book_detail_ui.tscn" id="5_n62xx"]
+[ext_resource type="Script" uid="uid://be2olykgt7ysb" path="res://scripts/ui/pictorial_book.gd" id="6_script"]
 
 [sub_resource type="Theme" id="Theme_flol5"]
 
@@ -15,6 +19,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("6_script")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=592138387]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_fgeyd")
 
 [node name="Panel" type="Panel" parent="." unique_id=2058758307]
 layout_mode = 1
@@ -26,14 +40,16 @@ grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel" unique_id=236335094]
 layout_mode = 0
-offset_left = 284.0
-offset_top = 77.0
-offset_right = 456.0
-offset_bottom = 127.0
+offset_left = 305.0
+offset_top = 30.0
+offset_right = 541.0
+offset_bottom = 80.0
 scale = Vector2(1.5, 1.5)
 theme = SubResource("Theme_flol5")
+alignment = 1
 
-[node name="TextureButton" type="TextureButton" parent="Panel/HBoxContainer" unique_id=1635603830]
+[node name="LeftButton" type="TextureButton" parent="Panel/HBoxContainer" unique_id=1635603830]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -44,12 +60,14 @@ stretch_mode = 4
 flip_h = true
 
 [node name="DivideLabel" type="Label" parent="Panel/HBoxContainer" unique_id=45847615]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "装备"
 label_settings = SubResource("LabelSettings_fgeyd")
 
-[node name="TextureButton2" type="TextureButton" parent="Panel/HBoxContainer" unique_id=66132687]
+[node name="RightButton" type="TextureButton" parent="Panel/HBoxContainer" unique_id=66132687]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -58,10 +76,32 @@ texture_normal = ExtResource("1_flol5")
 texture_pressed = ExtResource("2_sk78d")
 stretch_mode = 4
 
-[node name="GridContainer" type="GridContainer" parent="Panel" unique_id=872804782]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="PictorialBookBar" type="ScrollContainer" parent="Panel" unique_id=2051121753]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+offset_left = 40.0
+offset_top = 116.0
+offset_right = 942.0
+offset_bottom = 1079.0
+
+[node name="GridContainer" type="GridContainer" parent="Panel/PictorialBookBar" unique_id=872804782]
+layout_mode = 2
+theme_override_constants/h_separation = 60
+theme_override_constants/v_separation = 10
+columns = 3
+
+[node name="PictorialEquipmentUI" parent="Panel/PictorialBookBar/GridContainer" unique_id=2111745671 instance=ExtResource("4_fgeyd")]
+layout_mode = 2
+
+[node name="PictorialEquipmentUI2" parent="Panel/PictorialBookBar/GridContainer" unique_id=1865939274 instance=ExtResource("4_fgeyd")]
+layout_mode = 2
+
+[node name="PictorialEquipmentUI3" parent="Panel/PictorialBookBar/GridContainer" unique_id=288659001 instance=ExtResource("4_fgeyd")]
+layout_mode = 2
+
+[node name="PictorialEquipmentUI10" parent="Panel/PictorialBookBar/GridContainer" unique_id=2131545003 instance=ExtResource("4_fgeyd")]
+layout_mode = 2
 
 [node name="Panel2" type="Panel" parent="." unique_id=2069729535]
 layout_mode = 1
@@ -72,3 +112,32 @@ anchor_bottom = 1.0
 offset_left = -0.5999756
 grow_horizontal = 0
 grow_vertical = 2
+
+[node name="DetailContainer" type="MarginContainer" parent="Panel2" unique_id=877579622]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(512, 512)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -433.5
+offset_top = -302.0
+offset_right = 448.5
+offset_bottom = 329.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EquipmentBookDetail" parent="Panel2/DetailContainer" unique_id=1707232738 instance=ExtResource("5_n62xx")]
+layout_mode = 2
+
+[node name="ExitButton" type="Button" parent="Panel2" unique_id=310382883]
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 0
+offset_left = 598.0
+offset_top = 39.0
+offset_right = 854.0
+offset_bottom = 167.0
+theme_override_font_sizes/font_size = 64
+text = "退出"

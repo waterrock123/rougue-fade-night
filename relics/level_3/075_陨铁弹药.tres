@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://6rdaxqv0b6hi"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_3tyaj"]
+[ext_resource type="Texture2D" uid="uid://bmkgx7yeerl8f" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc191.png" id="2_qnajq"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_3vxkl"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_gy2yu"]
+[ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="5_778vr"]
+[ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="6_t0xy2"]
+
+[resource]
+script = ExtResource("3_3vxkl")
+relic_name = "陨铁弹药"
+icon = ExtResource("2_qnajq")
+tooltip = "使你投射物基础伤害+3；售价降低为2
+升级：击杀敌人时有0.5%的概率获得一金币"
+desc = "可惜，这种子弹不会反弹"
+price = 2
+level = 3
+tags = Array[ExtResource("4_gy2yu")]([ExtResource("5_778vr"), ExtResource("6_t0xy2")])
+id = "075"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

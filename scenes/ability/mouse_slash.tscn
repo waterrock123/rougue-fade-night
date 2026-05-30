@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://bfqcao3v7sqjc"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_rn5wc"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_vm83n"]
+[ext_resource type="Script" uid="uid://bm3se2ase8cin" path="res://scripts/ability/component/ability_lock_movement.gd" id="3_p0fhn"]
+[ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="4_ommn6"]
+[ext_resource type="Script" uid="uid://bxl5nmydjpga5" path="res://scripts/ability/component/ability_get_targets.gd" id="5_5i6x3"]
+[ext_resource type="Script" uid="uid://f7xudf47t0wm" path="res://scripts/ability/component/ability_deal_damage.gd" id="6_l10g4"]
+[ext_resource type="Script" uid="uid://dcukpvvpmebnv" path="res://scripts/stats/damage_scaling_rule.gd" id="7_8brpc"]
+[ext_resource type="Script" uid="uid://cu47jfxlm080o" path="res://scripts/ability/component/ability_play_sound.gd" id="8_3tcrm"]
+[ext_resource type="AudioStream" uid="uid://bfj8vxy0sfsyh" path="res://assets/Sound/Sword Impact Hit 1.wav" id="9_h03i0"]
+[ext_resource type="AudioStream" uid="uid://c7vdv8qlqgw3q" path="res://assets/Sound/Sword Impact Hit 2.wav" id="10_0xgga"]
+[ext_resource type="AudioStream" uid="uid://cqxc2cx4bdue1" path="res://assets/Sound/Sword Impact Hit 3.wav" id="11_v0eax"]
+[ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="12_jc526"]
+
+[sub_resource type="Resource" id="Resource_do2dv"]
+script = ExtResource("7_8brpc")
+formula_mode = 1
+metadata/_custom_type_script = "uid://dcukpvvpmebnv"
+
+[sub_resource type="Resource" id="Resource_025o3"]
+script = ExtResource("12_jc526")
+audio_streams = Array[AudioStream]([ExtResource("9_h03i0"), ExtResource("10_0xgga"), ExtResource("11_v0eax")])
+volume_db = 5.0
+bus = &"sfx"
+metadata/_custom_type_script = "uid://cfgrgm03strrd"
+
+[node name="MouseSlash" type="Node" unique_id=571249044]
+script = ExtResource("1_rn5wc")
+
+[node name="AbilityAnimationRunner" type="Node" parent="." unique_id=856575273]
+script = ExtResource("2_vm83n")
+animation_name = "attack"
+metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
+
+[node name="AbilityLockMovement" type="Node" parent="." unique_id=1040980104]
+script = ExtResource("3_p0fhn")
+lock_duration = 1.0
+metadata/_custom_type_script = "uid://bm3se2ase8cin"
+
+[node name="DealDamageGroup" type="Node" parent="." unique_id=1224669303]
+script = ExtResource("4_ommn6")
+delay = 0.5
+
+[node name="AbilityGetTargets" type="Node" parent="DealDamageGroup" unique_id=1666407496]
+script = ExtResource("5_5i6x3")
+radius = 20.0
+target_mode = 2
+metadata/_custom_type_script = "uid://bxl5nmydjpga5"
+
+[node name="AbilityDealDamage" type="Node" parent="DealDamageGroup" unique_id=124570909]
+script = ExtResource("6_l10g4")
+scaling_rule = SubResource("Resource_do2dv")
+metadata/_custom_type_script = "uid://f7xudf47t0wm"
+
+[node name="PlayImpactSound" type="Node" parent="DealDamageGroup/AbilityDealDamage" unique_id=1134532102]
+script = ExtResource("8_3tcrm")
+audio_config = SubResource("Resource_025o3")
+metadata/_custom_type_script = "uid://cu47jfxlm080o"

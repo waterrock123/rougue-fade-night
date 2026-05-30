@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_ffdq6"]
 [ext_resource type="Texture2D" uid="uid://5ru0om5qh1ub" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc383.png" id="1_iejob"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_86qam"]
-[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="5_ef3ie"]
 [ext_resource type="Resource" uid="uid://sptmtn6uua85" path="res://relic_tags/寒霜tag.tres" id="6_2kt36"]
 [ext_resource type="Script" uid="uid://bhut27hdbbym8" path="res://relic_effect/use_spawn_manifest_effect.gd" id="7_spawn"]
 [ext_resource type="PackedScene" uid="uid://dwmwk842h1xwy" path="res://scenes/ability/manifest/snowball_thrown_manifest.tscn" id="8_manifest"]
@@ -28,7 +27,7 @@ tooltip = "丢出立即对小范围的敌人造成40点基础伤害并给与减�
 desc = "超级大雪球！！！"
 price = 3
 level = 1
-tags = Array[ExtResource("4_86qam")]([ExtResource("5_ef3ie"), ExtResource("6_2kt36")])
+tags = Array[ExtResource("4_86qam")]([ExtResource("6_2kt36")])
 id = "010"
 is_consumable = true
 effects = Array[ExtResource("1_dwmja")]([SubResource("Resource_snowball_throw")])

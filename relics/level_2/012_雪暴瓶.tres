@@ -13,7 +13,7 @@
 [sub_resource type="Resource" id="FrostTrailEffect"]
 script = ExtResource("7_trail_effect")
 manifest_scene = ExtResource("8_frost_way")
-spawn_interval = 0.22
+spawn_interval = 0.3
 min_spawn_distance = 10.0
 initial_spawn = false
 
@@ -28,7 +28,7 @@ metadata/_custom_type_script = "uid://neet2irr2m2g"
 script = ExtResource("1_vb4bm")
 relic_name = "雪暴瓶"
 icon = ExtResource("1_1xkss")
-tooltip = "装备后移动的路径上会短暂出现冰霜残迹，经过路径的敌人会受到2点冰冻伤害并短暂减速2秒
+tooltip = "装备后移动的路径上会短暂出现冰霜残迹，经过路径的敌人会受到1点冰冻伤害并短暂减速2秒
 升级：{speed}+2"
 desc = "可惜我们不会跳"
 price = 3

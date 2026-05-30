@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://jxnlxdxhnspq"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_gbcvk"]
+[ext_resource type="Texture2D" uid="uid://c8m0xwlstxo15" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc110.png" id="2_3lh80"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_hdmhp"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_7m4ob"]
+[ext_resource type="Resource" uid="uid://dp1shjosyd3sh" path="res://relic_tags/贵人tag.tres" id="5_57381"]
+[ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="6_5366e"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" uid="uid://uv4jq8swrb0s" path="res://relic_effect/gain_random_shop_relics_effect.gd" id="8_gain_random"]
+
+[sub_resource type="Resource" id="Resource_base_luck"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"luck": 2
+}
+
+[sub_resource type="Resource" id="Resource_gain_random_relics"]
+script = ExtResource("8_gain_random")
+
+[sub_resource type="Resource" id="Resource_levelup_luck"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"luck": 2
+}
+
+[resource]
+script = ExtResource("2_hdmhp")
+relic_name = "吉祥如意"
+icon = ExtResource("2_3lh80")
+tooltip = "幸运+2，获得时立即获得随机1至3件同等阶的随机装备，有0.5%的概率获得十件随机装备
+升级:幸运额外+2"
+price = 5
+level = 2
+relic_type = 1
+tags = Array[ExtResource("3_7m4ob")]([ExtResource("5_57381"), ExtResource("6_5366e")])
+id = "066"
+effects = Array[ExtResource("1_gbcvk")]([SubResource("Resource_base_luck"), SubResource("Resource_gain_random_relics")])
+great_effects = Array[ExtResource("1_gbcvk")]([SubResource("Resource_levelup_luck")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

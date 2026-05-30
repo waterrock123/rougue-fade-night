@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cdylejfd1ndtj"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_5rrcn"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_gws57"]
+[ext_resource type="Texture2D" uid="uid://1o22wo3pgb2y" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc105.png" id="2_wu0d0"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_ihetv"]
+[ext_resource type="Resource" uid="uid://dp1shjosyd3sh" path="res://relic_tags/贵人tag.tres" id="5_8ikfk"]
+[ext_resource type="Resource" uid="uid://0d5hp57doaa0" path="res://relic_tags/塔罗tag.tres" id="6_j3u2n"]
+
+[resource]
+script = ExtResource("2_gws57")
+relic_name = "女祭司"
+icon = ExtResource("2_wu0d0")
+tooltip = "智力+2，幸运+2
+升级：你的暴击倍率提升50%"
+desc = "贵人相助"
+price = 4
+level = 3
+tags = Array[ExtResource("3_ihetv")]([ExtResource("5_8ikfk"), ExtResource("6_j3u2n")])
+id = "060"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

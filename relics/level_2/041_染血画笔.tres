@@ -6,6 +6,20 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_jpja3"]
 [ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_x7w58"]
 [ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="6_2e1n4"]
+[ext_resource type="Script" uid="uid://dhcop240icoa7" path="res://relic_effect/battle_start_self_damage_effect.gd" id="7_battle_start_damage"]
+[ext_resource type="Script" uid="uid://bkix4mcf0vbaw" path="res://relic_effect/damage_taken_energy_gain_effect.gd" id="8_energy_gain"]
+
+[sub_resource type="Resource" id="Resource_start_damage"]
+script = ExtResource("7_battle_start_damage")
+damage = 5.0
+ignore_when_relic_levelup = true
+
+[sub_resource type="Resource" id="Resource_energy_gain"]
+script = ExtResource("8_energy_gain")
+
+[sub_resource type="Resource" id="Resource_levelup_start_damage"]
+script = ExtResource("7_battle_start_damage")
+damage = 2.0
 
 [resource]
 script = ExtResource("2_2kl53")
@@ -17,4 +31,6 @@ price = 3
 level = 2
 tags = Array[ExtResource("3_jpja3")]([ExtResource("5_x7w58"), ExtResource("6_2e1n4")])
 id = "041"
+effects = Array[ExtResource("1_71jyc")]([SubResource("Resource_start_damage"), SubResource("Resource_energy_gain")])
+great_effects = Array[ExtResource("1_71jyc")]([SubResource("Resource_levelup_start_damage")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

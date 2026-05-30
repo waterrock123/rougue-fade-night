@@ -97,6 +97,8 @@ func _close_run_package_ui() -> void:
 		run.attributes_panel.close_panel()
 	if run.skill_overview_panel != null:
 		run.skill_overview_panel.close_panel()
+	if run.tag_effect_ui != null:
+		run.tag_effect_ui.close_panel()
 
 
 # 离开修整期前给商店老板留出说完话的时间，再做一次淡出转场。

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://c5cwym07u5l6o"]
+
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="1_base"]
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="2_data"]
+[ext_resource type="Texture2D" uid="uid://dii03t20yck3p" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb623.png" id="3_icon"]
+[ext_resource type="Script" uid="uid://bam0h0kpnlj7e" path="res://scripts/status/status_control_effect.gd" id="4_control"]
+
+[sub_resource type="Resource" id="RootControlEffect"]
+script = ExtResource("4_control")
+reduction_per_point = 0.025
+max_percent_reduction = 0.6
+min_duration = 0.25
+
+[resource]
+script = ExtResource("2_data")
+id = &"root_entangle"
+status_name = "根须缠绕"
+desc = "控制类状态，使目标被根须缠住，短时间无法行动；体质越高，持续时间越短。"
+icon = ExtResource("3_icon")
+duration = 1.4
+effects = Array[ExtResource("1_base")]([SubResource("RootControlEffect")])

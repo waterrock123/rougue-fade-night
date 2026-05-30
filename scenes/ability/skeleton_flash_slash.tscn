@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://drg6issto55bk"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_bkgq4"]
+[ext_resource type="Script" uid="uid://bm3se2ase8cin" path="res://scripts/ability/component/ability_lock_movement.gd" id="2_77m76"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="4_sev8y"]
+[ext_resource type="Script" uid="uid://ck8q2wvmbx015" path="res://scripts/ability/component/ability_trigger_components_on_sprite_frame.gd" id="5_trigger"]
+[ext_resource type="Script" uid="uid://di4y7j2fln2w7" path="res://scripts/ability/component/ability_animation_frame_event.gd" id="6_frame_event"]
+[ext_resource type="Script" uid="uid://cdhip2x8vnygq" path="res://scripts/ability/component/ability_spawn_afterimage.gd" id="7_afterimage"]
+[ext_resource type="Script" uid="uid://w0ytv6i8ievv" path="res://scripts/ability/component/ability_teleport_behind_target.gd" id="8_teleport"]
+[ext_resource type="Script" uid="uid://cu47jfxlm080o" path="res://scripts/ability/component/ability_play_sound.gd" id="9_1d06k"]
+[ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="9_group"]
+[ext_resource type="AudioStream" uid="uid://cu8hp4jelt7o6" path="res://assets/400 Sounds Pack (1)/Footsteps/digital/digital_footstep_wood_2.wav" id="9_l602f"]
+[ext_resource type="Script" uid="uid://bxl5nmydjpga5" path="res://scripts/ability/component/ability_get_targets.gd" id="10_get_targets"]
+[ext_resource type="Script" uid="uid://f7xudf47t0wm" path="res://scripts/ability/component/ability_deal_damage.gd" id="11_damage"]
+[ext_resource type="Script" uid="uid://dcukpvvpmebnv" path="res://scripts/stats/damage_scaling_rule.gd" id="12_scaling"]
+[ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="13_kqd3i"]
+
+[sub_resource type="Resource" id="Resource_flash_move_event"]
+script = ExtResource("6_frame_event")
+frame = 5
+component_names = Array[String](["SpawnAfterimageBefore", "TeleportBehindTarget", "SpawnAfterimageAfter"])
+
+[sub_resource type="Resource" id="Resource_flash_damage_event"]
+script = ExtResource("6_frame_event")
+frame = 10
+component_names = Array[String](["FlashSlashDamageGroup"])
+
+[sub_resource type="Resource" id="Resource_bkgq4"]
+script = ExtResource("13_kqd3i")
+audio_streams = Array[AudioStream]([ExtResource("9_l602f")])
+bus = &"sfx"
+metadata/_custom_type_script = "uid://cfgrgm03strrd"
+
+[sub_resource type="Resource" id="Resource_flash_damage_scaling"]
+script = ExtResource("12_scaling")
+formula_mode = 1
+metadata/_custom_type_script = "uid://dcukpvvpmebnv"
+
+[node name="SkeletonFlashSlash" type="Node" unique_id=571249044]
+script = ExtResource("1_bkgq4")
+cooldown = 8.0
+ai_max_cast_distance = 380.0
+
+[node name="AbilityLockMovement" type="Node" parent="." unique_id=492034158]
+script = ExtResource("2_77m76")
+lock_duration = 1.8
+
+[node name="AbilityAnimationRunner" type="Node" parent="." unique_id=856575273]
+script = ExtResource("4_sev8y")
+animation_name = "flash_slash"
+metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
+
+[node name="FrameEventController" type="Node" parent="." unique_id=917717556]
+script = ExtResource("5_trigger")
+animation_name = "flash_slash"
+animated_sprite_path = NodePath("../../../AnimatedSprite2D")
+frame_events = Array[ExtResource("6_frame_event")]([SubResource("Resource_flash_move_event"), SubResource("Resource_flash_damage_event")])
+start_wait_time = 0.2
+
+[node name="SpawnAfterimageBefore" type="Node" parent="." unique_id=1028126622]
+script = ExtResource("7_afterimage")
+lifetime = 0.38
+tint_color = Color(0.42, 0.02, 0.07, 1)
+auto_activate = false
+
+[node name="TeleportBehindTarget" type="Node" parent="." unique_id=1587082752]
+script = ExtResource("8_teleport")
+behind_distance = 38.0
+fallback_search_radius = 380.0
+auto_activate = false
+
+[node name="AbilityPlaySound" type="Node" parent="." unique_id=414018163]
+script = ExtResource("9_1d06k")
+audio_config = SubResource("Resource_bkgq4")
+metadata/_custom_type_script = "uid://cu47jfxlm080o"
+
+[node name="SpawnAfterimageAfter" type="Node" parent="." unique_id=1870880233]
+script = ExtResource("7_afterimage")
+lifetime = 0.24
+start_alpha = 0.5
+tint_color = Color(0.65, 0.03, 0.08, 1)
+edge_color = Color(1, 0.2, 0.1, 1)
+start_scale_multiplier = 0.96
+end_scale_multiplier = 1.04
+auto_activate = false
+
+[node name="FlashSlashDamageGroup" type="Node" parent="." unique_id=1224669303]
+script = ExtResource("9_group")
+auto_activate = false
+
+[node name="AbilityGetTargets" type="Node" parent="FlashSlashDamageGroup" unique_id=1666407496]
+script = ExtResource("10_get_targets")
+search_shape = 1
+radius = 64.0
+target_mode = 1
+direction_mode = 4
+sector_angle = 115.0
+metadata/_custom_type_script = "uid://bxl5nmydjpga5"
+
+[node name="AbilityDealDamage" type="Node" parent="FlashSlashDamageGroup" unique_id=124570909]
+script = ExtResource("11_damage")
+damage = 34.0
+tags = Array[String](["skill", "flash_slash", "melee"])
+scaling_rule = SubResource("Resource_flash_damage_scaling")
+metadata/_custom_type_script = "uid://f7xudf47t0wm"

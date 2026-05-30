@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cx5o1iv6fsckc"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_conxs"]
+[ext_resource type="Texture2D" uid="uid://1o22wo3pgb2y" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc105.png" id="2_aaias"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_0f5wi"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_2ydsa"]
+[ext_resource type="Resource" uid="uid://0d5hp57doaa0" path="res://relic_tags/塔罗tag.tres" id="5_0f5wi"]
+[ext_resource type="Resource" uid="uid://bhvriwrr7jduc" path="res://relic_tags/战狂tag.tres" id="6_2ydsa"]
+
+[resource]
+script = ExtResource("3_0f5wi")
+relic_name = "战车"
+icon = ExtResource("2_aaias")
+tooltip = "力量+2，体质+2
+升级：每次你造成伤害时都将恢复1点生命，每两秒最多触发一次"
+desc = "永不停歇"
+price = 4
+tags = Array[ExtResource("4_2ydsa")]([ExtResource("5_0f5wi"), ExtResource("6_2ydsa")])
+id = "069"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

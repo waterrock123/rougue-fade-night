@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b4gwboiqs6vmh"]
+[gd_scene format=3 uid="uid://t037vly17u5c"]
 
 [ext_resource type="Script" uid="uid://2w51uq128cy0" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1_a50mv"]
 [ext_resource type="AudioStream" uid="uid://bfj8vxy0sfsyh" path="res://assets/Sound/Sword Impact Hit 1.wav" id="2_4ycrp"]

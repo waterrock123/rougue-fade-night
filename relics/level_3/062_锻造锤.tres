@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dnvowm7wuwpd6"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_aplr5"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_4xopv"]
+[ext_resource type="Texture2D" uid="uid://ckngwu775jvh8" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc126.png" id="2_rspnc"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_holk4"]
+[ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_lji6y"]
+[ext_resource type="Resource" uid="uid://d1qaxn6s7eqj0" path="res://relic_tags/历战tag.tres" id="6_8yvi0"]
+
+[resource]
+script = ExtResource("2_4xopv")
+relic_name = "锻造锤"
+icon = ExtResource("2_rspnc")
+tooltip = "战斗结束时立即消耗背包内随机一个原料，使其变为相同等阶的其他装备
+升级：立即消耗背包随机两个原料，使其变为相同等阶的其他装备"
+desc = "这是锻造锤？不，这是百宝锤！"
+price = 4
+level = 3
+tags = Array[ExtResource("3_holk4")]([ExtResource("5_lji6y"), ExtResource("6_8yvi0")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

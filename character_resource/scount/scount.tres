@@ -134,6 +134,7 @@ metadata/_custom_type_script = "uid://dv58keclglu12"
 
 [resource]
 script = ExtResource("1_h4k1b")
+id = &"scount"
 character_name = "浪子"
 description = "游侠，盗贼，赏金猎人，他更喜欢称自己为浪子。只接受自己喜欢的委托。鉴于已经许久没见过夜色，他得启程寻回自己的夜晚。"
 background = ExtResource("1_uydww")

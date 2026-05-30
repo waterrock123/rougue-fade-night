@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cbkysmiysfxwi"]
+
+[ext_resource type="Script" uid="uid://bj4j73f88y3l6" path="res://scripts/ability/manifest/ally_periodic_field_manifest.gd" id="1_field"]
+[ext_resource type="Resource" uid="uid://8iko8psqos2d" path="res://status/spirit_haste.tres" id="2_haste"]
+[ext_resource type="Texture2D" uid="uid://cjvqs8daffsfc" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa968.png" id="3_74aly"]
+
+[node name="SpiritHealingFieldManifest" type="Node2D" unique_id=1944231835]
+z_index = -2
+script = ExtResource("1_field")
+radius = 50.0
+heal_amount = 1.0
+status_data = ExtResource("2_haste")
+status_duration_override = 2.0
+fill_color = Color(0.29, 0.95, 0.58, 0.18)
+outline_color = Color(0.78, 1, 0.86, 0.78)
+pulse_speed = 2.4
+pulse_radius = 2.5
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=2136889688]
+amount = 12
+texture = ExtResource("3_74aly")
+emission_shape = 1
+emission_sphere_radius = 50.0
+gravity = Vector2(0, -10)
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+damping_min = 0.2
+damping_max = 2.0
+scale_amount_min = 0.2
+scale_amount_max = 0.5

@@ -29,7 +29,7 @@ func set_tool_tip(relic:Relic) -> void:
 	keyword_explain_panel = get_node_or_null("HBoxContainer/KeywordExplainPanel") as KeywordExplainPanel
 
 	name_label.text = relic.relic_name
-	price_label.text = price_label.text.format([relic.sell_price])
+	price_label.text = price_label.text.format([relic.get_effective_sell_price()])
 	texture_rect.texture = relic.icon
 	level_label.text = level_label.text.format([relic.level])
 	level_label.label_settings.font_color = LevelColor[clamp((relic.level)-1, 0, LevelColor.size() - 1)]

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b34cmllws371d"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_so6xl"]
+[ext_resource type="Texture2D" uid="uid://n2i5vraqsrk3" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc57.png" id="2_0ye7p"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_5ny5t"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_c5iyf"]
+[ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_kdyio"]
+[ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="6_e0ipn"]
+
+[resource]
+script = ExtResource("3_5ny5t")
+relic_name = "炼药台"
+icon = ExtResource("2_0ye7p")
+tooltip = "若获得时背包里不存在原料则获得一个原料并消耗自身否则将随机两个原料变为带加工品标签不高于你商店等阶的物品
+升级：战斗结束后获得一件随机加工品"
+price = 4
+level = 3
+tags = Array[ExtResource("4_c5iyf")]([ExtResource("5_kdyio"), ExtResource("6_e0ipn")])
+id = "095"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

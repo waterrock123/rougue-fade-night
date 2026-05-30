@@ -160,7 +160,7 @@ func bag_update():
 	for i in range(bag_slots.size()):
 		var inventory_slot: Slot = bag_inventory.slots[i]
 		if inventory_slot != null and bag_slots[i].has_method("set_locked_state"):
-			bag_slots[i].set_locked_state(inventory_slot.is_locked)
+			bag_slots[i].set_locked_state(bag_inventory.is_slot_locked_for_use(i))
 
 		if !inventory_slot:
 			_clear_slot_button(bag_slots[i])
@@ -303,7 +303,7 @@ func _update_sell_preview() -> void:
 		return
 
 	if _is_mouse_over_sell_target():
-		mouse_relic.show_sell_price(relic.sell_price)
+		mouse_relic.show_sell_price(relic.get_effective_sell_price())
 	else:
 		mouse_relic.hide_sell_price()
 
@@ -318,7 +318,7 @@ func _try_sell_mouse_relic() -> bool:
 	if relic == null:
 		return false
 
-	run_stats.set_gold(run_stats.gold + max(relic.sell_price, 0))
+	run_stats.set_gold(run_stats.gold + relic.get_effective_sell_price())
 	relic.sell_relic(self, null, "sold_%s" % relic.id)
 	AudioController.play_ui_sound(&"sell_item")
 	EventBus.relic_sold.emit(relic)

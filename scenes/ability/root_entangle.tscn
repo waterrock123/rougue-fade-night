@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://hin07cf3q6nr"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" uid="uid://c0406ti2t3gqu" path="res://scripts/ability/component/ability_target_player.gd" id="2_target_player"]
+[ext_resource type="Script" uid="uid://b04m76mr3gxjb" path="res://scripts/ability/component/ability_lock_target_position.gd" id="3_lock_position"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="4_ix5eb"]
+[ext_resource type="Script" uid="uid://clk5ln8ax2vh1" path="res://scripts/ability/component/ability_enemy_telegraph.gd" id="4_telegraph"]
+[ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="5_group"]
+[ext_resource type="Script" uid="uid://bxl5nmydjpga5" path="res://scripts/ability/component/ability_get_targets.gd" id="6_get_targets"]
+[ext_resource type="Script" uid="uid://f7xudf47t0wm" path="res://scripts/ability/component/ability_deal_damage.gd" id="7_damage"]
+[ext_resource type="PackedScene" uid="uid://c7hunf60cix0i" path="res://scenes/ability/manifest/root_manifest.tscn" id="8_4jhyr"]
+[ext_resource type="Script" uid="uid://b4uob75uv1uqu" path="res://scripts/ability/component/ability_apply_status.gd" id="8_apply_status"]
+[ext_resource type="Script" uid="uid://dcukpvvpmebnv" path="res://scripts/stats/damage_scaling_rule.gd" id="9_scaling"]
+[ext_resource type="Resource" uid="uid://c5cwym07u5l6o" path="res://status/root_entangle.tres" id="10_status"]
+[ext_resource type="Script" uid="uid://bj4m7sjslwicx" path="res://scripts/ability/component/ability_spawn_manifest.gd" id="11_spawn"]
+
+[sub_resource type="Resource" id="NoScalingDamageRule"]
+script = ExtResource("9_scaling")
+enabled = false
+
+[node name="RootEntangle" type="Node" unique_id=440007395]
+script = ExtResource("1_ability")
+cooldown = 6.0
+energy_cost = 0.0
+
+[node name="TargetPlayer" type="Node" parent="." unique_id=534679993]
+script = ExtResource("2_target_player")
+
+[node name="LockTargetPosition" type="Node" parent="." unique_id=1764439527]
+script = ExtResource("3_lock_position")
+
+[node name="AbilityAnimationRunner" type="Node" parent="." unique_id=1714802986]
+script = ExtResource("4_ix5eb")
+animation_name = "attack"
+metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
+
+[node name="RootWarning" type="Node" parent="." unique_id=316539293]
+script = ExtResource("4_telegraph")
+shape = 1
+direction_mode = 2
+range = 70.0
+origin_mode = 1
+warning_duration = 0.75
+fill_color = Color(0.45, 0.12, 0.04, 0.3)
+border_color = Color(0.95, 0.22, 0.08, 0.9)
+border_width = 2.5
+pulse_scale = 1.04
+write_direction_to_context = false
+
+[node name="RootHitGroup" type="Node" parent="." unique_id=711647685]
+script = ExtResource("5_group")
+delay = 0.75
+
+[node name="SpawnRootVinesManifest" type="Node" parent="RootHitGroup" unique_id=1275887212]
+script = ExtResource("11_spawn")
+manifest_scene = ExtResource("8_4jhyr")
+origin_mode = 1
+rotate_to_direction = false
+
+[node name="GetTargetsInRoot" type="Node" parent="RootHitGroup" unique_id=98492611]
+script = ExtResource("6_get_targets")
+radius = 70.0
+origin_mode = 1
+target_mode = 1
+
+[node name="DealRootDamage" type="Node" parent="RootHitGroup" unique_id=508407910]
+script = ExtResource("7_damage")
+can_crit = false
+tags = Array[String](["skill", "root_entangle"])
+scaling_rule = SubResource("NoScalingDamageRule")
+
+[node name="ApplyRootStatus" type="Node" parent="RootHitGroup" unique_id=1108236427]
+script = ExtResource("8_apply_status")
+status_data = ExtResource("10_status")

@@ -13,7 +13,7 @@ extends AbilityManifest
 @export var damage = 10.0
 @export var can_crit: bool = true
 @export var damage_types: Array[int] = [DamageData.DamageType.RANGED]
-@export var tags: Array[String] = ["projectile"]
+@export var tags: Array[String] = ["manifest", "projectile", "ranged"]
 @export var scaling_rule: DamageScalingRule = DamageScalingRule.new()
 @export var is_penetrate = false
 
@@ -31,6 +31,7 @@ func activate(context: AbilityContext):
 	source = context.caster
 	source_ability_id = context.ability.id if context.ability != null else &""
 	source_ability_slot_index = context.ability.runtime_slot_index if context.ability != null else -1
+	_apply_projectile_range_bonus()
 	if not EventBus.game_paused.is_connected(_handle_game_pause):
 		EventBus.game_paused.connect(_handle_game_pause)
 	if not EventBus.scene_changed.is_connected(_handle_scene_changed):
@@ -84,7 +85,7 @@ func _handle_scene_changed(scene: String):
 # 真正的暴击、成长、减伤都不在这里写死，而是走后面的统一链路。
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	var parent = area.get_parent()
-	if parent == null or not parent.is_in_group(target_group):
+	if parent == null or not _matches_target_group(parent):
 		return
 
 	if parent is Entity:
@@ -125,3 +126,25 @@ func _get_valid_source() -> Entity:
 	if not is_instance_valid(source):
 		return null
 	return source
+
+
+func _matches_target_group(node: Node) -> bool:
+	if target_group.is_empty():
+		return true
+	if node is Entity:
+		return (node as Entity).matches_target_group(StringName(target_group))
+	return node.is_in_group(target_group)
+
+
+func _apply_projectile_range_bonus() -> void:
+	if source == null or source.stats_controller == null:
+		return
+
+	var bonus_rate = max(source.stats_controller.get_stat(&"projectile_range_bonus_rate"), 0.0)
+	if bonus_rate <= 0.0:
+		return
+	if not tags.has("projectile"):
+		return
+
+	# 只对 projectile 标签的 manifest 生效，抛射物、近战特效等不会被长弓误增程。
+	max_distance *= 1.0 + bonus_rate

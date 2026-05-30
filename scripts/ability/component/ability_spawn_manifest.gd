@@ -3,8 +3,16 @@
 class_name AbilitySpawnManifest
 extends AbilityComponent
 
+enum OriginMode {
+	## 从施法者当前位置生成，保留投射物、斩击等旧技能的默认行为。
+	CASTER,
+	## 从 AbilityContext.targets[0] 的位置生成，适合根须、落雷、地刺等定点表现。
+	FIRST_TARGET,
+}
+
 @export var manifest_scene: PackedScene
 @export var set_as_child: bool = false
+@export var origin_mode: OriginMode = OriginMode.CASTER
 @export var spawn_offset: Vector2 = Vector2.ZERO
 @export var scale_multiplier: float = 1.0
 
@@ -31,19 +39,17 @@ func _activate(context: AbilityContext) -> void:
 	var final_offset := spawn_offset
 	if use_directional_offset:
 		final_offset += _get_directional_offset(direction)
+	var spawn_position := _get_spawn_origin_position(context) + final_offset
 
 	if set_as_child:
 		caster.add_child(ability_manifest)
-		if use_directional_offset:
-			ability_manifest.global_position = caster.global_position + final_offset
-		else:
-			ability_manifest.position = spawn_offset
 	else:
 		var root := get_tree().current_scene
 		if root == null:
 			root = get_tree().root
 		root.add_child(ability_manifest)
-		ability_manifest.global_position = caster.global_position + final_offset
+
+	ability_manifest.global_position = spawn_position
 
 	if rotate_to_direction and direction != Vector2.ZERO:
 		ability_manifest.global_rotation = direction.angle()
@@ -62,6 +68,17 @@ func _get_spawn_direction(context: AbilityContext) -> Vector2:
 
 	var facing := context.caster.get_facing_direction()
 	return facing.normalized() if facing != Vector2.ZERO else Vector2.RIGHT
+
+
+func _get_spawn_origin_position(context: AbilityContext) -> Vector2:
+	if origin_mode == OriginMode.FIRST_TARGET and not context.targets.is_empty():
+		var target = context.targets[0]
+		if target is Node2D:
+			return (target as Node2D).global_position
+		if target is Vector2:
+			return target
+
+	return context.caster.global_position
 
 
 func _get_directional_offset(direction: Vector2) -> Vector2:

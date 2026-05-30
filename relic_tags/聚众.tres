@@ -4,4 +4,6 @@
 
 [resource]
 script = ExtResource("1_t5lpd")
+color = Color(0.5457633, 0.80649287, 0.90047187, 1)
+tag_name = "聚众"
 metadata/_custom_type_script = "uid://bts8j8jm6rdpv"

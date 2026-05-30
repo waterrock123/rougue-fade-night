@@ -15,7 +15,7 @@
 [ext_resource type="Resource" uid="uid://daijrx1c0axll" path="res://resource/enemy/skeleton.tres" id="12_iumoe"]
 [ext_resource type="Script" uid="uid://87nmt5jrle4v" path="res://scripts/status/status_controller.gd" id="13_status"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_i0f3v"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_esqea"]
 shader = ExtResource("2_haw2w")
 shader_parameter/hurt_color = Vector4(1, 0, 0, 1)
 shader_parameter/is_hurt = false
@@ -184,7 +184,7 @@ region = Rect2(768, 0, 96, 64)
 atlas = ExtResource("4_bnirc")
 region = Rect2(864, 0, 96, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_xrus2"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_cnn8m"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -331,8 +331,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w4hcs"]
-radius = 12.500001
-height = 47.500008
+radius = 18.333334
+height = 56.666668
 
 [sub_resource type="Gradient" id="Gradient_xrus2"]
 offsets = PackedFloat32Array(0, 0.67164177, 1)
@@ -342,16 +342,16 @@ colors = PackedColorArray(0.9326247, 0.9326248, 0.93262464, 1, 0.6862745, 0.6862
 z_index = 100
 scale = Vector2(0.6, 0.6)
 script = ExtResource("1_ivqcw")
-stop_distance = 40.0
+stop_distance = 30.0
 aggresive = true
 memory = 5.0
 hit_particles = NodePath("HitParticles")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1021479709]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=803746695]
 texture_filter = 1
-material = SubResource("ShaderMaterial_i0f3v")
+material = SubResource("ShaderMaterial_esqea")
 position = Vector2(5.684342e-14, -2.842171e-14)
-sprite_frames = SubResource("SpriteFrames_xrus2")
+sprite_frames = SubResource("SpriteFrames_cnn8m")
 animation = &"idle"
 autoplay = "idle"
 
@@ -359,13 +359,14 @@ autoplay = "idle"
 script = ExtResource("6_haw2w")
 metadata/_custom_type_script = "uid://cifh43jnsuld4"
 
-[node name="SkeletonSlash" parent="AbilityController" unique_id=958036520 instance=ExtResource("7_i0f3v")]
+[node name="SkeletonSlash" parent="AbilityController" unique_id=571249044 instance=ExtResource("7_i0f3v")]
 energy_cost = 0.0
+ai_max_cast_distance = 42.0
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2025394787]
-position = Vector2(0, 7.5)
+position = Vector2(-1.6666667, 8.333333)
 scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("CapsuleShape2D_w4hcs")
 
@@ -394,5 +395,3 @@ script = ExtResource("13_status")
 
 [node name="VFXAnchor" type="Node2D" parent="." unique_id=1794685461]
 position = Vector2(0, 28.333334)
-
-[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

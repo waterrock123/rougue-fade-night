@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cr8kcqn3mtm55"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_v5ffr"]
+[ext_resource type="Texture2D" uid="uid://d2tl6mmlon5oi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1563.png" id="2_7ycq5"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_hvtnm"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_7ycq5"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_4t2rs"]
+[ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="6_ktsi4"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://relic_effect/add_derived_stat_effect.gd" id="8_add_derived"]
+
+[sub_resource type="Resource" id="Resource_base_dexterity"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"dexterity": 2
+}
+
+[sub_resource type="Resource" id="Resource_projectile_range"]
+script = ExtResource("8_add_derived")
+add_derived_stats = {
+"projectile_range_bonus_rate": 0.3
+}
+
+[sub_resource type="Resource" id="Resource_levelup_dexterity"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"dexterity": 1
+}
+
+[resource]
+script = ExtResource("2_hvtnm")
+relic_name = "长弓"
+icon = ExtResource("2_7ycq5")
+tooltip = "敏捷+2，由你发出的投射物最远飞行距离+30%
+升级：敏捷额外+1"
+price = 3
+level = 2
+tags = Array[ExtResource("3_7ycq5")]([ExtResource("5_4t2rs"), ExtResource("6_ktsi4")])
+id = "067"
+effects = Array[ExtResource("1_v5ffr")]([SubResource("Resource_base_dexterity"), SubResource("Resource_projectile_range")])
+great_effects = Array[ExtResource("1_v5ffr")]([SubResource("Resource_levelup_dexterity")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

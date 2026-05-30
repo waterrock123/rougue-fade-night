@@ -11,10 +11,15 @@ extends RelicEffect
 @export var damage_types: Array[int] = [DamageData.DamageType.PHYSICAL]
 ## 伤害标签，方便后续被动或状态判断“这是进场自伤”。
 @export var tags: Array[String] = ["relic", "battle_start", "self_damage"]
+## 勾选后，升级态遗物会跳过这条基础进场自伤。
+## 适合“升级后自伤数值变低”的装备：基础效果跳过，great_effects 再提供新的自伤数值。
+@export var ignore_when_relic_levelup: bool = false
 
 
 func on_activate(relic_context: RelicContext, effect_key) -> void:
 	if relic_context == null or not (relic_context.owner is Entity):
+		return
+	if ignore_when_relic_levelup and relic_context.own_relic != null and relic_context.own_relic.leveltip == Relic.LevelTip.LEVELUP:
 		return
 	if damage <= 0.0:
 		return

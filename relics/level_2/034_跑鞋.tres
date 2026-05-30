@@ -5,6 +5,19 @@
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_ohkpg"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_t1jhc"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_xb4r2"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="6_add_stats"]
+
+[sub_resource type="Resource" id="Resource_speed"]
+script = ExtResource("6_add_stats")
+add_stats = {
+"speed": 2
+}
+
+[sub_resource type="Resource" id="Resource_levelup_speed"]
+script = ExtResource("6_add_stats")
+add_stats = {
+"speed": 2
+}
 
 [resource]
 script = ExtResource("1_btdyy")
@@ -16,4 +29,6 @@ price = 3
 level = 2
 tags = Array[ExtResource("4_t1jhc")]([ExtResource("5_xb4r2")])
 id = "034"
+effects = Array[ExtResource("1_ohkpg")]([SubResource("Resource_speed")])
+great_effects = Array[ExtResource("1_ohkpg")]([SubResource("Resource_levelup_speed")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

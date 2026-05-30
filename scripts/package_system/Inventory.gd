@@ -4,6 +4,8 @@ extends Resource
 
 @export var slots: Array[Slot]
 
+var slot_unlock_sources: Dictionary = {}
+
 
 # 判断背包里是否还有“正常可用”的空格。
 # 锁住的空格不算正常容量，只会在普通格满时作为临时缓冲区使用。
@@ -18,8 +20,9 @@ func has_empty_locked_slot() -> bool:
 
 # 背包是否存在放在锁格里的临时装备。
 func has_locked_items() -> bool:
-	for slot_ in slots:
-		if slot_ != null and slot_.is_locked and slot_.item != null:
+	for slot_index in range(slots.size()):
+		var slot_ := slots[slot_index]
+		if slot_ != null and is_slot_locked_for_use(slot_index) and slot_.item != null:
 			return true
 
 	return false
@@ -103,10 +106,11 @@ func add_relic(relic: Relic) -> bool:
 # 清理所有锁格中的临时装备。通常在离开修整期时调用。
 func clear_locked_items() -> int:
 	var cleared_count := 0
-	for slot_ in slots:
+	for slot_index in range(slots.size()):
+		var slot_ := slots[slot_index]
 		if slot_ == null:
 			continue
-		if not slot_.is_locked:
+		if not is_slot_locked_for_use(slot_index):
 			continue
 		if slot_.item == null:
 			continue
@@ -120,6 +124,78 @@ func clear_locked_items() -> int:
 	return cleared_count
 
 
+## 按来源临时解锁若干个基础锁格。
+## Slot.is_locked 仍保留原始锁定状态，避免保存时把“临时容量”误存成永久容量。
+func unlock_locked_slots(source_key: Variant, amount: int) -> void:
+	var key := str(source_key)
+	if key.is_empty() or amount <= 0:
+		return
+
+	if slot_unlock_sources.has(key):
+		var existing_entry := slot_unlock_sources[key] as Dictionary
+		existing_entry["ref_count"] = int(existing_entry.get("ref_count", 1)) + 1
+		slot_unlock_sources[key] = existing_entry
+		EventBus.inventory_update.emit()
+		return
+
+	var unlocked_indices: Array[int] = []
+	for slot_index in range(slots.size()):
+		var slot_ := slots[slot_index]
+		if slot_ == null:
+			continue
+		if not slot_.is_locked:
+			continue
+		if _is_slot_unlocked_by_effect(slot_index):
+			continue
+
+		unlocked_indices.append(slot_index)
+		if unlocked_indices.size() >= amount:
+			break
+
+	if unlocked_indices.is_empty():
+		return
+
+	slot_unlock_sources[key] = {
+		"indices": unlocked_indices,
+		"ref_count": 1,
+	}
+	EventBus.inventory_update.emit()
+
+
+## 移除某个来源提供的临时解锁。
+## 同一件装备可能被修整期代理和战斗玩家同时激活，所以这里用 ref_count 避免互相误清理。
+func clear_unlocked_slots(source_key: Variant) -> void:
+	var key := str(source_key)
+	if key.is_empty() or not slot_unlock_sources.has(key):
+		return
+
+	var entry := slot_unlock_sources[key] as Dictionary
+	var ref_count := int(entry.get("ref_count", 1)) - 1
+	if ref_count > 0:
+		entry["ref_count"] = ref_count
+		slot_unlock_sources[key] = entry
+		EventBus.inventory_update.emit()
+		return
+
+	slot_unlock_sources.erase(key)
+	EventBus.inventory_update.emit()
+
+
+## 判断某个格子在当前运行时是否仍然不可用。
+## 基础未锁的格子永远可用；基础锁格只有在被装备效果临时解锁时才可用。
+func is_slot_locked_for_use(slot_index: int) -> bool:
+	if slot_index < 0 or slot_index >= slots.size():
+		return false
+
+	var slot_ := slots[slot_index]
+	if slot_ == null:
+		return false
+	if not slot_.is_locked:
+		return false
+
+	return not _is_slot_unlocked_by_effect(slot_index)
+
+
 func _find_empty_slot_index(locked_only: bool) -> int:
 	for slot_index in range(slots.size()):
 		var slot_ := slots[slot_index]
@@ -127,12 +203,25 @@ func _find_empty_slot_index(locked_only: bool) -> int:
 			if not locked_only:
 				return slot_index
 			continue
-		if slot_.is_locked != locked_only:
+		if is_slot_locked_for_use(slot_index) != locked_only:
 			continue
 		if slot_.item == null:
 			return slot_index
 
 	return -1
+
+
+func _is_slot_unlocked_by_effect(slot_index: int) -> bool:
+	for source_entry in slot_unlock_sources.values():
+		var entry := source_entry as Dictionary
+		if entry == null:
+			continue
+
+		var indices := entry.get("indices", []) as Array
+		if indices.has(slot_index):
+			return true
+
+	return false
 
 
 # 检查指定 id 的未升级遗物是否达到合成数量，达到后合成为一件升级态遗物。

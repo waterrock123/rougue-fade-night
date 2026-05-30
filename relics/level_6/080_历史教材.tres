@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://sx5akbl1loij"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_8kql6"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_mho0r"]
+[ext_resource type="Texture2D" uid="uid://dp232srus763e" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc101.png" id="2_rqrx8"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_wa48h"]
+[ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="5_pn6eq"]
+[ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="6_6qn5b"]
+[ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="7_vlupi"]
+
+[resource]
+script = ExtResource("2_mho0r")
+relic_name = "历史教材"
+icon = ExtResource("2_rqrx8")
+tooltip = "装备时每次战斗胜利以及获得装备时都将永久提升一点随机属性
+升级：背包内每一个存在装备的格子将提供3点最大法力值与每次法力值回复量"
+desc = "人会从历史中吸取教训。。。。吗？"
+price = 6
+level = 6
+tags = Array[ExtResource("3_wa48h")]([ExtResource("5_pn6eq"), ExtResource("6_6qn5b"), ExtResource("7_vlupi")])
+id = "080"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

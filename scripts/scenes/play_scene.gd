@@ -27,6 +27,7 @@ var consumable_use_count := 0
 
 
 func _ready() -> void:
+	EventBus.is_battle_active = false
 	player = get_tree().get_first_node_in_group("player") as Player
 	if run_stats != null and run_stats.player_build != null and player != null:
 		player.bind_player_build(run_stats.player_build)
@@ -50,11 +51,13 @@ func _ready() -> void:
 	if not EventBus.equipment_update.is_connected(_refresh_consumable_ui):
 		EventBus.equipment_update.connect(_refresh_consumable_ui)
 
-	# 所有玩家构筑、装备效果和 UI 都初始化完后，再通知“进场触发”效果结算。
+	# 所有玩家构筑、装备效果和 UI 都初始化后，再通知“进场触发”效果结算。
+	EventBus.is_battle_active = true
 	EventBus.battle_started.emit()
 
 
 func _exit_tree() -> void:
+	EventBus.is_battle_active = false
 	if EventBus.game_paused.is_connected(_handle_pause):
 		EventBus.game_paused.disconnect(_handle_pause)
 	if EventBus.equipment_update.is_connected(_refresh_consumable_ui):
@@ -129,7 +132,15 @@ func _handle_battle_completed() -> void:
 	await tween.finished
 
 	EventBus.battle_rewards_resolving.emit()
+	if _is_boss_battle_completed():
+		EventBus.game_victory.emit()
+		return
+
 	EventBus.battle_win.emit()
+
+
+func _is_boss_battle_completed() -> bool:
+	return pending_battle_stats != null and pending_battle_stats.battle_tier == 3
 
 
 # 屏幕淡出。

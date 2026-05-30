@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dmbhrib6ydbhh"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_7w3vc"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_3d6lh"]
+[ext_resource type="Texture2D" uid="uid://k13ruy7ikas" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc187.png" id="2_t1dq4"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_t1dq4"]
+[ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="5_kob5u"]
+
+[resource]
+script = ExtResource("2_3d6lh")
+relic_name = "追溯弹"
+icon = ExtResource("2_t1dq4")
+tooltip = "你的投射物将拥有追踪属性；被消耗时重新获得此装备
+升级：获得此装备时使敏捷属性永久+1"
+price = 5
+level = 5
+tags = Array[ExtResource("3_t1dq4")]([ExtResource("5_kob5u")])
+id = "078"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

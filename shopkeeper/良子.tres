@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://2d8755uj7qel" path="res://custom_resource/shop_keeper_dialogue_pool.gd" id="1_wpb77"]
 [ext_resource type="Script" uid="uid://copgj7rv7yvot" path="res://scripts/rest_period/shop_keeper.gd" id="2_3gj5w"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="2_u3850"]
-[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="3_kprfs"]
 [ext_resource type="Resource" uid="uid://cc8goxbeph36b" path="res://relics/level_1/017_生肉.tres" id="3_n5ma4"]
 [ext_resource type="Texture2D" uid="uid://d3al31f3u1305" path="res://assets/enemy/Mushroom/Mushroom with VFX/Mushroom-Idle.png" id="4_2c6nr"]
 [ext_resource type="Resource" uid="uid://yn5mnarlwgag" path="res://relics/level_1/018_石头.tres" id="4_krfpc"]
@@ -52,7 +51,7 @@ script = ExtResource("2_3gj5w")
 name = "良子"
 relics = Array[ExtResource("1_725fs")]([ExtResource("3_n5ma4"), ExtResource("4_krfpc"), ExtResource("5_fl8d3"), ExtResource("6_rw3kd"), ExtResource("7_u3850"), ExtResource("8_kprfs"), ExtResource("9_vfqc0"), ExtResource("10_5nr7l"), ExtResource("11_texjh"), ExtResource("12_1kri0"), ExtResource("13_6uqwd"), ExtResource("14_i1a1a"), ExtResource("15_i36v5"), ExtResource("16_w5gai")])
 texture = SubResource("AtlasTexture_vyj8d")
-havetag = Array[ExtResource("2_u3850")]([ExtResource("3_kprfs"), ExtResource("4_vfqc0"), ExtResource("5_5nr7l")])
+havetag = Array[ExtResource("2_u3850")]([ExtResource("4_vfqc0"), ExtResource("5_5nr7l")])
 shop_desc = "居然是怪物！杀！！
 蘑菇怪看到你便大叫：“我是好蘑菇，别杀我，我是来做生意的！！“"
 enter_rest_period_dialogues = SubResource("Resource_17x8v")

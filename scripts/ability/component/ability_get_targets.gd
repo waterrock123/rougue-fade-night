@@ -1,5 +1,5 @@
 ## 目标搜索组件。
-## 以施法者为中心搜索玩家、敌人或所有实体，支持圆形范围与扇形范围。
+## 可按施法者或锁定位置为中心搜索玩家、敌人或所有实体，支持圆形范围与扇形范围。
 ## 常用于近战斩击、扇形攻击、冲击波等“先找目标，再造成伤害”的技能。
 class_name AbilityGetTarget
 extends AbilityComponent
@@ -26,10 +26,19 @@ enum SearchShape {
 	SECTOR,
 }
 
+enum OriginMode {
+	## 以施法者为中心搜索，保留旧技能的默认行为。
+	CASTER,
+	## 以 AbilityContext.targets[0] 的位置为中心搜索，适合先锁定落点再结算范围伤害/控制。
+	FIRST_TARGET,
+}
+
 ## 搜索形状。SECTOR 适合扇形技能，CIRCLE 适合圆形光环/AOE。
 @export var search_shape: SearchShape = SearchShape.CIRCLE
 ## 搜索半径。扇形模式下就是扇形半径。
 @export var radius: float = 30.0
+## 搜索圆心来源。默认以施法者为圆心；定点 AOE 可以改成 FIRST_TARGET。
+@export var origin_mode: OriginMode = OriginMode.CASTER
 ## 要搜索的目标阵营。
 @export var target_mode: TargetMode = TargetMode.AUTO_OPPONENT
 ## 扇形/前方判断使用的方向来源。
@@ -52,12 +61,13 @@ func check_colliders_around_position(context: AbilityContext, search_radius: flo
 		return []
 
 	var caster := context.caster
+	var search_origin := _get_search_origin(context)
 	var shape := CircleShape2D.new()
 	shape.radius = search_radius
 
 	var query := PhysicsShapeQueryParameters2D.new()
 	query.shape = shape
-	query.transform.origin = caster.global_position
+	query.transform.origin = search_origin
 	query.collide_with_areas = true
 
 	var space_state := caster.get_world_2d().direct_space_state
@@ -77,7 +87,7 @@ func check_colliders_around_position(context: AbilityContext, search_radius: flo
 			continue
 		if not _matches_target_mode(caster, target):
 			continue
-		if _should_filter_by_sector() and not _is_target_in_sector(context, target):
+		if _should_filter_by_sector() and not _is_target_in_sector(context, target, search_origin):
 			continue
 		if targets.has(target):
 			continue
@@ -90,16 +100,16 @@ func check_colliders_around_position(context: AbilityContext, search_radius: flo
 func _matches_target_mode(caster: Entity, target: Entity) -> bool:
 	match target_mode:
 		TargetMode.PLAYER:
-			return target.is_in_group("player")
+			return target.is_player_side()
 		TargetMode.ENEMY:
-			return target.is_in_group("enemy")
+			return target.is_enemy_side()
 		TargetMode.ENTITY:
 			return true
 		TargetMode.AUTO_OPPONENT:
-			if caster.is_in_group("player"):
-				return target.is_in_group("enemy")
-			if caster.is_in_group("enemy"):
-				return target.is_in_group("player")
+			if caster.is_player_side():
+				return target.is_enemy_side()
+			if caster.is_enemy_side():
+				return target.is_player_side()
 			return target != caster
 
 	return false
@@ -109,12 +119,12 @@ func _should_filter_by_sector() -> bool:
 	return search_shape == SearchShape.SECTOR or require_in_front
 
 
-func _is_target_in_sector(context: AbilityContext, target: Entity) -> bool:
+func _is_target_in_sector(context: AbilityContext, target: Entity, search_origin: Vector2) -> bool:
 	var reference_dir := _get_reference_direction(context, target)
 	if reference_dir == Vector2.ZERO:
 		return true
 
-	var to_target := (target.global_position - context.caster.global_position).normalized()
+	var to_target := (target.global_position - search_origin).normalized()
 	if to_target == Vector2.ZERO:
 		return true
 
@@ -157,9 +167,43 @@ func _resolve_direction_mode(caster: Entity) -> DirectionMode:
 
 ## 给敌人/Boss 技能使用：扇形搜索方向朝向玩家，而不是只按左右朝向判断。
 func _get_direction_to_player(caster: Entity) -> Vector2:
-	var player := get_tree().get_first_node_in_group("player") as Node2D
-	if player == null:
+	var player_side_target := _find_nearest_player_side_target(caster)
+	if player_side_target == null:
 		return caster.get_facing_direction()
 
-	var direction := caster.global_position.direction_to(player.global_position)
+	var direction := caster.global_position.direction_to(player_side_target.global_position)
 	return direction if direction != Vector2.ZERO else caster.get_facing_direction()
+
+
+func _find_nearest_player_side_target(caster: Entity) -> Entity:
+	var nearest: Entity
+	var nearest_distance := INF
+
+	for group_name in [&"player", &"player_ally", &"summon_pet"]:
+		for node in get_tree().get_nodes_in_group(String(group_name)):
+			if not (node is Entity):
+				continue
+
+			var candidate := node as Entity
+			if not candidate.is_player_side():
+				continue
+			if candidate.has_method("can_be_targeted") and not candidate.can_be_targeted():
+				continue
+
+			var distance := caster.global_position.distance_to(candidate.global_position)
+			if distance < nearest_distance:
+				nearest_distance = distance
+				nearest = candidate
+
+	return nearest
+
+
+func _get_search_origin(context: AbilityContext) -> Vector2:
+	if origin_mode == OriginMode.FIRST_TARGET and not context.targets.is_empty():
+		var target = context.targets[0]
+		if target is Node2D:
+			return (target as Node2D).global_position
+		if target is Vector2:
+			return target
+
+	return context.caster.global_position

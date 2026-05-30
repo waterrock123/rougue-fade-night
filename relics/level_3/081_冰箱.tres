@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dvd77w3d5vnq5"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_cotmv"]
+[ext_resource type="Texture2D" uid="uid://bpmbrag2w4dsa" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc967.png" id="2_8wjgc"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_umgr7"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_p5f1t"]
+[ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="5_abmoy"]
+[ext_resource type="Resource" uid="uid://sptmtn6uua85" path="res://relic_tags/寒霜tag.tres" id="6_fm2cs"]
+
+[resource]
+script = ExtResource("2_umgr7")
+relic_name = "冰箱"
+icon = ExtResource("2_8wjgc")
+tooltip = "每释放除基础攻击以外主动技能10次都使你的冰冻伤害+1，最多+5，持续至战斗结束；
+升级：战斗结束时为背包内的随机一件原料添加寒霜词条"
+desc = "依靠人力驱动提供电力"
+price = 4
+level = 3
+tags = Array[ExtResource("3_p5f1t")]([ExtResource("5_abmoy"), ExtResource("6_fm2cs")])
+id = "081"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

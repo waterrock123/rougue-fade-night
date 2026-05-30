@@ -3,9 +3,25 @@
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_44hbg"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_iwq40"]
 [ext_resource type="Texture2D" uid="uid://ck1pmy4dddyno" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1461.png" id="1_lxeix"]
+[ext_resource type="PackedScene" uid="uid://t037vly17u5c" path="res://scenes/ability/manifest/weapon_thrown_manifest.tscn" id="2_0gul6"]
+[ext_resource type="Script" uid="uid://ik6yc4v0hio4" path="res://relic_effect/active_skill_spawn_manifest_effect.gd" id="2_r82j2"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_rmdvy"]
 [ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_rmdvy"]
 [ext_resource type="Resource" uid="uid://bhvriwrr7jduc" path="res://relic_tags/战狂tag.tres" id="6_rnhd8"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+
+[sub_resource type="Resource" id="Resource_strength"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"strength": 2
+}
+
+[sub_resource type="Resource" id="Resource_0gul6"]
+script = ExtResource("2_r82j2")
+manifest_scene = ExtResource("2_0gul6")
+trigger_chance = 0.15
+levelup_spawn_count = 2
+metadata/_custom_type_script = "uid://ik6yc4v0hio4"
 
 [resource]
 script = ExtResource("1_iwq40")
@@ -17,4 +33,5 @@ price = 3
 level = 2
 tags = Array[ExtResource("4_rmdvy")]([ExtResource("5_rmdvy"), ExtResource("6_rnhd8")])
 id = "022"
+effects = Array[ExtResource("1_44hbg")]([SubResource("Resource_strength"), SubResource("Resource_0gul6")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

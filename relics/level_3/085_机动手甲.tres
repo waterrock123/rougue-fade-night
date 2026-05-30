@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b3q2ewiu22ty0"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_e6mne"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_40fg1"]
+[ext_resource type="Texture2D" uid="uid://b0ac5xauu5ex0" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2171.png" id="2_cl7ls"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_cl7ls"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_2p5sh"]
+
+[resource]
+script = ExtResource("2_40fg1")
+relic_name = "机动手甲"
+icon = ExtResource("2_cl7ls")
+tooltip = "敏捷+2，每次释放投射物时都将提升你0.1%的暴击率，持续至斗结束
+升级：额外增加5%的暴击率"
+desc = "随着活动越来越适配你双手"
+price = 4
+level = 3
+tags = Array[ExtResource("3_cl7ls")]([ExtResource("5_2p5sh")])
+id = "085"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

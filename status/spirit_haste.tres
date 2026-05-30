@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://8iko8psqos2d"]
+
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="1_base"]
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="2_data"]
+[ext_resource type="Script" uid="uid://dgo07v5uptqqr" path="res://scripts/status/status_add_stat_effect.gd" id="3_add_stat"]
+[ext_resource type="Texture2D" uid="uid://don2qphfvjtyc" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1010.png" id="4_icon"]
+
+[sub_resource type="Resource" id="SpiritHasteSpeedEffect"]
+script = ExtResource("3_add_stat")
+stat_name = &"speed"
+value_per_stack = 2.0
+
+[resource]
+script = ExtResource("2_data")
+id = &"spirit_haste"
+status_name = "灵风"
+desc = "小精灵治疗领域提供的短暂移动速度增益，速度属性提升2点。"
+icon = ExtResource("4_icon")
+duration = 2.0
+effects = Array[ExtResource("1_base")]([SubResource("SpiritHasteSpeedEffect")])

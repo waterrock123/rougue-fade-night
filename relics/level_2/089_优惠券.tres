@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://myy3espeaak6"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_s8g4t"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_dnfsq"]
+[ext_resource type="Texture2D" uid="uid://cb3p5g3xehujd" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc112.png" id="2_ryi5f"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_ryi5f"]
+[ext_resource type="Resource" uid="uid://bmipmd2ww6hum" path="res://relic_tags/好好顾客tag.tres" id="5_c4dlh"]
+[ext_resource type="Script" uid="uid://dbuok2iidnnss" path="res://relic_effect/shop_refresh_random_discount_effect.gd" id="6_discount"]
+
+[sub_resource type="Resource" id="Resource_base_discount"]
+script = ExtResource("6_discount")
+ignore_when_relic_levelup = true
+
+[sub_resource type="Resource" id="Resource_levelup_discount"]
+script = ExtResource("6_discount")
+trigger_chance = 0.4
+
+[resource]
+script = ExtResource("2_dnfsq")
+relic_name = "优惠券"
+icon = ExtResource("2_ryi5f")
+tooltip = "每次刷新时商店的一件物品售价有30%的概率降低1金币
+升级：概率提升至40%"
+price = 3
+level = 2
+tags = Array[ExtResource("3_ryi5f")]([ExtResource("5_c4dlh")])
+id = "089"
+effects = Array[ExtResource("1_s8g4t")]([SubResource("Resource_base_discount")])
+great_effects = Array[ExtResource("1_s8g4t")]([SubResource("Resource_levelup_discount")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

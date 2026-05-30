@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dntm7vte84m6n"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_tans4"]
+[ext_resource type="Texture2D" uid="uid://cf23bvvkibipi" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1753.png" id="2_1kvp1"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_edn4f"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_1kvp1"]
+[ext_resource type="Resource" uid="uid://hwfpda2ygcic" path="res://relic_tags/剑tag.tres" id="5_eru4y"]
+[ext_resource type="Resource" uid="uid://d1qaxn6s7eqj0" path="res://relic_tags/历战tag.tres" id="6_ynepj"]
+
+[resource]
+script = ExtResource("2_edn4f")
+relic_name = "古剑"
+icon = ExtResource("2_1kvp1")
+tooltip = "力量+5，敏捷+5，获得随机三件带剑标签的不同等阶的装备（优先你没有的装备）
+升级：每经过一场战斗此装备的加成+2"
+desc = "此剑自历史中来，裹挟其他剑而来；"
+price = 6
+level = 6
+tags = Array[ExtResource("3_1kvp1")]([ExtResource("5_eru4y"), ExtResource("6_ynepj")])
+id = "098"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,154 @@
+[gd_scene format=3 uid="uid://bom68ek5h4i6t"]
+
+[ext_resource type="Texture2D" uid="uid://dp232srus763e" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc101.png" id="1_44dul"]
+[ext_resource type="Script" uid="uid://bm61hlewtq82n" path="res://scripts/ui/pictorial_equipment_book_detail.gd" id="2_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_74g7d"]
+bg_color = Color(0.61388963, 0.8466836, 0.6421665, 0.66200006)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eu3ln"]
+bg_color = Color(0.5412003, 0.8650735, 0.64014405, 0.6627451)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_eu3ln"]
+font_size = 64
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n62xx"]
+bg_color = Color(0.86486983, 0.4705515, 0.43308938, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_74g7d"]
+font_size = 47
+outline_color = Color(1.2032688e-06, 0.73885316, 0.46604145, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3x5dn"]
+bg_color = Color(0.6156863, 0.84705883, 0.6431373, 0.6627451)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="LabelSettings" id="LabelSettings_n62xx"]
+font_size = 36
+
+[sub_resource type="LabelSettings" id="LabelSettings_mwu77"]
+font_size = 36
+
+[node name="EquipmentBookDetail" type="VBoxContainer" unique_id=1707232738]
+custom_minimum_size = Vector2(882, 631)
+script = ExtResource("2_script")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1694347081]
+layout_mode = 2
+
+[node name="icon" type="Panel" parent="HBoxContainer" unique_id=306603294]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_74g7d")
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/icon" unique_id=1090887333]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_44dul")
+
+[node name="InformationSummarization" type="Panel" parent="HBoxContainer" unique_id=1306421507]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_eu3ln")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/InformationSummarization" unique_id=256987872]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/InformationSummarization/MarginContainer" unique_id=638982460]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="HBoxContainer/InformationSummarization/MarginContainer/VBoxContainer" unique_id=2022766318]
+unique_name_in_owner = true
+layout_mode = 2
+text = "名称"
+label_settings = SubResource("LabelSettings_eu3ln")
+
+[node name="LevelLabel" type="Label" parent="HBoxContainer/InformationSummarization/MarginContainer/VBoxContainer" unique_id=443923693]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Lv.1"
+label_settings = SubResource("LabelSettings_eu3ln")
+
+[node name="TagList" type="HBoxContainer" parent="HBoxContainer/InformationSummarization/MarginContainer/VBoxContainer" unique_id=568199918]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TagLabel" type="Label" parent="HBoxContainer/InformationSummarization/MarginContainer/VBoxContainer/TagList" unique_id=1666687509]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_n62xx")
+text = "这里是装备包含的标签"
+label_settings = SubResource("LabelSettings_74g7d")
+
+[node name="EffectBar" type="Panel" parent="." unique_id=1549050345]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_3x5dn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EffectBar" unique_id=332399231]
+layout_mode = 0
+offset_right = 882.0
+offset_bottom = 369.0
+
+[node name="TooltipLabel" type="Label" parent="EffectBar/VBoxContainer" unique_id=909379144]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(882, 0)
+layout_mode = 2
+text = "这里是效果这里是效果这里是效果这里是效果这里是效果这是效果这是效果这是效果这是效果这是效果这"
+label_settings = SubResource("LabelSettings_n62xx")
+autowrap_mode = 2
+
+[node name="DescLabel" type="Label" parent="EffectBar/VBoxContainer" unique_id=1337810085]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "这里是描述"
+label_settings = SubResource("LabelSettings_mwu77")
+vertical_alignment = 2

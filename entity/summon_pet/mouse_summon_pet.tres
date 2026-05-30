@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://lvyqqoigcxgm"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_mynmo"]
+
+[resource]
+script = ExtResource("1_mynmo")
+entity_name = "鼠鼠"
+base_max_health = 10.0
+base_move_speed = 50.0
+strength = 2
+dexterity = 4
+constitution = 2
+speed = 5
+charm = 5
+luck = 8
+metadata/_custom_type_script = "uid://yiy2gawxifk8"

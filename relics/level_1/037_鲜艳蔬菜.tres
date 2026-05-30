@@ -5,7 +5,6 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_aesa0"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_ijqf2"]
 [ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_aesa0"]
-[ext_resource type="Resource" uid="uid://i7j7rjvb8avu" path="res://relic_tags/消耗品tag.tres" id="6_ijqf2"]
 [ext_resource type="Script" uid="uid://dpt6dmel3jpq4" path="res://relic_effect/use_self_damage_effect.gd" id="7_self_damage"]
 [ext_resource type="Script" uid="uid://cpg3ugpuxdn6w" path="res://relic_effect/use_add_stats_effect.gd" id="8_add_stats"]
 [ext_resource type="Script" uid="uid://wwdg54imaves" path="res://relic_effect/use_heal_effect.gd" id="9_heal"]
@@ -34,7 +33,7 @@ tooltip = "使用后立即受到5点伤害并获得{strength}+1，{intelligence}
 升级：使用后额外{heal}6点生命"
 price = 3
 level = 1
-tags = Array[ExtResource("4_ijqf2")]([ExtResource("5_aesa0"), ExtResource("6_ijqf2")])
+tags = Array[ExtResource("4_ijqf2")]([ExtResource("5_aesa0")])
 id = "037"
 is_consumable = true
 effects = Array[ExtResource("1_8ooic")]([SubResource("Resource_self_damage"), SubResource("Resource_add_stats")])

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dm8om3cvr7aht"
+
+[deps]
+
+files=["res://relics/relic_catalog.folder.translation", "res://relics/relic_catalog.id.translation", "res://relics/relic_catalog.relic.translation", "res://relics/relic_catalog.level.translation", "res://relics/relic_catalog.leveltip.translation", "res://relics/relic_catalog.relic.translation", "res://relics/relic_catalog.price.translation", "res://relics/relic_catalog.sell.translation", "res://relics/relic_catalog.upgrade.translation", "res://relics/relic_catalog.is.translation", "res://relics/relic_catalog.icon.translation", "res://relics/relic_catalog.tag.translation", "res://relics/relic_catalog.tag.translation", "res://relics/relic_catalog.tooltip.translation", "res://relics/relic_catalog.desc.translation", "res://relics/relic_catalog.effects.translation", "res://relics/relic_catalog.effect.translation", "res://relics/relic_catalog.great.translation", "res://relics/relic_catalog.great.translation"]
+
+source_file="res://relics/relic_catalog.csv"
+dest_files=["res://relics/relic_catalog.folder.translation", "res://relics/relic_catalog.id.translation", "res://relics/relic_catalog.relic.translation", "res://relics/relic_catalog.level.translation", "res://relics/relic_catalog.leveltip.translation", "res://relics/relic_catalog.relic.translation", "res://relics/relic_catalog.price.translation", "res://relics/relic_catalog.sell.translation", "res://relics/relic_catalog.upgrade.translation", "res://relics/relic_catalog.is.translation", "res://relics/relic_catalog.icon.translation", "res://relics/relic_catalog.tag.translation", "res://relics/relic_catalog.tag.translation", "res://relics/relic_catalog.tooltip.translation", "res://relics/relic_catalog.desc.translation", "res://relics/relic_catalog.effects.translation", "res://relics/relic_catalog.effect.translation", "res://relics/relic_catalog.great.translation", "res://relics/relic_catalog.great.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

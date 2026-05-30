@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatsData" format=3]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_stats"]
+
+[resource]
+script = ExtResource("1_stats")
+entity_name = "spirit_summon_pet"
+base_max_health = 28.0
+base_max_energy = 10.0
+base_move_speed = 55.0
+strength = 1
+dexterity = 3
+intelligence = 8
+constitution = 3
+speed = 7
+charm = 8
+luck = 5

@@ -13,4 +13,5 @@ id = &"105"
 skill_name = "暴怒"
 desc = "进入{rage}状态，持续10秒"
 icon = ExtResource("1_ftir3")
+allowed_character_ids = Array[StringName]([&"warrior"])
 metadata/_custom_type_script = "uid://bq1obcmna3x2j"

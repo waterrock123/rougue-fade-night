@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://dy6em1kpc7fhu"]
+
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="1_base"]
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="2_data"]
+[ext_resource type="Script" uid="uid://dgo07v5uptqqr" path="res://scripts/status/status_add_stat_effect.gd" id="3_add_stat"]
+[ext_resource type="Script" uid="uid://brh1xhxrr5lhl" path="res://scripts/status/status_reflect_damage_effect.gd" id="4_reflect"]
+[ext_resource type="Texture2D" uid="uid://exmnbvpl56xx" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa597.png" id="5_icon"]
+
+[sub_resource type="Resource" id="ThornArmorReductionEffect"]
+script = ExtResource("3_add_stat")
+stat_name = &"static_damage_reduction"
+value_per_stack = 2.0
+
+[sub_resource type="Resource" id="ThornArmorReflectEffect"]
+script = ExtResource("4_reflect")
+flat_damage_per_stack = 5.0
+tags = Array[String](["status", "reflect", "thorn"])
+
+[resource]
+script = ExtResource("2_data")
+id = &"thorn_armor"
+status_name = "荆棘护甲"
+desc = "获得2点固定减伤。受到有效伤害时，对攻击来源造成5点物理反伤。"
+icon = ExtResource("5_icon")
+duration = 8.0
+effects = Array[ExtResource("1_base")]([SubResource("ThornArmorReductionEffect"), SubResource("ThornArmorReflectEffect")])

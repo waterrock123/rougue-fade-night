@@ -1,0 +1,43 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1_projectile"]
+[ext_resource type="Texture2D" uid="uid://btc6x746w7abe" path="res://assets/meleeAttack_plusCharacters.png" id="2_texture"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="3_scaling"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spear"]
+atlas = ExtResource("2_texture")
+region = Rect2(80.169, 16, 15.83, 16)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_spear"]
+radius = 5.0
+height = 28.0
+
+[sub_resource type="Resource" id="SpearScalingRule"]
+script = ExtResource("3_scaling")
+physical_formula = "strength * 0.5 + dexterity * 0.5"
+ranged_formula = ""
+
+[node name="RelicSpearManifest" type="Node2D"]
+z_index = 100
+scale = Vector2(0.55, 0.55)
+script = ExtResource("1_projectile")
+speed = 320.0
+target_group = "enemy"
+max_distance = 320.0
+is_rotate = false
+damage = 0.0
+damage_types = Array[int]([0])
+tags = Array[String](["manifest", "relic", "spear", "projectile", "ranged"])
+scaling_rule = SubResource("SpearScalingRule")
+is_penetrate = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = SubResource("AtlasTexture_spear")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_spear")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

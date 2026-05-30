@@ -35,6 +35,7 @@ metadata/_custom_type_script = "uid://bdqgkeyiw7nj6"
 
 [resource]
 script = ExtResource("1_jpjxe")
+id = &"warrior"
 character_name = "战狂"
 description = "武器大师，狂战士，嗜血狂魔，不管用什么称呼他都掩盖不了其享受战斗的本质。接下来，他要挑战最强者。"
 background = ExtResource("1_k6upo")
