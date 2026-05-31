@@ -7,6 +7,40 @@
 [ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="5_h6n31"]
 [ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="6_rkt2b"]
 
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" path="res://relic_effect/ability_cast_stacking_stats_effect.gd" id="8_cast_stack_stats"]
+
+[sub_resource type="Resource" id="WizardHatBaseStatsEffect"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"intelligence": 3
+}
+
+[sub_resource type="Resource" id="WizardHatTimedIntEffect"]
+script = ExtResource("8_cast_stack_stats")
+add_stats_per_stack = {
+"intelligence": 1
+}
+excluded_slot_indices = Array[int]([0])
+max_stacks = 99
+duration = 30.0
+ignore_when_relic_levelup = true
+
+[sub_resource type="Resource" id="WizardHatLevelupStatsEffect"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"intelligence": 1
+}
+
+[sub_resource type="Resource" id="WizardHatPermanentIntEffect"]
+script = ExtResource("8_cast_stack_stats")
+add_stats_per_stack = {
+"intelligence": 1
+}
+excluded_slot_indices = Array[int]([0])
+max_stacks = 99
+duration = -1.0
+
 [resource]
 script = ExtResource("1_jefis")
 relic_name = "法师帽"
@@ -17,4 +51,6 @@ price = 4
 level = 3
 tags = Array[ExtResource("4_0bxrd")]([ExtResource("5_h6n31"), ExtResource("6_rkt2b")])
 id = "027"
+effects = Array[ExtResource("1_auwin")]([SubResource("WizardHatBaseStatsEffect"), SubResource("WizardHatTimedIntEffect")])
+great_effects = Array[ExtResource("1_auwin")]([SubResource("WizardHatLevelupStatsEffect"), SubResource("WizardHatPermanentIntEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

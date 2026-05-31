@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="StatusData" format=3]
+
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1_data"]
+[ext_resource type="Script" path="res://scripts/status/status_effect.gd" id="2_base"]
+[ext_resource type="Script" path="res://scripts/status/status_incoming_damage_taken_effect.gd" id="3_incoming"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb678.png" id="4_icon"]
+
+[sub_resource type="Resource" id="Resource_vulnerable"]
+script = ExtResource("3_incoming")
+percent_bonus = 0.3
+
+[resource]
+script = ExtResource("1_data")
+id = &"vulnerable"
+status_name = "易伤"
+desc = "受到的所有伤害提高30%。"
+icon = ExtResource("4_icon")
+duration = 5.0
+effects = Array[ExtResource("2_base")]([SubResource("Resource_vulnerable")])

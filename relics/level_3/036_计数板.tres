@@ -7,6 +7,27 @@
 [ext_resource type="Resource" uid="uid://d1qaxn6s7eqj0" path="res://relic_tags/历战tag.tres" id="5_wbmt1"]
 [ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="6_dhmcf"]
 
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" path="res://relic_effect/battle_win_permanent_derived_stats_effect.gd" id="8_battle_win_derived"]
+
+[sub_resource type="Resource" id="CountingBoardStatsEffect"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"intelligence": 2
+}
+
+[sub_resource type="Resource" id="CountingBoardEnergyEffect"]
+script = ExtResource("8_battle_win_derived")
+add_derived_stats = {
+"max_energy": 2
+}
+
+[sub_resource type="Resource" id="CountingBoardLevelupStatsEffect"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"intelligence": 2
+}
+
 [resource]
 script = ExtResource("2_t3rvj")
 relic_name = "计数板"
@@ -17,4 +38,6 @@ price = 4
 level = 3
 tags = Array[ExtResource("3_gsl13")]([ExtResource("5_wbmt1"), ExtResource("6_dhmcf")])
 id = "036"
+effects = Array[ExtResource("1_h85hc")]([SubResource("CountingBoardStatsEffect"), SubResource("CountingBoardEnergyEffect")])
+great_effects = Array[ExtResource("1_h85hc")]([SubResource("CountingBoardLevelupStatsEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -7,6 +7,21 @@
 [ext_resource type="Resource" uid="uid://0d5hp57doaa0" path="res://relic_tags/塔罗tag.tres" id="5_0f5wi"]
 [ext_resource type="Resource" uid="uid://bhvriwrr7jduc" path="res://relic_tags/战狂tag.tres" id="6_2ydsa"]
 
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" path="res://relic_effect/damage_dealt_heal_effect.gd" id="8_damage_heal"]
+
+[sub_resource type="Resource" id="ChariotStatsEffect"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"constitution": 2,
+"strength": 2
+}
+
+[sub_resource type="Resource" id="ChariotHealEffect"]
+script = ExtResource("8_damage_heal")
+heal_amount = 1.0
+cooldown = 2.0
+
 [resource]
 script = ExtResource("3_0f5wi")
 relic_name = "战车"
@@ -15,6 +30,9 @@ tooltip = "力量+2，体质+2
 升级：每次你造成伤害时都将恢复1点生命，每两秒最多触发一次"
 desc = "永不停歇"
 price = 4
+level = 3
 tags = Array[ExtResource("4_2ydsa")]([ExtResource("5_0f5wi"), ExtResource("6_2ydsa")])
 id = "069"
+effects = Array[ExtResource("1_conxs")]([SubResource("ChariotStatsEffect")])
+great_effects = Array[ExtResource("1_conxs")]([SubResource("ChariotHealEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

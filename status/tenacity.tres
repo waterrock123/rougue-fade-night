@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StatusData" format=3]
+
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1_data"]
+[ext_resource type="Script" path="res://scripts/status/status_effect.gd" id="2_base"]
+[ext_resource type="Script" path="res://scripts/status/status_add_stat_effect.gd" id="3_add_stat"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb148.png" id="4_icon"]
+
+[sub_resource type="Resource" id="TenacityReductionEffect"]
+script = ExtResource("3_add_stat")
+stat_name = &"damage_reduction_rate"
+value_per_stack = 0.2
+
+[resource]
+script = ExtResource("1_data")
+id = &"tenacity"
+status_name = "坚毅"
+desc = "受到的伤害降低20%。"
+icon = ExtResource("4_icon")
+duration = 20.0
+effects = Array[ExtResource("2_base")]([SubResource("TenacityReductionEffect")])

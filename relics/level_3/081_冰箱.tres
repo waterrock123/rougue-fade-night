@@ -7,6 +7,26 @@
 [ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="5_abmoy"]
 [ext_resource type="Resource" uid="uid://sptmtn6uua85" path="res://relic_tags/寒霜tag.tres" id="6_fm2cs"]
 
+[ext_resource type="Script" path="res://relic_effect/ability_cast_stacking_damage_bonus_effect.gd" id="7_damage_stack"]
+[ext_resource type="Script" path="res://relic_effect/battle_win_grant_tagged_shop_relic_effect.gd" id="8_battle_win_grant"]
+[ext_resource type="Resource" path="res://relic_tags/寒霜tag.tres" id="9_frost_tag"]
+
+[ext_resource type="Script" path="res://relic_effect/battle_win_add_tag_to_inventory_relic_effect.gd" id="10_add_tag"]
+[ext_resource type="Resource" path="res://relic_tags/原料.tres" id="11_material_tag"]
+
+[sub_resource type="Resource" id="FridgeIceDamageStackEffect"]
+script = ExtResource("7_damage_stack")
+excluded_slot_indices = Array[int]([0])
+casts_per_stack = 10
+max_stacks = 5
+required_damage_types = Array[int]([3])
+flat_bonus_per_stack = 1.0
+
+[sub_resource type="Resource" id="FridgeBattleWinFrostRelicEffect"]
+script = ExtResource("10_add_tag")
+candidate_tags = Array[ExtResource("3_p5f1t")]([ExtResource("11_material_tag")])
+tag_to_add = ExtResource("9_frost_tag")
+
 [resource]
 script = ExtResource("2_umgr7")
 relic_name = "冰箱"
@@ -18,4 +38,6 @@ price = 4
 level = 3
 tags = Array[ExtResource("3_p5f1t")]([ExtResource("5_abmoy"), ExtResource("6_fm2cs")])
 id = "081"
+effects = Array[ExtResource("1_cotmv")]([SubResource("FridgeIceDamageStackEffect")])
+great_effects = Array[ExtResource("1_cotmv")]([SubResource("FridgeBattleWinFrostRelicEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

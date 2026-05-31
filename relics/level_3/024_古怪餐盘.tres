@@ -6,6 +6,13 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_skarc"]
 [ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_skarc"]
 
+[ext_resource type="Script" path="res://relic_effect/consumable_used_auto_equip_effect.gd" id="6_auto_equip"]
+
+[sub_resource type="Resource" id="ConsumableAutoEquipEffect"]
+script = ExtResource("6_auto_equip")
+max_trigger_count = 3
+levelup_max_trigger_count = 5
+
 [resource]
 script = ExtResource("1_5ixu4")
 relic_name = "古怪餐盘"
@@ -17,4 +24,5 @@ price = 4
 level = 3
 tags = Array[ExtResource("4_skarc")]([ExtResource("5_skarc")])
 id = "024"
+effects = Array[ExtResource("1_tcmtn")]([SubResource("ConsumableAutoEquipEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

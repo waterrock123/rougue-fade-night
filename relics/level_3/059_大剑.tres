@@ -8,6 +8,26 @@
 [ext_resource type="Resource" uid="uid://hwfpda2ygcic" path="res://relic_tags/剑tag.tres" id="6_rqhfs"]
 [ext_resource type="Resource" uid="uid://bhvriwrr7jduc" path="res://relic_tags/战狂tag.tres" id="7_wi4jm"]
 
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="8_add_stats"]
+[ext_resource type="Script" path="res://relic_effect/active_skill_spawn_manifest_effect.gd" id="9_spawn_manifest"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/greatsword_sweep_manifest.tscn" id="10_sweep_manifest"]
+
+[sub_resource type="Resource" id="GreatSwordStatsEffect"]
+script = ExtResource("8_add_stats")
+add_stats = {
+"dexterity": -2,
+"speed": -2,
+"strength": 7
+}
+
+[sub_resource type="Resource" id="GreatSwordSweepHookEffect"]
+script = ExtResource("9_spawn_manifest")
+manifest_scene = ExtResource("10_sweep_manifest")
+target_slot_indices = Array[int]([0])
+trigger_chance = 1.0
+trigger_cooldown = 3.0
+target_mode = 1
+
 [resource]
 script = ExtResource("2_ht23t")
 relic_name = "大剑"
@@ -19,4 +39,6 @@ price = 4
 level = 3
 tags = Array[ExtResource("3_c528j")]([ExtResource("5_qiujb"), ExtResource("6_rqhfs"), ExtResource("7_wi4jm")])
 id = "059"
+effects = Array[ExtResource("1_uckiq")]([SubResource("GreatSwordStatsEffect")])
+great_effects = Array[ExtResource("1_uckiq")]([SubResource("GreatSwordSweepHookEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

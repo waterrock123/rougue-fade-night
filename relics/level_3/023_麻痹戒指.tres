@@ -6,6 +6,25 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_oy87m"]
 [ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_iowux"]
 
+[ext_resource type="Script" path="res://relic_effect/outgoing_damage_status_chance_effect.gd" id="6_status_chance"]
+[ext_resource type="Resource" path="res://status/paralysis.tres" id="7_paralysis"]
+[ext_resource type="Resource" path="res://status/vulnerable.tres" id="8_vulnerable"]
+
+[sub_resource type="Resource" id="ParalysisBasicAttackEffect"]
+script = ExtResource("6_status_chance")
+status_data = ExtResource("7_paralysis")
+chance = 0.25
+duration_override = 5.0
+target_slot_indices = Array[int]([0])
+
+[sub_resource type="Resource" id="VulnerableBasicAttackEffect"]
+script = ExtResource("6_status_chance")
+status_data = ExtResource("8_vulnerable")
+chance = 1.0
+duration_override = 5.0
+target_slot_indices = Array[int]([0])
+required_target_status_ids = Array[StringName]([&"paralysis"])
+
 [resource]
 script = ExtResource("1_04ykv")
 relic_name = "麻痹戒指"
@@ -17,4 +36,6 @@ price = 4
 level = 3
 tags = Array[ExtResource("4_oy87m")]([ExtResource("5_iowux")])
 id = "023"
+effects = Array[ExtResource("1_cbkjy")]([SubResource("ParalysisBasicAttackEffect")])
+great_effects = Array[ExtResource("1_cbkjy")]([SubResource("VulnerableBasicAttackEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

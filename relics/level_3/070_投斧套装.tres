@@ -7,6 +7,25 @@
 [ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_kp6ng"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="6_teueq"]
 
+[ext_resource type="Script" path="res://relic_effect/ability_cast_bank_manifest_effect.gd" id="7_bank_manifest"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/weapon_thrown_manifest.tscn" id="8_throw_manifest"]
+
+[sub_resource type="Resource" id="ThrowingAxeSetEffect"]
+script = ExtResource("7_bank_manifest")
+manifest_scene = ExtResource("8_throw_manifest")
+stack_icon = ExtResource("2_a2jhe")
+charge_excluded_slot_indices = Array[int]([0])
+release_slot_indices = Array[int]([0])
+max_stacks = 8
+visual_radius = 20.0
+visual_scale = Vector2(0.42, 0.42)
+target_distance = 160.0
+levelup_manifest_property_overrides = {
+"max_distance": 320.0,
+"rotate_speed": 80.0,
+"speed": 260.0
+}
+
 [resource]
 script = ExtResource("3_kp6ng")
 relic_name = "投斧套装"
@@ -19,4 +38,5 @@ level = 3
 relic_type = 1
 tags = Array[ExtResource("4_teueq")]([ExtResource("5_kp6ng"), ExtResource("6_teueq")])
 id = "070"
+effects = Array[ExtResource("1_d5u2c")]([SubResource("ThrowingAxeSetEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

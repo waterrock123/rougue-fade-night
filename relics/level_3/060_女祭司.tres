@@ -7,6 +7,22 @@
 [ext_resource type="Resource" uid="uid://dp1shjosyd3sh" path="res://relic_tags/贵人tag.tres" id="5_8ikfk"]
 [ext_resource type="Resource" uid="uid://0d5hp57doaa0" path="res://relic_tags/塔罗tag.tres" id="6_j3u2n"]
 
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" path="res://relic_effect/add_derived_stat_effect.gd" id="8_add_derived"]
+
+[sub_resource type="Resource" id="PriestessStatsEffect"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"intelligence": 2,
+"luck": 2
+}
+
+[sub_resource type="Resource" id="PriestessCritDamageEffect"]
+script = ExtResource("8_add_derived")
+add_derived_stats = {
+"crit_damage": 0.5
+}
+
 [resource]
 script = ExtResource("2_gws57")
 relic_name = "女祭司"
@@ -18,4 +34,6 @@ price = 4
 level = 3
 tags = Array[ExtResource("3_ihetv")]([ExtResource("5_8ikfk"), ExtResource("6_j3u2n")])
 id = "060"
+effects = Array[ExtResource("1_5rrcn")]([SubResource("PriestessStatsEffect")])
+great_effects = Array[ExtResource("1_5rrcn")]([SubResource("PriestessCritDamageEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

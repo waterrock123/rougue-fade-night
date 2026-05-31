@@ -6,6 +6,29 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_cl7ls"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_2p5sh"]
 
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="6_add_stats"]
+[ext_resource type="Script" path="res://relic_effect/damage_dealt_stacking_stats_effect.gd" id="7_damage_stack_stats"]
+[ext_resource type="Script" path="res://relic_effect/add_derived_stat_effect.gd" id="8_add_derived"]
+
+[sub_resource type="Resource" id="MobileGauntletDexEffect"]
+script = ExtResource("6_add_stats")
+add_stats = {
+"dexterity": 2
+}
+
+[sub_resource type="Resource" id="MobileGauntletProjectileCritStackEffect"]
+script = ExtResource("7_damage_stack_stats")
+add_derived_stats_per_stack = {
+"crit_chance": 0.001
+}
+required_tags = Array[String](["projectile"])
+
+[sub_resource type="Resource" id="MobileGauntletLevelupCritEffect"]
+script = ExtResource("8_add_derived")
+add_derived_stats = {
+"crit_chance": 0.05
+}
+
 [resource]
 script = ExtResource("2_40fg1")
 relic_name = "机动手甲"
@@ -17,4 +40,6 @@ price = 4
 level = 3
 tags = Array[ExtResource("3_cl7ls")]([ExtResource("5_2p5sh")])
 id = "085"
+effects = Array[ExtResource("1_e6mne")]([SubResource("MobileGauntletDexEffect"), SubResource("MobileGauntletProjectileCritStackEffect")])
+great_effects = Array[ExtResource("1_e6mne")]([SubResource("MobileGauntletLevelupCritEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,7 +1,8 @@
-## 主动技能释放后概率生成 Manifest 的通用遗物效果。
-## 适合“释放技能时额外投矛/飞刀/法球”等装备触发物，触发逻辑和具体投射物表现解耦。
+## 技能释放后生成 Manifest 的通用遗物效果。
+## 通过“栏位过滤 + 内部冷却 + Manifest 属性覆盖”，可复用给大剑横扫、额外飞刀、额外法球等效果。
 class_name ActiveSkillSpawnManifestEffect
 extends RelicEffect
+
 
 enum TargetMode {
 	## 朝鼠标位置生成，适合玩家装备。
@@ -10,10 +11,17 @@ enum TargetMode {
 	FACING_DIRECTION,
 }
 
-## 触发时生成的 Manifest 场景。
+
+## 触发时生成的 Manifest 场景。为空时不会注册效果，方便先在资源里占位，之后补动画场景。
 @export var manifest_scene: PackedScene
-## 每次主动技能释放后的触发概率。
+## 为空时所有技能都能触发；填 [0] 时只允许基础攻击触发。
+@export var target_slot_indices: Array[int] = []
+## 这些技能栏位不会触发。适合排除基础攻击或某些特殊技能。
+@export var excluded_slot_indices: Array[int] = []
+## 每次技能释放后的触发概率。
 @export_range(0.0, 1.0, 0.01) var trigger_chance: float = 0.25
+## 触发后的内部冷却。大于 0 时，冷却结束前不会再次生成 Manifest。
+@export var trigger_cooldown: float = 0.0
 ## 普通状态生成数量。
 @export var spawn_count: int = 1
 ## 升级态生成数量。小于等于 0 时沿用 spawn_count。
@@ -32,6 +40,7 @@ enum TargetMode {
 @export var levelup_manifest_property_overrides: Dictionary = {}
 
 var active_connections: Dictionary = {}
+var cooldown_until_times: Dictionary = {}
 
 
 func on_activate(relic_context: RelicContext, effect_key) -> void:
@@ -67,18 +76,24 @@ func on_deactivate(_relic_context: RelicContext, effect_key) -> void:
 		controller.disconnect(&"ability_triggered", callback)
 
 	active_connections.erase(key)
+	cooldown_until_times.erase(key)
 
 
-func _on_ability_triggered(ability: Ability, caster: Entity, relic_context: RelicContext, _effect_key: String) -> void:
+func _on_ability_triggered(ability: Ability, caster: Entity, relic_context: RelicContext, effect_key: String) -> void:
 	if caster == null or relic_context == null or caster != relic_context.owner:
 		return
 	if caster.is_dead or randf() > trigger_chance:
+		return
+	if not _ability_matches(ability):
+		return
+	if _is_on_cooldown(effect_key):
 		return
 
 	var direction := _get_target_direction(caster)
 	if direction == Vector2.ZERO:
 		return
 
+	_mark_cooldown(effect_key)
 	var count := _get_spawn_count(relic_context)
 	var directions := _build_spread_directions(direction, count)
 	for spawn_direction in directions:
@@ -134,6 +149,29 @@ func _build_spread_directions(base_direction: Vector2, count: int) -> Array[Vect
 		var angle = lerp(-total_angle * 0.5, total_angle * 0.5, ratio)
 		result.append(base_direction.rotated(angle).normalized())
 	return result
+
+
+func _ability_matches(ability: Ability) -> bool:
+	if ability == null:
+		return false
+	if not target_slot_indices.is_empty() and not target_slot_indices.has(ability.runtime_slot_index):
+		return false
+	if excluded_slot_indices.has(ability.runtime_slot_index):
+		return false
+	return true
+
+
+func _is_on_cooldown(effect_key: String) -> bool:
+	if trigger_cooldown <= 0.0:
+		return false
+	var end_time := int(cooldown_until_times.get(effect_key, 0))
+	return Time.get_ticks_msec() < end_time
+
+
+func _mark_cooldown(effect_key: String) -> void:
+	if trigger_cooldown <= 0.0:
+		return
+	cooldown_until_times[effect_key] = Time.get_ticks_msec() + int(trigger_cooldown * 1000.0)
 
 
 func _add_manifest_to_scene(caster: Entity, manifest: AbilityManifest, spawn_position: Vector2) -> void:

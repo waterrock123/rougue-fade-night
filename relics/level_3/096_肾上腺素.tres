@@ -7,6 +7,20 @@
 [ext_resource type="Resource" uid="uid://dv8tumu8brwpy" path="res://relic_tags/加工品tag.tres" id="5_whwel"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="6_584gg"]
 
+[ext_resource type="Script" path="res://relic_effect/use_add_status_effect.gd" id="7_use_status"]
+[ext_resource type="Resource" path="res://status/adrenaline.tres" id="8_adrenaline"]
+[ext_resource type="Resource" path="res://status/tenacity.tres" id="9_tenacity"]
+
+[sub_resource type="Resource" id="AdrenalineUseEffect"]
+script = ExtResource("7_use_status")
+status_data = ExtResource("8_adrenaline")
+duration_override = 20.0
+
+[sub_resource type="Resource" id="TenacityUseEffect"]
+script = ExtResource("7_use_status")
+status_data = ExtResource("9_tenacity")
+duration_override = 20.0
+
 [resource]
 script = ExtResource("2_nxv3y")
 relic_name = "肾上腺素"
@@ -18,4 +32,6 @@ level = 3
 tags = Array[ExtResource("3_ch23h")]([ExtResource("5_whwel"), ExtResource("6_584gg")])
 id = "096"
 is_consumable = true
+effects = Array[ExtResource("1_pv1ab")]([SubResource("AdrenalineUseEffect")])
+great_effects = Array[ExtResource("1_pv1ab")]([SubResource("TenacityUseEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

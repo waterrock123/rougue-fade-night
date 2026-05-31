@@ -7,6 +7,19 @@
 [ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="5_778vr"]
 [ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="6_t0xy2"]
 
+[ext_resource type="Script" path="res://relic_effect/add_outgoing_damage_bonus_effect.gd" id="7_damage_bonus"]
+[ext_resource type="Script" path="res://relic_effect/kill_chance_gold_effect.gd" id="8_kill_gold"]
+
+[sub_resource type="Resource" id="MeteorAmmoProjectileDamageEffect"]
+script = ExtResource("7_damage_bonus")
+required_tags = Array[String](["projectile"])
+flat_bonus = 3.0
+
+[sub_resource type="Resource" id="MeteorAmmoKillGoldEffect"]
+script = ExtResource("8_kill_gold")
+trigger_chance = 0.005
+gold_amount = 1
+
 [resource]
 script = ExtResource("3_3vxkl")
 relic_name = "陨铁弹药"
@@ -18,4 +31,6 @@ price = 2
 level = 3
 tags = Array[ExtResource("4_gy2yu")]([ExtResource("5_778vr"), ExtResource("6_t0xy2")])
 id = "075"
+effects = Array[ExtResource("1_3tyaj")]([SubResource("MeteorAmmoProjectileDamageEffect")])
+great_effects = Array[ExtResource("1_3tyaj")]([SubResource("MeteorAmmoKillGoldEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

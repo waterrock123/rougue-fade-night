@@ -7,6 +7,15 @@
 [ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_hiwed"]
 [ext_resource type="Resource" uid="uid://dxale3ttna2jk" path="res://relic_tags/火炎tag.tres" id="6_mo5ec"]
 
+[ext_resource type="Script" path="res://relic_effect/use_timed_outgoing_damage_bonus_effect.gd" id="7_timed_damage"]
+
+[sub_resource type="Resource" id="RosinBasicAttackFireDamageEffect"]
+script = ExtResource("7_timed_damage")
+target_slot_indices = Array[int]([0])
+flat_bonus = 10.0
+duration = 30.0
+levelup_duration = -1.0
+
 [resource]
 script = ExtResource("2_28mg6")
 relic_name = "松脂"
@@ -18,4 +27,5 @@ level = 3
 tags = Array[ExtResource("3_bgqhe")]([ExtResource("5_hiwed"), ExtResource("6_mo5ec")])
 id = "065"
 is_consumable = true
+effects = Array[ExtResource("1_1hak8")]([SubResource("RosinBasicAttackFireDamageEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

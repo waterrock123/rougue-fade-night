@@ -7,6 +7,30 @@
 [ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="5_m1t8r"]
 [ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="6_h4vse"]
 
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" path="res://relic_effect/add_status_effect.gd" id="8_add_status"]
+[ext_resource type="Script" path="res://relic_effect/add_derived_stat_effect.gd" id="9_add_derived"]
+[ext_resource type="Resource" path="res://status/armor.tres" id="10_armor"]
+
+[sub_resource type="Resource" id="RustyAnchorStatsEffect"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"dexterity": -4,
+"speed": -2,
+"strength": 4
+}
+
+[sub_resource type="Resource" id="RustyAnchorArmorEffect"]
+script = ExtResource("8_add_status")
+status_data = ExtResource("10_armor")
+stacks = 3
+
+[sub_resource type="Resource" id="RustyAnchorReductionEffect"]
+script = ExtResource("9_add_derived")
+add_derived_stats = {
+"damage_reduction_rate": 0.1
+}
+
 [resource]
 script = ExtResource("3_fuh1q")
 relic_name = "锈蚀铁锚"
@@ -17,4 +41,6 @@ price = 4
 level = 3
 tags = Array[ExtResource("4_sh5al")]([ExtResource("5_m1t8r"), ExtResource("6_h4vse")])
 id = "046"
+effects = Array[ExtResource("1_x22fj")]([SubResource("RustyAnchorStatsEffect")])
+great_effects = Array[ExtResource("1_x22fj")]([SubResource("RustyAnchorArmorEffect"), SubResource("RustyAnchorReductionEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

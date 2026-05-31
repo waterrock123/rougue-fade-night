@@ -17,6 +17,7 @@ var final_stats: Dictionary = {}
 var modifiers: Array[Modifier] = []
 var effect_modifiers: Dictionary = {}
 var outgoing_damage_bonus_modifiers: Dictionary = {}
+var incoming_damage_taken_modifiers: Dictionary = {}
 var current_health: float = 0.0
 var current_energy: float = 0.0
 var player_build: PlayerBuild
@@ -145,6 +146,21 @@ func clear_outgoing_damage_bonus_modifier(source_key: Variant) -> void:
 	if source_key == null:
 		return
 	outgoing_damage_bonus_modifiers.erase(str(source_key))
+
+
+# 注册某个状态/效果提供的承伤修正。
+# 例如“易伤”会让目标受到的所有伤害按比例提高。
+func set_incoming_damage_taken_modifier(source_key: Variant, modifier_data: Dictionary) -> void:
+	if source_key == null:
+		return
+	incoming_damage_taken_modifiers[str(source_key)] = modifier_data.duplicate(true)
+
+
+# 清除指定来源注册的承伤修正。
+func clear_incoming_damage_taken_modifier(source_key: Variant) -> void:
+	if source_key == null:
+		return
+	incoming_damage_taken_modifiers.erase(str(source_key))
 
 
 # 对外统一读取最终属性。
@@ -285,6 +301,7 @@ func process_incoming_damage(damage_data: DamageData) -> DamageData:
 
 	var damage_reduction_rate: float = clamp(get_stat("damage_reduction_rate"), 0.0, 1.0)
 	damage *= 1.0 - damage_reduction_rate
+	damage *= _get_incoming_damage_taken_multiplier(damage_data)
 
 	damage_data.final_damage = max(damage, 0.0)
 	return damage_data
@@ -369,6 +386,30 @@ func _evaluate_damage_bonus_formula(formula: String, damage_data: DamageData) ->
 		return 0.0
 
 	return max(float(result), 0.0)
+
+
+func _get_incoming_damage_taken_multiplier(damage_data: DamageData) -> float:
+	var multiplier = 1.0
+	for modifier_data in incoming_damage_taken_modifiers.values():
+		if not _incoming_damage_modifier_matches(damage_data, modifier_data):
+			continue
+		multiplier += float((modifier_data as Dictionary).get("percent_bonus", 0.0))
+
+	return max(multiplier, 0.0)
+
+
+func _incoming_damage_modifier_matches(damage_data: DamageData, modifier_data: Dictionary) -> bool:
+	var required_tags: Array = modifier_data.get("required_tags", [])
+	for required_tag in required_tags:
+		if not damage_data.tags.has(str(required_tag)):
+			return false
+
+	var required_damage_types: Array = modifier_data.get("required_damage_types", [])
+	for required_damage_type in required_damage_types:
+		if not damage_data.damage_types.has(int(required_damage_type)):
+			return false
+
+	return true
 
 
 # 最大生命/能量变化后，夹取当前资源值。

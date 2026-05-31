@@ -7,6 +7,19 @@
 [ext_resource type="Resource" uid="uid://hwfpda2ygcic" path="res://relic_tags/剑tag.tres" id="5_qkuqp"]
 [ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="6_1di6r"]
 
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" path="res://relic_effect/gain_specific_relic_effect.gd" id="8_gain_relic"]
+[sub_resource type="Resource" id="RenSwordStatsEffect"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"dexterity": 2,
+"intelligence": 2
+}
+
+[sub_resource type="Resource" id="RenSwordGainYiEffect"]
+script = ExtResource("8_gain_relic")
+relic_uid_or_path = "uid://by8386a1n6u6m"
+
 [resource]
 script = ExtResource("1_1ul2k")
 relic_name = "仁之剑"
@@ -18,4 +31,6 @@ price = 4
 level = 3
 tags = Array[ExtResource("4_8xtvj")]([ExtResource("5_qkuqp"), ExtResource("6_1di6r")])
 id = "025"
+effects = Array[ExtResource("1_dpvba")]([SubResource("RenSwordStatsEffect")])
+great_effects = Array[ExtResource("1_dpvba")]([SubResource("RenSwordGainYiEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

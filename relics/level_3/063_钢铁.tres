@@ -6,6 +6,30 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_y1vq7"]
 [ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_y1vq7"]
 
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="6_add_stats"]
+[ext_resource type="Script" path="res://relic_effect/add_derived_stat_effect.gd" id="7_add_derived"]
+[ext_resource type="Script" path="res://relic_effect/consumed_grant_tagged_shop_relic_effect.gd" id="8_consumed_grant"]
+[ext_resource type="Resource" path="res://relic_tags/凶器tag.tres" id="9_weapon_tag"]
+[ext_resource type="Resource" path="res://relic_tags/守御tag.tres" id="10_guard_tag"]
+
+[sub_resource type="Resource" id="SteelStatsEffect"]
+script = ExtResource("6_add_stats")
+add_stats = {
+"strength": 2
+}
+
+[sub_resource type="Resource" id="SteelReductionEffect"]
+script = ExtResource("7_add_derived")
+add_derived_stats = {
+"damage_reduction_rate": 0.05
+}
+
+[sub_resource type="Resource" id="SteelConsumedGrantEffect"]
+script = ExtResource("8_consumed_grant")
+required_tags = Array[ExtResource("3_y1vq7")]([ExtResource("9_weapon_tag"), ExtResource("10_guard_tag")])
+same_level_as_consumed = true
+levelup_grants_levelup_relic = true
+
 [resource]
 script = ExtResource("2_x6cr8")
 relic_name = "钢铁"
@@ -16,4 +40,5 @@ price = 4
 level = 3
 tags = Array[ExtResource("3_y1vq7")]([ExtResource("5_y1vq7")])
 id = "063"
+effects = Array[ExtResource("1_7evni")]([SubResource("SteelStatsEffect"), SubResource("SteelReductionEffect"), SubResource("SteelConsumedGrantEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

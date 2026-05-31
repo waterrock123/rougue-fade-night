@@ -7,6 +7,27 @@
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_wxg5c"]
 [ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="6_nfoqe"]
 
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" path="res://relic_effect/first_damage_taken_status_effect.gd" id="8_first_damage_status"]
+[ext_resource type="Resource" path="res://status/swift.tres" id="9_swift"]
+
+[sub_resource type="Resource" id="StimVideoCharmEffect"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"charm": 2
+}
+
+[sub_resource type="Resource" id="StimVideoSwiftEffect"]
+script = ExtResource("8_first_damage_status")
+status_data = ExtResource("9_swift")
+duration_override = 5.0
+
+[sub_resource type="Resource" id="StimVideoLevelupSpeedEffect"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"speed": 2
+}
+
 [resource]
 script = ExtResource("2_x4rx1")
 relic_name = "刺激录像带"
@@ -18,4 +39,6 @@ price = 4
 level = 3
 tags = Array[ExtResource("3_bwepo")]([ExtResource("5_wxg5c"), ExtResource("6_nfoqe")])
 id = "082"
+effects = Array[ExtResource("1_0ii1d")]([SubResource("StimVideoCharmEffect"), SubResource("StimVideoSwiftEffect")])
+great_effects = Array[ExtResource("1_0ii1d")]([SubResource("StimVideoLevelupSpeedEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

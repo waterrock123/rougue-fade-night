@@ -7,6 +7,20 @@
 [ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_lji6y"]
 [ext_resource type="Resource" uid="uid://d1qaxn6s7eqj0" path="res://relic_tags/历战tag.tres" id="6_8yvi0"]
 
+[ext_resource type="Script" path="res://relic_effect/battle_win_consume_materials_grant_relic_effect.gd" id="7_transform_material"]
+[ext_resource type="Resource" path="res://relic_tags/原料.tres" id="8_material_tag"]
+
+[sub_resource type="Resource" id="ForgeHammerTransformOneEffect"]
+script = ExtResource("7_transform_material")
+material_tag = ExtResource("8_material_tag")
+consume_count = 1
+ignore_when_relic_levelup = true
+
+[sub_resource type="Resource" id="ForgeHammerTransformTwoEffect"]
+script = ExtResource("7_transform_material")
+material_tag = ExtResource("8_material_tag")
+consume_count = 2
+
 [resource]
 script = ExtResource("2_4xopv")
 relic_name = "锻造锤"
@@ -17,4 +31,7 @@ desc = "这是锻造锤？不，这是百宝锤！"
 price = 4
 level = 3
 tags = Array[ExtResource("3_holk4")]([ExtResource("5_lji6y"), ExtResource("6_8yvi0")])
+id = "062"
+effects = Array[ExtResource("1_aplr5")]([SubResource("ForgeHammerTransformOneEffect")])
+great_effects = Array[ExtResource("1_aplr5")]([SubResource("ForgeHammerTransformTwoEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"
