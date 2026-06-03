@@ -1,0 +1,106 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_anim"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_movement.gd" id="3_lock"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_component_group.gd" id="4_group"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_get_targets.gd" id="5_targets"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_deal_damage.gd" id="6_damage"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="7_scaling"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_play_sound.gd" id="8_sound"]
+[ext_resource type="Script" path="res://resource/audio_config.gd" id="9_audio_config"]
+[ext_resource type="AudioStream" uid="uid://bfj8vxy0sfsyh" path="res://assets/Sound/Sword Impact Hit 1.wav" id="10_hit1"]
+[ext_resource type="AudioStream" uid="uid://c7vdv8qlqgw3q" path="res://assets/Sound/Sword Impact Hit 2.wav" id="11_hit2"]
+[ext_resource type="AudioStream" uid="uid://cqxc2cx4bdue1" path="res://assets/Sound/Sword Impact Hit 3.wav" id="12_hit3"]
+
+[sub_resource type="Resource" id="DamageScalingRule_knight_combo"]
+script = ExtResource("7_scaling")
+formula_mode = 1
+
+[sub_resource type="Resource" id="ComboHitAudio"]
+script = ExtResource("9_audio_config")
+audio_streams = Array[AudioStream]([ExtResource("10_hit1"), ExtResource("11_hit2"), ExtResource("12_hit3")])
+volume_db = 4.0
+bus = &"sfx"
+
+[node name="SkeletonKnightCombo" type="Node"]
+script = ExtResource("1_ability")
+cooldown = 3.6
+energy_cost = 0.0
+ai_min_cast_distance = 0.0
+ai_max_cast_distance = 72.0
+ai_infer_cast_range_from_components = false
+
+[node name="PlayComboAnimation" type="Node" parent="."]
+script = ExtResource("2_anim")
+animation_name = "slashcombo"
+
+[node name="LockDuringCombo" type="Node" parent="."]
+script = ExtResource("3_lock")
+lock_duration = 2.1
+
+[node name="FirstHit" type="Node" parent="."]
+script = ExtResource("4_group")
+delay = 0.35
+
+[node name="GetTargets" type="Node" parent="FirstHit"]
+script = ExtResource("5_targets")
+search_shape = 1
+radius = 58.0
+target_mode = 1
+direction_mode = 3
+sector_angle = 110.0
+
+[node name="DealDamage" type="Node" parent="FirstHit"]
+script = ExtResource("6_damage")
+damage = 10.0
+tags = Array[String](["skill", "melee", "combo"])
+scaling_rule = SubResource("DamageScalingRule_knight_combo")
+
+[node name="PlayHitSound" type="Node" parent="FirstHit/DealDamage"]
+script = ExtResource("8_sound")
+audio_config = SubResource("ComboHitAudio")
+
+[node name="SecondHit" type="Node" parent="."]
+script = ExtResource("4_group")
+delay = 0.9
+
+[node name="GetTargets" type="Node" parent="SecondHit"]
+script = ExtResource("5_targets")
+search_shape = 1
+radius = 62.0
+target_mode = 1
+direction_mode = 3
+sector_angle = 120.0
+
+[node name="DealDamage" type="Node" parent="SecondHit"]
+script = ExtResource("6_damage")
+damage = 12.0
+tags = Array[String](["skill", "melee", "combo"])
+scaling_rule = SubResource("DamageScalingRule_knight_combo")
+
+[node name="PlayHitSound" type="Node" parent="SecondHit/DealDamage"]
+script = ExtResource("8_sound")
+audio_config = SubResource("ComboHitAudio")
+
+[node name="ThirdHit" type="Node" parent="."]
+script = ExtResource("4_group")
+delay = 1.45
+
+[node name="GetTargets" type="Node" parent="ThirdHit"]
+script = ExtResource("5_targets")
+search_shape = 1
+radius = 72.0
+target_mode = 1
+direction_mode = 3
+sector_angle = 135.0
+
+[node name="DealDamage" type="Node" parent="ThirdHit"]
+script = ExtResource("6_damage")
+damage = 16.0
+tags = Array[String](["skill", "melee", "combo", "finisher"])
+scaling_rule = SubResource("DamageScalingRule_knight_combo")
+
+[node name="PlayHitSound" type="Node" parent="ThirdHit/DealDamage"]
+script = ExtResource("8_sound")
+audio_config = SubResource("ComboHitAudio")

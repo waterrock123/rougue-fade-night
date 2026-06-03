@@ -11,7 +11,7 @@
 script = ExtResource("2_d57ya")
 relic_name = "花衬衫"
 icon = ExtResource("2_ug177")
-tooltip = "魅力+2，每购买3次装备使下次战斗中产生一只悬赏精英怪
+tooltip = "魅力+2，每购买5次装备使下次战斗中产生一只价值2金币悬赏精英怪，每次修整期最多生效一次
 升级:魅力额外+2"
 desc = "夏威夷感的衬衫，穿出去会吸引怪物围殴"
 price = 4

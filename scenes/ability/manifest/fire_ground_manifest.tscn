@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://cdb62nsbpcoh5"]
+
+[ext_resource type="Texture2D" uid="uid://b0185p3saauxq" path="res://assets/Effect and Bullet 16x16/Effect and Bullet 16x16/Fire Effect and Bullet 16x16.png" id="1_fire_texture"]
+[ext_resource type="Script" uid="uid://ofxn6sg258sy" path="res://scripts/ability/manifest/ground_periodic_damage_manifest.gd" id="2_ground_dot"]
+[ext_resource type="Resource" uid="uid://dpc0afxoxvyte" path="res://status/burn.tres" id="3_burn_status"]
+
+[sub_resource type="Gradient" id="Gradient_idsjx"]
+colors = PackedColorArray(1, 0.87717575, 0.1931151, 1, 0.60475373, 0.15004876, 0.15715471, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2sjtl"]
+atlas = ExtResource("1_fire_texture")
+region = Rect2(224, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tm88c"]
+atlas = ExtResource("1_fire_texture")
+region = Rect2(240, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fexy3"]
+atlas = ExtResource("1_fire_texture")
+region = Rect2(256, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fij86"]
+atlas = ExtResource("1_fire_texture")
+region = Rect2(272, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fire_ground"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"appear",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2sjtl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tm88c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fexy3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fij86")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fire_ground"]
+radius = 39.999996
+
+[node name="FireGroundManifest" type="Node2D" unique_id=502992047]
+z_index = -2
+scale = Vector2(0.2, 0.2)
+script = ExtResource("2_ground_dot")
+lifetime = 4.0
+fade_duration = 0.9
+target_groups = Array[StringName]([&"player", &"enemy"])
+tick_interval = 0.75
+damage = 5.0
+damage_types = Array[int]([2])
+tags = Array[String](["manifest", "ground", "periodic", "aoe", "fire", "burning_ground"])
+on_tick_status = ExtResource("3_burn_status")
+on_tick_status_duration_override = 2.5
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=1045466350]
+scale = Vector2(0.99999994, 0.99999994)
+amount = 12
+emission_shape = 2
+emission_sphere_radius = 55.0
+direction = Vector2(0, -1)
+spread = 44.8
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+color_ramp = SubResource("Gradient_idsjx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=201978980]
+z_index = -2
+texture_filter = 1
+position = Vector2(-1.1368684e-13, -4.7683716e-07)
+scale = Vector2(4, 4)
+skew = -0.29147
+sprite_frames = SubResource("SpriteFrames_fire_ground")
+autoplay = "default"
+frame_progress = 0.4061043
+
+[node name="Area2D" type="Area2D" parent="." unique_id=465365296]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=167028173]
+position = Vector2(4.7683716e-07, 4.038968e-28)
+shape = SubResource("CircleShape2D_fire_ground")

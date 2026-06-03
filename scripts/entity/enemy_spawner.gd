@@ -1,16 +1,24 @@
 class_name EnemySpawner
 extends Node
 
+const DEFAULT_BOUNTY_ENEMY_POOL := preload("res://custom_resource/default_bounty_enemy_pool.tres")
+
 signal wave_started(wave_index: int)
 signal wave_spawn_finished(wave_index: int)
 signal wave_cleared(wave_index: int)
 signal battle_completed
+signal bounty_enemy_presence_changed(has_bounty_enemy: bool)
 
 @export var battle_stats: BattleStats
 # 敌人围绕哪个节点附近生成，通常就是玩家。
 @export var spawn_around: Node2D
 @export var min_spawn_radius: float = 200.0
 @export var max_spawn_radius: float = 500.0
+@export_group("悬赏精英怪")
+## 每场战斗自然出现悬赏精英怪的概率。默认约 1.5%，可在具体场景里调成 1%-2%。
+@export_range(0.0, 1.0, 0.001) var random_bounty_spawn_chance: float = 0.015
+@export var enable_random_bounty_spawn: bool = true
+@export var bounty_enemy_pool: BountyEnemyPool
 
 var current_wave_index: int = -1
 var current_wave_spawned: int = 0
@@ -21,6 +29,7 @@ var next_wave_timer: float = 0.0
 var waiting_for_next_wave: bool = false
 var battle_finished: bool = false
 var active_enemies: Array[Enemy] = []
+var active_bounty_enemies: Array[Enemy] = []
 var current_wave_plan: Array[Dictionary] = []
 var current_spawn_plan_index: int = 0
 var current_plan_spawned: int = 0
@@ -28,12 +37,15 @@ var current_plan_spawned: int = 0
 
 func _ready() -> void:
 	add_to_group("enemy_spawner")
+	if bounty_enemy_pool == null:
+		bounty_enemy_pool = DEFAULT_BOUNTY_ENEMY_POOL
 	if battle_stats == null or battle_stats.get_wave_count() == 0:
 		battle_finished = true
 		call_deferred("_emit_battle_completed")
 		return
 
 	_start_wave(0)
+	call_deferred("_try_spawn_random_bounty_elite")
 
 
 func _process(delta: float) -> void:
@@ -283,12 +295,91 @@ func _resolve_max_radius(entry: EnemySpawnEntry) -> float:
 
 # 供 Boss 召唤、事件刷怪等非波次系统登记敌人。
 # 登记后的敌人会进入 active_enemies，参与“场上敌人清空后才结束战斗”的判断。
-func register_external_enemy(enemy: Enemy) -> void:
-	if enemy == null or active_enemies.has(enemy):
+func register_external_enemy(enemy: Enemy, count_for_victory: bool = true) -> void:
+	if enemy == null or active_enemies.has(enemy) or active_bounty_enemies.has(enemy):
+		return
+	if not count_for_victory:
+		_register_bounty_enemy(enemy)
 		return
 
 	active_enemies.append(enemy)
 	enemy.tree_exited.connect(_on_spawned_enemy_exited.bind(enemy), CONNECT_ONE_SHOT)
+
+
+## 从悬赏池中抽取并生成一只悬赏精英怪。
+## 默认不加入 active_enemies，因此不会影响“清空普通敌人即可胜利”的判定。
+func spawn_random_bounty_enemy(spawn_position: Vector2 = Vector2.ZERO, use_custom_position: bool = false) -> Enemy:
+	var pool: BountyEnemyPool = _get_bounty_enemy_pool()
+	if pool == null:
+		return null
+
+	var entry: BountyEnemyEntry = pool.get_random_entry()
+	if entry == null:
+		return null
+
+	return spawn_bounty_enemy(entry, spawn_position, use_custom_position)
+
+
+func spawn_bounty_enemy(entry: BountyEnemyEntry, spawn_position: Vector2 = Vector2.ZERO, use_custom_position: bool = false) -> Enemy:
+	if entry == null or not entry.is_valid_entry():
+		return null
+
+	var final_position: Vector2 = spawn_position if use_custom_position else _get_spawn_position(null)
+	var enemy: Enemy = _spawn_bounty_enemy_scene(entry.enemy_scene, final_position)
+	if enemy == null:
+		return null
+
+	entry.apply_to_enemy(enemy)
+	_register_bounty_enemy(enemy)
+	return enemy
+
+
+func _try_spawn_random_bounty_elite() -> void:
+	if not enable_random_bounty_spawn:
+		return
+	if battle_stats == null or battle_finished:
+		return
+	if randf() > random_bounty_spawn_chance:
+		return
+
+	spawn_random_bounty_enemy()
+
+
+func _get_bounty_enemy_pool() -> BountyEnemyPool:
+	if bounty_enemy_pool == null:
+		bounty_enemy_pool = DEFAULT_BOUNTY_ENEMY_POOL
+	return bounty_enemy_pool
+
+
+func _spawn_bounty_enemy_scene(enemy_scene: PackedScene, spawn_pos: Vector2) -> Enemy:
+	if enemy_scene == null:
+		return null
+
+	var enemy: Enemy = enemy_scene.instantiate() as Enemy
+	if enemy == null:
+		return null
+
+	enemy.global_position = spawn_pos
+	get_parent().add_child(enemy)
+	return enemy
+
+
+func _register_bounty_enemy(enemy: Enemy) -> void:
+	if enemy == null or active_bounty_enemies.has(enemy):
+		return
+
+	active_bounty_enemies.append(enemy)
+	enemy.tree_exited.connect(_on_bounty_enemy_exited.bind(enemy), CONNECT_ONE_SHOT)
+	bounty_enemy_presence_changed.emit(true)
+
+
+func _on_bounty_enemy_exited(enemy: Enemy) -> void:
+	active_bounty_enemies.erase(enemy)
+	bounty_enemy_presence_changed.emit(has_active_bounty_enemies())
+
+
+func has_active_bounty_enemies() -> bool:
+	return not active_bounty_enemies.is_empty()
 
 
 # 标记当前波次已经进入“等待下一波”阶段。

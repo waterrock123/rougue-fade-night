@@ -6,10 +6,9 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_ch23h"]
 [ext_resource type="Resource" uid="uid://dv8tumu8brwpy" path="res://relic_tags/加工品tag.tres" id="5_whwel"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="6_584gg"]
-
-[ext_resource type="Script" path="res://relic_effect/use_add_status_effect.gd" id="7_use_status"]
-[ext_resource type="Resource" path="res://status/adrenaline.tres" id="8_adrenaline"]
-[ext_resource type="Resource" path="res://status/tenacity.tres" id="9_tenacity"]
+[ext_resource type="Script" uid="uid://cq4pi61efk8vl" path="res://relic_effect/use_add_status_effect.gd" id="7_use_status"]
+[ext_resource type="Resource" uid="uid://5ht2yfjq5k6j" path="res://status/adrenaline.tres" id="8_adrenaline"]
+[ext_resource type="Resource" uid="uid://dcnd63jlcq1le" path="res://status/tenacity.tres" id="9_tenacity"]
 
 [sub_resource type="Resource" id="AdrenalineUseEffect"]
 script = ExtResource("7_use_status")

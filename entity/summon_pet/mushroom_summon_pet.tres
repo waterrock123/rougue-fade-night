@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://da0taip7mc1wi"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_50udo"]
+
+[resource]
+script = ExtResource("1_50udo")
+entity_name = "蘑菇精灵"
+base_max_health = 70.0
+base_move_speed = 30.0
+strength = 6
+dexterity = 8
+intelligence = 5
+constitution = 4
+speed = 3
+charm = 4
+luck = 5
+metadata/_custom_type_script = "uid://yiy2gawxifk8"

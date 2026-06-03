@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="BountyEnemyPool" format=3 uid="uid://cs6niyr1ijlbe"]
+
+[ext_resource type="Script" uid="uid://cnajar6cvnupi" path="res://custom_resource/bounty_enemy_pool.gd" id="1_pool"]
+[ext_resource type="Script" uid="uid://efdwwcfgoo2q" path="res://custom_resource/bounty_enemy_entry.gd" id="2_entry"]
+[ext_resource type="PackedScene" uid="uid://doge5x2nydqjd" path="res://entity/enemy/skeleton_knight.tscn" id="3_skeleton_knight"]
+[ext_resource type="PackedScene" uid="uid://b28upqlj5yxmh" path="res://entity/enemy/fire_demon.tscn" id="4_fire_demon"]
+
+[sub_resource type="Resource" id="BountyEntry_skeleton_knight"]
+script = ExtResource("2_entry")
+enemy_scene = ExtResource("3_skeleton_knight")
+bounty_gold = 10
+
+[sub_resource type="Resource" id="BountyEntry_fire_demon"]
+script = ExtResource("2_entry")
+enemy_scene = ExtResource("4_fire_demon")
+bounty_gold = 18
+weight = 0.55
+neutral_speed_multiplier = 0.4
+neutral_wander_radius = 150.0
+neutral_wander_repick_interval = 1.5
+
+[resource]
+script = ExtResource("1_pool")
+entries = Array[ExtResource("2_entry")]([SubResource("BountyEntry_skeleton_knight"), SubResource("BountyEntry_fire_demon")])

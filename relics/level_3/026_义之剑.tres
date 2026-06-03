@@ -6,9 +6,9 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_1e8mh"]
 [ext_resource type="Resource" uid="uid://hwfpda2ygcic" path="res://relic_tags/剑tag.tres" id="5_obwj5"]
 [ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="6_k2ho6"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" uid="uid://blkwp2130086f" path="res://relic_effect/gain_specific_relic_effect.gd" id="8_gain_relic"]
 
-[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
-[ext_resource type="Script" path="res://relic_effect/gain_specific_relic_effect.gd" id="8_gain_relic"]
 [sub_resource type="Resource" id="YiSwordStatsEffect"]
 script = ExtResource("7_add_stats")
 add_stats = {

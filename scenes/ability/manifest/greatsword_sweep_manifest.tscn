@@ -1,64 +1,115 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://b5b3f5nto5e84"]
 
-[ext_resource type="Script" path="res://scripts/ability/manifest/animated_hitbox_manifest.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/melee_slash_spritesheet.png" id="2_texture"]
+[ext_resource type="Script" uid="uid://csx5cflg0vbtm" path="res://scripts/ability/manifest/animated_hitbox_manifest.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://624yps86q5a7" path="res://assets/SlashFX FREE v1.2 (7.13.23)/3. Vernal Edge/SlashFX SpriteSheet FX 3E_4.png" id="2_t6x3m"]
+[ext_resource type="Texture2D" uid="uid://dsa7jy2j566xq" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1448.png" id="3_e7fky"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0"]
-atlas = ExtResource("2_texture")
-region = Rect2(0, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7fky"]
+atlas = ExtResource("2_t6x3m")
+region = Rect2(2112, 0, 192, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1"]
-atlas = ExtResource("2_texture")
-region = Rect2(64, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhubm"]
+atlas = ExtResource("2_t6x3m")
+region = Rect2(2304, 0, 192, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2"]
-atlas = ExtResource("2_texture")
-region = Rect2(128, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_55tmy"]
+atlas = ExtResource("2_t6x3m")
+region = Rect2(2496, 0, 192, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3"]
-atlas = ExtResource("2_texture")
-region = Rect2(192, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_kuxwg"]
+atlas = ExtResource("2_t6x3m")
+region = Rect2(2688, 0, 192, 192)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sweep"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0")
+"texture": SubResource("AtlasTexture_e7fky")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1")
+"texture": SubResource("AtlasTexture_jhubm")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_2")
+"texture": SubResource("AtlasTexture_55tmy")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3")
+"texture": SubResource("AtlasTexture_kuxwg")
 }],
 "loop": false,
 "name": &"default",
-"speed": 13.0
+"speed": 8.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sweep"]
-size = Vector2(180, 96)
+size = Vector2(222.81104, 116.67311)
 
-[node name="GreatswordSweepManifest" type="Node2D"]
+[sub_resource type="Animation" id="Animation_jhubm"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.11601179, -0.15, 0, 0.15, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_55tmy"]
+resource_name = "挥剑"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(2, 2),
+"points": PackedFloat32Array(0.39075232, 0, 0, 0.050000004, 0.45103624, 3.0969696, -0.15, 0, 0.15, 0),
+"times": PackedFloat32Array(0, 0.3)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kuxwg"]
+_data = {
+&"RESET": SubResource("Animation_jhubm"),
+&"挥剑": SubResource("Animation_55tmy")
+}
+
+[node name="GreatswordSweepManifest" type="Node2D" unique_id=590007064]
 z_index = 90
 script = ExtResource("1_script")
 target_group = &"enemy"
 damage_frames = Array[int]([1])
-damage = 24.0
+damage = 35.0
 tags = Array[String](["manifest", "relic", "greatsword", "melee", "melee_effect"])
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1958651051]
 texture_filter = 1
-position = Vector2(82, 0)
-scale = Vector2(2.4, 1.4)
+position = Vector2(-51, 82)
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sweep")
 autoplay = "default"
+frame = 3
+frame_progress = 1.0
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1845010873]
+position = Vector2(-13, 14)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(90, 0)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1788822171]
+position = Vector2(12.999999, 43)
+rotation = -0.33256495
 shape = SubResource("RectangleShape2D_sweep")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=402906400]
+libraries/ = SubResource("AnimationLibrary_kuxwg")
+autoplay = &"挥剑"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=730174943]
+position = Vector2(-0.90948236, 1.5076967)
+rotation = 0.11601179
+scale = Vector2(0.6705059, 0.6658864)
+texture = ExtResource("3_e7fky")
+offset = Vector2(23.92, -24.21)

@@ -4,27 +4,32 @@
 [ext_resource type="Texture2D" uid="uid://bluikevo852vj" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1464.png" id="2_a2jhe"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_kp6ng"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_teueq"]
+[ext_resource type="Texture2D" uid="uid://btc6x746w7abe" path="res://assets/meleeAttack_plusCharacters.png" id="4_yclxf"]
 [ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_kp6ng"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="6_teueq"]
+[ext_resource type="Script" uid="uid://cubgnrl7b8xl2" path="res://relic_effect/ability_cast_bank_manifest_effect.gd" id="7_bank_manifest"]
+[ext_resource type="PackedScene" uid="uid://t037vly17u5c" path="res://scenes/ability/manifest/weapon_thrown_manifest.tscn" id="8_throw_manifest"]
 
-[ext_resource type="Script" path="res://relic_effect/ability_cast_bank_manifest_effect.gd" id="7_bank_manifest"]
-[ext_resource type="PackedScene" path="res://scenes/ability/manifest/weapon_thrown_manifest.tscn" id="8_throw_manifest"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjj8w"]
+atlas = ExtResource("4_yclxf")
+region = Rect2(82.99054, 16.001934, 9.678772, 16.650188)
 
 [sub_resource type="Resource" id="ThrowingAxeSetEffect"]
 script = ExtResource("7_bank_manifest")
 manifest_scene = ExtResource("8_throw_manifest")
-stack_icon = ExtResource("2_a2jhe")
-charge_excluded_slot_indices = Array[int]([0])
-release_slot_indices = Array[int]([0])
-max_stacks = 8
-visual_radius = 20.0
-visual_scale = Vector2(0.42, 0.42)
+stack_icon = SubResource("AtlasTexture_wjj8w")
+release_mode = 1
 target_distance = 160.0
 levelup_manifest_property_overrides = {
 "max_distance": 320.0,
-"rotate_speed": 80.0,
+"return_max_distance_multiplier": 1.0,
+"return_speed_multiplier": 1.15,
+"return_to_source_after_max_distance": true,
+"rotate_speed": 20.0,
 "speed": 260.0
 }
+visual_base_offset = Vector2(15, 0)
+visual_scale = Vector2(1.2, 1.2)
 
 [resource]
 script = ExtResource("3_kp6ng")
@@ -35,6 +40,7 @@ tooltip = "使用除基础攻击以外的主动技能时会积攒一把投斧，
 desc = "一套放置投斧的装备，可以方便地抽出投斧攻击"
 price = 6
 level = 3
+leveltip = 1
 relic_type = 1
 tags = Array[ExtResource("4_teueq")]([ExtResource("5_kp6ng"), ExtResource("6_teueq")])
 id = "070"

@@ -6,23 +6,19 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_c5iyf"]
 [ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_kdyio"]
 [ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="6_e0ipn"]
-
-[ext_resource type="Script" path="res://relic_effect/alchemy_table_gain_effect.gd" id="7_alchemy_gain"]
-[ext_resource type="Script" path="res://relic_effect/battle_win_grant_tagged_shop_relic_effect.gd" id="8_battle_win_grant"]
-[ext_resource type="Resource" path="res://relic_tags/原料.tres" id="9_material_tag"]
-[ext_resource type="Resource" path="res://relic_tags/加工品tag.tres" id="10_processed_tag"]
+[ext_resource type="Script" uid="uid://bs7h30t4o7tyn" path="res://relic_effect/alchemy_table_gain_effect.gd" id="7_alchemy_gain"]
+[ext_resource type="Script" uid="uid://dhd5ioi2f7ch4" path="res://relic_effect/battle_win_grant_tagged_shop_relic_effect.gd" id="8_battle_win_grant"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="9_material_tag"]
+[ext_resource type="Resource" uid="uid://dv8tumu8brwpy" path="res://relic_tags/加工品tag.tres" id="10_processed_tag"]
 
 [sub_resource type="Resource" id="AlchemyTableGainEffect"]
 script = ExtResource("7_alchemy_gain")
 material_tag = ExtResource("9_material_tag")
 processed_tag = ExtResource("10_processed_tag")
-material_count_to_process = 2
-grant_material_count_when_empty = 1
 
 [sub_resource type="Resource" id="AlchemyTableBattleWinProcessedEffect"]
 script = ExtResource("8_battle_win_grant")
 required_tags = Array[ExtResource("4_c5iyf")]([ExtResource("10_processed_tag")])
-level_offset = 0
 allow_lower_level = true
 
 [resource]

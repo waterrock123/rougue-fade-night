@@ -6,21 +6,19 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_bfrl1"]
 [ext_resource type="Resource" uid="uid://dv8tumu8brwpy" path="res://relic_tags/加工品tag.tres" id="5_assi6"]
 [ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="6_san8b"]
-
-[ext_resource type="Script" path="res://relic_effect/use_spawn_manifest_effect.gd" id="7_use_spawn"]
+[ext_resource type="Script" uid="uid://bhut27hdbbym8" path="res://relic_effect/use_spawn_manifest_effect.gd" id="7_use_spawn"]
 [ext_resource type="PackedScene" path="res://scenes/ability/manifest/grenade_thrown_manifest.tscn" id="8_grenade_manifest"]
 
 [sub_resource type="Resource" id="GrenadeUseEffect"]
 script = ExtResource("7_use_spawn")
 manifest_scene = ExtResource("8_grenade_manifest")
-target_mode = 0
+levelup_manifest_property_overrides = {
+"scale": Vector2(1.3, 1.3)
+}
 use_hold_to_aim = true
 preview_shape = 2
 preview_radius = 220.0
 preview_target_radius = 72.0
-levelup_manifest_property_overrides = {
-"scale": Vector2(1.3, 1.3)
-}
 
 [resource]
 script = ExtResource("2_xr3b8")

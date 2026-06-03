@@ -5,22 +5,16 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_umgr7"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_p5f1t"]
 [ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="5_abmoy"]
-[ext_resource type="Resource" uid="uid://sptmtn6uua85" path="res://relic_tags/寒霜tag.tres" id="6_fm2cs"]
-
-[ext_resource type="Script" path="res://relic_effect/ability_cast_stacking_damage_bonus_effect.gd" id="7_damage_stack"]
-[ext_resource type="Script" path="res://relic_effect/battle_win_grant_tagged_shop_relic_effect.gd" id="8_battle_win_grant"]
-[ext_resource type="Resource" path="res://relic_tags/寒霜tag.tres" id="9_frost_tag"]
-
-[ext_resource type="Script" path="res://relic_effect/battle_win_add_tag_to_inventory_relic_effect.gd" id="10_add_tag"]
-[ext_resource type="Resource" path="res://relic_tags/原料.tres" id="11_material_tag"]
+[ext_resource type="Script" uid="uid://bfl4gvjdb31xf" path="res://relic_effect/ability_cast_stacking_damage_bonus_effect.gd" id="7_damage_stack"]
+[ext_resource type="Resource" uid="uid://sptmtn6uua85" path="res://relic_tags/寒霜tag.tres" id="9_frost_tag"]
+[ext_resource type="Script" uid="uid://dtus2dhsl8hfd" path="res://relic_effect/battle_win_add_tag_to_inventory_relic_effect.gd" id="10_add_tag"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="11_material_tag"]
 
 [sub_resource type="Resource" id="FridgeIceDamageStackEffect"]
 script = ExtResource("7_damage_stack")
 excluded_slot_indices = Array[int]([0])
 casts_per_stack = 10
-max_stacks = 5
 required_damage_types = Array[int]([3])
-flat_bonus_per_stack = 1.0
 
 [sub_resource type="Resource" id="FridgeBattleWinFrostRelicEffect"]
 script = ExtResource("10_add_tag")
@@ -36,7 +30,7 @@ tooltip = "每释放除基础攻击以外主动技能10次都使你的冰冻伤�
 desc = "依靠人力驱动提供电力"
 price = 4
 level = 3
-tags = Array[ExtResource("3_p5f1t")]([ExtResource("5_abmoy"), ExtResource("6_fm2cs")])
+tags = Array[ExtResource("3_p5f1t")]([ExtResource("5_abmoy"), ExtResource("9_frost_tag")])
 id = "081"
 effects = Array[ExtResource("1_cotmv")]([SubResource("FridgeIceDamageStackEffect")])
 great_effects = Array[ExtResource("1_cotmv")]([SubResource("FridgeBattleWinFrostRelicEffect")])

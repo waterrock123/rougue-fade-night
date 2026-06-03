@@ -339,6 +339,8 @@ func _is_valid_target(candidate: Entity) -> bool:
 		return false
 	if candidate == self or candidate.is_dead:
 		return false
+	if candidate.has_method("is_neutral_bounty_elite") and candidate.is_neutral_bounty_elite():
+		return false
 	if candidate.has_method("can_be_targeted") and not candidate.can_be_targeted():
 		return false
 	if global_position.distance_to(candidate.global_position) > chase_distance:

@@ -28,6 +28,8 @@ signal enemy_killed(enemy: Entity, killer: Entity)
 # 战斗胜利结算信号。会在切换升级/修整场景前触发，供被动技能处理吞噬装备、升级装备等局内结算。
 signal battle_rewards_resolving()
 #战斗失败信号
+# 悬赏精英怪被击杀时发出。PlayScene 负责把 bounty_gold 发到本局 RunStats。
+signal bounty_enemy_killed(enemy: Entity, killer: Entity, bounty_gold: int)
 signal battle_lost()
 #打开背包信号 
 signal change_bag()

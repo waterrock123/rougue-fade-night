@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_anim"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_movement.gd" id="3_lock"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_spawn_manifest_radial.gd" id="4_radial"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/homing_firefly_manifest.tscn" id="5_manifest"]
+
+[node name="MushroomFireflyBarrage" type="Node"]
+script = ExtResource("1_ability")
+cooldown = 3.2
+energy_cost = 0.0
+ai_max_cast_distance = 160.0
+ai_infer_cast_range_from_components = false
+
+[node name="AbilityAnimationRunner" type="Node" parent="."]
+script = ExtResource("2_anim")
+animation_name = "cast"
+
+[node name="CastLock" type="Node" parent="."]
+script = ExtResource("3_lock")
+lock_duration = 0.36
+
+[node name="SpawnFireflies" type="Node" parent="."]
+script = ExtResource("4_radial")
+exec_delay = 0.18
+manifest_scene = ExtResource("5_manifest")
+manifest_count = 8
+target_distance = 260.0
+spawn_radius = 14.0
+angle_jitter_degrees = 8.0
+

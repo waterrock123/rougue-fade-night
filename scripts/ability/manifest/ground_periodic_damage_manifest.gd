@@ -9,6 +9,8 @@ extends AbilityManifest
 
 @export_group("Hit Check")
 @export var target_group: StringName = &"enemy"
+## 需要同时命中多个阵营时填写这里；为空时继续使用 target_group，兼容旧资源。
+@export var target_groups: Array[StringName] = []
 @export var tick_interval: float = 1.0
 @export var damage_on_spawn: bool = false
 
@@ -130,7 +132,7 @@ func _get_entity_from_area(area: Area2D) -> Entity:
 		return null
 
 	var entity := parent as Entity
-	if not entity.matches_target_group(target_group):
+	if not _matches_target_groups(entity):
 		return null
 	if source != null and is_instance_valid(source) and entity == source:
 		return null
@@ -138,6 +140,20 @@ func _get_entity_from_area(area: Area2D) -> Entity:
 		return null
 
 	return entity
+
+
+func _matches_target_groups(entity: Entity) -> bool:
+	if entity == null:
+		return false
+
+	if target_groups.is_empty():
+		return entity.matches_target_group(target_group)
+
+	for group_name in target_groups:
+		if entity.matches_target_group(group_name):
+			return true
+
+	return false
 
 
 func _get_valid_source() -> Entity:

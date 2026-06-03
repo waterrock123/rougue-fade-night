@@ -26,6 +26,7 @@ var free_choice_slot_indices: Array[int] = []
 var saved_shop_slots: Array[Slot] = []
 var saved_frozen_slots: Array[bool] = []
 var suppress_free_choice_start: bool = false
+var pending_purchase_slot_index: int = -1
 
 
 func _ready() -> void:
@@ -52,6 +53,7 @@ func bind_shop_runtime(new_shop: Shop, new_shop_config: ShopConfig) -> void:
 
 # 离开修整期时恢复真实商店状态，避免临时三选一覆盖态被保存到下一次修整期。
 func cancel_free_choice_state() -> void:
+	_clear_pending_purchase()
 	_end_free_relic_choice(false)
 
 
@@ -208,6 +210,7 @@ func buy_relic(slot_index: int) -> void:
 	var slot_button := shop_slots[slot_index]
 	slot_button.set_frozen(false)
 	slot_button.clear_relic()
+	_clear_pending_purchase()
 	if money_token != null:
 		money_token.speak_buy()
 	_update_shop_ui()
@@ -283,6 +286,7 @@ func _bind_runtime_data() -> void:
 
 # 按照 shop.slot_count 重建可售卖按钮数量。
 func _rebuild_shop_buttons() -> void:
+	_clear_pending_purchase()
 	for child in equip_container.get_children():
 		equip_container.remove_child(child)
 		child.queue_free()
@@ -292,7 +296,8 @@ func _rebuild_shop_buttons() -> void:
 	for slot_index in range(shop.slot_count):
 		var slot_button := shop_button_scene.instantiate() as ShopEquipButton
 		slot_button.slot_index = slot_index
-		slot_button.purchase_requested.connect(buy_relic)
+		slot_button.purchase_focus_requested.connect(_on_shop_slot_purchase_focus_requested)
+		slot_button.purchase_requested.connect(_on_shop_slot_purchase_confirmed)
 		equip_container.add_child(slot_button)
 		shop_slots.append(slot_button)
 
@@ -314,6 +319,7 @@ func _sync_shop_ui() -> void:
 		shop_slots[slot_index].set_frozen(shop.is_slot_frozen(slot_index))
 
 	_sync_shop_match_highlights()
+	_sync_pending_purchase_visuals()
 
 
 func _on_shop_inventory_update() -> void:
@@ -377,6 +383,7 @@ func _get_available_relics() -> Array[Relic]:
 
 
 func _do_refresh_shop_slots() -> void:
+	_clear_pending_purchase()
 	if is_free_choice_active:
 		_end_free_relic_choice(false)
 
@@ -489,6 +496,7 @@ func _try_start_free_relic_choice() -> void:
 
 
 func _begin_free_relic_choice(choice_level: int) -> void:
+	_clear_pending_purchase()
 	_save_shop_state()
 	is_free_choice_active = true
 	free_choice_level = choice_level
@@ -507,6 +515,7 @@ func _end_free_relic_choice(consume_next: bool = true) -> void:
 	if not is_free_choice_active:
 		return
 
+	_clear_pending_purchase()
 	is_free_choice_active = false
 	free_choice_level = -1
 	free_choice_slot_indices.clear()
@@ -541,8 +550,50 @@ func _buy_free_choice_relic(slot_index: int) -> void:
 	EventBus.relic_purchased.emit(relic)
 	if money_token != null:
 		money_token.speak_buy()
+	_clear_pending_purchase()
 	_end_free_relic_choice(true)
 	_save_run_if_available()
+
+
+func _on_shop_slot_purchase_focus_requested(slot_index: int) -> void:
+	if slot_index < 0 or slot_index >= shop_slots.size():
+		_clear_pending_purchase()
+		return
+
+	var slot_button := shop_slots[slot_index]
+	if slot_button == null or slot_button.is_empty():
+		_clear_pending_purchase()
+		return
+
+	pending_purchase_slot_index = slot_index
+	_sync_pending_purchase_visuals()
+
+
+func _on_shop_slot_purchase_confirmed(slot_index: int) -> void:
+	if slot_index != pending_purchase_slot_index:
+		_on_shop_slot_purchase_focus_requested(slot_index)
+		return
+
+	buy_relic(slot_index)
+
+
+func _clear_pending_purchase() -> void:
+	pending_purchase_slot_index = -1
+	for slot_button in shop_slots:
+		if slot_button != null:
+			slot_button.set_purchase_pending(false)
+
+
+func _sync_pending_purchase_visuals() -> void:
+	if pending_purchase_slot_index < 0 or pending_purchase_slot_index >= shop_slots.size():
+		pending_purchase_slot_index = -1
+
+	for slot_button in shop_slots:
+		if slot_button == null:
+			continue
+
+		var should_pending := slot_button.slot_index == pending_purchase_slot_index and not slot_button.is_empty()
+		slot_button.set_purchase_pending(should_pending)
 
 
 # 优先用金币付款；若激活了对应套装且金币为 0，则允许永久消耗智力购买。

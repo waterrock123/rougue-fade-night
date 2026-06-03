@@ -56,4 +56,3 @@ metadata/_custom_type_script = "uid://6eu75168av5o"
 [node name="SpawnManifest" type="Node" parent="DelayedSpawn" unique_id=1165092228]
 script = ExtResource("5_o4bnd")
 manifest_scene = ExtResource("11_qwrdl")
-scale_multiplier = 4.0

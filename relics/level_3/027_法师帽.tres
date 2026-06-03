@@ -6,9 +6,8 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_0bxrd"]
 [ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="5_h6n31"]
 [ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="6_rkt2b"]
-
-[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
-[ext_resource type="Script" path="res://relic_effect/ability_cast_stacking_stats_effect.gd" id="8_cast_stack_stats"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" uid="uid://bq7u0e1v8m4rd" path="res://relic_effect/ability_cast_stacking_stats_effect.gd" id="8_cast_stack_stats"]
 
 [sub_resource type="Resource" id="WizardHatBaseStatsEffect"]
 script = ExtResource("7_add_stats")
@@ -22,7 +21,6 @@ add_stats_per_stack = {
 "intelligence": 1
 }
 excluded_slot_indices = Array[int]([0])
-max_stacks = 99
 duration = 30.0
 ignore_when_relic_levelup = true
 
@@ -38,8 +36,6 @@ add_stats_per_stack = {
 "intelligence": 1
 }
 excluded_slot_indices = Array[int]([0])
-max_stacks = 99
-duration = -1.0
 
 [resource]
 script = ExtResource("1_jefis")

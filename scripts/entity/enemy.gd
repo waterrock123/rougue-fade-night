@@ -24,6 +24,17 @@ enum AbilitySelectMode {
 @export var hit_particles: CPUParticles2D 
 @export var ability_select_mode: AbilitySelectMode = AbilitySelectMode.FIRST_READY
 
+@export_group("悬赏精英怪")
+## 是否作为悬赏精英怪。悬赏怪可以不参与战斗胜利判定，并在死亡时给玩家额外金币。
+@export var is_bounty_elite: bool = false
+@export var bounty_gold: int = 0
+## 开场是否保持中立。中立时只会在出生点附近游荡，被玩家侧单位攻击后才会主动追击。
+@export var bounty_starts_neutral: bool = false
+@export var neutral_speed_multiplier: float = 0.45
+@export var neutral_wander_radius: float = 120.0
+@export var neutral_wander_repick_interval: float = 1.8
+@export var neutral_wander_arrive_distance: float = 12.0
+
 
 var current_target: Entity
 var velocity: Vector2
@@ -34,6 +45,11 @@ var chasing = false
 #记忆计时器
 var memory_timer = 0.0
 var next_ability_index: int = 0
+var bounty_activated: bool = false
+var neutral_home_position: Vector2 = Vector2.ZERO
+var neutral_wander_anchor: Vector2 = Vector2.ZERO
+var neutral_wander_timer: float = 0.0
+var last_damage_source: Entity
 
 @onready var ability_controller: AbilityController = $AbilityController
 @onready var collision_shape: CollisionShape2D =$Area2D/CollisionShape2D
@@ -44,8 +60,14 @@ var next_ability_index: int = 0
 func _ready() -> void:
 	super._ready()
 	add_to_group('enemy')
+	if is_bounty_elite:
+		add_to_group("bounty_elite")
 	last_position = position
-	if aggresive: chasing = true
+	neutral_home_position = global_position
+	bounty_activated = not (is_bounty_elite and bounty_starts_neutral)
+	if aggresive and bounty_activated:
+		chasing = true
+	_pick_neutral_wander_anchor()
 	_connect_death_animation_finished()
 	
 
@@ -57,6 +79,10 @@ func _process(delta: float) -> void:
 		velocity = Vector2.ZERO
 		current_speed = 0.0
 		last_position = position
+		return
+
+	if _is_waiting_neutral_bounty():
+		_process_neutral_wander(delta)
 		return
 
 	current_target = _find_nearest_player_side_target()
@@ -107,6 +133,70 @@ func _process(delta: float) -> void:
 		if memory_timer >= memory:
 			memory_timer = 0.0
 			chasing = false
+
+
+func configure_bounty_elite(
+	new_bounty_gold: int,
+	starts_neutral: bool = true,
+	new_neutral_speed_multiplier: float = 0.45,
+	new_neutral_wander_radius: float = 120.0,
+	new_neutral_wander_repick_interval: float = 1.8
+) -> void:
+	is_bounty_elite = true
+	bounty_gold = max(new_bounty_gold, 0)
+	bounty_starts_neutral = starts_neutral
+	neutral_speed_multiplier = max(new_neutral_speed_multiplier, 0.0)
+	neutral_wander_radius = max(new_neutral_wander_radius, 0.0)
+	neutral_wander_repick_interval = max(new_neutral_wander_repick_interval, 0.1)
+	bounty_activated = not bounty_starts_neutral
+	if is_inside_tree():
+		add_to_group("bounty_elite")
+		neutral_home_position = global_position
+		_pick_neutral_wander_anchor()
+
+
+func activate_bounty_elite() -> void:
+	if not is_bounty_elite or bounty_activated:
+		return
+
+	bounty_activated = true
+	chasing = true
+	aggresive = true
+	memory_timer = 0.0
+
+
+func _is_waiting_neutral_bounty() -> bool:
+	return is_bounty_elite and bounty_starts_neutral and not bounty_activated
+
+
+func is_neutral_bounty_elite() -> bool:
+	return _is_waiting_neutral_bounty()
+
+
+func _process_neutral_wander(delta: float) -> void:
+	neutral_wander_timer -= delta
+	if neutral_wander_timer <= 0.0 or global_position.distance_to(neutral_wander_anchor) <= neutral_wander_arrive_distance:
+		_pick_neutral_wander_anchor()
+
+	var direction: Vector2 = Vector2.ZERO
+	if pathfinding != null:
+		direction = pathfinding.find_path(neutral_wander_anchor)
+	if direction == Vector2.ZERO:
+		direction = global_position.direction_to(neutral_wander_anchor)
+
+	if direction != Vector2.ZERO:
+		global_position += direction.normalized() * speed * neutral_speed_multiplier * delta
+		_face_target(direction)
+
+	_update_motion_cache(delta)
+	_handle_animations()
+
+
+func _pick_neutral_wander_anchor() -> void:
+	neutral_wander_timer = neutral_wander_repick_interval
+	var angle: float = randf() * TAU
+	var distance: float = randf_range(0.0, max(neutral_wander_radius, 0.0))
+	neutral_wander_anchor = neutral_home_position + Vector2.RIGHT.rotated(angle) * distance
 
 
 func _update_motion_cache(delta: float) -> void:
@@ -221,6 +311,28 @@ func _show_damage_taken_effect():
 	super._show_damage_taken_effect()
 	if hit_particles != null:
 		hit_particles.emitting = true
+
+
+func _handle_damage_callback(damage_data: DamageData) -> void:
+	if damage_data == null:
+		return
+
+	last_damage_source = damage_data.source
+	if _is_waiting_neutral_bounty() and _is_player_side_source(damage_data.source):
+		activate_bounty_elite()
+
+
+func _die() -> void:
+	var should_grant_bounty: bool = is_bounty_elite and bounty_gold > 0 and _is_player_side_source(last_damage_source)
+	super._die()
+	if should_grant_bounty:
+		EventBus.bounty_enemy_killed.emit(self, last_damage_source, bounty_gold)
+
+
+func _is_player_side_source(source: Entity) -> bool:
+	if source == null or not is_instance_valid(source):
+		return false
+	return source.is_player_side()
 	
 
 

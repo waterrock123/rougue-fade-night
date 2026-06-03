@@ -5,10 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://b0ac5xauu5ex0" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2171.png" id="2_cl7ls"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_cl7ls"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_2p5sh"]
-
-[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="6_add_stats"]
-[ext_resource type="Script" path="res://relic_effect/damage_dealt_stacking_stats_effect.gd" id="7_damage_stack_stats"]
-[ext_resource type="Script" path="res://relic_effect/add_derived_stat_effect.gd" id="8_add_derived"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="6_add_stats"]
+[ext_resource type="Script" uid="uid://cclop8lyl0v86" path="res://relic_effect/damage_dealt_stacking_stats_effect.gd" id="7_damage_stack_stats"]
+[ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://relic_effect/add_derived_stat_effect.gd" id="8_add_derived"]
 
 [sub_resource type="Resource" id="MobileGauntletDexEffect"]
 script = ExtResource("6_add_stats")

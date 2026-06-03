@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://t037vly17u5c"]
 
-[ext_resource type="Script" uid="uid://2w51uq128cy0" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1_a50mv"]
+[ext_resource type="Script" uid="uid://cd438rrx1t2v6" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1_a50mv"]
 [ext_resource type="AudioStream" uid="uid://bfj8vxy0sfsyh" path="res://assets/Sound/Sword Impact Hit 1.wav" id="2_4ycrp"]
 [ext_resource type="Texture2D" uid="uid://btc6x746w7abe" path="res://assets/meleeAttack_plusCharacters.png" id="2_g7spf"]
 [ext_resource type="AudioStream" uid="uid://c7vdv8qlqgw3q" path="res://assets/Sound/Sword Impact Hit 2.wav" id="3_a50mv"]
@@ -15,7 +15,7 @@ metadata/_custom_type_script = "uid://cfgrgm03strrd"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pwjyv"]
 atlas = ExtResource("2_g7spf")
-region = Rect2(80.169, 16, 15.83, 16)
+region = Rect2(82.94865, 16, 9.604317, 16)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_36yfb"]
 radius = 4.5
@@ -23,14 +23,13 @@ height = 18.0
 
 [node name="WeaponThrownAbilityManifest" type="Node2D" unique_id=1293196864]
 z_index = 100
-scale = Vector2(0.3, 0.3)
 script = ExtResource("1_a50mv")
 speed = 200.0
 target_group = "enemy"
 max_distance = 200.0
 is_rotate = true
 hit_sound = SubResource("Resource_yeulv")
-rotate_speed = 50.0
+rotate_speed = 20.0
 damage = 15.0
 is_penetrate = true
 

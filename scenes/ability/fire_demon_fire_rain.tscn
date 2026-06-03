@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_anim"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_movement.gd" id="3_lock"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_target_player.gd" id="4_target_player"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_target_position.gd" id="5_lock_target"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_spawn_manifest_random_around_target.gd" id="6_rain"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/fire_rain_zone_manifest.tscn" id="7_fire_rain_zone"]
+
+[node name="FireDemonFireRain" type="Node"]
+script = ExtResource("1_ability")
+cooldown = 7.0
+energy_cost = 0.0
+ai_min_cast_distance = 70.0
+ai_max_cast_distance = 260.0
+ai_infer_cast_range_from_components = false
+
+[node name="TargetPlayer" type="Node" parent="."]
+script = ExtResource("4_target_player")
+
+[node name="LockPlayerPosition" type="Node" parent="."]
+script = ExtResource("5_lock_target")
+
+[node name="PlayCastAnimation" type="Node" parent="."]
+script = ExtResource("2_anim")
+animation_name = "attack"
+
+[node name="LockMovement" type="Node" parent="."]
+script = ExtResource("3_lock")
+lock_duration = 1.35
+
+[node name="SpawnFireRain" type="Node" parent="."]
+script = ExtResource("6_rain")
+spawn_count = 9
+min_radius = 12.0
+max_radius = 145.0
+initial_delay = 0.36
+spawn_interval = 0.0
+include_center_spawn = false
+manifest_scene = ExtResource("7_fire_rain_zone")

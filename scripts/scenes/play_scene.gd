@@ -16,6 +16,7 @@ var consumable_preview_indicator: AbilityAreaIndicator
 var previewing_consumable_effect: UseSpawnManifestEffect
 var previewing_consumable_slot_index: int = -1
 var tag_effect_controller: TagEffectController
+var bounty_hint_label: Label
 
 @onready var enemy_spawner: EnemySpawner = $EnemySpawner
 @onready var spell_bar: SpellBar = $CanvasLayer/UI/SpellBar
@@ -44,12 +45,18 @@ func _ready() -> void:
 		player.player_died.connect(_handle_game_over)
 	if enemy_spawner != null and not enemy_spawner.battle_completed.is_connected(_handle_battle_completed):
 		enemy_spawner.battle_completed.connect(_handle_battle_completed)
+	if enemy_spawner != null and not enemy_spawner.bounty_enemy_presence_changed.is_connected(_handle_bounty_enemy_presence_changed):
+		enemy_spawner.bounty_enemy_presence_changed.connect(_handle_bounty_enemy_presence_changed)
+	_setup_bounty_hint_ui()
+	_handle_bounty_enemy_presence_changed(enemy_spawner.has_active_bounty_enemies() if enemy_spawner != null else false)
 
 	AudioController.play_bg_music("battle")
 	if not EventBus.game_paused.is_connected(_handle_pause):
 		EventBus.game_paused.connect(_handle_pause)
 	if not EventBus.equipment_update.is_connected(_refresh_consumable_ui):
 		EventBus.equipment_update.connect(_refresh_consumable_ui)
+	if not EventBus.bounty_enemy_killed.is_connected(_handle_bounty_enemy_killed):
+		EventBus.bounty_enemy_killed.connect(_handle_bounty_enemy_killed)
 
 	# 所有玩家构筑、装备效果和 UI 都初始化后，再通知“进场触发”效果结算。
 	EventBus.is_battle_active = true
@@ -62,6 +69,10 @@ func _exit_tree() -> void:
 		EventBus.game_paused.disconnect(_handle_pause)
 	if EventBus.equipment_update.is_connected(_refresh_consumable_ui):
 		EventBus.equipment_update.disconnect(_refresh_consumable_ui)
+	if EventBus.bounty_enemy_killed.is_connected(_handle_bounty_enemy_killed):
+		EventBus.bounty_enemy_killed.disconnect(_handle_bounty_enemy_killed)
+	if enemy_spawner != null and enemy_spawner.bounty_enemy_presence_changed.is_connected(_handle_bounty_enemy_presence_changed):
+		enemy_spawner.bounty_enemy_presence_changed.disconnect(_handle_bounty_enemy_presence_changed)
 	_unbind_player_status_ui()
 	_cleanup_battle_tag_effect_controller()
 	_cancel_consumable_preview()
@@ -137,6 +148,48 @@ func _handle_battle_completed() -> void:
 		return
 
 	EventBus.battle_win.emit()
+
+
+func _handle_bounty_enemy_killed(_enemy: Entity, killer: Entity, bounty_gold: int) -> void:
+	if run_stats == null or bounty_gold <= 0:
+		return
+	if killer != null and is_instance_valid(killer) and not killer.is_player_side():
+		return
+
+	run_stats.set_gold(run_stats.gold + bounty_gold)
+
+
+func _setup_bounty_hint_ui() -> void:
+	if bounty_hint_label != null:
+		return
+
+	var ui_root: Control = get_node_or_null("CanvasLayer/UI") as Control
+	if ui_root == null:
+		return
+
+	bounty_hint_label = Label.new()
+	bounty_hint_label.name = "BountyEliteHintLabel"
+	bounty_hint_label.text = "稀有的悬赏精英怪已出现，有实力者可以前去挑战"
+	bounty_hint_label.visible = false
+	bounty_hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	bounty_hint_label.add_theme_font_size_override("font_size", 18)
+	bounty_hint_label.add_theme_color_override("font_color", Color(1.0, 0.78, 0.22, 1.0))
+	bounty_hint_label.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.85))
+	bounty_hint_label.add_theme_constant_override("shadow_offset_x", 2)
+	bounty_hint_label.add_theme_constant_override("shadow_offset_y", 2)
+	ui_root.add_child(bounty_hint_label)
+	bounty_hint_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	bounty_hint_label.offset_left = 0.0
+	bounty_hint_label.offset_top = 22.0
+	bounty_hint_label.offset_right = 0.0
+	bounty_hint_label.offset_bottom = 54.0
+
+
+func _handle_bounty_enemy_presence_changed(has_bounty_enemy: bool) -> void:
+	if bounty_hint_label == null:
+		return
+
+	bounty_hint_label.visible = has_bounty_enemy
 
 
 func _is_boss_battle_completed() -> bool:

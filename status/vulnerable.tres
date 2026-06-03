@@ -1,13 +1,12 @@
-[gd_resource type="Resource" script_class="StatusData" format=3]
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://dxhua8e4obb4q"]
 
-[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1_data"]
-[ext_resource type="Script" path="res://scripts/status/status_effect.gd" id="2_base"]
-[ext_resource type="Script" path="res://scripts/status/status_incoming_damage_taken_effect.gd" id="3_incoming"]
-[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb678.png" id="4_icon"]
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="1_data"]
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="2_base"]
+[ext_resource type="Script" uid="uid://bpod3pdrk5xso" path="res://scripts/status/status_incoming_damage_taken_effect.gd" id="3_incoming"]
+[ext_resource type="Texture2D" uid="uid://bx4ie4d1ckb52" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb678.png" id="4_icon"]
 
 [sub_resource type="Resource" id="Resource_vulnerable"]
 script = ExtResource("3_incoming")
-percent_bonus = 0.3
 
 [resource]
 script = ExtResource("1_data")

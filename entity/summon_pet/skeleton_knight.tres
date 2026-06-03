@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://br3jvpv4m3fek"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_rcg6b"]
+
+[resource]
+script = ExtResource("1_rcg6b")
+entity_name = "skeleton_knight"
+base_max_health = 300.0
+base_move_speed = 20.0
+strength = 10
+dexterity = 9
+intelligence = 5
+constitution = 7
+speed = 2
+charm = 2
+luck = 2
+metadata/_custom_type_script = "uid://yiy2gawxifk8"

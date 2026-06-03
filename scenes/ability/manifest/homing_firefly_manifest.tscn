@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://clmf301fwgwj8"]
+
+[ext_resource type="Script" uid="uid://dg8i34f387k66" path="res://scripts/ability/manifest/homing_firefly_manifest.gd" id="1_firefly"]
+[ext_resource type="Texture2D" uid="uid://oxt3wdulkwa2" path="res://assets/Effect and Bullet 16x16/Effect and Bullet 16x16/Green Effect and Bullet 16x16.png" id="2_6astk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_firefly"]
+radius = 5.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1k72"]
+atlas = ExtResource("2_6astk")
+region = Rect2(480, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_biger"]
+atlas = ExtResource("2_6astk")
+region = Rect2(496, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5qiv"]
+atlas = ExtResource("2_6astk")
+region = Rect2(512, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdu3n"]
+atlas = ExtResource("2_6astk")
+region = Rect2(528, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wa5iv"]
+atlas = ExtResource("2_6astk")
+region = Rect2(544, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xi5on"]
+atlas = ExtResource("2_6astk")
+region = Rect2(560, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q2xaq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1k72")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_biger")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c5qiv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bdu3n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wa5iv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xi5on")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="HomingFireflyManifest" type="Node2D" unique_id=124809767]
+z_index = 130
+script = ExtResource("1_firefly")
+speed = 175.0
+max_distance = 280.0
+lifetime = 2.35
+acquire_radius = 210.0
+homing_turn_speed = 4.6
+damage = 20.0
+
+[node name="Area2D" type="Area2D" parent="." unique_id=501120032]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1926689936]
+shape = SubResource("CircleShape2D_firefly")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1478250277]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_q2xaq")
+autoplay = "default"
+frame_progress = 0.40470165

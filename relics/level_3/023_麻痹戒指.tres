@@ -5,10 +5,9 @@
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_cbkjy"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_oy87m"]
 [ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_iowux"]
-
-[ext_resource type="Script" path="res://relic_effect/outgoing_damage_status_chance_effect.gd" id="6_status_chance"]
-[ext_resource type="Resource" path="res://status/paralysis.tres" id="7_paralysis"]
-[ext_resource type="Resource" path="res://status/vulnerable.tres" id="8_vulnerable"]
+[ext_resource type="Script" uid="uid://bxkmgbchc14pg" path="res://relic_effect/outgoing_damage_status_chance_effect.gd" id="6_status_chance"]
+[ext_resource type="Resource" uid="uid://bjat0npytwwly" path="res://status/paralysis.tres" id="7_paralysis"]
+[ext_resource type="Resource" uid="uid://dxhua8e4obb4q" path="res://status/vulnerable.tres" id="8_vulnerable"]
 
 [sub_resource type="Resource" id="ParalysisBasicAttackEffect"]
 script = ExtResource("6_status_chance")

@@ -1,9 +1,9 @@
-[gd_resource type="Resource" script_class="StatusData" format=3]
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://dcnd63jlcq1le"]
 
-[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1_data"]
-[ext_resource type="Script" path="res://scripts/status/status_effect.gd" id="2_base"]
-[ext_resource type="Script" path="res://scripts/status/status_add_stat_effect.gd" id="3_add_stat"]
-[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb148.png" id="4_icon"]
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="1_data"]
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="2_base"]
+[ext_resource type="Script" uid="uid://dgo07v5uptqqr" path="res://scripts/status/status_add_stat_effect.gd" id="3_add_stat"]
+[ext_resource type="Texture2D" uid="uid://ciq3s7f4xpec3" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb148.png" id="4_icon"]
 
 [sub_resource type="Resource" id="TenacityReductionEffect"]
 script = ExtResource("3_add_stat")

@@ -6,10 +6,9 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_bwepo"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_wxg5c"]
 [ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="6_nfoqe"]
-
-[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
-[ext_resource type="Script" path="res://relic_effect/first_damage_taken_status_effect.gd" id="8_first_damage_status"]
-[ext_resource type="Resource" path="res://status/swift.tres" id="9_swift"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" uid="uid://d0bnhfmf44x2x" path="res://relic_effect/first_damage_taken_status_effect.gd" id="8_first_damage_status"]
+[ext_resource type="Resource" uid="uid://hk03b4thfvv5" path="res://status/swift.tres" id="9_swift"]
 
 [sub_resource type="Resource" id="StimVideoCharmEffect"]
 script = ExtResource("7_add_stats")
