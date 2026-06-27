@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://da2iovf7h27em"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_y5m0y"]
+[ext_resource type="Texture2D" uid="uid://bvfjmcv21unfv" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc381.png" id="2_n35yv"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_no62h"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_n35yv"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_t37tj"]
+[ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="6_raw7r"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" uid="uid://dug2dn4353sor" path="res://relic_effect/periodic_radial_manifest_effect.gd" id="8_spore_barrage"]
+[ext_resource type="PackedScene" uid="uid://clmf301fwgwj8" path="res://scenes/ability/manifest/homing_firefly_manifest.tscn" id="9_firefly_manifest"]
+
+[sub_resource type="Resource" id="Resource_spore_stats"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"constitution": -6,
+"intelligence": 4
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
+
+[sub_resource type="Resource" id="Resource_spore_barrage"]
+script = ExtResource("8_spore_barrage")
+manifest_scene = ExtResource("9_firefly_manifest")
+levelup_manifest_count = 8
+target_distance = 300.0
+spawn_radius = 18.0
+angle_jitter_degrees = 10.0
+metadata/_custom_type_script = "res://relic_effect/periodic_radial_manifest_effect.gd"
+
+[resource]
+script = ExtResource("2_no62h")
+relic_name = "孢子律动器"
+icon = ExtResource("2_n35yv")
+tooltip = "{constitution}-6，{intelligence}+4，每4秒自动释放4个追踪孢子光弹，其伤害数值等同于10+你的{intelligence}
+升级：每次释放的光弹数量增加至8个"
+desc = "这个仪器在不断释放奇怪的光点"
+price = 5
+level = 2
+relic_type = 1
+tags = Array[ExtResource("3_n35yv")]([ExtResource("5_t37tj"), ExtResource("6_raw7r")])
+id = "202"
+effects = Array[ExtResource("1_y5m0y")]([SubResource("Resource_spore_stats"), SubResource("Resource_spore_barrage")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

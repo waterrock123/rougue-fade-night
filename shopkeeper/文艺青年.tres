@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="ShopKeeper" format=3 uid="uid://crfrv5yjonucn"]
+
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="1_qbh2f"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_gnvgg"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="2_kib4a"]
+[ext_resource type="Resource" uid="uid://ch376jrm52b7o" path="res://relics/level_1/088_良子的神秘药剂.tres" id="2_q14b2"]
+[ext_resource type="Resource" uid="uid://bpyxiv6nfwnu5" path="res://relic_tags/创生tag.tres" id="3_f00og"]
+[ext_resource type="Script" uid="uid://copgj7rv7yvot" path="res://scripts/rest_period/shop_keeper.gd" id="3_g23cf"]
+[ext_resource type="Resource" uid="uid://x0kxnt4y6v1m" path="res://relics/level_2/087_甲画家的星星投影.tres" id="3_pfheo"]
+[ext_resource type="Resource" uid="uid://b5pj0gwwux13c" path="res://relic_tags/聚众.tres" id="4_h2d24"]
+[ext_resource type="Script" uid="uid://2d8755uj7qel" path="res://custom_resource/shop_keeper_dialogue_pool.gd" id="5_6i865"]
+[ext_resource type="Resource" uid="uid://efp15spvv1rk" path="res://relic_pools/all_relic_pool.tres" id="6_oiumx"]
+[ext_resource type="Texture2D" uid="uid://bfaagl4mcf5rn" path="res://assets/商人立绘/张老师.png" id="7_01kpb"]
+[ext_resource type="Resource" uid="uid://jxnlxdxhnspq" path="res://relics/level_2/066_吉祥如意.tres" id="25_jsure"]
+
+[sub_resource type="Resource" id="Resource_qyxhp"]
+script = ExtResource("5_6i865")
+lines = Array[String](["收获满满！", "是不是很赚？", "这可是寄托了我心意的物件，便宜你了"])
+metadata/_custom_type_script = "uid://2d8755uj7qel"
+
+[sub_resource type="Resource" id="Resource_0raca"]
+script = ExtResource("5_6i865")
+lines = Array[String](["哈喽，要不要来跟我打羽毛球？", "慢慢看，我这里都是些贵族才用得起的好物"])
+metadata/_custom_type_script = "uid://2d8755uj7qel"
+
+[sub_resource type="Resource" id="Resource_31m6l"]
+script = ExtResource("5_6i865")
+lines = Array[String](["拜拜，如果以后交了大姐姐朋友的话，记得推荐给我哦", "好朋友，以后要常来啊"])
+metadata/_custom_type_script = "uid://2d8755uj7qel"
+
+[sub_resource type="Resource" id="Resource_jwiby"]
+script = ExtResource("5_6i865")
+lines = Array[String](["不错物件，它值这个价钱", "这已经是我能给出最好的价格了，不能再多了哦", "这物件，让我涌现了创作的灵感！"])
+metadata/_custom_type_script = "uid://2d8755uj7qel"
+
+[resource]
+script = ExtResource("3_g23cf")
+name = "姓安的文艺青年"
+texture = ExtResource("7_01kpb")
+havetag = Array[ExtResource("1_qbh2f")]([ExtResource("2_kib4a"), ExtResource("3_f00og"), ExtResource("4_h2d24")])
+shop_desc = "一个奇怪的男人，举手投足带着不协调感。
+“我姓安，你可以叫我安同学，我平时会写点东西，唱唱歌，有空一定要来给我捧场啊。”"
+banned_relics = Array[ExtResource("2_gnvgg")]([ExtResource("2_q14b2"), ExtResource("3_pfheo"), ExtResource("25_jsure"), null])
+enter_rest_period_dialogues = SubResource("Resource_0raca")
+exit_rest_period_dialogues = SubResource("Resource_31m6l")
+buy_relic_dialogues = SubResource("Resource_qyxhp")
+sell_relic_dialogues = SubResource("Resource_jwiby")
+metadata/_custom_type_script = "uid://copgj7rv7yvot"

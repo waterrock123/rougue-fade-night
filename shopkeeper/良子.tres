@@ -10,7 +10,9 @@
 [ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="4_vfqc0"]
 [ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="5_5nr7l"]
 [ext_resource type="Resource" uid="uid://crmfbx8choeqx" path="res://relics/level_1/037_鲜艳蔬菜.tres" id="5_fl8d3"]
+[ext_resource type="Resource" uid="uid://box5044uf2gqf" path="res://relic_tags/疗愈tag.tres" id="5_u3850"]
 [ext_resource type="Resource" uid="uid://biuud4wl111k8" path="res://relics/level_1/008_背包.tres" id="6_rw3kd"]
+[ext_resource type="Resource" uid="uid://efp15spvv1rk" path="res://relic_pools/all_relic_pool.tres" id="7_kprfs"]
 [ext_resource type="Resource" uid="uid://bv2vo4gw6m5p" path="res://relics/level_1/006_布鞋.tres" id="7_u3850"]
 [ext_resource type="Resource" uid="uid://ba0va1q5ux0en" path="res://relics/level_2/019_保暖裤.tres" id="8_kprfs"]
 [ext_resource type="Resource" uid="uid://bniw0iud7ve6r" path="res://relics/level_2/014_瞌睡虫.tres" id="9_vfqc0"]
@@ -49,11 +51,11 @@ region = Rect2(96.66597, 25, 42.000015, 42)
 [resource]
 script = ExtResource("2_3gj5w")
 name = "良子"
-relics = Array[ExtResource("1_725fs")]([ExtResource("3_n5ma4"), ExtResource("4_krfpc"), ExtResource("5_fl8d3"), ExtResource("6_rw3kd"), ExtResource("7_u3850"), ExtResource("8_kprfs"), ExtResource("9_vfqc0"), ExtResource("10_5nr7l"), ExtResource("11_texjh"), ExtResource("12_1kri0"), ExtResource("13_6uqwd"), ExtResource("14_i1a1a"), ExtResource("15_i36v5"), ExtResource("16_w5gai")])
 texture = SubResource("AtlasTexture_vyj8d")
-havetag = Array[ExtResource("2_u3850")]([ExtResource("4_vfqc0"), ExtResource("5_5nr7l")])
+havetag = Array[ExtResource("2_u3850")]([ExtResource("4_vfqc0"), ExtResource("5_5nr7l"), ExtResource("5_u3850")])
 shop_desc = "居然是怪物！杀！！
 蘑菇怪看到你便大叫：“我是好蘑菇，别杀我，我是来做生意的！！“"
+relics = Array[ExtResource("1_725fs")]([ExtResource("3_n5ma4"), ExtResource("4_krfpc"), ExtResource("5_fl8d3"), ExtResource("6_rw3kd"), ExtResource("7_u3850"), ExtResource("8_kprfs"), ExtResource("9_vfqc0"), ExtResource("10_5nr7l"), ExtResource("11_texjh"), ExtResource("12_1kri0"), ExtResource("13_6uqwd"), ExtResource("14_i1a1a"), ExtResource("15_i36v5"), ExtResource("16_w5gai")])
 enter_rest_period_dialogues = SubResource("Resource_17x8v")
 exit_rest_period_dialogues = SubResource("Resource_g2k06")
 buy_relic_dialogues = SubResource("Resource_igax5")

@@ -2,6 +2,33 @@
 
 [ext_resource type="Script" uid="uid://b8kgi6128gra1" path="res://scripts/utils/home_scene.gd" id="1_jfeqw"]
 [ext_resource type="Texture2D" uid="uid://cpq4nssrbobgd" path="res://assets/ai art/jimeng-2026-04-06-2011-像素风格，游戏插图，上半部分是天空（蓝天白云），天空的中央是一片与蓝天白云截然不..._副本.jpg" id="1_umrym"]
+[ext_resource type="Texture2D" uid="uid://rvv88o3laypk" path="res://assets/Lucid V1.2/PNG/Flat/64/Gear.png" id="3_5rntw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w4owu"]
+bg_color = Color(0.60121185, 0.4909168, 0.21638781, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7553861, 0.7553861, 0.7553857, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d0h8d"]
+bg_color = Color(0.3345844, 0.60278165, 0.4654019, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7553861, 0.7553861, 0.7553857, 1)
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mdovq"]
+bg_color = Color(0.76113874, 0.62430197, 0.2808881, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7553861, 0.7553861, 0.7553857, 1)
+corner_detail = 6
 
 [node name="HomeScene" type="Control" unique_id=1600192818]
 layout_mode = 3
@@ -89,6 +116,19 @@ offset_right = 411.0
 offset_bottom = 775.0
 theme_override_font_sizes/font_size = 48
 text = "设置套装效果"
+
+[node name="SettingButton" type="Button" parent="." unique_id=701853199]
+layout_mode = 0
+offset_left = 1680.0
+offset_top = 61.0
+offset_right = 1812.0
+offset_bottom = 125.0
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_w4owu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_d0h8d")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mdovq")
+text = "设置"
+icon = ExtResource("3_5rntw")
 
 [connection signal="pressed" from="PlayBtn" to="." method="_on_play_btn_pressed"]
 [connection signal="pressed" from="ContinueBtn" to="." method="_on_continue_btn_pressed"]

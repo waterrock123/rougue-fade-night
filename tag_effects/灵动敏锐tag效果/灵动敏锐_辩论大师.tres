@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="TagEffect" format=3 uid="uid://bx1l6gm0gaqky"]
+
+[ext_resource type="Script" uid="uid://bkm4mygm81buv" path="res://scripts/tag_effect/tag_effect.gd" id="1_n1j5o"]
+[ext_resource type="Texture2D" uid="uid://0h5x468bicek" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc950.png" id="1_slhpx"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="3_s4pgh"]
+
+[resource]
+script = ExtResource("1_n1j5o")
+id = &"辩论大师"
+tag = ExtResource("3_s4pgh")
+effect_name = "辩论大师"
+icon = ExtResource("1_slhpx")
+desc = "达到四件时激活，商店所有商品价格-1"
+required_count = 4
+metadata/_custom_type_script = "uid://bkm4mygm81buv"

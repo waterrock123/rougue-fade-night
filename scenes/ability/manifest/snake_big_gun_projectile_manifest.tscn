@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://dnhb2x2hry8qx"]
+
+[ext_resource type="Script" uid="uid://haxj03uhi7y7" path="res://scripts/ability/manifest/animated_projectile_manifest.gd" id="1_e11wd"]
+[ext_resource type="Texture2D" uid="uid://oxt3wdulkwa2" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Green Effect and Bullet 16x16.png" id="2_green_bullet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e11wd"]
+atlas = ExtResource("2_green_bullet")
+region = Rect2(416, 160, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vs61l"]
+atlas = ExtResource("2_green_bullet")
+region = Rect2(432, 160, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xstwc"]
+atlas = ExtResource("2_green_bullet")
+region = Rect2(448, 160, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ve1uh"]
+atlas = ExtResource("2_green_bullet")
+region = Rect2(400, 160, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qb3p"]
+atlas = ExtResource("2_green_bullet")
+region = Rect2(416, 160, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0m7qr"]
+atlas = ExtResource("2_green_bullet")
+region = Rect2(384, 160, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n3o68"]
+atlas = ExtResource("2_green_bullet")
+region = Rect2(400, 160, 16, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n3o68"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e11wd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vs61l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xstwc")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ve1uh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qb3p")
+}],
+"loop": false,
+"name": &"repeatable",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0m7qr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n3o68")
+}],
+"loop": false,
+"name": &"start",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_snake_shell"]
+size = Vector2(48, 18)
+
+[node name="SnakeBigGunProjectileManifest" type="Node2D" unique_id=1326074942]
+z_index = 100
+scale = Vector2(1.5, 1.5)
+script = ExtResource("1_e11wd")
+speed = 430.0
+max_distance = 650.0
+is_penetrate = true
+damage = 300.0
+tags = Array[String](["manifest", "projectile", "animated_projectile", "ranged", "poison", "snake_big_gun"])
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1771924155]
+texture_filter = 1
+position = Vector2(1, -2)
+rotation = -1.562819
+scale = Vector2(1.40625, 1.25)
+sprite_frames = SubResource("SpriteFrames_n3o68")
+animation = &"repeatable"
+autoplay = "start"
+frame = 1
+frame_progress = 1.0
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1162170708]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1713041494]
+position = Vector2(9, -1)
+shape = SubResource("RectangleShape2D_snake_shell")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

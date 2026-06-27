@@ -39,18 +39,12 @@ func _heal_missing_health(relic_context: RelicContext) -> void:
 	if owner == null or missing_health_percent <= 0.0:
 		return
 
-	var missing_health = max(owner.max_health - owner.current_health, 0.0)
+	var missing_health = max(owner.get_runtime_max_health() - owner.current_health, 0.0)
 	var heal_amount = missing_health * missing_health_percent
 	if heal_amount <= 0.0:
 		return
 
-	owner.current_health = min(owner.current_health + heal_amount, owner.max_health)
-	if owner.stats_controller != null:
-		owner.stats_controller.current_health = owner.current_health
-		owner.stats_controller.sync_runtime_resources()
-
-	if owner.is_in_group("player"):
-		EventBus.player_health_changed.emit(owner.current_health, owner.max_health)
+	owner.apply_heal(heal_amount)
 
 
 func _get_owner_entity(relic_context: RelicContext) -> Entity:

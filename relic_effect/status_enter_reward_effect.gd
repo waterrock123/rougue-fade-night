@@ -104,15 +104,8 @@ func _heal_owner(relic_context: RelicContext) -> void:
 		return
 
 	var owner := relic_context.owner as Entity
-	var heal_amount := owner.max_health * heal_max_health_percent
-	owner.current_health = min(owner.current_health + heal_amount, owner.max_health)
-
-	if owner.stats_controller != null:
-		owner.stats_controller.current_health = owner.current_health
-		owner.stats_controller.sync_runtime_resources()
-
-	if owner.is_in_group("player"):
-		EventBus.player_health_changed.emit(owner.current_health, owner.max_health)
+	var heal_amount := owner.get_runtime_max_health() * heal_max_health_percent
+	owner.apply_heal(heal_amount)
 
 
 func _apply_random_primary_stat_status(relic_context: RelicContext, record_key: String, trigger_count: int) -> void:

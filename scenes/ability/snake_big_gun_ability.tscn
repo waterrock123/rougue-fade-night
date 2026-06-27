@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://bm6rm4jwucg7a"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" uid="uid://cwurh534m7762" path="res://scripts/ability/component/ability_area_indicator.gd" id="2_indicator"]
+[ext_resource type="Script" uid="uid://dtdkg5dwq1bd6" path="res://scripts/ability/component/ability_turn_to_mouse.gd" id="3_turn"]
+[ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="4_group"]
+[ext_resource type="Script" uid="uid://6eu75168av5o" path="res://scripts/ability/component/ability_target_cursor.gd" id="5_target_cursor"]
+[ext_resource type="Script" uid="uid://bj4m7sjslwicx" path="res://scripts/ability/component/ability_spawn_manifest.gd" id="6_spawn"]
+[ext_resource type="AudioStream" uid="uid://cokon6pegrjxq" path="res://assets/Sound/dragon-studio-gunshot-372470.mp3" id="7_chwtt"]
+[ext_resource type="Script" uid="uid://cu47jfxlm080o" path="res://scripts/ability/component/ability_play_sound.gd" id="7_sound"]
+[ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="8_audio_config"]
+[ext_resource type="PackedScene" uid="uid://dnhb2x2hry8qx" path="res://scenes/ability/manifest/snake_big_gun_projectile_manifest.tscn" id="10_manifest"]
+[ext_resource type="Script" uid="uid://dejdepitdnd8f" path="res://scripts/ability/component/ability_consume_tagged_inventory_relic.gd" id="11_ammo_cost"]
+[ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="12_ammo_tag"]
+[ext_resource type="Script" uid="uid://crmpfcljgnr3p" path="res://scripts/ability/component/ability_preview_attached_manifest.gd" id="13_preview_manifest"]
+[ext_resource type="PackedScene" uid="uid://b6kukm4eg288c" path="res://scenes/ability/manifest/snake_gun_manifest.tscn" id="14_gun_manifest"]
+
+[sub_resource type="Resource" id="AudioConfig_snake_shoot"]
+script = ExtResource("8_audio_config")
+audio_streams = Array[AudioStream]([ExtResource("7_chwtt")])
+volume_db = -8.0
+max_distance = 500
+bus = &"sfx"
+metadata/_custom_type_script = "uid://cfgrgm03strrd"
+
+[node name="SnakeBigGunAbility" type="Node" unique_id=1315736286]
+script = ExtResource("1_ability")
+cooldown = 1.0
+energy_cost = 5.0
+ai_max_cast_distance = 650.0
+
+[node name="AbilityAreaIndicator" type="Node" parent="." unique_id=2144125290]
+script = ExtResource("2_indicator")
+length = 650.0
+width = 46.0
+fill_color = Color(0.25, 1, 0.38, 0.18)
+border_color = Color(0.78, 1, 0.45, 0.62)
+border_width = 1.5
+auto_activate = false
+metadata/_custom_type_script = "uid://cwurh534m7762"
+
+[node name="AbilityPreviewAttachedManifest" type="Node" parent="." unique_id=754426499]
+script = ExtResource("13_preview_manifest")
+manifest_scene = ExtResource("14_gun_manifest")
+set_as_child = true
+forward_offset = 10.0
+side_offset = 5.0
+auto_activate = false
+
+[node name="ConsumeAmmoCost" type="Node" parent="." unique_id=719313384]
+script = ExtResource("11_ammo_cost")
+required_tag = ExtResource("12_ammo_tag")
+required_tag_name = &"弹药"
+missing_message = "没有弹药，无法释放眼镜蛇大炮"
+consume_key_prefix = "snake_big_gun_ammo"
+auto_activate = false
+
+[node name="AbilityTurnToMouse" type="Node" parent="." unique_id=1370824885]
+script = ExtResource("3_turn")
+metadata/_custom_type_script = "uid://dtdkg5dwq1bd6"
+
+[node name="AbilityPlaySound" type="Node" parent="." unique_id=1902857549]
+script = ExtResource("7_sound")
+audio_config = SubResource("AudioConfig_snake_shoot")
+metadata/_custom_type_script = "uid://cu47jfxlm080o"
+
+[node name="ShootGroup" type="Node" parent="." unique_id=1455341022]
+script = ExtResource("4_group")
+metadata/_custom_type_script = "uid://cyw5u4hf1f3i7"
+
+[node name="AbilityTargetCursor" type="Node" parent="ShootGroup" unique_id=642980190]
+script = ExtResource("5_target_cursor")
+metadata/_custom_type_script = "uid://6eu75168av5o"
+
+[node name="SpawnSnakeProjectile" type="Node" parent="ShootGroup" unique_id=394809390]
+script = ExtResource("6_spawn")
+manifest_scene = ExtResource("10_manifest")
+use_directional_offset = true
+forward_offset = 28.0

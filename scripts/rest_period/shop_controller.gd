@@ -375,11 +375,7 @@ func _get_available_relics() -> Array[Relic]:
 	if shop == null or shop.shopkeeper == null:
 		return result
 
-	for relic in shop.shopkeeper.relics:
-		if relic != null and relic.level <= shop.level:
-			result.append(relic)
-
-	return result
+	return shop.shopkeeper.get_available_relics(shop.level)
 
 
 func _do_refresh_shop_slots() -> void:
@@ -445,9 +441,15 @@ func _pick_weighted_relic(candidate_relics: Array[Relic]) -> Relic:
 
 
 func _get_relic_roll_weight(relic: Relic) -> float:
-	var weight := BASE_RELIC_ROLL_WEIGHT
+	var weight: float = BASE_RELIC_ROLL_WEIGHT
+	if shop != null and shop.shopkeeper != null:
+		weight = shop.shopkeeper.get_relic_base_weight(relic, BASE_RELIC_ROLL_WEIGHT)
+
 	var matched_tag_count := _get_preferred_tag_match_count(relic)
-	weight += matched_tag_count * PREFERRED_TAG_WEIGHT_BONUS
+	var tag_weight_bonus: float = PREFERRED_TAG_WEIGHT_BONUS
+	if shop != null and shop.shopkeeper != null:
+		tag_weight_bonus = shop.shopkeeper.preferred_tag_weight_bonus
+	weight += matched_tag_count * tag_weight_bonus
 	return max(weight, 0.01)
 
 
@@ -688,11 +690,7 @@ func _get_available_relics_by_level(relic_level: int) -> Array[Relic]:
 	if shop == null or shop.shopkeeper == null:
 		return result
 
-	for relic in shop.shopkeeper.relics:
-		if relic != null and relic.level == relic_level:
-			result.append(relic)
-
-	return result
+	return shop.shopkeeper.get_available_relics_by_level(relic_level)
 
 
 # 三选一状态下的冻结只是视觉提示，不写入 Shop.frozen_slots，因此不会跨修整期保存。

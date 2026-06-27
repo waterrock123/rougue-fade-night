@@ -290,6 +290,15 @@ func process_outgoing_damage(damage_data: DamageData) -> DamageData:
 	return damage_data
 
 
+# 受到一次伤害事件时进行闪避判定。只要 dodge_rate 大于 0，就有概率让这次伤害完全落空。
+func should_dodge_damage(_damage_data: DamageData) -> bool:
+	var dodge_rate: float = clamp(get_stat(&"dodge_rate"), 0.0, 1.0)
+	if dodge_rate <= 0.0:
+		return false
+
+	return randf() < dodge_rate
+
+
 # 处理防守方受到伤害时的减伤结算。
 func process_incoming_damage(damage_data: DamageData) -> DamageData:
 	if damage_data == null:

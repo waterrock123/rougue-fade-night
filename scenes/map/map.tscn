@@ -10,6 +10,8 @@
 [ext_resource type="Script" uid="uid://bwbx7llflqfe3" path="res://custom_resource/event_room_pool.gd" id="10_mrjnl"]
 [ext_resource type="PackedScene" uid="uid://fwyt4u64gpyu" path="res://event_room/treasure_room.tscn" id="10_rqo2c"]
 [ext_resource type="PackedScene" uid="uid://b5jbcfrbvaky6" path="res://event_room/shop_chosen_room.tscn" id="11_e07uo"]
+[ext_resource type="PackedScene" path="res://event_room/mushroom_truth_room.tscn" id="12_mushroom_truth"]
+[ext_resource type="PackedScene" path="res://event_room/debate_room.tscn" id="13_debate"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jcaow"]
 atlas = ExtResource("1_a2pkv")
@@ -120,7 +122,7 @@ animations = [{
 
 [sub_resource type="Resource" id="Resource_ah1fr"]
 script = ExtResource("10_mrjnl")
-event_rooms = Array[PackedScene]([ExtResource("9_mgs8m"), ExtResource("10_rqo2c"), ExtResource("11_e07uo")])
+event_rooms = Array[PackedScene]([ExtResource("9_mgs8m"), ExtResource("10_rqo2c"), ExtResource("11_e07uo"), ExtResource("12_mushroom_truth"), ExtResource("13_debate")])
 metadata/_custom_type_script = "uid://bwbx7llflqfe3"
 
 [node name="Map" type="Node2D" unique_id=414619087]

@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://deqcs6cf0pk1u"]
+
+[ext_resource type="Texture2D" uid="uid://daxm5ybihscvl" path="res://assets/ai art/事件背景/孢子研究者.png" id="1_1o8un"]
+[ext_resource type="Script" uid="uid://bhyrcmrkxq40u" path="res://event_room/mushroom_truth_room.gd" id="2_script"]
+[ext_resource type="PackedScene" uid="uid://csqwkpx1kbsbr" path="res://event_room/event_button.tscn" id="3_qq8us"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_o06u0"]
+font_size = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8p8"]
+bg_color = Color(0.45390636, 0.1925627, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.49455744, 0.18269193, 0.21664724, 0.6)
+
+[node name="MushroomTruthRoom" type="Control" unique_id=652731172]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_script")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=500561060]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.111652605, 0.032517143, 0.08517177, 0.7411765)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=499646323]
+modulate = Color(1, 1, 1, 0.6509804)
+texture_filter = 1
+layout_mode = 0
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 1925.0
+offset_bottom = 1081.0
+texture = ExtResource("1_1o8un")
+expand_mode = 1
+
+[node name="DescLabel" type="Label" parent="." unique_id=1797618010]
+custom_minimum_size = Vector2(1120, 0)
+layout_mode = 0
+offset_left = 153.0
+offset_top = 366.0
+offset_right = 1273.0
+offset_bottom = 539.0
+size_flags_vertical = 3
+text = "在荒原上你误入了一位老人的营地。老人看上去十分邋遢，似乎在这里度过了很久的时间。
+看到你他异常兴奋，吵着要向你分享他的研究成果"
+label_settings = SubResource("LabelSettings_o06u0")
+autowrap_mode = 2
+
+[node name="RelicButton" parent="." unique_id=1416983139 instance=ExtResource("3_qq8us")]
+layout_mode = 0
+offset_left = 157.0
+offset_top = 599.0
+offset_right = 751.0
+offset_bottom = 675.0
+autowrap_mode = 2
+pressed_desc = Array[String](["“这片荒原本质上是一株巨大菌类的菌丝，这株菌类释放了一种能改变生物视觉认知的物质，所以我们看到这片荒原才如此和平安详。拿着这件物品，会对你有帮助的。”"])
+desc_text = "接受他的分享"
+detail_text = "获得一件特殊装备"
+
+[node name="RefuseButton" parent="." unique_id=243612117 instance=ExtResource("3_qq8us")]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 702.0
+offset_right = 752.0
+offset_bottom = 778.0
+autowrap_mode = 2
+pressed_desc = Array[String](["“好吧，看来你不感兴趣，我这里还有些补给，就当在这里见到同类的礼物了。”"])
+desc_text = "拒绝他的分享"
+detail_text = "获得1件2阶加工品"
+
+[node name="LeaveButton" type="Button" parent="." unique_id=1612002407]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 0
+offset_left = 1437.0
+offset_top = 860.0
+offset_right = 1837.0
+offset_bottom = 960.0
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_ih8p8")
+text = "离开"
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

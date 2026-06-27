@@ -97,6 +97,19 @@ func _on_owner_damage_taken(damage_data: DamageData, effect_key: String) -> void
 
 	var relic_context = entry.get("relic_context") as RelicContext
 	var owner = entry.get("owner") as Entity
+	# damage_taken 可能来自 Area2D 的碰撞信号，此时 Godot 还在刷新物理查询。
+	# 召唤物进树会初始化碰撞区域，所以必须延迟到当前物理回调结束后再生成。
+	call_deferred("_spawn_pets_deferred", owner, relic_context, effect_key)
+
+
+func _spawn_pets_deferred(owner: Entity, relic_context: RelicContext, effect_key: String) -> void:
+	if not active_entries.has(effect_key):
+		return
+	if owner == null or not is_instance_valid(owner) or owner.is_dead:
+		return
+	if relic_context == null:
+		return
+
 	_spawn_pets(owner, relic_context, effect_key)
 
 
@@ -121,7 +134,7 @@ func _can_trigger(damage_data: DamageData, effect_key: String) -> bool:
 
 
 func _spawn_pets(owner: Entity, relic_context: RelicContext, effect_key: String) -> void:
-	if owner == null or relic_context == null:
+	if owner == null or not is_instance_valid(owner) or owner.is_dead or relic_context == null:
 		return
 
 	var count = _get_summon_count(relic_context)
@@ -129,7 +142,7 @@ func _spawn_pets(owner: Entity, relic_context: RelicContext, effect_key: String)
 		return
 
 	var parent = _resolve_spawn_parent(owner)
-	if parent == null:
+	if parent == null or not is_instance_valid(parent):
 		return
 
 	active_pets[effect_key] = []

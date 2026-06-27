@@ -13,4 +13,3 @@ icon = ExtResource("3_icon")
 desc = "拥有不同的洞察达到 2 件后，购买的装备有 2% 概率直接升级；背包内的装备也能用于激活套装效果。"
 required_count = 2
 count_source = 1
-metadata/_custom_type_script = "res://scripts/tag_effect/tag_purchase_upgrade_chance_effect.gd"

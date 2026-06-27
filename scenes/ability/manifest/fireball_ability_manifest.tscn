@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://chsrljrfkyb71"]
 
 [ext_resource type="Texture2D" uid="uid://da2f66omf03p1" path="res://assets/FB00_nyknck/FB00_nyknck/FB001.png" id="1_aj1uv"]
-[ext_resource type="Script" uid="uid://2w51uq128cy0" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1_mjrrf"]
+[ext_resource type="Script" uid="uid://cd438rrx1t2v6" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1_mjrrf"]
 [ext_resource type="AudioStream" uid="uid://d1ygbekijdd2g" path="res://assets/Sound/Firebuff 1.wav" id="2_l6d4u"]
 [ext_resource type="Texture2D" uid="uid://rtb1vqxbcj7p" path="res://assets/FB00_nyknck/FB00_nyknck/FB002.png" id="2_mjrrf"]
 [ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="3_m2t4b"]

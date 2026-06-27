@@ -54,13 +54,7 @@ func _on_damage_dealt(damage_data: DamageData, owner: Entity, effect_key: String
 		return
 
 	last_trigger_msec[effect_key] = Time.get_ticks_msec()
-	owner.current_health = min(owner.current_health + heal_amount, owner.max_health)
-	if owner.stats_controller != null:
-		owner.stats_controller.current_health = owner.current_health
-		owner.stats_controller.sync_runtime_resources()
-
-	if owner.is_in_group("player"):
-		EventBus.player_health_changed.emit(owner.current_health, owner.max_health)
+	owner.apply_heal(heal_amount)
 
 
 func _cooldown_ready(effect_key: String) -> bool:

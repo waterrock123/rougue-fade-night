@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dlay5e67urom6" path="res://assets/enemy/骷髅骑士/FULL_COMBO.png" id="5_6giny"]
 [ext_resource type="Texture2D" uid="uid://b66dv8xxqxert" path="res://assets/enemy/骷髅骑士/WALK.png" id="6_ao1ie"]
 [ext_resource type="Script" uid="uid://cifh43jnsuld4" path="res://scripts/ability/core/ability_controller.gd" id="10_v5njo"]
+[ext_resource type="Texture2D" uid="uid://clu74wmc2kp5u" path="res://assets/UI/Pixel UI pack 3/04.png" id="15_6giny"]
 [ext_resource type="PackedScene" uid="uid://b08t552buecvq" path="res://scenes/hit_particles.tscn" id="15_m0kvk"]
 [ext_resource type="Script" uid="uid://bxt142ar5bkmd" path="res://scripts/entity/pathfinding.gd" id="16_2xxcm"]
 [ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="17_spmxw"]
@@ -400,6 +401,14 @@ height = 34.0
 offsets = PackedFloat32Array(0, 0.67164177, 1)
 colors = PackedColorArray(0.9326247, 0.9326248, 0.93262464, 1, 0.6862745, 0.6862745, 0.6862745, 1, 0.6, 0.6, 0.6, 0.6313726)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_go5an"]
+atlas = ExtResource("15_6giny")
+region = Rect2(297, 133, 32, 5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qni1y"]
+atlas = ExtResource("15_6giny")
+region = Rect2(57, 133, 32, 5)
+
 [node name="SkeletonKnight" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
 scale = Vector2(2, 2)
@@ -424,7 +433,7 @@ material = SubResource("ShaderMaterial_i0f3v")
 position = Vector2(0.5, 0)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_xrus2")
-animation = &"slashcombo"
+animation = &"walk"
 autoplay = "idle"
 
 [node name="AbilityController" type="Node" parent="." unique_id=1382481516]
@@ -465,5 +474,22 @@ script = ExtResource("20_aw2ye")
 
 [node name="VFXAnchor" type="Node2D" parent="." unique_id=1341317450]
 position = Vector2(0, 25)
+
+[node name="EnemyHealthBar" type="TextureProgressBar" parent="." unique_id=874423271]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.5
+offset_top = 11.5
+offset_right = 16.5
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 0
+step = 0.1
+texture_under = SubResource("AtlasTexture_go5an")
+texture_progress = SubResource("AtlasTexture_qni1y")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

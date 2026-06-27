@@ -1,21 +1,44 @@
 [gd_resource type="Resource" script_class="Relic" format=3 uid="uid://8bgqyca4ofp4"]
 
-[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_jixes"]
-[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_4pu0i"]
-[ext_resource type="Texture2D" uid="uid://erbop8labins" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1376.png" id="2_you37"]
-[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_ekesi"]
-[ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="4_ekesi"]
-[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_you37"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_effect_base"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_relic_script"]
+[ext_resource type="Texture2D" uid="uid://erbop8labins" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1376.png" id="3_icon"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_tag_script"]
+[ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_tool_tag"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="6_weapon_tag"]
+[ext_resource type="Script" path="res://relic_effect/gain_consume_tagged_relic_grant_tagged_shop_relics_effect.gd" id="7_material_to_ammo"]
+[ext_resource type="Script" uid="uid://cw0tn8j8jek08" path="res://relic_effect/grant_active_skill_effect.gd" id="8_grant_skill"]
+[ext_resource type="Script" uid="uid://cfh8744clikxq" path="res://relic_effect/add_outgoing_damage_bonus_effect.gd" id="9_damage_bonus"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="10_material_tag"]
+[ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="11_ammo_tag"]
+[ext_resource type="Resource" uid="uid://bl6wlsl5tqqc4" path="res://activate_skill/107_snake_big_gun.tres" id="12_snake_skill"]
+
+[sub_resource type="Resource" id="GainAmmoFromMaterial"]
+script = ExtResource("7_material_to_ammo")
+consume_tag = ExtResource("10_material_tag")
+grant_required_tags = Array[ExtResource("4_tag_script")]([ExtResource("11_ammo_tag")])
+
+[sub_resource type="Resource" id="GrantSnakeBigGunSkill"]
+script = ExtResource("8_grant_skill")
+skill_data = ExtResource("12_snake_skill")
+
+[sub_resource type="Resource" id="SnakeBigGunLevelupDamage"]
+script = ExtResource("9_damage_bonus")
+target_ability_ids = Array[StringName]([&"107"])
+flat_bonus = 100.0
 
 [resource]
-script = ExtResource("2_4pu0i")
+script = ExtResource("2_relic_script")
 relic_name = "眼镜蛇大炮"
-icon = ExtResource("2_you37")
-tooltip = "获得时若背包内存在原料则随机将其中一个其消耗并随机获得3件同等阶的带有弹药标签的装备；装备后可以用眼镜蛇大炮作为主动技能
-升级:眼睛蛇大炮的基础伤害额外提升100"
+icon = ExtResource("3_icon")
+tooltip = "获得时若背包内存在原料，则随机消耗其中一件，并随机获得 3 件同等阶、带有弹药标签的装备。
+装备后可使用额外主动技能：眼镜蛇大炮。
+升级：眼镜蛇大炮的基础伤害额外提升 100。"
 price = 4
 level = 4
 relic_type = 1
-tags = Array[ExtResource("3_ekesi")]([ExtResource("4_ekesi"), ExtResource("5_you37")])
+tags = Array[ExtResource("4_tag_script")]([ExtResource("5_tool_tag"), ExtResource("6_weapon_tag")])
 id = "072"
+effects = Array[ExtResource("1_effect_base")]([SubResource("GainAmmoFromMaterial"), SubResource("GrantSnakeBigGunSkill")])
+great_effects = Array[ExtResource("1_effect_base")]([SubResource("SnakeBigGunLevelupDamage")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

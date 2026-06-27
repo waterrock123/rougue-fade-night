@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://dw0tgftatyyo7"]
+
+[ext_resource type="FontFile" uid="uid://ctammgtpvt6sl" path="res://assets/字体/LanaPixel.ttf" id="1_font"]
+[ext_resource type="Script" uid="uid://ckp1fc5b7hhq6" path="res://scripts/ui/single_keyboard_panel.gd" id="2_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.36349168, 0.6710096, 0.55907583, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_name"]
+font = ExtResource("1_font")
+font_size = 35
+
+[node name="KeyboardPanel" type="Panel" unique_id=543406409]
+custom_minimum_size = Vector2(1180, 70)
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+script = ExtResource("2_script")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=238539410]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_right = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="NameLabel" type="Label" parent="HBoxContainer" unique_id=1691049534]
+custom_minimum_size = Vector2(470, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "技能（基础攻击）"
+label_settings = SubResource("LabelSettings_name")
+
+[node name="FirstBindingButton" type="Button" parent="HBoxContainer" unique_id=362463065]
+custom_minimum_size = Vector2(210, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "空"
+
+[node name="SecondBindingButton" type="Button" parent="HBoxContainer" unique_id=1007574018]
+custom_minimum_size = Vector2(210, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "空"
+
+[node name="ResetButton" type="Button" parent="HBoxContainer" unique_id=2027954627]
+custom_minimum_size = Vector2(140, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "RESET"

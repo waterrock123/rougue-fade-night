@@ -1,8 +1,11 @@
 [gd_resource type="Resource" script_class="ShopKeeper" format=3 uid="uid://wlgt6wqudvrs"]
 
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_pbcn3"]
+[ext_resource type="Resource" uid="uid://5lm52h2ywjf7" path="res://relics/special/201_众饰之戒.tres" id="2_wwpgn"]
+[ext_resource type="Resource" uid="uid://da2iovf7h27em" path="res://relics/special/202_孢子律动器.tres" id="3_yfx18"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_36ohw"]
 [ext_resource type="Resource" uid="uid://vmqtujtywfno" path="res://relics/level_1/003_树枝.tres" id="4_f4h6g"]
+[ext_resource type="Resource" uid="uid://ch376jrm52b7o" path="res://relics/level_1/088_良子的神秘药剂.tres" id="4_hqen1"]
 [ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_bwypv"]
 [ext_resource type="Resource" uid="uid://b8btces00enjb" path="res://relics/level_1/005_兑换券.tres" id="6_51gky"]
 [ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="6_p38o4"]
@@ -11,6 +14,7 @@
 [ext_resource type="Resource" uid="uid://c1g8aud5vm53l" path="res://relics/level_1/009_粗糙匕首.tres" id="8_j0ucy"]
 [ext_resource type="Resource" uid="uid://d36ixcyejkyxx" path="res://relics/level_2/041_染血画笔.tres" id="10_51gky"]
 [ext_resource type="Resource" uid="uid://c2tb2kljvvjy0" path="res://relics/level_2/020_记事本.tres" id="11_oujcj"]
+[ext_resource type="Resource" path="res://relic_pools/all_relic_pool.tres" id="12_0jcoc"]
 [ext_resource type="Resource" uid="uid://dfiprj6w1e0qj" path="res://relics/level_1/015_假牙.tres" id="12_j0ucy"]
 [ext_resource type="Resource" uid="uid://lbhfny3jbyt2" path="res://relics/level_2/033_玻璃碎片.tres" id="12_p38o4"]
 [ext_resource type="Resource" uid="uid://csup06ocv6g6s" path="res://relics/level_2/045_小罐盐.tres" id="13_grmec"]
@@ -30,11 +34,12 @@
 [resource]
 script = ExtResource("17_juhd8")
 name = "甲画家"
-relics = Array[ExtResource("1_pbcn3")]([ExtResource("4_f4h6g"), ExtResource("6_51gky"), ExtResource("7_oujcj"), ExtResource("8_j0ucy"), ExtResource("12_p38o4"), ExtResource("10_51gky"), ExtResource("11_oujcj"), ExtResource("12_j0ucy"), ExtResource("13_grmec"), ExtResource("14_36ohw"), ExtResource("15_bwypv"), ExtResource("16_p38o4"), ExtResource("17_g1ugy"), ExtResource("18_wwpgn"), ExtResource("19_yfx18")])
 texture = ExtResource("22_hqen1")
 havetag = Array[ExtResource("4_36ohw")]([ExtResource("5_bwypv"), ExtResource("6_p38o4"), ExtResource("7_g1ugy")])
 shop_desc = "古怪的商人正在检查自己的每一件货物，看见你的到来，他赶忙放下了手里的物件。
 “嘿，有没有兴趣当我的模特？”"
+relics = Array[ExtResource("1_pbcn3")]([ExtResource("4_f4h6g"), ExtResource("6_51gky"), ExtResource("7_oujcj"), ExtResource("8_j0ucy"), ExtResource("12_p38o4"), ExtResource("10_51gky"), ExtResource("11_oujcj"), ExtResource("12_j0ucy"), ExtResource("13_grmec"), ExtResource("14_36ohw"), ExtResource("15_bwypv"), ExtResource("16_p38o4"), ExtResource("17_g1ugy"), ExtResource("18_wwpgn"), ExtResource("19_yfx18")])
+banned_relics = Array[ExtResource("1_pbcn3")]([ExtResource("2_wwpgn"), ExtResource("3_yfx18"), ExtResource("4_hqen1")])
 enter_rest_period_dialogues = ExtResource("19_enter")
 exit_rest_period_dialogues = ExtResource("20_exit")
 buy_relic_dialogues = ExtResource("21_buy")

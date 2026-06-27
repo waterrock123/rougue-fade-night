@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="RelicPool" format=3 uid="uid://efp15spvv1rk"]
+
+[ext_resource type="Script" uid="uid://csby2qgrjftvm" path="res://custom_resource/relic_pool.gd" id="1_relic_pool"]
+[ext_resource type="Script" uid="uid://d0k7sfux3w5eh" path="res://custom_resource/relic_pool_entry.gd" id="1_y54to"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_nf5wr"]
+
+[resource]
+script = ExtResource("1_relic_pool")
+include_auto_collected_relics = true
+auto_collect_folders = Array[String](["res://relics"])

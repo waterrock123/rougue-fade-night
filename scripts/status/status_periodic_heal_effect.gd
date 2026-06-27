@@ -20,11 +20,7 @@ func on_tick(instance: StatusInstance, delta: float) -> void:
 
 	tick_timers[key] = 0.0
 	var target := instance.target as Entity
-	target.current_health = min(target.current_health + heal_per_tick * instance.stacks, target.max_health)
-	if target.stats_controller != null:
-		target.stats_controller.current_health = target.current_health
-		target.stats_controller.sync_runtime_resources()
-	EventBus.player_health_changed.emit(target.current_health, target.max_health)
+	target.apply_heal(heal_per_tick * instance.stacks)
 
 
 func on_remove(instance: StatusInstance) -> void:

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://bb0e2pos0cn7v"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_bvr7t"]
+
+[resource]
+script = ExtResource("1_bvr7t")
+entity_name = "strong_robot"
+base_max_health = 150.0
+base_damage_reduction_rate = 0.2
+base_static_damage_reduction = 5
+base_move_speed = 20.0
+strength = 10
+dexterity = 2
+intelligence = 3
+constitution = 8
+speed = 3
+charm = 3
+luck = 2
+metadata/_custom_type_script = "uid://yiy2gawxifk8"

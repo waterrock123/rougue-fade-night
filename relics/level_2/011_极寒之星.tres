@@ -28,7 +28,6 @@ tooltip = "装备后可使用额外{active_skill}： 冰锥齐射，释放冰锥
 desc = "雪山上有很多这种不化的冰晶，只是很难采到"
 price = 5
 level = 2
-upgrade_merge_count = 99
 relic_type = 1
 tags = Array[ExtResource("4_5c0hy")]([ExtResource("5_cfg8h"), ExtResource("6_ytpgj")])
 id = "011"

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b5b3f5nto5e84"]
 
 [ext_resource type="Script" uid="uid://csx5cflg0vbtm" path="res://scripts/ability/manifest/animated_hitbox_manifest.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://624yps86q5a7" path="res://assets/SlashFX FREE v1.2 (7.13.23)/3. Vernal Edge/SlashFX SpriteSheet FX 3E_4.png" id="2_t6x3m"]
+[ext_resource type="Texture2D" uid="uid://624yps86q5a7" path="res://assets/特效/SlashFX FREE v1.2 (7.13.23)/3. Vernal Edge/SlashFX SpriteSheet FX 3E_4.png" id="2_t6x3m"]
 [ext_resource type="Texture2D" uid="uid://dsa7jy2j566xq" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1448.png" id="3_e7fky"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e7fky"]

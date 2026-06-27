@@ -17,11 +17,4 @@ func on_use(relic_context: RelicContext, _effect_key) -> void:
 		return
 
 	var owner := relic_context.owner as Entity
-	owner.current_health = min(owner.current_health + heal_amount, owner.max_health)
-
-	if owner.stats_controller != null:
-		owner.stats_controller.current_health = owner.current_health
-		owner.stats_controller.sync_runtime_resources()
-
-	if owner.is_in_group("player"):
-		EventBus.player_health_changed.emit(owner.current_health, owner.max_health)
+	owner.apply_heal(heal_amount)

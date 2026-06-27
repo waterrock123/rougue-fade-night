@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://coe31mw17ohfg"]
+
+[ext_resource type="Script" uid="uid://cd438rrx1t2v6" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1_dwj8d"]
+[ext_resource type="Texture2D" uid="uid://b6ede5wipigq8" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc216.png" id="2_x5aee"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mjrrf"]
+radius = 3.3333333
+
+[node name="BulletManifest" type="Node2D" unique_id=1293196864]
+z_index = 100
+scale = Vector2(0.3, 0.3)
+script = ExtResource("1_dwj8d")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1123908785]
+texture_filter = 1
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_x5aee")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=215287016]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=147456712]
+shape = SubResource("CircleShape2D_mjrrf")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

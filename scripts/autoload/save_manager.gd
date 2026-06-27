@@ -92,6 +92,7 @@ func build_run_stats_from_save(save_data: Dictionary) -> RunStats:
 	result.pending_free_relic_choice_levels = _to_int_array(run_stats_data.get("pending_free_relic_choice_levels", []))
 	result.level_up_reward_refresh_count = int(run_stats_data.get("level_up_reward_refresh_count", 0))
 	result.shop_free_refresh_count = int(run_stats_data.get("shop_free_refresh_count", 0))
+	result.pending_bounty_enemy_entries = _deserialize_bounty_enemy_entries(run_stats_data.get("pending_bounty_enemy_entries", []))
 	result.persistent_status_stacks = _to_int_dictionary(run_stats_data.get("persistent_status_stacks", {}))
 	result.selected_tag_effects = _deserialize_tag_effects(run_stats_data.get("selected_tag_effects", []))
 	result.completed_once_tag_effect_ids = _to_string_name_array(run_stats_data.get("completed_once_tag_effect_ids", []))
@@ -129,10 +130,54 @@ func _serialize_run_stats(run_stats: RunStats) -> Dictionary:
 		"pending_free_relic_choice_levels": run_stats.pending_free_relic_choice_levels,
 		"level_up_reward_refresh_count": run_stats.level_up_reward_refresh_count,
 		"shop_free_refresh_count": run_stats.shop_free_refresh_count,
+		"pending_bounty_enemy_entries": _serialize_bounty_enemy_entries(run_stats.pending_bounty_enemy_entries),
 		"persistent_status_stacks": run_stats.persistent_status_stacks,
 		"selected_tag_effects": _serialize_tag_effects(run_stats.selected_tag_effects),
 		"completed_once_tag_effect_ids": _string_name_array_to_strings(run_stats.completed_once_tag_effect_ids),
 	}
+
+
+func _serialize_bounty_enemy_entries(entries: Array[BountyEnemyEntry]) -> Array:
+	var result := []
+	for entry: BountyEnemyEntry in entries:
+		if entry == null:
+			continue
+
+		result.append({
+			"enemy_scene_path": _get_resource_path(entry.enemy_scene),
+			"bounty_gold": entry.bounty_gold,
+			"starts_neutral": entry.starts_neutral,
+			"neutral_speed_multiplier": entry.neutral_speed_multiplier,
+			"neutral_wander_radius": entry.neutral_wander_radius,
+			"neutral_wander_repick_interval": entry.neutral_wander_repick_interval,
+		})
+	return result
+
+
+func _deserialize_bounty_enemy_entries(data) -> Array[BountyEnemyEntry]:
+	var result: Array[BountyEnemyEntry] = []
+	if not (data is Array):
+		return result
+
+	for value in data:
+		if not (value is Dictionary):
+			continue
+
+		var entry_data: Dictionary = value as Dictionary
+		var enemy_scene: PackedScene = _load_resource_or_null(str(entry_data.get("enemy_scene_path", ""))) as PackedScene
+		if enemy_scene == null:
+			continue
+
+		var entry := BountyEnemyEntry.new()
+		entry.enemy_scene = enemy_scene
+		entry.bounty_gold = int(entry_data.get("bounty_gold", entry.bounty_gold))
+		entry.starts_neutral = bool(entry_data.get("starts_neutral", entry.starts_neutral))
+		entry.neutral_speed_multiplier = float(entry_data.get("neutral_speed_multiplier", entry.neutral_speed_multiplier))
+		entry.neutral_wander_radius = float(entry_data.get("neutral_wander_radius", entry.neutral_wander_radius))
+		entry.neutral_wander_repick_interval = float(entry_data.get("neutral_wander_repick_interval", entry.neutral_wander_repick_interval))
+		result.append(entry)
+
+	return result
 
 
 func _serialize_player_build(player_build: PlayerBuild) -> Dictionary:

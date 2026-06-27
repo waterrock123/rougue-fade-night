@@ -3,11 +3,13 @@
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_5vhtu"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_0k35f"]
 [ext_resource type="Texture2D" uid="uid://ukkbdgi3w5b6" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc248.png" id="2_lajim"]
-[ext_resource type="PackedScene" uid="uid://btf0vbc6guvxu" path="res://entity/summon_pet/mouse_summon_pet.tscn" id="3_bemrf"]
+[ext_resource type="PackedScene" uid="uid://b3wyftxs7dn0e" path="res://entity/summon_pet/mushroom_summon_pet.tscn" id="3_bemrf"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_kem6e"]
 [ext_resource type="Script" uid="uid://dg8rknwsp01wd" path="res://relic_effect/battle_start_summon_pet_by_tags_effect.gd" id="4_udqg0"]
+[ext_resource type="Resource" uid="uid://cs6niyr1ijlbe" path="res://custom_resource/default_bounty_enemy_pool.tres" id="5_0kkb2"]
 [ext_resource type="Resource" uid="uid://b5pj0gwwux13c" path="res://relic_tags/聚众.tres" id="5_e41rf"]
 [ext_resource type="Resource" uid="uid://bpyxiv6nfwnu5" path="res://relic_tags/创生tag.tres" id="6_bemrf"]
+[ext_resource type="Script" uid="uid://8n2umvt1mp2l" path="res://relic_effect/battle_start_bounty_enemy_chance_effect.gd" id="7_bounty_chance"]
 
 [sub_resource type="Resource" id="Resource_0kkb2"]
 script = ExtResource("4_udqg0")
@@ -15,6 +17,10 @@ pet_scene = ExtResource("3_bemrf")
 base_summon_count = 1
 count_equipment = false
 metadata/_custom_type_script = "uid://dg8rknwsp01wd"
+
+[sub_resource type="Resource" id="Resource_levelup_bounty"]
+script = ExtResource("7_bounty_chance")
+bounty_gold_override = 10
 
 [resource]
 script = ExtResource("2_0k35f")
@@ -29,4 +35,5 @@ relic_type = 1
 tags = Array[ExtResource("3_kem6e")]([ExtResource("5_e41rf"), ExtResource("6_bemrf")])
 id = "092"
 effects = Array[ExtResource("1_5vhtu")]([SubResource("Resource_0kkb2")])
+great_effects = Array[ExtResource("1_5vhtu")]([SubResource("Resource_levelup_bounty")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

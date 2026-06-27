@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cdb62nsbpcoh5"]
 
-[ext_resource type="Texture2D" uid="uid://b0185p3saauxq" path="res://assets/Effect and Bullet 16x16/Effect and Bullet 16x16/Fire Effect and Bullet 16x16.png" id="1_fire_texture"]
+[ext_resource type="Texture2D" uid="uid://b0185p3saauxq" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Fire Effect and Bullet 16x16.png" id="1_fire_texture"]
 [ext_resource type="Script" uid="uid://ofxn6sg258sy" path="res://scripts/ability/manifest/ground_periodic_damage_manifest.gd" id="2_ground_dot"]
 [ext_resource type="Resource" uid="uid://dpc0afxoxvyte" path="res://status/burn.tres" id="3_burn_status"]
 

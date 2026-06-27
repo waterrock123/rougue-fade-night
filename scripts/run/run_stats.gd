@@ -19,6 +19,8 @@ const STARTING_GOLD := 0
 @export var level_up_reward_refresh_count: int = 0
 # 玩家可储存的免费商店刷新次数。可跨修整期保存。
 @export var shop_free_refresh_count: int = 0
+# 下场战斗额外生成的悬赏精英怪队列。事件、遗物和技能都可以往这里追加，不影响正常胜利条件。
+@export var pending_bounty_enemy_entries: Array[BountyEnemyEntry] = []
 # 持久状态层数。用于“战斗胜利后获得锋锐”这类跨战斗保留的状态。
 @export var persistent_status_stacks: Dictionary = {}
 
@@ -63,6 +65,7 @@ func setup_new_run(
 	rest_period_count = 0
 	level_up_reward_refresh_count = 0
 	shop_free_refresh_count = 0
+	pending_bounty_enemy_entries.clear()
 	completed_once_tag_effect_ids.clear()
 	pending_free_relic_choice_levels.clear()
 	persistent_status_stacks.clear()
@@ -151,6 +154,42 @@ func get_free_relic_choice_level_for_now() -> int:
 	if shop == null:
 		return 1
 	return max(shop.level + 1, 1)
+
+
+# 记录一批“下一场战斗开场额外生成”的悬赏精英怪。
+# starts_neutral 为 false 时，适合事件中已经激怒敌人的情况；true 则保持普通悬赏野怪逻辑。
+func queue_bounty_enemy_for_next_battle(
+	enemy_scene: PackedScene,
+	count: int = 1,
+	new_bounty_gold: int = 0,
+	starts_neutral: bool = true,
+	neutral_speed_multiplier: float = 0.45,
+	neutral_wander_radius: float = 120.0,
+	neutral_wander_repick_interval: float = 1.8
+) -> void:
+	if enemy_scene == null or count <= 0:
+		return
+
+	for _index in range(count):
+		var entry := BountyEnemyEntry.new()
+		entry.enemy_scene = enemy_scene
+		entry.bounty_gold = max(new_bounty_gold, 0)
+		entry.starts_neutral = starts_neutral
+		entry.neutral_speed_multiplier = neutral_speed_multiplier
+		entry.neutral_wander_radius = neutral_wander_radius
+		entry.neutral_wander_repick_interval = neutral_wander_repick_interval
+		pending_bounty_enemy_entries.append(entry)
+
+
+# 战斗场景开场时消费队列，避免同一批事件敌人在下一场以后重复生成。
+func pop_pending_bounty_enemy_entries() -> Array[BountyEnemyEntry]:
+	var result: Array[BountyEnemyEntry] = []
+	for entry: BountyEnemyEntry in pending_bounty_enemy_entries:
+		if entry != null:
+			result.append(entry)
+
+	pending_bounty_enemy_entries.clear()
+	return result
 
 
 # 增加升级奖励刷新次数，供事件房、遗物、被动等系统调用。

@@ -56,6 +56,7 @@ tooltip = "随机{heal}2至4点生命，{sell_price}降低为2
 升级：额外{heal}2点生命2次"
 desc = "工厂里质检不合格的治疗药水会兑水当饮料再出售"
 price = 2
+level = 1
 tags = Array[ExtResource("3_aad4f")]([ExtResource("5_aad4f")])
 id = "057"
 is_consumable = true

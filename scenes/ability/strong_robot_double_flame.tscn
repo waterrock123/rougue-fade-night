@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://bn8v7yf7wvd1w"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_anim"]
+[ext_resource type="Script" uid="uid://bm3se2ase8cin" path="res://scripts/ability/component/ability_lock_movement.gd" id="3_lock"]
+[ext_resource type="Script" uid="uid://clk5ln8ax2vh1" path="res://scripts/ability/component/ability_enemy_telegraph.gd" id="4_telegraph"]
+[ext_resource type="Script" uid="uid://cyw5u4hf1f3i7" path="res://scripts/ability/component/ability_component_group.gd" id="5_group"]
+[ext_resource type="Script" uid="uid://bxl5nmydjpga5" path="res://scripts/ability/component/ability_get_targets.gd" id="6_targets"]
+[ext_resource type="Script" uid="uid://f7xudf47t0wm" path="res://scripts/ability/component/ability_deal_damage.gd" id="7_damage"]
+[ext_resource type="Script" uid="uid://dcukpvvpmebnv" path="res://scripts/stats/damage_scaling_rule.gd" id="8_scaling"]
+
+[sub_resource type="Resource" id="DamageScalingRule_robot_flame"]
+script = ExtResource("8_scaling")
+formula_mode = 1
+
+[node name="StrongRobotDoubleFlame" type="Node" unique_id=1867094391]
+script = ExtResource("1_ability")
+cooldown = 3.4
+energy_cost = 0.0
+ai_max_cast_distance = 30.0
+ai_infer_cast_range_from_components = false
+
+[node name="PlayAttackAnimation" type="Node" parent="." unique_id=1227002851]
+script = ExtResource("2_anim")
+animation_name = "attack"
+
+[node name="LockMovement" type="Node" parent="." unique_id=297123782]
+script = ExtResource("3_lock")
+lock_duration = 1.5
+
+[node name="Telegraph" type="Node" parent="." unique_id=36563729]
+script = ExtResource("4_telegraph")
+direction_mode = 1
+range = 105.0
+angle_degrees = 105.0
+warning_duration = 0.24
+fill_color = Color(1, 0.16, 0.02, 0.2)
+border_color = Color(1, 0.36, 0.02, 0.75)
+border_width = 1.5
+pulse_scale = 1.02
+
+[node name="FirstFlameHit" type="Node" parent="." unique_id=847566070]
+script = ExtResource("5_group")
+delay = 0.48
+
+[node name="GetTargets" type="Node" parent="FirstFlameHit" unique_id=1667554562]
+script = ExtResource("6_targets")
+search_shape = 1
+radius = 105.0
+target_mode = 1
+direction_mode = 4
+sector_angle = 105.0
+
+[node name="DealDamage" type="Node" parent="FirstFlameHit" unique_id=967649338]
+script = ExtResource("7_damage")
+damage = 16.0
+damage_types = Array[int]([2])
+tags = Array[String](["skill", "melee", "sector", "fire", "strong_robot_double_flame", "first_hit"])
+scaling_rule = SubResource("DamageScalingRule_robot_flame")
+
+[node name="SecondFlameHit" type="Node" parent="." unique_id=1512846978]
+script = ExtResource("5_group")
+delay = 1.05
+
+[node name="GetTargets" type="Node" parent="SecondFlameHit" unique_id=1006319448]
+script = ExtResource("6_targets")
+search_shape = 1
+radius = 112.0
+target_mode = 1
+direction_mode = 4
+sector_angle = 115.0
+
+[node name="DealDamage" type="Node" parent="SecondFlameHit" unique_id=464864247]
+script = ExtResource("7_damage")
+damage = 18.0
+damage_types = Array[int]([2])
+tags = Array[String](["skill", "melee", "sector", "fire", "strong_robot_double_flame", "second_hit"])
+scaling_rule = SubResource("DamageScalingRule_robot_flame")

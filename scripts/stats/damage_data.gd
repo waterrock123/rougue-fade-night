@@ -23,6 +23,7 @@ var source_ability_slot_index: int = -1
 
 var can_crit: bool = true
 var is_crit: bool = false
+var is_miss: bool = false
 var crit_multiplier: float = 1.5
 
 var tags: Array[String] = []

@@ -49,6 +49,50 @@ func  activate(entity: Entity):
 	_activate_components(context)
 
 
+# 释放前校验：给“需要弹药/材料/特殊资源”的技能组件预留扩展点。
+func can_pay_activation_costs(entity: Entity) -> bool:
+	var context := AbilityContext.new(entity, self)
+	for component in _get_activation_cost_components():
+		if component.has_method("can_pay_ability_cost") and not component.can_pay_ability_cost(context):
+			return false
+	return true
+
+
+# 返回阻止释放的提示文本；没有特殊提示时返回空字符串。
+func get_activation_block_reason(entity: Entity) -> String:
+	var context := AbilityContext.new(entity, self)
+	for component in _get_activation_cost_components():
+		if not component.has_method("can_pay_ability_cost"):
+			continue
+		if component.can_pay_ability_cost(context):
+			continue
+		if component.has_method("get_ability_cost_block_reason"):
+			return String(component.get_ability_cost_block_reason(context))
+	return ""
+
+
+# 真正支付额外释放成本；只有 AbilityController 已确认能量/冷却通过后才会调用。
+func pay_activation_costs(entity: Entity) -> bool:
+	var context := AbilityContext.new(entity, self)
+	for component in _get_activation_cost_components():
+		if component.has_method("pay_ability_cost") and not component.pay_ability_cost(context):
+			return false
+	return true
+
+
+func _get_activation_cost_components() -> Array[Node]:
+	var result: Array[Node] = []
+	_collect_activation_cost_components(self, result)
+	return result
+
+
+func _collect_activation_cost_components(node: Node, result: Array[Node]) -> void:
+	for child in node.get_children():
+		if child.has_method("can_pay_ability_cost") or child.has_method("pay_ability_cost"):
+			result.append(child)
+		_collect_activation_cost_components(child, result)
+
+
 ## 给敌人/召唤物 AI 使用：判断当前目标距离是否适合释放这个技能。
 ## fallback_max_distance 是旧的 stop_distance，用来兼容还没单独配置 AI 距离的老技能。
 func can_ai_cast_at_distance(target_distance: float, fallback_max_distance: float) -> bool:

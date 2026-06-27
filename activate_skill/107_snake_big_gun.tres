@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3 uid="uid://bl6wlsl5tqqc4"]
+
+[ext_resource type="PackedScene" uid="uid://bm6rm4jwucg7a" path="res://scenes/ability/snake_big_gun_ability.tscn" id="1_ability"]
+[ext_resource type="Texture2D" uid="uid://erbop8labins" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1376.png" id="2_icon"]
+[ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="3_script"]
+
+[resource]
+script = ExtResource("3_script")
+ability_scene = ExtResource("1_ability")
+base_cooldown = 1.0
+base_energy_cost = 5.0
+id = &"107"
+skill_name = "眼镜蛇大炮"
+desc = "按住时显示直线射击范围，松开后向鼠标方向发射一枚可穿透敌人的毒性炮弹，造成{ranged}伤害。释放时消耗背包中一件带有弹药标签的装备；没有弹药时无法释放。"
+icon = ExtResource("2_icon")
+tags = Array[StringName]([&"active_skill", &"projectile", &"ranged", &"poison"])
+metadata/_custom_type_script = "uid://bq1obcmna3x2j"

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://8rmn2unjwg1t"]
 
-[ext_resource type="Texture2D" uid="uid://cws7yyi7lk1wl" path="res://assets/Effect and Bullet 16x16/Effect and Bullet 16x16/Water Effect and Bullet 16x16.png" id="5_i2rvp"]
+[ext_resource type="Texture2D" uid="uid://cws7yyi7lk1wl" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Water Effect and Bullet 16x16.png" id="5_i2rvp"]
 [ext_resource type="Script" uid="uid://ofxn6sg258sy" path="res://scripts/ability/manifest/ground_periodic_damage_manifest.gd" id="6_ground_dot"]
 [ext_resource type="Resource" uid="uid://djm4abm3cg48d" path="res://status/frost_slow.tres" id="7_frost_slow"]
 

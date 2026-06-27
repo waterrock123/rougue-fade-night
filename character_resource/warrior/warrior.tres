@@ -9,6 +9,7 @@
 [ext_resource type="Resource" uid="uid://baqgr32nycpsi" path="res://shopkeeper/良子.tres" id="6_watg2"]
 [ext_resource type="Resource" uid="uid://c0mc7hdek780v" path="res://custom_resource/player_equipment.tres" id="7_5lh6f"]
 [ext_resource type="Resource" uid="uid://07snhhfv258i" path="res://custom_resource/start_shop.tres" id="7_8vju8"]
+[ext_resource type="Resource" uid="uid://crfrv5yjonucn" path="res://shopkeeper/文艺青年.tres" id="7_lbmex"]
 [ext_resource type="Resource" uid="uid://wl3kquh3l0yw" path="res://custom_resource/player_inventory.tres" id="8_lbmex"]
 [ext_resource type="Resource" uid="uid://clq6naqkf40p0" path="res://custom_resource/common_shop_config.tres" id="8_pld4q"]
 [ext_resource type="Script" uid="uid://bdqgkeyiw7nj6" path="res://scripts/skill/skill_entry.gd" id="10_fobq8"]
@@ -45,6 +46,6 @@ start_inventory = ExtResource("8_lbmex")
 start_equipment = ExtResource("7_5lh6f")
 start_shop = ExtResource("7_8vju8")
 start_shop_config = ExtResource("8_pld4q")
-shop_keeper_pool = Array[ExtResource("3_j1g56")]([ExtResource("4_pld4q"), ExtResource("5_0w04y"), ExtResource("6_watg2")])
+shop_keeper_pool = Array[ExtResource("3_j1g56")]([ExtResource("4_pld4q"), ExtResource("5_0w04y"), ExtResource("6_watg2"), ExtResource("7_lbmex")])
 main_attributes = Array[StringName]([&"strength", &"constitution"])
 metadata/_custom_type_script = "uid://dx5w85r6ff3q4"

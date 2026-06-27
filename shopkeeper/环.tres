@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://dh27ilfr1mpyk" path="res://relics/level_1/001_猪猪存钱罐.tres" id="5_w405u"]
 [ext_resource type="Resource" uid="uid://sragcrfs3csv" path="res://relics/level_1/007_绑带.tres" id="6_tyyc0"]
 [ext_resource type="Resource" uid="uid://d0sbxqpp1rwqk" path="res://relics/level_2/042_紫水晶.tres" id="7_3p22a"]
+[ext_resource type="Resource" uid="uid://efp15spvv1rk" path="res://relic_pools/all_relic_pool.tres" id="7_oviye"]
 [ext_resource type="Resource" uid="uid://hni8tjhtfd11" path="res://relics/level_2/021_启示面具.tres" id="8_a37mm"]
 [ext_resource type="Resource" uid="uid://dji30520xerq1" path="res://relics/level_2/040_燃烧瓶.tres" id="9_oviye"]
 [ext_resource type="Resource" uid="uid://bmrvulcnh3w6d" path="res://relics/level_2/022_长矛.tres" id="10_fbfiw"]
@@ -50,11 +51,11 @@ region = Rect2(0, 168.15549, 1079, 1273.8887)
 [resource]
 script = ExtResource("2_3qq7e")
 name = "环"
-relics = Array[ExtResource("1_nxnih")]([ExtResource("3_002qs"), ExtResource("4_iwuni"), ExtResource("5_w405u"), ExtResource("6_tyyc0"), ExtResource("7_3p22a"), ExtResource("8_a37mm"), ExtResource("9_oviye"), ExtResource("10_fbfiw"), ExtResource("11_euaak"), ExtResource("12_qdfw0"), ExtResource("13_wcj0b"), ExtResource("14_sk0tl"), ExtResource("15_akun5"), ExtResource("16_w405u")])
 texture = SubResource("AtlasTexture_002qs")
 havetag = Array[ExtResource("18_tyyc0")]([ExtResource("3_a37mm"), ExtResource("4_oviye"), ExtResource("5_fbfiw")])
 shop_desc = "奇怪的紫发女子笑了笑，似乎早预料到你回来
 “我可是在这里等待好久了。”"
+relics = Array[ExtResource("1_nxnih")]([ExtResource("3_002qs"), ExtResource("4_iwuni"), ExtResource("5_w405u"), ExtResource("6_tyyc0"), ExtResource("7_3p22a"), ExtResource("8_a37mm"), ExtResource("9_oviye"), ExtResource("10_fbfiw"), ExtResource("11_euaak"), ExtResource("12_qdfw0"), ExtResource("13_wcj0b"), ExtResource("14_sk0tl"), ExtResource("15_akun5"), ExtResource("16_w405u")])
 enter_rest_period_dialogues = SubResource("Resource_sdg1l")
 exit_rest_period_dialogues = SubResource("Resource_741p7")
 buy_relic_dialogues = SubResource("Resource_bkrw4")

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dk6fmdes288c5"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_yps7w"]
+[ext_resource type="Texture2D" uid="uid://bmixu6otj8ev1" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1462.png" id="2_am7px"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_mhck0"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_am7px"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_ia106"]
+[ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="6_g5abd"]
+
+[resource]
+script = ExtResource("2_mhck0")
+relic_name = "钢叉"
+icon = ExtResource("2_am7px")
+tooltip = "力量+2，速度+1，你造成近战伤害有10%概率使对方被束缚2秒
+升级：当有敌人进入束缚状态时你将有10%概率获得一份不高于当前商店等级的佳肴"
+desc = "小区不许送外卖！所有外卖必将截获！"
+price = 4
+level = 4
+tags = Array[ExtResource("3_am7px")]([ExtResource("5_ia106"), ExtResource("6_g5abd")])
+id = "100"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

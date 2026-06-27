@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TagEffect" format=3 uid="uid://lcadi00bgv32"]
+
+[ext_resource type="Script" uid="uid://bkm4mygm81buv" path="res://scripts/tag_effect/tag_effect.gd" id="1_803ss"]
+[ext_resource type="Texture2D" uid="uid://dybxxqf2s5xs4" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc945.png" id="1_tgrk0"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="3_28h5h"]
+
+[resource]
+script = ExtResource("1_803ss")
+id = &"文艺歌手"
+tag = ExtResource("3_28h5h")
+effect_name = "文艺歌手"
+icon = ExtResource("1_tgrk0")
+desc = "达到3件后激活，使用"
+metadata/_custom_type_script = "uid://bkm4mygm81buv"

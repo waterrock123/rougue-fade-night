@@ -14,5 +14,6 @@ icon = ExtResource("2_c0d53")
 tooltip = "使你的飞行道具提升2%的伤害，每击杀一个敌人提升2%,最高提升至100%
 升级：伤害提升上限提升至300%"
 price = 6
+level = 6
 tags = Array[ExtResource("4_f72nj")]([ExtResource("5_l54i2"), ExtResource("6_g6d4o")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

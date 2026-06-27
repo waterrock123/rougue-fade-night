@@ -5,6 +5,7 @@
 [ext_resource type="Resource" uid="uid://ba463yf673mmv" path="res://relics/level_2/091_精灵辉尘.tres" id="3_fp0rg"]
 [ext_resource type="Resource" uid="uid://dgpea5lhpnj5p" path="res://relics/level_3/059_大剑.tres" id="4_gixvt"]
 [ext_resource type="Resource" uid="uid://w6822uhymcpj" path="res://relics/level_3/070_投斧套装.tres" id="5_pfous"]
+[ext_resource type="Resource" uid="uid://6rdaxqv0b6hi" path="res://relics/level_3/075_陨铁弹药.tres" id="6_5ob81"]
 
 [sub_resource type="Resource" id="Resource_jdmn8"]
 script = ExtResource("2_iogdf")
@@ -24,10 +25,12 @@ metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_ay5e6"]
 script = ExtResource("2_iogdf")
+item = ExtResource("6_5ob81")
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_wcuog"]
 script = ExtResource("2_iogdf")
+item = ExtResource("6_5ob81")
 metadata/_custom_type_script = "uid://b4dlvouu1hbb8"
 
 [sub_resource type="Resource" id="Resource_fxedk"]

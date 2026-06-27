@@ -48,6 +48,7 @@ func _ready() -> void:
 	if enemy_spawner != null and not enemy_spawner.bounty_enemy_presence_changed.is_connected(_handle_bounty_enemy_presence_changed):
 		enemy_spawner.bounty_enemy_presence_changed.connect(_handle_bounty_enemy_presence_changed)
 	_setup_bounty_hint_ui()
+	_spawn_pending_bounty_enemies()
 	_handle_bounty_enemy_presence_changed(enemy_spawner.has_active_bounty_enemies() if enemy_spawner != null else false)
 
 	AudioController.play_bg_music("battle")
@@ -157,6 +158,19 @@ func _handle_bounty_enemy_killed(_enemy: Entity, killer: Entity, bounty_gold: in
 		return
 
 	run_stats.set_gold(run_stats.gold + bounty_gold)
+
+
+# 消费 RunStats 中由事件/遗物排队的额外悬赏精英怪。
+# EnemySpawner 会把它们登记为 bounty，不计入正常战斗胜利条件。
+func _spawn_pending_bounty_enemies() -> void:
+	if run_stats == null or enemy_spawner == null:
+		return
+
+	var entries: Array[BountyEnemyEntry] = run_stats.pop_pending_bounty_enemy_entries()
+	for entry: BountyEnemyEntry in entries:
+		if entry == null:
+			continue
+		enemy_spawner.spawn_bounty_enemy(entry)
 
 
 func _setup_bounty_hint_ui() -> void:

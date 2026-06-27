@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://wpt8s0ys3w7t" path="res://scripts/rest_period/rest_period.gd" id="1_b20nv"]
 [ext_resource type="PackedScene" uid="uid://dmoylnmxemj46" path="res://scenes/rest_period/shop.tscn" id="1_hcmc8"]
-[ext_resource type="Texture2D" uid="uid://b5tbyqeb7xjvw" path="res://assets/ai art/商店背景图.png" id="2_hcmc8"]
+[ext_resource type="Texture2D" uid="uid://b5tbyqeb7xjvw" path="res://assets/ai art/事件背景/商店背景图.png" id="2_hcmc8"]
 
 [node name="RestPeriod" type="Control" unique_id=242219292]
 layout_mode = 3

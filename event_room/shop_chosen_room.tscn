@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b5jbcfrbvaky6"]
 
 [ext_resource type="Script" uid="uid://nunk3obya3g7" path="res://event_room/shop_chosen_room.gd" id="1_cnaib"]
-[ext_resource type="Texture2D" uid="uid://cq4bt3bsxve5c" path="res://assets/ai art/草原集市.png" id="2_cnaib"]
+[ext_resource type="Texture2D" uid="uid://cq4bt3bsxve5c" path="res://assets/ai art/事件背景/草原集市.png" id="2_cnaib"]
 [ext_resource type="PackedScene" uid="uid://csqwkpx1kbsbr" path="res://event_room/event_button.tscn" id="3_06ifb"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_o06u0"]

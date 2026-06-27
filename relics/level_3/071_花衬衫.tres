@@ -3,9 +3,30 @@
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_2i8p0"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_d57ya"]
 [ext_resource type="Texture2D" uid="uid://cyl3j2exqw1ev" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2101.png" id="2_ug177"]
+[ext_resource type="Resource" uid="uid://cs6niyr1ijlbe" path="res://custom_resource/default_bounty_enemy_pool.tres" id="3_6v7g5"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_ug177"]
 [ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="5_j18yg"]
 [ext_resource type="Resource" uid="uid://bpyxiv6nfwnu5" path="res://relic_tags/创生tag.tres" id="6_j18yg"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" uid="uid://bxw4uitn3kgto" path="res://relic_effect/purchase_count_bounty_enemy_effect.gd" id="8_purchase_bounty"]
+
+[sub_resource type="Resource" id="Resource_charm_base"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"charm": 2
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
+
+[sub_resource type="Resource" id="Resource_purchase_bounty"]
+script = ExtResource("8_purchase_bounty")
+bounty_gold_override = 10
+
+[sub_resource type="Resource" id="Resource_charm_levelup"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"charm": 2
+}
+metadata/_custom_type_script = "uid://neet2irr2m2g"
 
 [resource]
 script = ExtResource("2_d57ya")
@@ -18,4 +39,6 @@ price = 4
 level = 3
 tags = Array[ExtResource("3_ug177")]([ExtResource("5_j18yg"), ExtResource("6_j18yg")])
 id = "071"
+effects = Array[ExtResource("1_2i8p0")]([SubResource("Resource_charm_base"), SubResource("Resource_purchase_bounty")])
+great_effects = Array[ExtResource("1_2i8p0")]([SubResource("Resource_charm_levelup")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

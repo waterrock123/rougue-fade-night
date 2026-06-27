@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d0jcnh6im7alt"]
 
 [ext_resource type="Script" uid="uid://haxj03uhi7y7" path="res://scripts/ability/manifest/animated_projectile_manifest.gd" id="1_005pc"]
-[ext_resource type="Texture2D" uid="uid://cws7yyi7lk1wl" path="res://assets/Effect and Bullet 16x16/Effect and Bullet 16x16/Water Effect and Bullet 16x16.png" id="2_3tjd8"]
+[ext_resource type="Texture2D" uid="uid://cws7yyi7lk1wl" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Water Effect and Bullet 16x16.png" id="2_3tjd8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_atc7d"]
 atlas = ExtResource("2_3tjd8")

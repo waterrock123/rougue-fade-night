@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://7hxdgvhlgv5r"]
 
-[ext_resource type="Texture2D" uid="uid://dbyq7ghpuflx7" path="res://assets/ai art/休憩营地.png" id="2_tnqlo"]
+[ext_resource type="Texture2D" uid="uid://dbyq7ghpuflx7" path="res://assets/ai art/事件背景/休憩营地.png" id="2_tnqlo"]
 [ext_resource type="PackedScene" uid="uid://csqwkpx1kbsbr" path="res://event_room/event_button.tscn" id="3_llmx2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_o06u0"]

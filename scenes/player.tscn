@@ -56,6 +56,7 @@ speed = 100.0
 weapon = NodePath("Weapon")
 footstep_clip = SubResource("Resource_4r5pv")
 max_health = 250.0
+damage_text_color = Color(0.9473317, 0.00069168705, 0.00037869276, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=195350017]
 texture_filter = 1

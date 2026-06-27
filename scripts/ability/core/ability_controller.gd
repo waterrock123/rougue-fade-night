@@ -142,7 +142,7 @@ func _can_be_cast(ability: Ability) -> bool:
 		return false
 
 	var cd = cooldowns.get(ability, 0.0)
-	return cd == 0 and ability.energy_cost <= entity.current_energy
+	return cd == 0 and ability.energy_cost <= entity.current_energy and ability.can_pay_activation_costs(entity)
 
 
 func _can_ai_cast(ability: Ability, target_distance: float, fallback_cast_range: float) -> bool:
@@ -194,6 +194,12 @@ func trigger_ability(ability: Ability) -> bool:
 		return false
 	if entity.current_energy < ability.energy_cost:
 		return false
+	if not ability.can_pay_activation_costs(entity):
+		_show_ability_block_reason(ability)
+		return false
+	if not ability.pay_activation_costs(entity):
+		_show_ability_block_reason(ability)
+		return false
 
 	entity.spend_energy(ability.energy_cost)
 	ability.activate(entity)
@@ -228,6 +234,7 @@ func begin_ability_preview(ability: Ability) -> void:
 		trigger_ability(ability)
 		return
 	if not _can_be_cast(ability):
+		_show_ability_block_reason(ability)
 		return
 
 	# 同一时间只允许预览一个技能，避免多个指示器叠在一起。
@@ -250,6 +257,17 @@ func cancel_ability_preview() -> void:
 	if previewing_ability != null:
 		previewing_ability.end_cast_preview()
 		previewing_ability = null
+
+
+func _show_ability_block_reason(ability: Ability) -> void:
+	if ability == null or entity == null:
+		return
+
+	var reason := ability.get_activation_block_reason(entity)
+	if reason.is_empty():
+		return
+	if FloatText != null and FloatText.has_method("show_screen_tip"):
+		FloatText.show_screen_tip(reason)
 
 
 func _rebuild_ability_cache() -> void:

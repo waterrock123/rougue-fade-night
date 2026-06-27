@@ -45,13 +45,7 @@ func _heal_context_owner(context: TagEffectContext) -> void:
 	var max_health := context.stats_controller.get_stat(&"max_health") if context.stats_controller != null else 0.0
 	var owner_entity := TagEffectRuntimeHelper.get_owner_entity(context)
 	if owner_entity != null:
-		var entity_max_health := max_health if max_health > 0.0 else owner_entity.max_health
-		owner_entity.current_health = min(owner_entity.current_health + heal_amount, entity_max_health)
-		if context.stats_controller != null:
-			context.stats_controller.current_health = owner_entity.current_health
-			context.stats_controller.sync_runtime_resources()
-		if owner_entity.is_in_group("player"):
-			EventBus.player_health_changed.emit(owner_entity.current_health, entity_max_health)
+		owner_entity.apply_heal(heal_amount)
 		return
 
 	if context.player_build != null:

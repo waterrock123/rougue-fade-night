@@ -10,4 +10,5 @@ script = ExtResource("2_gl2u7")
 relic_name = "安缪拉的法杖"
 icon = ExtResource("2_64i5l")
 price = 6
+level = 6
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

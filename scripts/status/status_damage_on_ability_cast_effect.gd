@@ -38,10 +38,11 @@ func on_remove(instance: StatusInstance) -> void:
 		return
 
 	var entry := active_connections[key] as Dictionary
-	var controller := entry.get("controller") as AbilityController
-	var callback := entry.get("callback") as Callable
-	if controller != null and is_instance_valid(controller) and controller.ability_triggered.is_connected(callback):
-		controller.ability_triggered.disconnect(callback)
+	var controller = entry.get("controller")
+	var callback: Callable = entry.get("callback", Callable()) as Callable
+	if controller != null and is_instance_valid(controller) and callback.is_valid():
+		if controller.ability_triggered.is_connected(callback):
+			controller.ability_triggered.disconnect(callback)
 
 	active_connections.erase(key)
 
@@ -50,9 +51,9 @@ func _on_target_ability_triggered(_ability: Ability, caster: Entity, instance: S
 	if instance == null or caster == null or not is_instance_valid(caster) or caster.is_dead:
 		return
 
-	var source_entity := instance.source as Entity
-	if source_entity != null and not is_instance_valid(source_entity):
-		source_entity = null
+	var source_entity: Entity
+	if instance.source != null and is_instance_valid(instance.source) and instance.source is Entity:
+		source_entity = instance.source as Entity
 
 	var damage_data := DamageData.create(
 		damage,
@@ -72,4 +73,7 @@ func _get_target_entity(instance: StatusInstance) -> Entity:
 
 
 func _get_effect_key(instance: StatusInstance) -> String:
-	return "%s_ability_cast_damage" % instance.get_effect_key()
+	var target_id := "none"
+	if instance != null and instance.target != null and is_instance_valid(instance.target):
+		target_id = str(instance.target.get_instance_id())
+	return "%s_%s_ability_cast_damage" % [instance.get_effect_key(), target_id]

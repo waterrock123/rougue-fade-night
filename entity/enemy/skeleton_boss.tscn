@@ -20,6 +20,7 @@
 [ext_resource type="Resource" uid="uid://cmt5vociifd4o" path="res://entity/enemy/skeleton_boss.tres" id="14_hsgf3"]
 [ext_resource type="Script" uid="uid://87nmt5jrle4v" path="res://scripts/status/status_controller.gd" id="14_ibv5n"]
 [ext_resource type="PackedScene" uid="uid://drg6issto55bk" path="res://scenes/ability/skeleton_flash_slash.tscn" id="15_flash"]
+[ext_resource type="Texture2D" uid="uid://clu74wmc2kp5u" path="res://assets/UI/Pixel UI pack 3/04.png" id="21_7eru0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i0f3v"]
 shader = ExtResource("2_jn6e8")
@@ -961,6 +962,14 @@ height = 55.0
 offsets = PackedFloat32Array(0, 0.67164177, 1)
 colors = PackedColorArray(0.9326247, 0.9326248, 0.93262464, 1, 0.6862745, 0.6862745, 0.6862745, 1, 0.6, 0.6, 0.6, 0.6313726)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_nekgi"]
+atlas = ExtResource("21_7eru0")
+region = Rect2(297, 133, 32, 5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gb8w7"]
+atlas = ExtResource("21_7eru0")
+region = Rect2(57, 133, 32, 5)
+
 [node name="SkeletonBoss" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
 script = ExtResource("1_afsl3")
@@ -1003,7 +1012,7 @@ cooldown = 10.0
 ai_min_cast_distance = 10.0
 ai_max_cast_distance = 200.0
 
-[node name="SkeletonFlashSlash" parent="AbilityController" instance=ExtResource("15_flash")]
+[node name="SkeletonFlashSlash" parent="AbilityController" unique_id=777125993 instance=ExtResource("15_flash")]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]
 
@@ -1037,5 +1046,22 @@ script = ExtResource("14_ibv5n")
 
 [node name="VFXAnchor" type="Node2D" parent="." unique_id=1341317450]
 position = Vector2(0, 25)
+
+[node name="EnemyHealthBar" type="TextureProgressBar" parent="." unique_id=417770964]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -17.0
+offset_top = 27.0
+offset_right = 15.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 0
+step = 0.1
+texture_under = SubResource("AtlasTexture_nekgi")
+texture_progress = SubResource("AtlasTexture_gb8w7")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

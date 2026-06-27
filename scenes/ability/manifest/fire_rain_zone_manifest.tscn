@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bkn82teuvyl52"]
 
 [ext_resource type="Script" uid="uid://c8f4x3lgra0ng" path="res://scripts/ability/manifest/fire_rain_zone_manifest.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://b0185p3saauxq" path="res://assets/Effect and Bullet 16x16/Effect and Bullet 16x16/Fire Effect and Bullet 16x16.png" id="2_fire_texture"]
+[ext_resource type="Texture2D" uid="uid://b0185p3saauxq" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Fire Effect and Bullet 16x16.png" id="2_fire_texture"]
 [ext_resource type="PackedScene" uid="uid://cdb62nsbpcoh5" path="res://scenes/ability/manifest/fire_ground_manifest.tscn" id="3_fire_ground"]
 [ext_resource type="Script" uid="uid://dcukpvvpmebnv" path="res://scripts/stats/damage_scaling_rule.gd" id="4_scaling"]
 

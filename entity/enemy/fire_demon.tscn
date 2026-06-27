@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://drlmi40u5noj5" path="res://scripts/relic/owner_manifest_trail_spawner.gd" id="15_fire_trail_script"]
 [ext_resource type="PackedScene" uid="uid://cdb62nsbpcoh5" path="res://scenes/ability/manifest/fire_ground_manifest.tscn" id="16_fire_ground"]
 [ext_resource type="PackedScene" path="res://scenes/ability/fire_demon_flame_cleave.tscn" id="17_flame_cleave"]
+[ext_resource type="Texture2D" uid="uid://clu74wmc2kp5u" path="res://assets/UI/Pixel UI pack 3/04.png" id="18_awd17"]
 [ext_resource type="PackedScene" path="res://scenes/ability/fire_demon_fire_rain.tscn" id="18_fire_rain"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i0f3v"]
@@ -502,6 +503,14 @@ charm = 2
 luck = 2
 metadata/_custom_type_script = "uid://yiy2gawxifk8"
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_4sr8v"]
+atlas = ExtResource("18_awd17")
+region = Rect2(297, 133, 32, 5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b62gj"]
+atlas = ExtResource("18_awd17")
+region = Rect2(57, 133, 32, 5)
+
 [node name="FireDemon" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
 position = Vector2(0, -8.999999)
@@ -516,7 +525,7 @@ chase_distance = 80.0
 hit_particles = NodePath("HitParticles")
 ability_select_mode = 1
 is_bounty_elite = true
-bounty_gold = 18
+bounty_gold = 3
 bounty_starts_neutral = true
 max_health = 350.0
 energy_region_freq = 2.0
@@ -580,5 +589,22 @@ initial_spawn = false
 
 [node name="VFXAnchor" type="Node2D" parent="." unique_id=1341317450]
 position = Vector2(0, 25)
+
+[node name="EnemyHealthBar" type="TextureProgressBar" parent="." unique_id=1834569112]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -18.571428
+offset_top = 60.0
+offset_right = 13.428572
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 0
+step = 0.1
+texture_under = SubResource("AtlasTexture_4sr8v")
+texture_progress = SubResource("AtlasTexture_b62gj")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

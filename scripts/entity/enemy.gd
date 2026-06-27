@@ -24,6 +24,14 @@ enum AbilitySelectMode {
 @export var hit_particles: CPUParticles2D 
 @export var ability_select_mode: AbilitySelectMode = AbilitySelectMode.FIRST_READY
 
+@export_group("敌人血条")
+## 默认寻找敌人根节点下名为 EnemyHealthBar 的 TextureProgressBar。
+@export var health_bar_path: NodePath = NodePath("EnemyHealthBar")
+## 敌人受伤后才显示血条，避免战场上常驻太多 UI。
+@export var show_health_bar_after_damage: bool = true
+## 血量回满时重新隐藏血条。
+@export var hide_health_bar_when_full: bool = true
+
 @export_group("悬赏精英怪")
 ## 是否作为悬赏精英怪。悬赏怪可以不参与战斗胜利判定，并在死亡时给玩家额外金币。
 @export var is_bounty_elite: bool = false
@@ -50,6 +58,7 @@ var neutral_home_position: Vector2 = Vector2.ZERO
 var neutral_wander_anchor: Vector2 = Vector2.ZERO
 var neutral_wander_timer: float = 0.0
 var last_damage_source: Entity
+var enemy_health_bar: TextureProgressBar
 
 @onready var ability_controller: AbilityController = $AbilityController
 @onready var collision_shape: CollisionShape2D =$Area2D/CollisionShape2D
@@ -59,6 +68,7 @@ var last_damage_source: Entity
 
 func _ready() -> void:
 	super._ready()
+	_setup_enemy_health_bar()
 	add_to_group('enemy')
 	if is_bounty_elite:
 		add_to_group("bounty_elite")
@@ -234,6 +244,7 @@ func _find_nearest_player_side_target() -> Entity:
 func apply_runtime_stats(final_stats: Dictionary) -> void:
 	if final_stats.has("move_speed"):
 		speed = float(final_stats["move_speed"])
+	_refresh_enemy_health_bar(enemy_health_bar != null and enemy_health_bar.visible)
 
 
 # 敌人 AI 的技能选择入口。
@@ -327,6 +338,64 @@ func _die() -> void:
 	super._die()
 	if should_grant_bounty:
 		EventBus.bounty_enemy_killed.emit(self, last_damage_source, bounty_gold)
+
+
+func _setup_enemy_health_bar() -> void:
+	var bar_node: Node = get_node_or_null(health_bar_path)
+	enemy_health_bar = bar_node as TextureProgressBar
+	if enemy_health_bar == null:
+		return
+
+	# 敌人血条只显示百分比，所以统一把进度条范围标准化为 0-100。
+	enemy_health_bar.min_value = 0.0
+	enemy_health_bar.max_value = 100.0
+	enemy_health_bar.value = 100.0
+	enemy_health_bar.visible = false
+	_refresh_enemy_health_bar(false)
+
+	var damage_callback := Callable(self, "_on_enemy_damage_taken")
+	if not damage_taken.is_connected(damage_callback):
+		damage_taken.connect(damage_callback)
+
+	var death_callback := Callable(self, "_on_enemy_died")
+	if not died.is_connected(death_callback):
+		died.connect(death_callback)
+
+
+func _on_enemy_damage_taken(_damage_data: DamageData) -> void:
+	_refresh_enemy_health_bar(show_health_bar_after_damage)
+
+
+func _on_enemy_died(_entity: Entity) -> void:
+	if enemy_health_bar != null:
+		enemy_health_bar.visible = false
+
+
+func _refresh_enemy_health_bar(allow_show: bool) -> void:
+	if enemy_health_bar == null:
+		return
+
+	var max_health_value: float = max_health
+	if stats_controller != null:
+		max_health_value = stats_controller.get_stat(&"max_health", max_health)
+
+	if max_health_value <= 0.0:
+		enemy_health_bar.value = 0.0
+		enemy_health_bar.visible = false
+		return
+
+	var health_percent: float = clamp(current_health / max_health_value, 0.0, 1.0) * 100.0
+	enemy_health_bar.value = health_percent
+
+	if not allow_show:
+		enemy_health_bar.visible = false
+		return
+
+	if hide_health_bar_when_full and health_percent >= 99.9:
+		enemy_health_bar.visible = false
+		return
+
+	enemy_health_bar.visible = true
 
 
 func _is_player_side_source(source: Entity) -> bool:

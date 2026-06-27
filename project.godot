@@ -29,6 +29,7 @@ ResourceLocator="*uid://bcmw4cmstht6g"
 EventBus="*uid://be0lc6rakacnu"
 RunRng="*res://scripts/autoload/run_rng.gd"
 SaveManager="*res://scripts/autoload/save_manager.gd"
+InputSettingsManager="*res://scripts/autoload/input_settings_manager.gd"
 FloatText="*uid://bjxvp2xst5crm"
 AudioController="*uid://cells3g5xnxr2"
 

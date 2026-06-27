@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="13_wxjws"]
 [ext_resource type="Script" uid="uid://87nmt5jrle4v" path="res://scripts/status/status_controller.gd" id="14_rn3r1"]
 [ext_resource type="PackedScene" uid="uid://dywxdfssmxmxp" path="res://scenes/ability/thorn_armor.tscn" id="15_thorn"]
+[ext_resource type="Texture2D" uid="uid://clu74wmc2kp5u" path="res://assets/UI/Pixel UI pack 3/04.png" id="16_b75g0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_65khg"]
 shader = ExtResource("2_2wswg")
@@ -465,6 +466,14 @@ height = 140.0
 offsets = PackedFloat32Array(0, 0.67164177, 1)
 colors = PackedColorArray(0.9326247, 0.9326248, 0.93262464, 1, 0.6862745, 0.6862745, 0.6862745, 1, 0.6, 0.6, 0.6, 0.6313726)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gt4fn"]
+atlas = ExtResource("16_b75g0")
+region = Rect2(297, 133, 32, 5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r6ewh"]
+atlas = ExtResource("16_b75g0")
+region = Rect2(57, 133, 32, 5)
+
 [node name="TreePeople" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
 scale = Vector2(0.6, 0.6)
@@ -525,3 +534,20 @@ script = ExtResource("14_rn3r1")
 
 [node name="VFXAnchor" type="Node2D" parent="." unique_id=1794685461]
 position = Vector2(0, 28.333334)
+
+[node name="EnemyHealthBar" type="TextureProgressBar" parent="." unique_id=672999136]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.666666
+offset_top = 63.33333
+offset_right = 15.333334
+offset_bottom = 68.33333
+grow_horizontal = 2
+grow_vertical = 0
+step = 0.1
+texture_under = SubResource("AtlasTexture_gt4fn")
+texture_progress = SubResource("AtlasTexture_r6ewh")

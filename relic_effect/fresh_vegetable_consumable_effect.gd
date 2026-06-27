@@ -67,13 +67,7 @@ func _apply_heal(owner: Node) -> void:
 		return
 
 	var entity := owner as Entity
-	entity.current_health = min(entity.current_health + heal_amount, entity.max_health)
-	if entity.stats_controller != null:
-		entity.stats_controller.current_health = entity.current_health
-		entity.stats_controller.sync_runtime_resources()
-
-	if entity.is_in_group("player"):
-		EventBus.player_health_changed.emit(entity.current_health, entity.max_health)
+	entity.apply_heal(heal_amount)
 
 
 func _get_stats_controller(relic_context: RelicContext) -> StatsController:

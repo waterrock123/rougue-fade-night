@@ -1,0 +1,399 @@
+[gd_scene format=3 uid="uid://da2svc0t0833u"]
+
+[ext_resource type="Texture2D" uid="uid://8ar6gpilg5bs" path="res://assets/Lucid V1.2/PNG/Shadow/64/Mouse.png" id="1_2bek4"]
+[ext_resource type="Texture2D" uid="uid://cjokw6nc0vxk5" path="res://assets/Lucid V1.2/PNG/Shadow/64/Magnifying-Glass.png" id="2_6whhp"]
+[ext_resource type="Texture2D" uid="uid://b2o0n7pskxnhv" path="res://assets/Lucid V1.2/PNG/Shadow/64/Music-0.png" id="3_x2xi3"]
+[ext_resource type="Texture2D" uid="uid://cd3w5auvv24fd" path="res://assets/Lucid V1.2/PNG/Shadow/64/Bulleted-List.png" id="4_uhwgb"]
+[ext_resource type="FontFile" uid="uid://ctammgtpvt6sl" path="res://assets/字体/LanaPixel.ttf" id="5_x2xi3"]
+[ext_resource type="Script" uid="uid://c4evj46pniiya" path="res://scripts/ui/setting_scene.gd" id="6_setting_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ue0li"]
+bg_color = Color(0.27369222, 0.289393, 0.22309205, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.8629339, 0.8018772, 0.56230503, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2bek4"]
+bg_color = Color(0.24313726, 0.25490198, 0.34509805, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2467567, 0.5810341, 0.56406325, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05bhw"]
+bg_color = Color(0.5488913, 0.6447551, 0.8204, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6whhp"]
+bg_color = Color(0, 0.7522972, 0.57037425, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m6lu0"]
+bg_color = Color(0, 0.7522972, 0.57037425, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x2xi3"]
+bg_color = Color(3.465414e-06, 0.55587727, 0.41651943, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhwgb"]
+bg_color = Color(0.36349168, 0.6710096, 0.55907583, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7u7b6"]
+font = ExtResource("5_x2xi3")
+font_size = 35
+
+[node name="SettingScene" type="Control" unique_id=393143836]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_setting_script")
+
+[node name="Panel" type="Panel" parent="." unique_id=55189280]
+custom_minimum_size = Vector2(1680, 880)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -540.0
+offset_top = -20.0
+offset_right = 540.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ue0li")
+
+[node name="Panel" type="Panel" parent="Panel" unique_id=2092352638]
+custom_minimum_size = Vector2(1580, 780)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2bek4")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Panel" unique_id=235547964]
+custom_minimum_size = Vector2(1080, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -550.0
+offset_top = 79.0
+offset_right = 550.0
+offset_bottom = 151.0
+grow_horizontal = 2
+theme_override_constants/separation = 100
+
+[node name="KeyBoardButton" type="Button" parent="Panel/Panel/HBoxContainer" unique_id=1321786337]
+custom_minimum_size = Vector2(200, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_05bhw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6whhp")
+theme_override_styles/hover = SubResource("StyleBoxFlat_m6lu0")
+toggle_mode = true
+text = "按键设置"
+icon = ExtResource("1_2bek4")
+
+[node name="VisionButton" type="Button" parent="Panel/Panel/HBoxContainer" unique_id=333944475]
+custom_minimum_size = Vector2(200, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_05bhw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6whhp")
+theme_override_styles/hover = SubResource("StyleBoxFlat_m6lu0")
+toggle_mode = true
+text = "显示"
+icon = ExtResource("2_6whhp")
+
+[node name="SoundButton" type="Button" parent="Panel/Panel/HBoxContainer" unique_id=2035561293]
+custom_minimum_size = Vector2(200, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_05bhw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6whhp")
+theme_override_styles/hover = SubResource("StyleBoxFlat_m6lu0")
+toggle_mode = true
+text = "声音"
+icon = ExtResource("3_x2xi3")
+
+[node name="OtherButton" type="Button" parent="Panel/Panel/HBoxContainer" unique_id=1040893052]
+custom_minimum_size = Vector2(200, 72)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_05bhw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6whhp")
+theme_override_styles/hover = SubResource("StyleBoxFlat_m6lu0")
+toggle_mode = true
+text = "其他"
+icon = ExtResource("4_uhwgb")
+
+[node name="BackButton" type="Button" parent="Panel/Panel" unique_id=1452977564]
+custom_minimum_size = Vector2(140, 56)
+layout_mode = 0
+offset_left = 1390.0
+offset_top = 16.0
+offset_right = 1530.0
+offset_bottom = 72.0
+theme_override_font_sizes/font_size = 28
+text = "BACK"
+
+[node name="Panel" type="Panel" parent="Panel/Panel" unique_id=107774926]
+custom_minimum_size = Vector2(1280, 580)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -226.0
+offset_right = 640.0
+offset_bottom = 354.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_x2xi3")
+
+[node name="KeyboardSetting" type="Control" parent="Panel/Panel/Panel" unique_id=1093949628]
+clip_contents = true
+custom_minimum_size = Vector2(1280, 580)
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Panel/Panel/KeyboardSetting" unique_id=829183373]
+clip_contents = true
+layout_mode = 1
+offset_left = 24.0
+offset_top = 30.0
+offset_right = 1204.0
+offset_bottom = 766.0
+
+[node name="KeyboardPanel" type="Panel" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer" unique_id=486725291]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uhwgb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel" unique_id=1281112147]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel/HBoxContainer" unique_id=646401214]
+layout_mode = 2
+text = " 技能1(基础攻击)"
+label_settings = SubResource("LabelSettings_7u7b6")
+
+[node name="KeyboardPanel2" type="Panel" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer" unique_id=2043801962]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uhwgb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel2" unique_id=159971236]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel2/HBoxContainer" unique_id=1269595193]
+layout_mode = 2
+text = " 技能1(基础攻击)"
+label_settings = SubResource("LabelSettings_7u7b6")
+
+[node name="KeyboardPanel3" type="Panel" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer" unique_id=1765924993]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uhwgb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel3" unique_id=412388501]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel3/HBoxContainer" unique_id=2033501895]
+layout_mode = 2
+text = " 技能1(基础攻击)"
+label_settings = SubResource("LabelSettings_7u7b6")
+
+[node name="KeyboardPanel4" type="Panel" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer" unique_id=313428411]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uhwgb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel4" unique_id=1945585262]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = -4.0
+offset_right = -3.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel4/HBoxContainer" unique_id=263153907]
+layout_mode = 2
+text = " 技能1(基础攻击)"
+label_settings = SubResource("LabelSettings_7u7b6")
+
+[node name="KeyboardPanel5" type="Panel" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer" unique_id=1301886009]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uhwgb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel5" unique_id=1377913199]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel5/HBoxContainer" unique_id=453544052]
+layout_mode = 2
+text = " 技能1(基础攻击)"
+label_settings = SubResource("LabelSettings_7u7b6")
+
+[node name="KeyboardPanel6" type="Panel" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer" unique_id=596554081]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uhwgb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel6" unique_id=1381727533]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel6/HBoxContainer" unique_id=1908062951]
+layout_mode = 2
+text = " 技能1(基础攻击)"
+label_settings = SubResource("LabelSettings_7u7b6")
+
+[node name="KeyboardPanel7" type="Panel" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer" unique_id=1075793782]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uhwgb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel7" unique_id=1781482010]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel7/HBoxContainer" unique_id=1543867747]
+layout_mode = 2
+text = " 技能1(基础攻击)"
+label_settings = SubResource("LabelSettings_7u7b6")
+
+[node name="KeyboardPanel8" type="Panel" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer" unique_id=512165291]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uhwgb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel8" unique_id=193105421]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel8/HBoxContainer" unique_id=933843525]
+layout_mode = 2
+text = " 技能1(基础攻击)"
+label_settings = SubResource("LabelSettings_7u7b6")
+
+[node name="KeyboardPanel9" type="Panel" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer" unique_id=471906747]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uhwgb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel9" unique_id=1160510369]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel9/HBoxContainer" unique_id=792898393]
+layout_mode = 2
+text = " 技能1(基础攻击)"
+label_settings = SubResource("LabelSettings_7u7b6")
+
+[node name="KeyboardPanel10" type="Panel" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer" unique_id=2146990025]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uhwgb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel10" unique_id=1190628663]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel/KeyboardSetting/VBoxContainer/KeyboardPanel10/HBoxContainer" unique_id=1398825222]
+layout_mode = 2
+text = " 技能1(基础攻击)"
+label_settings = SubResource("LabelSettings_7u7b6")
+
+[node name="VScrollBar" type="VScrollBar" parent="Panel/Panel/Panel" unique_id=1352020875]
+custom_minimum_size = Vector2(30, 500)
+layout_mode = 0
+offset_left = 1220.0
+offset_top = 31.0
+offset_right = 1250.0
+offset_bottom = 576.0

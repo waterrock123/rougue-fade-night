@@ -134,21 +134,7 @@ func _heal_target(target: Entity) -> void:
 	if heal_amount <= 0.0:
 		return
 
-	var max_health_value = target.max_health
-	if target.stats_controller != null:
-		max_health_value = target.stats_controller.get_stat(&"max_health", target.max_health)
-
-	var previous_health = target.current_health
-	target.current_health = min(target.current_health + heal_amount, max_health_value)
-	if target.stats_controller != null:
-		target.stats_controller.current_health = target.current_health
-		target.stats_controller.sync_runtime_resources()
-
-	if target.is_in_group("player"):
-		EventBus.player_health_changed.emit(target.current_health, max_health_value)
-
-	if show_heal_text and target.current_health > previous_health:
-		FloatText.show_damage_text("+%s" % int(target.current_health - previous_health), _get_float_text_position(target), heal_text_color)
+	target.apply_heal(heal_amount, show_heal_text, heal_text_color)
 
 
 func _apply_status_to_target(target: Entity) -> void:

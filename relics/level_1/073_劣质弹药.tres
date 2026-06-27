@@ -27,6 +27,7 @@ tooltip = "装备后你的{projectile}额外造成1点伤害；{sell_price}降�
 升级：{dexterity}+1"
 price = 1
 sell_price = 1
+level = 1
 tags = Array[ExtResource("3_aqar4")]([ExtResource("5_aqar4")])
 id = "073"
 effects = Array[ExtResource("1_c2vt8")]([SubResource("Resource_projectile_bonus")])

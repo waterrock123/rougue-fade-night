@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cw8i8y3m4u8uf"]
 
 [ext_resource type="Script" uid="uid://cvulv2w1gi01f" path="res://event_room/campfire_room.gd" id="1_2ywd6"]
-[ext_resource type="Texture2D" uid="uid://dbyq7ghpuflx7" path="res://assets/ai art/休憩营地.png" id="2_2ywd6"]
+[ext_resource type="Texture2D" uid="uid://dbyq7ghpuflx7" path="res://assets/ai art/事件背景/休憩营地.png" id="2_2ywd6"]
 [ext_resource type="PackedScene" uid="uid://csqwkpx1kbsbr" path="res://event_room/event_button.tscn" id="3_w8bjp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_o06u0"]

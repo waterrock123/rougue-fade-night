@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dturxjebx7fev"]
 
-[ext_resource type="Texture2D" uid="uid://bebi7okt0ekq3" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 5/sprite-sheet.png" id="2_2bf0b"]
+[ext_resource type="Texture2D" uid="uid://bebi7okt0ekq3" path="res://assets/特效/Pixel Art Animations - Warrior (FREE)/VFX 5/sprite-sheet.png" id="2_2bf0b"]
 [ext_resource type="Script" uid="uid://bsck4nxrmfr7y" path="res://scripts/ability/manifest/animated_ability_manifest.gd" id="2_script"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r8760"]

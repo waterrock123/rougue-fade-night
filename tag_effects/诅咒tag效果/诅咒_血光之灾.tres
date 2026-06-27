@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TagEffect" format=3 uid="uid://caklubw72dumm"]
+
+[ext_resource type="Texture2D" uid="uid://dhhf2lv7o7mv3" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc745.png" id="1_telyg"]
+[ext_resource type="Script" uid="uid://bkm4mygm81buv" path="res://scripts/tag_effect/tag_effect.gd" id="1_tj84p"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="3_xlqwn"]
+
+[resource]
+script = ExtResource("1_tj84p")
+id = &"血光之灾"
+tag = ExtResource("3_xlqwn")
+effect_name = "血光之灾"
+icon = ExtResource("1_telyg")
+desc = "达到三件后激活，每次释放技能时都有10%概率失去3点生命值，每次失去生命值时都会对释放一个追踪投射物，攻击附近的敌人，其伤害等于你最大生命值的30%"
+metadata/_custom_type_script = "uid://bkm4mygm81buv"

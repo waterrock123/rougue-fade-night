@@ -9,6 +9,8 @@ signal damage_dealt(damage_data: DamageData)
 @export var max_energy: float = 50.0
 @export var damage_text_color: Color = Color.WHITE
 @export var crit_damage_text_color: Color = Color(1.0, 0.85, 0.2, 1.0)
+@export var miss_damage_text_color: Color = Color(0.65, 0.85, 1.0, 1.0)
+@export var heal_text_color: Color = Color(0.55, 1.0, 0.62, 1.0)
 
 @export var energy_region_freq = 0.5
 @export var energy_region_tick_value = 3
@@ -62,6 +64,13 @@ func apply_damage(damage_event):
 		damage_data.final_damage = 0.0
 		return damage_data
 
+	if stats_controller != null and stats_controller.should_dodge_damage(damage_data):
+		damage_data.final_damage = 0.0
+		damage_data.is_miss = true
+		show_damage_popup(damage_data)
+		_handle_damage_callback(damage_data)
+		return damage_data
+
 	if damage_data.source != null and damage_data.source.stats_controller != null:
 		damage_data = damage_data.source.stats_controller.process_outgoing_damage(damage_data)
 
@@ -96,12 +105,46 @@ func spend_energy(energy: float):
 	pass
 
 
+func apply_heal(heal_amount: float, show_float_text: bool = true, text_color: Color = Color.TRANSPARENT) -> float:
+	if is_dead or heal_amount <= 0.0:
+		return 0.0
+
+	var max_health_value: float = get_runtime_max_health()
+	if max_health_value <= 0.0:
+		return 0.0
+
+	var previous_health: float = current_health
+	current_health = min(current_health + heal_amount, max_health_value)
+	var actual_heal: float = max(current_health - previous_health, 0.0)
+	if actual_heal <= 0.0:
+		return 0.0
+
+	if stats_controller != null:
+		stats_controller.current_health = current_health
+		stats_controller.sync_runtime_resources()
+
+	if is_in_group("player"):
+		EventBus.player_health_changed.emit(current_health, max_health_value)
+
+	if show_float_text:
+		var final_text_color := heal_text_color if text_color == Color.TRANSPARENT else text_color
+		show_heal_popup(actual_heal, final_text_color)
+
+	return actual_heal
+
+
 func apply_runtime_stats(_final_stats: Dictionary) -> void:
 	pass
 
 
 func get_status_controller() -> StatusController:
 	return status_controller
+
+
+func get_runtime_max_health() -> float:
+	if stats_controller != null:
+		return stats_controller.get_stat(&"max_health", max_health)
+	return max_health
 
 
 func lock_movement(duration: float) -> void:
@@ -258,6 +301,10 @@ func get_current_texture() -> Texture2D:
 func show_damage_popup(damage_data: DamageData):
 	var height = get_height()
 	var spawn_position = Vector2(position.x, position.y - (height * 0.5))
+	if damage_data != null and damage_data.is_miss:
+		FloatText.show_damage_text("miss", spawn_position, miss_damage_text_color)
+		return
+
 	var text_color := damage_text_color
 	if damage_data != null:
 		text_color = damage_data.get_damage_type_color(damage_text_color)
@@ -265,6 +312,16 @@ func show_damage_popup(damage_data: DamageData):
 			text_color = crit_damage_text_color
 
 	FloatText.show_damage_text(str(int(damage_data.get_display_damage())), spawn_position, text_color)
+
+
+func show_heal_popup(heal_amount: float, text_color: Color = Color.TRANSPARENT) -> void:
+	if heal_amount <= 0.0:
+		return
+
+	var height = get_height()
+	var spawn_position = Vector2(position.x, position.y - (height * 0.5))
+	var final_text_color := heal_text_color if text_color == Color.TRANSPARENT else text_color
+	FloatText.show_damage_text("+%s" % int(heal_amount), spawn_position, final_text_color)
 
 
 func _handle_damage_callback(_damage_data: DamageData):
