@@ -9,6 +9,10 @@
 script = ExtResource("2_gl2u7")
 relic_name = "安缪拉的法杖"
 icon = ExtResource("2_64i5l")
+tooltip = "智力+4，幸运+4，每场战斗中第一次受到伤害时获得10护甲，持续至战斗结束
+升级：出现一面护盾环绕角色，其能够反弹投射物的"
 price = 6
 level = 6
+tags = Array[ExtResource("3_64i5l")]([null, null])
+id = "051"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

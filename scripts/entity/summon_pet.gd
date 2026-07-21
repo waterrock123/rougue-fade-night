@@ -64,7 +64,6 @@ enum AiRole {
 
 var summoner: Entity
 var target: Entity
-var velocity: Vector2 = Vector2.ZERO
 var current_speed: float = 0.0
 var last_position: Vector2 = Vector2.ZERO
 var next_ability_index: int = 0
@@ -254,7 +253,7 @@ func _apply_movement(direction: Vector2, delta: float) -> void:
 	if direction == Vector2.ZERO:
 		return
 
-	global_position += direction.normalized() * speed * delta
+	move_with_physics(direction.normalized() * speed * delta)
 	_face_target(direction)
 
 
@@ -366,15 +365,15 @@ func _try_cast_ability(target_distance: float) -> bool:
 
 	match ability_select_mode:
 		AbilitySelectMode.SEQUENCE_READY:
-			var next_index := ability_controller.trigger_next_available_ability_for_ai(next_ability_index, target_distance, stop_distance)
+			var next_index := ability_controller.trigger_next_available_ability_for_ai(next_ability_index, target_distance, stop_distance, target)
 			if next_index >= 0:
 				next_ability_index = next_index
 				return true
 			return false
 		AbilitySelectMode.RANDOM_READY:
-			return ability_controller.trigger_random_available_ability_for_ai(target_distance, stop_distance)
+			return ability_controller.trigger_random_available_ability_for_ai(target_distance, stop_distance, target)
 		_:
-			return ability_controller.trigger_first_available_ability_for_ai(target_distance, stop_distance)
+			return ability_controller.trigger_first_available_ability_for_ai(target_distance, stop_distance, target)
 
 
 func _handle_animations() -> void:

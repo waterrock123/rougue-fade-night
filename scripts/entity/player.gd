@@ -155,9 +155,9 @@ func _handle_movement(delta: float):
 	var movement = Vector2(horizontal,vertical)
 	var n_movement=movement.normalized()
 	
-	self.position += n_movement * speed * delta
+	var actual_movement: Vector2 = move_with_physics(n_movement * speed * delta)
 	
-	if n_movement.length() > 0:
+	if actual_movement.length() > 0:
 		is_moving = true
 		footstep_effect.play()
 		if turning_cooldown == 0:

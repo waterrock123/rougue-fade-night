@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://pi1hjf8m53g4"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_bo3yv"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_qw73v"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_kb163"]
+[ext_resource type="Resource" uid="uid://cxt8rcahtvpp1" path="res://relic_tags/雷电tag.tres" id="4_kb163"]
+[ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="5_nvtmb"]
+
+[resource]
+script = ExtResource("2_qw73v")
+relic_name = "太阳能发电板"
+tooltip = "在拥有太阳的情况下在关卡内每10秒获得2层电力
+升级：效果变为每10秒获得3层电力"
+desc = "放头上就当是打伞遮阳了"
+price = 4
+level = 3
+tags = Array[ExtResource("3_kb163")]([ExtResource("4_kb163"), ExtResource("5_nvtmb")])
+id = "106"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

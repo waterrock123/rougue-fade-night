@@ -2,6 +2,7 @@ class_name StatusController
 extends Node
 
 signal status_changed()
+signal status_stacks_consumed(status_id: StringName, consumed_amount: int)
 
 var statuses: Dictionary = {}
 
@@ -37,12 +38,14 @@ func add_status(
 	var existing := statuses.get(status_id) as StatusInstance
 	if existing != null:
 		_reapply_status(existing, source, source_key, stacks, duration_override)
+		_emit_status_applied(status_id, source, stacks)
 		status_changed.emit()
 		return existing
 
 	var instance := StatusInstance.new(status_data, self, target, source, source_key, stacks, duration_override)
 	statuses[status_id] = instance
 	_apply_effects(instance)
+	_emit_status_applied(status_id, source, stacks)
 	status_changed.emit()
 	return instance
 
@@ -81,6 +84,28 @@ func get_status(status_id: StringName) -> StatusInstance:
 	return statuses.get(status_id) as StatusInstance
 
 
+func consume_status_stacks(status_id: StringName, amount: int) -> int:
+	if amount <= 0:
+		return 0
+
+	var instance := statuses.get(status_id) as StatusInstance
+	if instance == null:
+		return 0
+
+	# 消耗层数前先撤下旧效果，扣完层数后再按剩余层数重放，避免带属性效果的状态残留。
+	_remove_effects(instance)
+	var consumed_amount: int = instance.consume_stacks(amount)
+	if instance.has_no_sources():
+		statuses.erase(status_id)
+	else:
+		_apply_effects(instance)
+
+	if consumed_amount > 0:
+		status_stacks_consumed.emit(status_id, consumed_amount)
+		status_changed.emit()
+	return consumed_amount
+
+
 func clear_all_statuses() -> void:
 	for status_id in statuses.keys().duplicate():
 		remove_status(status_id)
@@ -115,7 +140,14 @@ func _reapply_status(
 		StatusData.StackMode.REFRESH:
 			instance.set_source_stacks(source_key, added_stacks)
 
-	if instance.status_data.refresh_duration_on_reapply:
+	if instance.status_data.add_duration_on_reapply:
+		instance.add_duration(
+			duration_override,
+			added_stacks,
+			instance.status_data.max_duration,
+			instance.status_data.duration_add_scales_with_stacks
+		)
+	elif instance.status_data.refresh_duration_on_reapply:
 		instance.refresh_duration(duration_override)
 
 	_apply_effects(instance)
@@ -151,3 +183,11 @@ func _remove_effects(instance: StatusInstance) -> void:
 	for effect in instance.status_data.effects:
 		if effect != null:
 			effect.on_remove(instance)
+
+
+func _emit_status_applied(status_id: StringName, source: Node, stacks: int) -> void:
+	# 统一广播状态进入/刷新事件，让遗物、被动、事件房间无需侵入 StatusController 内部逻辑。
+	if EventBus == null:
+		return
+
+	EventBus.status_applied.emit(target, status_id, source, max(stacks, 0))

@@ -5,15 +5,23 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_myykp"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_lvkhg"]
 [ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="5_6mhv5"]
+[ext_resource type="Script" uid="uid://dxyyrqik3e0r7" path="res://relic_effect/outgoing_damage_splash_effect.gd" id="6_splash"]
+
+[sub_resource type="Resource" id="HighExplosiveSplashEffect"]
+script = ExtResource("6_splash")
+levelup_damage_rate = 0.2
+required_tags = Array[String](["projectile"])
+splash_tags = Array[String](["relic", "splash", "high_explosive_bullet"])
 
 [resource]
 script = ExtResource("2_myykp")
 relic_name = "高爆子弹"
 icon = ExtResource("2_lvkhg")
-tooltip = "使你的投射物在造成伤害时额外触发一次小范围爆炸，其基础伤害为固定为投射物伤害的10%
+tooltip = "使你的投射物在造成伤害时额外触发一次小范围爆炸，其基础伤害固定为投射物伤害的10%
 升级：爆炸的基础伤害提升为20%"
 price = 4
 level = 4
 tags = Array[ExtResource("3_lvkhg")]([ExtResource("5_6mhv5")])
 id = "077"
+effects = Array[ExtResource("1_vr3r2")]([SubResource("HighExplosiveSplashEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

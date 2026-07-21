@@ -6,6 +6,10 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_iesnd"]
 [ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_04dbt"]
 [ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="6_p3r88"]
+[ext_resource type="Script" uid="uid://c4kcttllo5bxc" path="res://relic_effect/consumable_used_random_permanent_stat_effect.gd" id="7_random_permanent"]
+
+[sub_resource type="Resource" id="ChopsticksConsumablePermanentStatsEffect"]
+script = ExtResource("7_random_permanent")
 
 [resource]
 script = ExtResource("2_8sf0n")
@@ -17,4 +21,5 @@ price = 4
 level = 4
 tags = Array[ExtResource("3_iesnd")]([ExtResource("5_04dbt"), ExtResource("6_p3r88")])
 id = "038"
+effects = Array[ExtResource("1_no2q1")]([SubResource("ChopsticksConsumablePermanentStatsEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

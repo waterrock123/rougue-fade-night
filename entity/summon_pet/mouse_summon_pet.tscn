@@ -735,8 +735,14 @@ height = 117.0
 offsets = PackedFloat32Array(0, 0.9840708, 0.99469024, 1)
 colors = PackedColorArray(0.12591067, 0.12591091, 0.12591058, 1, 0.43996772, 0.017522953, 0.11688952, 1, 0.46210128, 0.00988418, 0.116253756, 1, 3.7230366e-05, 3.7230377e-05, 3.7230333e-05, 0.6313726)
 
-[node name="MouseSummonPet" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4agce"]
+radius = 53.333332
+height = 106.666664
+
+[node name="MouseSummonPet" type="CharacterBody2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
+collision_layer = 2
+collision_mask = 1
 scale = Vector2(0.15, 0.15)
 script = ExtResource("1_r0bpq")
 speed = 100.0
@@ -798,5 +804,9 @@ script = ExtResource("12_wmw5q")
 
 [node name="VFXAnchor" type="Node2D" parent="." unique_id=1794685461]
 position = Vector2(0, 28.333334)
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="." unique_id=624933473]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_4agce")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -12,6 +12,12 @@ extends AbilityManifest
 @export var is_penetrate: bool = false
 @export var hit_sound: AudiioConfig
 
+@export_group("World Collision")
+## 是否会被墙体、石头、柱子等 World 层物理碰撞挡住。
+@export var blocked_by_world: bool = true
+## 默认检测物理层 1，也就是 project.godot 里命名的 World 层。
+@export_flags_2d_physics var world_collision_mask: int = 1
+
 @export_group("Animation")
 @export var start_animation: StringName = &"start"
 @export var repeat_animation: StringName = &"repeatable"
@@ -92,9 +98,10 @@ func _process(delta: float) -> void:
 	if is_hit_finishing:
 		return
 
-	var movement := current_dir * speed * delta
+	var movement: Vector2 = current_dir * speed * delta
 	current_distance += movement.length()
-	global_position += movement
+	if not _move_or_finish_on_world_hit(movement):
+		return
 
 	if rotate_while_flying:
 		global_rotation += rotate_speed * delta
@@ -188,6 +195,37 @@ func _finish_by_hit() -> void:
 		_play_animation(hit_animation)
 	else:
 		queue_free()
+
+
+# 动画投射物撞到 World 层时不造成额外伤害，只播放命中收尾动画并释放。
+func _move_or_finish_on_world_hit(movement: Vector2) -> bool:
+	if movement == Vector2.ZERO:
+		return true
+
+	var collision: Dictionary = _get_world_collision(movement)
+	if not collision.is_empty():
+		var hit_position: Variant = collision.get("position")
+		if hit_position is Vector2:
+			global_position = hit_position
+		_finish_by_hit()
+		return false
+
+	global_position += movement
+	return true
+
+
+func _get_world_collision(movement: Vector2) -> Dictionary:
+	if not blocked_by_world or movement == Vector2.ZERO or not is_inside_tree():
+		return {}
+
+	var query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(
+		global_position,
+		global_position + movement,
+		world_collision_mask
+	)
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	return get_world_2d().direct_space_state.intersect_ray(query)
 
 
 func _on_animation_finished() -> void:

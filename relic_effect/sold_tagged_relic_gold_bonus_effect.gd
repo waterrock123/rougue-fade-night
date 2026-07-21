@@ -6,6 +6,7 @@ extends RelicEffect
 @export var target_tag_name: String = ""
 @export var bonus_gold: int = 1
 @export var required_shopkeeper_name: String = ""
+@export_range(0.0, 1.0, 0.01) var trigger_chance: float = 1.0
 
 var active_contexts: Dictionary = {}
 
@@ -28,6 +29,8 @@ func on_deactivate(_relic_context: RelicContext, effect_key) -> void:
 
 func _on_relic_sold(relic: Relic) -> void:
 	if relic == null or not _relic_has_target_tag(relic):
+		return
+	if randf() > trigger_chance:
 		return
 
 	for value in active_contexts.values():

@@ -67,6 +67,35 @@ func remove_source(stack_source_key: Variant) -> void:
 	_recalculate_stacks()
 
 
+func consume_stacks(amount: int) -> int:
+	var remaining_amount: int = max(amount, 0)
+	if remaining_amount <= 0:
+		return 0
+
+	var consumed_amount: int = 0
+	for stack_source_key in source_stacks.keys().duplicate():
+		if remaining_amount <= 0:
+			break
+
+		var current_amount: int = int(source_stacks.get(stack_source_key, 0))
+		if current_amount <= 0:
+			source_stacks.erase(stack_source_key)
+			continue
+
+		var consume_amount: int = min(current_amount, remaining_amount)
+		current_amount -= consume_amount
+		remaining_amount -= consume_amount
+		consumed_amount += consume_amount
+
+		if current_amount <= 0:
+			source_stacks.erase(stack_source_key)
+		else:
+			source_stacks[stack_source_key] = current_amount
+
+	_recalculate_stacks()
+	return consumed_amount
+
+
 func has_no_sources() -> bool:
 	return source_stacks.is_empty() or stacks <= 0
 
@@ -79,6 +108,35 @@ func refresh_duration(duration_override: float = INF) -> void:
 	if status_data == null:
 		return
 	remaining_duration = status_data.duration if is_inf(duration_override) else duration_override
+	duration_revision += 1
+
+
+func add_duration(
+	duration_override: float = INF,
+	added_stacks: int = 1,
+	max_duration_override: float = -1.0,
+	scale_with_stacks: bool = true
+) -> void:
+	if status_data == null:
+		return
+
+	var base_duration: float = status_data.duration if is_inf(duration_override) else duration_override
+	if base_duration <= 0.0:
+		return
+
+	var added_duration: float = base_duration
+	if scale_with_stacks:
+		added_duration *= float(max(added_stacks, 1))
+
+	var current_duration: float = max(remaining_duration, 0.0)
+	remaining_duration = current_duration + added_duration
+
+	var duration_cap: float = max_duration_override
+	if duration_cap <= 0.0:
+		duration_cap = status_data.duration
+	if duration_cap > 0.0:
+		remaining_duration = min(remaining_duration, duration_cap)
+
 	duration_revision += 1
 
 

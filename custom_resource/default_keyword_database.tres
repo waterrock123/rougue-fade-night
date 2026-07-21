@@ -70,14 +70,14 @@ color = Color(1, 0.92, 0.45, 1)
 script = ExtResource("2_data")
 id = &"bleed"
 display_name = "流血"
-desc = "持续伤害类状态，通常会在一段时间内反复造成伤害。"
+desc = "持续30秒，可叠层；每5秒受到层数对应的物理伤害，并随机一级属性-1直到战斗结束。"
 color = Color(0.92, 0.12, 0.12, 1)
 
 [sub_resource type="Resource" id="KeywordData_freeze"]
 script = ExtResource("2_data")
 id = &"freeze"
 display_name = "冻结"
-desc = "控制类状态，使目标无法执行任何行动，体质可以减免此状态持续时间"
+desc = "控制类状态，仅有一层；持续期间无法行动并停止动画，体质可以减免持续时间。"
 color = Color(0.55, 0.9, 1, 1)
 
 [sub_resource type="Resource" id="KeywordData_sleep"]
@@ -91,7 +91,7 @@ color = Color(0.72, 0.65, 1, 1)
 script = ExtResource("2_data")
 id = &"paralysis"
 display_name = "麻痹"
-desc = "控制类状态，通常会打断或限制目标行动。"
+desc = "无持续时间，可叠层；目标释放主动技能时受到50点闪电伤害，并清除一层。"
 color = Color(1, 0.88, 0.28, 1)
 
 [sub_resource type="Resource" id="KeywordData_slow"]
@@ -161,7 +161,7 @@ color = Color(1, 0.42, 0.42, 1)
 script = ExtResource("2_data")
 id = &"burn"
 display_name = "燃烧"
-desc = "每秒受到10点火焰伤害"
+desc = "每秒受到层数对应的火焰伤害；可叠层，每次叠层重置为8秒。"
 color = Color(0.8582719, 0.2831542, 5.7756904e-07, 1)
 metadata/_custom_type_script = "uid://ch81dd8m0eyf"
 

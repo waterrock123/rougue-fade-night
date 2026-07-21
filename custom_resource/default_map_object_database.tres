@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MapObjectDatabase" format=3 uid="uid://b30tf4mo4taty"]
+
+[ext_resource type="Script" uid="uid://dg151w1uwxfuk" path="res://custom_resource/map_object_database.gd" id="1_database"]
+[ext_resource type="Script" uid="uid://x8sfpicugwh3" path="res://custom_resource/map_object_entry.gd" id="2_entry"]
+[ext_resource type="PackedScene" uid="uid://cfl15kocsn1p3" path="res://scenes/battlemap/apple_tree.tscn" id="3_apple_tree"]
+[ext_resource type="PackedScene" uid="uid://bg4hgufe4vboo" path="res://scenes/battlemap/rock.tscn" id="4_rock"]
+
+[sub_resource type="Resource" id="MapObjectEntry_apple_tree"]
+script = ExtResource("2_entry")
+object_id = &"apple_tree"
+scene = ExtResource("3_apple_tree")
+
+[sub_resource type="Resource" id="MapObjectEntry_rock"]
+script = ExtResource("2_entry")
+object_id = &"rock"
+scene = ExtResource("4_rock")
+
+[resource]
+script = ExtResource("1_database")
+entries = Array[ExtResource("2_entry")]([SubResource("MapObjectEntry_apple_tree"), SubResource("MapObjectEntry_rock")])

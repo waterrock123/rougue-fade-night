@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://byfvlxnxsqof6"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_rpo7i"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_b4ox8"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_svmie"]
+[ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="4_svmie"]
+[ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_hj1jx"]
+
+[resource]
+script = ExtResource("2_b4ox8")
+relic_name = "手电筒"
+tooltip = "暴击率+2%，在拥有电力时可以照亮周围
+升级：暴击率额外+1%，光照范围扩大"
+desc = "可以闪瞎别人的眼"
+price = 3
+level = 2
+tags = Array[ExtResource("3_svmie")]([ExtResource("4_svmie"), ExtResource("5_hj1jx")])
+id = "104"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

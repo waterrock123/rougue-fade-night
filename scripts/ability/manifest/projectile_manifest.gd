@@ -9,6 +9,12 @@ extends AbilityManifest
 @export var hit_sound: AudiioConfig
 @export var rotate_speed: float = 10.0
 
+@export_group("World Collision")
+## 是否会被墙体、石头、柱子等 World 层物理碰撞挡住。
+@export var blocked_by_world: bool = true
+## 默认检测物理层 1，也就是 project.godot 里命名的 World 层。
+@export_flags_2d_physics var world_collision_mask: int = 1
+
 @export_group("Return")
 @export var return_to_source_after_max_distance: bool = false
 @export var return_speed_multiplier: float = 1.0
@@ -86,7 +92,8 @@ func _process_forward(delta: float) -> void:
 
 	var movement: Vector2 = current_dir * delta * speed
 	current_distance += movement.length()
-	global_position += movement
+	if not _move_or_free_on_world_hit(movement):
+		return
 
 	if current_distance >= max_distance:
 		if return_to_source_after_max_distance:
@@ -115,7 +122,8 @@ func _process_returning(delta: float) -> void:
 
 	var movement: Vector2 = current_dir * movement_length
 	return_distance += movement.length()
-	global_position += movement
+	if not _move_or_free_on_world_hit(movement):
+		return
 
 	# 如果玩家移动太快，投斧不会无限追踪；回旋路程用完后直接消失。
 	var allowed_return_distance: float = max_distance * max(return_max_distance_multiplier, 0.01)
@@ -127,6 +135,37 @@ func _begin_returning() -> void:
 	is_returning = true
 	return_distance = 0.0
 	current_distance = max_distance
+
+
+# 普通投射物使用轻量射线检测墙体，撞到 World 层后直接消失。
+func _move_or_free_on_world_hit(movement: Vector2) -> bool:
+	if movement == Vector2.ZERO:
+		return true
+
+	var collision: Dictionary = _get_world_collision(movement)
+	if not collision.is_empty():
+		var hit_position: Variant = collision.get("position")
+		if hit_position is Vector2:
+			global_position = hit_position
+		queue_free()
+		return false
+
+	global_position += movement
+	return true
+
+
+func _get_world_collision(movement: Vector2) -> Dictionary:
+	if not blocked_by_world or movement == Vector2.ZERO or not is_inside_tree():
+		return {}
+
+	var query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(
+		global_position,
+		global_position + movement,
+		world_collision_mask
+	)
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	return get_world_2d().direct_space_state.intersect_ray(query)
 
 
 # 跟随全局暂停状态处理贴图动画暂停。

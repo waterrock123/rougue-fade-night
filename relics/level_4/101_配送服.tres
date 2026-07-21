@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bfn5otg2vuupf"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_mrypw"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_k1wje"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_1ldxh"]
+[ext_resource type="Resource" uid="uid://bpyxiv6nfwnu5" path="res://relic_tags/创生tag.tres" id="4_1ldxh"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_3qhgp"]
+
+[resource]
+script = ExtResource("2_k1wje")
+relic_name = "配送服"
+tooltip = "进入关卡时将在地图上随机生成一份货物，拾取货物将获得随机效果，并在地图上随机生成一个目标地点，到达后将获得一金币且失去货物的效果
+升级：送达货物后额外获得两金币"
+desc = "永远在路上"
+price = 4
+level = 4
+tags = Array[ExtResource("3_1ldxh")]([ExtResource("4_1ldxh"), ExtResource("5_3qhgp")])
+id = "101"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

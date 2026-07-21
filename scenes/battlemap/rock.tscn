@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://bg4hgufe4vboo"]
+
+[ext_resource type="Script" uid="uid://d1787u5x2n4mi" path="res://scripts/battlemap/map_object.gd" id="1_map_object"]
+[ext_resource type="Texture2D" uid="uid://blqtkt8134pfe" path="res://assets/tileset/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="2_8oe0k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qwyb"]
+atlas = ExtResource("2_8oe0k")
+region = Rect2(128, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5ylfb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qwyb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8oe0k"]
+size = Vector2(15, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1qwyb"]
+size = Vector2(15, 15)
+
+[node name="Rock" type="CharacterBody2D" unique_id=1986367515]
+collision_mask = 0
+script = ExtResource("1_map_object")
+blocks_navigation = true
+max_health = 25.0
+damage_text_color = Color(0.74, 0.72, 0.68, 1)
+affected_by_terrain_move_cost = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1181172425]
+sprite_frames = SubResource("SpriteFrames_5ylfb")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1908555206]
+visible = false
+
+[node name="HitCollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=16795323]
+position = Vector2(0.5, -1)
+shape = SubResource("RectangleShape2D_8oe0k")
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="." unique_id=696007808]
+position = Vector2(-0.5, -1.5)
+shape = SubResource("RectangleShape2D_1qwyb")

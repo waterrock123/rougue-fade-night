@@ -5,6 +5,27 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_fo35q"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_udaqv"]
 [ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_8el2b"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="6_add_stats"]
+[ext_resource type="Script" uid="uid://da0l5x5nug5vn" path="res://relic_effect/idle_auto_trigger_ability_effect.gd" id="7_idle_ability"]
+[ext_resource type="PackedScene" path="res://scenes/ability/beast_bone_charge_ability.tscn" id="8_charge_ability"]
+[ext_resource type="Script" uid="uid://ckyvmmqeo6o6e" path="res://relic_effect/add_status_effect.gd" id="9_add_status"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="10_armor"]
+
+[sub_resource type="Resource" id="BeastBoneStatsEffect"]
+script = ExtResource("6_add_stats")
+add_stats = {
+"constitution": 5,
+"strength": 4
+}
+
+[sub_resource type="Resource" id="BeastBoneIdleChargeEffect"]
+script = ExtResource("7_idle_ability")
+ability_scene = ExtResource("8_charge_ability")
+
+[sub_resource type="Resource" id="BeastBoneLevelupArmorEffect"]
+script = ExtResource("9_add_status")
+status_data = ExtResource("10_armor")
+stacks = 2
 
 [resource]
 script = ExtResource("3_fo35q")
@@ -17,4 +38,6 @@ price = 4
 level = 4
 tags = Array[ExtResource("4_udaqv")]([ExtResource("5_8el2b")])
 id = "064"
+effects = Array[ExtResource("1_tnims")]([SubResource("BeastBoneStatsEffect"), SubResource("BeastBoneIdleChargeEffect")])
+great_effects = Array[ExtResource("1_tnims")]([SubResource("BeastBoneLevelupArmorEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

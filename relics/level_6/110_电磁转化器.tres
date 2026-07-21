@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cvamvj8d0m2ch"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_eworp"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_3q0u0"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_q8mg0"]
+[ext_resource type="Resource" uid="uid://cxt8rcahtvpp1" path="res://relic_tags/雷电tag.tres" id="4_q8mg0"]
+[ext_resource type="Resource" uid="uid://dp1shjosyd3sh" path="res://relic_tags/贵人tag.tres" id="5_m544n"]
+[ext_resource type="Script" uid="uid://cgb88u8tul571" path="res://relic_effect/status_consumed_power_conversion_effect.gd" id="6_power_conversion"]
+[ext_resource type="Resource" uid="uid://sa7h5waci6il" path="res://status/power.tres" id="7_power"]
+
+[sub_resource type="Resource" id="Resource_power_conversion"]
+script = ExtResource("6_power_conversion")
+refund_status_data = ExtResource("7_power")
+ignore_when_relic_levelup = true
+
+[sub_resource type="Resource" id="Resource_levelup_power_conversion"]
+script = ExtResource("6_power_conversion")
+refund_status_data = ExtResource("7_power")
+random_stat_chance = 0.1
+
+[resource]
+script = ExtResource("2_3q0u0")
+relic_name = "电磁转化器"
+tooltip = "在战斗中电力层数被消耗时立刻获得一层电力，
+消耗电力层数时有5%的概率使自身随机属性+1
+并持续至战斗结束
+升级：概率提升至10%"
+desc = "电生磁，磁生电，此装置的奥秘在于不遵守能量守恒定律，可以从转化过程中扣出能量供人使用"
+price = 6
+level = 6
+tags = Array[ExtResource("3_q8mg0")]([ExtResource("4_q8mg0"), ExtResource("5_m544n")])
+id = "110"
+effects = Array[ExtResource("1_eworp")]([SubResource("Resource_power_conversion")])
+great_effects = Array[ExtResource("1_eworp")]([SubResource("Resource_levelup_power_conversion")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

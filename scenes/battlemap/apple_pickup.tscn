@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bxbmkvd8gu1gn"]
+
+[ext_resource type="Script" uid="uid://d1p1qg7i0elqc" path="res://scripts/battlemap/apple_pickup.gd" id="1_apple_pickup"]
+[ext_resource type="Texture2D" uid="uid://blqtkt8134pfe" path="res://assets/tileset/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="2_76gfg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_collect"]
+radius = 9.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_el2ub"]
+atlas = ExtResource("2_76gfg")
+region = Rect2(32.38048, 32.58949, 14.246902, 14.877293)
+
+[node name="ApplePickup" type="Area2D" unique_id=948536327]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_apple_pickup")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=570588475]
+shape = SubResource("CircleShape2D_collect")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=117442825]
+texture = SubResource("AtlasTexture_el2ub")

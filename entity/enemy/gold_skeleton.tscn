@@ -493,9 +493,14 @@ region = Rect2(297, 133, 32, 5)
 atlas = ExtResource("16_tad6n")
 region = Rect2(57, 133, 32, 5)
 
-[node name="GoldSkeleton" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tad6n"]
+radius = 8.333333
+height = 33.333336
+
+[node name="GoldSkeleton" type="CharacterBody2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
 scale = Vector2(0.6, 0.6)
+collision_layer = 2
 script = ExtResource("1_ft4ma")
 stop_distance = 40.0
 aggresive = true
@@ -517,6 +522,7 @@ metadata/_custom_type_script = "uid://cifh43jnsuld4"
 [node name="SkeletonDoubleSlash" parent="AbilityController" unique_id=1745221907 instance=ExtResource("9_m7l8j")]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2025394787]
 position = Vector2(0, 7.5)
@@ -533,7 +539,6 @@ color_ramp = SubResource("Gradient_xrus2")
 
 [node name="Pathfinding" type="Node2D" parent="." unique_id=1373648024]
 script = ExtResource("10_gacwb")
-separation_force = 150
 
 [node name="StatsController" type="Node" parent="." unique_id=1719162146]
 script = ExtResource("11_812pu")
@@ -565,5 +570,9 @@ grow_vertical = 0
 step = 0.1
 texture_under = SubResource("AtlasTexture_y38wb")
 texture_progress = SubResource("AtlasTexture_ht6mt")
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="." unique_id=137200813]
+position = Vector2(-1.6666666, 8.333333)
+shape = SubResource("CapsuleShape2D_tad6n")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

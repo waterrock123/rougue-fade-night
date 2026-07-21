@@ -7,6 +7,8 @@ extends StatusEffect
 @export var damage_types: Array[int] = [DamageData.DamageType.LIGHTNING]
 @export var tags: Array[String] = ["status", "paralysis", "lightning"]
 @export var can_crit: bool = false
+## 触发伤害后消耗多少层状态。麻痹使用 1，表示每次释放技能都会清掉一层。
+@export var consume_stacks_on_trigger: int = 0
 
 var active_connections: Dictionary = {}
 
@@ -24,7 +26,7 @@ func on_apply(instance: StatusInstance) -> void:
 	if active_connections.has(key):
 		return
 
-	var callback := Callable(self, "_on_target_ability_triggered").bind(instance, key)
+	var callback := Callable(self, "_on_target_ability_triggered").bind(ability_controller, instance.get_status_id(), key)
 	ability_controller.ability_triggered.connect(callback)
 	active_connections[key] = {
 		"controller": ability_controller,
@@ -47,8 +49,22 @@ func on_remove(instance: StatusInstance) -> void:
 	active_connections.erase(key)
 
 
-func _on_target_ability_triggered(_ability: Ability, caster: Entity, instance: StatusInstance, _key: String) -> void:
-	if instance == null or caster == null or not is_instance_valid(caster) or caster.is_dead:
+func _on_target_ability_triggered(
+	_ability: Ability,
+	caster: Entity,
+	controller: StatusController,
+	status_id: StringName,
+	_key: String
+) -> void:
+	if caster == null or not is_instance_valid(caster) or caster.is_dead:
+		return
+	if controller == null or not is_instance_valid(controller):
+		return
+
+	var instance: StatusInstance = controller.get_status(status_id)
+	if instance == null:
+		return
+	if instance.target != caster:
 		return
 
 	var source_entity: Entity
@@ -64,6 +80,9 @@ func _on_target_ability_triggered(_ability: Ability, caster: Entity, instance: S
 		can_crit
 	)
 	caster.apply_damage(damage_data)
+
+	if consume_stacks_on_trigger > 0:
+		controller.call_deferred("consume_status_stacks", status_id, consume_stacks_on_trigger)
 
 
 func _get_target_entity(instance: StatusInstance) -> Entity:

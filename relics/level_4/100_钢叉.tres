@@ -4,18 +4,42 @@
 [ext_resource type="Texture2D" uid="uid://bmixu6otj8ev1" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1462.png" id="2_am7px"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_mhck0"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_am7px"]
-[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_ia106"]
 [ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="6_g5abd"]
+[ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="6_ia106"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" uid="uid://bxkmgbchc14pg" path="res://relic_effect/outgoing_damage_status_chance_effect.gd" id="8_root_chance"]
+[ext_resource type="Resource" uid="uid://c5cwym07u5l6o" path="res://status/root_entangle.tres" id="9_root_status"]
+[ext_resource type="Script" uid="uid://bwo5x7qwpaql1" path="res://relic_effect/status_applied_grant_tagged_shop_relic_effect.gd" id="10_grant_cuisine"]
+
+[sub_resource type="Resource" id="SteelForkStatsEffect"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"speed": 1.0,
+"strength": 2.0
+}
+
+[sub_resource type="Resource" id="SteelForkRootChanceEffect"]
+script = ExtResource("8_root_chance")
+status_data = ExtResource("9_root_status")
+chance = 0.1
+duration_override = 2.0
+required_tags = Array[String](["melee"])
+
+[sub_resource type="Resource" id="SteelForkCuisineRewardEffect"]
+script = ExtResource("10_grant_cuisine")
+status_id = &"root_entangle"
 
 [resource]
 script = ExtResource("2_mhck0")
 relic_name = "钢叉"
 icon = ExtResource("2_am7px")
-tooltip = "力量+2，速度+1，你造成近战伤害有10%概率使对方被束缚2秒
+tooltip = "力量+2，速度+1，你造成近战伤害时有10%概率使对方被束缚2秒
 升级：当有敌人进入束缚状态时你将有10%概率获得一份不高于当前商店等级的佳肴"
 desc = "小区不许送外卖！所有外卖必将截获！"
 price = 4
 level = 4
-tags = Array[ExtResource("3_am7px")]([ExtResource("5_ia106"), ExtResource("6_g5abd")])
+tags = Array[ExtResource("3_am7px")]([ExtResource("6_g5abd"), ExtResource("6_ia106")])
 id = "100"
+effects = Array[ExtResource("1_yps7w")]([SubResource("SteelForkStatsEffect"), SubResource("SteelForkRootChanceEffect")])
+great_effects = Array[ExtResource("1_yps7w")]([SubResource("SteelForkCuisineRewardEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

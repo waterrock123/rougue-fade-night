@@ -6,6 +6,18 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_tec42"]
 [ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="5_djlhf"]
 [ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="6_nfyou"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" uid="uid://44me2i0dm7xk" path="res://relic_effect/sold_tagged_relic_gold_bonus_effect.gd" id="8_sell_bonus"]
+
+[sub_resource type="Resource" id="Resource_charm"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"charm": 5
+}
+
+[sub_resource type="Resource" id="Resource_levelup_sell_bonus"]
+script = ExtResource("8_sell_bonus")
+trigger_chance = 0.2
 
 [resource]
 script = ExtResource("2_01bth")
@@ -17,4 +29,6 @@ price = 4
 level = 4
 tags = Array[ExtResource("4_tec42")]([ExtResource("5_djlhf"), ExtResource("6_nfyou")])
 id = "029"
+effects = Array[ExtResource("1_fdlco")]([SubResource("Resource_charm")])
+great_effects = Array[ExtResource("1_fdlco")]([SubResource("Resource_levelup_sell_bonus")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

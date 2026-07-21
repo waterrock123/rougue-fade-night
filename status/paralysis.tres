@@ -7,12 +7,16 @@
 
 [sub_resource type="Resource" id="Resource_cast_damage"]
 script = ExtResource("3_cast_damage")
+damage = 50.0
+consume_stacks_on_trigger = 1
 
 [resource]
 script = ExtResource("1_data")
 id = &"paralysis"
 status_name = "麻痹"
-desc = "处于麻痹状态的目标释放技能时，会受到30点闪电伤害。"
+desc = "可叠层，无持续时间；处于麻痹状态的目标每次释放主动技能时受到50点闪电伤害，并清除一层麻痹。"
 icon = ExtResource("4_icon")
-duration = 5.0
+max_stacks = 50
+stack_mode = 1
+refresh_duration_on_reapply = false
 effects = Array[ExtResource("2_base")]([SubResource("Resource_cast_damage")])

@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_random_direction_target.gd" id="2_random_target"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_charge_to_target.gd" id="3_charge"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_deal_damage_on_overlap.gd" id="4_overlap_damage"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_self_damage.gd" id="5_self_damage"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="6_scaling"]
+
+[sub_resource type="Resource" id="Resource_scaling"]
+script = ExtResource("6_scaling")
+
+[node name="BeastBoneChargeAbility" type="Node"]
+script = ExtResource("1_ability")
+cooldown = 0.0
+energy_cost = 0.0
+ai_max_cast_distance = 0.0
+
+[node name="AbilityRandomDirectionTarget" type="Node" parent="."]
+editor_description = "随机方向目标组件：写入随机冲撞方向和目标点。"
+script = ExtResource("2_random_target")
+target_distance = 220.0
+
+[node name="AbilityChargeToTarget" type="Node" parent="."]
+editor_description = "冲锋位移组件：朝随机目标点冲撞一段距离。"
+script = ExtResource("3_charge")
+charge_distance = 220.0
+duration = 0.35
+hit_width = 42.0
+stop_at_target = false
+
+[node name="AbilityDealDamageOnOverlap" type="Node" parent="."]
+editor_description = "冲撞期间碰到敌人时造成伤害。"
+script = ExtResource("4_overlap_damage")
+active_duration = 0.38
+damage = 25.0
+damage_types = Array[int]([0])
+tags = Array[String](["skill", "charge", "melee", "physical", "beast_bone"])
+scaling_rule = SubResource("Resource_scaling")
+
+[node name="AbilitySelfDamage" type="Node" parent="."]
+editor_description = "冲撞发动时对自己造成少量伤害。"
+script = ExtResource("5_self_damage")
+damage = 8.0
+damage_types = Array[int]([0])
+tags = Array[String](["skill", "charge", "self_damage", "beast_bone"])

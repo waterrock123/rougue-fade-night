@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bg8513e8u58at"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_tnjwx"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_op7oh"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_7m5aj"]
+[ext_resource type="Resource" uid="uid://cxt8rcahtvpp1" path="res://relic_tags/雷电tag.tres" id="4_7m5aj"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_2dqu1"]
+[ext_resource type="Script" uid="uid://dhpve8h2466kl" path="res://relic_effect/ability_cast_count_self_damage_status_effect.gd" id="6_collar"]
+[ext_resource type="Script" uid="uid://ckyvmmqeo6o6e" path="res://relic_effect/add_status_effect.gd" id="7_add_status"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="8_armor"]
+
+[sub_resource type="Resource" id="CollarInspirationEffect"]
+script = ExtResource("6_collar")
+damage_tags = Array[String](["relic", "self_damage", "lightning", "inspiration_collar"])
+buff_status_desc = "在激励项圈的刺激下，全属性 +1。"
+
+[sub_resource type="Resource" id="LevelupArmorEffect"]
+script = ExtResource("7_add_status")
+status_data = ExtResource("8_armor")
+stacks = 2
+
+[resource]
+script = ExtResource("2_op7oh")
+relic_name = "激励项圈"
+tooltip = "关卡内每释放四次{active_skill}将受到一次5点的闪电伤害攻击，并获得持续10秒的{all_primary_stats}+1
+升级：获得2点{armor}"
+desc = "本意是为了督促工作和学习而发明的装置，但是用在了别的用途"
+price = 4
+level = 3
+tags = Array[ExtResource("3_7m5aj")]([ExtResource("4_7m5aj"), ExtResource("5_2dqu1")])
+id = "107"
+effects = Array[ExtResource("1_tnjwx")]([SubResource("CollarInspirationEffect")])
+great_effects = Array[ExtResource("1_tnjwx")]([SubResource("LevelupArmorEffect")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

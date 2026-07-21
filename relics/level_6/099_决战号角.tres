@@ -6,6 +6,9 @@
 
 [resource]
 script = ExtResource("2_i1qp0")
+relic_name = "决战号角"
+tooltip = "进入boss关卡时你的所有盟友获得你全属性30%（向下取整）的属性加成，持续至关卡结束
+升级：你的所有盟友在进入boss关卡时额外获得全属性+2"
 price = 6
 level = 6
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

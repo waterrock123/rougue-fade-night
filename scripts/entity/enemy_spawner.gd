@@ -12,6 +12,8 @@ signal bounty_enemy_presence_changed(has_bounty_enemy: bool)
 @export var battle_stats: BattleStats
 # 敌人围绕哪个节点附近生成，通常就是玩家。
 @export var spawn_around: Node2D
+# 可选绑定战斗地图。未手动指定时，会自动从同级节点里寻找 BattleMap。
+@export var battle_map: BattleMap
 @export var min_spawn_radius: float = 200.0
 @export var max_spawn_radius: float = 500.0
 @export_group("悬赏精英怪")
@@ -37,6 +39,7 @@ var current_plan_spawned: int = 0
 
 func _ready() -> void:
 	add_to_group("enemy_spawner")
+	_resolve_battle_map()
 	if bounty_enemy_pool == null:
 		bounty_enemy_pool = DEFAULT_BOUNTY_ENEMY_POOL
 	if battle_stats == null or battle_stats.get_wave_count() == 0:
@@ -231,17 +234,30 @@ func _spawn_enemy_scene(enemy_scene: PackedScene, spawn_pos: Vector2) -> Enemy:
 
 func _get_spawn_position(entry: EnemySpawnEntry = null) -> Vector2:
 	if entry == null:
-		return _get_random_position_around(_get_spawn_around_position(), min_spawn_radius, max_spawn_radius)
+		var fallback_position := _get_random_position_around(_get_spawn_around_position(), min_spawn_radius, max_spawn_radius)
+		return _get_battle_map_enemy_spawn_position(min_spawn_radius, fallback_position)
 
 	match entry.spawn_position_mode:
 		EnemySpawnEntry.SpawnPositionMode.AROUND_SPAWNER:
-			return _get_random_position_around(_get_spawner_position(), _resolve_min_radius(entry), _resolve_max_radius(entry))
+			var fallback_position := _get_random_position_around(_get_spawner_position(), _resolve_min_radius(entry), _resolve_max_radius(entry))
+			return _get_battle_map_enemy_spawn_position(_resolve_min_radius(entry), fallback_position)
 		EnemySpawnEntry.SpawnPositionMode.FIXED_OFFSET:
 			return _get_spawner_position() + entry.spawn_offset
 		EnemySpawnEntry.SpawnPositionMode.MARKER_NODE:
 			return _get_marker_position(entry) + entry.spawn_offset
 		_:
-			return _get_random_position_around(_get_spawn_around_position(), _resolve_min_radius(entry), _resolve_max_radius(entry))
+			var fallback_position := _get_random_position_around(_get_spawn_around_position(), _resolve_min_radius(entry), _resolve_max_radius(entry))
+			return _get_battle_map_enemy_spawn_position(_resolve_min_radius(entry), fallback_position)
+
+
+# 优先从 BattleMap/SpawnPoints 里挑选敌人出生点；地图没有配置时保留旧的随机半径生成。
+func _get_battle_map_enemy_spawn_position(min_distance: float, fallback_position: Vector2) -> Vector2:
+	if battle_map == null:
+		_resolve_battle_map()
+	if battle_map == null:
+		return fallback_position
+
+	return battle_map.get_random_enemy_spawn_position(_get_spawn_around_position(), min_distance, fallback_position)
 
 
 func _get_random_position_around(center: Vector2, min_radius: float, max_radius: float) -> Vector2:
@@ -279,6 +295,21 @@ func _get_marker_position(entry: EnemySpawnEntry) -> Vector2:
 		return _get_spawner_position()
 
 	return marker.global_position
+
+
+# EnemySpawner 的 _ready 可能先于 PlayScene 运行，所以这里自己兜底寻找地图引用。
+func _resolve_battle_map() -> void:
+	if battle_map != null:
+		battle_map.refresh_layer_cache()
+		return
+
+	var parent := get_parent()
+	if parent != null:
+		battle_map = parent.get_node_or_null("BattleMap") as BattleMap
+	if battle_map == null:
+		battle_map = get_tree().get_first_node_in_group("battle_map") as BattleMap
+	if battle_map != null:
+		battle_map.refresh_layer_cache()
 
 
 func _resolve_min_radius(entry: EnemySpawnEntry) -> float:

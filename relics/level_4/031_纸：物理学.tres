@@ -6,6 +6,27 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_vw56v"]
 [ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_6uu6p"]
 [ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="6_qj3gf"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" uid="uid://ckyvmmqeo6o6e" path="res://relic_effect/add_status_effect.gd" id="8_add_status"]
+[ext_resource type="Resource" uid="uid://6in46238n4im" path="res://status/sharp.tres" id="9_sharp"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="10_armor"]
+
+[sub_resource type="Resource" id="Resource_primary_stats"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"intelligence": 2,
+"strength": 3
+}
+
+[sub_resource type="Resource" id="Resource_levelup_sharp"]
+script = ExtResource("8_add_status")
+status_data = ExtResource("9_sharp")
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_levelup_armor"]
+script = ExtResource("8_add_status")
+status_data = ExtResource("10_armor")
+stacks = 2
 
 [resource]
 script = ExtResource("2_qnj25")
@@ -18,4 +39,6 @@ price = 4
 level = 4
 tags = Array[ExtResource("4_vw56v")]([ExtResource("5_6uu6p"), ExtResource("6_qj3gf")])
 id = "031"
+effects = Array[ExtResource("1_a062s")]([SubResource("Resource_primary_stats")])
+great_effects = Array[ExtResource("1_a062s")]([SubResource("Resource_levelup_sharp"), SubResource("Resource_levelup_armor")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

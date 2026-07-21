@@ -6,16 +6,32 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_fw4wy"]
 [ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_v1euh"]
 [ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="6_mis2j"]
+[ext_resource type="Script" uid="uid://dyjs8hdnpjnd7" path="res://relic_effect/equipped_tag_count_stat_effect.gd" id="7_tag_stats"]
+[ext_resource type="Script" uid="uid://cxt12foh44jkw" path="res://relic_effect/tag_active_periodic_heal_effect.gd" id="8_tag_heal"]
+
+[sub_resource type="Resource" id="WeirdGramophoneCurseStatsEffect"]
+script = ExtResource("7_tag_stats")
+target_tag = ExtResource("5_v1euh")
+stat_bonuses_per_relic = {
+"charm": 1.0,
+"constitution": 1.0
+}
+
+[sub_resource type="Resource" id="WeirdGramophoneCurseHealEffect"]
+script = ExtResource("8_tag_heal")
+target_tag = ExtResource("5_v1euh")
 
 [resource]
 script = ExtResource("2_nyccg")
 relic_name = "诡异唱片机"
 icon = ExtResource("2_oo3yi")
-tooltip = "装备时每一个装备的其它带有诅咒标签的装备使你的体质与魅力提升两点
+tooltip = "装备时每一个装备的其它带有诅咒标签的装备使你的体质与魅力提升一点
 升级：当你的诅咒标签套装效果激活时每十秒恢复体质数值一半生命"
 desc = "唱片机要搭配一些有格调的物品"
 price = 4
 level = 4
 tags = Array[ExtResource("3_fw4wy")]([ExtResource("5_v1euh"), ExtResource("6_mis2j")])
 id = "083"
+effects = Array[ExtResource("1_ekcfd")]([SubResource("WeirdGramophoneCurseStatsEffect")])
+great_effects = Array[ExtResource("1_ekcfd")]([SubResource("WeirdGramophoneCurseHealEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

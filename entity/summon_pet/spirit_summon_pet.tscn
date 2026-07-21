@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ability/spirit_healing_field.tscn" id="10_heal"]
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="11_gnyjx"]
 [ext_resource type="Script" uid="uid://87nmt5jrle4v" path="res://scripts/status/status_controller.gd" id="12_8ixms"]
-[ext_resource type="Resource" path="res://entity/summon_pet/spirit_summon_pet.tres" id="13_stats"]
+[ext_resource type="Resource" uid="uid://h4m6qb4eblkq" path="res://entity/summon_pet/spirit_summon_pet.tres" id="13_stats"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i0f3v"]
 shader = ExtResource("2_sur61")
@@ -616,8 +616,14 @@ height = 106.0
 offsets = PackedFloat32Array(0, 0.9840708, 0.99469024, 1)
 colors = PackedColorArray(0.12591067, 0.12591091, 0.12591058, 1, 0.43996772, 0.017522953, 0.11688952, 1, 0.46210128, 0.00988418, 0.116253756, 1, 3.7230366e-05, 3.7230377e-05, 3.7230333e-05, 0.6313726)
 
-[node name="SpiritSummonPet" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y7rue"]
+radius = 60.0
+height = 120.0
+
+[node name="SpiritSummonPet" type="CharacterBody2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
+collision_layer = 2
+collision_mask = 1
 scale = Vector2(0.15, 0.15)
 script = ExtResource("1_7tej8")
 speed = 50.0
@@ -675,5 +681,9 @@ script = ExtResource("12_8ixms")
 
 [node name="VFXAnchor" type="Node2D" parent="." unique_id=1794685461]
 position = Vector2(0, 28.333334)
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="." unique_id=1435824207]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_y7rue")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

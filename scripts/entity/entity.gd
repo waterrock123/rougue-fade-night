@@ -1,5 +1,5 @@
 class_name Entity
-extends Node2D
+extends CharacterBody2D
 
 signal died(entity: Entity)
 signal damage_taken(damage_data: DamageData)
@@ -14,6 +14,18 @@ signal damage_dealt(damage_data: DamageData)
 
 @export var energy_region_freq = 0.5
 @export var energy_region_tick_value = 3
+@export_group("物理移动")
+## 普通移动撞到墙体后是否沿碰撞面滑动，能减少角色卡在墙角的生硬感。
+@export var slide_on_collision: bool = true
+## 一次移动最多尝试几次滑动。数值太高会增加物理查询，通常 1-2 次足够。
+@export_range(0, 4, 1) var max_collision_slide_count: int = 1
+@export_group("地形移动")
+## 开启后，实体会读取 BattleMap 脚下瓦片的 move_cost，并按 1 / move_cost 修正移动距离。
+@export var affected_by_terrain_move_cost: bool = true
+## 地形带来的最低移动倍率，避免泥地/沼泽把实体减速到完全走不动。
+@export var min_terrain_move_multiplier: float = 0.25
+## 地形带来的最高移动倍率，允许道路等低 move_cost 地形小幅加速，但避免数值失控。
+@export var max_terrain_move_multiplier: float = 2.0
 
 var current_anim: AnimationWrapper
 var current_health: float
@@ -28,8 +40,9 @@ var action_tweens: Array[Tween] = []
 var action_lock_sources: Dictionary = {}
 var animation_pause_sources: Dictionary = {}
 var animation_speed_before_pause: float = 1.0
+var terrain_battle_map_cache: BattleMap
 
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animated_sprite: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
 @onready var stats_controller: StatsController = get_node_or_null("StatsController") as StatsController
 @onready var status_controller: StatusController = get_node_or_null("StatusController") as StatusController
 
@@ -42,12 +55,16 @@ func _ready() -> void:
 		current_health = max_health
 		current_energy = max_energy
 
-	animated_sprite.material = animated_sprite.material.duplicate()
-	animated_sprite.animation_finished.connect(on_animation_finished)
+	if animated_sprite != null:
+		if animated_sprite.material != null:
+			animated_sprite.material = animated_sprite.material.duplicate()
+		if not animated_sprite.animation_finished.is_connected(on_animation_finished):
+			animated_sprite.animation_finished.connect(on_animation_finished)
 
 
 func _exit_tree() -> void:
-	animated_sprite.animation_finished.disconnect(on_animation_finished)
+	if animated_sprite != null and animated_sprite.animation_finished.is_connected(on_animation_finished):
+		animated_sprite.animation_finished.disconnect(on_animation_finished)
 
 
 func apply_damage(damage_event):
@@ -145,6 +162,68 @@ func get_runtime_max_health() -> float:
 	if stats_controller != null:
 		return stats_controller.get_stat(&"max_health", max_health)
 	return max_health
+
+
+# 统一的物理移动入口：实体已经是 CharacterBody2D，普通移动交给引擎碰撞系统处理。
+func move_with_physics(delta_position: Vector2) -> Vector2:
+	if delta_position == Vector2.ZERO:
+		velocity = Vector2.ZERO
+		return Vector2.ZERO
+
+	var adjusted_delta_position: Vector2 = delta_position * get_terrain_move_multiplier()
+	if adjusted_delta_position == Vector2.ZERO:
+		velocity = Vector2.ZERO
+		return Vector2.ZERO
+
+	var original_position: Vector2 = global_position
+	var remaining_motion: Vector2 = adjusted_delta_position
+	var slide_count: int = 0
+
+	while remaining_motion.length_squared() > 0.000001:
+		var collision: KinematicCollision2D = move_and_collide(remaining_motion)
+		if collision == null:
+			break
+		if not slide_on_collision or slide_count >= max_collision_slide_count:
+			break
+
+		remaining_motion = collision.get_remainder().slide(collision.get_normal())
+		slide_count += 1
+
+	var actual_movement: Vector2 = global_position - original_position
+	var delta: float = max(get_process_delta_time(), 0.0001)
+	velocity = actual_movement / delta
+	return actual_movement
+
+
+# 兼容旧调用：移动阻挡现在由 CharacterBody2D + TileSet/StaticBody2D 物理碰撞处理。
+func move_with_battle_map(delta_position: Vector2) -> Vector2:
+	return move_with_physics(delta_position)
+
+
+## 返回当前脚下地形给实体移动带来的倍率。move_cost=2 表示 0.5 倍速，move_cost=0.5 表示 2 倍速。
+func get_terrain_move_multiplier() -> float:
+	if not affected_by_terrain_move_cost:
+		return 1.0
+	if not is_inside_tree():
+		return 1.0
+
+	var battle_map: BattleMap = _get_terrain_battle_map()
+	if battle_map == null:
+		return 1.0
+
+	var move_cost: float = battle_map.get_move_cost(global_position, 1.0)
+	if move_cost <= 0.0:
+		return 1.0
+
+	return clamp(1.0 / move_cost, min_terrain_move_multiplier, max_terrain_move_multiplier)
+
+
+func _get_terrain_battle_map() -> BattleMap:
+	if terrain_battle_map_cache != null and is_instance_valid(terrain_battle_map_cache):
+		return terrain_battle_map_cache
+
+	terrain_battle_map_cache = get_tree().get_first_node_in_group("battle_map") as BattleMap
+	return terrain_battle_map_cache
 
 
 func lock_movement(duration: float) -> void:
@@ -260,6 +339,8 @@ func _die() -> void:
 
 
 func play_animation(anim: AnimationWrapper):
+	if animated_sprite == null or anim == null:
+		return
 	if animated_sprite.animation == anim.name:
 		return
 
@@ -267,10 +348,14 @@ func play_animation(anim: AnimationWrapper):
 		return
 
 	current_anim = anim
+	if animated_sprite.sprite_frames == null or not animated_sprite.sprite_frames.has_animation(anim.name):
+		return
 	animated_sprite.play(anim.name)
 
 
 func turn_to_position(pos: Vector2):
+	if animated_sprite == null:
+		return
 	if position.x > pos.x and not animated_sprite.flip_h:
 		animated_sprite.flip_h = true
 	elif position.x < pos.x and animated_sprite.flip_h:
@@ -278,6 +363,8 @@ func turn_to_position(pos: Vector2):
 
 
 func get_facing_direction() -> Vector2:
+	if animated_sprite == null:
+		return Vector2.RIGHT
 	if animated_sprite.flip_h:
 		return Vector2.LEFT
 	return Vector2.RIGHT
@@ -288,13 +375,25 @@ func on_animation_finished():
 
 
 func get_height() -> float:
-	var anim = animated_sprite.animation
-	var frame_tex = animated_sprite.sprite_frames.get_frame_texture(anim, 0)
-	var height = frame_tex.get_height()
-	return height * self.scale.y
+	if animated_sprite == null or animated_sprite.sprite_frames == null:
+		return 32.0 * absf(scale.y)
+
+	var anim: StringName = animated_sprite.animation
+	if not animated_sprite.sprite_frames.has_animation(anim):
+		return 32.0 * absf(scale.y)
+
+	var frame_texture: Texture2D = animated_sprite.sprite_frames.get_frame_texture(anim, 0)
+	if frame_texture == null:
+		return 32.0 * absf(scale.y)
+
+	return frame_texture.get_height() * absf(scale.y)
 
 
 func get_current_texture() -> Texture2D:
+	if animated_sprite == null or animated_sprite.sprite_frames == null:
+		return null
+	if not animated_sprite.sprite_frames.has_animation(animated_sprite.animation):
+		return null
 	return animated_sprite.sprite_frames.get_frame_texture(animated_sprite.animation, animated_sprite.frame)
 
 
@@ -329,7 +428,7 @@ func _handle_damage_callback(_damage_data: DamageData):
 
 
 func _show_damage_taken_effect():
-	if animated_sprite.material != null:
+	if animated_sprite != null and animated_sprite.material != null:
 		for _i in 2:
 			animated_sprite.material.set_shader_parameter("is_hurt", true)
 			await get_tree().create_timer(0.05).timeout

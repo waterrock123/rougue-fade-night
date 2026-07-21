@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://sa7h5waci6il"]
+
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="1_7e50r"]
+[ext_resource type="Texture2D" uid="uid://mim8nirhk7lc" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa1025.png" id="2_7okpp"]
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="2_mi4ue"]
+
+[resource]
+script = ExtResource("2_mi4ue")
+id = &"power"
+status_name = "电力"
+desc = "在法力不足时，每一层电力可以被视作3点法力以供消耗，多出的法力不会返还"
+icon = ExtResource("2_7okpp")
+max_stacks = 999
+stack_mode = 1
+metadata/_custom_type_script = "uid://halm05nhwnoo"

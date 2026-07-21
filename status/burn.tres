@@ -7,16 +7,15 @@
 
 [sub_resource type="Resource" id="BurnPeriodicDamage"]
 script = ExtResource("3_periodic_damage")
-damage_per_tick = 2.0
 damage_types = Array[int]([2])
 
 [resource]
 script = ExtResource("2_data")
 id = &"burn"
 status_name = "灼烧"
-desc = "每秒受到火焰持续伤害，可叠层。"
+desc = "每秒受到等同于灼烧层数的火焰伤害；可叠层，每次叠层都会把持续时间重置为8秒。"
 icon = ExtResource("4_icon")
-duration = 10.0
-max_stacks = 3
+duration = 8.0
+max_stacks = 50
 stack_mode = 1
 effects = Array[ExtResource("1_base")]([SubResource("BurnPeriodicDamage")])

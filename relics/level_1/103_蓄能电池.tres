@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://5uk2quxom8m2"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_k5xea"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_mgpf0"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_2sqdo"]
+[ext_resource type="Resource" uid="uid://cxt8rcahtvpp1" path="res://relic_tags/雷电tag.tres" id="4_mgpf0"]
+[ext_resource type="Script" uid="uid://b6uda8oxx4vjb" path="res://relic_effect/battle_start_status_charge_on_damage_taken_effect.gd" id="5_battery_effect"]
+[ext_resource type="Resource" uid="uid://sa7h5waci6il" path="res://status/power.tres" id="6_power_status"]
+
+[sub_resource type="Resource" id="BatteryPowerEffect"]
+script = ExtResource("5_battery_effect")
+status_data = ExtResource("6_power_status")
+
+[resource]
+script = ExtResource("2_mgpf0")
+relic_name = "蓄能电池"
+tooltip = "进入战斗时提供三层电力，在战斗中每受到一次闪电伤害，此装备提供的电力将额外多一层，最多额外提供三层
+升级：额外提供的电力层数最多为六层"
+desc = "将能量存储以备不时之需"
+price = 3
+level = 1
+tags = Array[ExtResource("3_2sqdo")]([ExtResource("4_mgpf0")])
+id = "103"
+effects = Array[ExtResource("1_k5xea")]([SubResource("BatteryPowerEffect")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

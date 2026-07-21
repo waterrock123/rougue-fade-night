@@ -17,8 +17,11 @@ var previewing_consumable_effect: UseSpawnManifestEffect
 var previewing_consumable_slot_index: int = -1
 var tag_effect_controller: TagEffectController
 var bounty_hint_label: Label
+var terrain_effect_controller: TerrainEffectController
+var object_spawner: ObjectSpawnerFromTileMap
 
 @onready var enemy_spawner: EnemySpawner = $EnemySpawner
+@onready var battle_map: BattleMap = $BattleMap
 @onready var spell_bar: SpellBar = $CanvasLayer/UI/SpellBar
 @onready var passive_skill_bar: PassiveSkillBar = $CanvasLayer/UI/PassiveSkillBar
 @onready var consumable_container: ConsumableContainer = $CanvasLayer/UI/ConsumableContainer
@@ -30,6 +33,7 @@ var consumable_use_count := 0
 func _ready() -> void:
 	EventBus.is_battle_active = false
 	player = get_tree().get_first_node_in_group("player") as Player
+	_initialize_battle_map()
 	if run_stats != null and run_stats.player_build != null and player != null:
 		player.bind_player_build(run_stats.player_build)
 		_initialize_battle_tag_effect_controller()
@@ -99,6 +103,50 @@ func setup_run_battle(new_run_stats: RunStats, battle_stats: BattleStats) -> voi
 	var spawner := get_node_or_null("EnemySpawner") as EnemySpawner
 	if spawner != null:
 		spawner.battle_stats = battle_stats
+		spawner.battle_map = get_node_or_null("BattleMap") as BattleMap
+
+
+# 让战斗地图统一负责出生点数据，PlayScene 只在进入战斗时读取一次。
+func _initialize_battle_map() -> void:
+	if battle_map == null:
+		return
+
+	battle_map.refresh_layer_cache()
+	if player != null:
+		player.global_position = battle_map.get_player_spawn_position(player.global_position)
+	if enemy_spawner != null:
+		enemy_spawner.battle_map = battle_map
+	_initialize_object_spawner()
+	_initialize_terrain_effect_controller()
+
+
+func _initialize_object_spawner() -> void:
+	if battle_map == null:
+		return
+
+	object_spawner = battle_map.get_node_or_null("ObjectSpawnerFromTileMap") as ObjectSpawnerFromTileMap
+	if object_spawner == null:
+		object_spawner = ObjectSpawnerFromTileMap.new()
+		object_spawner.name = "ObjectSpawnerFromTileMap"
+		battle_map.add_child(object_spawner)
+
+	# 地图物件必须在战斗正式开始前生成，这样玩家技能、敌人和掉落逻辑都能正常找到它们。
+	object_spawner.bind_battle_map(battle_map)
+	object_spawner.spawn_objects()
+
+
+func _initialize_terrain_effect_controller() -> void:
+	if battle_map == null:
+		return
+	if terrain_effect_controller != null and is_instance_valid(terrain_effect_controller):
+		terrain_effect_controller.bind_battle_map(battle_map)
+		return
+
+	# 地形规则层由 PlayScene 自动创建，避免每张战斗地图都手动摆一个控制器节点。
+	terrain_effect_controller = TerrainEffectController.new()
+	terrain_effect_controller.name = "TerrainEffectController"
+	add_child(terrain_effect_controller)
+	terrain_effect_controller.bind_battle_map(battle_map)
 
 
 func _initialize_battle_tag_effect_controller() -> void:

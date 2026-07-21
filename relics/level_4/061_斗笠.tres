@@ -11,7 +11,7 @@
 script = ExtResource("2_4fq5m")
 relic_name = "斗笠"
 icon = ExtResource("2_j2hr4")
-tooltip = "敏捷+4，当你出发闪避时你接下来的3秒内暴击率+20%
+tooltip = "敏捷+4，当你触发闪避时你接下来的3秒内暴击率+20%
 升级：速度+2"
 price = 4
 level = 4

@@ -12,6 +12,7 @@ relic_name = "追溯弹"
 icon = ExtResource("2_t1dq4")
 tooltip = "你的投射物将拥有追踪属性；被消耗时重新获得此装备
 升级：获得此装备时使敏捷属性永久+1"
+desc = "一旦锁定某位敌人将永不罢休；一旦属于某位主人将永不离弃"
 price = 5
 level = 5
 tags = Array[ExtResource("3_t1dq4")]([ExtResource("5_kob5u")])

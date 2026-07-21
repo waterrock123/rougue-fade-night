@@ -424,7 +424,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7eecw"]
-size = Vector2(43.076927, 43.750004)
+size = Vector2(26.153849, 32.307693)
 
 [sub_resource type="Gradient" id="Gradient_xrus2"]
 offsets = PackedFloat32Array(0, 0.67164177, 1)
@@ -438,9 +438,14 @@ region = Rect2(297, 133, 32, 5)
 atlas = ExtResource("16_l1ddx")
 region = Rect2(57, 133, 32, 5)
 
-[node name="MushroomMonster" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l1ddx"]
+radius = 9.23077
+height = 21.538464
+
+[node name="MushroomMonster" type="CharacterBody2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
 scale = Vector2(1.3, 1.3)
+collision_layer = 2
 script = ExtResource("1_d2rl5")
 speed = 30.0
 sprite_faces_left_by_default = true
@@ -468,9 +473,10 @@ metadata/_custom_type_script = "uid://cifh43jnsuld4"
 [node name="DashAttackAbility" parent="AbilityController" unique_id=245868803 instance=ExtResource("9_4mg4g")]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2025394787]
-position = Vector2(-0.76923084, -15.384616)
+position = Vector2(0.76923084, -13.076927)
 scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("RectangleShape2D_7eecw")
 
@@ -508,13 +514,17 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -16.153847
-offset_top = 4.615383
+offset_top = 5.3846154
 offset_right = 15.846153
-offset_bottom = 9.615383
+offset_bottom = 10.384615
 grow_horizontal = 2
 grow_vertical = 0
 step = 0.1
 texture_under = SubResource("AtlasTexture_v3nci")
 texture_progress = SubResource("AtlasTexture_2jace")
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="." unique_id=1484025703]
+position = Vector2(0, -10.769231)
+shape = SubResource("CapsuleShape2D_l1ddx")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bfn5otg2vuupf"]
-
-[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_mtfbe"]
-[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_126jn"]
-[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_14b67"]
-
-[resource]
-script = ExtResource("2_126jn")
-metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

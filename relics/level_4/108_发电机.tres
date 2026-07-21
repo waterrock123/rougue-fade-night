@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cejxhml642f3d"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_7lo6g"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_ipg44"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_i2vbi"]
+[ext_resource type="Resource" uid="uid://cxt8rcahtvpp1" path="res://relic_tags/雷电tag.tres" id="4_i2vbi"]
+[ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_6aie1"]
+[ext_resource type="Script" uid="uid://deon07wrisx5v" path="res://relic_effect/battle_start_consume_material_power_effect.gd" id="6_generator"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="7_material"]
+[ext_resource type="Resource" uid="uid://sa7h5waci6il" path="res://status/power.tres" id="8_power"]
+
+[sub_resource type="Resource" id="GeneratorPowerEffect"]
+script = ExtResource("6_generator")
+material_tag = ExtResource("7_material")
+power_status = ExtResource("8_power")
+
+[resource]
+script = ExtResource("2_ipg44")
+relic_name = "发电机"
+tooltip = "进入关卡时背包内若存在原料，则按照顺序{consume}第一个原料，并立即获得其阶级数6倍的电力层数
+升级：如果消耗了原料，进入战斗后每3秒额外获得1层电力"
+price = 4
+level = 4
+tags = Array[ExtResource("3_i2vbi")]([ExtResource("4_i2vbi"), ExtResource("5_6aie1")])
+id = "108"
+effects = Array[ExtResource("1_7lo6g")]([SubResource("GeneratorPowerEffect")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

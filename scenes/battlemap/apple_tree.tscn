@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://cfl15kocsn1p3"]
+
+[ext_resource type="Script" uid="uid://byfbrhqgf45y0" path="res://scripts/battlemap/apple_tree.gd" id="1_apple_tree"]
+[ext_resource type="Texture2D" uid="uid://blqtkt8134pfe" path="res://assets/tileset/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="2_8ie5w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bq3eu"]
+atlas = ExtResource("2_8ie5w")
+region = Rect2(48, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cyv7c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bq3eu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hit"]
+radius = 12.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8ie5w"]
+radius = 7.0
+height = 14.0
+
+[node name="AppleTree" type="CharacterBody2D" unique_id=1351993138]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_apple_tree")
+affected_by_terrain_move_cost = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1253145616]
+sprite_frames = SubResource("SpriteFrames_cyv7c")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=2052007652]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=578814762]
+shape = SubResource("CircleShape2D_hit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1524547615]
+position = Vector2(0, 8)
+shape = SubResource("CapsuleShape2D_8ie5w")

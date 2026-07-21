@@ -4,17 +4,31 @@
 [ext_resource type="Texture2D" uid="uid://7jrxsio28yoh" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc185.png" id="2_byl2h"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_jiva6"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_o536w"]
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="3_xrm12"]
 [ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="5_vttrs"]
 [ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="6_fee41"]
+[ext_resource type="Script" uid="uid://p7dq2sivsome" path="res://relic_effect/outgoing_damage_random_status_chance_effect.gd" id="7_random_status"]
+[ext_resource type="Resource" uid="uid://base5t85al4ns" path="res://status/freeze.tres" id="8_freeze"]
+[ext_resource type="Resource" uid="uid://bjat0npytwwly" path="res://status/paralysis.tres" id="9_paralysis"]
+[ext_resource type="Resource" uid="uid://dpc0afxoxvyte" path="res://status/burn.tres" id="10_burn"]
+[ext_resource type="Resource" uid="uid://d4bq1pbfdutfe" path="res://status/bleed.tres" id="11_bleed"]
+
+[sub_resource type="Resource" id="EnchantedBulletRandomStatusEffect"]
+script = ExtResource("7_random_status")
+status_pool = Array[ExtResource("3_xrm12")]([ExtResource("8_freeze"), ExtResource("9_paralysis"), ExtResource("10_burn"), ExtResource("11_bleed")])
+levelup_chance = 0.05
+required_tags = Array[String](["projectile"])
 
 [resource]
 script = ExtResource("2_jiva6")
 relic_name = "附魔子弹"
 icon = ExtResource("2_byl2h")
-tooltip = "你的飞行道具有2%的概率在造成伤害的同时使对方陷入冰冻，麻痹，燃烧，流血中某一个状态3秒
+tooltip = "你的飞行道具有2%的概率在造成伤害的同时对对方施加冰冻，麻痹，燃烧，流血中某一个状态一层
 升级：概率提升至5%"
 desc = "元素子弹，酷！"
 price = 4
+level = 4
 tags = Array[ExtResource("3_o536w")]([ExtResource("5_vttrs"), ExtResource("6_fee41")])
 id = "076"
+effects = Array[ExtResource("1_5xjmn")]([SubResource("EnchantedBulletRandomStatusEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

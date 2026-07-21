@@ -2,22 +2,25 @@
 
 [ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="1_base"]
 [ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="2_data"]
-[ext_resource type="Script" uid="uid://bm3ncwwtwxun2" path="res://scripts/status/status_periodic_damage_effect.gd" id="3_periodic_damage"]
+[ext_resource type="Script" uid="uid://dlfq1qecljqa0" path="res://scripts/status/status_periodic_damage_random_stat_effect.gd" id="3_periodic_damage"]
 [ext_resource type="Texture2D" uid="uid://bu1xrnyetrmgj" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc213.png" id="4_icon"]
 
 [sub_resource type="Resource" id="BleedPeriodicDamage"]
 script = ExtResource("3_periodic_damage")
-damage_per_tick = 2.0
-tick_interval = 0.5
-damage_types = Array[int]([0])
+damage_tags = Array[String](["status", "bleed", "physical"])
+penalty_status_desc = "流血使随机一级属性降低，持续到本场战斗结束。"
+penalty_status_icon = ExtResource("4_icon")
 
 [resource]
 script = ExtResource("2_data")
 id = &"bleed"
 status_name = "流血"
-desc = "每秒受到少量物理持续伤害，可叠层。"
+desc = "首次获得时持续30秒；每5秒受到等同于流血层数的物理伤害，并使随机一级属性-1直到战斗结束。再次获得流血会增加层数并延长持续时间，最多30秒。"
 icon = ExtResource("4_icon")
-duration = 4.0
-max_stacks = 5
+duration = 30.0
+max_stacks = 50
 stack_mode = 1
+refresh_duration_on_reapply = false
+add_duration_on_reapply = true
+max_duration = 30.0
 effects = Array[ExtResource("1_base")]([SubResource("BleedPeriodicDamage")])

@@ -68,6 +68,12 @@ signal level_up_reward_refresh_changed()
 signal shop_free_refresh_changed()
 # 进入修整期并初始化商店 UI 后发出，供“本次修整期开始”类套装效果重置计数或改造商店。
 signal rest_period_started()
+# 状态被成功添加或刷新时发出。触发型遗物/被动可以用它监听“敌人进入某状态”。
+signal status_applied(target: Node, status_id: StringName, source: Node, stacks: int)
+# 战斗地图物件被摧毁时发出。后续可用于任务、地图事件、遗物联动。
+signal map_object_destroyed(map_object: Node, killer: Entity)
+# 地图拾取物被实体拾取时发出。后续可用于统计、音效、套装效果。
+signal map_pickup_collected(pickup: Node, collector: Entity)
 
 
 #退出地图信号，进入传入的房间的场景

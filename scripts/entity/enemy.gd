@@ -45,7 +45,6 @@ enum AbilitySelectMode {
 
 
 var current_target: Entity
-var velocity: Vector2
 var current_speed: float
 var last_position
 #是否处于追击状态
@@ -131,7 +130,7 @@ func _process(delta: float) -> void:
 		
 		var approach_stop_distance = _get_approach_stop_distance()
 		if distance > approach_stop_distance:
-			global_position += movement_dir * delta * speed
+			move_with_physics(movement_dir * delta * speed)
 			
 		_face_target(current_target.global_position - global_position)	
 	_update_motion_cache(delta)
@@ -195,7 +194,7 @@ func _process_neutral_wander(delta: float) -> void:
 		direction = global_position.direction_to(neutral_wander_anchor)
 
 	if direction != Vector2.ZERO:
-		global_position += direction.normalized() * speed * neutral_speed_multiplier * delta
+		move_with_physics(direction.normalized() * speed * neutral_speed_multiplier * delta)
 		_face_target(direction)
 
 	_update_motion_cache(delta)
@@ -255,15 +254,15 @@ func _try_cast_ability(target_distance: float) -> bool:
 
 	match ability_select_mode:
 		AbilitySelectMode.SEQUENCE_READY:
-			var next_index := ability_controller.trigger_next_available_ability_for_ai(next_ability_index, target_distance, stop_distance)
+			var next_index := ability_controller.trigger_next_available_ability_for_ai(next_ability_index, target_distance, stop_distance, current_target)
 			if next_index >= 0:
 				next_ability_index = next_index
 				return true
 			return false
 		AbilitySelectMode.RANDOM_READY:
-			return ability_controller.trigger_random_available_ability_for_ai(target_distance, stop_distance)
+			return ability_controller.trigger_random_available_ability_for_ai(target_distance, stop_distance, current_target)
 		_:
-			return ability_controller.trigger_first_available_ability_for_ai(target_distance, stop_distance)
+			return ability_controller.trigger_first_available_ability_for_ai(target_distance, stop_distance, current_target)
 	
 
 func _get_approach_stop_distance() -> float:

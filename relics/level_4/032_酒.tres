@@ -6,12 +6,25 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_gto0o"]
 [ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="5_37d3f"]
 [ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="7_ivtw3"]
+[ext_resource type="Script" uid="uid://e6i1lxwwoh8m" path="res://relic_effect/use_random_primary_stat_status_effect.gd" id="8_random_stats"]
+[ext_resource type="Script" uid="uid://bxmlvik2ak7g1" path="res://relic_effect/use_timed_outgoing_damage_bonus_effect.gd" id="9_damage_bonus"]
+
+[sub_resource type="Resource" id="WineRandomStatsEffect"]
+script = ExtResource("8_random_stats")
+levelup_roll_count = 7
+status_name = "酒意上涌"
+status_desc = "酒使随机一级属性提升，持续到本场战斗结束。"
+
+[sub_resource type="Resource" id="WineLevelupDamageEffect"]
+script = ExtResource("9_damage_bonus")
+percent_bonus = 0.5
+duration = 10.0
 
 [resource]
 script = ExtResource("1_asja5")
 relic_name = "酒"
 icon = ExtResource("1_hulel")
-tooltip = "获得随机属性+1，重复五次，持续到战斗结束
+tooltip = "使用后获得随机属性+1，重复五次，持续到战斗结束
 升级：效果变为获得随机属性+1，重复七次直到战斗结束，且在10秒内伤害+50%
 "
 price = 4
@@ -19,4 +32,6 @@ level = 4
 tags = Array[ExtResource("4_gto0o")]([ExtResource("5_37d3f"), ExtResource("7_ivtw3")])
 id = "032"
 is_consumable = true
+effects = Array[ExtResource("1_7u7e7")]([SubResource("WineRandomStatsEffect")])
+great_effects = Array[ExtResource("1_7u7e7")]([SubResource("WineLevelupDamageEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

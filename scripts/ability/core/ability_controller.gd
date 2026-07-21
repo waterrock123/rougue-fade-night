@@ -12,6 +12,12 @@ var previewing_ability: Ability
 
 var entity: Entity
 
+@export_group("替代法力")
+## 电力状态 id。释放主动技能时，如果当前法力不足，会把这个状态的层数按 energy_per_power_stack 折算法力。
+@export var power_status_id: StringName = &"power"
+## 每一层电力可视作多少点法力。实际消耗时按层向上取整，多出的部分不会返还。
+@export var energy_per_power_stack: float = 3.0
+
 
 func _ready():
 	entity = get_parent() as Entity
@@ -57,16 +63,16 @@ func trigger_random_available_ability() -> bool:
 	return trigger_ability(castable_abilities.pick_random())
 
 
-## AI 使用：只尝试释放“当前目标距离”满足技能 AI 距离配置的技能。
-func trigger_first_available_ability_for_ai(target_distance: float, fallback_cast_range: float) -> bool:
+## AI 使用：只尝试释放“当前目标距离”满足技能 AI 距离配置，且视线没有被墙挡住的技能。
+func trigger_first_available_ability_for_ai(target_distance: float, fallback_cast_range: float, target: Entity = null) -> bool:
 	for ability in abilities:
-		if _can_ai_cast(ability, target_distance, fallback_cast_range) and trigger_ability(ability):
+		if _can_ai_cast(ability, target_distance, fallback_cast_range, target) and trigger_ability(ability):
 			return true
 	return false
 
 
 ## AI 使用：循环寻找当前距离可释放的技能，适合有多技能轮换的敌人/Boss。
-func trigger_next_available_ability_for_ai(start_idx: int, target_distance: float, fallback_cast_range: float) -> int:
+func trigger_next_available_ability_for_ai(start_idx: int, target_distance: float, fallback_cast_range: float, target: Entity = null) -> int:
 	if abilities.is_empty():
 		return -1
 
@@ -74,15 +80,15 @@ func trigger_next_available_ability_for_ai(start_idx: int, target_distance: floa
 	for offset in range(abilities.size()):
 		var index := (safe_start + offset) % abilities.size()
 		var ability := abilities[index]
-		if _can_ai_cast(ability, target_distance, fallback_cast_range) and trigger_ability(ability):
+		if _can_ai_cast(ability, target_distance, fallback_cast_range, target) and trigger_ability(ability):
 			return (index + 1) % abilities.size()
 
 	return -1
 
 
 ## AI 使用：在当前距离可释放的技能里随机挑一个。
-func trigger_random_available_ability_for_ai(target_distance: float, fallback_cast_range: float) -> bool:
-	var castable_abilities := get_ai_castable_abilities(target_distance, fallback_cast_range)
+func trigger_random_available_ability_for_ai(target_distance: float, fallback_cast_range: float, target: Entity = null) -> bool:
+	var castable_abilities := get_ai_castable_abilities(target_distance, fallback_cast_range, target)
 	if castable_abilities.is_empty():
 		return false
 
@@ -125,10 +131,10 @@ func get_castable_abilities() -> Array[Ability]:
 	return result
 
 
-func get_ai_castable_abilities(target_distance: float, fallback_cast_range: float) -> Array[Ability]:
+func get_ai_castable_abilities(target_distance: float, fallback_cast_range: float, target: Entity = null) -> Array[Ability]:
 	var result: Array[Ability] = []
 	for ability in abilities:
-		if _can_ai_cast(ability, target_distance, fallback_cast_range):
+		if _can_ai_cast(ability, target_distance, fallback_cast_range, target):
 			result.append(ability)
 	return result
 
@@ -142,14 +148,44 @@ func _can_be_cast(ability: Ability) -> bool:
 		return false
 
 	var cd = cooldowns.get(ability, 0.0)
-	return cd == 0 and ability.energy_cost <= entity.current_energy and ability.can_pay_activation_costs(entity)
+	return cd == 0 and _has_enough_ability_energy(ability.energy_cost) and ability.can_pay_activation_costs(entity)
 
 
-func _can_ai_cast(ability: Ability, target_distance: float, fallback_cast_range: float) -> bool:
+func _can_ai_cast(ability: Ability, target_distance: float, fallback_cast_range: float, target: Entity = null) -> bool:
 	if not _can_be_cast(ability):
 		return false
+	if not ability.can_ai_cast_at_distance(target_distance, fallback_cast_range):
+		return false
+	if not _has_ai_line_of_sight(ability, target):
+		return false
 
-	return ability.can_ai_cast_at_distance(target_distance, fallback_cast_range)
+	return true
+
+
+func _has_ai_line_of_sight(ability: Ability, target: Entity) -> bool:
+	if ability == null:
+		return false
+	if not ability.ai_requires_line_of_sight:
+		return true
+	# 辅助技能、召唤技能这类没有明确目标的 AI 行为不做视线拦截。
+	if target == null:
+		return true
+	if not is_instance_valid(target):
+		return false
+	if entity == null or not is_instance_valid(entity):
+		return false
+	if not entity.is_inside_tree() or not target.is_inside_tree():
+		return false
+
+	var query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(
+		entity.global_position,
+		target.global_position,
+		ability.ai_line_of_sight_mask
+	)
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	var collision: Dictionary = entity.get_world_2d().direct_space_state.intersect_ray(query)
+	return collision.is_empty()
 
 
 # 运行时注册一个主动技能场景，并返回实例化后的 Ability。
@@ -192,7 +228,7 @@ func trigger_ability(ability: Ability) -> bool:
 		return false
 	if cooldowns.get(ability, 0.0) > 0.0:
 		return false
-	if entity.current_energy < ability.energy_cost:
+	if not _has_enough_ability_energy(ability.energy_cost):
 		return false
 	if not ability.can_pay_activation_costs(entity):
 		_show_ability_block_reason(ability)
@@ -201,7 +237,9 @@ func trigger_ability(ability: Ability) -> bool:
 		_show_ability_block_reason(ability)
 		return false
 
-	entity.spend_energy(ability.energy_cost)
+	if not _spend_ability_energy(ability.energy_cost):
+		return false
+
 	ability.activate(entity)
 	ability_triggered.emit(ability, entity)
 	cooldowns[ability] = _get_modified_cooldown(ability)
@@ -268,6 +306,73 @@ func _show_ability_block_reason(ability: Ability) -> void:
 		return
 	if FloatText != null and FloatText.has_method("show_screen_tip"):
 		FloatText.show_screen_tip(reason)
+
+
+func _has_enough_ability_energy(energy_cost: float) -> bool:
+	if entity == null:
+		return false
+	if energy_cost <= 0.0:
+		return true
+	if entity.current_energy >= energy_cost:
+		return true
+
+	var power_stack_count: int = _get_power_stack_count()
+	var virtual_energy: float = float(power_stack_count) * max(energy_per_power_stack, 0.0)
+	return entity.current_energy + virtual_energy >= energy_cost
+
+
+func _spend_ability_energy(energy_cost: float) -> bool:
+	if entity == null:
+		return false
+	if energy_cost <= 0.0:
+		return true
+
+	if entity.current_energy >= energy_cost:
+		entity.spend_energy(energy_cost)
+		return true
+
+	var current_energy: float = max(entity.current_energy, 0.0)
+	var missing_energy: float = energy_cost - current_energy
+	var power_stacks_needed: int = _get_power_stacks_needed(missing_energy)
+	if power_stacks_needed <= 0:
+		return false
+	if _get_power_stack_count() < power_stacks_needed:
+		return false
+
+	# 法力不足时会先消耗当前全部法力，再按层数扣除电力；电力溢出的法力不会返还。
+	if current_energy > 0.0:
+		entity.spend_energy(current_energy)
+	_consume_power_stacks(power_stacks_needed)
+	return true
+
+
+func _get_power_stacks_needed(missing_energy: float) -> int:
+	if missing_energy <= 0.0:
+		return 0
+	if energy_per_power_stack <= 0.0:
+		return 0
+	return int(ceil(missing_energy / energy_per_power_stack))
+
+
+func _get_power_stack_count() -> int:
+	var power_instance: StatusInstance = _get_power_status_instance()
+	if power_instance == null:
+		return 0
+	return max(power_instance.stacks, 0)
+
+
+func _consume_power_stacks(amount: int) -> int:
+	if entity == null or entity.status_controller == null:
+		return 0
+	return entity.status_controller.consume_status_stacks(power_status_id, amount)
+
+
+func _get_power_status_instance() -> StatusInstance:
+	if entity == null or entity.status_controller == null:
+		return null
+	if power_status_id == &"":
+		return null
+	return entity.status_controller.get_status(power_status_id)
 
 
 func _rebuild_ability_cache() -> void:

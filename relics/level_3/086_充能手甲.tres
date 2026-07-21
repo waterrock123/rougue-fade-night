@@ -6,12 +6,11 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_8jfui"]
 [ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_2yyr0"]
 [ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="6_k3xqx"]
-
-[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
-[ext_resource type="Script" path="res://relic_effect/ability_cast_stacking_stats_effect.gd" id="8_cast_stack_stats"]
-[ext_resource type="Script" path="res://relic_effect/ability_cast_stacking_damage_bonus_effect.gd" id="9_cast_stack_damage"]
-[ext_resource type="Script" path="res://relic_effect/add_status_effect.gd" id="10_add_status"]
-[ext_resource type="Resource" path="res://status/armor.tres" id="11_armor"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" uid="uid://bq7u0e1v8m4rd" path="res://relic_effect/ability_cast_stacking_stats_effect.gd" id="8_cast_stack_stats"]
+[ext_resource type="Script" uid="uid://bfl4gvjdb31xf" path="res://relic_effect/ability_cast_stacking_damage_bonus_effect.gd" id="9_cast_stack_damage"]
+[ext_resource type="Script" uid="uid://ckyvmmqeo6o6e" path="res://relic_effect/add_status_effect.gd" id="10_add_status"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="11_armor"]
 
 [sub_resource type="Resource" id="ChargedGauntletStrengthEffect"]
 script = ExtResource("7_add_stats")
@@ -26,14 +25,11 @@ add_stats_per_stack = {
 }
 excluded_slot_indices = Array[int]([0])
 max_stacks = 5
-duration = -1.0
 
 [sub_resource type="Resource" id="ChargedGauntletMeleeDamageStackEffect"]
 script = ExtResource("9_cast_stack_damage")
 excluded_slot_indices = Array[int]([0])
-max_stacks = 5
 required_tags = Array[String](["melee"])
-flat_bonus_per_stack = 1.0
 
 [sub_resource type="Resource" id="ChargedGauntletArmorEffect"]
 script = ExtResource("10_add_status")

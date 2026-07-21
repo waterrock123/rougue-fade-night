@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="14_np6qr"]
 [ext_resource type="Script" uid="uid://87nmt5jrle4v" path="res://scripts/status/status_controller.gd" id="15_uffw1"]
 [ext_resource type="Texture2D" uid="uid://clu74wmc2kp5u" path="res://assets/UI/Pixel UI pack 3/04.png" id="16_km2rb"]
-[ext_resource type="PackedScene" path="res://scenes/ability/strong_robot_double_flame.tscn" id="17_double_flame"]
+[ext_resource type="PackedScene" uid="uid://bn8v7yf7wvd1w" path="res://scenes/ability/strong_robot_double_flame.tscn" id="17_double_flame"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_65khg"]
 shader = ExtResource("2_gqr2g")
@@ -326,7 +326,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7r7vq")
 }],
-"loop": true,
+"loop": false,
 "name": &"die",
 "speed": 8.0
 }, {
@@ -402,8 +402,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w4hcs"]
-radius = 27.666666
-height = 74.0
+radius = 22.333334
+height = 49.333336
 
 [sub_resource type="Gradient" id="Gradient_xrus2"]
 offsets = PackedFloat32Array(0, 0.67164177, 1)
@@ -417,9 +417,14 @@ region = Rect2(297, 133, 32, 5)
 atlas = ExtResource("16_km2rb")
 region = Rect2(57, 133, 32, 5)
 
-[node name="StrongRobot" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xgru8"]
+radius = 14.666667
+height = 29.333336
+
+[node name="StrongRobot" type="CharacterBody2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
 scale = Vector2(1.5, 1.5)
+collision_layer = 2
 script = ExtResource("1_mbcox")
 sprite_faces_left_by_default = true
 stop_distance = 30.0
@@ -435,9 +440,8 @@ texture_filter = 1
 material = SubResource("ShaderMaterial_65khg")
 position = Vector2(5.684342e-14, -2.842171e-14)
 sprite_frames = SubResource("SpriteFrames_1c2c1")
-animation = &"walk"
+animation = &"die"
 autoplay = "idle"
-frame_progress = 0.74180824
 
 [node name="AbilityController" type="Node" parent="." unique_id=1382481516]
 script = ExtResource("7_krtuu")
@@ -446,6 +450,7 @@ metadata/_custom_type_script = "uid://cifh43jnsuld4"
 [node name="StrongRobotDoubleFlame" parent="AbilityController" unique_id=311864461 instance=ExtResource("17_double_flame")]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2025394787]
 position = Vector2(-1.6666666, 0)
@@ -462,7 +467,6 @@ color_ramp = SubResource("Gradient_xrus2")
 
 [node name="Pathfinding" type="Node2D" parent="." unique_id=1373648024]
 script = ExtResource("11_by76a")
-separation_force = 150
 
 [node name="StatsController" type="Node" parent="." unique_id=1719162146]
 script = ExtResource("12_f2aln")
@@ -494,3 +498,7 @@ grow_vertical = 0
 step = 0.1
 texture_under = SubResource("AtlasTexture_gt4fn")
 texture_progress = SubResource("AtlasTexture_r6ewh")
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="." unique_id=1341043954]
+position = Vector2(0.6666667, 2.6666667)
+shape = SubResource("CapsuleShape2D_xgru8")

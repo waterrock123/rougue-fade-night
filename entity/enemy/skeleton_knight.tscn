@@ -409,9 +409,14 @@ region = Rect2(297, 133, 32, 5)
 atlas = ExtResource("15_6giny")
 region = Rect2(57, 133, 32, 5)
 
-[node name="SkeletonKnight" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6giny"]
+radius = 4.0
+height = 17.0
+
+[node name="SkeletonKnight" type="CharacterBody2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
 scale = Vector2(2, 2)
+collision_layer = 2
 script = ExtResource("1_724rf")
 speed = 20.0
 stop_distance = 40.0
@@ -443,9 +448,10 @@ metadata/_custom_type_script = "uid://cifh43jnsuld4"
 [node name="SkeletonKnightCombo" parent="AbilityController" unique_id=381898632 instance=ExtResource("21_combo")]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2025394787]
-position = Vector2(-16.5, -2.5)
+position = Vector2(0.4999981, -2.3841858e-07)
 scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("CapsuleShape2D_w4hcs")
 
@@ -459,7 +465,6 @@ color_ramp = SubResource("Gradient_xrus2")
 
 [node name="Pathfinding" type="Node2D" parent="." unique_id=1373648024]
 script = ExtResource("16_2xxcm")
-separation_force = 150
 
 [node name="StatsController" type="Node" parent="." unique_id=1719162146]
 script = ExtResource("17_spmxw")
@@ -491,5 +496,9 @@ grow_vertical = 0
 step = 0.1
 texture_under = SubResource("AtlasTexture_go5an")
 texture_progress = SubResource("AtlasTexture_qni1y")
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="." unique_id=228607939]
+position = Vector2(2.5, 0)
+shape = SubResource("CapsuleShape2D_6giny")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

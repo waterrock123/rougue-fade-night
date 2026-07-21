@@ -14,6 +14,10 @@ var icon_texture: Texture2D
 @export var ai_max_cast_distance: float = 0.0
 ## 未手动填写最大释放距离时，是否从 AbilityGetTarget、AbilityChargeToTarget、ProjectileManifest 等组件里推断。
 @export var ai_infer_cast_range_from_components: bool = true
+## AI 释放前是否要求目标和自己之间没有 World 层阻挡。适合防止敌人隔墙原地空挥。
+@export var ai_requires_line_of_sight: bool = true
+## 默认检测 project.godot 里命名的 World 层。
+@export_flags_2d_physics var ai_line_of_sight_mask: int = 1
 var desc:String
 var skill_data: ActiveSkillData
 var skill_entry: SkillEntry

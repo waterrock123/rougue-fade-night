@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://5nc301hm1nh5"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_slbew"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_r7f73"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_nppwh"]
+[ext_resource type="Resource" uid="uid://cxt8rcahtvpp1" path="res://relic_tags/雷电tag.tres" id="4_nppwh"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_h2cgg"]
+[ext_resource type="Script" uid="uid://cfh8744clikxq" path="res://relic_effect/add_outgoing_damage_bonus_effect.gd" id="6_dmg_bonus"]
+[ext_resource type="Script" uid="uid://cnn2hemibeqkc" path="res://relic_effect/outgoing_damage_status_power_extra_hit_effect.gd" id="7_power_hit"]
+[ext_resource type="Script" uid="uid://dwp8h106nuq8t" path="res://relic_effect/battle_start_add_status_effect.gd" id="8_battle_status"]
+[ext_resource type="Resource" uid="uid://sa7h5waci6il" path="res://status/power.tres" id="9_power"]
+
+[sub_resource type="Resource" id="Resource_lightning_damage_bonus"]
+script = ExtResource("6_dmg_bonus")
+required_damage_types = Array[int]([4])
+flat_bonus = 1.0
+
+[sub_resource type="Resource" id="Resource_basic_attack_power_hit"]
+script = ExtResource("7_power_hit")
+target_slot_indices = Array[int]([0])
+extra_tags = Array[String](["relic", "extra_hit", "lightning", "surge_core"])
+recursion_guard_tag = "surge_core_extra_hit_guard"
+
+[sub_resource type="Resource" id="Resource_levelup_start_power"]
+script = ExtResource("8_battle_status")
+status_data = ExtResource("9_power")
+stacks = 10
+
+[resource]
+script = ExtResource("2_r7f73")
+relic_name = "电涌核心"
+tooltip = "雷电伤害+1，每次基础攻击造成伤害时都会附带1点额外的雷电伤害，每拥有一层电力将使此伤害增加电力层数的雷电伤害并消耗一层电力
+升级：进入关卡时立即获得10层电力"
+price = 5
+level = 5
+tags = Array[ExtResource("3_nppwh")]([ExtResource("4_nppwh"), ExtResource("5_h2cgg")])
+id = "109"
+effects = Array[ExtResource("1_slbew")]([SubResource("Resource_lightning_damage_bonus"), SubResource("Resource_basic_attack_power_hit")])
+great_effects = Array[ExtResource("1_slbew")]([SubResource("Resource_levelup_start_power")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

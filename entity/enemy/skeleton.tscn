@@ -347,9 +347,13 @@ region = Rect2(297, 133, 32, 5)
 atlas = ExtResource("15_cnn8m")
 region = Rect2(57, 133, 32, 5)
 
-[node name="Skeleton" type="Node2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cnn8m"]
+height = 33.333336
+
+[node name="Skeleton" type="CharacterBody2D" unique_id=153655557 node_paths=PackedStringArray("hit_particles")]
 z_index = 100
 scale = Vector2(0.6, 0.6)
+collision_layer = 2
 script = ExtResource("1_ivqcw")
 stop_distance = 30.0
 aggresive = true
@@ -373,6 +377,7 @@ energy_cost = 0.0
 ai_max_cast_distance = 42.0
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2025394787]
 position = Vector2(-1.6666667, 8.333333)
@@ -389,7 +394,6 @@ color_ramp = SubResource("Gradient_xrus2")
 
 [node name="Pathfinding" type="Node2D" parent="." unique_id=1373648024]
 script = ExtResource("11_7e1v2")
-separation_force = 150
 
 [node name="StatsController" type="Node" parent="." unique_id=1719162146]
 script = ExtResource("11_icxyw")
@@ -421,3 +425,7 @@ grow_vertical = 0
 step = 0.1
 texture_under = SubResource("AtlasTexture_kj1pw")
 texture_progress = SubResource("AtlasTexture_waniv")
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="." unique_id=1564300744]
+position = Vector2(-1.6666666, 10)
+shape = SubResource("CapsuleShape2D_cnn8m")
