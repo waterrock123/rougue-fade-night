@@ -16,7 +16,8 @@ enum StatType {
 	CONSTITUTION,
 	SPEED,
 	CHARM,
-	LUCK
+	LUCK,
+	POISE_DAMAGE_MULTIPLIER,
 }
 
 @export_group("Meta")
@@ -33,6 +34,8 @@ enum StatType {
 @export var base_crit_damage: float = 1.5
 @export var base_cooldown_reduction: float = 0.0
 @export var base_move_speed: float = 0.0
+## 攻击造成的削韧倍率。1.0 表示保持技能原始削韧值。
+@export var base_poise_damage_multiplier: float = 1.0
 
 @export_group("Primary Stats")
 @export var strength: int = 0

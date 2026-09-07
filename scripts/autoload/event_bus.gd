@@ -19,12 +19,18 @@ signal game_paused(paused: bool)
 signal  scene_changed(scene: String)
 #战斗胜利信号
 signal battle_win()
+# 地图结束点请求提前结束战斗。由 PlayScene 统一执行结算，避免地图物体绕过奖励与生命同步。
+signal battle_end_requested(source: Node, skip_level_up: bool)
+# 结束点选择直接进入修整期时使用；不跳过战斗结算，只跳过升级奖励界面。
+signal battle_win_direct_to_rest()
 # Boss 战通关信号。Run 监听后打开通关界面，不再进入升级/修整流程。
 signal game_victory()
 # 战斗正式开始信号。PlayScene 初始化完玩家、装备和 UI 后发出，供“进场触发”的遗物/被动使用。
 signal battle_started()
 # 敌人死亡归属信号。用于击杀奖励类效果，不让具体遗物去扫描敌人节点。
 signal enemy_killed(enemy: Entity, killer: Entity)
+# 敌人韧性归零时发出。breaker 是直接造成破韧的实体，damage_data 保留本次攻击的完整上下文。
+signal enemy_poise_broken(enemy: Entity, breaker: Entity, damage_data: DamageData)
 # 战斗胜利结算信号。会在切换升级/修整场景前触发，供被动技能处理吞噬装备、升级装备等局内结算。
 signal battle_rewards_resolving()
 #战斗失败信号
@@ -51,6 +57,8 @@ signal buy_equipment(equipment:Relic)
 signal relic_purchase_preprocess(relic: Relic)
 # 商店购买完成后发出，适合返利、老板对话、购买计数这类“已成交”效果。
 signal relic_purchased(relic: Relic)
+# 玩家构筑实际收到一件永久遗物后发出。地图拾取、商店购买、事件奖励都会走 PlayerBuild.add_relic。
+signal relic_added(relic: Relic, receiver: PlayerBuild)
 # 玩家出售遗物后通知 UI/商店老板播放对应反馈。
 signal relic_sold(relic: Relic)
 # 遗物被使用、售卖、销毁或消耗时发出，reason 用于区分 "used" / "sold" / "destroyed" / "consumed"。
@@ -66,14 +74,21 @@ signal free_relic_choice_changed()
 signal level_up_reward_refresh_changed()
 # 商店免费刷新次数变化信号，商店 UI 用它刷新价格与次数显示。
 signal shop_free_refresh_changed()
+signal shop_refresh_state_changed()
 # 进入修整期并初始化商店 UI 后发出，供“本次修整期开始”类套装效果重置计数或改造商店。
 signal rest_period_started()
 # 状态被成功添加或刷新时发出。触发型遗物/被动可以用它监听“敌人进入某状态”。
 signal status_applied(target: Node, status_id: StringName, source: Node, stacks: int)
 # 战斗地图物件被摧毁时发出。后续可用于任务、地图事件、遗物联动。
 signal map_object_destroyed(map_object: Node, killer: Entity)
+## 地图物体成功生成后发出，供“出现某类物体时触发”的效果监听。
+signal map_object_spawned(map_object: Node)
 # 地图拾取物被实体拾取时发出。后续可用于统计、音效、套装效果。
 signal map_pickup_collected(pickup: Node, collector: Entity)
+# 玩家启用/停用“影响战斗地图生成的标签”时发出，后续标签配置 UI 和地图预览 UI 可监听它刷新。
+signal map_tag_selection_changed()
+# 玩家在背包技能面板调整主动技能携带状态后，通知运行时技能栏与存档刷新。
+signal skill_loadout_changed()
 
 
 #退出地图信号，进入传入的房间的场景

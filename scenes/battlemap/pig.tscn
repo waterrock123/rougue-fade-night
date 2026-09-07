@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://0r11v1e7rtn"]
+
+[ext_resource type="Script" uid="uid://cti7vjygxmmgm" path="res://scripts/battlemap/animal_map_object.gd" id="1_animal"]
+[ext_resource type="Resource" uid="uid://cc8goxbeph36b" path="res://relics/level_1/017_生肉.tres" id="2_reward"]
+[ext_resource type="Texture2D" uid="uid://cq5cpg3xfvbx0" path="res://assets/tileset/Cute_Fantasy_Free/Animals/Pig/Pig.png" id="3_itt3d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ky4xl"]
+atlas = ExtResource("3_itt3d")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0feu"]
+atlas = ExtResource("3_itt3d")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qkug4"]
+atlas = ExtResource("3_itt3d")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y208"]
+atlas = ExtResource("3_itt3d")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uqn5x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ky4xl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0feu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qkug4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5y208")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="AnimalHitShape"]
+radius = 15.0
+
+[sub_resource type="CapsuleShape2D" id="AnimalBodyShape"]
+radius = 9.0
+height = 18.0
+
+[node name="Pig" type="CharacterBody2D" unique_id=2034118312]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_animal")
+animal_id = &"animal_pig"
+wander_radius = 50.0
+reward_relic = ExtResource("2_reward")
+reward_count = 2
+enable_interactable_highlight = true
+highlight_visual_path = NodePath("AnimatedSprite2D")
+max_health = 42.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1835833522]
+scale = Vector2(1.1, 1.1)
+sprite_frames = SubResource("SpriteFrames_uqn5x")
+autoplay = "default"
+frame = 2
+frame_progress = 0.04230055
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1023882266]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1498811072]
+shape = SubResource("AnimalHitShape")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=211516322]
+position = Vector2(0, 8)
+shape = SubResource("AnimalBodyShape")

@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cqrcouif6edjn"]
+
+[ext_resource type="Script" uid="uid://b8p26ak7346iq" path="res://scripts/battlemap/lost_cargo.gd" id="1_lost_cargo"]
+[ext_resource type="Texture2D" uid="uid://b7mhexxmid78h" path="res://assets/mapobject_sprite/遗落货物.png" id="2_nuqac"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(28, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(22, 18)
+
+[node name="LostCargo" type="CharacterBody2D" unique_id=496611393]
+scale = Vector2(2, 2)
+collision_mask = 0
+script = ExtResource("1_lost_cargo")
+highlight_visual_path = NodePath("VisualRoot")
+blocks_navigation = true
+max_health = 30.0
+damage_text_color = Color(0.95, 0.8, 0.45, 1)
+affected_by_terrain_move_cost = false
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=1336507996]
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualRoot" unique_id=182277869]
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("2_nuqac")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1567934406]
+visible = false
+
+[node name="HitCollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=377029833]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_hit")
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="." unique_id=1675121275]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_body")

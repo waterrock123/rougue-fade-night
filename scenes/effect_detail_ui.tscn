@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dmd7mos7q5ews"]
+[gd_scene format=3 uid="uid://dmd7mos7q5ews"]
 
 [ext_resource type="Texture2D" uid="uid://3tjpe4yy34bn" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc69.png" id="1_osgtc"]
-[ext_resource type="Script" path="res://scripts/tag_effect/tag_effect_detail_ui.gd" id="2_script"]
+[ext_resource type="Script" uid="uid://d2lnn2ueaqcly" path="res://scripts/tag_effect/tag_effect_detail_ui.gd" id="2_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hjb0k"]
 bg_color = Color(0.33966804, 0.65351224, 0.719057, 0.45882353)
@@ -93,11 +93,11 @@ label_settings = SubResource("LabelSettings_ea03q")
 [node name="DetailDesc" type="RichTextLabel" parent="VBoxContainer2" unique_id=1840868785]
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
-theme_override_font_sizes/normal_font_size = 64
-theme_override_font_sizes/bold_font_size = 64
-theme_override_font_sizes/bold_italics_font_size = 64
-theme_override_font_sizes/italics_font_size = 64
-theme_override_font_sizes/mono_font_size = 64
+theme_override_font_sizes/normal_font_size = 48
+theme_override_font_sizes/bold_font_size = 48
+theme_override_font_sizes/bold_italics_font_size = 48
+theme_override_font_sizes/italics_font_size = 48
+theme_override_font_sizes/mono_font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_5oyup")
 text = "总之这里是各种效果描述"
 

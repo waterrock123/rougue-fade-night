@@ -31,6 +31,7 @@ is_rotate = true
 hit_sound = SubResource("Resource_yeulv")
 rotate_speed = 20.0
 damage = 15.0
+poise_damage = 12.0
 is_penetrate = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1123908785]

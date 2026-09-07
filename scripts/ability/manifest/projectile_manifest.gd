@@ -21,12 +21,20 @@ extends AbilityManifest
 @export var return_arrive_distance: float = 18.0
 @export var return_max_distance_multiplier: float = 1.0
 
+@export_group("Homing")
+## 投射物自身的追踪转向速度；0 表示默认不追踪。装备也可以通过运行时属性追加此数值。
+@export var homing_turn_speed: float = 0.0
+@export var homing_acquire_radius: float = 500.0
+@export var homing_retarget_interval: float = 0.12
+
 @export_group("Damage")
 @export var damage: float = 10.0
 @export var can_crit: bool = true
 @export var damage_types: Array[int] = [DamageData.DamageType.RANGED]
 @export var tags: Array[String] = ["manifest", "projectile", "ranged"]
 @export var scaling_rule: DamageScalingRule = DamageScalingRule.new()
+## 普通投射物默认造成 6 点削韧；高速连射弹可在具体场景中继续调低。
+@export var poise_damage: float = 6.0
 @export var is_penetrate: bool = false
 
 @onready var sprite2d: Sprite2D = $Sprite2D
@@ -38,6 +46,8 @@ var current_dir: Vector2 = Vector2.ZERO
 var current_distance: float = 0.0
 var return_distance: float = 0.0
 var is_returning: bool = false
+var runtime_homing_turn_speed: float = 0.0
+var homing_controller: ProjectileHomingController = ProjectileHomingController.new()
 
 
 # 初始化投射物飞行方向、来源和距离修正。
@@ -46,6 +56,7 @@ func activate(context: AbilityContext) -> void:
 	source_ability_id = context.ability.id if context.ability != null else &""
 	source_ability_slot_index = context.ability.runtime_slot_index if context.ability != null else -1
 	_apply_projectile_range_bonus()
+	_configure_homing()
 	if not EventBus.game_paused.is_connected(_handle_game_pause):
 		EventBus.game_paused.connect(_handle_game_pause)
 	if not EventBus.scene_changed.is_connected(_handle_scene_changed):
@@ -90,6 +101,7 @@ func _process_forward(delta: float) -> void:
 		queue_free()
 		return
 
+	_update_homing_direction(delta)
 	var movement: Vector2 = current_dir * delta * speed
 	current_distance += movement.length()
 	if not _move_or_free_on_world_hit(movement):
@@ -204,7 +216,8 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			can_crit,
 			scaling_rule,
 			source_ability_id,
-			source_ability_slot_index
+			source_ability_slot_index,
+			poise_damage
 		)
 		parent.apply_damage(damage_data)
 
@@ -246,3 +259,32 @@ func _apply_projectile_range_bonus() -> void:
 
 	# 只对 projectile 标签的 manifest 生效，抛射物、近战特效等不会被投射物增程误影响。
 	max_distance *= 1.0 + bonus_rate
+
+
+## 追踪由来源实体的运行时属性驱动，因此临时装备也会在装备刷新后立即生效。
+func _configure_homing() -> void:
+	runtime_homing_turn_speed = maxf(homing_turn_speed, 0.0)
+	homing_controller.reset()
+	if source == null or source.stats_controller == null or not tags.has("projectile"):
+		return
+	runtime_homing_turn_speed += maxf(
+		source.stats_controller.get_stat(&"projectile_homing_turn_speed", 0.0),
+		0.0
+	)
+
+
+func _update_homing_direction(delta: float) -> void:
+	if runtime_homing_turn_speed <= 0.0:
+		return
+	current_dir = homing_controller.steer(
+		self,
+		source,
+		StringName(target_group),
+		current_dir,
+		runtime_homing_turn_speed,
+		homing_acquire_radius,
+		homing_retarget_interval,
+		delta
+	)
+	if not is_rotate and current_dir != Vector2.ZERO:
+		global_rotation = current_dir.angle()

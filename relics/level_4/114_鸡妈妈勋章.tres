@@ -1,0 +1,59 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://ckwe2oj7me1io"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_relic"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="2_base"]
+[ext_resource type="Script" uid="uid://ckyvmmqeo6o6e" path="res://relic_effect/add_status_effect.gd" id="3_add_status"]
+[ext_resource type="Script" uid="uid://bk7csuat86qgs" path="res://relic_effect/inventory_relic_count_stat_effect.gd" id="4_inventory_count"]
+[ext_resource type="Script" uid="uid://cq3m7p1ej2yau" path="res://relic_effect/add_map_object_spawn_weight_effect.gd" id="5_weight"]
+[ext_resource type="Script" uid="uid://elgsths4soxk" path="res://relic_effect/map_object_spawn_stats_effect.gd" id="6_spawn_stats"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="7_armor"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="8_tag"]
+[ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="9_stock"]
+[ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="10_defense"]
+
+[sub_resource type="Resource" id="ChickenMedalArmor"]
+script = ExtResource("3_add_status")
+status_data = ExtResource("7_armor")
+stacks = 2
+
+[sub_resource type="Resource" id="ChickenMedalEggBonus"]
+script = ExtResource("4_inventory_count")
+target_relic_id = "112"
+stat_bonuses_per_relic = {
+"charm": 1.0,
+"constitution": 1.0,
+"dexterity": 1.0,
+"intelligence": 1.0,
+"luck": 1.0,
+"speed": 1.0,
+"strength": 1.0
+}
+
+[sub_resource type="Resource" id="ChickenMedalWeight"]
+script = ExtResource("5_weight")
+object_id = &"animal_chicken"
+weight_bonus = 2.0
+
+[sub_resource type="Resource" id="ChickenMedalSpawnStats"]
+script = ExtResource("6_spawn_stats")
+object_id = &"animal_chicken"
+add_stats = {
+"dexterity": 5.0,
+"strength": 5.0
+}
+status_name = "鸡妈妈的祝福"
+status_desc = "本场战斗中力量和敏捷 +5。"
+
+[resource]
+script = ExtResource("1_relic")
+relic_name = "鸡妈妈勋章"
+tooltip = "护甲 +2；背包内每有一件鸡蛋，全属性 +1；提高地图中鸡的出现权重。
+升级：地图中出现鸡时，力量和敏捷 +5。"
+desc = "一枚会吸引鸡群的勋章。"
+price = 8
+sell_price = 4
+level = 4
+tags = Array[ExtResource("8_tag")]([ExtResource("9_stock"), ExtResource("10_defense")])
+id = "114"
+effects = Array[ExtResource("2_base")]([SubResource("ChickenMedalArmor"), SubResource("ChickenMedalEggBonus"), SubResource("ChickenMedalWeight")])
+great_effects = Array[ExtResource("2_base")]([SubResource("ChickenMedalSpawnStats")])

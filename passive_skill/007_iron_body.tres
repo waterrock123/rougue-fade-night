@@ -27,6 +27,7 @@ status_data = ExtResource("7_armor")
 
 [resource]
 script = ExtResource("2_data")
+is_upgrade_skill = true
 effects = Array[ExtResource("1_base")]([SubResource("Resource_primary"), SubResource("Resource_derived"), SubResource("Resource_status")])
 id = &"007"
 skill_name = "钢铁之躯"

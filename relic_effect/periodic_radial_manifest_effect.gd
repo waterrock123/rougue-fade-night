@@ -32,6 +32,7 @@ extends RelicEffect
 @export var target_group: StringName = &"enemy"
 
 var active_entries: Dictionary = {}
+var activation_serial: int = 0
 
 
 func on_activate(relic_context: RelicContext, effect_key) -> void:
@@ -43,19 +44,23 @@ func on_activate(relic_context: RelicContext, effect_key) -> void:
 	if active_entries.has(key):
 		return
 
-	var callback: Callable = Callable(self, "_on_battle_started").bind(key)
+	# 每次激活都分配新的代次，避免旧的异步循环在重新激活后误用新状态。
+	activation_serial += 1
+	var generation: int = activation_serial
+	var callback: Callable = Callable(self, "_on_battle_started").bind(key, generation)
 	active_entries[key] = {
 		"owner": owner,
 		"context": relic_context,
 		"callback": callback,
 		"active": true,
 		"loop_running": false,
+		"generation": generation,
 	}
 
 	if not EventBus.battle_started.is_connected(callback):
 		EventBus.battle_started.connect(callback)
 	if EventBus.is_battle_active:
-		_start_loop(key)
+		_start_loop(key, generation)
 
 
 func on_deactivate(_relic_context: RelicContext, effect_key) -> void:
@@ -73,12 +78,12 @@ func on_deactivate(_relic_context: RelicContext, effect_key) -> void:
 	active_entries.erase(key)
 
 
-func _on_battle_started(key: String) -> void:
-	_start_loop(key)
+func _on_battle_started(key: String, generation: int) -> void:
+	_start_loop(key, generation)
 
 
-func _start_loop(key: String) -> void:
-	if not active_entries.has(key):
+func _start_loop(key: String, generation: int) -> void:
+	if not _is_entry_current(key, generation):
 		return
 
 	var entry: Dictionary = active_entries[key] as Dictionary
@@ -87,29 +92,32 @@ func _start_loop(key: String) -> void:
 
 	entry["loop_running"] = true
 	active_entries[key] = entry
-	_spawn_loop.call_deferred(key)
+	_spawn_loop.call_deferred(key, generation)
 
 
-func _spawn_loop(key: String) -> void:
+func _spawn_loop(key: String, generation: int) -> void:
+	if not _is_entry_current(key, generation):
+		return
+
 	if trigger_immediately_on_battle_start:
-		_try_spawn_barrage(key)
+		_try_spawn_barrage(key, generation)
 
 	var first_wait: float = max(initial_delay, 0.0)
 	if first_wait > 0.0:
-		if not await _wait_owner_timer(key, first_wait):
-			_finish_loop(key)
+		if not await _wait_owner_timer(key, generation, first_wait):
+			_finish_loop(key, generation)
 			return
 
-	while active_entries.has(key):
-		_try_spawn_barrage(key)
-		if not await _wait_owner_timer(key, max(interval, 0.05)):
+	while _is_entry_current(key, generation):
+		_try_spawn_barrage(key, generation)
+		if not await _wait_owner_timer(key, generation, max(interval, 0.05)):
 			break
 
-	_finish_loop(key)
+	_finish_loop(key, generation)
 
 
-func _wait_owner_timer(key: String, wait_time: float) -> bool:
-	if not active_entries.has(key):
+func _wait_owner_timer(key: String, generation: int, wait_time: float) -> bool:
+	if not _is_entry_current(key, generation):
 		return false
 
 	var owner: Entity = (active_entries[key] as Dictionary).get("owner") as Entity
@@ -117,11 +125,11 @@ func _wait_owner_timer(key: String, wait_time: float) -> bool:
 		return false
 
 	await owner.get_tree().create_timer(wait_time).timeout
-	return active_entries.has(key) and _is_owner_valid(owner)
+	return _is_entry_current(key, generation) and _is_owner_valid(owner)
 
 
-func _try_spawn_barrage(key: String) -> void:
-	if not active_entries.has(key) or not EventBus.is_battle_active:
+func _try_spawn_barrage(key: String, generation: int) -> void:
+	if not _is_entry_current(key, generation) or not EventBus.is_battle_active:
 		return
 
 	var entry: Dictionary = active_entries[key] as Dictionary
@@ -209,13 +217,21 @@ func _apply_property_overrides(manifest: AbilityManifest, overrides: Dictionary)
 		manifest.set(StringName(property_name), overrides[property_name])
 
 
-func _finish_loop(key: String) -> void:
-	if not active_entries.has(key):
+func _finish_loop(key: String, generation: int) -> void:
+	if not _is_entry_current(key, generation):
 		return
 
 	var entry: Dictionary = active_entries[key] as Dictionary
 	entry["loop_running"] = false
 	active_entries[key] = entry
+
+
+func _is_entry_current(key: String, generation: int) -> bool:
+	if not active_entries.has(key):
+		return false
+
+	var entry: Dictionary = active_entries[key] as Dictionary
+	return bool(entry.get("active", false)) and int(entry.get("generation", -1)) == generation
 
 
 func _is_owner_valid(owner: Entity) -> bool:

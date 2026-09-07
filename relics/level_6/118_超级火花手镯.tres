@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://clck43gobdq8n"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_xw23r"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_gl82b"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_qv6hm"]
+
+[resource]
+script = ExtResource("2_gl82b")
+relic_name = "超级火花手镯"
+tooltip = "每过30秒都会立即发射一个速度很快的火花飞行道具，它会立即在你的周围巡航5秒"
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

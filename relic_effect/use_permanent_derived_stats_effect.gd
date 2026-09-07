@@ -44,6 +44,8 @@ func _add_derived_stat(stats_data: StatsData, stat_name: StringName, amount: flo
 			stats_data.base_cooldown_reduction += amount
 		&"energy_regen_tick_value":
 			stats_data.base_energy_regen_tick_value += amount
+		&"poise_damage_multiplier":
+			stats_data.base_poise_damage_multiplier += amount
 
 
 func _resync_stats_controller(relic_context: RelicContext, player_build: PlayerBuild) -> void:

@@ -10,7 +10,8 @@
 [ext_resource type="Resource" uid="uid://bygcsycp6vgae" path="res://tag_effects/用具tag效果/tool_make_use.tres" id="9_tool_use"]
 [ext_resource type="Resource" uid="uid://bpgha0qb3p1lb" path="res://tag_effects/历战tag效果/veteran_tough.tres" id="10_veteran_tough"]
 [ext_resource type="Resource" uid="uid://r6q250bj35gw" path="res://tag_effects/幻景tag效果/mirage_mind_projection.tres" id="12_mirage_projection"]
+[ext_resource type="Resource" uid="uid://c5xj0x1pxsq6k" path="res://tag_effects/剑tag效果/fly_sword.tres" id="13_sword_fly_sword"]
 
 [resource]
 script = ExtResource("1_database")
-default_selected_effects = Array[ExtResource("1_d2u4f")]([ExtResource("2_accessory_pearl"), ExtResource("4_customer_discount"), ExtResource("6_insight_selective"), ExtResource("7_ingredient_fresh"), ExtResource("8_cuisine_full"), ExtResource("9_tool_use"), ExtResource("10_veteran_tough"), ExtResource("12_mirage_projection")])
+default_selected_effects = Array[ExtResource("1_d2u4f")]([ExtResource("2_accessory_pearl"), ExtResource("4_customer_discount"), ExtResource("6_insight_selective"), ExtResource("7_ingredient_fresh"), ExtResource("8_cuisine_full"), ExtResource("9_tool_use"), ExtResource("10_veteran_tough"), ExtResource("12_mirage_projection"), ExtResource("13_sword_fly_sword")])

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://d3jj7idpn7ui7"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" uid="uid://dtdkg5dwq1bd6" path="res://scripts/ability/component/ability_turn_to_mouse.gd" id="2_turn"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_spawn_manifest_volley.gd" id="3_volley"]
+[ext_resource type="PackedScene" uid="uid://csvcqurv1mol" path="res://scenes/ability/manifest/scount_basic_bullet_manifest.tscn" id="4_bullet"]
+
+[node name="SCountBasicAttackAbility" type="Node" unique_id=1686597229]
+script = ExtResource("1_ability")
+cooldown = 0.3
+energy_cost = 0.0
+
+[node name="TurnToMouse" type="Node" parent="." unique_id=891224406]
+script = ExtResource("2_turn")
+
+[node name="SpawnBulletVolley" type="Node" parent="." unique_id=686551544]
+script = ExtResource("3_volley")
+side_spacing = 5.0
+spread_angle_degrees = 2.5
+manifest_scene = ExtResource("4_bullet")
+use_directional_offset = true
+forward_offset = 16.0

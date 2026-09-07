@@ -23,6 +23,8 @@ extends AbilityManifest
 @export var damage_types: Array[int] = [DamageData.DamageType.PHYSICAL, DamageData.DamageType.ICE]
 @export var tags: Array[String] = ["manifest", "relic", "consumable", "thrown", "thrown_arc", "aoe"]
 @export var scaling_rule: DamageScalingRule
+## 抛射物落地爆发默认造成 20 点削韧，重型炸弹可在具体场景中继续提高。
+@export var poise_damage: float = 20.0
 
 @export_group("落地状态")
 ## 落地命中时附加的状态，比如雪球使用的 frost_slow。
@@ -179,7 +181,8 @@ func _apply_damage_to_entity(entity: Entity) -> void:
 		can_crit,
 		scaling_rule,
 		source_ability_id,
-		source_ability_slot_index
+		source_ability_slot_index,
+		poise_damage
 	)
 	entity.apply_damage(damage_data)
 

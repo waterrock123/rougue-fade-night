@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://c34bn4w34x5ve"]
+
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="1_cs8j0"]
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="1_data"]
+[ext_resource type="Script" uid="uid://n4jh0iy0kh4g" path="res://scripts/status/status_add_stats_effect.gd" id="2_base"]
+
+[sub_resource type="Resource" id="MilkStrengthEffect"]
+script = ExtResource("2_base")
+stat_values = {
+"strength": 4.0
+}
+
+[resource]
+script = ExtResource("1_data")
+id = &"milk_strength"
+status_name = "牛奶的力量"
+desc = "没有负面状态可移除时，获得力量 +4，持续 30 秒。"
+polarity = 1
+duration = 30.0
+effects = Array[ExtResource("1_cs8j0")]([SubResource("MilkStrengthEffect")])

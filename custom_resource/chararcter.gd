@@ -8,6 +8,8 @@ extends Resource
 @export var character_name:String
 @export_multiline var description: String
 @export var background:Texture
+## 角色的逐帧动画、默认朝向和视觉偏移等配置。
+@export var visual_data: CharacterVisualData
 
 
 @export_group("游戏资源")

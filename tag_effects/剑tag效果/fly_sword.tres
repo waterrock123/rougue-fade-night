@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="TagSpawnOrbitingSwordsEffect" format=3 uid="uid://c5xj0x1pxsq6k"]
+
+[ext_resource type="Texture2D" uid="uid://b0ux6ivinin6m" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1123.png" id="1_0a4gc"]
+[ext_resource type="Script" uid="uid://dta8usntegoad" path="res://scripts/tag_effect/tag_spawn_orbiting_swords_effect.gd" id="1_dltl2"]
+[ext_resource type="Resource" uid="uid://hwfpda2ygcic" path="res://relic_tags/剑tag.tres" id="3_81atd"]
+[ext_resource type="PackedScene" uid="uid://cas5v7nhco70c" path="res://scenes/ability/manifest/orbiting_sword_manifest.tscn" id="4_orbit_sword"]
+
+[resource]
+script = ExtResource("1_dltl2")
+orbit_radius = 56.0
+orbit_speed = 2.15
+id = &"fly_sword"
+tag = ExtResource("3_81atd")
+effect_name = "御剑术"
+icon = ExtResource("1_0a4gc")
+desc = "装备不同的 {sword} 达到4件后生效：每有一件已计数的 {sword} 装备，战斗中生成一把 {orbiting_sword} 护体。"
+required_count = 4
+metadata/_custom_type_script = "uid://bkm4mygm81buv"

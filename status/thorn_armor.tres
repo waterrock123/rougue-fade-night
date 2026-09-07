@@ -22,5 +22,6 @@ id = &"thorn_armor"
 status_name = "荆棘护甲"
 desc = "获得2点固定减伤。受到有效伤害时，对攻击来源造成5点物理反伤。"
 icon = ExtResource("5_icon")
+polarity = 1
 duration = 8.0
 effects = Array[ExtResource("1_base")]([SubResource("ThornArmorReductionEffect"), SubResource("ThornArmorReflectEffect")])

@@ -1,0 +1,101 @@
+## 按背包中已放入遗物的格子数动态提供属性。
+## 适合“背包每有一件装备，最大法力与法力回复提高”的装备强化效果。
+class_name InventoryOccupiedSlotsStatEffect
+extends RelicEffect
+
+@export var stat_bonuses_per_occupied_slot: Dictionary = {}
+@export var include_locked_slots: bool = true
+
+var active_contexts: Dictionary = {}
+
+
+func on_activate(relic_context: RelicContext, effect_key) -> void:
+	if relic_context == null:
+		return
+	var context_id: String = _get_context_id(relic_context, effect_key)
+	active_contexts[context_id] = {
+		"relic_context": relic_context,
+		"effect_key": effect_key,
+	}
+	_refresh_context(relic_context, effect_key)
+	if not EventBus.inventory_update.is_connected(_on_inventory_changed):
+		EventBus.inventory_update.connect(_on_inventory_changed)
+
+
+func on_deactivate(relic_context: RelicContext, effect_key) -> void:
+	_clear_context(relic_context, effect_key)
+	active_contexts.erase(_get_context_id(relic_context, effect_key))
+	if active_contexts.is_empty() and EventBus.inventory_update.is_connected(_on_inventory_changed):
+		EventBus.inventory_update.disconnect(_on_inventory_changed)
+
+
+func _on_inventory_changed() -> void:
+	for record_value in active_contexts.values():
+		var record: Dictionary = record_value as Dictionary
+		var relic_context: RelicContext = record.get("relic_context") as RelicContext
+		var effect_key = record.get("effect_key")
+		_refresh_context(relic_context, effect_key)
+
+
+func _refresh_context(relic_context: RelicContext, effect_key) -> void:
+	var stats_controller: StatsController = _get_stats_controller(relic_context)
+	if stats_controller == null:
+		return
+
+	var occupied_count: int = _get_occupied_inventory_slot_count(relic_context)
+	var modifiers: Array[Modifier] = []
+	for stat_name_variant in stat_bonuses_per_occupied_slot.keys():
+		var stat_name: StringName = StringName(stat_name_variant)
+		var per_slot_amount: float = float(stat_bonuses_per_occupied_slot[stat_name_variant])
+		var total_amount: float = per_slot_amount * float(occupied_count)
+		if total_amount != 0.0:
+			modifiers.append(Modifier.create_flat(stat_name, total_amount, effect_key))
+	stats_controller.set_effect_modifiers(effect_key, modifiers)
+
+
+func _clear_context(relic_context: RelicContext, effect_key) -> void:
+	var stats_controller: StatsController = _get_stats_controller(relic_context)
+	if stats_controller != null:
+		stats_controller.clear_effect_modifiers(effect_key)
+
+
+func _get_occupied_inventory_slot_count(relic_context: RelicContext) -> int:
+	var inventory: Inventory = _get_inventory(relic_context)
+	if inventory == null:
+		return 0
+
+	var count: int = 0
+	for slot_index: int in range(inventory.slots.size()):
+		var slot: Slot = inventory.slots[slot_index]
+		if slot == null or slot.item == null:
+			continue
+		if not include_locked_slots and inventory.is_slot_locked_for_use(slot_index):
+			continue
+		count += 1
+	return count
+
+
+func _get_inventory(relic_context: RelicContext) -> Inventory:
+	if relic_context == null:
+		return null
+	if relic_context.relic_controller != null and relic_context.relic_controller.player_build != null:
+		return relic_context.relic_controller.player_build.player_inventory
+	if relic_context.owner is PlayerBuildProxy:
+		var proxy: PlayerBuildProxy = relic_context.owner as PlayerBuildProxy
+		return proxy.player_build.player_inventory if proxy.player_build != null else null
+	if relic_context.owner is Player:
+		return (relic_context.owner as Player).player_inventory
+	return null
+
+
+func _get_stats_controller(relic_context: RelicContext) -> StatsController:
+	if relic_context == null:
+		return null
+	if relic_context.relic_controller != null:
+		return relic_context.relic_controller.get_stats_controller()
+	return relic_context.owner.get_node_or_null("StatsController") as StatsController if relic_context.owner != null else null
+
+
+func _get_context_id(relic_context: RelicContext, effect_key) -> String:
+	var owner_id: int = relic_context.owner.get_instance_id() if relic_context != null and relic_context.owner != null else 0
+	return "%s_%s" % [str(owner_id), str(effect_key)]

@@ -12,6 +12,8 @@
 [ext_resource type="Script" uid="uid://87nmt5jrle4v" path="res://scripts/status/status_controller.gd" id="8_status"]
 [ext_resource type="Script" uid="uid://b03dmnu2j2oo1" path="res://scripts/utils/pause_menu.gd" id="9_pause"]
 [ext_resource type="PackedScene" uid="uid://1b7oa5v5iha0" path="res://scenes/ui/tag_effect_ui.tscn" id="12_cnkn7"]
+[ext_resource type="PackedScene" uid="uid://dsy7fq1yfe63p" path="res://scenes/ui/map_tag_config_panel.tscn" id="13_map_tag_config"]
+[ext_resource type="PackedScene" path="res://scenes/ui/debug_console.tscn" id="14_debug_console"]
 
 [node name="Run" type="Node" unique_id=1441645540 groups=["run"]]
 script = ExtResource("1_l7o68")
@@ -49,6 +51,26 @@ offset_bottom = 115.0
 theme_override_font_sizes/font_size = 32
 text = "背包"
 
+[node name="MapTagButton" type="Button" parent="TopBar" unique_id=1077142626]
+z_index = 2
+z_as_relative = false
+offset_left = 1198.0
+offset_top = 40.0
+offset_right = 1382.0
+offset_bottom = 115.0
+theme_override_font_sizes/font_size = 28
+text = "地图标签"
+
+[node name="DebugButton" type="Button" parent="TopBar"]
+z_index = 2
+z_as_relative = false
+offset_left = 1008.0
+offset_top = 40.0
+offset_right = 1184.0
+offset_bottom = 115.0
+theme_override_font_sizes/font_size = 28
+text = "调试"
+
 [node name="PauseButton" type="Button" parent="TopBar" unique_id=1504080684]
 unique_name_in_owner = true
 offset_left = 1618.0
@@ -76,10 +98,11 @@ offset_right = -425.0
 offset_bottom = 153.0
 
 [node name="SkillOverviewPanel" parent="UI" unique_id=812081274 instance=ExtResource("5_2m4rs")]
-offset_left = 1362.0
-offset_top = 311.0
-offset_right = 1592.0
-offset_bottom = 481.0
+custom_minimum_size = Vector2(360, 330)
+offset_left = 1364.0
+offset_top = 205.0
+offset_right = 1911.0
+offset_bottom = 562.0
 
 [node name="PauseMenu" type="VBoxContainer" parent="UI" unique_id=754443801]
 process_mode = 3
@@ -108,6 +131,12 @@ offset_left = 176.0
 offset_top = 657.0
 offset_right = 184.63998
 offset_bottom = 657.07996
+
+[node name="MapTagConfigPanel" parent="UI" unique_id=237537164 instance=ExtResource("13_map_tag_config")]
+visible = false
+
+[node name="DebugConsole" parent="UI" instance=ExtResource("14_debug_console")]
+visible = false
 
 [connection signal="pressed" from="TopBar/PackageButton" to="." method="_on_package_button_pressed"]
 [connection signal="pressed" from="UI/PauseMenu/ResumeBtn" to="UI/PauseMenu" method="_on_resume_btn_pressed"]

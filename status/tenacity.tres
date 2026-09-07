@@ -13,6 +13,7 @@ value_per_stack = 0.2
 [resource]
 script = ExtResource("1_data")
 id = &"tenacity"
+polarity = 1
 status_name = "坚毅"
 desc = "受到的伤害降低20%。"
 icon = ExtResource("4_icon")

@@ -32,6 +32,17 @@ func trigger_ability_by_idx(idx: int) -> bool:
 	return trigger_ability(ability)
 
 
+## 长按输入专用入口：只自动续放无需“按住瞄准、松开释放”的技能。
+func trigger_held_ability_by_idx(idx: int) -> bool:
+	if idx < 0 or idx >= abilities.size():
+		return false
+
+	var ability: Ability = abilities[idx]
+	if ability == null or ability.has_cast_preview():
+		return false
+	return trigger_ability(ability)
+
+
 # AI 使用：从第一个可释放技能开始尝试，适合只有单一攻击方式的小怪。
 func trigger_first_available_ability() -> bool:
 	for ability in abilities:

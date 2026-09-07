@@ -16,14 +16,17 @@
 [ext_resource type="Resource" uid="uid://b5arglqpe24k4" path="res://passive_skill/003_healthy.tres" id="10_jysh7"]
 [ext_resource type="Resource" uid="uid://bkgvtl5uepvkr" path="res://passive_skill/004_full_prepared.tres" id="14_ftceu"]
 [ext_resource type="Resource" uid="uid://ccc7t6qdh4fsv" path="res://activate_skill/104_shock_wave.tres" id="15_21ar5"]
-[ext_resource type="Resource" uid="uid://5kn83beerw2k" path="res://passive_skill/005_full_armed.tres" id="16_full_armed"]
-[ext_resource type="Resource" uid="uid://ddsl6tcm1kcgt" path="res://passive_skill/006_living_implements.tres" id="17_living"]
 [ext_resource type="Resource" uid="uid://2k5fwxavfgog" path="res://activate_skill/105_rage.tres" id="18_774n4"]
-[ext_resource type="Resource" uid="uid://c7bcfkt7n21i2" path="res://passive_skill/007_iron_body.tres" id="18_iron"]
-[ext_resource type="Resource" uid="uid://dav4f07gmlb3m" path="res://passive_skill/008_invincible_body.tres" id="19_invincible"]
 [ext_resource type="Resource" uid="uid://c7uwygrkk87qn" path="res://passive_skill/009_pica.tres" id="20_pica"]
-[ext_resource type="Resource" uid="uid://c1h42c3llc2wd" path="res://passive_skill/010_gluttonous_feast.tres" id="21_feast"]
+[ext_resource type="Resource" path="res://passive_skill/011_boss_tyrant.tres" id="22_boss_tyrant"]
+[ext_resource type="Resource" path="res://passive_skill/012_strength_faction.tres" id="23_strength_faction"]
+[ext_resource type="Resource" path="res://passive_skill/013_bloodlust.tres" id="24_bloodlust"]
 [ext_resource type="Texture2D" uid="uid://c14ouppshivcm" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc2124.png" id="24_stheq"]
+[ext_resource type="Resource" path="res://activate_skill/109_reserve_ammo.tres" id="25_reserve_ammo"]
+[ext_resource type="Resource" path="res://passive_skill/015_trace_the_path.tres" id="26_trace"]
+[ext_resource type="Resource" path="res://passive_skill/016_treasure_hunter.tres" id="27_treasure"]
+[ext_resource type="Resource" path="res://passive_skill/017_special_channel.tres" id="28_channel"]
+[ext_resource type="Resource" path="res://activate_skill/110_ammo_barrage.tres" id="29_ammo_barrage"]
 
 [sub_resource type="Resource" id="Resource_774n4"]
 script = ExtResource("4_ahb88")
@@ -34,6 +37,7 @@ metadata/_custom_type_script = "uid://bu2h2b334tpo0"
 [sub_resource type="Resource" id="Resource_stheq"]
 script = ExtResource("4_ahb88")
 skill_data = ExtResource("6_wpsi4")
+id = &"reward_active_throw_axe"
 metadata/_custom_type_script = "uid://bu2h2b334tpo0"
 
 [sub_resource type="Resource" id="Resource_fb6j1"]
@@ -45,62 +49,91 @@ metadata/_custom_type_script = "uid://bi5mlqhper6cl"
 [sub_resource type="Resource" id="Resource_8buaq"]
 script = ExtResource("7_ftceu")
 skill_data = ExtResource("9_8p3ql")
+id = &"reward_passive_strong_body"
 metadata/_custom_type_script = "uid://bi5mlqhper6cl"
 
 [sub_resource type="Resource" id="Resource_atphq"]
 script = ExtResource("7_ftceu")
 skill_data = ExtResource("10_jysh7")
+id = &"reward_passive_healthy"
 title = "健康体质"
 metadata/_custom_type_script = "uid://bi5mlqhper6cl"
 
 [sub_resource type="Resource" id="Resource_8p3ql"]
 script = ExtResource("7_ftceu")
 skill_data = ExtResource("14_ftceu")
+id = &"reward_passive_full_prepared"
 metadata/_custom_type_script = "uid://bi5mlqhper6cl"
 
 [sub_resource type="Resource" id="Resource_jysh7"]
 script = ExtResource("4_ahb88")
 skill_data = ExtResource("15_21ar5")
+id = &"reward_active_shock_wave"
 metadata/_custom_type_script = "uid://bu2h2b334tpo0"
-
-[sub_resource type="Resource" id="Resource_full_armed_reward"]
-script = ExtResource("7_ftceu")
-skill_data = ExtResource("16_full_armed")
-metadata/_custom_type_script = "uid://bi5mlqhper6cl"
-
-[sub_resource type="Resource" id="Resource_living_reward"]
-script = ExtResource("7_ftceu")
-skill_data = ExtResource("17_living")
-metadata/_custom_type_script = "uid://bi5mlqhper6cl"
-
-[sub_resource type="Resource" id="Resource_iron_reward"]
-script = ExtResource("7_ftceu")
-skill_data = ExtResource("18_iron")
-metadata/_custom_type_script = "uid://bi5mlqhper6cl"
-
-[sub_resource type="Resource" id="Resource_invincible_reward"]
-script = ExtResource("7_ftceu")
-skill_data = ExtResource("19_invincible")
-metadata/_custom_type_script = "uid://bi5mlqhper6cl"
 
 [sub_resource type="Resource" id="Resource_pica_reward"]
 script = ExtResource("7_ftceu")
 skill_data = ExtResource("20_pica")
+id = &"reward_passive_pica"
 metadata/_custom_type_script = "uid://bi5mlqhper6cl"
 
-[sub_resource type="Resource" id="Resource_feast_reward"]
+[sub_resource type="Resource" id="Resource_boss_tyrant_reward"]
 script = ExtResource("7_ftceu")
-skill_data = ExtResource("21_feast")
+skill_data = ExtResource("22_boss_tyrant")
+id = &"reward_passive_boss_tyrant"
+metadata/_custom_type_script = "uid://bi5mlqhper6cl"
+
+[sub_resource type="Resource" id="Resource_strength_faction_reward"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("23_strength_faction")
+id = &"reward_passive_strength_faction"
+metadata/_custom_type_script = "uid://bi5mlqhper6cl"
+
+[sub_resource type="Resource" id="Resource_bloodlust_reward"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("24_bloodlust")
+id = &"reward_passive_bloodlust"
 metadata/_custom_type_script = "uid://bi5mlqhper6cl"
 
 [sub_resource type="Resource" id="Resource_252cq"]
 script = ExtResource("4_ahb88")
 skill_data = ExtResource("18_774n4")
+id = &"reward_active_rage"
+metadata/_custom_type_script = "uid://bu2h2b334tpo0"
+
+[sub_resource type="Resource" id="Resource_reserve_ammo_reward"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("25_reserve_ammo")
+id = &"reward_active_reserve_ammo"
+metadata/_custom_type_script = "uid://bu2h2b334tpo0"
+
+[sub_resource type="Resource" id="Resource_trace_reward"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("26_trace")
+id = &"reward_passive_trace_the_path"
+metadata/_custom_type_script = "uid://bi5mlqhper6cl"
+
+[sub_resource type="Resource" id="Resource_treasure_reward"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("27_treasure")
+id = &"reward_passive_treasure_hunter"
+metadata/_custom_type_script = "uid://bi5mlqhper6cl"
+
+[sub_resource type="Resource" id="Resource_channel_reward"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("28_channel")
+id = &"reward_passive_special_channel"
+metadata/_custom_type_script = "uid://bi5mlqhper6cl"
+
+[sub_resource type="Resource" id="Resource_ammo_barrage_reward"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("29_ammo_barrage")
+id = &"reward_active_ammo_barrage"
 metadata/_custom_type_script = "uid://bu2h2b334tpo0"
 
 [sub_resource type="Resource" id="Resource_vgdht"]
 script = ExtResource("3_xdrav")
-rewards = Array[ExtResource("2_w2dlv")]([SubResource("Resource_774n4"), SubResource("Resource_stheq"), SubResource("Resource_fb6j1"), SubResource("Resource_8buaq"), SubResource("Resource_atphq"), SubResource("Resource_8p3ql"), SubResource("Resource_jysh7"), SubResource("Resource_full_armed_reward"), SubResource("Resource_living_reward"), SubResource("Resource_iron_reward"), SubResource("Resource_invincible_reward"), SubResource("Resource_pica_reward"), SubResource("Resource_feast_reward"), SubResource("Resource_252cq")])
+rewards = Array[ExtResource("2_w2dlv")]([SubResource("Resource_774n4"), SubResource("Resource_stheq"), SubResource("Resource_fb6j1"), SubResource("Resource_8buaq"), SubResource("Resource_atphq"), SubResource("Resource_8p3ql"), SubResource("Resource_jysh7"), SubResource("Resource_pica_reward"), SubResource("Resource_boss_tyrant_reward"), SubResource("Resource_strength_faction_reward"), SubResource("Resource_bloodlust_reward"), SubResource("Resource_252cq"), SubResource("Resource_reserve_ammo_reward"), SubResource("Resource_trace_reward"), SubResource("Resource_treasure_reward"), SubResource("Resource_channel_reward"), SubResource("Resource_ammo_barrage_reward")])
 metadata/_custom_type_script = "uid://dedmh70pdbkgs"
 
 [sub_resource type="LabelSettings" id="LabelSettings_ffqgm"]
@@ -148,17 +181,18 @@ texture = ExtResource("4_mdcxe")
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1848763250]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.72200006
+anchor_top = 0.625
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 0.2399292
+offset_top = 0.0
+offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=227065793]
-custom_minimum_size = Vector2(0, 450)
+custom_minimum_size = Vector2(0, 360)
 layout_mode = 2
-theme_override_constants/separation = 125
+theme_override_constants/separation = 20
 alignment = 1
 
 [node name="RewardChoseButton" parent="MarginContainer/HBoxContainer" unique_id=39256168 instance=ExtResource("1_ffqgm")]
@@ -171,6 +205,9 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="RewardChoseButton4" parent="MarginContainer/HBoxContainer" unique_id=233649349 instance=ExtResource("1_ffqgm")]
+layout_mode = 2
+
+[node name="RewardChoseButton5" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_ffqgm")]
 layout_mode = 2
 
 [node name="Panel" type="Panel" parent="." unique_id=1705889484]

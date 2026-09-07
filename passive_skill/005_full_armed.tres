@@ -24,6 +24,7 @@ full_equipment_stats = {
 
 [resource]
 script = ExtResource("2_data")
+is_upgrade_skill = true
 effects = Array[ExtResource("1_base")]([SubResource("Resource_unique"), SubResource("Resource_full")])
 id = &"005"
 skill_name = "全副武装"

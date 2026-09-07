@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_grant_random_temporary_relic.gd" id="2_grant"]
+[ext_resource type="Resource" path="res://relic_pools/all_relic_pool.tres" id="3_pool"]
+[ext_resource type="Resource" path="res://relic_tags/弹药tag.tres" id="4_tag"]
+
+[node name="ReserveAmmoAbility" type="Node"]
+script = ExtResource("1_ability")
+cooldown = 10.0
+energy_cost = 10.0
+
+[node name="GrantTemporaryAmmo" type="Node" parent="."]
+script = ExtResource("2_grant")
+exec_delay = 1.0
+relic_pool = ExtResource("3_pool")
+required_tag = ExtResource("4_tag")
+temporary_source_key = &"reserve_ammo"
+temporary_name_prefix = "临时"

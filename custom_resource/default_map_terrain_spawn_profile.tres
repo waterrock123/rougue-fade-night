@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MapTerrainSpawnProfile" format=3 uid="uid://bfacot042gnv"]
+
+[ext_resource type="Script" uid="uid://y5iymxqebadf" path="res://custom_resource/map_terrain_spawn_profile.gd" id="1_profile"]
+[ext_resource type="Script" uid="uid://cw0rdsp4n7son" path="res://custom_resource/map_terrain_spawn_rule.gd" id="2_rule"]
+
+[sub_resource type="Resource" id="MapTerrainSpawnRule_fire"]
+script = ExtResource("2_rule")
+terrain_id = &"fire"
+atlas_coords = Vector2i(0, 9)
+chance = 0.1
+min_count_per_area = 3
+max_count_per_area = 8
+
+[resource]
+script = ExtResource("1_profile")
+rules = Array[ExtResource("2_rule")]([SubResource("MapTerrainSpawnRule_fire")])

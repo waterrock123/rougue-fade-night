@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="CharacterVisualData" format=3 uid="uid://dhmanyngfgu54"]
+
+[ext_resource type="Script" uid="uid://cnlgdl3ilr3y5" path="res://custom_resource/character_visual_data.gd" id="1_visual"]
+[ext_resource type="SpriteFrames" uid="uid://pc38pjbrla4r" path="res://sprite_frames/old_warrior_sprite_frames.tres" id="2_frames"]
+
+[resource]
+script = ExtResource("1_visual")
+sprite_frames = ExtResource("2_frames")

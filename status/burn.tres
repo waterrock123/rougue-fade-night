@@ -15,6 +15,7 @@ id = &"burn"
 status_name = "灼烧"
 desc = "每秒受到等同于灼烧层数的火焰伤害；可叠层，每次叠层都会把持续时间重置为8秒。"
 icon = ExtResource("4_icon")
+polarity = 2
 duration = 8.0
 max_stacks = 50
 stack_mode = 1

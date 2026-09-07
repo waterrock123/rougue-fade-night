@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dlqom454mpwmd" path="res://scenes/ui/pictorial_equipment_ui.tscn" id="4_fgeyd"]
 [ext_resource type="PackedScene" uid="uid://bom68ek5h4i6t" path="res://scenes/ui/equipment_book_detail_ui.tscn" id="5_n62xx"]
 [ext_resource type="Script" uid="uid://be2olykgt7ysb" path="res://scripts/ui/pictorial_book.gd" id="6_script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/skill_tree_panel.tscn" id="7_skill_tree"]
 
 [sub_resource type="Theme" id="Theme_flol5"]
 
@@ -103,6 +104,9 @@ layout_mode = 2
 [node name="PictorialEquipmentUI10" parent="Panel/PictorialBookBar/GridContainer" unique_id=2131545003 instance=ExtResource("4_fgeyd")]
 layout_mode = 2
 
+[node name="SkillTreePanel" parent="." unique_id=1372298894 instance=ExtResource("7_skill_tree")]
+layout_mode = 1
+
 [node name="Panel2" type="Panel" parent="." unique_id=2069729535]
 layout_mode = 1
 anchors_preset = -1
@@ -131,6 +135,16 @@ grow_vertical = 2
 
 [node name="EquipmentBookDetail" parent="Panel2/DetailContainer" unique_id=1707232738 instance=ExtResource("5_n62xx")]
 layout_mode = 2
+
+[node name="SkillTreeButton" type="Button" parent="Panel2" unique_id=1332083765]
+custom_minimum_size = Vector2(256, 100)
+layout_mode = 0
+offset_left = 598.0
+offset_top = 190.0
+offset_right = 854.0
+offset_bottom = 290.0
+theme_override_font_sizes/font_size = 32
+text = "技能树"
 
 [node name="ExitButton" type="Button" parent="Panel2" unique_id=310382883]
 custom_minimum_size = Vector2(256, 128)

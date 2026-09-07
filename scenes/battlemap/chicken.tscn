@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://bd6ka8syu7uav"]
+
+[ext_resource type="Script" uid="uid://cti7vjygxmmgm" path="res://scripts/battlemap/animal_map_object.gd" id="1_animal"]
+[ext_resource type="Resource" uid="uid://btfqfdm44gd5x" path="res://relics/level_2/112_鸡蛋.tres" id="2_reward"]
+[ext_resource type="Texture2D" uid="uid://b7h65wodve2i5" path="res://assets/tileset/Cute_Fantasy_Free/Animals/Chicken/Chicken.png" id="3_s717b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0smy"]
+atlas = ExtResource("3_s717b")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ch76"]
+atlas = ExtResource("3_s717b")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_owjq7"]
+atlas = ExtResource("3_s717b")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6mlrc"]
+atlas = ExtResource("3_s717b")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_udkot"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0smy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ch76")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_owjq7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6mlrc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[sub_resource type="CircleShape2D" id="AnimalHitShape"]
+radius = 12.0
+
+[sub_resource type="CapsuleShape2D" id="AnimalBodyShape"]
+radius = 7.0
+height = 14.0
+
+[node name="Chicken" type="CharacterBody2D" unique_id=493403500]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_animal")
+animal_id = &"animal_chicken"
+wander_radius = 40.0
+reward_relic = ExtResource("2_reward")
+enable_interactable_highlight = true
+highlight_visual_path = NodePath("AnimatedSprite2D")
+max_health = 24.0
+affected_by_terrain_move_cost = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1607525600]
+scale = Vector2(0.8, 0.8)
+sprite_frames = SubResource("SpriteFrames_udkot")
+autoplay = "default"
+frame_progress = 0.28267252
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1245954880]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=719381263]
+shape = SubResource("AnimalHitShape")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1482727504]
+shape = SubResource("AnimalBodyShape")

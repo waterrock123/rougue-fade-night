@@ -13,6 +13,8 @@ extends RelicEffect
 @export var splash_damage_types: Array[int] = [DamageData.DamageType.FIRE]
 @export var splash_tags: Array[String] = ["relic", "splash"]
 @export var can_crit: bool = false
+## 普通附带溅射默认不重复削韧；爆炸类装备可在资源中配置较高的固定削韧值。
+@export var poise_damage: float = 0.0
 ## 防止溅射伤害再次触发自己，造成递归爆炸。
 @export var recursion_guard_tag: String = "splash_guard"
 
@@ -79,7 +81,8 @@ func _on_damage_dealt(damage_data: DamageData, relic_context: RelicContext, _eff
 			can_crit,
 			null,
 			damage_data.source_ability_id,
-			damage_data.source_ability_slot_index
+			damage_data.source_ability_slot_index,
+			poise_damage
 		)
 		target.apply_damage(splash_data)
 

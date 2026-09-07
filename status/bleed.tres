@@ -17,6 +17,7 @@ id = &"bleed"
 status_name = "流血"
 desc = "首次获得时持续30秒；每5秒受到等同于流血层数的物理伤害，并使随机一级属性-1直到战斗结束。再次获得流血会增加层数并延长持续时间，最多30秒。"
 icon = ExtResource("4_icon")
+polarity = 2
 duration = 30.0
 max_stacks = 50
 stack_mode = 1

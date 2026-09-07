@@ -26,6 +26,8 @@ extends AbilityManifest
 @export var tags: Array[String] = ["manifest", "fire", "fire_rain", "aoe"]
 @export var target_groups: Array[StringName] = [&"player", &"enemy"]
 @export var scaling_rule: DamageScalingRule = DamageScalingRule.new()
+## 单个火雨落点只造成轻度冲击，后续火焰地面的持续伤害不削韧。
+@export var poise_damage: float = 6.0
 
 @export_group("Fire Ground")
 @export var fire_ground_manifest_scene: PackedScene
@@ -126,7 +128,8 @@ func _damage_target(target: Entity) -> void:
 		can_crit,
 		scaling_rule,
 		source_ability_id,
-		source_ability_slot_index
+		source_ability_slot_index,
+		poise_damage
 	)
 	target.apply_damage(damage_data)
 

@@ -12,6 +12,7 @@ flat_bonus = 1.0
 [resource]
 script = ExtResource("1_status")
 id = &"sharp"
+polarity = 1
 status_name = "锋锐"
 desc = "每层使你造成的伤害固定提高 1 点。"
 icon = ExtResource("3_icon")

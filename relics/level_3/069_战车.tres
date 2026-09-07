@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://1o22wo3pgb2y" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc105.png" id="2_aaias"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_0f5wi"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_2ydsa"]
-[ext_resource type="Resource" uid="uid://0d5hp57doaa0" path="res://relic_tags/塔罗tag.tres" id="5_0f5wi"]
+[ext_resource type="Resource" uid="uid://0d5hp57doaa0" path="res://relic_tags/占筮tag.tres" id="5_0f5wi"]
 [ext_resource type="Resource" uid="uid://bhvriwrr7jduc" path="res://relic_tags/战狂tag.tres" id="6_2ydsa"]
 [ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
 [ext_resource type="Script" uid="uid://c70g8w64ivxme" path="res://relic_effect/damage_dealt_heal_effect.gd" id="8_damage_heal"]

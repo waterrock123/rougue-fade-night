@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://cas5v7nhco70c"]
+
+[ext_resource type="Script" uid="uid://dgpuheksoofg0" path="res://scripts/ability/manifest/orbiting_sword_manifest.gd" id="1_orbiting_sword"]
+[ext_resource type="Texture2D" uid="uid://x84tdwij1gr3" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1512.png" id="2_vo36q"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hit"]
+radius = 5.0
+height = 24.0
+
+[node name="OrbitingSwordManifest" type="Node2D" unique_id=1146229066]
+z_index = 80
+script = ExtResource("1_orbiting_sword")
+target_group = &"player"
+orbit_speed = 5.0
+radius_wave_speed = 2.0
+follow_smoothing = 30.0
+rotation_offset = 1.081
+dash_cooldown = 3.0
+dash_tip_extra_angle = 180.0
+damage = 5.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1042924535]
+texture_filter = 1
+position = Vector2(9, 0)
+rotation = 2.3707976
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_vo36q")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=214477397]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1152852590]
+position = Vector2(11.000001, 0)
+rotation = 1.564275
+shape = SubResource("CapsuleShape2D_hit")

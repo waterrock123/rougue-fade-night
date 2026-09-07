@@ -4,17 +4,87 @@
 [ext_resource type="Script" uid="uid://x8sfpicugwh3" path="res://custom_resource/map_object_entry.gd" id="2_entry"]
 [ext_resource type="PackedScene" uid="uid://cfl15kocsn1p3" path="res://scenes/battlemap/apple_tree.tscn" id="3_apple_tree"]
 [ext_resource type="PackedScene" uid="uid://bg4hgufe4vboo" path="res://scenes/battlemap/rock.tscn" id="4_rock"]
+[ext_resource type="PackedScene" uid="uid://cqrcouif6edjn" path="res://scenes/battlemap/lost_cargo.tscn" id="5_lost_cargo"]
+[ext_resource type="PackedScene" uid="uid://c48witgmdfeks" path="res://scenes/battlemap/ammo_box.tscn" id="6_ammo_box"]
+[ext_resource type="PackedScene" uid="uid://66r33p2qq02p" path="res://scenes/battlemap/sword_stand.tscn" id="7_sword_stand"]
+[ext_resource type="PackedScene" uid="uid://dpp3soa2cxk21" path="res://scenes/battlemap/alchemy_station.tscn" id="8_alchemy_station"]
+[ext_resource type="PackedScene" uid="uid://bd6ka8syu7uav" path="res://scenes/battlemap/chicken.tscn" id="9_chicken"]
+[ext_resource type="PackedScene" uid="uid://cg118tj3aa0r1" path="res://scenes/battlemap/cow.tscn" id="10_cow"]
+[ext_resource type="PackedScene" uid="uid://cj8mrvwanndo6" path="res://scenes/battlemap/sheep.tscn" id="11_sheep"]
+[ext_resource type="PackedScene" uid="uid://0r11v1e7rtn" path="res://scenes/battlemap/pig.tscn" id="12_pig"]
+[ext_resource type="PackedScene" uid="uid://fhe32ttwb015" path="res://scenes/battlemap/battle_end_point.tscn" id="13_battle_end_point"]
 
 [sub_resource type="Resource" id="MapObjectEntry_apple_tree"]
 script = ExtResource("2_entry")
 object_id = &"apple_tree"
 scene = ExtResource("3_apple_tree")
+feature_tags = Array[StringName]([&"beneficial_plant"])
 
 [sub_resource type="Resource" id="MapObjectEntry_rock"]
 script = ExtResource("2_entry")
 object_id = &"rock"
 scene = ExtResource("4_rock")
+feature_tags = Array[StringName]([&"obstacle"])
+
+[sub_resource type="Resource" id="MapObjectEntry_lost_cargo"]
+script = ExtResource("2_entry")
+object_id = &"lost_cargo"
+scene = ExtResource("5_lost_cargo")
+feature_tags = Array[StringName]([&"lost_cargo"])
+
+[sub_resource type="Resource" id="MapObjectEntry_ammo_box"]
+script = ExtResource("2_entry")
+object_id = &"ammo_box"
+scene = ExtResource("6_ammo_box")
+feature_tags = Array[StringName]([&"ammo_box"])
+
+[sub_resource type="Resource" id="MapObjectEntry_sword_stand"]
+script = ExtResource("2_entry")
+object_id = &"sword_stand"
+scene = ExtResource("7_sword_stand")
+feature_tags = Array[StringName]([&"sword_stand"])
+
+[sub_resource type="Resource" id="MapObjectEntry_alchemy_station"]
+script = ExtResource("2_entry")
+object_id = &"alchemy_station"
+scene = ExtResource("8_alchemy_station")
+feature_tags = Array[StringName]([&"alchemy_station"])
+
+[sub_resource type="Resource" id="MapObjectEntry_animal"]
+script = ExtResource("2_entry")
+object_id = &"animal"
+feature_tags = Array[StringName]([&"animal"])
+
+[sub_resource type="Resource" id="MapObjectEntry_animal_chicken"]
+script = ExtResource("2_entry")
+object_id = &"animal_chicken"
+scene = ExtResource("9_chicken")
+feature_tags = Array[StringName]([&"animal", &"animal_chicken"])
+
+[sub_resource type="Resource" id="MapObjectEntry_animal_cow"]
+script = ExtResource("2_entry")
+object_id = &"animal_cow"
+scene = ExtResource("10_cow")
+feature_tags = Array[StringName]([&"animal", &"animal_cow"])
+
+[sub_resource type="Resource" id="MapObjectEntry_animal_sheep"]
+script = ExtResource("2_entry")
+object_id = &"animal_sheep"
+scene = ExtResource("11_sheep")
+feature_tags = Array[StringName]([&"animal", &"animal_sheep"])
+
+[sub_resource type="Resource" id="MapObjectEntry_animal_pig"]
+script = ExtResource("2_entry")
+object_id = &"animal_pig"
+scene = ExtResource("12_pig")
+feature_tags = Array[StringName]([&"animal", &"animal_pig"])
+
+[sub_resource type="Resource" id="MapObjectEntry_battle_end_point"]
+script = ExtResource("2_entry")
+object_id = &"battle_end_point"
+scene = ExtResource("13_battle_end_point")
+feature_tags = Array[StringName]([&"battle_end_point"])
 
 [resource]
 script = ExtResource("1_database")
-entries = Array[ExtResource("2_entry")]([SubResource("MapObjectEntry_apple_tree"), SubResource("MapObjectEntry_rock")])
+entries = Array[ExtResource("2_entry")]([SubResource("MapObjectEntry_apple_tree"), SubResource("MapObjectEntry_rock"), SubResource("MapObjectEntry_lost_cargo"), SubResource("MapObjectEntry_ammo_box"), SubResource("MapObjectEntry_sword_stand"), SubResource("MapObjectEntry_alchemy_station"), SubResource("MapObjectEntry_animal"), SubResource("MapObjectEntry_animal_chicken"), SubResource("MapObjectEntry_animal_cow"), SubResource("MapObjectEntry_animal_sheep"), SubResource("MapObjectEntry_animal_pig"), SubResource("MapObjectEntry_battle_end_point")])

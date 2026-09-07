@@ -85,6 +85,7 @@ target_group = &"enemy"
 damage_frames = Array[int]([1])
 damage = 35.0
 tags = Array[String](["manifest", "relic", "greatsword", "melee", "melee_effect"])
+poise_damage = 24.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1958651051]
 texture_filter = 1

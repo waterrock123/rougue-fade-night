@@ -16,6 +16,7 @@ id = &"armor"
 status_name = "护甲"
 desc = "获得护甲值的固定减伤"
 icon = ExtResource("3_vb27w")
+polarity = 1
 max_stacks = 99
 stack_mode = 1
 effects = Array[ExtResource("1_45acy")]([SubResource("Resource_fqqym")])

@@ -21,6 +21,8 @@ extends AbilityManifest
 @export var damage_types: Array[int] = [DamageData.DamageType.PHYSICAL]
 @export var tags: Array[String] = ["manifest", "skill", "hitbox", "animated_hitbox", "melee_effect"]
 @export var scaling_rule: DamageScalingRule = DamageScalingRule.new()
+## 动画命中盒每次有效判定默认造成 10 点削韧；多段判定会分别结算。
+@export var poise_damage: float = 10.0
 @export var hit_sound: AudiioConfig
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -119,7 +121,8 @@ func _damage_target(target: Entity, valid_source: Entity) -> void:
 		can_crit,
 		scaling_rule,
 		source_ability_id,
-		source_ability_slot_index
+		source_ability_slot_index,
+		poise_damage
 	)
 	target.apply_damage(damage_data)
 

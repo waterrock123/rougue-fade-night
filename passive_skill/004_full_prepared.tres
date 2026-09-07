@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://cq38tmfycf508" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb856.png" id="2_f4hd6"]
 [ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_hl6x1"]
 [ext_resource type="Script" uid="uid://mfhoge8r1owa" path="res://scripts/skill/passive_full_equipment_armor_effect.gd" id="3_u0rw5"]
+[ext_resource type="Resource" path="res://passive_skill/005_full_armed.tres" id="4_full_armed"]
+[ext_resource type="Resource" path="res://passive_skill/006_living_implements.tres" id="5_living"]
 
 [sub_resource type="Resource" id="Resource_u0rw5"]
 script = ExtResource("3_u0rw5")
@@ -16,4 +18,5 @@ id = &"004"
 skill_name = "完备"
 desc = "装备栏为满时获得护甲+2"
 icon = ExtResource("2_f4hd6")
+upgrade_options = Array[ExtResource("2_hl6x1")]([ExtResource("4_full_armed"), ExtResource("5_living")])
 metadata/_custom_type_script = "uid://crxnh0qcjcfth"

@@ -82,6 +82,7 @@ max_distance = 650.0
 is_penetrate = true
 damage = 300.0
 tags = Array[String](["manifest", "projectile", "animated_projectile", "ranged", "poison", "snake_big_gun"])
+poise_damage = 18.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1771924155]
 texture_filter = 1

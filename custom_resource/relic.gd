@@ -45,6 +45,15 @@ const LEVEL_TIP_COLORS := {
 @export var is_consumable: bool = false
 @export var effects: Array[RelicEffect]
 @export var great_effects: Array[RelicEffect]
+## 记录遗物自身可成长的一级属性数值，例如“古剑每场战斗力量、敏捷 +2”。
+## 该数据跟随单件遗物实例保存，而不是污染整局 PlayerBuild 的基础属性。
+@export var accumulated_stat_bonuses: Dictionary = {}
+
+@export_group("Lifecycle")
+## 临时遗物只在当前战斗有效，战斗结算后由 PlayerBuild 统一清理。
+@export var is_temporary: bool = false
+## 记录临时遗物的来源，方便以后按来源精确移除或统计。
+@export var temporary_source_key: StringName = &""
 
 
 # 返回当前遗物真正用于 UI 预览和出售结算的售价。

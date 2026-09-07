@@ -1,0 +1,101 @@
+[gd_resource type="Resource" script_class="MapTagInfluenceDatabase" format=3 uid="uid://bkvtnma83uhr5"]
+
+[ext_resource type="Script" uid="uid://cratwie6wrtew" path="res://custom_resource/map_tag_influence_database.gd" id="1_database"]
+[ext_resource type="Script" uid="uid://ck5jjo763qi06" path="res://custom_resource/map_tag_influence_data.gd" id="2_influence"]
+[ext_resource type="Script" uid="uid://bs1q1a3ulud0l" path="res://custom_resource/map_tag_object_spawn_modifier.gd" id="3_object_modifier"]
+[ext_resource type="Script" uid="uid://dbt2gq0jj4ryc" path="res://custom_resource/map_tag_terrain_spawn_modifier.gd" id="4_a0m4a"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="4_material_tag"]
+[ext_resource type="Resource" uid="uid://bmipmd2ww6hum" path="res://relic_tags/好好顾客tag.tres" id="5_good_customer_tag"]
+[ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="6_ammo_tag"]
+[ext_resource type="Resource" uid="uid://hwfpda2ygcic" path="res://relic_tags/剑tag.tres" id="7_sword_tag"]
+[ext_resource type="Resource" uid="uid://dv8tumu8brwpy" path="res://relic_tags/加工品tag.tres" id="8_processed_tag"]
+[ext_resource type="Resource" uid="uid://dxale3ttna2jk" path="res://relic_tags/火炎tag.tres" id="9_fire_tag"]
+[ext_resource type="Resource" uid="uid://bpyxiv6nfwnu5" path="res://relic_tags/创生tag.tres" id="10_creation_tag"]
+
+[sub_resource type="Resource" id="MapTagObjectSpawnModifier_material_beneficial_plant"]
+script = ExtResource("3_object_modifier")
+target_mode = "feature_tag"
+feature_tags = Array[StringName]([&"beneficial_plant"])
+chance_bonus = 0.02
+summary = "使地图中的 {beneficial_plant} 出现概率提升2%。"
+
+[sub_resource type="Resource" id="MapTagInfluenceData_material"]
+script = ExtResource("2_influence")
+tag = ExtResource("4_material_tag")
+object_spawn_modifiers = Array[ExtResource("3_object_modifier")]([SubResource("MapTagObjectSpawnModifier_material_beneficial_plant")])
+
+[sub_resource type="Resource" id="MapTagObjectSpawnModifier_good_customer_lost_cargo"]
+script = ExtResource("3_object_modifier")
+target_mode = "feature_tag"
+feature_tags = Array[StringName]([&"lost_cargo"])
+chance_bonus = 0.02
+summary = "使地图中的 {lost_cargo} 出现概率提升2%。"
+
+[sub_resource type="Resource" id="MapTagInfluenceData_good_customer"]
+script = ExtResource("2_influence")
+tag = ExtResource("5_good_customer_tag")
+object_spawn_modifiers = Array[ExtResource("3_object_modifier")]([SubResource("MapTagObjectSpawnModifier_good_customer_lost_cargo")])
+
+[sub_resource type="Resource" id="MapTagObjectSpawnModifier_ammo_ammo_box"]
+script = ExtResource("3_object_modifier")
+target_mode = "feature_tag"
+feature_tags = Array[StringName]([&"ammo_box"])
+chance_bonus = 0.02
+summary = "使地图中的 {ammo_box} 出现概率提升2%。"
+
+[sub_resource type="Resource" id="MapTagInfluenceData_ammo"]
+script = ExtResource("2_influence")
+tag = ExtResource("6_ammo_tag")
+object_spawn_modifiers = Array[ExtResource("3_object_modifier")]([SubResource("MapTagObjectSpawnModifier_ammo_ammo_box")])
+
+[sub_resource type="Resource" id="MapTagObjectSpawnModifier_sword_sword_stand"]
+script = ExtResource("3_object_modifier")
+target_mode = "feature_tag"
+feature_tags = Array[StringName]([&"sword_stand"])
+chance_bonus = 0.02
+summary = "使地图中的 {sword_stand} 出现概率提升2%。"
+
+[sub_resource type="Resource" id="MapTagInfluenceData_sword"]
+script = ExtResource("2_influence")
+tag = ExtResource("7_sword_tag")
+object_spawn_modifiers = Array[ExtResource("3_object_modifier")]([SubResource("MapTagObjectSpawnModifier_sword_sword_stand")])
+
+[sub_resource type="Resource" id="MapTagObjectSpawnModifier_processed_alchemy_station"]
+script = ExtResource("3_object_modifier")
+target_mode = "feature_tag"
+feature_tags = Array[StringName]([&"alchemy_station"])
+chance_bonus = 0.02
+summary = "使地图中的 {alchemy_station} 出现概率提升2%。"
+
+[sub_resource type="Resource" id="MapTagInfluenceData_processed"]
+script = ExtResource("2_influence")
+tag = ExtResource("8_processed_tag")
+object_spawn_modifiers = Array[ExtResource("3_object_modifier")]([SubResource("MapTagObjectSpawnModifier_processed_alchemy_station")])
+
+[sub_resource type="Resource" id="MapTagTerrainSpawnModifier_fire_fire_field"]
+script = ExtResource("4_a0m4a")
+terrain_id = &"fire"
+display_keyword_id = &"fire_field"
+chance_bonus = 0.03
+summary = "使地图中的 {fire_field} 出现概率提升3%。"
+
+[sub_resource type="Resource" id="MapTagInfluenceData_fire"]
+script = ExtResource("2_influence")
+tag = ExtResource("9_fire_tag")
+terrain_spawn_modifiers = Array[ExtResource("4_a0m4a")]([SubResource("MapTagTerrainSpawnModifier_fire_fire_field")])
+
+[sub_resource type="Resource" id="MapTagObjectSpawnModifier_creation_animal"]
+script = ExtResource("3_object_modifier")
+target_mode = "feature_tag"
+feature_tags = Array[StringName]([&"animal"])
+chance_bonus = 0.02
+summary = "使地图中的{animal_object}出现概率提升2%。"
+
+[sub_resource type="Resource" id="MapTagInfluenceData_creation"]
+script = ExtResource("2_influence")
+tag = ExtResource("10_creation_tag")
+object_spawn_modifiers = Array[ExtResource("3_object_modifier")]([SubResource("MapTagObjectSpawnModifier_creation_animal")])
+
+[resource]
+script = ExtResource("1_database")
+influences = Array[ExtResource("2_influence")]([SubResource("MapTagInfluenceData_material"), SubResource("MapTagInfluenceData_good_customer"), SubResource("MapTagInfluenceData_ammo"), SubResource("MapTagInfluenceData_sword"), SubResource("MapTagInfluenceData_processed"), SubResource("MapTagInfluenceData_fire"), SubResource("MapTagInfluenceData_creation")])

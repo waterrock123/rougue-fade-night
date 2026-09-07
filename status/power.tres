@@ -7,6 +7,7 @@
 [resource]
 script = ExtResource("2_mi4ue")
 id = &"power"
+polarity = 1
 status_name = "电力"
 desc = "在法力不足时，每一层电力可以被视作3点法力以供消耗，多出的法力不会返还"
 icon = ExtResource("2_7okpp")

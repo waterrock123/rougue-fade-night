@@ -16,6 +16,7 @@ id = &"paralysis"
 status_name = "麻痹"
 desc = "可叠层，无持续时间；处于麻痹状态的目标每次释放主动技能时受到50点闪电伤害，并清除一层麻痹。"
 icon = ExtResource("4_icon")
+polarity = 2
 max_stacks = 50
 stack_mode = 1
 refresh_duration_on_reapply = false

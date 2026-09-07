@@ -48,6 +48,7 @@ value_per_stack = 3.0
 [resource]
 script = ExtResource("1_data")
 id = &"adrenaline"
+polarity = 1
 status_name = "肾上腺素"
 desc = "全属性+2，并获得3点护甲。"
 icon = ExtResource("4_icon")

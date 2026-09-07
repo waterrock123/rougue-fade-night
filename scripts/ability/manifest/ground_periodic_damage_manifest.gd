@@ -20,6 +20,8 @@ extends AbilityManifest
 @export var damage_types: Array[int] = [DamageData.DamageType.ICE]
 @export var tags: Array[String] = ["manifest", "ground", "periodic", "aoe", "frost_trail"]
 @export var scaling_rule: DamageScalingRule = DamageScalingRule.new()
+## 持续地面伤害默认不削韧，避免每次跳伤都大量削减韧性条。
+@export var poise_damage: float = 0.0
 @export var tick_sound: AudiioConfig
 
 @export_group("Status")
@@ -106,7 +108,8 @@ func _damage_target(target: Entity, valid_source: Entity) -> void:
 		can_crit,
 		scaling_rule,
 		source_ability_id,
-		source_ability_slot_index
+		source_ability_slot_index,
+		poise_damage
 	)
 	target.apply_damage(damage_data)
 

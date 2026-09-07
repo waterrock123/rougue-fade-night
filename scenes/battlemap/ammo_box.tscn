@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://c48witgmdfeks"]
+
+[ext_resource type="Script" uid="uid://cim8255nirv73" path="res://scripts/battlemap/ammo_box.gd" id="1_ammo_box"]
+[ext_resource type="Texture2D" uid="uid://ch1an4dfth3pc" path="res://assets/mapobject_sprite/弹药箱.png" id="2_ujycy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(28, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(22, 18)
+
+[node name="AmmoBox" type="CharacterBody2D" unique_id=1698247347]
+collision_mask = 0
+script = ExtResource("1_ammo_box")
+highlight_visual_path = NodePath("VisualRoot")
+blocks_navigation = true
+max_health = 35.0
+damage_text_color = Color(0.65, 0.95, 0.72, 1)
+affected_by_terrain_move_cost = false
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=1728871745]
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualRoot" unique_id=1852584992]
+position = Vector2(0, 2)
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("2_ujycy")
+
+[node name="AmmoBoxUI" type="Control" parent="." unique_id=826177009]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -13.0
+offset_top = -17.0
+offset_right = 51.0
+offset_bottom = 27.0
+scale = Vector2(0.4, 0.4)
+mouse_filter = 2
+
+[node name="ChargeLabel" type="Label" parent="AmmoBoxUI" unique_id=286497053]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 18.0
+text = "5/5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CooldownBar" type="ProgressBar" parent="AmmoBoxUI" unique_id=769985755]
+visible = false
+layout_mode = 0
+offset_left = 5.0
+offset_top = 21.0
+offset_right = 59.0
+offset_bottom = 31.0
+max_value = 8.0
+show_percentage = false
+
+[node name="CooldownLabel" type="Label" parent="AmmoBoxUI" unique_id=839760477]
+visible = false
+layout_mode = 0
+offset_left = -8.0
+offset_top = 32.0
+offset_right = 72.0
+offset_bottom = 48.0
+text = "冷却中。。"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Area2D" type="Area2D" parent="." unique_id=451399426]
+visible = false
+
+[node name="HitCollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1732962489]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_hit")
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="." unique_id=775232071]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_body")

@@ -75,6 +75,7 @@ metadata/_custom_type_script = "uid://bxl5nmydjpga5"
 [node name="AbilityDealDamage" type="Node" parent="DealDamageGroup" unique_id=2079602508]
 script = ExtResource("7_ny4m0")
 scaling_rule = SubResource("Resource_otqvm")
+poise_damage = 16.0
 metadata/_custom_type_script = "uid://f7xudf47t0wm"
 
 [node name="PlayImpactSound" type="Node" parent="DealDamageGroup/AbilityDealDamage" unique_id=16783355]

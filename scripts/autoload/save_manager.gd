@@ -91,11 +91,18 @@ func build_run_stats_from_save(save_data: Dictionary) -> RunStats:
 	result.rest_period_count = int(run_stats_data.get("rest_period_count", result.rest_period_count))
 	result.pending_free_relic_choice_levels = _to_int_array(run_stats_data.get("pending_free_relic_choice_levels", []))
 	result.level_up_reward_refresh_count = int(run_stats_data.get("level_up_reward_refresh_count", 0))
+	result.level_up_reward_phase = int(run_stats_data.get("level_up_reward_phase", 0))
 	result.shop_free_refresh_count = int(run_stats_data.get("shop_free_refresh_count", 0))
+	result.shop_refresh_count_this_rest_period = int(run_stats_data.get("shop_refresh_count_this_rest_period", 0))
 	result.pending_bounty_enemy_entries = _deserialize_bounty_enemy_entries(run_stats_data.get("pending_bounty_enemy_entries", []))
 	result.persistent_status_stacks = _to_int_dictionary(run_stats_data.get("persistent_status_stacks", {}))
+	result.persistent_passive_counters = _to_int_dictionary(run_stats_data.get("persistent_passive_counters", {}))
+	result.current_battle_map_template_path = str(run_stats_data.get("current_battle_map_template_path", ""))
 	result.selected_tag_effects = _deserialize_tag_effects(run_stats_data.get("selected_tag_effects", []))
 	result.completed_once_tag_effect_ids = _to_string_name_array(run_stats_data.get("completed_once_tag_effect_ids", []))
+	result.map_tag_enable_limit = int(run_stats_data.get("map_tag_enable_limit", result.map_tag_enable_limit))
+	result.enabled_map_tag_keys = _to_string_array(run_stats_data.get("enabled_map_tag_keys", []))
+	result.trim_enabled_map_tags_to_limit()
 	result.set_gold(int(run_stats_data.get("gold", result.gold)))
 	return result
 
@@ -129,11 +136,17 @@ func _serialize_run_stats(run_stats: RunStats) -> Dictionary:
 		"rest_period_count": run_stats.rest_period_count,
 		"pending_free_relic_choice_levels": run_stats.pending_free_relic_choice_levels,
 		"level_up_reward_refresh_count": run_stats.level_up_reward_refresh_count,
+		"level_up_reward_phase": run_stats.level_up_reward_phase,
 		"shop_free_refresh_count": run_stats.shop_free_refresh_count,
+		"shop_refresh_count_this_rest_period": run_stats.shop_refresh_count_this_rest_period,
 		"pending_bounty_enemy_entries": _serialize_bounty_enemy_entries(run_stats.pending_bounty_enemy_entries),
 		"persistent_status_stacks": run_stats.persistent_status_stacks,
+		"persistent_passive_counters": run_stats.persistent_passive_counters,
+		"current_battle_map_template_path": run_stats.current_battle_map_template_path,
 		"selected_tag_effects": _serialize_tag_effects(run_stats.selected_tag_effects),
 		"completed_once_tag_effect_ids": _string_name_array_to_strings(run_stats.completed_once_tag_effect_ids),
+		"map_tag_enable_limit": run_stats.map_tag_enable_limit,
+		"enabled_map_tag_keys": run_stats.enabled_map_tag_keys,
 	}
 
 
@@ -191,6 +204,9 @@ func _serialize_player_build(player_build: PlayerBuild) -> Dictionary:
 		"current_health": player_build.current_health,
 		"current_energy": player_build.current_energy,
 		"active_skill_slot_limit": player_build.active_skill_slot_limit,
+		"active_skill_owned_limit": player_build.active_skill_owned_limit,
+		"active_skill_equipped_limit": player_build.active_skill_equipped_limit,
+		"passive_skill_slot_limit": player_build.passive_skill_slot_limit,
 		"owned_active_skills": _serialize_skill_entries(player_build.owned_active_skills),
 		"owned_passive_skills": _serialize_skill_entries(player_build.owned_passive_skills),
 	}
@@ -206,6 +222,10 @@ func _deserialize_player_build(data: Dictionary) -> PlayerBuild:
 	build.current_health = float(data.get("current_health", 0.0))
 	build.current_energy = float(data.get("current_energy", 0.0))
 	build.active_skill_slot_limit = int(data.get("active_skill_slot_limit", build.active_skill_slot_limit))
+	build.active_skill_owned_limit = int(data.get("active_skill_owned_limit", build.active_skill_owned_limit))
+	build.active_skill_equipped_limit = int(data.get("active_skill_equipped_limit", build.active_skill_equipped_limit))
+	build.passive_skill_slot_limit = int(data.get("passive_skill_slot_limit", build.passive_skill_slot_limit))
+	build.normalize_active_skill_loadout()
 	build.owned_active_skills = _deserialize_skill_entries(data.get("owned_active_skills", []), true)
 	build.owned_passive_skills = _deserialize_skill_entries(data.get("owned_passive_skills", []), false)
 	return build
@@ -227,6 +247,7 @@ func _serialize_stats_data(stats: StatsData) -> Dictionary:
 		"base_crit_damage": stats.base_crit_damage,
 		"base_cooldown_reduction": stats.base_cooldown_reduction,
 		"base_move_speed": stats.base_move_speed,
+		"base_poise_damage_multiplier": stats.base_poise_damage_multiplier,
 		"strength": stats.strength,
 		"dexterity": stats.dexterity,
 		"intelligence": stats.intelligence,
@@ -250,6 +271,7 @@ func _deserialize_stats_data(data: Dictionary) -> StatsData:
 	stats.base_crit_damage = float(data.get("base_crit_damage", 1.5))
 	stats.base_cooldown_reduction = float(data.get("base_cooldown_reduction", 0.0))
 	stats.base_move_speed = float(data.get("base_move_speed", 0.0))
+	stats.base_poise_damage_multiplier = float(data.get("base_poise_damage_multiplier", 1.0))
 	stats.strength = int(data.get("strength", 0))
 	stats.dexterity = int(data.get("dexterity", 0))
 	stats.intelligence = int(data.get("intelligence", 0))
@@ -327,10 +349,14 @@ func _serialize_relic(relic: Relic) -> Dictionary:
 	return {
 		"path": _get_resource_path(relic),
 		"id": relic.id,
+		"relic_name": relic.relic_name,
 		"leveltip": int(relic.leveltip),
 		"level": relic.level,
 		"price": relic.price,
 		"sell_price": relic.sell_price,
+		"accumulated_stat_bonuses": relic.accumulated_stat_bonuses,
+		"is_temporary": relic.is_temporary,
+		"temporary_source_key": String(relic.temporary_source_key),
 	}
 
 
@@ -345,10 +371,14 @@ func _deserialize_relic(data: Dictionary) -> Relic:
 		return null
 
 	relic = relic.duplicate(true) as Relic
+	relic.relic_name = str(data.get("relic_name", relic.relic_name))
 	relic.leveltip = int(data.get("leveltip", int(relic.leveltip)))
 	relic.level = int(data.get("level", relic.level))
 	relic.price = int(data.get("price", relic.price))
 	relic.sell_price = int(data.get("sell_price", relic.sell_price))
+	relic.accumulated_stat_bonuses = (data.get("accumulated_stat_bonuses", relic.accumulated_stat_bonuses) as Dictionary).duplicate(true)
+	relic.is_temporary = bool(data.get("is_temporary", false))
+	relic.temporary_source_key = StringName(str(data.get("temporary_source_key", "")))
 	return relic
 
 
@@ -388,7 +418,9 @@ func _serialize_level_up_rewards(rewards: Array[LevelUpReward]) -> Array:
 		if reward is RewardGrantActiveSkill:
 			data["skill_data"] = _serialize_skill_data((reward as RewardGrantActiveSkill).skill_data)
 		elif reward is RewardGrantPassiveSkill:
-			data["skill_data"] = _serialize_skill_data((reward as RewardGrantPassiveSkill).skill_data)
+			var passive_reward := reward as RewardGrantPassiveSkill
+			data["skill_data"] = _serialize_skill_data(passive_reward.skill_data)
+			data["replace_skill_id"] = String(passive_reward.replace_skill_id)
 		elif reward is RewardIncreaseStat:
 			var stat_reward := reward as RewardIncreaseStat
 			data["stat_name"] = String(stat_reward.stat_name)
@@ -397,6 +429,8 @@ func _serialize_level_up_rewards(rewards: Array[LevelUpReward]) -> Array:
 			var upgrade_reward := reward as RewardUpgradeSkill
 			data["target_skill_id"] = String(upgrade_reward.target_skill_id)
 			data["target_skill_data"] = _serialize_skill_data(upgrade_reward.target_skill_data)
+			data["source_skill_id"] = String(upgrade_reward.source_skill_id)
+			data["source_skill_data"] = _serialize_skill_data(upgrade_reward.source_skill_data)
 			data["search_passive_first"] = upgrade_reward.search_passive_first
 
 		result.append(data)
@@ -429,6 +463,7 @@ func _deserialize_level_up_reward(data: Dictionary) -> LevelUpReward:
 		"grant_passive_skill":
 			var passive_reward := RewardGrantPassiveSkill.new()
 			passive_reward.skill_data = _deserialize_skill_data(data.get("skill_data", {}) as Dictionary, false) as PassiveSkillData
+			passive_reward.replace_skill_id = StringName(str(data.get("replace_skill_id", "")))
 			reward = passive_reward
 		"increase_stat":
 			var stat_reward := RewardIncreaseStat.new()
@@ -439,6 +474,8 @@ func _deserialize_level_up_reward(data: Dictionary) -> LevelUpReward:
 			var upgrade_reward := RewardUpgradeSkill.new()
 			upgrade_reward.target_skill_id = StringName(str(data.get("target_skill_id", "")))
 			upgrade_reward.target_skill_data = _deserialize_skill_data(data.get("target_skill_data", {}) as Dictionary, bool(data.get("search_passive_first", false)))
+			upgrade_reward.source_skill_id = StringName(str(data.get("source_skill_id", "")))
+			upgrade_reward.source_skill_data = _deserialize_skill_data(data.get("source_skill_data", {}) as Dictionary, bool(data.get("search_passive_first", false)))
 			upgrade_reward.search_passive_first = bool(data.get("search_passive_first", false))
 			reward = upgrade_reward
 		_:
@@ -493,6 +530,7 @@ func _serialize_skill_data(skill_data: SkillData) -> Dictionary:
 		"icon_path": _get_resource_path(skill_data.icon),
 		"rarity": skill_data.rarity,
 		"max_level": skill_data.max_level,
+		"is_upgrade_skill": skill_data.is_upgrade_skill,
 		"tags": _string_name_array_to_strings(skill_data.tags),
 		"allowed_character_ids": _string_name_array_to_strings(skill_data.allowed_character_ids),
 		"is_active": skill_data is ActiveSkillData,
@@ -504,6 +542,7 @@ func _serialize_skill_data(skill_data: SkillData) -> Dictionary:
 		result["base_cooldown"] = active_data.base_cooldown
 		result["base_energy_cost"] = active_data.base_energy_cost
 		result["slot_type"] = String(active_data.slot_type)
+		result["is_basic_attack"] = active_data.is_basic_attack
 
 	return result
 
@@ -525,6 +564,7 @@ func _deserialize_skill_data(data: Dictionary, active: bool) -> SkillData:
 		active_data.base_cooldown = float(data.get("base_cooldown", 0.0))
 		active_data.base_energy_cost = float(data.get("base_energy_cost", 0.0))
 		active_data.slot_type = StringName(str(data.get("slot_type", "")))
+		active_data.is_basic_attack = bool(data.get("is_basic_attack", false))
 		return active_data
 
 	var passive_data := PassiveSkillData.new()
@@ -566,6 +606,7 @@ func _fill_basic_skill_data(skill_data: SkillData, data: Dictionary) -> void:
 	skill_data.icon = _load_resource_or_null(str(data.get("icon_path", ""))) as Texture2D
 	skill_data.rarity = int(data.get("rarity", 0))
 	skill_data.max_level = int(data.get("max_level", 1))
+	skill_data.is_upgrade_skill = bool(data.get("is_upgrade_skill", false))
 	skill_data.tags = _to_string_name_array(data.get("tags", []))
 	skill_data.allowed_character_ids = _to_string_name_array(data.get("allowed_character_ids", []))
 

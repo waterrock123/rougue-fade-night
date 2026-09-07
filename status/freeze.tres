@@ -23,6 +23,7 @@ id = &"freeze"
 status_name = "冻结"
 desc = "控制类状态，仅有一层；持续期间目标无法行动并停止动画，体质越高，冻结时间越短。"
 icon = ExtResource("2_y03lq")
+polarity = 2
 duration = 2.0
 effects = Array[ExtResource("1_d51uh")]([SubResource("Resource_uvrt3"), SubResource("Resource_0m16l")])
 metadata/_custom_type_script = "uid://halm05nhwnoo"

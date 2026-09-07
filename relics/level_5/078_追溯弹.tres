@@ -5,6 +5,24 @@
 [ext_resource type="Texture2D" uid="uid://k13ruy7ikas" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc187.png" id="2_t1dq4"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_t1dq4"]
 [ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="5_kob5u"]
+[ext_resource type="Script" path="res://relic_effect/add_derived_stat_effect.gd" id="6_homing"]
+[ext_resource type="Script" path="res://relic_effect/consumed_regain_self_effect.gd" id="7_regain"]
+[ext_resource type="Script" path="res://relic_effect/gain_permanent_stats_effect.gd" id="8_gain_stats"]
+
+[sub_resource type="Resource" id="Resource_homing"]
+script = ExtResource("6_homing")
+add_derived_stats = {
+"projectile_homing_turn_speed": 5.5
+}
+
+[sub_resource type="Resource" id="Resource_regain"]
+script = ExtResource("7_regain")
+
+[sub_resource type="Resource" id="Resource_gain_dexterity"]
+script = ExtResource("8_gain_stats")
+add_stats = {
+"dexterity": 1
+}
 
 [resource]
 script = ExtResource("2_3d6lh")
@@ -17,4 +35,6 @@ price = 5
 level = 5
 tags = Array[ExtResource("3_t1dq4")]([ExtResource("5_kob5u")])
 id = "078"
+effects = Array[ExtResource("1_7w3vc")]([SubResource("Resource_homing"), SubResource("Resource_regain")])
+great_effects = Array[ExtResource("1_7w3vc")]([SubResource("Resource_gain_dexterity")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -7,6 +7,18 @@
 [ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="5_pn6eq"]
 [ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="6_6qn5b"]
 [ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="7_vlupi"]
+[ext_resource type="Script" path="res://relic_effect/event_random_permanent_primary_stat_effect.gd" id="8_event_stat"]
+[ext_resource type="Script" path="res://relic_effect/inventory_occupied_slots_stat_effect.gd" id="9_inventory_stat"]
+
+[sub_resource type="Resource" id="Resource_event_stat"]
+script = ExtResource("8_event_stat")
+
+[sub_resource type="Resource" id="Resource_inventory_stat"]
+script = ExtResource("9_inventory_stat")
+stat_bonuses_per_occupied_slot = {
+"energy_regen_tick_value": 3.0,
+"max_energy": 3.0
+}
 
 [resource]
 script = ExtResource("2_mho0r")
@@ -19,4 +31,6 @@ price = 6
 level = 6
 tags = Array[ExtResource("3_wa48h")]([ExtResource("5_pn6eq"), ExtResource("6_6qn5b"), ExtResource("7_vlupi")])
 id = "080"
+effects = Array[ExtResource("1_8kql6")]([SubResource("Resource_event_stat")])
+great_effects = Array[ExtResource("1_8kql6")]([SubResource("Resource_inventory_stat")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

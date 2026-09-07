@@ -8,7 +8,7 @@
 font_size = 48
 
 [node name="RewardChoseButton" type="Button" unique_id=39256168]
-custom_minimum_size = Vector2(375, 450)
+custom_minimum_size = Vector2(320, 360)
 script = ExtResource("3_15pu7")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1923296556]
@@ -25,17 +25,17 @@ layout_mode = 2
 
 [node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1975366820]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 75)
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 text = "死亡螺旋"
-label_settings = SubResource("LabelSettings_15pu7")
+theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Texture" type="TextureRect" parent="MarginContainer/VBoxContainer" unique_id=1642130252]
 unique_name_in_owner = true
 texture_filter = 1
-custom_minimum_size = Vector2(200, 200)
+custom_minimum_size = Vector2(140, 140)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -43,11 +43,11 @@ texture = ExtResource("1_l0rjd")
 
 [node name="DescLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer" unique_id=324211282]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(375, 150)
+custom_minimum_size = Vector2(0, 145)
 layout_mode = 2
 size_flags_vertical = 3
 text = "总之这里是奖励描述"
-fit_content = true
+fit_content = false
 scroll_active = false
 autowrap_mode = 2
 horizontal_alignment = 1

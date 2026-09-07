@@ -11,14 +11,15 @@
 [sub_resource type="Resource" id="Resource_primary"]
 script = ExtResource("3_primary")
 add_stats = {
-"constitution": 10,
-"strength": 10
+"charm": 3,
+"constitution": 3,
+"dexterity": 3
 }
 
 [sub_resource type="Resource" id="Resource_derived"]
 script = ExtResource("4_derived")
 add_derived_stats = {
-"damage_reduction_rate": 0.2
+"dodge_rate": 0.05
 }
 
 [sub_resource type="Resource" id="Resource_status"]
@@ -28,9 +29,10 @@ stacks = 3
 
 [resource]
 script = ExtResource("2_data")
-effects = Array[ExtResource("1_base")]([SubResource("Resource_primary"), SubResource("Resource_derived"), SubResource("Resource_status")])
+is_upgrade_skill = true
+effects = Array[ExtResource("1_base")]([SubResource("Resource_primary"), SubResource("Resource_derived")])
 id = &"008"
-skill_name = "无敌体魄"
-desc = "{constitution}+10，{strength}+10，{armor}+3，减伤率+20%。"
+skill_name = "完美体魄"
+desc = "{constitution}+3，{dexterity}+3，{charm}+3，{dodge_rate}+5%。"
 icon = ExtResource("6_ciqml")
 metadata/_custom_type_script = "uid://crxnh0qcjcfth"

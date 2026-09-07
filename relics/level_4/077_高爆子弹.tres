@@ -12,6 +12,7 @@ script = ExtResource("6_splash")
 levelup_damage_rate = 0.2
 required_tags = Array[String](["projectile"])
 splash_tags = Array[String](["relic", "splash", "high_explosive_bullet"])
+poise_damage = 20.0
 
 [resource]
 script = ExtResource("2_myykp")

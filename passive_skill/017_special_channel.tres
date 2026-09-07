@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3 uid="uid://codtx3kjdkr5e"]
+
+[ext_resource type="Script" uid="uid://dm8dhxlxlwiq4" path="res://scripts/skill/passive_skill_effect.gd" id="1_base"]
+[ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_data"]
+[ext_resource type="Script" uid="uid://bp3af5h4d5mjf" path="res://scripts/skill/passive_shop_first_refresh_guarantee_effect.gd" id="3_effect"]
+[ext_resource type="Texture2D" uid="uid://cnb0el2cjo7ma" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1080.png" id="4_icon"]
+[ext_resource type="Script" uid="uid://j54mhasc2y6r" path="res://scripts/skill/skill_data.gd" id="5_v322o"]
+[ext_resource type="Resource" uid="uid://bh7xrkk4y7q4p" path="res://passive_skill/018_supreme_vip.tres" id="5_vip"]
+[ext_resource type="Resource" uid="uid://bsgj07lvkcx3d" path="res://passive_skill/019_benefit_exchange.tres" id="6_exchange"]
+
+[sub_resource type="Resource" id="Resource_channel"]
+script = ExtResource("3_effect")
+
+[resource]
+script = ExtResource("2_data")
+effects = Array[ExtResource("1_base")]([SubResource("Resource_channel")])
+id = &"017"
+skill_name = "特殊渠道"
+desc = "每个休整期第一次刷新商店时，必定出现一件与商店等级相同的装备。"
+icon = ExtResource("4_icon")
+upgrade_options = Array[ExtResource("5_v322o")]([ExtResource("5_vip"), ExtResource("6_exchange")])
+allowed_character_ids = Array[StringName]([&"scount"])

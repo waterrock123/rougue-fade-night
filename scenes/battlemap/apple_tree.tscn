@@ -29,6 +29,9 @@ height = 14.0
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_apple_tree")
+enable_interactable_highlight = true
+highlight_visual_path = NodePath("AnimatedSprite2D")
+highlight_outline_size = 0.5
 affected_by_terrain_move_cost = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1253145616]

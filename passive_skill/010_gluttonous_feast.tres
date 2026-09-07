@@ -18,6 +18,7 @@ consume_mode = 1
 
 [resource]
 script = ExtResource("2_data")
+is_upgrade_skill = true
 effects = Array[ExtResource("1_base")]([SubResource("Resource_primary"), SubResource("Resource_consume")])
 id = &"010"
 skill_name = "饕餮盛宴"

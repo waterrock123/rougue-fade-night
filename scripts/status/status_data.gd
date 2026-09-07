@@ -1,6 +1,12 @@
 class_name StatusData
 extends Resource
 
+enum Polarity {
+	NEUTRAL,
+	POSITIVE,
+	NEGATIVE,
+}
+
 enum StackMode {
 	REFRESH,
 	ADD_STACK,
@@ -11,6 +17,10 @@ enum StackMode {
 @export var status_name: String
 @export_multiline var desc: String
 @export var icon: Texture2D
+
+@export_group("分类")
+## 用于区分增益和负面状态，羊毛等效果会根据这个分类拦截负面状态。
+@export var polarity: Polarity = Polarity.NEUTRAL
 
 @export_group("持续与叠层")
 # duration < 0 表示永久，duration > 0 表示限时状态。
@@ -28,3 +38,11 @@ enum StackMode {
 
 @export_group("效果")
 @export var effects: Array[StatusEffect] = []
+
+
+func is_positive() -> bool:
+	return polarity == Polarity.POSITIVE
+
+
+func is_negative() -> bool:
+	return polarity == Polarity.NEGATIVE

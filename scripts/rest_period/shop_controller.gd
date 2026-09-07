@@ -119,6 +119,8 @@ func get_level_data(level: int) -> ShopLevelData:
 func refresh() -> void:
 	if shop == null or shop.shopkeeper == null or run_stats == null:
 		return
+	if run_stats.is_shop_refresh_disabled():
+		return
 
 	var refresh_cost := _get_refresh_cost()
 	if run_stats.shop_free_refresh_count > 0:
@@ -255,6 +257,9 @@ func _connect_signals() -> void:
 	if not EventBus.shop_free_refresh_changed.is_connected(_update_shop_ui):
 		EventBus.shop_free_refresh_changed.connect(_update_shop_ui)
 
+	if not EventBus.shop_refresh_state_changed.is_connected(_update_shop_ui):
+		EventBus.shop_refresh_state_changed.connect(_update_shop_ui)
+
 	if not refresh_button.gui_input.is_connected(_on_refresh_button_gui_input):
 		refresh_button.gui_input.connect(_on_refresh_button_gui_input)
 
@@ -362,6 +367,9 @@ func _update_shop_ui() -> void:
 		free_refresh_count_label.visible = free_count > 0
 		free_refresh_count_label.text = "x%s" % str(free_count)
 
+	if refresh_button != null:
+		refresh_button.disabled = run_stats != null and run_stats.is_shop_refresh_disabled()
+
 	if level_up_cost_label != null:
 		var next_level_data := get_level_data(shop.level + 1) if shop != null else null
 		if next_level_data == null:
@@ -386,6 +394,9 @@ func _do_refresh_shop_slots() -> void:
 	shop.clear_all_frozen()
 	_roll_slots(0)
 	EventBus.shop_refreshed.emit(shop)
+	if run_stats != null:
+		# 在信号回调完成后再递增，监听者可以准确判断这是不是本期第一次刷新。
+		run_stats.record_shop_refresh()
 	_sync_shop_ui()
 	_update_shop_ui()
 	_try_start_free_relic_choice()

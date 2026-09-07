@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://b12ik113lueki"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" uid="uid://dtdkg5dwq1bd6" path="res://scripts/ability/component/ability_turn_to_mouse.gd" id="2_turn"]
+[ext_resource type="Script" uid="uid://ou3kqsfmve43" path="res://scripts/ability/component/ability_sustained_projectile_fan.gd" id="3_barrage"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/scount_ammo_barrage_bullet_manifest.tscn" id="4_bullet"]
+[ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="5_ammo_tag"]
+
+[node name="SCountAmmoBarrageAbility" type="Node" unique_id=1406942807]
+script = ExtResource("1_ability")
+cooldown = 8.0
+energy_cost = 18.0
+
+[node name="TurnToMouse" type="Node" parent="." unique_id=796277746]
+script = ExtResource("2_turn")
+
+[node name="SustainedProjectileFan" type="Node" parent="." unique_id=995144621]
+script = ExtResource("3_barrage")
+manifest_scene = ExtResource("4_bullet")
+min_projectile_speed_multiplier = 0.54
+max_projectile_speed_multiplier = 1.92
+fire_pattern = 1
+fan_angle_degrees = 67.0
+interval_randomness = 0.78
+ammo_tag = ExtResource("5_ammo_tag")

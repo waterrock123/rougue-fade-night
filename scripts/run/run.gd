@@ -10,12 +10,15 @@ const FLOW_MAP := "map"
 const FLOW_EVENT_ROOM := "event_room"
 const FLOW_LEVEL_UP := "level_up"
 const FLOW_STARTING_SKILL := "starting_skill"
+const FLOW_REST_PERIOD := "rest_period"
 const TAG_EFFECT_DATABASE := preload("res://custom_resource/default_tag_effect_database.tres")
 
 # 角色选择界面切场景后，会先把本次开局数据暂存在这里。
 static var pending_startup: RunStartup
 
 @export var run_startup: RunStartup
+## 开发版可从顶栏打开调试台；发布版默认不显示，避免把测试命令交给正式玩家。
+@export var enable_debug_console: bool = true
 
 @onready var current_view: Node = $CurrentView
 @onready var map: Map = $Map
@@ -24,8 +27,12 @@ static var pending_startup: RunStartup
 @onready var attributes_panel: AttributesPanel = $UI/AttributesPanel
 @onready var skill_overview_panel: SkillOverviewPanel = $UI/SkillOverviewPanel
 @onready var tag_effect_ui: TagEffectUI = $UI/TagEffectBar
+@onready var map_tag_config_panel: MapTagConfigPanel = $UI/MapTagConfigPanel
+@onready var debug_console: DebugConsole = $UI/DebugConsole
 @onready var top_bar: CanvasLayer = $TopBar
 @onready var package_button: Button = $TopBar/PackageButton
+@onready var map_tag_button: Button = $TopBar/MapTagButton
+@onready var debug_button: Button = $TopBar/DebugButton
 @onready var pause_button: Button = $TopBar/PauseButton
 @onready var pause_menu: PauseMenu = $UI/PauseMenu
 
@@ -68,6 +75,8 @@ func change_to_level_up() -> void:
 	current_flow_state = FLOW_LEVEL_UP
 	level_up_checkpoint_locked = false
 	battle_active = false
+	if run_stats != null:
+		run_stats.clear_battle_map_template()
 	_show_top_bar()
 	_set_package_equipment_locked(false)
 	_refresh_persistent_ui()
@@ -139,11 +148,17 @@ func change_to_starting_skill_select() -> void:
 
 
 # 战斗胜利后进入修整期，并发放本回合修整奖励金币。
-func change_to_rest_period() -> void:
+# restore_gold=false 只用于读取“已经进入修整期”的存档，避免重复发放金币。
+func change_to_rest_period(restore_gold: bool = true) -> void:
+	current_flow_state = FLOW_REST_PERIOD
+	level_up_checkpoint_locked = false
 	battle_active = false
+	if run_stats != null:
+		run_stats.clear_battle_map_template()
 	_show_top_bar()
 	_set_package_equipment_locked(false)
-	if run_stats != null:
+	if restore_gold and run_stats != null:
+		run_stats.begin_rest_period()
 		run_stats.grant_rest_period_gold()
 	_refresh_persistent_ui()
 
@@ -162,6 +177,11 @@ func change_to_rest_period() -> void:
 	_open_package_for_rest_period()
 	# 商店与常驻 UI 都初始化完成后，再通知套装效果进入本次修整期。
 	EventBus.rest_period_started.emit()
+
+
+# 用无参数转发函数接收结束点的“直接进入修整期”信号。
+func _handle_battle_win_direct_to_rest() -> void:
+	change_to_rest_period()
 
 
 # 玩家战败时打开死亡界面，由死亡界面决定重新开始或回主菜单。
@@ -219,6 +239,9 @@ func finish_rest_period() -> void:
 	if run_stats != null:
 		_clear_locked_inventory_relics()
 		run_stats.clear_free_relic_choices()
+		run_stats.clear_battle_map_template()
+		# 金币只在当前修整期内使用，离开修整期后清零，下一次进入时重新发放奖励。
+		run_stats.set_gold(0)
 	level_up_reward_options.clear()
 	_clear_current_view()
 	_refresh_persistent_ui()
@@ -261,6 +284,9 @@ func _connect_signals() -> void:
 	if  not EventBus.battle_win.is_connected(change_to_level_up):
 		EventBus.battle_win.connect(change_to_level_up)
 
+	if not EventBus.battle_win_direct_to_rest.is_connected(_handle_battle_win_direct_to_rest):
+		EventBus.battle_win_direct_to_rest.connect(_handle_battle_win_direct_to_rest)
+
 	if not EventBus.game_victory.is_connected(change_to_victory_screen):
 		EventBus.game_victory.connect(change_to_victory_screen)
 
@@ -285,6 +311,24 @@ func _connect_signals() -> void:
 	if pause_button != null and not pause_button.pressed.is_connected(_on_pause_button_pressed):
 		pause_button.pressed.connect(_on_pause_button_pressed)
 
+	if map_tag_button != null and not map_tag_button.pressed.is_connected(_on_map_tag_button_pressed):
+		map_tag_button.pressed.connect(_on_map_tag_button_pressed)
+
+	if debug_button != null and not debug_button.pressed.is_connected(_on_debug_button_pressed):
+		debug_button.pressed.connect(_on_debug_button_pressed)
+
+	if map_tag_config_panel != null:
+		if not map_tag_config_panel.opened.is_connected(_on_map_tag_config_panel_opened):
+			map_tag_config_panel.opened.connect(_on_map_tag_config_panel_opened)
+		if not map_tag_config_panel.closed.is_connected(_on_map_tag_config_panel_closed):
+			map_tag_config_panel.closed.connect(_on_map_tag_config_panel_closed)
+
+	if debug_console != null:
+		if not debug_console.opened.is_connected(_on_debug_console_opened):
+			debug_console.opened.connect(_on_debug_console_opened)
+		if not debug_console.closed.is_connected(_on_debug_console_closed):
+			debug_console.closed.connect(_on_debug_console_closed)
+
 	if not EventBus.gold_changed.is_connected(_save_current_run):
 		EventBus.gold_changed.connect(_save_current_run)
 
@@ -296,6 +340,12 @@ func _connect_signals() -> void:
 
 	if not EventBus.shop_free_refresh_changed.is_connected(_save_current_run):
 		EventBus.shop_free_refresh_changed.connect(_save_current_run)
+
+	if not EventBus.map_tag_selection_changed.is_connected(_save_current_run):
+		EventBus.map_tag_selection_changed.connect(_save_current_run)
+
+	if not EventBus.skill_loadout_changed.is_connected(_save_current_run):
+		EventBus.skill_loadout_changed.connect(_save_current_run)
 
 
 # Run 自己负责创建一份新的 RunStats，并用 RunStartup 把它补完整。
@@ -322,7 +372,7 @@ func _initialize_new_run(startup: RunStartup) -> void:
 		push_warning("RunStartup 中没有有效的角色数据，无法开始新的一局。")
 		return
 
-	RunRng.start_new_run()
+	RunRng.start_new_run(654321)
 	current_flow_state = FLOW_STARTING_SKILL
 	pending_flow_state = FLOW_STARTING_SKILL
 	level_up_checkpoint_locked = false
@@ -337,13 +387,13 @@ func _initialize_new_run(startup: RunStartup) -> void:
 
 # 目前续档逻辑还没展开，这里先做最小兼容。
 func _initialize_continued_run(_startup: RunStartup) -> void:
-	var save_data := SaveManager.load_save_data()
+	var save_data: Dictionary = SaveManager.load_save_data()
 	if save_data.is_empty():
 		push_warning("没有可用存档，无法继续游戏。")
 		return
 
 	SaveManager.restore_rng(save_data)
-	var loaded_run_stats := SaveManager.build_run_stats_from_save(save_data)
+	var loaded_run_stats: RunStats = SaveManager.build_run_stats_from_save(save_data)
 	if loaded_run_stats == null:
 		push_warning("存档中的 RunStats 无法恢复。")
 		return
@@ -387,6 +437,16 @@ func _initialize_persistent_ui() -> void:
 
 	if tag_effect_ui != null:
 		tag_effect_ui.close_panel()
+
+	if map_tag_config_panel != null:
+		map_tag_config_panel.bind_run_stats(run_stats)
+		map_tag_config_panel.close_panel()
+
+	if debug_button != null:
+		debug_button.visible = _is_debug_console_available()
+	if debug_console != null:
+		debug_console.bind_run(self)
+		debug_console.close_panel()
 
 
 func _initialize_tag_effect_controller() -> void:
@@ -441,6 +501,11 @@ func _refresh_persistent_ui() -> void:
 	if tag_effect_controller != null:
 		tag_effect_controller.refresh()
 
+	if map_tag_config_panel != null:
+		map_tag_config_panel.bind_run_stats(run_stats)
+	if debug_console != null:
+		debug_console.bind_run(self)
+
 
 # 生成并显示本局地图。
 func _initialize_map() -> void:
@@ -465,6 +530,8 @@ func _restore_saved_flow_view() -> void:
 			change_to_level_up()
 		FLOW_STARTING_SKILL:
 			change_to_starting_skill_select()
+		FLOW_REST_PERIOD:
+			change_to_rest_period(false)
 		_:
 			current_flow_state = FLOW_MAP
 
@@ -482,10 +549,35 @@ func _resolve_startup() -> RunStartup:
 func _ensure_default_tag_effect_selection() -> void:
 	if run_stats == null:
 		return
-	if not run_stats.selected_tag_effects.is_empty():
+
+	var default_effects: Array[TagEffect] = _load_default_tag_effects()
+	if run_stats.selected_tag_effects.is_empty():
+		run_stats.selected_tag_effects = default_effects
 		return
 
-	run_stats.selected_tag_effects = _load_default_tag_effects()
+	_append_missing_default_tag_effects(run_stats.selected_tag_effects, default_effects)
+
+
+func _append_missing_default_tag_effects(selected_effects: Array[TagEffect], default_effects: Array[TagEffect]) -> void:
+	var used_tag_keys: Array[String] = []
+	for effect: TagEffect in selected_effects:
+		if effect == null:
+			continue
+		var tag_key: String = effect.get_tag_key()
+		if tag_key.is_empty() or used_tag_keys.has(tag_key):
+			continue
+		used_tag_keys.append(tag_key)
+
+	for default_effect: TagEffect in default_effects:
+		if default_effect == null:
+			continue
+		var default_tag_key: String = default_effect.get_tag_key()
+		if default_tag_key.is_empty() or used_tag_keys.has(default_tag_key):
+			continue
+
+		# 新增 tag effect 时兼容旧存档：只补缺失 tag，不覆盖玩家已经选择的同 tag 效果。
+		selected_effects.append(default_effect)
+		used_tag_keys.append(default_tag_key)
 
 
 func _load_default_tag_effects() -> Array[TagEffect]:
@@ -561,6 +653,66 @@ func _on_package_button_pressed() -> void:
 			attributes_panel.close_panel()
 
 
+# 地图标签配置只影响后续战斗地图生成；战斗中不允许调整，避免误以为当前地图会立刻刷新。
+func _on_map_tag_button_pressed() -> void:
+	if map_tag_config_panel == null:
+		return
+	if battle_active:
+		push_warning("战斗中无法调整地图标签配置。")
+		return
+
+	map_tag_config_panel.bind_run_stats(run_stats)
+	map_tag_config_panel.toggle_panel()
+
+
+## DebugConsole 仅供开发时直接验证构筑、装备和技能链路使用。
+func _on_debug_button_pressed() -> void:
+	if debug_console == null or not _is_debug_console_available():
+		return
+
+	debug_console.bind_run(self)
+	debug_console.toggle_panel()
+
+
+func _on_map_tag_config_panel_opened() -> void:
+	# 地图标签面板是一个独占配置界面，打开时锁住 Run 顶栏其它按钮，避免暂停菜单和配置面板同时抢状态。
+	_set_top_bar_buttons_locked_by_map_tag_panel(true)
+
+
+func _on_map_tag_config_panel_closed() -> void:
+	_set_top_bar_buttons_locked_by_map_tag_panel(false)
+
+
+func _on_debug_console_opened() -> void:
+	_set_top_bar_buttons_locked_by_debug_console(true)
+
+
+func _on_debug_console_closed() -> void:
+	_set_top_bar_buttons_locked_by_debug_console(false)
+
+
+func _set_top_bar_buttons_locked_by_map_tag_panel(locked: bool) -> void:
+	if package_button != null:
+		package_button.disabled = locked
+	if map_tag_button != null:
+		map_tag_button.disabled = locked
+	if debug_button != null:
+		debug_button.disabled = locked
+	if pause_button != null:
+		pause_button.disabled = locked
+
+
+func _set_top_bar_buttons_locked_by_debug_console(locked: bool) -> void:
+	if package_button != null:
+		package_button.disabled = locked
+	if map_tag_button != null:
+		map_tag_button.disabled = locked
+	if debug_button != null:
+		debug_button.disabled = locked
+	if pause_button != null:
+		pause_button.disabled = locked
+
+
 # Run 顶栏的暂停按钮负责全局暂停，并显示“继续 / 退出到主菜单”的选择。
 
 func _on_pause_button_pressed() -> void:
@@ -626,6 +778,8 @@ func _open_battle_scene(room: Room) -> void:
 	_show_top_bar()
 	battle_active = true
 	_set_package_equipment_locked(true)
+	if map_tag_config_panel != null:
+		map_tag_config_panel.close_panel()
 	if play_scene.has_method("setup_run_battle"):
 		play_scene.setup_run_battle(run_stats, room.battle_stats)
 	else:
@@ -634,6 +788,8 @@ func _open_battle_scene(room: Room) -> void:
 	_replace_current_view(play_scene)
 	if map != null:
 		map.hide_map()
+	# 当前流程仍保持为事件房间，继续游戏时会从事件房间重新开始；但要保存本场战斗已经抽中的地图模板。
+	_save_current_run(true)
 
 
 # 用新的子场景替换 CurrentView 当前显示的内容。
@@ -681,6 +837,10 @@ func _close_persistent_panels() -> void:
 		skill_overview_panel.close_panel()
 	if tag_effect_ui != null:
 		tag_effect_ui.close_panel()
+	if map_tag_config_panel != null:
+		map_tag_config_panel.close_panel()
+	if debug_console != null:
+		debug_console.close_panel()
 
 
 func _show_top_bar() -> void:
@@ -696,6 +856,29 @@ func _hide_top_bar() -> void:
 func _set_package_equipment_locked(locked: bool) -> void:
 	if package_ui != null:
 		package_ui.set_equipment_locked(locked)
+
+
+## 调试台修改 PlayerBuild 后，通过这里同步常驻 UI、战斗中的实际技能控制器和存档。
+func refresh_debug_runtime_state() -> void:
+	if run_stats == null or run_stats.player_build == null:
+		return
+
+	_refresh_persistent_ui()
+	var active_scene: Node = _get_current_scene()
+	var play_scene: PlayScene = active_scene as PlayScene
+	if play_scene != null:
+		if play_scene.player != null and play_scene.player.skill_controller != null:
+			play_scene.player.skill_controller.refresh_all_skills()
+		if play_scene.has_method("_refresh_skill_ui"):
+			play_scene._refresh_skill_ui()
+		if play_scene.has_method("_refresh_consumable_ui"):
+			play_scene._refresh_consumable_ui()
+
+	_save_current_run(true)
+
+
+func _is_debug_console_available() -> bool:
+	return enable_debug_console and OS.is_debug_build()
 
 
 # 获取 Run 下常驻的运行时属性控制器，供属性面板等 UI 读取。

@@ -8,7 +8,7 @@ static func format_text(raw_text: String, keyword_database: KeywordDatabase) -> 
 		return result
 
 	var regex := RegEx.new()
-	var compile_error := regex.compile("\\{([A-Za-z0-9_:-]+)\\}")
+	var compile_error := regex.compile("\\{([^{}]+)\\}")
 	if compile_error != OK:
 		result.bbcode_text = _escape_bbcode(raw_text)
 		return result
@@ -42,7 +42,7 @@ static func format_text_plain(raw_text: String, keyword_database: KeywordDatabas
 		return ""
 
 	var regex := RegEx.new()
-	var compile_error := regex.compile("\\{([A-Za-z0-9_:-]+)\\}")
+	var compile_error := regex.compile("\\{([^{}]+)\\}")
 	if compile_error != OK:
 		return raw_text
 

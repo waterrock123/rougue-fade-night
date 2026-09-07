@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://duduak1r8l3a0" path="res://scripts/skill/passive_add_primary_stat_effect.gd" id="2_2x2p5"]
 [ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_wtamy"]
 [ext_resource type="Texture2D" uid="uid://dce7s2w2085gf" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb609.png" id="3_vqw7s"]
+[ext_resource type="Resource" path="res://passive_skill/007_iron_body.tres" id="4_iron"]
+[ext_resource type="Resource" path="res://passive_skill/008_invincible_body.tres" id="5_perfect"]
 
 [sub_resource type="Resource" id="Resource_yo1t2"]
 script = ExtResource("2_2x2p5")
@@ -20,4 +22,5 @@ id = &"002"
 skill_name = "强健肉体"
 desc = "体质+3，力量+2"
 icon = ExtResource("3_vqw7s")
+upgrade_options = Array[ExtResource("2_wtamy")]([ExtResource("4_iron"), ExtResource("5_perfect")])
 metadata/_custom_type_script = "uid://crxnh0qcjcfth"

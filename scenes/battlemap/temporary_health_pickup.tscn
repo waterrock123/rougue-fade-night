@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://chxecminitmfw"]
+
+[ext_resource type="Script" uid="uid://de88xppqyyru" path="res://scripts/battlemap/temporary_health_pickup.gd" id="1_temporary_health"]
+[ext_resource type="Texture2D" uid="uid://b0wglcdvhx7js" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb659.png" id="2_6n3el"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_temporary_health"]
+radius = 11.0
+
+[node name="TemporaryHealthPickup" type="Area2D" unique_id=169456607]
+script = ExtResource("1_temporary_health")
+pickup_display_name = "临时红心"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1061666833]
+shape = SubResource("CircleShape2D_temporary_health")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1239943632]
+modulate = Color(0.99574643, 0, 0.35462388, 1)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("2_6n3el")

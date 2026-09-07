@@ -10,6 +10,7 @@ ability_scene = ExtResource("1_3nsqi")
 base_cooldown = 1.0
 base_energy_cost = 10.0
 id = &"103"
+allowed_character_ids = Array[StringName]([&"warrior"])
 skill_name = "投斧"
 desc = "向目标丢出投斧，攻击路径上的所有敌人"
 icon = ExtResource("2_fgbf1")

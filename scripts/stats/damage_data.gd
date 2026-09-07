@@ -20,6 +20,11 @@ var damage_types: Array[int] = []
 var scaling_rule: DamageScalingRule
 var source_ability_id: StringName = &""
 var source_ability_slot_index: int = -1
+## 本次攻击造成的削韧值；0 表示不削韧，小于 0 时才使用目标默认公式。
+## 通用伤害默认不削韧，只有明确的技能、投射物或重击来源应主动填写正数。
+var poise_damage: float = 0.0
+## 攻击方在伤害生成时的削韧倍率快照，避免后续目标结算时再次依赖攻击者节点。
+var poise_damage_multiplier: float = 1.0
 
 var can_crit: bool = true
 var is_crit: bool = false
@@ -49,7 +54,9 @@ static func create(
 	allow_crit: bool = true,
 	damage_scaling_rule: DamageScalingRule = null,
 	damage_source_ability_id: StringName = &"",
-	damage_source_ability_slot_index: int = -1
+	damage_source_ability_slot_index: int = -1,
+	damage_poise_damage: float = 0.0,
+	damage_poise_multiplier: float = 1.0
 ) -> DamageData:
 	var data := DamageData.new()
 	data.base_damage = damage
@@ -62,6 +69,8 @@ static func create(
 	data.scaling_rule = damage_scaling_rule
 	data.source_ability_id = damage_source_ability_id
 	data.source_ability_slot_index = damage_source_ability_slot_index
+	data.poise_damage = damage_poise_damage
+	data.poise_damage_multiplier = maxf(damage_poise_multiplier, 0.0)
 	return data
 
 

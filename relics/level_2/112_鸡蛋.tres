@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://btfqfdm44gd5x"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_relic"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="2_base"]
+[ext_resource type="Script" uid="uid://e6i1lxwwoh8m" path="res://relic_effect/use_random_primary_stat_status_effect.gd" id="3_random_status"]
+[ext_resource type="Script" uid="uid://d0tylpnegd1r" path="res://relic_effect/use_random_permanent_primary_stat_effect.gd" id="4_permanent_stat"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_tag"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="6_material"]
+[ext_resource type="Resource" uid="uid://bpyxiv6nfwnu5" path="res://relic_tags/创生tag.tres" id="7_creation"]
+
+[sub_resource type="Resource" id="EggRandomStat"]
+script = ExtResource("3_random_status")
+roll_count = 1
+stat_amount = 2.0
+status_name = "蛋的活力"
+status_desc = "本场战斗中获得随机一级属性 +2。"
+
+[sub_resource type="Resource" id="EggPermanentStat"]
+script = ExtResource("4_permanent_stat")
+
+[resource]
+script = ExtResource("1_relic")
+relic_name = "鸡蛋"
+tooltip = "使用后随机属性 +2，持续至战斗结束。
+升级：额外使一项随机属性永久 +1。"
+desc = "动物鸡的奖励。"
+price = 4
+level = 2
+tags = Array[ExtResource("5_tag")]([ExtResource("6_material"), ExtResource("7_creation")])
+id = "112"
+is_consumable = true
+effects = Array[ExtResource("2_base")]([SubResource("EggRandomStat")])
+great_effects = Array[ExtResource("2_base")]([SubResource("EggPermanentStat")])

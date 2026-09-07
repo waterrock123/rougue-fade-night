@@ -15,6 +15,7 @@ script = ExtResource("4_upgrade")
 
 [resource]
 script = ExtResource("2_data")
+is_upgrade_skill = true
 effects = Array[ExtResource("1_base")]([SubResource("Resource_full"), SubResource("Resource_upgrade")])
 id = &"006"
 skill_name = "点器生灵"

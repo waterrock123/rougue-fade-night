@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://clkq7eytkak6a"]
+
+[ext_resource type="Script" uid="uid://clccxew0i2qer" path="res://scripts/battlemap/temporary_energy_pickup.gd" id="1_temporary_energy"]
+[ext_resource type="Texture2D" uid="uid://cgjkhpbo0e337" path="res://assets/Lucid V1.2/PNG/Flat/32/Star.png" id="2_star"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_temporary_energy"]
+radius = 9.0
+
+[node name="TemporaryEnergyPickup" type="Area2D" unique_id=324976647]
+script = ExtResource("1_temporary_energy")
+pickup_display_name = "临时蓝星"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=764629125]
+shape = SubResource("CircleShape2D_temporary_energy")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=760406942]
+modulate = Color(0.38, 0.72, 1, 1)
+self_modulate = Color(0, 0.5199774, 0.65150005, 1)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("2_star")

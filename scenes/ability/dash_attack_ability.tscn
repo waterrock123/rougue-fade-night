@@ -50,3 +50,4 @@ script = ExtResource("6_v71io")
 active_duration = 1.0
 damage = 12.0
 scaling_rule = SubResource("Resource_pvud1")
+poise_damage = 20.0

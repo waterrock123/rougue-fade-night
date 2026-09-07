@@ -37,6 +37,7 @@ damage = 25.0
 damage_types = Array[int]([0])
 tags = Array[String](["skill", "charge", "melee", "physical", "beast_bone"])
 scaling_rule = SubResource("Resource_scaling")
+poise_damage = 24.0
 
 [node name="AbilitySelfDamage" type="Node" parent="."]
 editor_description = "冲撞发动时对自己造成少量伤害。"

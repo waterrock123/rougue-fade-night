@@ -63,6 +63,7 @@ func _build_status_data(effect_key: String, totals: Dictionary) -> StatusData:
 	status_data.desc = _build_status_desc(totals)
 	status_data.icon = status_icon
 	status_data.duration = status_duration
+	status_data.polarity = StatusData.Polarity.POSITIVE
 	status_data.max_stacks = 1
 	status_data.stack_mode = StatusData.StackMode.REPLACE
 	status_data.refresh_duration_on_reapply = false

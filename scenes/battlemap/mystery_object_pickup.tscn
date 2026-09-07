@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/battlemap/mystery_object_pickup.gd" id="1_mystery_object"]
+[ext_resource type="Texture2D" path="res://assets/Lucid V1.2/PNG/Flat/32/Question-Mark.png" id="2_question"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mystery_object"]
+radius = 9.0
+
+[node name="MysteryObjectPickup" type="Area2D"]
+script = ExtResource("1_mystery_object")
+pickup_display_name = "谜之物体"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_mystery_object")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.78, 0.55, 1, 1)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("2_question")

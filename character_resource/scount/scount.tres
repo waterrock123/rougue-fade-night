@@ -7,8 +7,15 @@
 [ext_resource type="Resource" uid="uid://wlgt6wqudvrs" path="res://shopkeeper/甲画家.tres" id="4_8bywt"]
 [ext_resource type="Script" uid="uid://bq6potbl53yc6" path="res://scripts/package_system/equipment.gd" id="4_q4a6u"]
 [ext_resource type="Script" uid="uid://dv58keclglu12" path="res://scripts/package_system/inventory.gd" id="5_q840c"]
+[ext_resource type="Resource" uid="uid://cwuyyy0m65xgi" path="res://shopkeeper/环.tres" id="5_qoufy"]
 [ext_resource type="Resource" uid="uid://c2exc27deqdlj" path="res://character_resource/scount/scount_stats.tres" id="6_8bywt"]
+[ext_resource type="Resource" uid="uid://baqgr32nycpsi" path="res://shopkeeper/良子.tres" id="6_gbtis"]
+[ext_resource type="Resource" uid="uid://crfrv5yjonucn" path="res://shopkeeper/文艺青年.tres" id="7_5pn2e"]
 [ext_resource type="Script" uid="uid://bdqgkeyiw7nj6" path="res://scripts/skill/skill_entry.gd" id="8_8bywt"]
+[ext_resource type="Resource" uid="uid://07snhhfv258i" path="res://custom_resource/start_shop.tres" id="11_eux3f"]
+[ext_resource type="Resource" uid="uid://clq6naqkf40p0" path="res://custom_resource/common_shop_config.tres" id="12_f3q0j"]
+[ext_resource type="Resource" uid="uid://daajacas6t5ug" path="res://activate_skill/108_basic_scount_attack.tres" id="13_basic_scount"]
+[ext_resource type="Resource" uid="uid://dlkjfjmuo35bc" path="res://character_resource/scount/scount_visual_data.tres" id="16_5pn2e"]
 
 [sub_resource type="Resource" id="Resource_kmysh"]
 script = ExtResource("3_x0hmj")
@@ -132,14 +139,24 @@ script = ExtResource("5_q840c")
 slots = Array[ExtResource("3_x0hmj")]([SubResource("Resource_f3q0j"), SubResource("Resource_jm3vq"), SubResource("Resource_prf8k"), SubResource("Resource_kpkfd"), SubResource("Resource_fdcm6"), SubResource("Resource_s52j4"), SubResource("Resource_exsej"), SubResource("Resource_fb6gl"), SubResource("Resource_i7vta"), SubResource("Resource_a8gw3"), SubResource("Resource_s41ad"), SubResource("Resource_g4i7f"), SubResource("Resource_3051p"), SubResource("Resource_72u21"), SubResource("Resource_k3nu2"), SubResource("Resource_fsity"), SubResource("Resource_huf61"), SubResource("Resource_c1rp7"), SubResource("Resource_4svkq"), SubResource("Resource_swj7k"), SubResource("Resource_whrkf")])
 metadata/_custom_type_script = "uid://dv58keclglu12"
 
+[sub_resource type="Resource" id="Resource_exhr1"]
+script = ExtResource("8_8bywt")
+skill_data = ExtResource("13_basic_scount")
+metadata/_custom_type_script = "uid://bdqgkeyiw7nj6"
+
 [resource]
 script = ExtResource("1_h4k1b")
 id = &"scount"
 character_name = "浪子"
 description = "游侠，盗贼，赏金猎人，他更喜欢称自己为浪子。只接受自己喜欢的委托。鉴于已经许久没见过夜色，他得启程寻回自己的夜晚。"
 background = ExtResource("1_uydww")
+visual_data = ExtResource("16_5pn2e")
 start_stats = ExtResource("6_8bywt")
+start_skill = SubResource("Resource_exhr1")
 start_inventory = SubResource("Resource_ot4tr")
 start_equipment = SubResource("Resource_eux3f")
-shop_keeper_pool = Array[ExtResource("3_q840c")]([ExtResource("4_8bywt")])
+start_shop = ExtResource("11_eux3f")
+start_shop_config = ExtResource("12_f3q0j")
+shop_keeper_pool = Array[ExtResource("3_q840c")]([ExtResource("4_8bywt"), ExtResource("5_qoufy"), ExtResource("6_gbtis"), ExtResource("7_5pn2e")])
+main_attributes = Array[StringName]([&"dexterity", &"speed"])
 metadata/_custom_type_script = "uid://dx5w85r6ff3q4"

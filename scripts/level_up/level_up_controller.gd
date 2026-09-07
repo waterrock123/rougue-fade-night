@@ -7,7 +7,7 @@ enum SceneMode {
 }
 
 @export var reward_pool: LevelUpRewardPool
-@export var reward_count: int = 4
+@export var reward_count: int = 5
 @export var primary_attribute_reward_amount: float = 1.0
 @export var keyword_database: KeywordDatabase = preload("res://custom_resource/default_keyword_database.tres")
 
@@ -178,22 +178,129 @@ func _build_reward_options() -> Array[LevelUpReward]:
 
 	var rewards: Array[LevelUpReward] = []
 	var reward_context := _build_reward_context()
-	if reward_pool != null:
-		rewards = reward_pool.get_random_rewards(reward_count, reward_context)
+	var phase := run_stats.get_level_up_reward_phase() if run_stats != null else 0
+	if phase == 2:
+		_append_attribute_rewards(rewards, reward_count)
+		return rewards
 
-	var main_attributes := _get_main_attributes()
+	var passive_phase := phase == 0
+	_append_pending_upgrade_rewards(rewards, passive_phase, reward_context)
+
+	# 普通技能阶段始终保留最后一个属性奖励，给玩家一个不升级技能的安全出口。
+	var skill_reward_target: int = max(reward_count - 1, 0)
+	_append_random_skill_rewards(rewards, passive_phase, skill_reward_target, reward_context)
+	_append_attribute_rewards(rewards, reward_count)
+
+	return rewards
+
+
+func _append_pending_upgrade_rewards(
+	rewards: Array[LevelUpReward],
+	passive_phase: bool,
+	context: LevelUpRewardContext
+) -> void:
+	if context == null or context.player_build == null:
+		return
+
+	var entries: Array[SkillEntry] = context.player_build.owned_passive_skills if passive_phase else context.player_build.owned_active_skills
+	for entry: SkillEntry in entries:
+		if entry == null or entry.skill_data == null:
+			continue
+		if passive_phase and not entry.skill_data is PassiveSkillData:
+			continue
+		if not passive_phase and not entry.skill_data is ActiveSkillData:
+			continue
+
+		for target_skill: SkillData in entry.skill_data.get_upgrade_options():
+			if rewards.size() >= reward_count:
+				return
+			if target_skill == null or not target_skill.is_available_for_character(context.picked_character):
+				continue
+			if _has_upgrade_reward_for_target(rewards, target_skill.id):
+				continue
+
+			var upgrade_reward: RewardUpgradeSkill = RewardUpgradeSkill.new()
+			upgrade_reward.id = StringName("upgrade_%s_to_%s" % [String(entry.get_skill_id()), String(target_skill.id)])
+			upgrade_reward.target_skill_id = target_skill.id
+			upgrade_reward.target_skill_data = target_skill
+			upgrade_reward.source_skill_id = entry.get_skill_id()
+			upgrade_reward.source_skill_data = entry.skill_data
+			upgrade_reward.search_passive_first = passive_phase
+			upgrade_reward.title = "升级为：%s" % target_skill.skill_name
+			upgrade_reward.desc = "%s\n升级后将替换：%s" % [target_skill.desc, entry.skill_data.skill_name]
+			upgrade_reward.icon = target_skill.icon
+			rewards.append(upgrade_reward)
+
+
+func _append_random_skill_rewards(
+	rewards: Array[LevelUpReward],
+	passive_phase: bool,
+	target_count: int,
+	context: LevelUpRewardContext
+) -> void:
+	if reward_pool == null:
+		return
+
+	var candidates: Array[LevelUpReward] = reward_pool.rewards.duplicate()
+	candidates.shuffle()
+	for candidate: LevelUpReward in candidates:
+		if rewards.size() >= target_count or candidate == null:
+			return
+		if passive_phase and not candidate is RewardGrantPassiveSkill:
+			continue
+		if not passive_phase and not candidate is RewardGrantActiveSkill:
+			continue
+		if not candidate.is_available(context):
+			continue
+		if _has_reward_with_id(rewards, candidate.id):
+			continue
+
+		var copied_reward: LevelUpReward = candidate.duplicate(true) as LevelUpReward
+		if copied_reward == null:
+			continue
+		if copied_reward is RewardGrantPassiveSkill and context.player_build != null:
+			var passive_count: int = context.player_build.owned_passive_skills.size()
+			if passive_count >= context.player_build.get_passive_skill_limit() and passive_count > 0:
+				var replacement: SkillEntry = context.player_build.owned_passive_skills[0]
+				(copied_reward as RewardGrantPassiveSkill).replace_skill_id = replacement.get_skill_id()
+				copied_reward.desc = "%s\n获得后将替换：%s" % [(copied_reward as RewardGrantPassiveSkill).skill_data.desc, replacement.skill_data.skill_name]
+		rewards.append(copied_reward)
+
+
+func _append_attribute_rewards(rewards: Array[LevelUpReward], target_count: int) -> void:
+	var main_attributes: Array[StringName] = _get_main_attributes()
 	main_attributes.shuffle()
-	var attr_index := 0
-	while rewards.size() < reward_count:
-		if main_attributes.is_empty():
-			break
-		var stat_reward := _create_primary_attribute_reward(main_attributes[attr_index % main_attributes.size()])
+	var attr_index: int = 0
+	while rewards.size() < target_count and not main_attributes.is_empty():
+		var stat_reward: LevelUpReward = _create_primary_attribute_reward(main_attributes[attr_index % main_attributes.size()])
 		if stat_reward == null:
 			break
 		rewards.append(stat_reward)
 		attr_index += 1
 
-	return rewards
+
+func _is_skill_category_full(passive_phase: bool) -> bool:
+	if run_stats == null or run_stats.player_build == null:
+		return false
+	if passive_phase:
+		return run_stats.player_build.owned_passive_skills.size() >= run_stats.player_build.get_passive_skill_limit()
+	return run_stats.player_build.get_owned_active_skill_count() >= run_stats.player_build.get_active_skill_owned_limit()
+
+
+func _has_upgrade_reward_for_target(rewards: Array[LevelUpReward], skill_id: StringName) -> bool:
+	for reward: LevelUpReward in rewards:
+		if reward is RewardUpgradeSkill and (reward as RewardUpgradeSkill).target_skill_id == skill_id:
+			return true
+	return false
+
+
+func _has_reward_with_id(rewards: Array[LevelUpReward], reward_id: StringName) -> bool:
+	if reward_id == &"":
+		return false
+	for reward: LevelUpReward in rewards:
+		if reward != null and reward.id == reward_id:
+			return true
+	return false
 
 
 # 开局奖励只提供主动技能，目的是让玩家在第一场战斗前拥有更强的操作手段。
@@ -285,6 +392,8 @@ func _on_reward_chosen(reward: LevelUpReward) -> void:
 	if scene_mode == SceneMode.STARTING_SKILL and run.has_method("finish_starting_skill_select"):
 		run.finish_starting_skill_select()
 	else:
+		if run_stats != null:
+			run_stats.advance_level_up_reward_phase()
 		run.change_to_rest_period()
 
 

@@ -16,6 +16,8 @@ extends RelicEffect
 @export var extra_damage_types: Array[int] = [DamageData.DamageType.LIGHTNING]
 @export var extra_tags: Array[String] = ["relic", "extra_hit", "lightning"]
 @export var can_crit: bool = false
+## 由状态层数产生的追加伤害默认不重复削韧。
+@export var poise_damage: float = 0.0
 
 @export var status_id: StringName = &"power"
 @export var status_stacks_to_consume: int = 1
@@ -135,7 +137,8 @@ func _apply_extra_damage(source_damage: DamageData, extra_damage: float) -> void
 		can_crit,
 		null,
 		source_damage.source_ability_id,
-		source_damage.source_ability_slot_index
+		source_damage.source_ability_slot_index,
+		poise_damage
 	)
 	source_damage.target.apply_damage(extra_damage_data)
 

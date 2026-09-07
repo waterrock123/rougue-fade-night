@@ -16,5 +16,6 @@ id = &"spirit_haste"
 status_name = "灵风"
 desc = "小精灵治疗领域提供的短暂移动速度增益，速度属性提升2点。"
 icon = ExtResource("4_icon")
+polarity = 1
 duration = 2.0
 effects = Array[ExtResource("1_base")]([SubResource("SpiritHasteSpeedEffect")])

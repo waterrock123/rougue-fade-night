@@ -36,6 +36,7 @@ rotate_speed = 60.0
 damage = 50.0
 damage_types = Array[int]([0, 1])
 scaling_rule = SubResource("Resource_1y5vp")
+poise_damage = 12.0
 is_penetrate = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1123908785]

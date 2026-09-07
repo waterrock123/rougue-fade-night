@@ -1,5 +1,5 @@
 ## 增加派生属性的遗物效果。
-## 适合用于固定减伤、减伤率、暴击率、暴击伤害、闪避率、冷却缩减等 derived stats。
+## 适合用于固定减伤、减伤率、暴击率、闪避率、冷却缩减、削韧倍率等派生属性。
 class_name AddDerivedStatEffect
 extends RelicEffect
 

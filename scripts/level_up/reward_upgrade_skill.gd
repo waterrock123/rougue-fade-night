@@ -3,6 +3,8 @@ extends LevelUpReward
 
 @export var target_skill_id: StringName
 @export var target_skill_data: SkillData
+@export var source_skill_id: StringName
+@export var source_skill_data: SkillData
 @export var search_passive_first: bool = false
 
 
@@ -13,7 +15,7 @@ func apply(context: LevelUpRewardContext):
 	var player_build := context.player_build
 	var target_entry: SkillEntry = null
 
-	var resolved_skill_id := _get_target_skill_id()
+	var resolved_skill_id := _get_source_skill_id()
 	if resolved_skill_id == &"":
 		return
 
@@ -29,7 +31,18 @@ func apply(context: LevelUpRewardContext):
 	if target_entry == null:
 		return
 
-	context.skill_controller.upgrade_skill_entry(target_entry)
+	context.skill_controller.upgrade_skill_entry(target_entry, target_skill_data)
+
+
+func is_available(context: LevelUpRewardContext) -> bool:
+	if context == null or context.player_build == null or target_skill_data == null:
+		return false
+
+	var source_id := _get_source_skill_id()
+	var entry := context.player_build.find_passive_skill_entry(source_id)
+	if entry == null:
+		entry = context.player_build.find_active_skill_entry(source_id)
+	return entry != null and entry.can_evolve_to(target_skill_data)
 
 
 func get_display_title() -> String:
@@ -62,3 +75,9 @@ func _get_target_skill_id() -> StringName:
 	if target_skill_data != null:
 		return target_skill_data.id
 	return &""
+
+
+func _get_source_skill_id() -> StringName:
+	if source_skill_id != &"":
+		return source_skill_id
+	return target_skill_id

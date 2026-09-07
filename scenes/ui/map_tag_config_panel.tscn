@@ -1,0 +1,261 @@
+[gd_scene format=3 uid="uid://dsy7fq1yfe63p"]
+
+[ext_resource type="Script" uid="uid://cffdt82soa274" path="res://scenes/ui/map_tag_config_panel.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://bngqstk1ov5vy" path="res://scenes/tooltip/keyword_explain_panel.tscn" id="2_keyword"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.10588235, 0.12941177, 0.15686275, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.98039216, 0.7607843, 0.3882353, 0.8)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_close"]
+bg_color = Color(0.37254903, 0.1882353, 0.15686275, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_close_hover"]
+bg_color = Color(0.6509804, 0.28235295, 0.20392157, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_section"]
+bg_color = Color(0.17254902, 0.20392157, 0.24705882, 0.86)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4509804, 0.5686275, 0.70980394, 0.68)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_summary"]
+bg_color = Color(0.08235294, 0.10196079, 0.12941177, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6901961, 0.827451, 1, 0.45)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="MapTagConfigPanel" type="Control" unique_id=667194987]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_script")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=1918788340]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.015686275, 0.019607844, 0.02745098, 0.45)
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1059604728]
+custom_minimum_size = Vector2(1120, 660)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -560.0
+offset_top = -330.0
+offset_right = 560.0
+offset_bottom = 330.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1278979321]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="HBoxContainer" parent="Panel/VBoxContainer" unique_id=1467368909]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="Panel/VBoxContainer/Header" unique_id=1465218941]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "地图标签配置"
+
+[node name="LimitLabel" type="Label" parent="Panel/VBoxContainer/Header" unique_id=2039793543]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "启用：0 / 0"
+vertical_alignment = 1
+
+[node name="CloseButton" type="Button" parent="Panel/VBoxContainer/Header" unique_id=1801836305]
+custom_minimum_size = Vector2(96, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_close")
+theme_override_styles/hover = SubResource("StyleBoxFlat_close_hover")
+text = "关闭"
+
+[node name="MainArea" type="HBoxContainer" parent="Panel/VBoxContainer" unique_id=744706588]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="LeftColumn" type="VBoxContainer" parent="Panel/VBoxContainer/MainArea" unique_id=260227503]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="EnabledSection" type="PanelContainer" parent="Panel/VBoxContainer/MainArea/LeftColumn" unique_id=961455273]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer/MainArea/LeftColumn/EnabledSection" unique_id=757661755]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SectionTitle" type="Label" parent="Panel/VBoxContainer/MainArea/LeftColumn/EnabledSection/VBoxContainer" unique_id=1999729595]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "已启用标签"
+
+[node name="EnabledEmptyLabel" type="Label" parent="Panel/VBoxContainer/MainArea/LeftColumn/EnabledSection/VBoxContainer" unique_id=1733545230]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "还没有启用任何标签。"
+
+[node name="EnabledTagScroll" type="ScrollContainer" parent="Panel/VBoxContainer/MainArea/LeftColumn/EnabledSection/VBoxContainer" unique_id=1936670119]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="EnabledTagContainer" type="HFlowContainer" parent="Panel/VBoxContainer/MainArea/LeftColumn/EnabledSection/VBoxContainer/EnabledTagScroll" unique_id=1489139076]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="OwnedSection" type="PanelContainer" parent="Panel/VBoxContainer/MainArea/LeftColumn" unique_id=602454029]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer/MainArea/LeftColumn/OwnedSection" unique_id=936735352]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SectionTitle" type="Label" parent="Panel/VBoxContainer/MainArea/LeftColumn/OwnedSection/VBoxContainer" unique_id=534832707]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "拥有标签"
+
+[node name="OwnedEmptyLabel" type="Label" parent="Panel/VBoxContainer/MainArea/LeftColumn/OwnedSection/VBoxContainer" unique_id=1232763728]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "背包和装备栏中暂时没有标签。"
+
+[node name="OwnedTagScroll" type="ScrollContainer" parent="Panel/VBoxContainer/MainArea/LeftColumn/OwnedSection/VBoxContainer" unique_id=1844702496]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OwnedTagContainer" type="HFlowContainer" parent="Panel/VBoxContainer/MainArea/LeftColumn/OwnedSection/VBoxContainer/OwnedTagScroll" unique_id=733193078]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="SummarySection" type="PanelContainer" parent="Panel/VBoxContainer/MainArea" unique_id=1268885303]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_summary")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer/MainArea/SummarySection" unique_id=1762129865]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SectionTitle" type="Label" parent="Panel/VBoxContainer/MainArea/SummarySection/VBoxContainer" unique_id=1906642858]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "地图影响总结"
+
+[node name="DetailTitle" type="Label" parent="Panel/VBoxContainer/MainArea/SummarySection/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "已启用标签效果"
+
+[node name="DetailScroll" type="ScrollContainer" parent="Panel/VBoxContainer/MainArea/SummarySection/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DetailList" type="VBoxContainer" parent="Panel/VBoxContainer/MainArea/SummarySection/VBoxContainer/DetailScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="SummaryDivider" type="HSeparator" parent="Panel/VBoxContainer/MainArea/SummarySection/VBoxContainer"]
+layout_mode = 2
+
+[node name="AggregateTitle" type="Label" parent="Panel/VBoxContainer/MainArea/SummarySection/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "最终生效汇总"
+
+[node name="SummaryScroll" type="ScrollContainer" parent="Panel/VBoxContainer/MainArea/SummarySection/VBoxContainer" unique_id=1786207461]
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="SummaryText" type="RichTextLabel" parent="Panel/VBoxContainer/MainArea/SummarySection/VBoxContainer/SummaryScroll" unique_id=767394642]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+theme_override_font_sizes/normal_font_size = 18
+text = "启用后，这里会显示叠加后的地图影响。"
+fit_content = true
+scroll_active = false
+
+[node name="KeywordDivider" type="HSeparator" parent="Panel/VBoxContainer/MainArea/SummarySection/VBoxContainer"]
+layout_mode = 2
+
+[node name="KeywordTitle" type="Label" parent="Panel/VBoxContainer/MainArea/SummarySection/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "关键词解释"
+
+[node name="KeywordExplainScroll" type="ScrollContainer" parent="Panel/VBoxContainer/MainArea/SummarySection/VBoxContainer"]
+custom_minimum_size = Vector2(0, 118)
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="KeywordExplainPanel" parent="Panel/VBoxContainer/MainArea/SummarySection/VBoxContainer/KeywordExplainScroll" instance=ExtResource("2_keyword")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FeedbackLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1329416443]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8862745, 0.56078434, 1)
+theme_override_font_sizes/font_size = 20
+text = "点击下方标签会启用 1 个同类标签；点击上方标签会移除 1 个启用槽。"

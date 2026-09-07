@@ -31,6 +31,14 @@ metadata/_custom_type_script = "uid://cfgrgm03strrd"
 shader = ExtResource("2_fjrip")
 shader_parameter/hurt_color = Vector4(1, 1, 1, 1)
 shader_parameter/is_hurt = false
+shader_parameter/poise_glow_enabled = false
+shader_parameter/poise_glow_color = Color(1, 0.95, 0.72, 1)
+shader_parameter/poise_glow_size = 1.0
+shader_parameter/poise_glow_alpha = 0.75
+shader_parameter/poise_glow_pulse_strength = 0.25
+shader_parameter/poise_glow_pulse_speed = 3.0
+shader_parameter/poise_break_flash_color = Color(1, 1, 1, 1)
+shader_parameter/poise_break_flash_strength = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fjrip"]
 atlas = ExtResource("6_tuyoq")

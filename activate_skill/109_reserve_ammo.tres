@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ability/reserve_ammo_ability.tscn" id="1_ability"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1376.png" id="2_icon"]
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="3_script"]
+
+[resource]
+script = ExtResource("3_script")
+ability_scene = ExtResource("1_ability")
+base_cooldown = 10.0
+base_energy_cost = 10.0
+id = &"109"
+skill_name = "备用弹药"
+desc = "原地搜寻1秒，随机临时装备一件带有{ammo}标签的装备；装备栏已满时放入背包。临时装备会在战斗结束时消失。"
+icon = ExtResource("2_icon")
+tags = Array[StringName]([&"active_skill", &"utility", &"ammo"])
+allowed_character_ids = Array[StringName]([&"scount"])

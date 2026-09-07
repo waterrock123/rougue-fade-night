@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://1n84v6x5n0ya"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_relic"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="2_base"]
+[ext_resource type="Script" uid="uid://ckyvmmqeo6o6e" path="res://relic_effect/add_status_effect.gd" id="3_add_status"]
+[ext_resource type="Script" uid="uid://5i0v81ifhaqk" path="res://relic_effect/block_negative_status_effect.gd" id="4_block_negative"]
+[ext_resource type="Script" uid="uid://b7bvrjaj7uh3h" path="res://relic_effect/on_consumed_permanent_derived_stats_effect.gd" id="5_permanent_derived"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="6_armor"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="7_tag"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="8_material"]
+[ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="9_defense"]
+
+[sub_resource type="Resource" id="WoolArmor"]
+script = ExtResource("3_add_status")
+status_data = ExtResource("6_armor")
+
+[sub_resource type="Resource" id="WoolBlockNegative"]
+script = ExtResource("4_block_negative")
+blocked_count = 2
+
+[sub_resource type="Resource" id="WoolPermanentReduction"]
+script = ExtResource("5_permanent_derived")
+add_derived_stats = {
+"damage_reduction_rate": 0.02
+}
+
+[resource]
+script = ExtResource("1_relic")
+relic_name = "羊毛"
+tooltip = "护甲 +1；每场战斗抵消前两次被施加的负面状态。
+升级：被消耗时永久获得 2% 减伤率。"
+desc = "动物羊的奖励。"
+price = 4
+level = 2
+tags = Array[ExtResource("7_tag")]([ExtResource("8_material"), ExtResource("9_defense")])
+id = "113"
+effects = Array[ExtResource("2_base")]([SubResource("WoolArmor"), SubResource("WoolBlockNegative")])
+great_effects = Array[ExtResource("2_base")]([SubResource("WoolPermanentReduction")])

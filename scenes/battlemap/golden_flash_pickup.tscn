@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://bux7ip7kcq4fw"]
+
+[ext_resource type="Script" uid="uid://c6taewdm43qj8" path="res://scripts/battlemap/golden_flash_pickup.gd" id="1_golden_flash"]
+[ext_resource type="Texture2D" uid="uid://oxt3wdulkwa2" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Green Effect and Bullet 16x16.png" id="2_8dmqp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_golden_flash"]
+radius = 4.1231055
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3nrym"]
+atlas = ExtResource("2_8dmqp")
+region = Rect2(560, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ve21"]
+atlas = ExtResource("2_8dmqp")
+region = Rect2(544, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_765sa"]
+atlas = ExtResource("2_8dmqp")
+region = Rect2(528, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3jdb"]
+atlas = ExtResource("2_8dmqp")
+region = Rect2(512, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pverf"]
+atlas = ExtResource("2_8dmqp")
+region = Rect2(496, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oxnhy"]
+atlas = ExtResource("2_8dmqp")
+region = Rect2(480, 128, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ya7kk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3nrym")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ve21")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_765sa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3jdb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pverf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oxnhy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="GoldenFlashPickup" type="Area2D" unique_id=1327782131]
+script = ExtResource("1_golden_flash")
+lifetime = 18.0
+pickup_display_name = "金色闪光"
+float_amplitude = 4.0
+float_speed = 3.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=589927322]
+shape = SubResource("CircleShape2D_golden_flash")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=198254588]
+modulate = Color(0.9307463, 0.8602799, 0.30039948, 1)
+scale = Vector2(0.18, 0.18)
+sprite_frames = SubResource("SpriteFrames_ya7kk")
+autoplay = "default"
+frame_progress = 0.61743826

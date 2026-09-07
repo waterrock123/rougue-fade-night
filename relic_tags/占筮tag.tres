@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="RelicTag" format=3 uid="uid://0d5hp57doaa0"]
 
-[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="1_lcu1p"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="1_b1f5y"]
 
 [resource]
-script = ExtResource("1_lcu1p")
+script = ExtResource("1_b1f5y")
 color = Color(0.57517993, 0.32442006, 0.29798764, 1)
-tag_name = "塔罗"
+tag_name = "占筮"
 metadata/_custom_type_script = "uid://bts8j8jm6rdpv"

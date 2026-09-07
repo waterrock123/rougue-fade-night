@@ -8,6 +8,25 @@ func show_screen_tip(message: String, duration: float = 1.2) -> void:
 	if message.is_empty():
 		return
 
+	var battle_message_log: BattleMessageLog = _get_battle_message_log()
+	if battle_message_log != null:
+		battle_message_log.add_message(message)
+		return
+
+	_show_floating_screen_tip(message, duration)
+
+
+func _get_battle_message_log() -> BattleMessageLog:
+	if not is_inside_tree():
+		return null
+
+	return get_tree().get_first_node_in_group("battle_message_log") as BattleMessageLog
+
+
+func _show_floating_screen_tip(message: String, duration: float = 1.2) -> void:
+	if message.is_empty():
+		return
+
 	var layer := CanvasLayer.new()
 	layer.layer = 100
 	layer.process_mode = Node.PROCESS_MODE_ALWAYS

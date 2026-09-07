@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="1_base"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="2_data"]
+[ext_resource type="Script" path="res://scripts/skill/passive_battle_end_sell_inventory_slots_effect.gd" id="3_effect"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb729.png" id="4_icon"]
+
+[sub_resource type="Resource" id="Resource_sell_slots"]
+script = ExtResource("3_effect")
+slot_indices = Array[int]([0, 1])
+
+[resource]
+script = ExtResource("2_data")
+effects = Array[ExtResource("1_base")]([SubResource("Resource_sell_slots")])
+id = &"012"
+skill_name = "我是强度党"
+desc = "背包内前两个格子的装备被视作垃圾装备，战斗结束后将其按原价出售。"
+icon = ExtResource("4_icon")

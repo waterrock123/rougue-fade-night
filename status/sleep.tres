@@ -28,5 +28,6 @@ id = &"sleep"
 status_name = "沉睡"
 desc = "控制类状态，使目标无法执行任何行动并停止动画；受到伤害时立即解除此状态"
 icon = ExtResource("2_ptyt4")
+polarity = 2
 effects = Array[ExtResource("1_t6dgk")]([SubResource("Resource_ippxe"), SubResource("Resource_kl6qk"), SubResource("Resource_wakeup")])
 metadata/_custom_type_script = "uid://halm05nhwnoo"

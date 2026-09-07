@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3 uid="uid://bw3sfaopv201e"]
+
+[ext_resource type="PackedScene" uid="uid://b12ik113lueki" path="res://scenes/ability/scount_ammo_barrage_ability.tscn" id="1_ability"]
+[ext_resource type="Texture2D" uid="uid://jakm2eahuijc" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="2_icon"]
+[ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="3_script"]
+[ext_resource type="Script" uid="uid://j54mhasc2y6r" path="res://scripts/skill/skill_data.gd" id="4_ku2py"]
+
+[resource]
+script = ExtResource("3_script")
+ability_scene = ExtResource("1_ability")
+base_cooldown = 10.0
+base_energy_cost = 20.0
+id = &"110"
+skill_name = "弹药倾泻"
+desc = "向前方锥形范围持续倾泻大量子弹，造成{ranged}伤害。背包内每有一件{ammo}装备，子弹总量增加20%，最多增加100%；施放期间无法移动。"
+icon = ExtResource("2_icon")
+tags = Array[StringName]([&"active_skill", &"projectile", &"ranged", &"ammo"])
+allowed_character_ids = Array[StringName]([&"scount"])

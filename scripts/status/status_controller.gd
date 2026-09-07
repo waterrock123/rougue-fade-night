@@ -5,6 +5,8 @@ signal status_changed()
 signal status_stacks_consumed(status_id: StringName, consumed_amount: int)
 
 var statuses: Dictionary = {}
+## source_key -> 剩余可拦截次数。不同来源的拦截次数可以同时存在。
+var negative_status_blockers: Dictionary = {}
 
 @onready var stats_controller: StatsController = get_node_or_null("../StatsController") as StatsController
 @onready var target: Node = get_parent()
@@ -32,6 +34,9 @@ func add_status(
 	duration_override: float = INF
 ) -> StatusInstance:
 	if status_data == null or status_data.id == &"":
+		return null
+	if status_data.is_negative() and _consume_negative_status_blocker():
+		# 被拦截的负面状态不会创建实例，也不会触发“状态已施加”事件。
 		return null
 
 	var status_id := status_data.id
@@ -109,6 +114,37 @@ func consume_status_stacks(status_id: StringName, amount: int) -> int:
 func clear_all_statuses() -> void:
 	for status_id in statuses.keys().duplicate():
 		remove_status(status_id)
+
+
+## 为指定来源登记可以拦截的负面状态次数。
+func add_negative_status_blocker(source_key: Variant, charges: int) -> void:
+	var key: String = str(source_key)
+	if key.is_empty() or charges <= 0:
+		return
+	negative_status_blockers[key] = max(int(negative_status_blockers.get(key, 0)), charges)
+
+
+## 移除指定来源的负面状态拦截次数。
+func remove_negative_status_blocker(source_key: Variant) -> void:
+	negative_status_blockers.erase(str(source_key))
+
+
+func _consume_negative_status_blocker() -> bool:
+	for key_variant in negative_status_blockers.keys().duplicate():
+		var key: String = str(key_variant)
+		var remaining: int = int(negative_status_blockers.get(key, 0))
+		if remaining <= 0:
+			negative_status_blockers.erase(key)
+			continue
+
+		remaining -= 1
+		if remaining <= 0:
+			negative_status_blockers.erase(key)
+		else:
+			negative_status_blockers[key] = remaining
+		return true
+
+	return false
 
 
 func get_stats_controller() -> StatsController:

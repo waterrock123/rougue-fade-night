@@ -5,17 +5,17 @@
 [resource]
 script = ExtResource("1_v83ir")
 entity_name = "浪子"
-base_max_health = 35.0
+base_max_health = 25.0
 base_max_energy = 15.0
 base_energy_regen_tick_value = 5.0
 base_dodge_rate = 0.02
 base_crit_damage = 1.6
 base_move_speed = 50.0
-strength = 5
-dexterity = 5
+strength = 3
+dexterity = 7
 intelligence = 6
-constitution = 3
+constitution = 4
 speed = 7
-charm = 5
-luck = 6
+charm = 6
+luck = 5
 metadata/_custom_type_script = "uid://yiy2gawxifk8"

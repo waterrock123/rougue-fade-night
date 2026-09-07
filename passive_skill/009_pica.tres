@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_data"]
 [ext_resource type="Script" uid="uid://duduak1r8l3a0" path="res://scripts/skill/passive_add_primary_stat_effect.gd" id="3_primary"]
 [ext_resource type="Script" uid="uid://gul3tgbi87rg" path="res://scripts/skill/passive_battle_end_consume_equipment_for_stats_effect.gd" id="4_consume"]
+[ext_resource type="Resource" path="res://passive_skill/010_gluttonous_feast.tres" id="5_feast"]
 
 [sub_resource type="Resource" id="Resource_primary"]
 script = ExtResource("3_primary")
@@ -22,4 +23,5 @@ id = &"009"
 skill_name = "异食癖"
 desc = "{constitution}+5。战斗结束后最左边的装备会被消耗，随后获得随机属性永久提升，提升数值为被消耗装备的阶数。"
 icon = ExtResource("2_d0kxr")
+upgrade_options = Array[ExtResource("2_data")]([ExtResource("5_feast")])
 metadata/_custom_type_script = "uid://crxnh0qcjcfth"

@@ -25,6 +25,7 @@ vfx_scene = ExtResource("5_6wtuy")
 [resource]
 script = ExtResource("2_y4b8y")
 id = &"rage"
+polarity = 1
 status_name = "暴怒"
 desc = "初始技能的冷却大幅度减少（减少80%），且其伤害附带额外的伤害（附带体质点数/2向下取整）"
 icon = ExtResource("2_hnsxn")

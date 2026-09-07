@@ -13,6 +13,7 @@ value_per_stack = 5.0
 [resource]
 script = ExtResource("1_data")
 id = &"swift"
+polarity = 1
 status_name = "迅疾"
 desc = "短时间内速度提升5点。"
 icon = ExtResource("4_icon")

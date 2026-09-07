@@ -6,6 +6,29 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_1kvp1"]
 [ext_resource type="Resource" uid="uid://hwfpda2ygcic" path="res://relic_tags/剑tag.tres" id="5_eru4y"]
 [ext_resource type="Resource" uid="uid://d1qaxn6s7eqj0" path="res://relic_tags/历战tag.tres" id="6_ynepj"]
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" path="res://relic_effect/gain_distinct_tagged_shop_relics_effect.gd" id="8_distinct_sword"]
+[ext_resource type="Script" path="res://relic_effect/battle_win_accumulate_relic_stats_effect.gd" id="9_accumulate_stats"]
+
+[sub_resource type="Resource" id="Resource_base_stats"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"dexterity": 5.0,
+"strength": 5.0
+}
+
+[sub_resource type="Resource" id="Resource_sword_rewards"]
+script = ExtResource("8_distinct_sword")
+required_tag = ExtResource("5_eru4y")
+grant_count = 3
+prefer_unowned_relics = true
+
+[sub_resource type="Resource" id="Resource_growth"]
+script = ExtResource("9_accumulate_stats")
+add_stats_per_win = {
+"dexterity": 2.0,
+"strength": 2.0
+}
 
 [resource]
 script = ExtResource("2_edn4f")
@@ -18,4 +41,6 @@ price = 6
 level = 6
 tags = Array[ExtResource("3_1kvp1")]([ExtResource("5_eru4y"), ExtResource("6_ynepj")])
 id = "098"
+effects = Array[ExtResource("1_tans4")]([SubResource("Resource_base_stats"), SubResource("Resource_sword_rewards")])
+great_effects = Array[ExtResource("1_tans4")]([SubResource("Resource_growth")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

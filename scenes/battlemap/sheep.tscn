@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://cj8mrvwanndo6"]
+
+[ext_resource type="Script" uid="uid://cti7vjygxmmgm" path="res://scripts/battlemap/animal_map_object.gd" id="1_animal"]
+[ext_resource type="Resource" uid="uid://1n84v6x5n0ya" path="res://relics/level_2/113_羊毛.tres" id="2_reward"]
+[ext_resource type="Texture2D" uid="uid://c4madrdwm3640" path="res://assets/tileset/Cute_Fantasy_Free/Animals/Sheep/Sheep.png" id="3_u3w8p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jfkr8"]
+atlas = ExtResource("3_u3w8p")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwkpi"]
+atlas = ExtResource("3_u3w8p")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kxpeg"]
+atlas = ExtResource("3_u3w8p")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8jia"]
+atlas = ExtResource("3_u3w8p")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ejkvf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jfkr8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwkpi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kxpeg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8jia")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="AnimalHitShape"]
+radius = 14.0
+
+[sub_resource type="CapsuleShape2D" id="AnimalBodyShape"]
+radius = 8.0
+height = 16.0
+
+[node name="Sheep" type="CharacterBody2D" unique_id=1156242628]
+scale = Vector2(1.2, 1.2)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_animal")
+animal_id = &"animal_sheep"
+wander_radius = 50.0
+reward_relic = ExtResource("2_reward")
+enable_interactable_highlight = true
+highlight_visual_path = NodePath("AnimatedSprite2D")
+max_health = 32.0
+affected_by_terrain_move_cost = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=84923239]
+sprite_frames = SubResource("SpriteFrames_ejkvf")
+autoplay = "default"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=808719856]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=866745927]
+shape = SubResource("AnimalHitShape")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=293491820]
+position = Vector2(0, 8)
+shape = SubResource("AnimalBodyShape")

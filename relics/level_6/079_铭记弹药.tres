@@ -6,6 +6,20 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_f72nj"]
 [ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="5_l54i2"]
 [ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="6_g6d4o"]
+[ext_resource type="Script" path="res://relic_effect/kill_stacking_projectile_damage_bonus_effect.gd" id="7_projectile_bonus"]
+
+[sub_resource type="Resource" id="Resource_base_bonus"]
+script = ExtResource("7_projectile_bonus")
+initial_bonus_percent = 0.02
+bonus_percent_per_kill = 0.02
+max_bonus_percent = 1.0
+ignore_when_owner_levelup = true
+
+[sub_resource type="Resource" id="Resource_upgrade_bonus"]
+script = ExtResource("7_projectile_bonus")
+initial_bonus_percent = 0.02
+bonus_percent_per_kill = 0.02
+max_bonus_percent = 3.0
 
 [resource]
 script = ExtResource("3_sq13c")
@@ -17,4 +31,7 @@ desc = "奇怪的弹药，它的速度会越来越快"
 price = 6
 level = 6
 tags = Array[ExtResource("4_f72nj")]([ExtResource("5_l54i2"), ExtResource("6_g6d4o")])
+id = "079"
+effects = Array[ExtResource("1_j5j54")]([SubResource("Resource_base_bonus")])
+great_effects = Array[ExtResource("1_j5j54")]([SubResource("Resource_upgrade_bonus")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

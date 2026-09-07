@@ -25,6 +25,8 @@ const BOOK_TYPE_ORDER: Array[int] = [BookType.EQUIPMENT, BookType.ACTIVE_SKILL, 
 @onready var grid_container: GridContainer = $Panel/PictorialBookBar/GridContainer
 @onready var detail_container: MarginContainer = %DetailContainer
 @onready var exit_button: Button = $Panel2/ExitButton
+@onready var skill_tree_button: Button = $Panel2/SkillTreeButton
+@onready var skill_tree_panel: SkillTreePanel = $SkillTreePanel
 
 var current_type: int = BookType.EQUIPMENT
 var relics: Array[Relic] = []
@@ -36,6 +38,10 @@ var current_items: Array[Control] = []
 func _ready() -> void:
 	_connect_buttons()
 	_load_all_data()
+	if skill_tree_panel != null:
+		skill_tree_panel.setup(active_skills, passive_skills)
+		if not skill_tree_panel.closed.is_connected(_on_skill_tree_closed):
+			skill_tree_panel.closed.connect(_on_skill_tree_closed)
 	_show_type(BookType.EQUIPMENT)
 
 
@@ -46,6 +52,8 @@ func _connect_buttons() -> void:
 		right_button.pressed.connect(_on_right_button_pressed)
 	if exit_button != null and not exit_button.pressed.is_connected(_on_exit_button_pressed):
 		exit_button.pressed.connect(_on_exit_button_pressed)
+	if skill_tree_button != null and not skill_tree_button.pressed.is_connected(_on_skill_tree_button_pressed):
+		skill_tree_button.pressed.connect(_on_skill_tree_button_pressed)
 
 
 # 图鉴只读取静态资源，不依赖 Run，因此主菜单也可以直接打开。
@@ -151,6 +159,22 @@ func _on_right_button_pressed() -> void:
 
 func _on_exit_button_pressed() -> void:
 	ResourceLocator.go_to_home_scene()
+
+
+func _on_skill_tree_button_pressed() -> void:
+	# 等当前按钮释放鼠标后再打开子页面，避免打开瞬间沿用旧点击事件。
+	call_deferred("_open_skill_tree_panel")
+
+
+func _open_skill_tree_panel() -> void:
+	if skill_tree_panel != null:
+		# 技能树是图鉴上的子页面，打开时保留图鉴数据和当前分类。
+		skill_tree_panel.open_panel()
+
+
+func _on_skill_tree_closed() -> void:
+	# 关闭技能树后显式恢复图鉴主体，避免被当成退出图鉴处理。
+	show()
 
 
 func _get_previous_type() -> int:

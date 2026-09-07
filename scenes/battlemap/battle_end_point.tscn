@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://fhe32ttwb015"]
+
+[ext_resource type="Script" uid="uid://clbkt5sfdiryd" path="res://scripts/battlemap/battle_end_point.gd" id="1_battle_end_point"]
+[ext_resource type="Texture2D" uid="uid://1onyfwr64s1x" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc776.png" id="2_6box6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_trigger"]
+radius = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6box6"]
+radius = 18.0
+
+[node name="BattleEndPoint" type="CharacterBody2D" unique_id=1914115150]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_battle_end_point")
+enable_interactable_highlight = true
+highlight_visual_path = NodePath("VisualRoot")
+highlight_outline_size = 0.5
+affected_by_terrain_move_cost = false
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=968091578]
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualRoot" unique_id=1841533847]
+texture_filter = 1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_6box6")
+
+[node name="TriggerArea" type="Area2D" parent="." unique_id=203781635]
+collision_layer = 0
+collision_mask = 3
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea" unique_id=1941630600]
+shape = SubResource("CircleShape2D_trigger")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=387862652]
+shape = SubResource("CircleShape2D_6box6")
+
+[connection signal="area_entered" from="TriggerArea" to="." method="_on_trigger_area_entered"]
+[connection signal="body_entered" from="TriggerArea" to="." method="_on_trigger_body_entered"]

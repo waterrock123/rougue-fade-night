@@ -1,0 +1,210 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/skill_tree_panel.gd" id="1_panel"]
+[ext_resource type="PackedScene" path="res://scenes/ui/skill_tree_graph.tscn" id="2_graph"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_window"]
+bg_color = Color(0.06, 0.08, 0.12, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.95, 0.86, 0.52, 0.95)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+bg_color = Color(0.16, 0.2, 0.28, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5, 0.68, 0.82, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="SkillTreePanel" type="Control"]
+visible = false
+z_index = 20
+mouse_filter = 0
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_panel")
+
+[node name="Overlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.03, 0.05, 0.72)
+mouse_filter = 0
+
+[node name="Window" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -850.0
+offset_top = -470.0
+offset_right = 850.0
+offset_bottom = 470.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_window")
+
+[node name="MarginContainer" type="MarginContainer" parent="Window"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 18
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Window/MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 36
+text = "技能树"
+vertical_alignment = 1
+
+[node name="ExitButton" type="Button" parent="Window/MarginContainer/VBoxContainer/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 58)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "退出"
+
+[node name="TypeFilter" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Window/MarginContainer/VBoxContainer/TypeFilter"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "技能类型："
+vertical_alignment = 1
+
+[node name="AllTypeButton" type="Button" parent="Window/MarginContainer/VBoxContainer/TypeFilter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 46)
+toggle_mode = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+text = "全部"
+
+[node name="ActiveTypeButton" type="Button" parent="Window/MarginContainer/VBoxContainer/TypeFilter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 46)
+toggle_mode = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+text = "主动技能"
+
+[node name="PassiveTypeButton" type="Button" parent="Window/MarginContainer/VBoxContainer/TypeFilter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 46)
+toggle_mode = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+text = "被动技能"
+
+[node name="StageFilter" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Window/MarginContainer/VBoxContainer/StageFilter"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "技能阶段："
+vertical_alignment = 1
+
+[node name="AllStageButton" type="Button" parent="Window/MarginContainer/VBoxContainer/StageFilter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 46)
+toggle_mode = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+text = "全部"
+
+[node name="InitialStageButton" type="Button" parent="Window/MarginContainer/VBoxContainer/StageFilter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 46)
+toggle_mode = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+text = "初始技能"
+
+[node name="UpgradeStageButton" type="Button" parent="Window/MarginContainer/VBoxContainer/StageFilter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 46)
+toggle_mode = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+text = "升级技能"
+
+[node name="OwnershipFilter" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Window/MarginContainer/VBoxContainer/OwnershipFilter"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "技能归属："
+vertical_alignment = 1
+
+[node name="AllOwnershipButton" type="Button" parent="Window/MarginContainer/VBoxContainer/OwnershipFilter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 46)
+toggle_mode = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+text = "全部"
+
+[node name="WarriorOwnershipButton" type="Button" parent="Window/MarginContainer/VBoxContainer/OwnershipFilter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 46)
+toggle_mode = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+text = "战狂"
+
+[node name="SCountOwnershipButton" type="Button" parent="Window/MarginContainer/VBoxContainer/OwnershipFilter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 46)
+toggle_mode = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+text = "浪子"
+
+[node name="GraphScroll" type="ScrollContainer" parent="Window/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 620)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 1
+vertical_scroll_mode = 1
+follow_focus = false
+mouse_filter = 0
+
+[node name="SkillTreeGraph" parent="Window/MarginContainer/VBoxContainer/GraphScroll" instance=ExtResource("2_graph")]
+unique_name_in_owner = true
+layout_mode = 2

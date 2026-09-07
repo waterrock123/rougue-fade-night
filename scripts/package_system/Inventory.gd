@@ -253,7 +253,7 @@ func _find_mergeable_relic_indices(relic_id: String) -> Array[int]:
 
 	for slot_index in range(slots.size()):
 		var slot_ := slots[slot_index]
-		if slot_ == null or slot_.item == null:
+		if slot_ == null or slot_.item == null or slot_.item.is_temporary:
 			continue
 
 		var relic := slot_.item
@@ -273,13 +273,13 @@ func _find_mergeable_relic_indices(relic_id: String) -> Array[int]:
 
 
 func _can_merge_with_external_relic(relic: Relic) -> bool:
-	if relic == null or relic.leveltip != Relic.LevelTip.UNLEVELUP:
+	if relic == null or relic.is_temporary or relic.leveltip != Relic.LevelTip.UNLEVELUP:
 		return false
 
 	var required_count = max(relic.upgrade_merge_count, 2)
 	var existing_count := 0
 	for slot_ in slots:
-		if slot_ == null or slot_.item == null:
+		if slot_ == null or slot_.item == null or slot_.item.is_temporary:
 			continue
 		if slot_.item.id == relic.id and slot_.item.leveltip == Relic.LevelTip.UNLEVELUP:
 			existing_count += 1
@@ -289,12 +289,15 @@ func _can_merge_with_external_relic(relic: Relic) -> bool:
 
 # 背包满时使用“外部新获得的遗物”参与合成，不需要先占用一个空格。
 func _merge_with_external_relic(relic: Relic) -> void:
+	if relic == null or relic.is_temporary:
+		return
+
 	var required_count = max(relic.upgrade_merge_count, 2)
 	var matching_indices: Array[int] = []
 
 	for slot_index in range(slots.size()):
 		var slot_ := slots[slot_index]
-		if slot_ == null or slot_.item == null:
+		if slot_ == null or slot_.item == null or slot_.item.is_temporary:
 			continue
 		if slot_.item.id == relic.id and slot_.item.leveltip == Relic.LevelTip.UNLEVELUP:
 			matching_indices.append(slot_index)

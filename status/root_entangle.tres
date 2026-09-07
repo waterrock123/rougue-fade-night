@@ -17,5 +17,6 @@ id = &"root_entangle"
 status_name = "根须缠绕"
 desc = "控制类状态，使目标被根须缠住，短时间无法行动；体质越高，持续时间越短。"
 icon = ExtResource("3_icon")
+polarity = 2
 duration = 1.4
 effects = Array[ExtResource("1_base")]([SubResource("RootControlEffect")])

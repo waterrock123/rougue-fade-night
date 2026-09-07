@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3 uid="uid://bwmkreibyccup"]
+
+[ext_resource type="Script" uid="uid://dm8dhxlxlwiq4" path="res://scripts/skill/passive_skill_effect.gd" id="1_8cbhw"]
+[ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_28a1f"]
+[ext_resource type="Script" uid="uid://j54mhasc2y6r" path="res://scripts/skill/skill_data.gd" id="3_bfkn2"]
+
+[resource]
+script = ExtResource("2_28a1f")
+id = &"020"
+skill_name = "杀戮狂人"
+desc = "杀死一个敌人后立即使一个主动技能冷却减少30%，并恢复20%的mp"
+allowed_character_ids = Array[StringName]([&"warrior"])
+metadata/_custom_type_script = "uid://crxnh0qcjcfth"

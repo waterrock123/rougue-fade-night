@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cmjaj8evdf6ji"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_relic"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="2_effect_base"]
+[ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://relic_effect/add_derived_stat_effect.gd" id="3_add_derived"]
+[ext_resource type="Script" uid="uid://coxeot3bjrmdk" path="res://relic_effect/poise_break_area_damage_effect.gd" id="4_break_area"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_tag"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="6_weapon_tag"]
+[ext_resource type="Resource" uid="uid://bhvriwrr7jduc" path="res://relic_tags/战狂tag.tres" id="7_warrior_tag"]
+
+[sub_resource type="Resource" id="ArmorBreakerPoiseMultiplier"]
+script = ExtResource("3_add_derived")
+add_derived_stats = {
+"poise_damage_multiplier": 0.2
+}
+
+[sub_resource type="Resource" id="ArmorBreakerAreaDamage"]
+script = ExtResource("4_break_area")
+
+[resource]
+script = ExtResource("1_relic")
+relic_name = "碎甲锤"
+tooltip = "你的{poise_damage_multiplier}提高20%。
+升级：被你{poise_break}的敌人周围其他敌人受到等于你{strength}200%的{melee_damage}。"
+desc = "敲碎一个缺口，冲击便会沿着整片阵线扩散。"
+price = 4
+level = 3
+tags = Array[ExtResource("5_tag")]([ExtResource("6_weapon_tag"), ExtResource("7_warrior_tag")])
+id = "117"
+effects = Array[ExtResource("2_effect_base")]([SubResource("ArmorBreakerPoiseMultiplier")])
+great_effects = Array[ExtResource("2_effect_base")]([SubResource("ArmorBreakerAreaDamage")])

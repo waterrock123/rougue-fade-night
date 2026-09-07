@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/battle_message_log.gd" id="1_battle_message_log"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_battle_message_log"]
+bg_color = Color(0.03, 0.04, 0.05, 0.28)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.8, 0.35, 0.22)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="BattleMessageLog" type="PanelContainer"]
+custom_minimum_size = Vector2(330, 300)
+offset_right = 330.0
+offset_bottom = 300.0
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_battle_message_log")
+script = ExtResource("1_battle_message_log")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="MessageList" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6

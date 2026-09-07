@@ -4,9 +4,13 @@
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_x4bmk"]
 [ext_resource type="Script" uid="uid://clbjgkxl2wtkk" path="res://relic_effect/battle_win_act_effect.gd" id="2_jmqgq"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_x4bmk"]
+[ext_resource type="Script" uid="uid://66tc0kh76b5a" path="res://relic_effect/sell_gold_bonus_effect.gd" id="3_sell_bonus"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_tuncv"]
 [ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="6_nx1m7"]
 [ext_resource type="Resource" uid="uid://d1qaxn6s7eqj0" path="res://relic_tags/历战tag.tres" id="7_kutke"]
+
+[sub_resource type="Resource" id="Resource_sell_bonus"]
+script = ExtResource("3_sell_bonus")
 
 [sub_resource type="Resource" id="Resource_tuncv"]
 script = ExtResource("2_jmqgq")
@@ -25,5 +29,6 @@ sell_price = 3
 level = 1
 tags = Array[ExtResource("5_tuncv")]([ExtResource("6_nx1m7"), ExtResource("7_kutke")])
 id = "001"
+effects = Array[ExtResource("1_x4bmk")]([SubResource("Resource_sell_bonus")])
 great_effects = Array[ExtResource("1_x4bmk")]([SubResource("Resource_tuncv")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

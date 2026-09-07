@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="MapObjectSpawnProfile" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="MapObjectSpawnProfile" format=3 uid="uid://dc6s4gaa54afn"]
 
-[ext_resource type="Script" path="res://custom_resource/map_object_spawn_profile.gd" id="1_profile"]
-[ext_resource type="Script" path="res://custom_resource/map_object_spawn_rule.gd" id="2_rule"]
+[ext_resource type="Script" uid="uid://be1aaraufe1vi" path="res://custom_resource/map_object_spawn_profile.gd" id="1_profile"]
+[ext_resource type="Script" uid="uid://qoyk5utuuh1u" path="res://custom_resource/map_object_spawn_rule.gd" id="2_rule"]
+[ext_resource type="Resource" uid="uid://bbvvg3iqcobk4" path="res://custom_resource/animal_spawn_pool.tres" id="3_animal_pool"]
 
 [sub_resource type="Resource" id="MapObjectSpawnRule_apple_tree"]
 script = ExtResource("2_rule")
@@ -18,11 +19,63 @@ script = ExtResource("2_rule")
 object_id = &"rock"
 min_count = 2
 max_count = 4
-weight = 1.0
 min_distance_from_player_spawn = 120.0
 min_distance_from_enemy_spawns = 64.0
-min_distance_from_other_objects = 32.0
+
+[sub_resource type="Resource" id="MapObjectSpawnRule_lost_cargo"]
+script = ExtResource("2_rule")
+object_id = &"lost_cargo"
+chance = 0.0
+min_count = 1
+max_count = 1
+weight = 0.35
+min_distance_from_player_spawn = 120.0
+min_distance_from_enemy_spawns = 64.0
+min_distance_from_other_objects = 56.0
+
+[sub_resource type="Resource" id="MapObjectSpawnRule_ammo_box"]
+script = ExtResource("2_rule")
+object_id = &"ammo_box"
+chance = 0.0
+min_count = 1
+max_count = 1
+weight = 0.35
+min_distance_from_enemy_spawns = 64.0
+min_distance_from_other_objects = 56.0
+
+[sub_resource type="Resource" id="MapObjectSpawnRule_sword_stand"]
+script = ExtResource("2_rule")
+object_id = &"sword_stand"
+chance = 0.0
+min_count = 1
+max_count = 1
+weight = 0.35
+min_distance_from_enemy_spawns = 64.0
+min_distance_from_other_objects = 56.0
+
+[sub_resource type="Resource" id="MapObjectSpawnRule_alchemy_station"]
+script = ExtResource("2_rule")
+object_id = &"alchemy_station"
+chance = 0.0
+min_count = 1
+max_count = 1
+weight = 0.35
+min_distance_from_player_spawn = 120.0
+min_distance_from_enemy_spawns = 64.0
+min_distance_from_other_objects = 64.0
+
+[sub_resource type="Resource" id="MapObjectSpawnRule_animal"]
+script = ExtResource("2_rule")
+object_id = &"animal"
+chance = 0.35
+min_count = 1
+max_count = 1
+weight = 0.5
+variant_pool = ExtResource("3_animal_pool")
+min_distance_from_player_spawn = 120.0
+min_distance_from_enemy_spawns = 64.0
+min_distance_from_other_objects = 56.0
 
 [resource]
 script = ExtResource("1_profile")
-rules = Array[ExtResource("2_rule")]([SubResource("MapObjectSpawnRule_apple_tree"), SubResource("MapObjectSpawnRule_rock")])
+rules = Array[ExtResource("2_rule")]([SubResource("MapObjectSpawnRule_apple_tree"), SubResource("MapObjectSpawnRule_rock"), SubResource("MapObjectSpawnRule_lost_cargo"), SubResource("MapObjectSpawnRule_ammo_box"), SubResource("MapObjectSpawnRule_sword_stand"), SubResource("MapObjectSpawnRule_alchemy_station"), SubResource("MapObjectSpawnRule_animal")])

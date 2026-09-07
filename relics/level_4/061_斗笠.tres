@@ -6,6 +6,42 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_54iqh"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_d2iu6"]
 [ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="6_uq2dv"]
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_add_stats"]
+[ext_resource type="Script" path="res://relic_effect/dodge_apply_status_effect.gd" id="8_dodge_status"]
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="9_status_data"]
+[ext_resource type="Script" path="res://scripts/status/status_effect.gd" id="10_status_effect"]
+[ext_resource type="Script" path="res://scripts/status/status_add_stat_effect.gd" id="11_status_add_stat"]
+
+[sub_resource type="Resource" id="Resource_dexterity"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"dexterity": 4.0
+}
+
+[sub_resource type="Resource" id="Resource_crit_stat"]
+script = ExtResource("11_status_add_stat")
+stat_name = &"crit_chance"
+value_per_stack = 0.2
+
+[sub_resource type="Resource" id="Resource_dodge_crit_status"]
+script = ExtResource("9_status_data")
+id = &"douli_dodge_crit"
+status_name = "斗笠·避锋"
+desc = "闪避后，暴击率提高20%。"
+polarity = 1
+duration = 3.0
+max_stacks = 1
+effects = Array[ExtResource("10_status_effect")]([SubResource("Resource_crit_stat")])
+
+[sub_resource type="Resource" id="Resource_dodge_crit"]
+script = ExtResource("8_dodge_status")
+status_data = SubResource("Resource_dodge_crit_status")
+
+[sub_resource type="Resource" id="Resource_speed"]
+script = ExtResource("7_add_stats")
+add_stats = {
+"speed": 2.0
+}
 
 [resource]
 script = ExtResource("2_4fq5m")
@@ -17,4 +53,6 @@ price = 4
 level = 4
 tags = Array[ExtResource("3_54iqh")]([ExtResource("5_d2iu6"), ExtResource("6_uq2dv")])
 id = "061"
+effects = Array[ExtResource("1_gkkfa")]([SubResource("Resource_dexterity"), SubResource("Resource_dodge_crit")])
+great_effects = Array[ExtResource("1_gkkfa")]([SubResource("Resource_speed")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

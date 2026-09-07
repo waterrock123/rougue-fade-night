@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3 uid="uid://bsgj07lvkcx3d"]
+
+[ext_resource type="Script" uid="uid://dm8dhxlxlwiq4" path="res://scripts/skill/passive_skill_effect.gd" id="1_base"]
+[ext_resource type="Script" uid="uid://crxnh0qcjcfth" path="res://scripts/skill/passive_skill_data.gd" id="2_data"]
+[ext_resource type="Script" uid="uid://q6susldjwm8b" path="res://scripts/skill/passive_shop_refresh_free_chance_effect.gd" id="3_effect"]
+[ext_resource type="Texture2D" uid="uid://7mapfhbk0gj6" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb799.png" id="4_icon"]
+[ext_resource type="Script" uid="uid://j54mhasc2y6r" path="res://scripts/skill/skill_data.gd" id="5_qfppp"]
+
+[sub_resource type="Resource" id="Resource_exchange"]
+script = ExtResource("3_effect")
+
+[resource]
+script = ExtResource("2_data")
+effects = Array[ExtResource("1_base")]([SubResource("Resource_exchange")])
+id = &"019"
+skill_name = "利益交换"
+desc = "立即获得{gold}+3。每个休整期每次刷新商店时，有50%概率获得一次可储存的免费{shop_refresh}。"
+icon = ExtResource("4_icon")
+is_upgrade_skill = true
+allowed_character_ids = Array[StringName]([&"scount"])

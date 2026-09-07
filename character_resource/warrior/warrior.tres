@@ -16,11 +16,14 @@
 [ext_resource type="PackedScene" uid="uid://bkad3ppamt8x1" path="res://scenes/ability/slash_ability.tscn" id="11_k6upo"]
 [ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="12_5lh6f"]
 [ext_resource type="Texture2D" uid="uid://cv8dihitldu1i" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc727.png" id="12_k6upo"]
+[ext_resource type="Resource" uid="uid://bl6wlsl5tqqc4" path="res://activate_skill/107_snake_big_gun.tres" id="16_0w04y"]
+[ext_resource type="Script" uid="uid://j54mhasc2y6r" path="res://scripts/skill/skill_data.gd" id="16_sfcnn"]
+[ext_resource type="Resource" uid="uid://dhmanyngfgu54" path="res://character_resource/warrior/warrior_visual_data.tres" id="17_visual"]
 
 [sub_resource type="Resource" id="Resource_ee1wb"]
 script = ExtResource("12_5lh6f")
 ability_scene = ExtResource("11_k6upo")
-base_cooldown = 0.5
+base_cooldown = 0.6
 slot_type = &"Active"
 id = &"001"
 skill_name = "基础攻击-挥砍"
@@ -34,14 +37,21 @@ skill_data = SubResource("Resource_ee1wb")
 slot_index = 0
 metadata/_custom_type_script = "uid://bdqgkeyiw7nj6"
 
+[sub_resource type="Resource" id="Resource_watg2"]
+script = ExtResource("10_fobq8")
+skill_data = ExtResource("16_0w04y")
+metadata/_custom_type_script = "uid://bdqgkeyiw7nj6"
+
 [resource]
 script = ExtResource("1_jpjxe")
 id = &"warrior"
 character_name = "战狂"
 description = "武器大师，狂战士，嗜血狂魔，不管用什么称呼他都掩盖不了其享受战斗的本质。接下来，他要挑战最强者。"
 background = ExtResource("1_k6upo")
+visual_data = ExtResource("17_visual")
 start_stats = ExtResource("6_8vju8")
 start_skill = SubResource("Resource_t2vtr")
+start_skills = Array[ExtResource("10_fobq8")]([SubResource("Resource_watg2")])
 start_inventory = ExtResource("8_lbmex")
 start_equipment = ExtResource("7_5lh6f")
 start_shop = ExtResource("7_8vju8")

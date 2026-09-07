@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://lm10ygjvpd73"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_relic"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="2_effect_base"]
+[ext_resource type="Script" uid="uid://bue0qqxymdigj" path="res://relic_effect/poise_break_damage_effect.gd" id="3_break_damage"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_tag"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_weapon_tag"]
+[ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="6_tool_tag"]
+
+[sub_resource type="Resource" id="IronToothpickBreakDamage"]
+script = ExtResource("3_break_damage")
+levelup_damage = 30.0
+levelup_hit_count = 2
+
+[resource]
+script = ExtResource("1_relic")
+relic_name = "铁牙签"
+tooltip = "使一个敌人{poise_break}后，立即对其造成20点{melee_damage}。
+升级：伤害提升至30点，并额外造成一次伤害。"
+desc = "细小，却很擅长寻找铠甲松动后的缝隙。"
+price = 3
+level = 2
+tags = Array[ExtResource("4_tag")]([ExtResource("5_weapon_tag"), ExtResource("6_tool_tag")])
+id = "115"
+effects = Array[ExtResource("2_effect_base")]([SubResource("IronToothpickBreakDamage")])

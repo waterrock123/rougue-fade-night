@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://b6w3jae20tv2d"]
+
+[ext_resource type="Texture2D" uid="uid://dbyq7ghpuflx7" path="res://assets/ai art/事件背景/休憩营地.png" id="1_l300q"]
+[ext_resource type="PackedScene" uid="uid://csqwkpx1kbsbr" path="res://event_room/event_button.tscn" id="2_v16ul"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_o06u0"]
+font_size = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8p8"]
+bg_color = Color(0.45390636, 0.1925627, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.49455744, 0.18269193, 0.21664724, 0.6)
+
+[node name="FeastRoom" type="Control" unique_id=652731172]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=500561060]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.111652605, 0.032517143, 0.08517177, 0.7411765)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=499646323]
+modulate = Color(1, 1, 1, 0.6509804)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 1925.0
+offset_bottom = 1081.0
+texture = ExtResource("1_l300q")
+expand_mode = 1
+
+[node name="DescLabel" type="Label" parent="." unique_id=1797618010]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 0
+offset_left = 138.0
+offset_top = 334.0
+offset_right = 838.0
+offset_bottom = 506.0
+size_flags_vertical = 3
+text = "你误入了一个篝火晚会"
+label_settings = SubResource("LabelSettings_o06u0")
+autowrap_mode = 2
+
+[node name="DrinkButton" parent="." unique_id=1416983139 instance=ExtResource("2_v16ul")]
+layout_mode = 0
+offset_left = 157.0
+offset_top = 599.0
+offset_right = 751.0
+offset_bottom = 675.0
+autowrap_mode = 2
+pressed_desc = Array[String](["“好好好，你这么说我就不怕了，来来来，喝！”
+你与男人喝了一晚上，大醉了一场，然后带着宿醉上路了"])
+desc_text = "酒是老英雄，越喝越奋勇啊，来，换大盏"
+detail_text = "失去1点智力以及1点魅力并获得装备 酒"
+
+[node name="NotdrinkButton" parent="." unique_id=243612117 instance=ExtResource("2_v16ul")]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 702.0
+offset_right = 752.0
+offset_bottom = 778.0
+autowrap_mode = 2
+pressed_desc = Array[String](["“你说得也对，为酒所伤，今日起——戒酒！”
+男人感谢你的建议，并表示自己还有一些买酒钱，拿着也没有用，就都送给你了。"])
+desc_text = "喝酒伤身啊，你看你都被酒变成什么样子了"
+detail_text = "获得2资金"
+
+[node name="LeaveButton" type="Button" parent="." unique_id=1612002407]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 0
+offset_left = 1437.0
+offset_top = 860.0
+offset_right = 1837.0
+offset_bottom = 960.0
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_ih8p8")
+text = "离开"
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

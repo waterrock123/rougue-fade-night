@@ -10,6 +10,8 @@ extends RelicEffect
 @export var extra_damage_types: Array[int] = [DamageData.DamageType.PHYSICAL]
 @export var extra_tags: Array[String] = ["relic", "extra_hit"]
 @export var can_crit: bool = false
+## 追加小伤害默认不重复削韧，需要强调冲击力时可改为正数。
+@export var poise_damage: float = 0.0
 @export var recursion_guard_tag: String = "extra_hit_guard"
 @export var ignore_when_relic_levelup: bool = false
 
@@ -72,7 +74,11 @@ func _on_damage_dealt(damage_data: DamageData, owner: Entity, _effect_key: Strin
 		tags,
 		owner,
 		damage_data.target,
-		can_crit
+		can_crit,
+		null,
+		damage_data.source_ability_id,
+		damage_data.source_ability_slot_index,
+		poise_damage
 	)
 	damage_data.target.apply_damage(extra_data)
 

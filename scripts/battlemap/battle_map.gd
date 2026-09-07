@@ -6,6 +6,10 @@ extends Node2D
 
 const CUSTOM_TERRAIN_TYPE: StringName = &"terrain_type"
 const CUSTOM_MOVE_COST: StringName = &"move_cost"
+const CUSTOM_TERRAIN_MOTION: StringName = &"terrain_motion"
+const CUSTOM_ACCELERATION_MULTIPLIER: StringName = &"acceleration_multiplier"
+const CUSTOM_FRICTION_MULTIPLIER: StringName = &"friction_multiplier"
+const CUSTOM_TURN_CONTROL_MULTIPLIER: StringName = &"turn_control_multiplier"
 const CUSTOM_BLOCKS_MOVEMENT: StringName = &"blocks_movement"
 const CUSTOM_BLOCKS_PROJECTILE: StringName = &"blocks_projectile"
 const CUSTOM_DAMAGE_PER_SECOND: StringName = &"damage_per_second"
@@ -28,6 +32,8 @@ const SPAWN_ANY: StringName = &"any"
 @export var object_spawn_layer_path: NodePath = NodePath("ObjectSpawnLayer")
 @export var object_container_path: NodePath = NodePath("ObjectContainer")
 @export var runtime_effect_container_path: NodePath = NodePath("RuntimeEffectContainer")
+## 模板地图中用于手工框选随机生成范围的节点容器。
+@export var random_areas_path: NodePath = NodePath("RandomAreas")
 
 @export_group("通行规则")
 ## 开启后，没有地面瓦片的格子会被视为地图外，不能行走。
@@ -38,6 +44,10 @@ const SPAWN_ANY: StringName = &"any"
 @export var obstacle_tiles_block_projectiles_by_default: bool = true
 ## EffectLayer 上的瓦片默认不阻挡移动，只有 custom data 显式 blocks_movement=true 才阻挡。
 @export var effect_tiles_block_by_default: bool = false
+## 关闭地面、装饰和特效层的物理碰撞，避免非障碍瓦片误挡实体。
+@export var disable_non_obstacle_tile_collisions: bool = true
+## 是否保留 ObstacleLayer 的物理碰撞。逻辑层的 blocks_movement 不受此开关影响。
+@export var obstacle_collision_enabled: bool = true
 ## 是否用手动 Rect2i 作为地图边界。不开启时，会用地面层、障碍层、特效层的已使用格子自动计算。
 @export var use_bounds_override: bool = false
 @export var bounds_override: Rect2i = Rect2i(Vector2i.ZERO, Vector2i.ZERO)
@@ -62,6 +72,15 @@ const SPAWN_ANY: StringName = &"any"
 @export var navigation_padding_as_solid: bool = false
 ## 危险区的寻路权重。数值越高，AI 越不愿意贴墙走。
 @export var navigation_padding_weight: float = 4.0
+@export_group("绘制排序")
+## 开启后，障碍、装饰和地图物件会按 y 坐标参与纵深排序。
+@export var enable_depth_y_sort: bool = true
+## 地面类图层固定在角色与障碍下方，不参与遮挡。
+@export var ground_depth_z_index: int = -100
+@export var road_depth_z_index: int = -90
+@export var effect_depth_z_index: int = -80
+## 山丘、装饰、地图物件与实体处于同一 z 层，再交给 y-sort 决定前后。
+@export var depth_sorted_z_index: int = 0
 
 var ground_layers: Array[TileMapLayer] = []
 var decoration_layer: TileMapLayer
@@ -72,23 +91,27 @@ var spawn_points_node: Node
 var object_spawn_layer: TileMapLayer
 var object_container: Node
 var runtime_effect_container: Node
+var random_areas_node: Node
 var navigation_grid: AStarGrid2D
 var navigation_bounds: Rect2i = Rect2i(Vector2i.ZERO, Vector2i.ZERO)
 var navigation_ready: bool = false
 var runtime_navigation_blockers_by_cell: Dictionary = {}
 var runtime_navigation_cells_by_blocker: Dictionary = {}
 var runtime_navigation_previous_solid_by_cell: Dictionary = {}
+var custom_data_layer_exists_cache: Dictionary = {}
 
 
 func _ready() -> void:
 	add_to_group("battle_map")
 	refresh_layer_cache()
+	configure_depth_sorting()
 	if build_navigation_on_ready:
 		rebuild_navigation_grid()
 
 
 ## 重新查找并缓存各个层。以后如果运行时替换地图层，可以调用它刷新引用。
 func refresh_layer_cache() -> void:
+	custom_data_layer_exists_cache.clear()
 	ground_layers.clear()
 	for layer_path: NodePath in ground_layer_paths:
 		var layer: TileMapLayer = get_node_or_null(layer_path) as TileMapLayer
@@ -103,21 +126,88 @@ func refresh_layer_cache() -> void:
 	object_spawn_layer = get_node_or_null(object_spawn_layer_path) as TileMapLayer
 	object_container = get_node_or_null(object_container_path)
 	runtime_effect_container = get_node_or_null(runtime_effect_container_path)
+	random_areas_node = get_node_or_null(random_areas_path)
+	_configure_tile_layer_collisions()
+	configure_depth_sorting()
+
+
+func _configure_tile_layer_collisions() -> void:
+	# 装饰 TileSet 可能带有碰撞形状，但它不应承担地图的阻挡职责。
+	if not disable_non_obstacle_tile_collisions:
+		return
+
+	for ground_layer: TileMapLayer in ground_layers:
+		ground_layer.collision_enabled = false
+	if decoration_layer != null:
+		decoration_layer.collision_enabled = false
+	if effect_layer != null:
+		effect_layer.collision_enabled = false
+	if object_spawn_layer != null:
+		object_spawn_layer.collision_enabled = false
+	if obstacle_layer != null:
+		obstacle_layer.collision_enabled = obstacle_collision_enabled
+
+
+## 配置战斗地图的绘制层级。
+## Ground/Road/Effect 是地面信息；Obstacle/Decoration/ObjectContainer 则用 y-sort 营造“人在物体前后移动”的纵深。
+func configure_depth_sorting() -> void:
+	if not enable_depth_y_sort:
+		return
+
+	y_sort_enabled = true
+	z_index = depth_sorted_z_index
+	z_as_relative = true
+
+	for index: int in range(ground_layers.size()):
+		var ground_layer: TileMapLayer = ground_layers[index]
+		_configure_layer_depth(ground_layer, ground_depth_z_index + index, false)
+
+	_configure_layer_depth(effect_layer, effect_depth_z_index, false)
+	_configure_layer_depth(decoration_layer, depth_sorted_z_index, true)
+	_configure_layer_depth(obstacle_layer, depth_sorted_z_index, true)
+	_configure_y_sorted_container(object_container)
+	_configure_y_sorted_container(runtime_effect_container)
+
+
+func _configure_layer_depth(layer: TileMapLayer, new_z_index: int, use_y_sort: bool) -> void:
+	if layer == null:
+		return
+
+	layer.z_index = new_z_index
+	layer.z_as_relative = true
+	layer.y_sort_enabled = use_y_sort
+
+
+func _configure_y_sorted_container(container: Node) -> void:
+	var container_node: Node2D = container as Node2D
+	if container_node == null:
+		return
+
+	container_node.z_index = depth_sorted_z_index
+	container_node.z_as_relative = true
+	container_node.y_sort_enabled = true
 
 
 ## 返回玩家出生点。优先读 Marker2D，其次读 SpawnPoints 瓦片，最后回退到地图中心。
 func get_player_spawn_position(default_position: Vector2 = Vector2.ZERO) -> Vector2:
-	var marker_position: Variant = _find_marker_position_for_spawn(SPAWN_PLAYER)
-	if marker_position is Vector2:
-		return marker_position
+	# 出生点配置错误时，不直接把玩家放进墙里，依次尝试最近的安全位置。
+	var marker_positions: Array[Vector2] = _collect_marker_spawn_positions(SPAWN_PLAYER)
+	for marker_position: Vector2 in marker_positions:
+		if is_world_position_walkable(marker_position):
+			return marker_position
 
-	var tile_position: Variant = _find_first_spawn_tile_position(SPAWN_PLAYER)
-	if tile_position is Vector2:
-		return tile_position
+	var tile_positions: Array[Vector2] = _collect_tile_spawn_positions(SPAWN_PLAYER)
+	for tile_position: Vector2 in tile_positions:
+		if is_world_position_walkable(tile_position):
+			return tile_position
 
 	var map_center: Variant = get_map_center_world()
-	if map_center is Vector2:
-		return map_center
+	if map_center is Vector2 and is_world_position_walkable(map_center as Vector2):
+		return map_center as Vector2
+
+	var nearest_position: Variant = get_nearest_walkable_position(default_position, nearest_walkable_cell_search_radius)
+	if nearest_position is Vector2:
+		return nearest_position as Vector2
 
 	return default_position
 
@@ -162,9 +252,79 @@ func get_random_walkable_position(reference_position: Vector2 = Vector2.ZERO, mi
 	return null
 
 
+## 模板地图可以摆 BattleMapRandomArea 来限制随机物体的大致出现范围。
+## 如果没有可用区域，调用方应回退到 get_random_walkable_position，保证旧地图仍能工作。
+func get_random_map_object_spawn_position(object_id: StringName, max_attempts: int = 80) -> Variant:
+	var areas: Array[BattleMapRandomArea] = get_random_map_object_areas(object_id)
+	if areas.is_empty():
+		return null
+
+	var attempts: int = max(max_attempts, 1)
+	var per_area_attempts: int = int(clamp(float(attempts) / 4.0, 4.0, 20.0))
+	for _attempt: int in range(attempts):
+		var area: BattleMapRandomArea = _pick_weighted_random_area(areas)
+		if area == null:
+			return null
+
+		var position_value: Variant = area.get_random_walkable_position(self, per_area_attempts)
+		if position_value is Vector2:
+			return position_value
+
+	return null
+
+
+func has_map_object_random_areas(object_id: StringName) -> bool:
+	return not get_random_map_object_areas(object_id).is_empty()
+
+
+func get_random_map_object_areas(object_id: StringName) -> Array[BattleMapRandomArea]:
+	var result: Array[BattleMapRandomArea] = []
+	var areas: Array[BattleMapRandomArea] = get_random_areas(BattleMapRandomArea.AreaType.MAP_OBJECT)
+	for area: BattleMapRandomArea in areas:
+		if area.can_spawn_object(object_id):
+			result.append(area)
+	return result
+
+
+func get_random_areas(area_type: int) -> Array[BattleMapRandomArea]:
+	var result: Array[BattleMapRandomArea] = []
+	if random_areas_node == null:
+		return result
+
+	_collect_random_areas_recursive(random_areas_node, area_type, result)
+	return result
+
+
 ## 返回指定类型的出生点，供随机地图物件避开玩家/敌人出生区域。
 func get_spawn_positions(spawn_type: StringName) -> Array[Vector2]:
 	return _collect_spawn_positions(spawn_type)
+
+
+## 返回当前地图中所有可行走格，供地图生成验证器和调试工具使用。
+func get_walkable_cells() -> Array[Vector2i]:
+	var result: Array[Vector2i] = []
+	for cell: Vector2i in _collect_candidate_ground_cells():
+		if is_world_position_walkable(cell_to_world_center(cell)):
+			result.append(cell)
+	return result
+
+
+## 从指定位置向外寻找最近的可行走格，适合修正错误的出生点。
+func get_nearest_walkable_position(world_position: Vector2, search_radius: int = 5) -> Variant:
+	var origin_cell: Vector2i = world_to_cell(world_position)
+	var radius_limit: int = max(search_radius, 0)
+	for radius: int in range(0, radius_limit + 1):
+		for y_offset: int in range(-radius, radius + 1):
+			for x_offset: int in range(-radius, radius + 1):
+				if radius > 0 and abs(x_offset) < radius and abs(y_offset) < radius:
+					continue
+
+				var candidate_cell: Vector2i = origin_cell + Vector2i(x_offset, y_offset)
+				var candidate_position: Vector2 = cell_to_world_center(candidate_cell)
+				if is_world_position_walkable(candidate_position):
+					return candidate_position
+
+	return null
 
 
 ## 判断世界坐标是否在地图边界内。
@@ -242,6 +402,23 @@ func get_move_cost(world_position: Vector2, default_cost: float = 1.0) -> float:
 			return max(float(ground_cost), 0.0)
 
 	return default_cost
+
+
+## 获取脚下地形的“移动手感”参数。
+## EffectLayer 优先级最高；如果特效层没有运动参数，则回退到地面层。
+## 冰面只要 terrain_type 写成 ice_ground / ice，就会自动套用默认冰面惯性。
+func get_terrain_motion_profile(world_position: Vector2) -> Dictionary:
+	var cell: Vector2i = world_to_cell(world_position)
+	var effect_profile: Dictionary = _get_terrain_motion_profile_from_cell(effect_layer, cell)
+	if not effect_profile.is_empty():
+		return effect_profile
+
+	for index: int in range(ground_layers.size() - 1, -1, -1):
+		var ground_profile: Dictionary = _get_terrain_motion_profile_from_cell(ground_layers[index], cell)
+		if not ground_profile.is_empty():
+			return ground_profile
+
+	return _make_terrain_motion_profile(&"normal", 1.0, 1.0, 1.0)
 
 
 ## 获取脚下每秒伤害。地形效果控制器后续可以直接读取它。
@@ -472,6 +649,39 @@ func _collect_spawn_positions(spawn_type: StringName) -> Array[Vector2]:
 	result.append_array(_collect_marker_spawn_positions(spawn_type))
 	result.append_array(_collect_tile_spawn_positions(spawn_type))
 	return result
+
+
+func _collect_random_areas_recursive(node: Node, area_type: int, result: Array[BattleMapRandomArea]) -> void:
+	for child: Node in node.get_children():
+		var area: BattleMapRandomArea = child as BattleMapRandomArea
+		if area != null and area.matches_area_type(area_type):
+			result.append(area)
+
+		_collect_random_areas_recursive(child, area_type, result)
+
+
+func _pick_weighted_random_area(areas: Array[BattleMapRandomArea]) -> BattleMapRandomArea:
+	var total_weight: float = 0.0
+	for area: BattleMapRandomArea in areas:
+		if area == null or not area.enabled:
+			continue
+		total_weight += max(area.weight, 0.0)
+
+	if total_weight <= 0.0:
+		return null
+
+	var roll: float = randf() * total_weight
+	var cursor: float = 0.0
+	for area: BattleMapRandomArea in areas:
+		if area == null or not area.enabled:
+			continue
+
+		cursor += max(area.weight, 0.0)
+		if roll <= cursor:
+			return area
+
+	var fallback_area: BattleMapRandomArea = areas[areas.size() - 1]
+	return fallback_area
 
 
 func _collect_marker_spawn_positions(spawn_type: StringName) -> Array[Vector2]:
@@ -714,6 +924,89 @@ func _get_custom_bool(tile_data: TileData, key: StringName, default_value: bool)
 	return text == "true" or text == "1" or text == "yes"
 
 
+func _get_custom_float(tile_data: TileData, key: StringName, default_value: float) -> float:
+	var value: Variant = _get_custom_data(tile_data, key)
+	if value == null:
+		return default_value
+	if value is float or value is int:
+		var numeric_value: float = float(value)
+		# 0 通常代表“该瓦片没有填写此倍率”，不应把默认移动参数清零。
+		return default_value if is_zero_approx(numeric_value) else numeric_value
+
+	var text: String = str(value)
+	if text.is_valid_float():
+		var parsed_value: float = text.to_float()
+		return default_value if is_zero_approx(parsed_value) else parsed_value
+	return default_value
+
+
+func _has_meaningful_motion_value(value: Variant) -> bool:
+	if value == null:
+		return false
+	if value is float or value is int:
+		return not is_zero_approx(float(value))
+
+	var text: String = str(value).strip_edges()
+	if text.is_valid_float():
+		return not is_zero_approx(text.to_float())
+	return not text.is_empty()
+
+
+func _get_layer_custom_data(layer: TileMapLayer, cell: Vector2i, key: StringName) -> Variant:
+	if layer == null or layer.tile_set == null:
+		return null
+	if not _layer_has_custom_data(layer, key):
+		return null
+
+	var tile_data: TileData = _get_tile_data(layer, cell)
+	if tile_data == null:
+		return null
+	return tile_data.get_custom_data(key)
+
+
+func _get_layer_custom_float(layer: TileMapLayer, cell: Vector2i, key: StringName, default_value: float) -> float:
+	var value: Variant = _get_layer_custom_data(layer, cell, key)
+	if value == null:
+		return default_value
+	if value is float or value is int:
+		return float(value)
+
+	var text: String = str(value)
+	if text.is_valid_float():
+		return text.to_float()
+	return default_value
+
+
+func _get_layer_custom_string_name(layer: TileMapLayer, cell: Vector2i, key: StringName, default_value: StringName) -> StringName:
+	var value: Variant = _get_layer_custom_data(layer, cell, key)
+	if value == null:
+		return default_value
+
+	var text: String = str(value)
+	if text.is_empty():
+		return default_value
+	return StringName(text)
+
+
+func _layer_has_custom_data(layer: TileMapLayer, key: StringName) -> bool:
+	if layer == null or layer.tile_set == null:
+		return false
+
+	var cache_key: String = "%s:%s" % [layer.tile_set.get_instance_id(), String(key)]
+	if custom_data_layer_exists_cache.has(cache_key):
+		return bool(custom_data_layer_exists_cache[cache_key])
+
+	var has_layer: bool = false
+	for layer_index: int in range(layer.tile_set.get_custom_data_layers_count()):
+		var layer_name: StringName = StringName(layer.tile_set.get_custom_data_layer_name(layer_index))
+		if layer_name == key:
+			has_layer = true
+			break
+
+	custom_data_layer_exists_cache[cache_key] = has_layer
+	return has_layer
+
+
 func _get_custom_string_name(tile_data: TileData, key: StringName, default_value: StringName) -> StringName:
 	var value: Variant = _get_custom_data(tile_data, key)
 	if value == null:
@@ -723,6 +1016,90 @@ func _get_custom_string_name(tile_data: TileData, key: StringName, default_value
 	if text.is_empty():
 		return default_value
 	return StringName(text)
+
+
+func _get_terrain_motion_profile_from_cell(layer: TileMapLayer, cell: Vector2i) -> Dictionary:
+	if layer == null:
+		return {}
+
+	var tile_data: TileData = _get_tile_data(layer, cell)
+	if tile_data == null:
+		return {}
+
+	var terrain_type: StringName = _get_layer_custom_string_name(layer, cell, CUSTOM_TERRAIN_TYPE, &"")
+	var explicit_acceleration_value: Variant = _get_layer_custom_data(layer, cell, CUSTOM_ACCELERATION_MULTIPLIER)
+	var explicit_friction_value: Variant = _get_layer_custom_data(layer, cell, CUSTOM_FRICTION_MULTIPLIER)
+	var explicit_turn_value: Variant = _get_layer_custom_data(layer, cell, CUSTOM_TURN_CONTROL_MULTIPLIER)
+	var motion_id: StringName = _get_layer_custom_string_name(layer, cell, CUSTOM_TERRAIN_MOTION, &"")
+
+	if motion_id == &"":
+		motion_id = _get_default_motion_id_for_terrain(terrain_type)
+
+	# TileSet 添加了自定义数据层后，普通瓦片未填写的浮点数据会读成 0。
+	# 这里不能把这个默认 0 当成“将移动加速度设为 0”，否则整张模板会无法移动。
+	var has_motion_data: bool = motion_id != &""
+	if not has_motion_data:
+		has_motion_data = _has_meaningful_motion_value(explicit_acceleration_value)
+		has_motion_data = has_motion_data or _has_meaningful_motion_value(explicit_friction_value)
+		has_motion_data = has_motion_data or _has_meaningful_motion_value(explicit_turn_value)
+	if not has_motion_data:
+		return {}
+
+	if motion_id == &"":
+		motion_id = &"normal"
+
+	return _make_terrain_motion_profile(
+		motion_id,
+		_get_layer_custom_float(layer, cell, CUSTOM_ACCELERATION_MULTIPLIER, _get_default_acceleration_multiplier(motion_id)),
+		_get_layer_custom_float(layer, cell, CUSTOM_FRICTION_MULTIPLIER, _get_default_friction_multiplier(motion_id)),
+		_get_layer_custom_float(layer, cell, CUSTOM_TURN_CONTROL_MULTIPLIER, _get_default_turn_control_multiplier(motion_id))
+	)
+
+
+func _get_default_motion_id_for_terrain(terrain_type: StringName) -> StringName:
+	match terrain_type:
+		&"ice", &"ice_ground", &"frozen_ground":
+			return &"ice"
+		_:
+			return &""
+
+
+func _get_default_acceleration_multiplier(motion_id: StringName) -> float:
+	match motion_id:
+		&"ice":
+			return 0.18
+		_:
+			return 1.0
+
+
+func _get_default_friction_multiplier(motion_id: StringName) -> float:
+	match motion_id:
+		&"ice":
+			return 0.04
+		_:
+			return 1.0
+
+
+func _get_default_turn_control_multiplier(motion_id: StringName) -> float:
+	match motion_id:
+		&"ice":
+			return 0.24
+		_:
+			return 1.0
+
+
+func _make_terrain_motion_profile(
+	motion_id: StringName,
+	acceleration_multiplier: float,
+	friction_multiplier: float,
+	turn_control_multiplier: float
+) -> Dictionary:
+	return {
+		"motion_id": motion_id,
+		"acceleration_multiplier": max(acceleration_multiplier, 0.0),
+		"friction_multiplier": max(friction_multiplier, 0.0),
+		"turn_control_multiplier": clamp(turn_control_multiplier, 0.0, 1.0),
+	}
 
 
 func _get_bounds_layers() -> Array[TileMapLayer]:

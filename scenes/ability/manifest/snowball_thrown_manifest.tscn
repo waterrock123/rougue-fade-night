@@ -13,6 +13,7 @@ z_index = 80
 script = ExtResource("2_script")
 max_range = 120.0
 visual_rotate_speed = 8.0
+poise_damage = 24.0
 impact_status = ExtResource("3_frost_slow")
 impact_status_duration_override = 5.0
 

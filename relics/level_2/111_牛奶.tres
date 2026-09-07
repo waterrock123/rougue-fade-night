@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://34xyjhhq3c6r"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_relic"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="2_base"]
+[ext_resource type="Script" uid="uid://djgqmqlkg6uod" path="res://relic_effect/use_remove_random_negative_status_effect.gd" id="3_remove_negative"]
+[ext_resource type="Script" uid="uid://wwdg54imaves" path="res://relic_effect/use_heal_effect.gd" id="4_heal"]
+[ext_resource type="Script" uid="uid://dox4ishwxsfb6" path="res://relic_effect/use_restore_energy_effect.gd" id="5_energy"]
+[ext_resource type="Resource" uid="uid://c34bn4w34x5ve" path="res://status/milk_strength.tres" id="6_fallback"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="7_tag"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="8_material"]
+[ext_resource type="Resource" uid="uid://box5044uf2gqf" path="res://relic_tags/疗愈tag.tres" id="9_healing"]
+
+[sub_resource type="Resource" id="MilkRemoveNegative"]
+script = ExtResource("3_remove_negative")
+fallback_status_data = ExtResource("6_fallback")
+fallback_duration_override = 30.0
+
+[sub_resource type="Resource" id="MilkHeal"]
+script = ExtResource("4_heal")
+heal_amount = 10.0
+
+[sub_resource type="Resource" id="MilkEnergy"]
+script = ExtResource("5_energy")
+energy_amount = 20.0
+
+[resource]
+script = ExtResource("1_relic")
+relic_name = "牛奶"
+tooltip = "使用后移除随机一项负面状态；若没有负面状态，则力量 +4，持续 30 秒。
+升级：额外恢复 10 生命和 20 能量。"
+desc = "动物牛的奖励。"
+price = 4
+level = 2
+tags = Array[ExtResource("7_tag")]([ExtResource("8_material"), ExtResource("9_healing")])
+id = "111"
+is_consumable = true
+effects = Array[ExtResource("2_base")]([SubResource("MilkRemoveNegative")])
+great_effects = Array[ExtResource("2_base")]([SubResource("MilkHeal"), SubResource("MilkEnergy")])

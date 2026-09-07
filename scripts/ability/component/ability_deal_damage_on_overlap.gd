@@ -13,6 +13,8 @@ extends AbilityComponent
 @export var damage_types: Array[int] = [DamageData.DamageType.PHYSICAL]
 @export var tags: Array[String] = ["skill", "charge"]
 @export var scaling_rule: DamageScalingRule = DamageScalingRule.new()
+## 冲撞、旋风斩等碰撞攻击冲击力更强，默认造成 16 点削韧。
+@export var poise_damage: float = 16.0
 
 
 func _activate(context: AbilityContext):
@@ -42,7 +44,8 @@ func _activate(context: AbilityContext):
 				can_crit,
 				scaling_rule,
 				context.ability.id if context.ability != null else &"",
-				context.ability.runtime_slot_index if context.ability != null else -1
+				context.ability.runtime_slot_index if context.ability != null else -1,
+				poise_damage
 			)
 			target.apply_damage(damage_data)
 			hit_cache[target] = true

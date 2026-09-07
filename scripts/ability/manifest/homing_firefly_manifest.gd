@@ -32,6 +32,8 @@ extends AbilityManifest
 @export var damage_types: Array[int] = [DamageData.DamageType.ICE, DamageData.DamageType.RANGED]
 @export var tags: Array[String] = ["manifest", "summon_pet", "firefly", "projectile", "ranged", "magic"]
 @export var scaling_rule: DamageScalingRule = DamageScalingRule.new()
+## 追踪光弹通常会多发齐射，因此默认只造成 3 点削韧。
+@export var poise_damage: float = 3.0
 @export var is_penetrate: bool = false
 @export var hit_sound: AudiioConfig
 
@@ -215,7 +217,8 @@ func _damage_target(target: Entity, valid_source: Entity) -> void:
 		can_crit,
 		scaling_rule,
 		source_ability_id,
-		source_ability_slot_index
+		source_ability_slot_index,
+		poise_damage
 	)
 	target.apply_damage(damage_data)
 

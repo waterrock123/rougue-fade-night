@@ -16,10 +16,13 @@ extends Entity
 
 var is_bag_open:bool = false
 var is_moving:bool = false
+var has_movement_input: bool = false
 var weapon_right:Vector2
 var weapon_left:Vector2
 var spawn_location:Vector2
 var footstep_timer = 0.0
+var character: Character
+var character_visual_data: CharacterVisualData
 
 
 @onready var bag_ui: PackageUI = get_node_or_null("CanvasLayer/PackageUI") as PackageUI
@@ -63,8 +66,11 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if is_dead: return
+	# Player 没有 Enemy 那样的移动锁计时循环，这里统一推进它，供持续施法、前摇等组件使用。
+	movement_lock_timer = maxf(movement_lock_timer - delta, 0.0)
 	if not can_act():
 		is_moving = false
+		clear_terrain_motion_velocity()
 		footstep_effect.stop()
 		footstep_timer = 0.0
 		return
@@ -91,6 +97,9 @@ func _handle_ability_input() -> void:
 func _handle_ability_action(action_name: StringName, ability_index: int) -> void:
 	if Input.is_action_just_pressed(action_name):
 		ability_controller.begin_ability_preview_by_idx(ability_index)
+	# 第一个技能槽固定为基础攻击。按住时会持续尝试释放，实际频率仍由技能冷却控制。
+	elif ability_index == 0 and Input.is_action_pressed(action_name):
+		ability_controller.trigger_held_ability_by_idx(ability_index)
 	if Input.is_action_just_released(action_name):
 		ability_controller.release_ability_preview_by_idx(ability_index)
 
@@ -110,9 +119,12 @@ func _handle_ui(player_inventory:Inventory,player_equipment:Equipment):
 		attributes_panel.setup()
 	
 	
-func bind_player_build(player_build: PlayerBuild) -> void:
+func bind_player_build(player_build: PlayerBuild, new_character: Character = null) -> void:
 	if player_build == null:
 		return
+
+	if new_character != null:
+		bind_character(new_character)
 
 	stats_data = player_build.player_stats
 	player_inventory = player_build.player_inventory
@@ -131,6 +143,27 @@ func bind_player_build(player_build: PlayerBuild) -> void:
 	_refresh_spell_bar()
 	EventBus.player_health_changed.emit(current_health, max_health)
 	EventBus.player_energy_changed.emit(current_energy, max_energy)
+
+
+## 绑定当前角色，并把角色视觉资源应用到玩家的 AnimatedSprite2D。
+## 属性、背包和技能仍由 PlayerBuild 管理，视觉只从 Character 读取。
+func bind_character(new_character: Character) -> void:
+	character = new_character
+	character_visual_data = new_character.visual_data if new_character != null else null
+	if character_visual_data == null or animated_sprite == null:
+		return
+
+	if character_visual_data.sprite_frames != null:
+		animated_sprite.sprite_frames = character_visual_data.sprite_frames
+	animated_sprite.scale = character_visual_data.visual_scale
+	animated_sprite.position = character_visual_data.visual_offset
+	animated_sprite.flip_h = character_visual_data.default_facing_left
+
+	var default_animation: StringName = character_visual_data.default_animation
+	if character_visual_data.has_animation(default_animation):
+		animated_sprite.play(default_animation)
+	elif character_visual_data.has_animation(&"idle"):
+		animated_sprite.play(&"idle")
 	
 
 func _handle_abilities(ability:Ability):
@@ -147,6 +180,12 @@ func apply_runtime_stats(final_stats: Dictionary) -> void:
 
 func _handle_movement(delta: float):
 	is_moving = false
+	has_movement_input = false
+	# 移动锁只禁止玩家自主输入；击退、冲刺等会走 move_direct_with_physics，不受这里影响。
+	if is_movement_locked():
+		clear_terrain_motion_velocity()
+		footstep_effect.stop()
+		return
 	turning_cooldown = max(0,turning_cooldown - delta)
 	var horizontal = Input.get_axis("leftmove","rightmove")
 	var vertical = Input.get_axis("upmove","downmove")
@@ -154,20 +193,26 @@ func _handle_movement(delta: float):
 	
 	var movement = Vector2(horizontal,vertical)
 	var n_movement=movement.normalized()
+	has_movement_input = movement.length_squared() > 0.0001
 	
 	var actual_movement: Vector2 = move_with_physics(n_movement * speed * delta)
 	
 	if actual_movement.length() > 0:
 		is_moving = true
-		footstep_effect.play()
+		if has_movement_input:
+			footstep_effect.play()
+		else:
+			footstep_effect.stop()
 		if turning_cooldown == 0:
-			if horizontal >0:
-				animated_sprite.flip_h = false
-			elif horizontal<0:
-				animated_sprite.flip_h = true
+			if horizontal > 0:
+				animated_sprite.flip_h = _get_flip_h_for_direction(false)
+			elif horizontal < 0:
+				animated_sprite.flip_h = _get_flip_h_for_direction(true)
+	else:
+		footstep_effect.stop()
 
 func _handle_footstep_sound(delta: float):
-	if is_moving:
+	if is_moving and has_movement_input:
 		footstep_timer += delta
 		if footstep_timer >= footstep_interval:
 			AudioController.play(footstep_clip,global_position)
@@ -181,6 +226,13 @@ func  _handle_animation():
 		play_animation(AnimationWrapper.new("run"))
 	else:
 		play_animation(AnimationWrapper.new("idle"))
+
+
+## 根据角色原图默认朝向，把“向左/向右”转换成 AnimatedSprite2D.flip_h。
+func _get_flip_h_for_direction(moving_left: bool) -> bool:
+	if character_visual_data == null:
+		return moving_left
+	return not character_visual_data.default_facing_left if moving_left else character_visual_data.default_facing_left
 
 func _handle_damage_callback(_damage_data: DamageData):
 	EventBus.player_health_changed.emit(current_health,max_health)

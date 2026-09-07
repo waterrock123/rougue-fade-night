@@ -4,6 +4,8 @@ extends CharacterBody2D
 signal died(entity: Entity)
 signal damage_taken(damage_data: DamageData)
 signal damage_dealt(damage_data: DamageData)
+## 成功闪避一次伤害时发出，供遗物和状态监听“闪避后”类效果。
+signal damage_evaded(damage_data: DamageData)
 
 @export var max_health: float = 50.0
 @export var max_energy: float = 50.0
@@ -26,6 +28,18 @@ signal damage_dealt(damage_data: DamageData)
 @export var min_terrain_move_multiplier: float = 0.25
 ## 地形带来的最高移动倍率，允许道路等低 move_cost 地形小幅加速，但避免数值失控。
 @export var max_terrain_move_multiplier: float = 2.0
+## 开启后，实体会读取 BattleMap 脚下瓦片的 terrain_motion / acceleration_multiplier / friction_multiplier。
+@export var affected_by_terrain_motion: bool = true
+## 普通地面的加速响应。数值越高，按下方向键后越快达到目标速度。
+@export var terrain_acceleration_rate: float = 18.0
+## 普通地面的刹车响应。冰面会用 friction_multiplier 把这个值压低，从而产生滑行。
+@export var terrain_friction_rate: float = 20.0
+## 很慢的实体也需要一个最低参考速度，否则低 speed 下惯性会几乎看不出来。
+@export var terrain_min_speed_reference: float = 24.0
+@export_group("绘制排序")
+## 开启后把实体根节点放回普通世界排序层，让 PlayScene/BattleMap 的 y-sort 决定前后遮挡。
+@export var enable_depth_sorting: bool = true
+@export var depth_sort_z_index: int = 0
 
 var current_anim: AnimationWrapper
 var current_health: float
@@ -41,6 +55,7 @@ var action_lock_sources: Dictionary = {}
 var animation_pause_sources: Dictionary = {}
 var animation_speed_before_pause: float = 1.0
 var terrain_battle_map_cache: BattleMap
+var terrain_motion_velocity: Vector2 = Vector2.ZERO
 
 @onready var animated_sprite: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
 @onready var stats_controller: StatsController = get_node_or_null("StatsController") as StatsController
@@ -48,6 +63,7 @@ var terrain_battle_map_cache: BattleMap
 
 
 func _ready() -> void:
+	_configure_depth_sorting()
 	if stats_controller != null:
 		current_health = stats_controller.current_health
 		current_energy = stats_controller.current_energy
@@ -60,6 +76,16 @@ func _ready() -> void:
 			animated_sprite.material = animated_sprite.material.duplicate()
 		if not animated_sprite.animation_finished.is_connected(on_animation_finished):
 			animated_sprite.animation_finished.connect(on_animation_finished)
+
+
+## 角色、敌人、召唤物和地图物件都继承 Entity，因此这里统一修正根节点 z_index。
+## 这样它们不会因为某个场景里手动写了很高的 z_index 而永远压在山丘/树木前面。
+func _configure_depth_sorting() -> void:
+	if not enable_depth_sorting:
+		return
+
+	z_index = depth_sort_z_index
+	z_as_relative = true
 
 
 func _exit_tree() -> void:
@@ -85,6 +111,7 @@ func apply_damage(damage_event):
 		damage_data.final_damage = 0.0
 		damage_data.is_miss = true
 		show_damage_popup(damage_data)
+		damage_evaded.emit(damage_data)
 		_handle_damage_callback(damage_data)
 		return damage_data
 
@@ -164,19 +191,28 @@ func get_runtime_max_health() -> float:
 	return max_health
 
 
-# 统一的物理移动入口：实体已经是 CharacterBody2D，普通移动交给引擎碰撞系统处理。
+## 统一的物理移动入口。
+## 调用者传入“这一帧想移动多少”，这里会结合 move_cost 与地形运动参数算出真正位移。
 func move_with_physics(delta_position: Vector2) -> Vector2:
-	if delta_position == Vector2.ZERO:
-		velocity = Vector2.ZERO
-		return Vector2.ZERO
+	var delta: float = max(get_process_delta_time(), 0.0001)
+	var adjusted_delta_position: Vector2 = _resolve_terrain_adjusted_delta(delta_position, delta)
+	return _move_with_collision_delta(adjusted_delta_position, affected_by_terrain_motion)
 
-	var adjusted_delta_position: Vector2 = delta_position * get_terrain_move_multiplier()
-	if adjusted_delta_position == Vector2.ZERO:
+
+## 给冲刺、击退、技能前摇位移使用：只走 CharacterBody2D 碰撞，不叠加脚下地形惯性。
+## 这样技能位移不会因为冰面加速过慢，也不会像直接改 position 一样把实体塞进障碍物。
+func move_direct_with_physics(delta_position: Vector2, update_terrain_inertia: bool = false) -> Vector2:
+	return _move_with_collision_delta(delta_position, update_terrain_inertia)
+
+
+func _move_with_collision_delta(delta_position: Vector2, update_terrain_inertia: bool) -> Vector2:
+	var delta: float = max(get_process_delta_time(), 0.0001)
+	if delta_position.length_squared() <= 0.000001:
 		velocity = Vector2.ZERO
 		return Vector2.ZERO
 
 	var original_position: Vector2 = global_position
-	var remaining_motion: Vector2 = adjusted_delta_position
+	var remaining_motion: Vector2 = delta_position
 	var slide_count: int = 0
 
 	while remaining_motion.length_squared() > 0.000001:
@@ -190,8 +226,9 @@ func move_with_physics(delta_position: Vector2) -> Vector2:
 		slide_count += 1
 
 	var actual_movement: Vector2 = global_position - original_position
-	var delta: float = max(get_process_delta_time(), 0.0001)
 	velocity = actual_movement / delta
+	if update_terrain_inertia:
+		terrain_motion_velocity = velocity
 	return actual_movement
 
 
@@ -216,6 +253,85 @@ func get_terrain_move_multiplier() -> float:
 		return 1.0
 
 	return clamp(1.0 / move_cost, min_terrain_move_multiplier, max_terrain_move_multiplier)
+
+
+## 立即清空地形惯性速度。冻结、强制位移或特殊技能如果需要完全停住实体，可以调用它。
+func clear_terrain_motion_velocity() -> void:
+	terrain_motion_velocity = Vector2.ZERO
+	velocity = Vector2.ZERO
+
+
+func _resolve_terrain_adjusted_delta(delta_position: Vector2, delta: float) -> Vector2:
+	var desired_velocity: Vector2 = Vector2.ZERO
+	if delta > 0.0:
+		desired_velocity = delta_position / delta
+
+	desired_velocity *= get_terrain_move_multiplier()
+	if not affected_by_terrain_motion:
+		return desired_velocity * delta
+
+	terrain_motion_velocity = _update_terrain_motion_velocity(desired_velocity, delta)
+	return terrain_motion_velocity * delta
+
+
+func _update_terrain_motion_velocity(desired_velocity: Vector2, delta: float) -> Vector2:
+	var profile: Dictionary = get_terrain_motion_profile()
+	var acceleration_multiplier: float = float(profile.get("acceleration_multiplier", 1.0))
+	var friction_multiplier: float = float(profile.get("friction_multiplier", 1.0))
+	var turn_control_multiplier: float = float(profile.get("turn_control_multiplier", 1.0))
+	var speed_reference: float = max(max(desired_velocity.length(), terrain_motion_velocity.length()), max(terrain_min_speed_reference, 1.0))
+
+	if desired_velocity.length_squared() <= 0.000001:
+		var friction_delta: float = speed_reference * max(terrain_friction_rate, 0.0) * friction_multiplier * delta
+		return terrain_motion_velocity.move_toward(Vector2.ZERO, friction_delta)
+
+	var target_velocity: Vector2 = _apply_terrain_turn_control(desired_velocity, turn_control_multiplier)
+	var acceleration_delta: float = speed_reference * max(terrain_acceleration_rate, 0.0) * acceleration_multiplier * delta
+	return terrain_motion_velocity.move_toward(target_velocity, acceleration_delta)
+
+
+func _apply_terrain_turn_control(desired_velocity: Vector2, turn_control_multiplier: float) -> Vector2:
+	if terrain_motion_velocity.length_squared() <= 0.000001:
+		return desired_velocity
+	if desired_velocity.length_squared() <= 0.000001:
+		return desired_velocity
+
+	var safe_turn_control: float = clamp(turn_control_multiplier, 0.0, 1.0)
+	if safe_turn_control >= 0.999:
+		return desired_velocity
+
+	var current_angle: float = terrain_motion_velocity.angle()
+	var desired_angle: float = desired_velocity.angle()
+	var limited_angle: float = lerp_angle(current_angle, desired_angle, safe_turn_control)
+	return Vector2.RIGHT.rotated(limited_angle) * desired_velocity.length()
+
+
+func get_terrain_motion_profile() -> Dictionary:
+	if not affected_by_terrain_motion:
+		return {
+			"motion_id": &"normal",
+			"acceleration_multiplier": 1.0,
+			"friction_multiplier": 1.0,
+			"turn_control_multiplier": 1.0,
+		}
+	if not is_inside_tree():
+		return {
+			"motion_id": &"normal",
+			"acceleration_multiplier": 1.0,
+			"friction_multiplier": 1.0,
+			"turn_control_multiplier": 1.0,
+		}
+
+	var battle_map: BattleMap = _get_terrain_battle_map()
+	if battle_map == null:
+		return {
+			"motion_id": &"normal",
+			"acceleration_multiplier": 1.0,
+			"friction_multiplier": 1.0,
+			"turn_control_multiplier": 1.0,
+		}
+
+	return battle_map.get_terrain_motion_profile(global_position)
 
 
 func _get_terrain_battle_map() -> BattleMap:
@@ -304,6 +420,7 @@ func register_action_tween(tween: Tween) -> void:
 func cancel_active_actions() -> void:
 	action_version += 1
 	movement_lock_timer = 0.0
+	clear_terrain_motion_velocity()
 
 	for tween in action_tweens:
 		if tween != null and tween.is_valid():

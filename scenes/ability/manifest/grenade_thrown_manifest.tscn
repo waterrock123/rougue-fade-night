@@ -17,6 +17,7 @@ free_delay_after_impact = 0.12
 damage = 300.0
 damage_types = Array[int]([0])
 tags = Array[String](["manifest", "relic", "consumable", "thrown", "thrown_arc", "grenade", "aoe"])
+poise_damage = 30.0
 
 [node name="VisualPivot" type="Node2D" parent="."]
 

@@ -209,6 +209,27 @@ display_name = "暴击率"
 desc = "造成伤害时触发暴击的概率。暴击伤害通常会按暴击伤害倍率放大。"
 color = Color(1, 0.78, 0.32, 1)
 
+[sub_resource type="Resource" id="KeywordData_ranged"]
+script = ExtResource("2_data")
+id = &"ranged"
+display_name = "远程伤害"
+desc = "由远程类型攻击造成的伤害。"
+color = Color(0.72, 0.9, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_dodge_rate"]
+script = ExtResource("2_data")
+id = &"dodge_rate"
+display_name = "闪避率"
+desc = "受到伤害时完全躲开该次伤害的概率。"
+color = Color(0.65, 1, 0.78, 1)
+
+[sub_resource type="Resource" id="KeywordData_cuisine"]
+script = ExtResource("2_data")
+id = &"佳肴"
+display_name = "佳肴"
+desc = "装备标签之一，通常代表食物和料理相关的装备。"
+color = Color(1, 0.68, 0.38, 1)
+
 [sub_resource type="Resource" id="KeywordData_sell_price"]
 script = ExtResource("2_data")
 id = &"sell_price"
@@ -223,6 +244,118 @@ display_name = "升级奖励刷新"
 desc = "在升级奖励界面重新随机一组奖励的机会。"
 color = Color(0.72, 1, 0.78, 1)
 
+[sub_resource type="Resource" id="KeywordData_map_special_object"]
+script = ExtResource("2_data")
+id = &"map_special_object"
+display_name = "地图特殊物体"
+desc = "战斗地图中可被生成、攻击、拾取或互动的特殊对象，例如有益植物、弹药箱、遗落货物等。"
+color = Color(0.78, 0.95, 0.62, 1)
+
+[sub_resource type="Resource" id="KeywordData_map_special_terrain"]
+script = ExtResource("2_data")
+id = &"map_special_terrain"
+display_name = "地图特殊地形"
+desc = "战斗地图中会影响移动、伤害或战斗规则的特殊地面，例如火海、冰面、雷暴区域等。"
+color = Color(0.62, 0.88, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_beneficial_plant"]
+script = ExtResource("2_data")
+id = &"beneficial_plant"
+display_name = "有益植物"
+desc = "地图特殊物体的一类，通常可被攻击并掉落恢复或增益类物品。"
+color = Color(0.55, 1, 0.5, 1)
+
+[sub_resource type="Resource" id="KeywordData_animal_object"]
+script = ExtResource("2_data")
+id = &"animal_object"
+display_name = "动物"
+desc = "地图特殊物体的一类，通常不会主动攻击；若战斗结束时仍存活，可能为玩家提供对应原料。"
+color = Color(1, 0.82, 0.58, 1)
+
+[sub_resource type="Resource" id="KeywordData_sword_stand"]
+script = ExtResource("2_data")
+id = &"sword_stand"
+display_name = "剑座"
+desc = "地图特殊物体的一类，玩家触碰后可获得临时环绕剑投射物。"
+color = Color(0.9, 0.92, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_sword"]
+script = ExtResource("2_data")
+id = &"sword"
+display_name = "剑"
+desc = "装备标签之一，通常代表刀剑、剑术或可被剑类套装效果计数的装备。"
+color = Color(0.45, 0.92, 0.88, 1)
+
+[sub_resource type="Resource" id="KeywordData_orbiting_sword"]
+script = ExtResource("2_data")
+id = &"orbiting_sword"
+display_name = "环绕飞剑"
+desc = "围绕持有者飞行的飞剑，会在敌人靠近时主动突刺并回到轨道。"
+color = Color(0.72, 0.9, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_alchemy_station"]
+script = ExtResource("2_data")
+id = &"alchemy_station"
+display_name = "炼金台"
+desc = "地图特殊物体的一类，受到足够伤害后会掉落随机物品。"
+color = Color(0.72, 1, 0.88, 1)
+
+[sub_resource type="Resource" id="KeywordData_ammo_box"]
+script = ExtResource("2_data")
+id = &"ammo_box"
+display_name = "弹药箱"
+desc = "地图特殊物体的一类，可在一定范围内替代弹药标签装备作为技能消耗。"
+color = Color(1, 0.76, 0.38, 1)
+
+[sub_resource type="Resource" id="KeywordData_lost_cargo"]
+script = ExtResource("2_data")
+id = &"lost_cargo"
+display_name = "遗落货物"
+desc = "地图特殊物体的一类，玩家击破后可获得随机装备。"
+color = Color(1, 0.86, 0.48, 1)
+
+[sub_resource type="Resource" id="KeywordData_fire_field"]
+script = ExtResource("2_data")
+id = &"fire_field"
+display_name = "火海"
+desc = "地图特殊地形的一类，通常会让站在其中的实体受到火焰相关影响。"
+color = Color(1, 0.42, 0.18, 1)
+
+[sub_resource type="Resource" id="KeywordData_ice_ground"]
+script = ExtResource("2_data")
+id = &"ice_ground"
+display_name = "冰面"
+desc = "地图特殊地形的一类，通常会影响移动或施加寒霜相关效果。"
+color = Color(0.62, 0.9, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_thunder_zone"]
+script = ExtResource("2_data")
+id = &"thunder_zone"
+display_name = "雷暴区域"
+desc = "地图特殊地形的一类，通常会触发闪电相关影响。"
+color = Color(1, 0.92, 0.32, 1)
+
+[sub_resource type="Resource" id="KeywordData_poise_break"]
+script = ExtResource("2_data")
+id = &"poise_break"
+display_name = "破韧"
+desc = "敌人的韧性归零后进入的长硬直状态，可触发破韧相关装备和技能效果。"
+color = Color(1, 0.82, 0.28, 1)
+
+[sub_resource type="Resource" id="KeywordData_poise_damage_multiplier"]
+script = ExtResource("2_data")
+id = &"poise_damage_multiplier"
+display_name = "削韧倍率"
+desc = "按倍率提高技能、投射物和重击造成的削韧值。"
+color = Color(1, 0.68, 0.32, 1)
+
+[sub_resource type="Resource" id="KeywordData_melee_damage"]
+script = ExtResource("2_data")
+id = &"melee_damage"
+display_name = "近战伤害"
+desc = "由近战攻击或近战效果造成的伤害，通常与力量相关。"
+color = Color(1, 0.5, 0.4, 1)
+
 [resource]
 script = ExtResource("1_db")
-keywords = Array[ExtResource("2_data")]([SubResource("KeywordData_armor"), SubResource("KeywordData_weak"), SubResource("KeywordData_strength"), SubResource("KeywordData_dexterity"), SubResource("KeywordData_intelligence"), SubResource("KeywordData_constitution"), SubResource("KeywordData_speed"), SubResource("KeywordData_charm"), SubResource("KeywordData_luck"), SubResource("KeywordData_bleed"), SubResource("KeywordData_freeze"), SubResource("KeywordData_sleep"), SubResource("KeywordData_paralysis"), SubResource("KeywordData_slow"), SubResource("KeywordData_gold"), SubResource("KeywordData_shop_refresh"), SubResource("KeywordData_active_skill"), SubResource("KeywordData_consumable"), SubResource("KeywordData_physical_damage"), SubResource("KeywordData_heal"), SubResource("KeywordData_sharp"), SubResource("KeywordData_vulnerable"), SubResource("Resource_5ukev"), SubResource("Resource_gdm1y"), SubResource("Resource_d14dd"), SubResource("KeywordData_projectile"), SubResource("KeywordData_thrown"), SubResource("KeywordData_all_primary_stats"), SubResource("KeywordData_crit_chance"), SubResource("KeywordData_sell_price"), SubResource("KeywordData_level_up_refresh")])
+keywords = Array[ExtResource("2_data")]([SubResource("KeywordData_armor"), SubResource("KeywordData_weak"), SubResource("KeywordData_strength"), SubResource("KeywordData_dexterity"), SubResource("KeywordData_intelligence"), SubResource("KeywordData_constitution"), SubResource("KeywordData_speed"), SubResource("KeywordData_charm"), SubResource("KeywordData_luck"), SubResource("KeywordData_bleed"), SubResource("KeywordData_freeze"), SubResource("KeywordData_sleep"), SubResource("KeywordData_paralysis"), SubResource("KeywordData_slow"), SubResource("KeywordData_gold"), SubResource("KeywordData_shop_refresh"), SubResource("KeywordData_active_skill"), SubResource("KeywordData_consumable"), SubResource("KeywordData_physical_damage"), SubResource("KeywordData_heal"), SubResource("KeywordData_sharp"), SubResource("KeywordData_vulnerable"), SubResource("Resource_5ukev"), SubResource("Resource_gdm1y"), SubResource("Resource_d14dd"), SubResource("KeywordData_projectile"), SubResource("KeywordData_thrown"), SubResource("KeywordData_all_primary_stats"), SubResource("KeywordData_crit_chance"), SubResource("KeywordData_ranged"), SubResource("KeywordData_dodge_rate"), SubResource("KeywordData_cuisine"), SubResource("KeywordData_sell_price"), SubResource("KeywordData_level_up_refresh"), SubResource("KeywordData_map_special_object"), SubResource("KeywordData_map_special_terrain"), SubResource("KeywordData_beneficial_plant"), SubResource("KeywordData_animal_object"), SubResource("KeywordData_sword_stand"), SubResource("KeywordData_sword"), SubResource("KeywordData_orbiting_sword"), SubResource("KeywordData_alchemy_station"), SubResource("KeywordData_ammo_box"), SubResource("KeywordData_lost_cargo"), SubResource("KeywordData_fire_field"), SubResource("KeywordData_ice_ground"), SubResource("KeywordData_thunder_zone"), SubResource("KeywordData_poise_break"), SubResource("KeywordData_poise_damage_multiplier"), SubResource("KeywordData_melee_damage")])

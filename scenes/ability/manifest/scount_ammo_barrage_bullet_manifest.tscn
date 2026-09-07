@@ -1,0 +1,44 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1_projectile"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="2_scaling"]
+[ext_resource type="Texture2D" uid="uid://c3uc8tirlagi6" path="res://assets/GunsPack/Bullets/PistolAmmoSmall.png" id="3_texture"]
+[ext_resource type="Script" path="res://scripts/ability/manifest/projectile_trail.gd" id="4_trail"]
+
+[sub_resource type="Resource" id="DamageScalingRule_ammo_barrage"]
+script = ExtResource("2_scaling")
+physical_formula = ""
+metadata/_custom_type_script = "uid://dcukpvvpmebnv"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bullet"]
+radius = 6.6666665
+
+[node name="SCountAmmoBarrageBulletManifest" type="Node2D"]
+z_index = 100
+scale = Vector2(0.3, 0.3)
+script = ExtResource("1_projectile")
+speed = 360.0
+target_group = "enemy"
+max_distance = 520.0
+damage = 2.0
+tags = Array[String](["manifest", "projectile", "ranged", "scount_ammo_barrage"])
+scaling_rule = SubResource("DamageScalingRule_ammo_barrage")
+poise_damage = 1.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("3_texture")
+
+[node name="Trail" type="Line2D" parent="."]
+z_index = -1
+width = 2.0
+default_color = Color(1, 0.95, 0.68, 0.55)
+script = ExtResource("4_trail")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_bullet")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

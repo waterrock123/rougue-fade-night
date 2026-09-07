@@ -11,6 +11,10 @@ signal collected(pickup: MapPickup, collector: Entity)
 @export var lifetime: float = 12.0
 @export var remove_on_collect: bool = true
 
+@export_group("提示")
+@export var pickup_display_name: String = ""
+@export var show_pickup_tip: bool = true
+
 @export_group("视觉动态")
 ## 拾取物的视觉根节点。为空时会自动寻找 VisualRoot / Sprite2D / AnimatedSprite2D。
 @export var visual_root_path: NodePath
@@ -212,3 +216,35 @@ func _resolve_visual_root() -> Node2D:
 func _apply_pickup(_collector: Entity) -> void:
 	# 子类在这里写具体效果，例如回血、加金币、给状态。
 	pass
+
+
+## 让拾取物在接下来一小段时间内不能被捡起。
+## 炼金台“把物品抛到地上”的动画会用到它，避免物品还在空中就被玩家吸走。
+func delay_collection_for(duration: float) -> void:
+	if duration <= 0.0:
+		return
+
+	pickup_delay = max(pickup_delay, age + duration)
+
+
+## 子类调用这个函数统一弹出“玩家拾取了 X，触发了 Y”的地图提示。
+func show_collected_tip(effect_text: String) -> void:
+	if not show_pickup_tip:
+		return
+	if FloatText == null or not FloatText.has_method("show_screen_tip"):
+		return
+
+	var item_name: String = get_pickup_display_name()
+	var detail: String = effect_text.strip_edges()
+	if detail.is_empty():
+		FloatText.show_screen_tip("玩家拾取了%s。" % item_name)
+		return
+
+	FloatText.show_screen_tip("玩家拾取了%s，触发了%s。" % [item_name, detail])
+
+
+func get_pickup_display_name() -> String:
+	var display_name: String = pickup_display_name.strip_edges()
+	if not display_name.is_empty():
+		return display_name
+	return name

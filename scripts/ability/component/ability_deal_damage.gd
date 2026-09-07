@@ -7,6 +7,8 @@ extends AbilityComponent
 @export var damage_types: Array[int] = [DamageData.DamageType.PHYSICAL]
 @export var tags: Array[String] = ["skill"]
 @export var scaling_rule: DamageScalingRule = DamageScalingRule.new()
+## 普通直接攻击默认造成 12 点削韧；持续或纯效果伤害应在场景中改为 0。
+@export var poise_damage: float = 12.0
 
 
 # 对当前上下文中的目标逐个造成伤害。
@@ -28,7 +30,8 @@ func _activate(context: AbilityContext):
 				can_crit,
 				scaling_rule,
 				context.ability.id if context.ability != null else &"",
-				context.ability.runtime_slot_index if context.ability != null else -1
+				context.ability.runtime_slot_index if context.ability != null else -1,
+				poise_damage
 			)
 			target.apply_damage(damage_data)
 

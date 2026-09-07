@@ -11,6 +11,8 @@ extends Resource
 @export var max_count: int = 0
 ## 当 Profile 开启额外权重生成时使用；普通按数量生成时不会受它影响。
 @export var weight: float = 1.0
+## 先由规则决定“动物”这类大类，再从变体池决定具体场景。
+@export var variant_pool: MapObjectVariantPool
 
 @export_group("位置规则")
 @export var require_walkable: bool = true

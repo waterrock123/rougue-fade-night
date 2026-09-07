@@ -29,6 +29,7 @@ id = &"002"
 status_name = "虚弱"
 desc = "使处于此状态的生物力量、敏捷、速度属性都减少4点"
 icon = ExtResource("3_km083")
+polarity = 2
 duration = 5.0
 effects = Array[ExtResource("1_2j6bf")]([SubResource("Resource_srqnh"), SubResource("Resource_gvtxf"), SubResource("Resource_qlwdw")])
 metadata/_custom_type_script = "uid://halm05nhwnoo"

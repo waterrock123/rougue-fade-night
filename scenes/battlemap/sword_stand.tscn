@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://66r33p2qq02p"]
+
+[ext_resource type="Script" uid="uid://ehvoocadycfo" path="res://scripts/battlemap/sword_stand.gd" id="1_sword_stand"]
+[ext_resource type="Texture2D" uid="uid://58wkkxbsy70g" path="res://assets/mapobject_sprite/剑座.png" id="2_g8rfq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(30, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(22, 18)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_trigger"]
+radius = 16.03122
+
+[node name="SwordStand" type="CharacterBody2D" unique_id=1426291347]
+collision_mask = 0
+script = ExtResource("1_sword_stand")
+enable_interactable_highlight = true
+highlight_visual_path = NodePath("VisualRoot")
+highlight_outline_size = 0.5
+blocks_navigation = true
+max_health = 40.0
+damage_text_color = Color(0.82, 0.88, 1, 1)
+affected_by_terrain_move_cost = false
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=1943249855]
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualRoot" unique_id=1205935654]
+texture_filter = 1
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("2_g8rfq")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1638032213]
+visible = false
+
+[node name="HitCollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1959347761]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_hit")
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="." unique_id=639437867]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="TriggerArea" type="Area2D" parent="." unique_id=27723419]
+
+[node name="TriggerCollisionShape2D" type="CollisionShape2D" parent="TriggerArea" unique_id=1247736569]
+shape = SubResource("CircleShape2D_trigger")
+
+[connection signal="area_entered" from="TriggerArea" to="." method="_on_trigger_area_entered"]

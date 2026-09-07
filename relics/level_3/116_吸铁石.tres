@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://d10sikd6m2co"]
+
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="1_relic"]
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="2_effect_base"]
+[ext_resource type="Script" uid="uid://2x60yst1e4pc" path="res://relic_effect/poise_break_apply_status_effect.gd" id="3_break_status"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="4_add_stats"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_tag"]
+[ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="6_tool_tag"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="7_material_tag"]
+[ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="8_armor"]
+
+[sub_resource type="Resource" id="MagnetBreakArmor"]
+script = ExtResource("3_break_status")
+status_data = ExtResource("8_armor")
+duration_override = 40.0
+
+[sub_resource type="Resource" id="MagnetLevelupStats"]
+script = ExtResource("4_add_stats")
+add_stats = {
+"luck": 2,
+"strength": 2
+}
+
+[resource]
+script = ExtResource("1_relic")
+relic_name = "吸铁石"
+tooltip = "当你使一个敌人{poise_break}时，使自己获得1层{armor}，持续40秒。
+升级：{luck}+2，{strength}+2。"
+desc = "会把破碎盔甲上的铁屑一点点吸到自己身上。"
+price = 4
+level = 3
+tags = Array[ExtResource("5_tag")]([ExtResource("6_tool_tag"), ExtResource("7_material_tag")])
+id = "116"
+effects = Array[ExtResource("2_effect_base")]([SubResource("MagnetBreakArmor")])
+great_effects = Array[ExtResource("2_effect_base")]([SubResource("MagnetLevelupStats")])

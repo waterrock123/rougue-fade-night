@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="MapObjectVariantPool" format=3 uid="uid://bbvvg3iqcobk4"]
+
+[ext_resource type="Script" uid="uid://5rre4rk61jbj" path="res://custom_resource/map_object_variant_pool.gd" id="1_pool"]
+[ext_resource type="Script" uid="uid://dq8twu2dp8ytc" path="res://custom_resource/map_object_variant_entry.gd" id="2_entry"]
+
+[sub_resource type="Resource" id="AnimalVariant_chicken"]
+script = ExtResource("2_entry")
+object_id = &"animal_chicken"
+
+[sub_resource type="Resource" id="AnimalVariant_cow"]
+script = ExtResource("2_entry")
+object_id = &"animal_cow"
+
+[sub_resource type="Resource" id="AnimalVariant_sheep"]
+script = ExtResource("2_entry")
+object_id = &"animal_sheep"
+
+[sub_resource type="Resource" id="AnimalVariant_pig"]
+script = ExtResource("2_entry")
+object_id = &"animal_pig"
+
+[resource]
+script = ExtResource("1_pool")
+entries = Array[ExtResource("2_entry")]([SubResource("AnimalVariant_chicken"), SubResource("AnimalVariant_cow"), SubResource("AnimalVariant_sheep"), SubResource("AnimalVariant_pig")])

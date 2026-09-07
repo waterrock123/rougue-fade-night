@@ -1,0 +1,256 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/debug_console.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_panel"]
+bg_color = Color(0.055, 0.071, 0.094, 0.985)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.36, 0.82, 0.96, 0.85)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_section"]
+bg_color = Color(0.09, 0.12, 0.16, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.31, 0.5, 0.64, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_action"]
+bg_color = Color(0.12, 0.36, 0.5, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_action_hover"]
+bg_color = Color(0.18, 0.56, 0.73, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_close"]
+bg_color = Color(0.45, 0.16, 0.16, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[node name="DebugConsole" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_script")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0, 0, 0, 0.7)
+
+[node name="Panel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(1500, 820)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -750.0
+offset_top = -410.0
+offset_right = 750.0
+offset_bottom = 410.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.57, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "开发调试台"
+
+[node name="HintLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.79, 0.84, 1)
+theme_override_font_sizes/font_size = 18
+text = "打开时游戏暂停；双击条目也可直接添加"
+vertical_alignment = 1
+
+[node name="ReloadButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/Header"]
+custom_minimum_size = Vector2(130, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBox_action")
+theme_override_styles/hover = SubResource("StyleBox_action_hover")
+text = "重新扫描"
+
+[node name="CloseButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/Header"]
+custom_minimum_size = Vector2(104, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBox_close")
+text = "关闭"
+
+[node name="Separator" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Content" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 14
+
+[node name="RelicColumn" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/Content"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBox_section")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/Content/RelicColumn"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/Content/RelicColumn/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "添加装备到背包"
+
+[node name="SearchRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/Content/RelicColumn/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RelicSearch" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer/Content/RelicColumn/VBoxContainer/SearchRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+placeholder_text = "搜索名称、ID、标签或描述"
+clear_button_enabled = true
+
+[node name="AmountHint" type="Label" parent="Panel/MarginContainer/VBoxContainer/Content/RelicColumn/VBoxContainer/SearchRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "数量"
+vertical_alignment = 1
+
+[node name="RelicAmount" type="SpinBox" parent="Panel/MarginContainer/VBoxContainer/Content/RelicColumn/VBoxContainer/SearchRow"]
+custom_minimum_size = Vector2(94, 0)
+layout_mode = 2
+min_value = 1.0
+max_value = 20.0
+value = 1.0
+rounded = true
+
+[node name="RelicList" type="ItemList" parent="Panel/MarginContainer/VBoxContainer/Content/RelicColumn/VBoxContainer"]
+custom_minimum_size = Vector2(0, 470)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 18
+icon_mode = 0
+same_column_width = true
+allow_reselect = true
+
+[node name="AddRelicButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/Content/RelicColumn/VBoxContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBox_action")
+theme_override_styles/hover = SubResource("StyleBox_action_hover")
+text = "添加选中装备"
+
+[node name="SkillColumn" type="PanelContainer" parent="Panel/MarginContainer/VBoxContainer/Content"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBox_section")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/Content/SkillColumn"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/Content/SkillColumn/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "添加技能到构筑"
+
+[node name="SearchRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/Content/SkillColumn/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SkillSearch" type="LineEdit" parent="Panel/MarginContainer/VBoxContainer/Content/SkillColumn/VBoxContainer/SearchRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+placeholder_text = "搜索技能名称、ID 或描述"
+clear_button_enabled = true
+
+[node name="SkillFilter" type="OptionButton" parent="Panel/MarginContainer/VBoxContainer/Content/SkillColumn/VBoxContainer/SearchRow"]
+custom_minimum_size = Vector2(118, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+
+[node name="SkillList" type="ItemList" parent="Panel/MarginContainer/VBoxContainer/Content/SkillColumn/VBoxContainer"]
+custom_minimum_size = Vector2(0, 470)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 18
+icon_mode = 0
+same_column_width = true
+allow_reselect = true
+
+[node name="AddSkillButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/Content/SkillColumn/VBoxContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBox_action")
+theme_override_styles/hover = SubResource("StyleBox_action_hover")
+text = "添加选中技能"
+
+[node name="SelectionDetail" type="RichTextLabel" parent="Panel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+theme_override_font_sizes/normal_font_size = 18
+
+[node name="FeedbackLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.45, 1)
+theme_override_font_sizes/font_size = 20
+text = "准备就绪。"

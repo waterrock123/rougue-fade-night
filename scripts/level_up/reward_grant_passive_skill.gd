@@ -2,17 +2,20 @@ class_name RewardGrantPassiveSkill
 extends LevelUpReward
 
 @export var skill_data: PassiveSkillData
+@export var replace_skill_id: StringName = &""
 
 
 func apply(context: LevelUpRewardContext):
 	if context == null or context.skill_controller == null:
 		return
 
-	context.skill_controller.grant_passive_skill(skill_data)
+	context.skill_controller.grant_passive_skill(skill_data, replace_skill_id)
 
 
 func is_available(context: LevelUpRewardContext) -> bool:
 	if skill_data == null:
+		return false
+	if skill_data.is_upgrade_skill:
 		return false
 	if context != null and not skill_data.is_available_for_character(context.picked_character):
 		return false

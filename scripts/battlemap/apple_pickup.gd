@@ -8,8 +8,18 @@ extends MapPickup
 @export var show_heal_text: bool = true
 
 
+func _ready() -> void:
+	if pickup_display_name.is_empty():
+		pickup_display_name = "苹果"
+	super._ready()
+
+
 func _apply_pickup(collector: Entity) -> void:
 	if collector == null:
 		return
 
-	collector.apply_heal(heal_amount, show_heal_text)
+	var actual_heal: float = collector.apply_heal(heal_amount, show_heal_text)
+	if actual_heal > 0.0:
+		show_collected_tip("恢复了 %s 点生命" % str(int(actual_heal)))
+	else:
+		show_collected_tip("生命已满")

@@ -18,6 +18,12 @@ extends AbilityManifest
 ## 默认检测物理层 1，也就是 project.godot 里命名的 World 层。
 @export_flags_2d_physics var world_collision_mask: int = 1
 
+@export_group("Homing")
+## 投射物自身的追踪转向速度；0 表示默认不追踪。装备可以通过运行时属性追加此数值。
+@export var homing_turn_speed: float = 0.0
+@export var homing_acquire_radius: float = 500.0
+@export var homing_retarget_interval: float = 0.12
+
 @export_group("Animation")
 @export var start_animation: StringName = &"start"
 @export var repeat_animation: StringName = &"repeatable"
@@ -29,6 +35,8 @@ extends AbilityManifest
 @export var damage_types: Array[int] = [DamageData.DamageType.RANGED]
 @export var tags: Array[String] = ["manifest", "projectile", "animated_projectile", "ranged"]
 @export var scaling_rule: DamageScalingRule = DamageScalingRule.new()
+## 普通动画投射物默认造成 6 点削韧，多发齐射可在具体场景中调低。
+@export var poise_damage: float = 6.0
 
 @export_group("On Hit Status")
 ## 命中后概率附加的状态；为空则不附加。适合冰锥概率冻结、火球概率燃烧等。
@@ -49,6 +57,8 @@ var source_ability_slot_index: int = -1
 var current_dir: Vector2 = Vector2.ZERO
 var current_distance: float = 0.0
 var is_hit_finishing: bool = false
+var runtime_homing_turn_speed: float = 0.0
+var homing_controller: ProjectileHomingController = ProjectileHomingController.new()
 
 
 func _ready() -> void:
@@ -74,6 +84,7 @@ func activate(context: AbilityContext) -> void:
 	source_ability_id = context.ability.id if context.ability != null else &""
 	source_ability_slot_index = context.ability.runtime_slot_index if context.ability != null else -1
 	_apply_projectile_range_bonus()
+	_configure_homing()
 
 	if not EventBus.game_paused.is_connected(_handle_game_pause):
 		EventBus.game_paused.connect(_handle_game_pause)
@@ -98,6 +109,7 @@ func _process(delta: float) -> void:
 	if is_hit_finishing:
 		return
 
+	_update_homing_direction(delta)
 	var movement: Vector2 = current_dir * speed * delta
 	current_distance += movement.length()
 	if not _move_or_finish_on_world_hit(movement):
@@ -124,6 +136,35 @@ func _get_projectile_direction(context: AbilityContext) -> Vector2:
 		if facing != Vector2.ZERO:
 			return facing.normalized()
 	return Vector2.RIGHT
+
+
+## 读取来源实体由装备、状态等系统提供的投射物追踪属性。
+func _configure_homing() -> void:
+	runtime_homing_turn_speed = maxf(homing_turn_speed, 0.0)
+	homing_controller.reset()
+	if source == null or source.stats_controller == null or not tags.has("projectile"):
+		return
+	runtime_homing_turn_speed += maxf(
+		source.stats_controller.get_stat(&"projectile_homing_turn_speed", 0.0),
+		0.0
+	)
+
+
+func _update_homing_direction(delta: float) -> void:
+	if runtime_homing_turn_speed <= 0.0:
+		return
+	current_dir = homing_controller.steer(
+		self,
+		source,
+		target_group,
+		current_dir,
+		runtime_homing_turn_speed,
+		homing_acquire_radius,
+		homing_retarget_interval,
+		delta
+	)
+	if not rotate_while_flying and current_dir != Vector2.ZERO:
+		global_rotation = current_dir.angle()
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
@@ -161,7 +202,8 @@ func _damage_target(target: Entity, valid_source: Entity) -> void:
 		can_crit,
 		scaling_rule,
 		source_ability_id,
-		source_ability_slot_index
+		source_ability_slot_index,
+		poise_damage
 	)
 	target.apply_damage(damage_data)
 

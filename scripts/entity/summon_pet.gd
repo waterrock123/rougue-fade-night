@@ -268,7 +268,7 @@ func _update_motion_cache(delta: float) -> void:
 
 
 func _stop_moving() -> void:
-	velocity = Vector2.ZERO
+	clear_terrain_motion_velocity()
 	current_speed = 0.0
 	last_position = global_position
 

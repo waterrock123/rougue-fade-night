@@ -4,8 +4,22 @@ extends Entity
 signal object_hit(map_object: MapObject, damage_data: DamageData)
 signal object_destroyed(map_object: MapObject, killer: Entity)
 
+const INTERACTABLE_HIGHLIGHT_SHADER: Shader = preload("res://shaders/map_object_highlight.gdshader")
+
 ## 可被攻击的战斗地图物件基类。
 ## 注意：它不会加入 enemy 组，因此不会污染 EnemySpawner 的胜利统计或敌人击杀奖励。
+
+@export_group("交互高亮")
+## 开启后，地图物件的视觉节点外轮廓会出现轻微呼吸高亮，提醒玩家它是可交互物体。
+@export var enable_interactable_highlight: bool = false
+## 留空时会自动查找 VisualRoot 下的 Sprite2D / AnimatedSprite2D；没有 VisualRoot 时再找直接子节点。
+@export var highlight_visual_path: NodePath
+@export var highlight_color: Color = Color(1.0, 1.0, 1.0, 1.0)
+@export_range(0.0, 8.0, 0.25) var highlight_outline_size: float = 1.0
+@export_range(0.0, 1.0, 0.01) var highlight_outline_alpha: float = 0.72
+@export_range(0.0, 1.0, 0.01) var highlight_inner_glow_strength: float = 0.06
+@export_range(0.0, 1.0, 0.01) var highlight_pulse_strength: float = 0.14
+@export_range(0.0, 8.0, 0.1) var highlight_pulse_speed: float = 2.0
 
 @export_group("目标判定")
 ## 开启后，玩家侧技能把 target_group 写成 enemy 时也能命中这个物件。
@@ -58,12 +72,14 @@ var hit_flash_tween: Tween
 var hit_shake_tween: Tween
 var registered_navigation_battle_map: BattleMap
 var has_registered_navigation_blocker: bool = false
+var highlight_materials: Array[ShaderMaterial] = []
 
 
 func _ready() -> void:
 	super._ready()
 	add_to_group("map_object")
 	_cache_feedback_visual()
+	_setup_interactable_highlight()
 	call_deferred("_register_navigation_blocker")
 
 
@@ -78,6 +94,17 @@ func is_enemy_side() -> bool:
 
 func is_player_side() -> bool:
 	return targetable_by_enemy_side
+
+
+## 地图物体的最后一道阵营保护，避免玩家的范围伤害绕过目标筛选误伤动物。
+## 普通地图物体默认允许玩家攻击；只有把 targetable_by_player_side 设为 false 的物体会被拦截。
+func apply_damage(damage_event):
+	if not targetable_by_player_side and damage_event is DamageData:
+		var damage_data: DamageData = damage_event as DamageData
+		if damage_data.source != null and damage_data.source.is_player_side():
+			return damage_data
+
+	return super.apply_damage(damage_event)
 
 
 func _handle_damage_callback(damage_data: DamageData):
@@ -220,6 +247,87 @@ func _resolve_feedback_visual() -> Node2D:
 		return sprite
 
 	return null
+
+
+## 运行时刷新高亮参数。编辑场景时调 export 即可；脚本中动态改颜色也可以调用它重套材质。
+func refresh_interactable_highlight() -> void:
+	_setup_interactable_highlight()
+
+
+func _setup_interactable_highlight() -> void:
+	highlight_materials.clear()
+	if not enable_interactable_highlight:
+		return
+
+	var highlight_visuals: Array[CanvasItem] = _get_highlight_visuals()
+	for visual: CanvasItem in highlight_visuals:
+		var material: ShaderMaterial = ShaderMaterial.new()
+		material.shader = INTERACTABLE_HIGHLIGHT_SHADER
+		_apply_highlight_material_params(material)
+		visual.material = material
+		highlight_materials.append(material)
+
+
+func _apply_highlight_material_params(material: ShaderMaterial) -> void:
+	if material == null:
+		return
+
+	material.set_shader_parameter("highlight_enabled", true)
+	material.set_shader_parameter("outline_color", highlight_color)
+	material.set_shader_parameter("outline_size", highlight_outline_size)
+	material.set_shader_parameter("outline_alpha", highlight_outline_alpha)
+	material.set_shader_parameter("inner_glow_strength", highlight_inner_glow_strength)
+	material.set_shader_parameter("pulse_strength", highlight_pulse_strength)
+	material.set_shader_parameter("pulse_speed", highlight_pulse_speed)
+
+
+func _get_highlight_visuals() -> Array[CanvasItem]:
+	var result: Array[CanvasItem] = []
+	var seen_ids: Dictionary = {}
+
+	if highlight_visual_path != NodePath():
+		var explicit_root: Node = get_node_or_null(highlight_visual_path)
+		_collect_highlight_visuals(explicit_root, result, seen_ids)
+		return result
+
+	var visual_root: Node = get_node_or_null("VisualRoot")
+	if visual_root != null:
+		_collect_highlight_visuals(visual_root, result, seen_ids)
+
+	if animated_sprite != null:
+		_append_highlight_visual(animated_sprite, result, seen_ids)
+
+	var direct_sprite: Sprite2D = get_node_or_null("Sprite2D") as Sprite2D
+	if direct_sprite != null:
+		_append_highlight_visual(direct_sprite, result, seen_ids)
+
+	return result
+
+
+func _collect_highlight_visuals(node: Node, result: Array[CanvasItem], seen_ids: Dictionary) -> void:
+	if node == null:
+		return
+
+	_append_highlight_visual(node, result, seen_ids)
+	for child: Node in node.get_children():
+		_collect_highlight_visuals(child, result, seen_ids)
+
+
+func _append_highlight_visual(node: Node, result: Array[CanvasItem], seen_ids: Dictionary) -> void:
+	if not _is_highlight_visual_node(node):
+		return
+
+	var canvas_item: CanvasItem = node as CanvasItem
+	var instance_id: int = canvas_item.get_instance_id()
+	if seen_ids.has(instance_id):
+		return
+
+	seen_ids[instance_id] = true
+	result.append(canvas_item)
+
+
+func _is_highlight_visual_node(node: Node) -> bool:
+	return node is Sprite2D or node is AnimatedSprite2D or node is TextureRect
 
 
 func _get_feedback_visual() -> Node2D:

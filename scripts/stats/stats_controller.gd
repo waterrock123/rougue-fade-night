@@ -230,7 +230,11 @@ func _build_derived_stats(data: StatsData, primary_stats: Dictionary) -> Diction
 		"damage_reduction_rate": data.base_damage_reduction_rate,
 		"static_damage_reduction": float(data.base_static_damage_reduction),
 		"cooldown_reduction": data.base_cooldown_reduction + speed * 0.002,
+		# 统一影响固定削韧与目标默认削韧公式，1.0 表示不修正。
+		"poise_damage_multiplier": data.base_poise_damage_multiplier,
 		"projectile_range_bonus_rate": 0.0,
+		# 大于 0 时，通用投射物会按该角速度追踪附近目标。
+		"projectile_homing_turn_speed": 0.0,
 	}
 
 
@@ -286,6 +290,10 @@ func process_outgoing_damage(damage_data: DamageData) -> DamageData:
 	damage_data.crit_multiplier = get_stat("crit_damage", damage_data.crit_multiplier)
 	if damage_data.is_crit:
 		damage_data.final_damage *= damage_data.crit_multiplier
+
+	# 把攻击方当前削韧倍率快照进伤害事件，目标之后解析默认削韧公式时也能正确应用。
+	var poise_multiplier: float = maxf(get_stat(&"poise_damage_multiplier", 1.0), 0.0)
+	damage_data.poise_damage_multiplier *= poise_multiplier
 
 	return damage_data
 

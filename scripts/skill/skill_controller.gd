@@ -12,6 +12,11 @@ var active_passive_effects: Array[Dictionary] = []
 @onready var entity: Entity = get_parent() as Entity
 
 
+func _ready() -> void:
+	if EventBus != null and not EventBus.skill_loadout_changed.is_connected(_on_skill_loadout_changed):
+		EventBus.skill_loadout_changed.connect(_on_skill_loadout_changed)
+
+
 func _exit_tree() -> void:
 	# 战斗场景释放时要主动移除被动效果，尤其是监听 EventBus 的战斗结算类被动。
 	# 否则旧 SkillController 的上下文会残留到下一场战斗，造成重复触发。
@@ -31,7 +36,7 @@ func refresh_all_skills() -> void:
 
 
 # 主动技能负责把 Ability 场景注册到 AbilityController。
-func refresh_active_skills() -> void:
+func refresh_active_skills_legacy() -> void:
 	if ability_controller == null:
 		return
 
@@ -64,6 +69,33 @@ func refresh_active_skills() -> void:
 
 
 # 被动技能负责把效果应用到 StatsController、StatusController 等运行时系统。
+func refresh_active_skills() -> void:
+	if ability_controller == null:
+		return
+
+	_clear_runtime_abilities()
+	if player_build == null:
+		return
+
+	player_build.normalize_active_skill_loadout()
+	for entry: SkillEntry in player_build.get_equipped_active_skill_entries():
+		var skill_data: ActiveSkillData = entry.skill_data as ActiveSkillData
+		if skill_data == null or skill_data.ability_scene == null:
+			continue
+
+		var runtime_ability: Ability = ability_controller.register_runtime_ability(
+			skill_data.ability_scene,
+			_build_active_source_key(entry)
+		)
+		if runtime_ability != null:
+			runtime_ability.runtime_slot_index = entry.slot_index
+			runtime_ability.apply_skill_data(skill_data, entry)
+
+
+func _clear_runtime_abilities() -> void:
+	ability_controller.clear_runtime_abilities()
+
+
 func refresh_passive_skills() -> void:
 	_clear_passive_effects()
 	if run_stats != null:
@@ -102,21 +134,33 @@ func grant_active_skill(skill_data: ActiveSkillData) -> SkillEntry:
 	return entry
 
 
-func grant_passive_skill(skill_data: PassiveSkillData) -> SkillEntry:
+func grant_passive_skill(skill_data: PassiveSkillData, replace_skill_id: StringName = &"") -> SkillEntry:
 	if player_build == null:
 		return null
 
-	var entry := player_build.grant_passive_skill(skill_data)
+	var entry := player_build.grant_passive_skill_with_replacement(skill_data, replace_skill_id)
 	refresh_passive_skills()
 	return entry
 
 
-func upgrade_skill_entry(skill_entry: SkillEntry) -> void:
+func upgrade_skill_entry(skill_entry: SkillEntry, target_skill_data: SkillData = null) -> bool:
 	if skill_entry == null:
-		return
+		return false
 
-	skill_entry.level_up()
+	var resolved_target: SkillData = target_skill_data
+	if resolved_target == null and skill_entry.skill_data != null:
+		var options: Array[SkillData] = skill_entry.skill_data.get_upgrade_options()
+		if not options.is_empty():
+			resolved_target = options[0]
+
+	if not player_build.evolve_skill_entry(skill_entry, resolved_target):
+		return false
 	refresh_all_skills()
+	return true
+
+
+func _on_skill_loadout_changed() -> void:
+	refresh_active_skills()
 
 
 func _build_context(skill_entry: SkillEntry, effect_index: int = -1) -> SkillContext:

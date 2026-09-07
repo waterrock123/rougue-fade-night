@@ -16,5 +16,6 @@ id = &"frost_slow"
 status_name = "冰霜减速"
 desc = "冰霜残迹带来的短暂减速，速度属性降低2点。"
 icon = ExtResource("3_x2s5s")
+polarity = 2
 duration = 2.0
 effects = Array[ExtResource("1_base")]([SubResource("FrostSlowSpeedEffect")])

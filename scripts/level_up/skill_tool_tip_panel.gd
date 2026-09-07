@@ -21,7 +21,14 @@ func set_skill(skill_entry: SkillEntry) -> void:
 
 	var skill_data := skill_entry.skill_data
 	name_label.text = skill_data.skill_name
-	level_label.text = "Lv.%s / %s" % [skill_entry.level, skill_data.max_level]
+	var upgrade_options: Array[SkillData] = skill_data.get_upgrade_options()
+	if upgrade_options.is_empty():
+		level_label.text = "最终阶段"
+	else:
+		var option_names: Array[String] = []
+		for option: SkillData in upgrade_options:
+			option_names.append(option.skill_name)
+		level_label.text = "可升级为：%s" % " / ".join(option_names)
 	_refresh_keyword_text(skill_data.desc)
 	icon_texture.texture = skill_data.icon
 
