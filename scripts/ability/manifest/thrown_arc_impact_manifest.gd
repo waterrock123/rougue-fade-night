@@ -54,6 +54,7 @@ func _ready() -> void:
 
 ## 接收 UseSpawnManifestEffect 或技能组件传入的目标点，开始抛射移动。
 func activate(context: AbilityContext) -> void:
+	capture_element_tags(context)
 	if context == null or context.caster == null:
 		queue_free()
 		return
@@ -184,6 +185,7 @@ func _apply_damage_to_entity(entity: Entity) -> void:
 		source_ability_slot_index,
 		poise_damage
 	)
+	stamp_damage_elements(damage_data)
 	entity.apply_damage(damage_data)
 
 

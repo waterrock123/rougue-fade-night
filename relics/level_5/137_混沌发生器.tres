@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="Relic" load_steps=14 format=3 uid="uid://b5j43rxyddhch"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_l8nov"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_5in3g"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_v3f00"]
+[ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="4_v3f00"]
+[ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="5_xuwjr"]
+[ext_resource type="Script" path="res://relic_effect/map_object_generation_multiplier_effect.gd" id="6_map"]
+[ext_resource type="Script" path="res://relic_effect/gain_random_world_condition_effect.gd" id="7_condition"]
+[ext_resource type="Script" path="res://relic_effect/gain_redistribute_primary_stats_effect.gd" id="8_stats"]
+[ext_resource type="Script" path="res://relic_effect/gain_reroll_active_skills_effect.gd" id="9_skills"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/137_chaos_generator.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="Resource_map"]
+script = ExtResource("6_map")
+feature_tag = &""
+generation_bonus = 1.0
+
+[sub_resource type="Resource" id="Resource_condition"]
+script = ExtResource("7_condition")
+
+[sub_resource type="Resource" id="Resource_stats"]
+script = ExtResource("8_stats")
+
+[sub_resource type="Resource" id="Resource_skills"]
+script = ExtResource("9_skills")
+
+[resource]
+script = ExtResource("2_5in3g")
+id = "137"
+relic_name = "混沌发生器"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "装备期间，使所有{map_special_object}的随机出现概率与数量提升100%（概率最高100%）。获得时立即随机触发一项非默认天气或环境。
+升级：获得升级态或升级时，立即将本局基础一级属性的总点数重新随机分配，并将非基础攻击、非装备提供的全部已拥有{active_skill}重随机。保留携带状态、技能阶段及角色归属，不重复；没有可替代技能时保留原样。重新穿戴不重复触发。"
+desc = "这个装置的原理参考荒域本身，其目的在于将荒域修改为正常的环境，可惜还在研发中，强行介入荒域会导致更大的混乱"
+price = 5
+level = 5
+effects = Array[ExtResource("1_l8nov")]([SubResource("Resource_map"), SubResource("Resource_condition")])
+great_effects = Array[ExtResource("1_l8nov")]([SubResource("Resource_stats"), SubResource("Resource_skills")])
+tags = Array[ExtResource("3_v3f00")]([ExtResource("4_v3f00"), ExtResource("5_xuwjr")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

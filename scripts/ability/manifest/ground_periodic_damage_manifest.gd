@@ -48,6 +48,7 @@ func _ready() -> void:
 
 
 func activate(context: AbilityContext) -> void:
+	capture_element_tags(context)
 	source = context.caster
 	source_ability_id = context.ability.id if context.ability != null else &""
 	source_ability_slot_index = context.ability.runtime_slot_index if context.ability != null else -1
@@ -111,6 +112,7 @@ func _damage_target(target: Entity, valid_source: Entity) -> void:
 		source_ability_slot_index,
 		poise_damage
 	)
+	stamp_damage_elements(damage_data)
 	target.apply_damage(damage_data)
 
 

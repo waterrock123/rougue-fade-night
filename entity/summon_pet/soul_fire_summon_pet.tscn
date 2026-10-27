@@ -1,0 +1,96 @@
+[gd_scene load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scripts/entity/soul_fire_pet.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/Summonpet/soul_fire/soul_fire.png" id="2"]
+[ext_resource type="Shader" path="res://shaders/soul_fire.gdshader" id="3"]
+[ext_resource type="Script" path="res://scripts/stats/stats_controller.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/stats/modifier_handler.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/status/status_controller.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/ability/core/ability_controller.gd" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/ability/soul_fire_pulse.tscn" id="8"]
+[ext_resource type="Script" path="res://scripts/entity/pathfinding.gd" id="9"]
+[ext_resource type="Script" path="res://scripts/entity/summon_lifetime.gd" id="10"]
+[ext_resource type="Script" path="res://custom_resource/stats_data.gd" id="11"]
+
+[sub_resource type="Resource" id="Stats"]
+script = ExtResource("11")
+entity_name = "魂火"
+base_max_health = 40.0
+base_max_energy = 1.0
+base_move_speed = 75.0
+base_crit_chance = 0.0
+
+[sub_resource type="CircleShape2D" id="Body"]
+radius = 5.0
+
+[sub_resource type="ShaderMaterial" id="Material"]
+shader = ExtResource("3")
+
+[sub_resource type="SpriteFrames" id="Frames"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": ExtResource("2")}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("2")}],
+"loop": true,
+"name": &"walk",
+"speed": 4.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("2")}],
+"loop": false,
+"name": &"appear",
+"speed": 4.0
+}]
+
+[node name="SoulFireSummonPet" type="CharacterBody2D"]
+texture_filter = 1
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1")
+stop_distance = 64.0
+auto_bind_player_as_summoner = false
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Body")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("Material")
+position = Vector2(0, -10)
+sprite_frames = SubResource("Frames")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 1
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -8)
+shape = SubResource("Body")
+
+[node name="ModifierHandler" type="Node" parent="."]
+script = ExtResource("5")
+
+[node name="StatsController" type="Node" parent="."]
+script = ExtResource("4")
+stats_data = SubResource("Stats")
+
+[node name="StatusController" type="Node" parent="."]
+script = ExtResource("6")
+
+[node name="AbilityController" type="Node" parent="."]
+script = ExtResource("7")
+
+[node name="SoulFirePulse" parent="AbilityController" instance=ExtResource("8")]
+
+[node name="Pathfinding" type="Node2D" parent="."]
+script = ExtResource("9")
+
+[node name="VFXAnchor" type="Node2D" parent="."]
+position = Vector2(0, -10)
+
+[node name="SummonLifetime" type="Node" parent="."]
+script = ExtResource("10")

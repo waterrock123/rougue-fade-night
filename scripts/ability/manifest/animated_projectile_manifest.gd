@@ -23,6 +23,8 @@ extends AbilityManifest
 @export var homing_turn_speed: float = 0.0
 @export var homing_acquire_radius: float = 500.0
 @export var homing_retarget_interval: float = 0.12
+## 与普通投射物共用范围约束，按弹体当前位置判断，不按施法者位置判断。
+@export var homing_require_target_in_range: bool = false
 
 @export_group("Animation")
 @export var start_animation: StringName = &"start"
@@ -80,6 +82,7 @@ func _exit_tree() -> void:
 
 
 func activate(context: AbilityContext) -> void:
+	capture_element_tags(context)
 	source = context.caster
 	source_ability_id = context.ability.id if context.ability != null else &""
 	source_ability_slot_index = context.ability.runtime_slot_index if context.ability != null else -1
@@ -94,6 +97,8 @@ func activate(context: AbilityContext) -> void:
 	current_dir = _get_projectile_direction(context)
 	if current_dir != Vector2.ZERO:
 		global_rotation = current_dir.angle()
+	if tags.has("projectile"):
+		notify_projectile_launched(context, current_dir)
 
 	if animated_sprite == null:
 		return
@@ -110,6 +115,8 @@ func _process(delta: float) -> void:
 		return
 
 	_update_homing_direction(delta)
+	if is_queued_for_deletion():
+		return
 	var movement: Vector2 = current_dir * speed * delta
 	current_distance += movement.length()
 	if not _move_or_finish_on_world_hit(movement):
@@ -153,15 +160,22 @@ func _configure_homing() -> void:
 func _update_homing_direction(delta: float) -> void:
 	if runtime_homing_turn_speed <= 0.0:
 		return
+	# 动画投射物也可能晚于来源销毁；不要把悬空引用直接传进Entity类型参数。
+	var valid_source: Entity = _get_valid_source()
+	if valid_source == null or valid_source.is_queued_for_deletion() or not valid_source.is_inside_tree() or valid_source.is_dead:
+		homing_controller.reset()
+		queue_free()
+		return
 	current_dir = homing_controller.steer(
 		self,
-		source,
+		valid_source,
 		target_group,
 		current_dir,
 		runtime_homing_turn_speed,
 		homing_acquire_radius,
 		homing_retarget_interval,
-		delta
+		delta,
+		homing_require_target_in_range
 	)
 	if not rotate_while_flying and current_dir != Vector2.ZERO:
 		global_rotation = current_dir.angle()
@@ -169,6 +183,8 @@ func _update_homing_direction(delta: float) -> void:
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if is_hit_finishing:
+		return
+	if try_intercept_projectile_movement(Vector2.ZERO):
 		return
 
 	var target := _get_entity_from_area(area)
@@ -205,6 +221,8 @@ func _damage_target(target: Entity, valid_source: Entity) -> void:
 		source_ability_slot_index,
 		poise_damage
 	)
+	damage_data.impact_direction = current_dir
+	stamp_damage_elements(damage_data)
 	target.apply_damage(damage_data)
 
 
@@ -245,6 +263,12 @@ func _move_or_finish_on_world_hit(movement: Vector2) -> bool:
 		return true
 
 	var collision: Dictionary = _get_world_collision(movement)
+	var intercept_movement: Vector2 = movement
+	var collision_position: Variant = collision.get("position")
+	if collision_position is Vector2:
+		intercept_movement = collision_position - global_position
+	if try_intercept_projectile_movement(intercept_movement):
+		return true
 	if not collision.is_empty():
 		var hit_position: Variant = collision.get("position")
 		if hit_position is Vector2:
@@ -307,8 +331,6 @@ func _get_entity_from_area(area: Area2D) -> Entity:
 
 
 func _get_valid_source() -> Entity:
-	if source == null:
-		return null
 	if not is_instance_valid(source):
 		return null
 	return source

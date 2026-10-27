@@ -17,7 +17,7 @@ func on_use(relic_context: RelicContext, effect_key) -> void:
 	if stats_controller == null:
 		return
 
-	stats_controller.set_effect_modifiers(effect_key, _build_modifiers(effect_key))
+	stats_controller.set_temporary_effect_modifiers(effect_key, _build_modifiers(effect_key))
 
 
 func _build_modifiers(effect_key: String) -> Array[Modifier]:

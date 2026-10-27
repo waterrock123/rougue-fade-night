@@ -10,6 +10,16 @@ func on_gain(relic_context: RelicContext, effect_key) -> void:
 	pass
 
 
+## 构筑实际接收装备后触发；与已有手动on_gain并存，一次性效果需自行记录去重。
+func on_added(relic_context: RelicContext, effect_key) -> void:
+	pass
+
+
+## 已有装备变成升级态时触发，不等同于获得新装备，也不重复基础获得效果。
+func on_upgrade(relic_context: RelicContext, effect_key) -> void:
+	pass
+
+
 ## 遗物处于“已装备/已激活”状态时触发。
 ## 大多数常驻装备效果都应该在这里生效。
 func on_activate(relic_context: RelicContext, effect_key) -> void:

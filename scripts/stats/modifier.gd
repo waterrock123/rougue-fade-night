@@ -11,6 +11,8 @@ var modifier_type: ModifierType
 var value: float
 var source: Variant
 var duration: float
+## 预置ModifierNode重复构建时保留来源身份，避免把一次刷新当作新的属性奖励。
+var gain_ledger_key: String = ""
 
 
 # 构造一条属性修饰器数据。

@@ -8,10 +8,14 @@ var source: Node
 var source_key: Variant
 # 记录每个来源各自贡献了多少层，避免同 id 状态在卸载时互相误删。
 var source_stacks: Dictionary = {}
+## 是否为战斗获得的临时属性来源；装备/被动常驻来源显式标记false。
+var attribute_gain_sources: Dictionary = {}
 var stacks: int = 1
 var remaining_duration: float = -1.0
 var duration_revision: int = 0
 var duration_adjusted_effect_revisions: Dictionary = {}
+## 从存储箱恢复不是一次新的奖励，持续时间和一次性副作用应保留原结算结果。
+var restoring_from_storage: bool = false
 
 
 func _init(
@@ -64,6 +68,7 @@ func add_source_stacks(stack_source_key: Variant, amount: int) -> void:
 
 func remove_source(stack_source_key: Variant) -> void:
 	source_stacks.erase(_normalize_source_key(stack_source_key))
+	attribute_gain_sources.erase(_normalize_source_key(stack_source_key))
 	_recalculate_stacks()
 
 
@@ -141,6 +146,9 @@ func add_duration(
 
 
 func _recalculate_stacks() -> void:
+	for key: String in attribute_gain_sources.keys():
+		if not source_stacks.has(key):
+			attribute_gain_sources.erase(key)
 	var total := 0
 	for stack_count in source_stacks.values():
 		total += int(stack_count)
@@ -148,6 +156,19 @@ func _recalculate_stacks() -> void:
 	if status_data != null:
 		total = min(total, max(status_data.max_stacks, 1))
 	stacks = max(total, 0)
+
+
+func set_attribute_gain_source(stack_source_key: Variant, eligible: bool) -> void:
+	attribute_gain_sources[_normalize_source_key(stack_source_key)] = eligible
+
+
+## 达到状态层数上限时优先保留常驻来源，不能把被上限截掉的新增层数转成永久奖励。
+func get_attribute_gain_stacks() -> int:
+	var permanent_count: int = 0
+	for key: String in source_stacks:
+		if not bool(attribute_gain_sources.get(key, true)):
+			permanent_count += int(source_stacks[key])
+	return maxi(stacks - permanent_count, 0)
 
 
 func _normalize_source_key(stack_source_key: Variant) -> String:

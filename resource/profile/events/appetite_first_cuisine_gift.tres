@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ProfileEventData" format=3]
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+event_id = &"appetite_first_cuisine_gift"
+display_name = "小乐的私人请求"
+description = "你把一份佳肴送给了饥肠辘辘的小乐。她请你先去完成一次冒险，自己则去准备谢礼。"
+show_in_codex = false
+required_completed_event_ids = Array[StringName]([&"appetite_cuisine_offered"])

@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1"]
+
+[sub_resource type="CircleShape2D" id="Hit"]
+radius = 4.0
+
+[node name="MushroomRingSpore" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1")
+speed = 100.0
+max_distance = 228.0
+target_group = "player"
+damage = 14.0
+can_crit = false
+damage_types = Array[int]([1, 5])
+tags = Array[String](["skill", "manifest", "projectile", "spore"])
+poise_damage = 0.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("Hit")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

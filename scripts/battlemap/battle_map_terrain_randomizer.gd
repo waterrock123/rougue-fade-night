@@ -117,7 +117,7 @@ func _apply_enabled_map_tag_terrain_modifiers(spawn_profile: MapTerrainSpawnProf
 		return
 
 	for tag_key: String in enabled_tag_keys:
-		var influence: MapTagInfluenceData = influence_database.get_influence_for_tag_key(tag_key)
+		var influence: MapTagInfluenceData = run_stats.get_effective_map_tag_influence(influence_database, tag_key)
 		if influence == null or not influence.enabled:
 			continue
 

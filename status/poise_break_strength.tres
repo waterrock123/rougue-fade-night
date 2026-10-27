@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="StatusData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1_data"]
+[ext_resource type="Script" path="res://scripts/status/status_effect.gd" id="2_base"]
+[ext_resource type="Script" path="res://scripts/status/status_add_stat_effect.gd" id="3_stat"]
+
+[sub_resource type="Resource" id="StrengthPerStack"]
+script = ExtResource("3_stat")
+stat_name = &"strength"
+value_per_stack = 1.0
+
+[resource]
+script = ExtResource("1_data")
+id = &"poise_break_strength"
+status_name = "破韧之力"
+desc = "每层使力量+1，持续至战斗结束。"
+polarity = 1
+dispellable = false
+max_stacks = 9999
+stack_mode = 1
+effects = Array[ExtResource("2_base")]([SubResource("StrengthPerStack")])

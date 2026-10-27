@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_sg6p2"]
 [ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_v2j3r"]
 [ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="6_xitat"]
-[ext_resource type="Script" path="res://relic_effect/add_derived_stat_effect.gd" id="7_derived"]
-[ext_resource type="Script" path="res://relic_effect/gain_consume_all_tagged_relics_effect.gd" id="8_consume_all"]
-[ext_resource type="Resource" path="res://relic_tags/原料tag.tres" id="9_material"]
-[ext_resource type="Resource" path="res://relic_tags/佳肴tag.tres" id="10_cuisine"]
+[ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://relic_effect/add_derived_stat_effect.gd" id="7_derived"]
+[ext_resource type="Script" uid="uid://b6en4wxulvjsm" path="res://relic_effect/gain_consume_all_tagged_relics_effect.gd" id="8_consume_all"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料tag.tres" id="9_material"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="10_cuisine"]
 
 [sub_resource type="Resource" id="Resource_reduction"]
 script = ExtResource("7_derived")
@@ -27,7 +27,6 @@ script = ExtResource("8_consume_all")
 consume_tag = ExtResource("9_material")
 reward_mode = 1
 output_required_tags = Array[ExtResource("3_sg6p2")]([ExtResource("10_cuisine")])
-maximum_reward_level = 6
 
 [resource]
 script = ExtResource("2_pkv4m")

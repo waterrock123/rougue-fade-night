@@ -11,6 +11,7 @@ base_cooldown = 1.0
 base_energy_cost = 5.0
 id = &"107"
 skill_name = "眼镜蛇大炮"
+element_tags = Array[StringName]([&"poison"])
 desc = "按住时显示直线射击范围，松开后向鼠标方向发射一枚可穿透敌人的毒性炮弹，造成{ranged}伤害。释放时消耗背包中一件带有弹药标签的装备；没有弹药时无法释放。"
 icon = ExtResource("2_icon")
 tags = Array[StringName]([&"active_skill", &"projectile", &"ranged", &"poison"])

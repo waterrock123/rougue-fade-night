@@ -100,7 +100,7 @@ func check_colliders_around_position(context: AbilityContext, search_radius: flo
 func _matches_target_mode(caster: Entity, target: Entity) -> bool:
 	match target_mode:
 		TargetMode.PLAYER:
-			return target.is_player_side()
+			return target.matches_target_group(&"player")
 		TargetMode.ENEMY:
 			return target.is_enemy_side()
 		TargetMode.ENTITY:
@@ -109,7 +109,7 @@ func _matches_target_mode(caster: Entity, target: Entity) -> bool:
 			if caster.is_player_side():
 				return target.is_enemy_side()
 			if caster.is_enemy_side():
-				return target.is_player_side()
+				return target.matches_target_group(&"player")
 			return target != caster
 
 	return false

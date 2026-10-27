@@ -18,7 +18,7 @@ func on_activate(relic_context: RelicContext, effect_key) -> void:
 	if status_controller == null:
 		return
 
-	status_controller.add_status(status_data, relic_context.owner, effect_key, stacks, duration_override)
+	status_controller.add_status(status_data, relic_context.owner, effect_key, stacks, duration_override, false, false)
 
 
 ## 卸下遗物时只移除当前装备来源的状态层数，不影响其他同 id 状态来源。

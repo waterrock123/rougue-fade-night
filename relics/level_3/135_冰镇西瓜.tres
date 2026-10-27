@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b7dlhktqcms3l"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_udbqh"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_c48kl"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_gnsl2"]
+[ext_resource type="Resource" uid="uid://sptmtn6uua85" path="res://relic_tags/寒霜tag.tres" id="4_c48kl"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="5_gnsl2"]
+
+[ext_resource type="Script" path="res://relic_effect/use_heal_effect.gd" id="6_heal"]
+[ext_resource type="Script" path="res://relic_effect/use_restore_energy_effect.gd" id="7_energy"]
+[ext_resource type="Script" path="res://relic_effect/use_add_status_effect.gd" id="8_status"]
+[ext_resource type="Resource" path="res://status/chilled_watermelon_cooldown.tres" id="9_cooldown"]
+[ext_resource type="Resource" path="res://status/chilled_watermelon_enchantment.tres" id="10_enchantment"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/135_chilled_watermelon.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="Resource_heal"]
+script = ExtResource("6_heal")
+heal_amount = 25.0
+
+[sub_resource type="Resource" id="Resource_energy"]
+script = ExtResource("7_energy")
+energy_amount = 30.0
+
+[sub_resource type="Resource" id="Resource_cooldown"]
+script = ExtResource("8_status")
+status_data = ExtResource("9_cooldown")
+
+[sub_resource type="Resource" id="Resource_enchantment"]
+script = ExtResource("8_status")
+status_data = ExtResource("10_enchantment")
+
+[resource]
+script = ExtResource("2_c48kl")
+relic_name = "冰镇西瓜"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "使用后 {heal} 25点生命与恢复30点能量，20秒内所有 {active_skill}（不含基础攻击）的冷却时间减半
+升级：使用后基础攻击命中时额外造成5点 {ice} 伤害，持续60秒"
+desc = "拿勺子吃吧，爽！"
+price = 4
+level = 3
+tags = Array[ExtResource("3_gnsl2")]([ExtResource("4_c48kl"), ExtResource("5_gnsl2")])
+id = "135"
+is_consumable = true
+effects = Array[ExtResource("1_udbqh")]([SubResource("Resource_heal"), SubResource("Resource_energy"), SubResource("Resource_cooldown")])
+great_effects = Array[ExtResource("1_udbqh")]([SubResource("Resource_enchantment")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatsData" format=3]
+
+[ext_resource type="Script" path="res://custom_resource/stats_data.gd" id="1_stats"]
+
+[resource]
+script = ExtResource("1_stats")
+entity_name = "强壮猎犬"
+base_max_health = 40.0
+base_max_energy = 20.0
+base_energy_regen_tick_value = 2.0
+base_move_speed = 110.0
+strength = 11
+dexterity = 6
+constitution = 8
+speed = 8
+charm = 2
+luck = 3

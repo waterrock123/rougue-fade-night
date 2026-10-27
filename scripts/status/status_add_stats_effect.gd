@@ -13,7 +13,7 @@ func on_apply(instance: StatusInstance) -> void:
 	if stats_controller == null:
 		return
 
-	var effect_key: String = instance.get_effect_key()
+	var effect_key: String = _get_effect_key(instance)
 	var modifiers: Array[Modifier] = []
 	for stat_key in stat_values.keys():
 		var stat_name: StringName = StringName(str(stat_key))
@@ -25,7 +25,13 @@ func on_apply(instance: StatusInstance) -> void:
 			modifier = Modifier.create_flat(stat_name, amount, effect_key)
 		modifiers.append(modifier)
 
-	stats_controller.set_effect_modifiers(effect_key, modifiers)
+	var eligible_stacks: int = instance.get_attribute_gain_stacks()
+	var ratio: float = float(eligible_stacks) / float(maxi(instance.stacks, 1))
+	if instance.status_data.is_negative():
+		ratio = 0.0
+	stats_controller.set_temporary_effect_modifiers(
+		effect_key, modifiers, ratio, "%d:%s" % [instance.get_instance_id(), effect_key], eligible_stacks > 0
+	)
 
 
 ## 状态结束或被移除时，清理这一组属性修饰。
@@ -34,10 +40,14 @@ func on_remove(instance: StatusInstance) -> void:
 	if stats_controller == null:
 		return
 
-	stats_controller.clear_effect_modifiers(instance.get_effect_key())
+	stats_controller.clear_effect_modifiers(_get_effect_key(instance), true)
+
+
+func _get_effect_key(instance: StatusInstance) -> String:
+	return instance.get_effect_key(instance.status_data.effects.find(self))
 
 
 func _get_stats_controller(instance: StatusInstance) -> StatsController:
-	if instance == null or instance.controller == null:
+	if instance == null or not is_instance_valid(instance.controller):
 		return null
 	return instance.controller.get_stats_controller()

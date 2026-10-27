@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b47sfbtb044x0"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_0k0un"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_tnbdd"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_jchhw"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="4_jchhw"]
+[ext_resource type="Resource" uid="uid://bhvriwrr7jduc" path="res://relic_tags/战狂tag.tres" id="5_o4hec"]
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="6_stats"]
+[ext_resource type="Script" path="res://relic_effect/add_derived_stat_effect.gd" id="7_derived"]
+[ext_resource type="Script" path="res://relic_effect/poise_break_apply_status_effect.gd" id="8_status_effect"]
+[ext_resource type="Resource" path="res://status/poise_break_strength.tres" id="9_strength_status"]
+[ext_resource type="Script" path="res://relic_effect/poise_break_damage_effect.gd" id="10_damage"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/141_alien_warhammer.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="HammerStats"]
+script = ExtResource("6_stats")
+add_stats = {"strength": 5}
+
+[sub_resource type="Resource" id="HammerPoise"]
+script = ExtResource("7_derived")
+add_derived_stats = {"poise_damage_multiplier": 0.5}
+
+[sub_resource type="Resource" id="HammerStrengthStacks"]
+script = ExtResource("8_status_effect")
+status_data = ExtResource("9_strength_status")
+duration_override = -1.0
+
+[sub_resource type="Resource" id="HammerBreakDamage"]
+script = ExtResource("10_damage")
+damage = 0.0
+source_stat = &"strength"
+stat_multiplier = 5.0
+
+[resource]
+script = ExtResource("2_tnbdd")
+relic_name = "异星战锤"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "{strength}+5，{poise_damage_multiplier}+50%。每使一个敌人{poise_break}，使自己的{strength}+1，持续至战斗结束。
+升级：被你{poise_break}的敌人额外受到等于你当前{strength}500%的{melee_damage}。"
+price = 5
+level = 5
+tags = Array[ExtResource("3_jchhw")]([ExtResource("4_jchhw"), ExtResource("5_o4hec")])
+id = "141"
+effects = Array[ExtResource("1_0k0un")]([SubResource("HammerStats"), SubResource("HammerPoise"), SubResource("HammerStrengthStacks")])
+great_effects = Array[ExtResource("1_0k0un")]([SubResource("HammerBreakDamage")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/battlemap/delivery_cargo.tscn" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ai art/delivery/destination_arrow.png" id="2_arrow"]
+
+[node name="DeliveryDestination" instance=ExtResource("1")]
+enable_float_motion = true
+float_amplitude = 2.0
+enable_sway_motion = false
+enable_spawn_bounce = false
+
+[node name="VisualRoot" parent="." index="1"]
+position = Vector2(0, -25)
+
+[node name="Sprite2D" parent="VisualRoot" index="0"]
+texture = ExtResource("2_arrow")
+
+[node name="Hint" parent="." index="2"]
+text = "配送目标"
+offset_top = -62.0

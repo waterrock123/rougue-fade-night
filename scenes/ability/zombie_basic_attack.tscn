@@ -1,0 +1,58 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_ai_target_direction.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_animation_runner.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_movement.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_trigger_components_on_sprite_frame.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_animation_frame_event.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_component_group.gd" id="7"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_get_combat_targets.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_deal_damage.gd" id="9"]
+
+[sub_resource type="Resource" id="HitFrame"]
+script = ExtResource("6")
+frame = 4
+component_names = Array[String](["Hit"])
+
+[node name="ZombieBasicAttack" type="Node"]
+script = ExtResource("1")
+cooldown = 1.6
+energy_cost = 0.0
+ai_max_cast_distance = 32.0
+ai_infer_cast_range_from_components = false
+
+[node name="LockDirection" type="Node" parent="."]
+script = ExtResource("2")
+
+[node name="PlayAnimation" type="Node" parent="."]
+script = ExtResource("3")
+animation_name = "attack"
+
+[node name="LockMovement" type="Node" parent="."]
+script = ExtResource("4")
+lock_duration = 1.0
+
+[node name="HitFrameTrigger" type="Node" parent="."]
+script = ExtResource("5")
+animation_name = "attack"
+frame_events = Array[ExtResource("6")]([SubResource("HitFrame")])
+
+[node name="Hit" type="Node" parent="."]
+script = ExtResource("7")
+auto_activate = false
+
+[node name="GetCombatTargets" type="Node" parent="Hit"]
+script = ExtResource("8")
+search_shape = 1
+radius = 42.0
+sector_angle = 110.0
+target_mode = 3
+direction_mode = 4
+
+[node name="DealDamage" type="Node" parent="Hit"]
+script = ExtResource("9")
+damage = 12.0
+can_crit = false
+tags = Array[String](["skill", "melee", "zombie_basic_attack"])
+poise_damage = 8.0

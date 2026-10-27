@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://2ybudqyw0jq0"]
+
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="1"]
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="2"]
+[ext_resource type="Script" uid="uid://dgo07v5uptqqr" path="res://scripts/status/status_add_stat_effect.gd" id="3"]
+
+[sub_resource type="Resource" id="Slow"]
+script = ExtResource("3")
+stat_name = &"speed"
+value_per_stack = -2.0
+
+[resource]
+script = ExtResource("1")
+id = &"spore_slow"
+status_name = "孢子迟滞"
+desc = "孢子使速度降低2点，离开孢子领域后很快恢复。"
+polarity = 2
+duration = 0.7
+effects = Array[ExtResource("2")]([SubResource("Slow")])

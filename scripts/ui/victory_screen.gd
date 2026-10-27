@@ -44,4 +44,4 @@ func _play_victory_sequence() -> void:
 func _return_to_home() -> void:
 	Run.pending_startup = null
 	SaveManager.delete_save()
-	get_tree().change_scene_to_packed(HOME_SCENE)
+	ResourceLocator.go_to_hub_scene(false)

@@ -1,0 +1,78 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://event_room/lake_sword_room.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/ai art/事件背景/《湖中剑》.png" id="2_background"]
+[ext_resource type="PackedScene" path="res://event_room/event_button.tscn" id="3_button"]
+
+[node name="LakeSwordRoom" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_filter = 1
+texture = ExtResource("2_background")
+expand_mode = 1
+stretch_mode = 6
+mouse_filter = 2
+
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.08, 0.11, 0.55)
+mouse_filter = 2
+
+[node name="DescLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 700.0
+offset_top = 130.0
+offset_right = 1820.0
+offset_bottom = 480.0
+theme_override_font_sizes/font_size = 38
+text = "一口湖，湖中的石制平台插着一把剑，这似乎是很经典的桥段。我会拔这把剑么？"
+autowrap_mode = 2
+
+[node name="PullButton" parent="." instance=ExtResource("3_button")]
+layout_mode = 0
+offset_left = 730.0
+offset_top = 575.0
+offset_right = 1450.0
+offset_bottom = 670.0
+pressed_desc = Array[String](["我应当拔出这把剑，这把剑也应当由我来拔出，这是只属于我的剑。", "剑纹丝不动。湖面倒映着我略微失望的神情。"])
+desc_text = "尝试拔剑"
+detail_text = "成功获得命定之剑；失败获得略微的失望。幸运提高成功机会"
+
+[node name="PlatformButton" parent="." instance=ExtResource("3_button")]
+layout_mode = 0
+offset_left = 730.0
+offset_top = 710.0
+offset_right = 1450.0
+offset_bottom = 805.0
+pressed_desc = Array[String](["我对于做选择没有兴趣，我的力量足够连带剑与平台一起拔出并扛走。我就是这么强。"])
+desc_text = "我的力气够大……"
+detail_text = "需要力量至少20点：获得命定的石锤？"
+
+[node name="LeaveButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1510.0
+offset_top = 865.0
+offset_right = 1830.0
+offset_bottom = 965.0
+theme_override_font_sizes/font_size = 48
+text = "离开"
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

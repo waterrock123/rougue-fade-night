@@ -124,7 +124,8 @@ func _wait_owner_timer(key: String, generation: int, wait_time: float) -> bool:
 	if not _is_owner_valid(owner):
 		return false
 
-	await owner.get_tree().create_timer(wait_time).timeout
+	# 周期发射计时随场景树暂停，避免打开暂停/配置界面时仍生成投射物。
+	await owner.get_tree().create_timer(wait_time, false).timeout
 	return _is_entry_current(key, generation) and _is_owner_valid(owner)
 
 

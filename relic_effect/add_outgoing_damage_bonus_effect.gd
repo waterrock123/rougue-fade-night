@@ -9,6 +9,8 @@ extends RelicEffect
 @export var required_damage_types: Array[int] = []
 @export var flat_bonus: float = 0.0
 @export var percent_bonus: float = 0.0
+## 对基础伤害与其他加成结算后的整段伤害进行倍率修正；适合“所有伤害+30%”。
+@export var total_damage_percent_bonus: float = 0.0
 @export_multiline var flat_bonus_formula: String = ""
 
 
@@ -24,6 +26,7 @@ func on_activate(relic_context: RelicContext, effect_key) -> void:
 		"required_damage_types": required_damage_types.duplicate(),
 		"flat_bonus": flat_bonus,
 		"percent_bonus": percent_bonus,
+		"total_damage_percent_bonus": total_damage_percent_bonus,
 		"flat_bonus_formula": flat_bonus_formula,
 	})
 

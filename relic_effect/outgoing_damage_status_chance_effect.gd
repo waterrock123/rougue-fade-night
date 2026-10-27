@@ -1,5 +1,5 @@
 ## 遗物效果：拥有者造成伤害后，按概率给受击目标添加状态。
-## 可按技能栏位、伤害标签、伤害类型、目标已有状态筛选，适合麻痹戒指/中毒/燃烧等装备词条。
+## 可按技能栏位、伤害标签、伤害类型、目标状态和暴击筛选，也可给自身施加状态。
 class_name OutgoingDamageStatusChanceEffect
 extends RelicEffect
 
@@ -17,6 +17,10 @@ extends RelicEffect
 @export var required_damage_types: Array[int] = []
 ## 如果填写，受击目标必须已经拥有这些状态才会触发。
 @export var required_target_status_ids: Array[StringName] = []
+## 开启后只有实际造成伤害的暴击才触发。
+@export var only_critical: bool = false
+## 开启后把状态给自己；伤害筛选仍按原来的受击目标进行。
+@export var apply_to_owner: bool = false
 
 var active_connections: Dictionary = {}
 
@@ -43,10 +47,12 @@ func on_deactivate(_relic_context: RelicContext, effect_key) -> void:
 		return
 
 	var entry := active_connections[key] as Dictionary
-	var owner := entry.get("owner") as Entity
+	var owner_value: Variant = entry.get("owner")
 	var callback := entry.get("callable") as Callable
-	if owner != null and owner.damage_dealt.is_connected(callback):
-		owner.damage_dealt.disconnect(callback)
+	if is_instance_valid(owner_value) and owner_value is Entity:
+		var owner: Entity = owner_value as Entity
+		if owner.damage_dealt.is_connected(callback):
+			owner.damage_dealt.disconnect(callback)
 	active_connections.erase(key)
 
 
@@ -63,10 +69,15 @@ func _on_damage_dealt(damage_data: DamageData, relic_context: RelicContext, effe
 		return
 	if not _target_status_matches(damage_data.target):
 		return
-	if randf() > chance:
+	if only_critical and not damage_data.is_crit:
+		return
+	if chance <= 0.0 or (chance < 1.0 and randf() >= chance):
 		return
 
-	var target := damage_data.target
+	var recipient: Node = relic_context.owner if apply_to_owner else damage_data.target
+	if not is_instance_valid(recipient) or not recipient is Entity:
+		return
+	var target: Entity = recipient as Entity
 	var status_controller := target.get_status_controller()
 	if status_controller == null:
 		return

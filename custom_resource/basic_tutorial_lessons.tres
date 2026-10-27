@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="TutorialLessonCatalog" load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/hub/tutorial_lesson_catalog.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/hub/tutorial_character_lesson.gd" id="2"]
+[ext_resource type="Resource" path="res://activate_skill/103_throw_axe.tres" id="3_axe"]
+[ext_resource type="Resource" path="res://activate_skill/121_piercing_shot.tres" id="4_shot"]
+[ext_resource type="Resource" path="res://activate_skill/113_fireball.tres" id="5_fire"]
+[ext_resource type="Resource" path="res://activate_skill/106_ice_piton.tres" id="6_ice"]
+
+[sub_resource type="Resource" id="Warrior"]
+script = ExtResource("2")
+character_id = &"warrior"
+aim_skill = ExtResource("3_axe")
+basic_hint = "战狂使用近战基础攻击。靠近假人，把鼠标指向它；按住基础攻击键可以连续挥砍。"
+aim_hint = "投斧会沿直线飞出。让长条指示区域穿过假人，再松开技能键。"
+
+[sub_resource type="Resource" id="Scount"]
+script = ExtResource("2")
+character_id = &"scount"
+aim_skill = ExtResource("4_shot")
+basic_hint = "浪子向鼠标方向射击。按住基础攻击键可以连续开枪，不需要反复点击。"
+aim_hint = "贯甲射击沿直线发射。没有弹药也能释放，但伤害减半且不穿透；这次教学不要求准备弹药。"
+
+[sub_resource type="Resource" id="Wizard"]
+script = ExtResource("2")
+character_id = &"wizard"
+aim_skill = ExtResource("5_fire")
+basic_hint = "贵人的基础攻击会发射追踪飞弹，仍需要在射程内。教学会补充能量，按住基础攻击键即可连续施放。"
+aim_hint = "火球沿瞄准方向飞出，命中时爆炸。让直线指示区域对准假人，再松开技能键。"
+
+[sub_resource type="Resource" id="Fallback"]
+script = ExtResource("2")
+aim_skill = ExtResource("6_ice")
+aim_hint = "当前角色尚未配置专属教学技能，本次临时借用通用冰锥齐射。保持角色不变，让扇形指示范围覆盖假人后松开。"
+
+[resource]
+script = ExtResource("1")
+lessons = Array[ExtResource("2")]([SubResource("Warrior"), SubResource("Scount"), SubResource("Wizard")])
+fallback_lesson = SubResource("Fallback")

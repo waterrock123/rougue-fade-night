@@ -1,0 +1,80 @@
+[gd_resource type="Resource" script_class="HubNpcVisualData" format=3 uid="uid://b62k17pice46g"]
+
+[ext_resource type="Script" uid="uid://dxgjnh7g312xp" path="res://scripts/hub/hub_npc_visual_data.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dr8wdlqf0brke" path="res://assets/npc/zhang_san/idle_sheet_v1.png" id="2_idle"]
+
+[sub_resource type="AtlasTexture" id="Frame_0"]
+atlas = ExtResource("2_idle")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Frame_1"]
+atlas = ExtResource("2_idle")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Frame_2"]
+atlas = ExtResource("2_idle")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Frame_3"]
+atlas = ExtResource("2_idle")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Frame_4"]
+atlas = ExtResource("2_idle")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Frame_5"]
+atlas = ExtResource("2_idle")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Frame_6"]
+atlas = ExtResource("2_idle")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Frame_7"]
+atlas = ExtResource("2_idle")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Frame_8"]
+atlas = ExtResource("2_idle")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="IdleFrames"]
+animations = [{
+"frames": [{
+"duration": 3.0,
+"texture": SubResource("Frame_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Frame_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Frame_2")
+}, {
+"duration": 2.0,
+"texture": SubResource("Frame_3")
+}, {
+"duration": 2.0,
+"texture": SubResource("Frame_4")
+}, {
+"duration": 2.0,
+"texture": SubResource("Frame_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Frame_6")
+}, {
+"duration": 2.0,
+"texture": SubResource("Frame_7")
+}, {
+"duration": 2.0,
+"texture": SubResource("Frame_8")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[resource]
+script = ExtResource("1")
+sprite_frames = SubResource("IdleFrames")
+visual_offset = Vector2(0, -12)

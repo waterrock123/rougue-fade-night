@@ -14,8 +14,19 @@ var player_build: PlayerBuild
 
 
 func _ready() -> void:
+	if EventBus != null and not EventBus.equipment_update.is_connected(_on_equipment_updated):
+		EventBus.equipment_update.connect(_on_equipment_updated)
+	if EventBus != null and not EventBus.skill_loadout_changed.is_connected(_on_equipment_updated):
+		EventBus.skill_loadout_changed.connect(_on_equipment_updated)
 	refresh()
 	close_panel()
+
+
+func _exit_tree() -> void:
+	if EventBus != null and EventBus.equipment_update.is_connected(_on_equipment_updated):
+		EventBus.equipment_update.disconnect(_on_equipment_updated)
+	if EventBus != null and EventBus.skill_loadout_changed.is_connected(_on_equipment_updated):
+		EventBus.skill_loadout_changed.disconnect(_on_equipment_updated)
 
 
 ## 绑定本局玩家构筑，面板只读取 PlayerBuild，不保存自己的技能状态。
@@ -38,6 +49,12 @@ func open_panel() -> void:
 
 func close_panel() -> void:
 	hide()
+
+
+## 装备可能提供额外主动技能；面板打开时需要在装备变化后立即同步，而不是等到下次读档。
+func _on_equipment_updated() -> void:
+	if visible:
+		call_deferred("refresh")
 
 
 ## 上排显示已携带技能，下排显示拥有但未携带的永久技能。

@@ -14,7 +14,7 @@ func apply(context: SkillContext) -> void:
 	if status_controller == null or status_data == null:
 		return
 
-	status_controller.add_status(status_data, _get_source_node(context), context.effect_key, stacks, duration_override)
+	status_controller.add_status(status_data, _get_source_node(context), context.effect_key, stacks, duration_override, false, false)
 
 
 func remove(context: SkillContext) -> void:

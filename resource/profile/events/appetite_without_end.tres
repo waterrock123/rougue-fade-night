@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ProfileEventData" format=3]
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+event_id = &"appetite_without_end"
+display_name = "食欲无边"
+description = "你先后为小乐送去佳肴与压缩菊花茶，终于暂时抚平了这位大怪兽无边的食欲。作为感谢，小乐将自己的烙印交给了你。"
+required_completed_event_ids = Array[StringName]([&"appetite_tea_requested"])
+unlock_modifier_ids = Array[StringName]([&"xiaole_mark"])

@@ -1,0 +1,137 @@
+[gd_scene load_steps=4 format=3]
+[ext_resource type="Script" path="res://scripts/hub/basic_tutorial_panel.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="PanelStyle"]
+bg_color = Color(0.06, 0.09, 0.12, 0.95)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.45, 0.68, 0.72, 0.85)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+
+[sub_resource type="StyleBoxFlat" id="FocusStyle"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.85, 0.45, 1)
+
+[node name="BasicTutorialPanel" type="CanvasLayer"]
+layer = 6
+script = ExtResource("1")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture_filter = 1
+
+[node name="FocusFrame" type="Panel" parent="Root"]
+visible = false
+layout_mode = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("FocusStyle")
+
+[node name="Panel" type="PanelContainer" parent="Root"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -450.0
+offset_top = 142.0
+offset_right = -28.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("PanelStyle")
+
+[node name="Margin" type="MarginContainer" parent="Root/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="Content" type="VBoxContainer" parent="Root/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CharacterLabel" type="Label" parent="Root/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.85, 0.9, 1)
+theme_override_font_sizes/font_size = 18
+text = "新手教学"
+
+[node name="StepLabel" type="Label" parent="Root/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+text = "步骤 1 / 4"
+
+[node name="TitleLabel" type="Label" parent="Root/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 27
+text = "移动到标记处"
+autowrap_mode = 2
+
+[node name="InstructionLabel" type="Label" parent="Root/Panel/Margin/Content"]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "跟随标记，熟悉角色的移动。"
+autowrap_mode = 2
+
+[node name="KeyLabel" type="Label" parent="Root/Panel/Margin/Content"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 19
+autowrap_mode = 2
+
+[node name="ProgressLabel" type="Label" parent="Root/Panel/Margin/Content"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.88, 0.82, 1)
+theme_override_font_sizes/font_size = 17
+autowrap_mode = 2
+
+[node name="Separator" type="HSeparator" parent="Root/Panel/Margin/Content"]
+layout_mode = 2
+
+[node name="SafetyLabel" type="Label" parent="Root/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.75, 1)
+theme_override_font_sizes/font_size = 16
+text = "练习装备与技能仅本次有效。不会覆盖冒险存档。"
+autowrap_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="Root/Panel/Margin/Content"]
+visible = false
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "我看到了属性变化"
+
+[node name="Buttons" type="HBoxContainer" parent="Root/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="RestartButton" type="Button" parent="Root/Panel/Margin/Content/Buttons"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "重新练习"
+
+[node name="ReturnButton" type="Button" parent="Root/Panel/Margin/Content/Buttons"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "退出教学"

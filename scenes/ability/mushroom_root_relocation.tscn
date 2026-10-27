@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_timed_sequence.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_relocate_to_anchor.gd" id="3"]
+
+[node name="MushroomRootRelocation" type="Node"]
+script = ExtResource("1")
+cooldown = 0.1
+energy_cost = 0.0
+ai_requires_line_of_sight = false
+
+[node name="Sequence" type="Node" parent="."]
+script = ExtResource("2")
+total_duration = 2.0
+animation_name = &"relocate"
+
+[node name="Move" type="Node" parent="Sequence"]
+script = ExtResource("3")

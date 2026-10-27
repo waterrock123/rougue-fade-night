@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://g6ji8r4hyuv5"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_ycn16"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_3fy8i"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_fh28j"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="4_fh28j"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_7qkmo"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="6_7qkmo"]
+
+[ext_resource type="Script" path="res://relic_effect/add_status_effect.gd" id="7_status"]
+[ext_resource type="Resource" path="res://status/armor.tres" id="8_armor"]
+[ext_resource type="Resource" path="res://status/cursed_mooncake_poison.tres" id="9_poison"]
+[ext_resource type="Script" path="res://relic_effect/use_health_loss_effect.gd" id="10_loss"]
+[ext_resource type="Script" path="res://relic_effect/periodic_self_damage_by_stat_effect.gd" id="11_periodic"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/139_cursed_mooncake.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="Resource_armor"]
+script = ExtResource("7_status")
+status_data = ExtResource("8_armor")
+stacks = 3
+
+[sub_resource type="Resource" id="Resource_poison"]
+script = ExtResource("7_status")
+status_data = ExtResource("9_poison")
+
+[sub_resource type="Resource" id="Resource_loss"]
+script = ExtResource("10_loss")
+health_loss = 5.0
+
+[sub_resource type="Resource" id="Resource_periodic"]
+script = ExtResource("11_periodic")
+stat_multiplier = 0.0
+interval = 5.0
+min_damage = 1.0
+
+[resource]
+script = ExtResource("2_3fy8i")
+relic_name = "诅咒月饼"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "{armor}+3，技能（含基础攻击）命中时附加本次实际伤害30%的毒属性基础伤害，使用后流失5点生命值
+升级：装备后会每5秒受到一次1点伤害的攻击"
+desc = "该死的月饼，又硬又难吃，还会让人肚子疼，我恨透这款月饼了"
+price = 2
+level = 6
+tags = Array[ExtResource("3_fh28j")]([ExtResource("4_fh28j"), ExtResource("5_7qkmo"), ExtResource("6_7qkmo")])
+id = "139"
+is_consumable = true
+effects = Array[ExtResource("1_ycn16")]([SubResource("Resource_armor"), SubResource("Resource_poison"), SubResource("Resource_loss")])
+great_effects = Array[ExtResource("1_ycn16")]([SubResource("Resource_periodic")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

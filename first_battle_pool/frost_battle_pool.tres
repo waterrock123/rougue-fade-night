@@ -1,0 +1,140 @@
+[gd_resource type="Resource" script_class="BattleStatsPool" format=3 uid="uid://dk6miwmr2f2x2"]
+
+[ext_resource type="Script" uid="uid://7r8m0gpgxung" path="res://custom_resource/battle_stats_pool.gd" id="1_pool"]
+[ext_resource type="Script" uid="uid://bbp1b6impnqv1" path="res://custom_resource/battle_stats.gd" id="2_battle"]
+[ext_resource type="Script" uid="uid://df3feoy7vmvbw" path="res://custom_resource/battle_wave_data.gd" id="3_wave"]
+[ext_resource type="Script" uid="uid://cexev0ncxqe1h" path="res://custom_resource/enemy_spawn_entry.gd" id="4_entry"]
+[ext_resource type="PackedScene" path="res://entity/enemy/frost_fang_hound.tscn" id="5_hound"]
+[ext_resource type="PackedScene" path="res://entity/enemy/frost_crystal_sentinel.tscn" id="6_sentinel"]
+[ext_resource type="PackedScene" path="res://entity/enemy/frost_shell_beast.tscn" id="7_shell"]
+[ext_resource type="PackedScene" uid="uid://d3c4gj5mnavks" path="res://entity/enemy/skeleton_boss.tscn" id="8_boss"]
+
+[sub_resource type="Resource" id="Hunt_5_hound"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("5_hound")
+count = 3
+spawn_batch_size = 3
+
+[sub_resource type="Resource" id="Hunt_6_sentinel"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("6_sentinel")
+count = 2
+spawn_batch_size = 2
+
+[sub_resource type="Resource" id="WaveHunt"]
+script = ExtResource("3_wave")
+fixed_spawns = Array[ExtResource("4_entry")]([SubResource("Hunt_5_hound"), SubResource("Hunt_6_sentinel")])
+
+[sub_resource type="Resource" id="BattleHunt"]
+script = ExtResource("2_battle")
+battle_tier = 1
+weight = 1.0
+waves = Array[ExtResource("3_wave")]([SubResource("WaveHunt")])
+
+[sub_resource type="Resource" id="FrontLine_7_shell"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("7_shell")
+
+[sub_resource type="Resource" id="FrontLine_6_sentinel"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("6_sentinel")
+count = 3
+spawn_batch_size = 3
+
+[sub_resource type="Resource" id="FrontLine_5_hound"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("5_hound")
+count = 2
+spawn_batch_size = 2
+
+[sub_resource type="Resource" id="WaveFrontLine"]
+script = ExtResource("3_wave")
+fixed_spawns = Array[ExtResource("4_entry")]([SubResource("FrontLine_7_shell"), SubResource("FrontLine_6_sentinel"), SubResource("FrontLine_5_hound")])
+
+[sub_resource type="Resource" id="BattleFrontLine"]
+script = ExtResource("2_battle")
+battle_tier = 1
+weight = 1.0
+waves = Array[ExtResource("3_wave")]([SubResource("WaveFrontLine")])
+
+[sub_resource type="Resource" id="Mixed_7_shell"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("7_shell")
+count = 2
+spawn_batch_size = 2
+
+[sub_resource type="Resource" id="Mixed_6_sentinel"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("6_sentinel")
+count = 3
+spawn_batch_size = 3
+
+[sub_resource type="Resource" id="Mixed_5_hound"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("5_hound")
+count = 4
+spawn_batch_size = 4
+
+[sub_resource type="Resource" id="WaveMixed"]
+script = ExtResource("3_wave")
+fixed_spawns = Array[ExtResource("4_entry")]([SubResource("Mixed_7_shell"), SubResource("Mixed_6_sentinel"), SubResource("Mixed_5_hound")])
+
+[sub_resource type="Resource" id="BattleMixed"]
+script = ExtResource("2_battle")
+battle_tier = 2
+weight = 1.0
+waves = Array[ExtResource("3_wave")]([SubResource("WaveMixed")])
+
+[sub_resource type="Resource" id="Pack_5_hound"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("5_hound")
+count = 5
+spawn_batch_size = 5
+
+[sub_resource type="Resource" id="Pack_6_sentinel"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("6_sentinel")
+count = 3
+spawn_batch_size = 3
+
+[sub_resource type="Resource" id="Pack_7_shell"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("7_shell")
+
+[sub_resource type="Resource" id="WavePack"]
+script = ExtResource("3_wave")
+fixed_spawns = Array[ExtResource("4_entry")]([SubResource("Pack_5_hound"), SubResource("Pack_6_sentinel"), SubResource("Pack_7_shell")])
+
+[sub_resource type="Resource" id="BattlePack"]
+script = ExtResource("2_battle")
+battle_tier = 2
+weight = 1.0
+waves = Array[ExtResource("3_wave")]([SubResource("WavePack")])
+
+[sub_resource type="Resource" id="Boss_8_boss"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("8_boss")
+
+[sub_resource type="Resource" id="Boss_7_shell"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("7_shell")
+
+[sub_resource type="Resource" id="Boss_6_sentinel"]
+script = ExtResource("4_entry")
+enemy_scene = ExtResource("6_sentinel")
+count = 2
+spawn_batch_size = 2
+
+[sub_resource type="Resource" id="WaveBoss"]
+script = ExtResource("3_wave")
+fixed_spawns = Array[ExtResource("4_entry")]([SubResource("Boss_8_boss"), SubResource("Boss_7_shell"), SubResource("Boss_6_sentinel")])
+
+[sub_resource type="Resource" id="BattleBoss"]
+script = ExtResource("2_battle")
+battle_tier = 3
+weight = 1.0
+waves = Array[ExtResource("3_wave")]([SubResource("WaveBoss")])
+
+[resource]
+script = ExtResource("1_pool")
+pool = Array[ExtResource("2_battle")]([SubResource("BattleHunt"), SubResource("BattleFrontLine"), SubResource("BattleMixed"), SubResource("BattlePack"), SubResource("BattleBoss")])

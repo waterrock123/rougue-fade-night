@@ -26,6 +26,8 @@ extends AbilityManifest
 @export var homing_turn_speed: float = 0.0
 @export var homing_acquire_radius: float = 500.0
 @export var homing_retarget_interval: float = 0.12
+## 开启后仅追踪弹体周围半径内的目标；目标离开范围即解除，未开启则保留已有锁定。
+@export var homing_require_target_in_range: bool = false
 
 @export_group("Damage")
 @export var damage: float = 10.0
@@ -36,6 +38,8 @@ extends AbilityManifest
 ## 普通投射物默认造成 6 点削韧；高速连射弹可在具体场景中继续调低。
 @export var poise_damage: float = 6.0
 @export var is_penetrate: bool = false
+## 穿透光束可开启，防止同一实体的多个受击区域或重复进入造成重复命中；回旋投斧默认不启用。
+@export var hit_each_target_once: bool = false
 
 @onready var sprite2d: Sprite2D = $Sprite2D
 
@@ -48,11 +52,24 @@ var return_distance: float = 0.0
 var is_returning: bool = false
 var runtime_homing_turn_speed: float = 0.0
 var homing_controller: ProjectileHomingController = ProjectileHomingController.new()
+var hit_target_ids: Dictionary = {}
+var resolution_notified: bool = false
+
+
+## 与节点释放分离：穿透投射物首次命中也可触发一次后续效果，但不会因清场或反复命中多次触发。
+func _notify_resolution(reason: StringName) -> void:
+	if resolution_notified or _get_valid_source() == null:
+		return
+	resolution_notified = true
+	EventBus.projectile_resolved.emit(self, reason)
 
 
 # 初始化投射物飞行方向、来源和距离修正。
 func activate(context: AbilityContext) -> void:
+	capture_element_tags(context)
 	source = context.caster
+	# 每枚投射物保存释放时的倍率，之后替换被动不会改变已经飞出的弹体。
+	damage *= maxf(context.projectile_damage_multiplier, 0.0)
 	source_ability_id = context.ability.id if context.ability != null else &""
 	source_ability_slot_index = context.ability.runtime_slot_index if context.ability != null else -1
 	_apply_projectile_range_bonus()
@@ -69,6 +86,8 @@ func activate(context: AbilityContext) -> void:
 			look_at(target_pos)
 	elif context.locked_direction != Vector2.ZERO:
 		current_dir = context.locked_direction.normalized()
+	if tags.has("projectile"):
+		notify_projectile_launched(context, current_dir)
 
 
 func _exit_tree() -> void:
@@ -102,6 +121,8 @@ func _process_forward(delta: float) -> void:
 		return
 
 	_update_homing_direction(delta)
+	if is_queued_for_deletion():
+		return
 	var movement: Vector2 = current_dir * delta * speed
 	current_distance += movement.length()
 	if not _move_or_free_on_world_hit(movement):
@@ -111,6 +132,7 @@ func _process_forward(delta: float) -> void:
 		if return_to_source_after_max_distance:
 			_begin_returning()
 		else:
+			_notify_resolution(&"range")
 			queue_free()
 
 
@@ -153,12 +175,18 @@ func _begin_returning() -> void:
 func _move_or_free_on_world_hit(movement: Vector2) -> bool:
 	if movement == Vector2.ZERO:
 		return true
-
 	var collision: Dictionary = _get_world_collision(movement)
+	var intercept_movement: Vector2 = movement
+	var collision_position: Variant = collision.get("position")
+	if collision_position is Vector2:
+		intercept_movement = collision_position - global_position
+	if try_intercept_projectile_movement(intercept_movement):
+		return true
 	if not collision.is_empty():
 		var hit_position: Variant = collision.get("position")
 		if hit_position is Vector2:
 			global_position = hit_position
+		_notify_resolution(&"world_hit")
 		queue_free()
 		return false
 
@@ -194,6 +222,8 @@ func _handle_scene_changed(scene: String) -> void:
 
 # 命中目标时创建 DamageData，并交给实体统一受伤链路处理。
 func _on_area_2d_area_entered(area: Area2D) -> void:
+	if try_intercept_projectile_movement(Vector2.ZERO):
+		return
 	var parent: Node = area.get_parent()
 	if parent == null or not _matches_target_group(parent):
 		return
@@ -201,25 +231,19 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	if parent is Entity:
 		if parent.has_method("can_be_targeted") and not parent.can_be_targeted():
 			return
+		if hit_each_target_once and hit_target_ids.has(parent.get_instance_id()):
+			return
 
 		var valid_source: Entity = _get_valid_source()
 		if source != null and valid_source == null:
 			queue_free()
 			return
 
-		var damage_data: DamageData = DamageData.create(
-			damage,
-			damage_types,
-			tags,
-			valid_source,
-			parent,
-			can_crit,
-			scaling_rule,
-			source_ability_id,
-			source_ability_slot_index,
-			poise_damage
-		)
+		var damage_data: DamageData = _create_hit_damage(parent as Entity, valid_source)
+		if hit_each_target_once:
+			hit_target_ids[parent.get_instance_id()] = true
 		parent.apply_damage(damage_data)
+		_notify_resolution(&"hit")
 
 		if hit_sound != null:
 			AudioController.play(hit_sound, global_position)
@@ -230,10 +254,18 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		queue_free()
 
 
+func _create_hit_damage(target: Entity, valid_source: Entity) -> DamageData:
+	var data: DamageData = DamageData.create(
+		damage, damage_types, tags, valid_source, target, can_crit, scaling_rule,
+		source_ability_id, source_ability_slot_index, poise_damage
+	)
+	data.impact_direction = current_dir
+	stamp_damage_elements(data)
+	return data
+
+
 func _get_valid_source() -> Entity:
 	# 投射物可能比施法者活得更久；旧引用失效时不能再传给 DamageData。
-	if source == null:
-		return null
 	if not is_instance_valid(source):
 		return null
 	return source
@@ -276,15 +308,22 @@ func _configure_homing() -> void:
 func _update_homing_direction(delta: float) -> void:
 	if runtime_homing_turn_speed <= 0.0:
 		return
+	# 结算切场可能先移除/释放来源；必须在调用强类型steer之前校验，函数内部检查已经太迟。
+	var valid_source: Entity = _get_valid_source()
+	if valid_source == null or valid_source.is_queued_for_deletion() or not valid_source.is_inside_tree() or valid_source.is_dead:
+		homing_controller.reset()
+		queue_free()
+		return
 	current_dir = homing_controller.steer(
 		self,
-		source,
+		valid_source,
 		StringName(target_group),
 		current_dir,
 		runtime_homing_turn_speed,
 		homing_acquire_radius,
 		homing_retarget_interval,
-		delta
+		delta,
+		homing_require_target_in_range
 	)
 	if not is_rotate and current_dir != Vector2.ZERO:
 		global_rotation = current_dir.angle()

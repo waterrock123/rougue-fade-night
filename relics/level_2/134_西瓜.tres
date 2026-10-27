@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b8mrpe6xwiwva"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_onb7a"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_t5e3w"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_wfeje"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料tag.tres" id="4_wfeje"]
+[ext_resource type="Resource" uid="uid://box5044uf2gqf" path="res://relic_tags/疗愈tag.tres" id="5_4au14"]
+
+[ext_resource type="Script" path="res://relic_effect/use_heal_effect.gd" id="6_heal"]
+[ext_resource type="Script" path="res://relic_effect/use_restore_energy_effect.gd" id="7_energy"]
+[ext_resource type="Script" path="res://relic_effect/self_tag_transform_relic_effect.gd" id="8_transform"]
+[ext_resource type="Resource" path="res://relic_tags/寒霜tag.tres" id="9_frost"]
+[ext_resource type="Script" path="res://relic_effect/use_add_status_effect.gd" id="10_status"]
+[ext_resource type="Resource" path="res://status/watermelon_cooldown.tres" id="11_cooldown"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/134_watermelon.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="Resource_heal"]
+script = ExtResource("6_heal")
+heal_amount = 20.0
+
+[sub_resource type="Resource" id="Resource_energy"]
+script = ExtResource("7_energy")
+energy_amount = 20.0
+
+[sub_resource type="Resource" id="Resource_transform"]
+script = ExtResource("8_transform")
+required_tag = ExtResource("9_frost")
+result_relic_path = "res://relics/level_3/135_冰镇西瓜.tres"
+
+[sub_resource type="Resource" id="Resource_cooldown"]
+script = ExtResource("10_status")
+status_data = ExtResource("11_cooldown")
+
+[resource]
+script = ExtResource("2_t5e3w")
+relic_name = "西瓜"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "使用后 {heal} 20点生命与恢复20点能量；此装备自身获得寒霜标签后变为冰镇西瓜，保留升级态
+升级：使用后所有技能（含基础攻击）的冷却时间减少20%，持续20秒"
+desc = "好大一个西瓜，解渴又消暑"
+price = 3
+level = 2
+tags = Array[ExtResource("3_wfeje")]([ExtResource("4_wfeje"), ExtResource("5_4au14")])
+id = "134"
+is_consumable = true
+effects = Array[ExtResource("1_onb7a")]([SubResource("Resource_heal"), SubResource("Resource_energy"), SubResource("Resource_transform")])
+inventory_effects = Array[ExtResource("1_onb7a")]([SubResource("Resource_transform")])
+great_effects = Array[ExtResource("1_onb7a")]([SubResource("Resource_cooldown")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="StatusData" format=3]
+
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1_data"]
+[ext_resource type="Script" path="res://scripts/status/status_add_stat_effect.gd" id="2_stat"]
+[ext_resource type="Script" path="res://scripts/status/status_effect.gd" id="3_base"]
+
+[sub_resource type="Resource" id="DodgePerStack"]
+script = ExtResource("2_stat")
+stat_name = &"dodge_rate"
+value_per_stack = 0.01
+
+[resource]
+script = ExtResource("1_data")
+id = &"critical_dodge_bonus"
+status_name = "红花的夺目"
+desc = "每层使闪避率提高1个百分点，持续至本场战斗结束。"
+polarity = 1
+duration = -1.0
+max_stacks = 999999
+stack_mode = 1
+effects = Array[ExtResource("3_base")]([SubResource("DodgePerStack")])

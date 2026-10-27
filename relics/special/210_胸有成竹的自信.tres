@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://ljgnsjbgioq3"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_lbv2y"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_gnniu"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_6vfj7"]
+[ext_resource type="Resource" uid="uid://hjj7m0sxu800" path="res://relic_tags/情感tag.tres" id="4_6vfj7"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_ac4y3"]
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="6_stats"]
+[ext_resource type="Script" path="res://relic_effect/primary_stat_scaling_effect.gd" id="7_scaling"]
+
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1495.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="ConfidenceStats"]
+script = ExtResource("6_stats")
+add_stats = {"speed": 2, "dexterity": 2}
+
+[sub_resource type="Resource" id="ConfidenceCharm"]
+script = ExtResource("7_scaling")
+
+[sub_resource type="Resource" id="ConfidenceSpeed"]
+script = ExtResource("7_scaling")
+target_stat = &"speed"
+
+[resource]
+script = ExtResource("2_gnniu")
+relic_name = "胸有成竹的自信"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "{speed}+2，{dexterity}+2，每有5点当前{dexterity}额外获得{charm}+1
+升级：每有5点当前{dexterity}额外获得{speed}+1"
+desc = "具象化的自信，体现为一杆手杖"
+level = 2
+tags = Array[ExtResource("3_6vfj7")]([ExtResource("4_6vfj7"), ExtResource("5_ac4y3")])
+id = "210"
+effects = Array[ExtResource("1_lbv2y")]([SubResource("ConfidenceStats"), SubResource("ConfidenceCharm")])
+great_effects = Array[ExtResource("1_lbv2y")]([SubResource("ConfidenceSpeed")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StatusData" format=3]
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="2"]
+[resource]
+script = ExtResource("1")
+id = &"roaming_hunter_ready"
+status_name = "游猎本能：就绪"
+desc = "下一次整次基础攻击伤害提高50%，所有子弹均生效；不随停止移动消失。"
+icon = ExtResource("2")
+polarity = 1

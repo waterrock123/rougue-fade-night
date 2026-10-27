@@ -7,8 +7,8 @@
 [ext_resource type="Resource" uid="uid://b0a3tgi85cspv" path="res://relic_tags/智慧tag.tres" id="5_pn6eq"]
 [ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="6_6qn5b"]
 [ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="7_vlupi"]
-[ext_resource type="Script" path="res://relic_effect/event_random_permanent_primary_stat_effect.gd" id="8_event_stat"]
-[ext_resource type="Script" path="res://relic_effect/inventory_occupied_slots_stat_effect.gd" id="9_inventory_stat"]
+[ext_resource type="Script" uid="uid://cy8s0wtspcves" path="res://relic_effect/event_random_permanent_primary_stat_effect.gd" id="8_event_stat"]
+[ext_resource type="Script" uid="uid://o82ldg4r0fgg" path="res://relic_effect/inventory_occupied_slots_stat_effect.gd" id="9_inventory_stat"]
 
 [sub_resource type="Resource" id="Resource_event_stat"]
 script = ExtResource("8_event_stat")

@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://entity/enemy/big_dog.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/entity/configured_enemy.gd" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/ability/frost_fang_pounce.tscn" id="3"]
+[ext_resource type="Resource" path="res://entity/enemy/frost_fang_hound.tres" id="4"]
+[ext_resource type="Texture2D" path="res://assets/UI/Pixel UI pack 3/04.png" id="5_bar"]
+[ext_resource type="SpriteFrames" path="res://sprite_frames/frost_fang_hound_sprite_frames.tres" id="6_frames"]
+
+[sub_resource type="AtlasTexture" id="BarUnder"]
+atlas = ExtResource("5_bar")
+region = Rect2(297, 133, 32, 5)
+
+[sub_resource type="AtlasTexture" id="BarHealth"]
+atlas = ExtResource("5_bar")
+region = Rect2(57, 133, 32, 5)
+
+[node name="frost_fang_hound" instance=ExtResource("1")]
+script = ExtResource("2")
+aggresive = true
+max_poise = 12.0
+combat_abilities = Array[PackedScene]([ExtResource("3")])
+scale = Vector2(1.5, 1.5)
+stop_distance = 22.0
+is_bounty_elite = false
+bounty_starts_neutral = false
+bounty_gold = 0
+sprite_faces_left_by_default = false
+
+[node name="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 1)
+position = Vector2(0, -2)
+scale = Vector2(1.5, 1.5)
+sprite_frames = ExtResource("6_frames")
+animation = &"idle"
+autoplay = "idle"
+frame = 0
+frame_progress = 0.0
+
+[node name="StatsController" parent="."]
+stats_data = ExtResource("4")
+
+[node name="RedEyes" parent="."]
+visible = false
+process_mode = 4
+
+[node name="EnemyHealthBar" parent="."]
+texture_under = SubResource("BarUnder")
+texture_progress = SubResource("BarHealth")

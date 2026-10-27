@@ -132,7 +132,7 @@ func _apply_runtime_modifiers(context: SkillContext) -> void:
 		var amount: float = float(stat_bonuses[stat_name])
 		modifiers.append(Modifier.create_flat(stat_name, amount, context.effect_key))
 
-	context.stats_controller.set_effect_modifiers(context.effect_key, modifiers)
+	context.stats_controller.set_temporary_effect_modifiers(context.effect_key, modifiers)
 
 
 func _is_primary_stat(stat_name: StringName) -> bool:

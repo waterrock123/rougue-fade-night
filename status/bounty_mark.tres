@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="StatusData" format=3]
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"bounty_mark"
+status_name = "赏金标记"
+desc = "标记者对该目标的伤害提高15%；限时内由标记者击杀可领取赏金，每场战斗最多1金币。"
+icon = ExtResource("2")
+polarity = 2
+max_stacks = 1
+stack_mode = 2
+duration = 6.0
+dispellable = false

@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_element_hit_status_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Fire Effect and Bullet 16x16.png" id="4"]
+[ext_resource type="Script" path="res://scripts/skill/skill_data.gd" id="Skill"]
+[ext_resource type="Resource" path="res://passive_skill/028_spreading_embers.tres" id="Upgrade"]
+[ext_resource type="Resource" path="res://status/burn.tres" id="Status"]
+
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("3")
+hit_status = ExtResource("Status")
+hit_stacks = 1
+
+[sub_resource type="AtlasTexture" id="Icon"]
+atlas = ExtResource("4")
+region = Rect2(160, 16, 16, 16)
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Effect")])
+id = &"027"
+skill_name = "余烬不息"
+desc = "火元素的非基础主动技能造成有效伤害时额外施加1层{burn}，同次施法对同一敌人最多触发一次。"
+icon = SubResource("Icon")
+allowed_character_ids = Array[StringName]([&"wizard"])
+upgrade_options = Array[ExtResource("Skill")]([ExtResource("Upgrade")])

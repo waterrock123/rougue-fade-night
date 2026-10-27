@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ability/guiren_shield_spell_ability.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa597.png" id="3"]
+
+[resource]
+script = ExtResource("1")
+ability_scene = ExtResource("2")
+base_cooldown = 10.0
+base_energy_cost = 15.0
+id = &"115"
+skill_name = "护盾术"
+element_tags = Array[StringName]([&"magic"])
+desc = "原地吟唱2秒，使自身获得4点{armor}，持续60秒。效果不可叠加，重复施放刷新持续时间。吟唱期间不能移动或使用其他技能，被控制打断后不获得增益。"
+icon = ExtResource("3")
+tags = Array[StringName]([&"active_skill", &"buff", &"channel"])
+allowed_character_ids = Array[StringName]([&"wizard"])

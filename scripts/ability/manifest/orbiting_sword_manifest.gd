@@ -109,6 +109,7 @@ func _exit_tree() -> void:
 
 
 func activate(context: AbilityContext) -> void:
+	capture_element_tags(context)
 	if context == null:
 		return
 
@@ -498,6 +499,7 @@ func _damage_target(target: Entity, valid_source: Entity) -> void:
 		source_ability_slot_index,
 		poise_damage
 	)
+	stamp_damage_elements(damage_data)
 	target.apply_damage(damage_data)
 
 

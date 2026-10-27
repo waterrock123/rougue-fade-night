@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="Relic" load_steps=11 format=3 uid="uid://dabrna21xtobe"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_p5nh6"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_tu26m"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_2de15"]
+[ext_resource type="Resource" uid="uid://dv8tumu8brwpy" path="res://relic_tags/加工品tag.tres" id="4_2de15"]
+[ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="5_mcuc6"]
+[ext_resource type="Script" path="res://relic_effect/use_add_status_effect.gd" id="6_use"]
+[ext_resource type="Resource" path="res://status/temporary_gains_until_battle_end.tres" id="7_battle"]
+[ext_resource type="Resource" path="res://status/temporary_gains_to_permanent.tres" id="8_permanent"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/meowa_sample_01/111_milk.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="Resource_base"]
+script = ExtResource("6_use")
+status_data = ExtResource("7_battle")
+ignore_when_relic_levelup = true
+
+[sub_resource type="Resource" id="Resource_upgrade"]
+script = ExtResource("6_use")
+status_data = ExtResource("8_permanent")
+
+[resource]
+script = ExtResource("2_tu26m")
+relic_name = "狼奶"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "{consumable}：使用后，本场战斗新获得的正向临时属性增量持续至战斗结束。包括一级与派生属性，不影响此前增益、负面效果及装备常驻加成。
+升级：使用后，本场战斗新获得的正向临时属性增量变为本局永久属性加成"
+desc = "野生的狗是狼"
+price = 5
+level = 5
+tags = Array[ExtResource("3_2de15")]([ExtResource("4_2de15"), ExtResource("5_mcuc6")])
+id = "121"
+is_consumable = true
+effects = Array[ExtResource("1_p5nh6")]([SubResource("Resource_base")])
+great_effects = Array[ExtResource("1_p5nh6")]([SubResource("Resource_upgrade")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

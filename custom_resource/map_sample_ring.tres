@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BattleMapDraftSettings" format=3]
+
+[ext_resource type="Script" path="res://scripts/battlemap/battle_map_draft_settings.gd" id="1"]
+
+[resource]
+resource_name = "样例01：环形林地"
+script = ExtResource("1")
+layout_style = 0
+seed_value = 710201
+width = 64
+height = 44
+passage_width = 9
+obstacle_count = 2
+ground_padding = 1

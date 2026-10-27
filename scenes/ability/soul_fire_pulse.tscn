@@ -1,0 +1,44 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_get_targets.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_deal_damage.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_apply_status.gd" id="5"]
+[ext_resource type="Resource" path="res://status/burn.tres" id="6"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_spawn_manifest.gd" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/soul_fire_pulse_visual.tscn" id="8"]
+
+[sub_resource type="Resource" id="Scaling"]
+script = ExtResource("4")
+enabled = false
+
+[node name="SoulFirePulse" type="Node"]
+script = ExtResource("1")
+cooldown = 1.0
+energy_cost = 0.0
+ai_max_cast_distance = 80.0
+
+[node name="GetTargets" type="Node" parent="."]
+script = ExtResource("2")
+radius = 80.0
+target_mode = 2
+
+[node name="PulseVisual" type="Node" parent="."]
+script = ExtResource("7")
+manifest_scene = ExtResource("8")
+set_as_child = true
+rotate_to_direction = false
+
+[node name="DealDamage" type="Node" parent="."]
+script = ExtResource("3")
+damage = 30.0
+can_crit = false
+damage_types = Array[int]([2])
+tags = Array[String](["skill", "summon", "soul_fire"])
+scaling_rule = SubResource("Scaling")
+poise_damage = 0.0
+
+[node name="ApplyBurn" type="Node" parent="."]
+script = ExtResource("5")
+status_data = ExtResource("6")

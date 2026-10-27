@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "0.00-0.15s: This exact arctic wolf lowers its body, facing RIGHT, ready to pounce. 0.15-0.45s: Extend its neck and forepaws sharply to the RIGHT and snap its icy jaws once, a strong forward pounce pose while its center stays fixed. 0.45-1.00s: Bring the paws down and recover to the original stance. No projectile, no ice cloud, no rotation. Preserve the exact source character, colors, pixel size, proportions and silhouette. Fixed three-quarter side view facing right, fixed camera, full body visible throughout, transparent background, no floor shadow, no additional objects, no text, no blur.",
+		"alpha_mode": "sharp",
+		"animation_mode": "non_loop",
+		"duration_seconds": 1.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/enemy/frost_fang_hound/source.png"
+}

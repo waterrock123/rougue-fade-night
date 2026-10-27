@@ -1,0 +1,71 @@
+[gd_resource type="Resource" script_class="HubNpcInteractionData" format=3 uid="uid://dqxuoy6gldods"]
+
+[ext_resource type="Script" uid="uid://bel2toai1ilje" path="res://scripts/hub/hub_npc_interaction_data.gd" id="1"]
+[ext_resource type="Script" uid="uid://8rn2y2iypw4e" path="res://scripts/hub/hub_npc_dialogue_stage.gd" id="2"]
+[ext_resource type="Script" uid="uid://cx25i63vektp4" path="res://scripts/hub/hub_npc_action_data.gd" id="3"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_iaxy4"]
+[ext_resource type="Resource" uid="uid://b62k17pice46g" path="res://resource/hub_npc/zhang_san_visual_data.tres" id="4"]
+
+[sub_resource type="Resource" id="Action_deliver"]
+script = ExtResource("3")
+action_id = &"zhang_san_deliver"
+display_name = "交付携带的设施"
+action_type = 4
+
+[sub_resource type="Resource" id="Action_warehouse"]
+script = ExtResource("3")
+action_id = &"zhang_san_warehouse"
+display_name = "打开装备仓库"
+action_type = 2
+
+[sub_resource type="Resource" id="Stage_initial"]
+script = ExtResource("2")
+stage_id = &"zhang_san_initial"
+excluded_event_ids = Array[StringName]([&"zhang_san_requested"])
+completion_event_id = &"zhang_san_requested"
+dialogue_lines = Array[String](["我已经考察过这里了。基础设施太差，你该带些东西回来增添设备。", "工欲善其事，必先利其器。我需要冰箱、水桶和太阳能发电板，各一件就好。", "可以分次带来。先从仓库选定一件携带，再亲手交给我，不用一次凑齐。"])
+actions = Array[ExtResource("3")]([SubResource("Action_deliver"), SubResource("Action_warehouse")])
+
+[sub_resource type="Resource" id="Stage_supplies"]
+script = ExtResource("2")
+stage_id = &"zhang_san_supplies"
+required_event_ids = Array[StringName]([&"zhang_san_requested"])
+excluded_event_ids = Array[StringName]([&"zhang_san_facilities_ready"])
+repeatable = true
+dialogue_lines = Array[String](["马桶堵了还是冰箱坏了？放心，都交给我。先看看你带回来的设施吧。"])
+actions = Array[ExtResource("3")]([SubResource("Action_deliver"), SubResource("Action_warehouse")])
+
+[sub_resource type="Resource" id="Action_harvest"]
+script = ExtResource("3")
+action_id = &"zhang_san_harvest"
+display_name = "收获心情"
+action_type = 5
+
+[sub_resource type="Resource" id="Stage_explain"]
+script = ExtResource("2")
+stage_id = &"zhang_san_explain"
+required_event_ids = Array[StringName]([&"zhang_san_facilities_ready"])
+excluded_event_ids = Array[StringName]([&"zhang_san_mood_introduction"])
+repeatable = true
+dialogue_lines = Array[String](["设施都齐了，住得舒服，大家的心情也会好起来。我的超能力果然很适合这里。", "想知道收获心情是什么，就点下面的按钮，我慢慢讲给你听。"])
+actions = Array[ExtResource("3")]([SubResource("Action_harvest")])
+
+[sub_resource type="Resource" id="Stage_service"]
+script = ExtResource("2")
+stage_id = &"zhang_san_service"
+required_event_ids = Array[StringName]([&"zhang_san_mood_introduction"])
+repeatable = true
+dialogue_lines = Array[String](["家务活我都打理好了。无论旅途顺不顺利，回来都可以收获一份好心情。"])
+actions = Array[ExtResource("3")]([SubResource("Action_harvest"), SubResource("Action_warehouse")])
+
+[resource]
+script = ExtResource("1")
+npc_id = &"zhang_san"
+display_name = "‘师傅’张三"
+description = "坚信家务是自己超能力的普通师傅。"
+visual_data = ExtResource("4")
+prompt_text = "与张三交谈"
+dialogue_playback_mode = 1
+ambient_bubble_lines = Array[String](["这地扫得真干净……超能力还在。", "十年了，大家也该出完任务了吧。", "把日子打理好了，心情自然会好。"])
+required_completed_event_ids = Array[StringName]([&"invited_zhang_san"])
+dialogue_stages = Array[ExtResource("2")]([SubResource("Stage_initial"), SubResource("Stage_supplies"), SubResource("Stage_explain"), SubResource("Stage_service")])

@@ -8,13 +8,35 @@
 [ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="6_h2yxp"]
 [ext_resource type="Resource" uid="uid://b5pj0gwwux13c" path="res://relic_tags/聚众.tres" id="7_3ld33"]
 
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="8_stats"]
+[ext_resource type="Script" path="res://relic_effect/summon_combat_aura_effect.gd" id="9_aura"]
+[ext_resource type="Resource" path="res://status/burn.tres" id="10_burn"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/summon_death_explosion_visual.tscn" id="11_visual"]
+
+[sub_resource type="Resource" id="StatBonus"]
+script = ExtResource("8_stats")
+add_stats = {"dexterity": 4, "speed": 4}
+
+[sub_resource type="Resource" id="SummonAura"]
+script = ExtResource("9_aura")
+aura_status = ExtResource("10_burn")
+
+[sub_resource type="Resource" id="SummonDeathExplosion"]
+script = ExtResource("9_aura")
+explode_on_death = true
+explosion_visual = ExtResource("11_visual")
+
 [resource]
 script = ExtResource("3_euj4w")
+id = "050"
 relic_name = "环之枪"
 icon = ExtResource("2_fo3lu")
-tooltip = "敏捷+4，速度+4，进入战斗时会生成两个固定的盟友为你作战
-升级：进入战斗时额外生成两个盟友"
+tooltip = "{dexterity}+4，{speed}+4。你的召唤物每秒给80范围内的敌人施加1层{burn}。
+升级：你的召唤物死亡或寿命到期时，对120范围内的敌人造成120点火焰伤害。卸装和战斗清理不触发爆炸。"
+desc = "驱使仆役去燃烧自己"
 price = 6
 level = 6
 tags = Array[ExtResource("4_s3gtv")]([ExtResource("5_qy0lr"), ExtResource("6_h2yxp"), ExtResource("7_3ld33")])
+effects = Array[ExtResource("1_nh8js")]([SubResource("StatBonus"), SubResource("SummonAura")])
+great_effects = Array[ExtResource("1_nh8js")]([SubResource("SummonDeathExplosion")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

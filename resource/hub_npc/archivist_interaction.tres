@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="HubNpcInteractionData" format=3 uid="uid://c58dk3531ie6w"]
+
+[ext_resource type="Script" uid="uid://bel2toai1ilje" path="res://scripts/hub/hub_npc_interaction_data.gd" id="1_data"]
+[ext_resource type="Script" path="res://scripts/hub/hub_npc_action_data.gd" id="1_uc18k"]
+[ext_resource type="Resource" uid="uid://b58vhbpjhujte" path="res://resource/hub_npc/archivist_visual_data.tres" id="2_visual"]
+[ext_resource type="Resource" path="res://resource/hub_npc/archivist_open_pictorial_action.tres" id="3_action"]
+
+[resource]
+script = ExtResource("1_data")
+npc_id = &"archivist"
+display_name = "档案管理员"
+description = "这里记录着你在旅途中见过的装备、技能与分支。"
+interaction_type = 1
+visual_data = ExtResource("2_visual")
+prompt_text = "查阅图鉴"
+dialogue_lines = Array[String](["有机会的话。。。。", "虽然我忘了很多东西，但是你的任何发现我都记在书上了，毕竟好记性不如烂笔头嘛。", "这里会替你记住每一次发现。"])
+ambient_bubble_lines = Array[String](["写字真是一件麻烦事啊，怀念曾经能够语音输入的时候。", "死了还得工作，阎王爷真是小心眼。", "我讨厌“新地球”，但我们没别的选择，一切已经注定了。", "忘记的事越多，遗憾就越多。", "可恶的宇宙乡巴佬！
+为什么我会突然想骂这一句呢？"])
+ambient_bubble_interval = 15.0
+actions = Array[ExtResource("1_uc18k")]([ExtResource("3_action")])

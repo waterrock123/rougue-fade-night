@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ability/scount_piercing_shot_ability.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="3"]
+
+[resource]
+script = ExtResource("1")
+ability_scene = ExtResource("2")
+base_cooldown = 7.0
+base_energy_cost = 8.0
+id = &"121"
+skill_name = "贯甲射击"
+desc = "向鼠标方向发射贯甲弹，造成35+{dexterity}×1.5的{ranged}伤害，无视固定减伤。有弹药时额外消耗1件弹药装备，最多穿透5个目标；无弹药时仍可释放，但伤害减半且不穿透。附近弹药箱可以代替消耗。"
+icon = ExtResource("3")
+tags = Array[StringName]([&"active_skill"])
+allowed_character_ids = Array[StringName]([&"scount"])

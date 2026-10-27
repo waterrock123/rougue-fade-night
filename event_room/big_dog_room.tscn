@@ -1,0 +1,106 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/事件背景/大狗/大狗不叫.png" id="1_background"]
+[ext_resource type="PackedScene" path="res://event_room/event_button.tscn" id="2_button"]
+[ext_resource type="Script" path="res://event_room/big_dog_room.gd" id="3_script"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_desc"]
+font_size = 40
+font_color = Color(1, 0.96, 0.86, 1)
+outline_size = 7
+outline_color = Color(0.08, 0.03, 0.02, 0.9)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_leave"]
+bg_color = Color(0.38, 0.12, 0.06, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.92, 0.63, 0.24, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[node name="BigDogRoom" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_script")
+
+[node name="Background" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_background")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Shade" type="ColorRect" parent="."]
+mouse_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.015, 0.01, 0.42)
+
+[node name="DescLabel" type="Label" parent="."]
+custom_minimum_size = Vector2(1080, 0)
+layout_mode = 0
+offset_left = 760.0
+offset_top = 105.0
+offset_right = 1840.0
+offset_bottom = 445.0
+text = "荒域中什么都有可能出现，包括一只……狗？"
+label_settings = SubResource("LabelSettings_desc")
+autowrap_mode = 2
+
+[node name="DogButton" parent="." instance=ExtResource("2_button")]
+layout_mode = 0
+offset_left = 775.0
+offset_top = 520.0
+offset_right = 1455.0
+offset_bottom = 616.0
+desc_text = "大狗！？"
+detail_text = "下一场战斗额外出现1只特殊悬赏精英怪大狗"
+
+[node name="DoubleDogButton" parent="." instance=ExtResource("2_button")]
+layout_mode = 0
+offset_left = 775.0
+offset_top = 650.0
+offset_right = 1455.0
+offset_bottom = 746.0
+desc_text = "大狗！？大狗！？"
+detail_text = "下一场战斗额外出现1只特殊悬赏精英怪大狗"
+
+[node name="BarkButton" parent="." instance=ExtResource("2_button")]
+layout_mode = 0
+offset_left = 775.0
+offset_top = 780.0
+offset_right = 1455.0
+offset_bottom = 876.0
+desc_text = "叫？"
+detail_text = "获得特殊装备“大狗的烙印”"
+
+[node name="LeaveButton" type="Button" parent="."]
+custom_minimum_size = Vector2(330, 90)
+layout_mode = 0
+offset_left = 1510.0
+offset_top = 900.0
+offset_right = 1840.0
+offset_bottom = 990.0
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_leave")
+text = "离开"
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]
+

@@ -12,6 +12,30 @@
 [ext_resource type="PackedScene" uid="uid://b5jbcfrbvaky6" path="res://event_room/shop_chosen_room.tscn" id="11_e07uo"]
 [ext_resource type="PackedScene" path="res://event_room/mushroom_truth_room.tscn" id="12_mushroom_truth"]
 [ext_resource type="PackedScene" path="res://event_room/debate_room.tscn" id="13_debate"]
+[ext_resource type="PackedScene" path="res://event_room/antique_shop.tscn" id="14_antique"]
+[ext_resource type="PackedScene" path="res://event_room/big_dog_room.tscn" id="15_big_dog"]
+[ext_resource type="PackedScene" path="res://event_room/cooking_contest_room.tscn" id="17_cooking"]
+[ext_resource type="PackedScene" path="res://event_room/pistol_duel_room.tscn" id="18_duel"]
+[ext_resource type="PackedScene" path="res://event_room/lake_sword_room.tscn" id="19_lake_sword"]
+[ext_resource type="PackedScene" path="res://event_room/good_bad_cat_room.tscn" id="20_good_bad_cat"]
+[ext_resource type="PackedScene" path="res://event_room/confused_man_room.tscn" id="21_confused"]
+[ext_resource type="Script" path="res://scripts/ui/world_condition_display.gd" id="16_condition_ui"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_condition_panel"]
+content_margin_left = 18.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 12.0
+bg_color = Color(0.055, 0.071, 0.094, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.82, 0.68, 0.3, 0.9)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jcaow"]
 atlas = ExtResource("1_a2pkv")
@@ -122,7 +146,7 @@ animations = [{
 
 [sub_resource type="Resource" id="Resource_ah1fr"]
 script = ExtResource("10_mrjnl")
-event_rooms = Array[PackedScene]([ExtResource("9_mgs8m"), ExtResource("10_rqo2c"), ExtResource("11_e07uo"), ExtResource("12_mushroom_truth"), ExtResource("13_debate")])
+event_rooms = Array[PackedScene]([ExtResource("9_mgs8m"), ExtResource("10_rqo2c"), ExtResource("11_e07uo"), ExtResource("12_mushroom_truth"), ExtResource("13_debate"), ExtResource("14_antique"), ExtResource("15_big_dog"), ExtResource("17_cooking"), ExtResource("18_duel"), ExtResource("19_lake_sword"), ExtResource("20_good_bad_cat"), ExtResource("21_confused")])
 metadata/_custom_type_script = "uid://bwbx7llflqfe3"
 
 [node name="Map" type="Node2D" unique_id=414619087]
@@ -181,3 +205,44 @@ position = Vector2(960, 539)
 script = ExtResource("5_jcaow")
 battle_stats_pool = ExtResource("6_f17u5")
 event_room_pool = SubResource("Resource_ah1fr")
+
+[node name="ConditionUILayer" type="CanvasLayer" parent="."]
+layer = 1
+
+[node name="WorldConditionDisplay" type="PanelContainer" parent="ConditionUILayer"]
+unique_name_in_owner = true
+offset_left = 24.0
+offset_top = 72.0
+offset_right = 470.0
+offset_bottom = 195.0
+theme_override_styles/panel = SubResource("StyleBox_condition_panel")
+script = ExtResource("16_condition_ui")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConditionUILayer/WorldConditionDisplay"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="TitleLabel" type="Label" parent="ConditionUILayer/WorldConditionDisplay/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.45, 1)
+theme_override_font_sizes/font_size = 22
+text = "当前天气与环境"
+
+[node name="WeatherLabel" type="Label" parent="ConditionUILayer/WorldConditionDisplay/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "天气：晴天"
+
+[node name="FloorLabel" type="Label" parent="ConditionUILayer/WorldConditionDisplay/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+text = "第 1 层"
+
+[node name="EnvironmentLabel" type="Label" parent="ConditionUILayer/WorldConditionDisplay/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "环境：正常"

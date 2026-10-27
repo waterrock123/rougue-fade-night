@@ -31,7 +31,8 @@ func on_apply(instance: StatusInstance) -> void:
 	if instance == null:
 		return
 
-	_apply_duration_reduction_once(instance)
+	if not instance.restoring_from_storage:
+		_apply_duration_reduction_once(instance)
 
 	var target := instance.target
 	if lock_actions and target != null and target.has_method("add_action_lock"):

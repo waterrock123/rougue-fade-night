@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_ability_cast_tuning_effect.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/skill/skill_data.gd" id="4"]
+[ext_resource type="Resource" path="res://passive_skill/022_magic_missile_meteor.tres" id="5"]
+[ext_resource type="Resource" path="res://passive_skill/023_magic_missile_ray.tres" id="6"]
+[ext_resource type="Texture2D" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Purple Effect and Bullet 16x16.png" id="7"]
+
+[sub_resource type="Resource" id="Tuning"]
+script = ExtResource("3")
+target_ability_ids = Array[StringName]([&"112"])
+damage_multiplier = 1.5
+cooldown_multiplier = 0.5
+
+[sub_resource type="AtlasTexture" id="Icon"]
+atlas = ExtResource("7")
+region = Rect2(160, 16, 16, 16)
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Tuning")])
+id = &"021"
+skill_name = "魔法飞弹-进阶"
+desc = "基础攻击的魔法飞弹伤害提升50%，基础攻击冷却减半。"
+icon = SubResource("Icon")
+upgrade_options = Array[ExtResource("4")]([ExtResource("5"), ExtResource("6")])
+allowed_character_ids = Array[StringName]([&"wizard"])

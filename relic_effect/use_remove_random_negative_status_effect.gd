@@ -16,12 +16,17 @@ func on_use(relic_context: RelicContext, effect_key) -> void:
 	for status_id_variant in status_controller.statuses.keys():
 		var status_id: StringName = StringName(str(status_id_variant))
 		var instance: StatusInstance = status_controller.get_status(status_id)
-		if instance != null and instance.status_data != null and instance.status_data.is_negative():
+		if (
+			instance != null
+			and instance.status_data != null
+			and instance.status_data.is_negative()
+			and instance.status_data.dispellable
+		):
 			negative_status_ids.append(status_id)
 
 	if not negative_status_ids.is_empty():
 		var random_index: int = randi_range(0, negative_status_ids.size() - 1)
-		status_controller.remove_status(negative_status_ids[random_index])
+		status_controller.dispel_status(negative_status_ids[random_index])
 		return
 
 	if fallback_status_data != null:
@@ -40,4 +45,3 @@ func _get_status_controller(relic_context: RelicContext) -> StatusController:
 	if relic_context.owner.has_method("get_status_controller"):
 		return relic_context.owner.get_status_controller()
 	return relic_context.owner.get_node_or_null("StatusController") as StatusController
-

@@ -8,13 +8,28 @@
 [ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="6_8ais3"]
 [ext_resource type="Resource" uid="uid://b5pj0gwwux13c" path="res://relic_tags/聚众.tres" id="7_wjs2y"]
 
+[ext_resource type="Script" path="res://relic_effect/ability_cast_summon_pet_effect.gd" id="8_summon"]
+[ext_resource type="PackedScene" path="res://entity/summon_pet/soul_fire_summon_pet.tscn" id="9_pet"]
+[ext_resource type="Script" path="res://relic_effect/use_random_permanent_primary_stat_effect.gd" id="10_reward"]
+
+[sub_resource type="Resource" id="DeathReward"]
+script = ExtResource("10_reward")
+
+[sub_resource type="Resource" id="CastSummon"]
+script = ExtResource("8_summon")
+pet_scene = ExtResource("9_pet")
+upgraded_death_effects = Array[ExtResource("1_88b6q")]([SubResource("DeathReward")])
+
 [resource]
 script = ExtResource("2_03xiq")
+id = "048"
 relic_name = "紫晶戒指"
 icon = ExtResource("2_f523s")
-tooltip = "释放除基础攻击外的主动技能时有概率召唤魂火，魂火会持续灼烧其周围的敌人造成火焰伤害，魂火的属性受你的属性加成
-升级：魂火死亡时会提升你的随机属性一点"
+tooltip = "成功释放非基础攻击的主动技能后，有20%概率召唤魂火，持续30秒，每件戒指最多同时存在3只。
+魂火每秒对周围敌人造成30点基础火焰伤害，附加召唤时自身{intelligence}的50%，并施加1层{burn}。
+升级：魂火死亡或寿命到期时，随机一项一级属性本局永久+1。卸装及战斗结束清理不会触发。"
 price = 5
 level = 5
 tags = Array[ExtResource("3_2qdvw")]([ExtResource("5_hjxqr"), ExtResource("6_8ais3"), ExtResource("7_wjs2y")])
+effects = Array[ExtResource("1_88b6q")]([SubResource("CastSummon")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

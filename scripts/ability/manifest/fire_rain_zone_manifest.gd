@@ -54,6 +54,7 @@ func _ready() -> void:
 
 
 func activate(context: AbilityContext) -> void:
+	capture_element_tags(context)
 	if context == null or context.caster == null:
 		queue_free()
 		return
@@ -131,6 +132,7 @@ func _damage_target(target: Entity) -> void:
 		source_ability_slot_index,
 		poise_damage
 	)
+	stamp_damage_elements(damage_data)
 	target.apply_damage(damage_data)
 
 
@@ -158,7 +160,11 @@ func _spawn_one_fire_ground() -> void:
 	root.add_child(manifest)
 	manifest.global_position = global_position + _get_random_offset_inside(fire_ground_spawn_radius)
 	manifest.scale *= fire_ground_scale
-	manifest.activate(AbilityContext.new(_get_valid_source(), null))
+	var ground_context: AbilityContext = AbilityContext.new(_get_valid_source(), null)
+	ground_context.element_tags = source_element_tags.duplicate()
+	if source_cast_record != null:
+		ground_context.cast_record = source_cast_record
+	manifest.activate(ground_context)
 
 
 func _get_entity_from_area(area: Area2D) -> Entity:

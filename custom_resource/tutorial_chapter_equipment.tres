@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="TutorialChapterData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/hub/tutorial_chapter_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+chapter_id = &"equipment"
+title = "02  装备入门"
+description = "练习购买装备、打开背包、穿戴装备，并查看属性变化。"
+scene_path = "res://scenes/hub/equipment_tutorial_room.tscn"

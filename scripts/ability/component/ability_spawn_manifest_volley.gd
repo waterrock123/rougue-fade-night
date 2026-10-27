@@ -23,11 +23,14 @@ func _activate(context: AbilityContext) -> void:
 		return
 
 	var shot_count: int = maxi(base_projectile_count, 1)
+	if context.projectile_count_override > 0:
+		shot_count = context.projectile_count_override
 	if attacks_before_bonus > 0 and attacks_since_bonus >= attacks_before_bonus:
 		shot_count += maxi(bonus_projectile_count, 0)
 		attacks_since_bonus = 0
 	else:
 		attacks_since_bonus += 1
+	shot_count += maxi(context.cast_record.projectile_count_bonus, 0)
 
 	var base_direction: Vector2 = context.locked_direction
 	if base_direction == Vector2.ZERO:

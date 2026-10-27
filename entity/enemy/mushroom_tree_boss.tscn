@@ -1,0 +1,114 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/entity/anchored_encounter_boss.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/core/ability_controller.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/entity/pathfinding.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/stats/stats_controller.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/stats/modifier_handler.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/status/status_controller.gd" id="6"]
+[ext_resource type="Resource" path="res://entity/enemy/mushroom_tree_boss.tres" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/ability/mushroom_root_sweep.tscn" id="8"]
+[ext_resource type="PackedScene" path="res://scenes/ability/mushroom_spore_scatter.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://scenes/ability/mushroom_ring_pulse.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://scenes/ability/mushroom_root_relocation.tscn" id="11"]
+[ext_resource type="Texture2D" path="res://assets/UI/Pixel UI pack 3/04.png" id="12"]
+[ext_resource type="Shader" path="res://shaders/entity.gdshader" id="13"]
+[ext_resource type="SpriteFrames" path="res://sprite_frames/mushroom_tree_boss_sprite_frames.tres" id="14"]
+
+[sub_resource type="ShaderMaterial" id="Material"]
+shader = ExtResource("13")
+
+[sub_resource type="CircleShape2D" id="Body"]
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id="Hurtbox"]
+radius = 48.0
+
+[sub_resource type="AtlasTexture" id="BarUnder"]
+atlas = ExtResource("12")
+region = Rect2(297, 133, 32, 5)
+
+[sub_resource type="AtlasTexture" id="BarProgress"]
+atlas = ExtResource("12")
+region = Rect2(57, 133, 32, 5)
+
+[node name="MushroomTreeBoss" type="CharacterBody2D" groups=["boss"]]
+texture_filter = 1
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1")
+aggresive = true
+hit_stun_enabled = false
+poise_enabled = false
+affected_by_terrain_motion = false
+hide_health_bar_when_full = false
+visual_popup_height = 192.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -96)
+scale = Vector2(1.6, 1.6)
+material = SubResource("Material")
+sprite_frames = ExtResource("14")
+animation = &"idle"
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Body")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 1
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("Hurtbox")
+
+[node name="AbilityController" type="Node" parent="."]
+script = ExtResource("2")
+
+[node name="RootSweep" parent="AbilityController" instance=ExtResource("8")]
+
+[node name="SporeScatter" parent="AbilityController" instance=ExtResource("9")]
+
+[node name="RingPulse" parent="AbilityController" instance=ExtResource("10")]
+
+[node name="Relocation" parent="AbilityController" instance=ExtResource("11")]
+
+[node name="Pathfinding" type="Node2D" parent="."]
+script = ExtResource("3")
+
+[node name="StatsController" type="Node" parent="."]
+script = ExtResource("4")
+stats_data = ExtResource("7")
+
+[node name="ModifierHandler" type="Node" parent="."]
+script = ExtResource("5")
+
+[node name="StatusController" type="Node" parent="."]
+script = ExtResource("6")
+
+[node name="VFXAnchor" type="Node2D" parent="."]
+
+[node name="EnemyHealthBar" type="TextureProgressBar" parent="."]
+offset_left = -64.0
+offset_top = -210.0
+offset_right = 64.0
+offset_bottom = -202.0
+nine_patch_stretch = true
+texture_under = SubResource("BarUnder")
+texture_progress = SubResource("BarProgress")
+value = 100.0
+
+[node name="RelocationPoints" type="Node2D" parent="."]
+
+[node name="NorthWest" type="Marker2D" parent="RelocationPoints"]
+position = Vector2(-170, -170)
+
+[node name="NorthEast" type="Marker2D" parent="RelocationPoints"]
+position = Vector2(170, -170)
+
+[node name="SouthWest" type="Marker2D" parent="RelocationPoints"]
+position = Vector2(-170, 170)
+
+[node name="SouthEast" type="Marker2D" parent="RelocationPoints"]
+position = Vector2(170, 170)

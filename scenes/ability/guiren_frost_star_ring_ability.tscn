@@ -1,0 +1,27 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_area_indicator.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_animation_runner.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_spawn_manifest.gd" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/guiren_frost_star_ring_manifest.tscn" id="5"]
+
+[node name="GuirenFrostStarRingAbility" type="Node"]
+script = ExtResource("1")
+cooldown = 12.0
+energy_cost = 18.0
+
+[node name="Indicator" type="Node" parent="."]
+script = ExtResource("2")
+shape = 1
+radius = 100.0
+border_width = 1.0
+fill_color = Color(0.4, 0.8, 1.0, 0.12)
+
+[node name="Animation" type="Node" parent="."]
+script = ExtResource("3")
+animation_name = "cast"
+
+[node name="Pulse" type="Node" parent="."]
+script = ExtResource("4")
+manifest_scene = ExtResource("5")
+rotate_to_direction = false

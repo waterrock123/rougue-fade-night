@@ -21,6 +21,16 @@ enum SpawnPattern {
 @export var register_to_enemy_spawner: bool = true
 @export var spawn_parent_path: NodePath
 
+@export_group("安全落点")
+## 开启后，召唤物只会生成在玩家可达的地图区域内。
+@export var use_battle_map_safe_placement: bool = true
+## 理想生成点不可用时，向外搜索安全格子的最大范围。
+@export_range(0, 20, 1) var safe_search_radius_cells: int = 6
+## 大型召唤物可设为 1，要求落点周围一圈格子也能行走。
+@export_range(0, 3, 1) var spawn_clearance_cells: int = 0
+## 同一批召唤物之间保留的最小距离，避免多个单位完全重叠。
+@export_range(0.0, 128.0, 1.0) var minimum_spawn_separation: float = 20.0
+
 
 func _activate(context: AbilityContext) -> void:
 	if context == null or context.caster == null or enemy_scenes.is_empty():
@@ -32,6 +42,8 @@ func _activate(context: AbilityContext) -> void:
 
 	var enemy_spawner := _find_enemy_spawner(context.caster) if register_to_enemy_spawner else null
 	var offsets := _build_spawn_offsets()
+	var battle_map := _find_battle_map(context.caster)
+	var reserved_positions: Array[Vector2] = []
 	for index in range(summon_count):
 		if not context.is_caster_action_valid():
 			return
@@ -40,7 +52,18 @@ func _activate(context: AbilityContext) -> void:
 			if not context.is_caster_action_valid():
 				return
 
-		var enemy := _spawn_one_enemy(parent, context.caster.global_position + offsets[index], index)
+		var desired_position: Vector2 = context.caster.global_position + offsets[index]
+		var spawn_position_value: Variant = _resolve_safe_spawn_position(
+			desired_position,
+			battle_map,
+			reserved_positions
+		)
+		if not (spawn_position_value is Vector2):
+			continue
+
+		var spawn_position: Vector2 = spawn_position_value
+		reserved_positions.append(spawn_position)
+		var enemy := _spawn_one_enemy(parent, spawn_position, index)
 		if enemy != null and enemy_spawner != null:
 			enemy_spawner.register_external_enemy(enemy)
 
@@ -122,3 +145,26 @@ func _find_enemy_spawner(caster: Node) -> EnemySpawner:
 		node = node.get_parent()
 
 	return get_tree().get_first_node_in_group("enemy_spawner") as EnemySpawner
+
+
+func _find_battle_map(caster: Node) -> BattleMap:
+	if not use_battle_map_safe_placement or caster == null or caster.get_tree() == null:
+		return null
+	return caster.get_tree().get_first_node_in_group("battle_map") as BattleMap
+
+
+func _resolve_safe_spawn_position(
+	desired_position: Vector2,
+	battle_map: BattleMap,
+	reserved_positions: Array[Vector2]
+) -> Variant:
+	# 独立技能测试场景可能没有 BattleMap，此时保留原来的生成行为。
+	if battle_map == null:
+		return desired_position
+	return battle_map.get_nearest_playable_position(
+		desired_position,
+		safe_search_radius_cells,
+		spawn_clearance_cells,
+		reserved_positions,
+		minimum_spawn_separation
+	)

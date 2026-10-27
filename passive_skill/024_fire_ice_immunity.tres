@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_damage_type_immunity_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1080.png" id="4"]
+
+[sub_resource type="Resource" id="Immunity"]
+script = ExtResource("3")
+damage_types = Array[int]([2, 3])
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Immunity")])
+id = &"024"
+skill_name = "水火无敌"
+desc = "免疫火焰与{ice}伤害，但不免疫{freeze}等控制效果。"
+icon = ExtResource("4")
+allowed_character_ids = Array[StringName]([&"wizard"])

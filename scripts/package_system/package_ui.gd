@@ -216,6 +216,7 @@ func on_mouse_right_bag_slot_button(slot_button):
 
 	var empty_equipment_slot = _find_first_empty_slot(equipment_slots)
 	if empty_equipment_slot == null:
+		_show_screen_tip("装备栏已满，请先卸下一件装备")
 		return
 	if not _can_equip_relic_to_slot(_get_slot_button_relic(slot_button), empty_equipment_slot):
 		return
@@ -234,6 +235,7 @@ func on_mouse_right_equipment_slot_button(slot_button):
 
 	var empty_bag_slot = _find_first_empty_unlocked_bag_slot()
 	if empty_bag_slot == null:
+		_show_screen_tip("背包没有可用空格，无法卸下装备")
 		return
 
 	var relic_ui = slot_button.take_relic()
@@ -437,5 +439,5 @@ func _has_other_equipped_consumable(excluded_equipment_slot = null) -> bool:
 
 
 func _show_screen_tip(message: String) -> void:
-	if FloatText != null and FloatText.has_method("show_screen_tip"):
-		FloatText.show_screen_tip(message)
+	if FloatText != null:
+		FloatText.show_action_tip(message)

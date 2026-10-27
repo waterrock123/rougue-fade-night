@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "0.00-1.00秒：丧尸保持朝右驼背微屈姿态，躯干伴随上下轻微起伏；右腿在原地缓慢向前拖行迈步，右臂向前伸出抓探，左臂自然下垂后摆。\n1.00-2.00秒：身体重心轻微起伏交替，左腿在原地向前拖曳迈步，左臂向前伸手抓探，右臂顺势回落微摆，动作节奏与姿态无缝衔接回起始步态形成循环。",
+		"alpha_mode": "sharp",
+		"animation_mode": "loop",
+		"duration_seconds": 2.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/enemy/zombie/source.png"
+}

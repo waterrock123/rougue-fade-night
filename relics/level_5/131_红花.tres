@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bly3ui2b333xm"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_636q5"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_ylrlb"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_d810g"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="4_d810g"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_5lim5"]
+[ext_resource type="Script" path="res://relic_effect/add_derived_stat_effect.gd" id="6_stats"]
+[ext_resource type="Script" path="res://relic_effect/dodge_reduce_cooldown_effect.gd" id="7_dodge"]
+[ext_resource type="Script" path="res://relic_effect/outgoing_damage_status_chance_effect.gd" id="8_crit"]
+[ext_resource type="Resource" path="res://status/critical_dodge_bonus.tres" id="9_status"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/131_red_flower.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="RedFlowerPenalty"]
+script = ExtResource("6_stats")
+add_derived_stats = {"dodge_rate": -0.2}
+
+[sub_resource type="Resource" id="RedFlowerCooldown"]
+script = ExtResource("7_dodge")
+
+[sub_resource type="Resource" id="RedFlowerCriticalStatus"]
+script = ExtResource("8_crit")
+status_data = ExtResource("9_status")
+chance = 1.0
+only_critical = true
+apply_to_owner = true
+
+[resource]
+script = ExtResource("2_ylrlb")
+relic_name = "红花"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "{dodge_rate}-20%；闪避成功时所有技能的剩余冷却减少50%
+升级：造成暴击伤害时获得{dodge_rate}+1%，可叠加，持续至战斗结束"
+desc = "一朵鲜艳红花，十分惹人瞩目，你也许也能变得像它一样夺目？"
+price = 5
+level = 5
+tags = Array[ExtResource("3_d810g")]([ExtResource("4_d810g"), ExtResource("5_5lim5")])
+id = "131"
+effects = Array[ExtResource("1_636q5")]([SubResource("RedFlowerPenalty"), SubResource("RedFlowerCooldown")])
+great_effects = Array[ExtResource("1_636q5")]([SubResource("RedFlowerCriticalStatus")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

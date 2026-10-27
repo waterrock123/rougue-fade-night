@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="Relic" load_steps=11 format=3 uid="uid://bbv514vhoocit"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_ibdut"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_6skfe"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_1qv7h"]
+[ext_resource type="Resource" uid="uid://dv8tumu8brwpy" path="res://relic_tags/加工品tag.tres" id="4_1qv7h"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="5_aw4am"]
+[ext_resource type="Script" path="res://relic_effect/use_reset_base_stats_effect.gd" id="6_reset"]
+[ext_resource type="Script" path="res://relic_effect/use_add_status_effect.gd" id="7_status"]
+[ext_resource type="Resource" path="res://status/reincarnation_casting.tres" id="8_cooldown"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/122_reincarnation_sausage.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="Resource_reset"]
+script = ExtResource("6_reset")
+clear_temporary_stats = true
+
+[sub_resource type="Resource" id="Resource_cooldown"]
+script = ExtResource("7_status")
+status_data = ExtResource("8_cooldown")
+
+[resource]
+script = ExtResource("2_6skfe")
+id = "122"
+relic_name = "轮回肠"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "{consumable}：使用后恢复本次开局的基础属性，清除本局永久属性成长及临时属性增减。保留装备、被动常驻加成，不恢复生命和能量。
+升级：额外清空全部技能当前冷却，并使基础攻击及全部主动技能冷却固定为0.01秒，持续10秒。"
+desc = "诞生于毁灭之后"
+price = 5
+level = 5
+is_consumable = true
+effects = Array[ExtResource("1_ibdut")]([SubResource("Resource_reset")])
+great_effects = Array[ExtResource("1_ibdut")]([SubResource("Resource_cooldown")])
+tags = Array[ExtResource("3_1qv7h")]([ExtResource("4_1qv7h"), ExtResource("5_aw4am")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

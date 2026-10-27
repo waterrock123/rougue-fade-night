@@ -14,7 +14,7 @@
 [ext_resource type="Resource" uid="uid://d3lioybl5s5rc" path="res://entity/enemy/tree_people.tres" id="13_2wswg"]
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="13_wxjws"]
 [ext_resource type="Script" uid="uid://87nmt5jrle4v" path="res://scripts/status/status_controller.gd" id="14_rn3r1"]
-[ext_resource type="PackedScene" uid="uid://dywxdfssmxmxp" path="res://scenes/ability/thorn_armor.tscn" id="15_thorn"]
+[ext_resource type="PackedScene" path="res://scenes/ability/tree_bark_armor.tscn" id="15_bark"]
 [ext_resource type="Texture2D" uid="uid://clu74wmc2kp5u" path="res://assets/UI/Pixel UI pack 3/04.png" id="16_b75g0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_65khg"]
@@ -504,7 +504,7 @@ metadata/_custom_type_script = "uid://cifh43jnsuld4"
 [node name="RootEntangle" parent="AbilityController" unique_id=958036520 instance=ExtResource("8_8tj7l")]
 cooldown = 12.0
 
-[node name="ThornArmor" parent="AbilityController" unique_id=1945195576 instance=ExtResource("15_thorn")]
+[node name="TreeBarkArmor" parent="AbilityController" unique_id=1945195576 instance=ExtResource("15_bark")]
 cooldown = 20.0
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1552733303]

@@ -121,7 +121,7 @@ func _build_owned_tags(enabled_keys: Array[String], tag_counts: Dictionary) -> v
 		var remaining_count: int = max(count - enabled_count, 0)
 		var suffix: String = "启用 %d/%d" % [enabled_count, count]
 		var button: Button = _create_tag_button(tag.tag_name, count, tag, suffix)
-		button.disabled = remaining_count <= 0 or enabled_keys.size() >= max(run_stats.map_tag_enable_limit, 0)
+		button.disabled = remaining_count <= 0 or enabled_keys.size() >= run_stats.get_effective_map_tag_limit()
 		button.pressed.connect(_on_owned_tag_pressed.bind(tag))
 		owned_tag_container.add_child(button)
 
@@ -152,7 +152,7 @@ func _build_detail_summary_rows(enabled_keys: Array[String], displayed_keywords:
 
 	for tag_key: String in enabled_keys:
 		var tag: RelicTag = _get_tag_for_key(tag_key)
-		var influence: MapTagInfluenceData = influence_database.get_influence_for_tag_key(tag_key)
+		var influence: MapTagInfluenceData = run_stats.get_effective_map_tag_influence(influence_database, tag_key)
 		var summary: String = _get_single_tag_player_summary(influence)
 		_add_detail_card(tag, tag_key, summary, displayed_keywords)
 
@@ -165,20 +165,37 @@ func _get_aggregate_summary_lines(enabled_keys: Array[String], _tag_counts: Dict
 	var object_groups: Dictionary = {}
 	var terrain_groups: Dictionary = {}
 	var note_groups: Dictionary = {}
+	var runtime_groups: Dictionary = {}
 	for tag_key: String in enabled_keys:
-		var influence: MapTagInfluenceData = influence_database.get_influence_for_tag_key(tag_key)
+		var influence: MapTagInfluenceData = run_stats.get_effective_map_tag_influence(influence_database, tag_key)
 		if influence == null or not influence.enabled:
+			continue
+		if influence.summary_replaces_modifiers:
+			note_groups[influence.summary] = {"target_text": influence.summary, "instance_count": 1}
 			continue
 
 		var tag_count: int = 1
 		_collect_object_modifier_summary(object_groups, influence, tag_count)
 		_collect_terrain_modifier_summary(terrain_groups, influence)
 		_collect_note_summary(note_groups, influence)
+		_collect_runtime_summary(runtime_groups, influence)
 
 	_append_object_group_lines(result, object_groups)
 	_append_terrain_group_lines(result, terrain_groups)
 	_append_note_group_lines(result, note_groups)
+	for entry: Dictionary in runtime_groups.values():
+		var modifier: MapTagRuntimeModifier = entry["modifier"]
+		result.append(modifier.get_summary(float(entry["amount"])))
 	return result
+
+
+func _collect_runtime_summary(groups: Dictionary, influence: MapTagInfluenceData) -> void:
+	for modifier: MapTagRuntimeModifier in influence.runtime_modifiers:
+		if modifier == null:
+			continue
+		var previous: float = float(groups.get(modifier.effect_id, {}).get("amount", 0.0))
+		var amount: float = previous + modifier.amount if modifier.stackable else maxf(previous, modifier.amount)
+		groups[modifier.effect_id] = {"modifier": modifier, "amount": amount}
 
 
 func _collect_object_modifier_summary(
@@ -302,8 +319,13 @@ func _get_terrain_modifier_target_text(modifier: MapTagTerrainSpawnModifier) -> 
 func _get_single_tag_player_summary(influence: MapTagInfluenceData) -> String:
 	if influence == null or not influence.enabled:
 		return "暂无地图影响配置。"
+	if influence.summary_replaces_modifiers:
+		return influence.summary
 
 	var lines: Array[String] = []
+	for modifier: MapTagRuntimeModifier in influence.runtime_modifiers:
+		if modifier != null:
+			lines.append(modifier.get_summary())
 	for modifier: MapTagObjectSpawnModifier in influence.object_spawn_modifiers:
 		if modifier == null:
 			continue
@@ -548,7 +570,7 @@ func _refresh_limit_label(enabled_count: int) -> void:
 	if limit_label == null or run_stats == null:
 		return
 
-	limit_label.text = "启用：%d / %d" % [enabled_count, max(run_stats.map_tag_enable_limit, 0)]
+	limit_label.text = "启用：%d / %d" % [enabled_count, run_stats.get_effective_map_tag_limit()]
 
 
 func _create_tag_button(tag_name: String, count: int, tag: RelicTag, suffix: String) -> Button:

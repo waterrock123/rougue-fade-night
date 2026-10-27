@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_movement_basic_attack_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="4"]
+[ext_resource type="Script" path="res://scripts/skill/skill_data.gd" id="Skill"]
+[ext_resource type="Resource" path="res://passive_skill/038_roaming_hunter.tres" id="Upgrade"]
+[ext_resource type="Resource" path="res://status/guerrilla_shot_ready.tres" id="Ready"]
+
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("3")
+ready_status = ExtResource("Ready")
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Effect")])
+id = &"037"
+skill_name = "游击射手"
+desc = "连续主动移动1秒后，使下一次整次基础攻击伤害提高50%。强化可保留至使用，使用后重新积累；站着顶墙、纯击退和冰面自然滑行不积累。"
+icon = ExtResource("4")
+allowed_character_ids = Array[StringName]([&"scount"])
+upgrade_options = Array[ExtResource("Skill")]([ExtResource("Upgrade")])

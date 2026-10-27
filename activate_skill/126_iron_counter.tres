@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ability/warrior_iron_counter_ability.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc671.png" id="3"]
+[resource]
+script = ExtResource("1")
+ability_scene = ExtResource("2")
+base_cooldown = 7.0
+base_energy_cost = 10.0
+id = &"126"
+skill_name = "铁壁反击"
+desc = "朝鼠标方向防御0.8秒，移动速度降低50%，期间不能使用其他技能。正面180度攻击伤害降低60%；前0.25秒精准格挡使该次伤害降低90%，随后向前方反击，造成25+{strength}×1.2的{melee_damage}与高削韧，并恢复5能量。每次最多反击一次，持续伤害、地形伤害不能触发，不免疫控制。"
+icon = ExtResource("3")
+tags = Array[StringName]([&"active_skill", &"melee", &"guard"])
+allowed_character_ids = Array[StringName]([&"warrior"])

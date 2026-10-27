@@ -50,6 +50,14 @@ func show_dialogue_and_wait(speaker_name: String, text: String, duration: float 
 	await dialogue_finished
 
 
+## 顺序播放多段对白，上一段完全淡出后才会进入下一段。
+func show_dialogue_sequence_and_wait(speaker_name: String, lines: Array[String], duration: float = -1.0) -> void:
+	for dialogue_line: String in lines:
+		if dialogue_line.strip_edges().is_empty():
+			continue
+		await show_dialogue_and_wait(speaker_name, dialogue_line, duration)
+
+
 func _finish_dialogue() -> void:
 	hide()
 	dialogue_finished.emit()

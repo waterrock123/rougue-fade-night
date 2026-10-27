@@ -1,0 +1,15 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ability/manifest/animated_ability_manifest.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://sprite_frames/skill_vfx_samples_20261018.tres" id="Frames"]
+
+[node name="PerfectGuardSparkManifest" type="Node2D"]
+script = ExtResource("1")
+animation_name = &"guard_spark"
+playback_seconds = 0.22
+z_index = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = ExtResource("Frames")
+animation = &"guard_spark"
+scale = Vector2(0.8, 0.8)

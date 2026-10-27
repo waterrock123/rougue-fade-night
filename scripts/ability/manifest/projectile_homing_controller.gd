@@ -16,12 +16,17 @@ func steer(
 	turn_speed: float,
 	acquire_radius: float,
 	retarget_interval: float,
-	delta: float
+	delta: float,
+	require_target_in_range: bool = false
 ) -> Vector2:
 	if projectile == null or not projectile.is_inside_tree() or target_group == &"" or turn_speed <= 0.0:
 		return current_direction
 
-	if not _is_valid_target(projectile, source, current_target, target_group, acquire_radius, false):
+	# 敌人可能已被另一枚齐射飞弹击杀并释放，先清空旧引用再传入带类型的筛选函数。
+	if not is_instance_valid(current_target):
+		current_target = null
+	# 可选持续范围约束：目标飞离追踪半径后解除锁定；默认保留其他投射物原有的锁定行为。
+	if not _is_valid_target(projectile, source, current_target, target_group, acquire_radius, require_target_in_range):
 		current_target = null
 		retarget_timer = maxf(retarget_timer - delta, 0.0)
 		if retarget_timer <= 0.0:
@@ -45,6 +50,13 @@ func steer(
 func reset() -> void:
 	current_target = null
 	retarget_timer = 0.0
+
+
+## 技能发射前也可复用同一套筛选，保证初始瞄准与飞行追踪排除相同的无效目标。
+func find_nearest_target(origin: Node2D, source: Entity, target_group: StringName, acquire_radius: float) -> Entity:
+	if not is_instance_valid(origin) or not origin.is_inside_tree() or target_group == &"":
+		return null
+	return _find_nearest_target(origin, source, target_group, acquire_radius)
 
 
 func _find_nearest_target(

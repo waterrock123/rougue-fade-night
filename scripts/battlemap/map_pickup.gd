@@ -93,6 +93,9 @@ func _try_collect(collector: Entity) -> void:
 
 	collected_once = true
 	_apply_pickup(collector)
+	# 可保留的装备奖励会在背包满时拒绝本次拾取，不能继续广播“已经拾取”。
+	if not collected_once:
+		return
 	collected.emit(self, collector)
 	if EventBus != null:
 		EventBus.map_pickup_collected.emit(self, collector)

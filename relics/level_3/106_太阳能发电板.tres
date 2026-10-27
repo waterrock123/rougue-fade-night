@@ -5,10 +5,22 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_kb163"]
 [ext_resource type="Resource" uid="uid://cxt8rcahtvpp1" path="res://relic_tags/雷电tag.tres" id="4_kb163"]
 [ext_resource type="Resource" uid="uid://2185prj4wxix" path="res://relic_tags/存量tag.tres" id="5_nvtmb"]
+[ext_resource type="Script" path="res://relic_effect/weather_periodic_status_effect.gd" id="6_weather"]
+[ext_resource type="Resource" path="res://status/power.tres" id="7_power"]
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/meowa_sample_02/sprite_01.png" id="8_meowa_icon"]
+
+[sub_resource type="Resource" id="SolarPanelPowerEffect"]
+script = ExtResource("6_weather")
+required_weather_id = &"sunny"
+status_data = ExtResource("7_power")
+interval = 10.0
+stacks = 2
+levelup_stacks = 3
 
 [resource]
 script = ExtResource("2_qw73v")
 relic_name = "太阳能发电板"
+icon = ExtResource("8_meowa_icon")
 tooltip = "在拥有太阳的情况下在关卡内每10秒获得2层电力
 升级：效果变为每10秒获得3层电力"
 desc = "放头上就当是打伞遮阳了"
@@ -16,4 +28,5 @@ price = 4
 level = 3
 tags = Array[ExtResource("3_kb163")]([ExtResource("4_kb163"), ExtResource("5_nvtmb")])
 id = "106"
+effects = Array[ExtResource("1_bo3yv")]([SubResource("SolarPanelPowerEffect")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

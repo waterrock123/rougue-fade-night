@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ProfileModifierData" format=3]
+
+[ext_resource type="Script" path="res://scripts/profile/profile_modifier_data.gd" id="1_modifier"]
+
+[resource]
+script = ExtResource("1_modifier")
+modifier_id = &"xiaole_mark"
+display_name = "小乐的烙印"
+description = "小乐留下的信物。携带进入新冒险时，额外获得 3 金币。"
+activation_mode = 1
+modifier_type = 1
+amount = 3.0

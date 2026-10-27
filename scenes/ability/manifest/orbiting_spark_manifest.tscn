@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/orbiting_projectile_manifest.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/shockwavespritesheets/spark.png" id="2"]
+[ext_resource type="Shader" path="res://shaders/energy_sprite_tint.gdshader" id="3"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="4"]
+
+[sub_resource type="AtlasTexture" id="Spark"]
+atlas = ExtResource("2")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="ShaderMaterial" id="Material"]
+shader = ExtResource("3")
+
+[sub_resource type="CircleShape2D" id="HitShape"]
+radius = 10.0
+
+[sub_resource type="Resource" id="Scaling"]
+script = ExtResource("4")
+physical_formula = ""
+fire_formula = "intelligence * 0.5"
+
+[node name="OrbitingSparkManifest" type="Node2D"]
+script = ExtResource("1")
+target_group = &"enemy"
+auto_target_group_from_source = false
+orbit_radius = 90.0
+orbit_speed = 12.0
+radius_wave_amplitude = 4.0
+follow_smoothing = 60.0
+lifetime = 5.0
+rotation_offset = 0.0
+enable_smart_dash = false
+dash_swept_hit_radius = 13.0
+trail_color = Color(1, 0.5, 0.12, 0.4)
+trail_width = 3.0
+damage = 150.0
+can_crit = false
+damage_types = Array[int]([2])
+tags = Array[String](["relic", "manifest", "projectile", "orbiting_spark", "fire"])
+scaling_rule = SubResource("Scaling")
+poise_damage = 0.0
+can_hit_map_objects = false
+hit_interval = 0.4
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = SubResource("Spark")
+material = SubResource("Material")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("HitShape")

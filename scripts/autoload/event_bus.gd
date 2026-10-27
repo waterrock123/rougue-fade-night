@@ -9,6 +9,10 @@ var is_battle_active = false
 
 #施法信号
 signal play_cast_ability(ability: Ability)
+## 投射物完成初始化后发出；不包含抛射物与近战特效。
+signal projectile_launched(projectile: Node2D, context: AbilityContext, direction: Vector2)
+## 投射物首次命中或物理飞行结束时发出一次；切场景、来源死亡等清理不发出。
+signal projectile_resolved(projectile: ProjectileManifest, reason: StringName)
 #玩家生命值变化信号
 signal player_health_changed(current_health: float,max_health:float)
 #玩家能量变化信号
@@ -23,7 +27,9 @@ signal battle_win()
 signal battle_end_requested(source: Node, skip_level_up: bool)
 # 结束点选择直接进入修整期时使用；不跳过战斗结算，只跳过升级奖励界面。
 signal battle_win_direct_to_rest()
-# Boss 战通关信号。Run 监听后打开通关界面，不再进入升级/修整流程。
+# 当前层 Boss 胜利，由 Run 决定继续下一层还是整局通关。
+signal boss_battle_won()
+# 最终层通关才执行胜利界面、仓库回收与删档。
 signal game_victory()
 # 战斗正式开始信号。PlayScene 初始化完玩家、装备和 UI 后发出，供“进场触发”的遗物/被动使用。
 signal battle_started()
@@ -59,6 +65,8 @@ signal relic_purchase_preprocess(relic: Relic)
 signal relic_purchased(relic: Relic)
 # 玩家构筑实际收到一件永久遗物后发出。地图拾取、商店购买、事件奖励都会走 PlayerBuild.add_relic。
 signal relic_added(relic: Relic, receiver: PlayerBuild)
+## 装备从未升级变成升级态，包括合成和直接强化；不负责免费三选一奖励。
+signal relic_upgraded(relic: Relic, receiver: PlayerBuild)
 # 玩家出售遗物后通知 UI/商店老板播放对应反馈。
 signal relic_sold(relic: Relic)
 # 遗物被使用、售卖、销毁或消耗时发出，reason 用于区分 "used" / "sold" / "destroyed" / "consumed"。
@@ -87,6 +95,8 @@ signal map_object_spawned(map_object: Node)
 signal map_pickup_collected(pickup: Node, collector: Entity)
 # 玩家启用/停用“影响战斗地图生成的标签”时发出，后续标签配置 UI 和地图预览 UI 可监听它刷新。
 signal map_tag_selection_changed()
+# 当前天气、环境或剩余房间数变化时通知地图 UI 刷新。
+signal world_condition_changed()
 # 玩家在背包技能面板调整主动技能携带状态后，通知运行时技能栏与存档刷新。
 signal skill_loadout_changed()
 

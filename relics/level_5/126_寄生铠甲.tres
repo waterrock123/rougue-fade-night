@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://vw758wbk68sy"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_ft6an"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_ag0hp"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_jrqai"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="4_jrqai"]
+[ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="5_f6tbt"]
+[ext_resource type="Script" uid="uid://dwp8h106nuq8t" path="res://relic_effect/battle_start_add_status_effect.gd" id="6_battle_status"]
+[ext_resource type="Script" uid="uid://b5qdusqwfx3ue" path="res://relic_effect/rest_period_permanent_stats_health_cost_effect.gd" id="7_rest_cost"]
+[ext_resource type="Resource" uid="uid://dehl6bg5lgu7p" path="res://status/parasitic_armor_battle.tres" id="8_base_status"]
+[ext_resource type="Resource" uid="uid://uwnumeyvsebu" path="res://status/parasitic_armor_upgrade.tres" id="9_upgrade_status"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/126_parasitic_armor.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="ParasiticArmorBattleEffect"]
+script = ExtResource("6_battle_status")
+status_data = ExtResource("8_base_status")
+
+[sub_resource type="Resource" id="ParasiticArmorRestCost"]
+script = ExtResource("7_rest_cost")
+
+[sub_resource type="Resource" id="ParasiticArmorUpgradeBattleEffect"]
+script = ExtResource("6_battle_status")
+status_data = ExtResource("9_upgrade_status")
+
+[resource]
+script = ExtResource("2_ag0hp")
+relic_name = "寄生铠甲"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "进入战斗后获得全属性+3，防御力+20，伤害+1，持续至战斗结束，进入修整期时角色永久失去所有属性一点且流失50%的当前生命
+升级：进入战斗后额外获得全属性+2"
+price = 5
+level = 5
+tags = Array[ExtResource("3_jrqai")]([ExtResource("4_jrqai"), ExtResource("5_f6tbt")])
+id = "126"
+effects = Array[ExtResource("1_ft6an")]([SubResource("ParasiticArmorBattleEffect"), SubResource("ParasiticArmorRestCost")])
+great_effects = Array[ExtResource("1_ft6an")]([SubResource("ParasiticArmorUpgradeBattleEffect")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ProfileEventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1_event"]
+
+[resource]
+script = ExtResource("1_event")
+event_id = &"met_lost_recorder"
+display_name = "初见迷途记录员"
+description = "你听完了迷途记录员关于失落区域的记录。"

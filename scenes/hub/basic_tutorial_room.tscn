@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://scenes/run/run.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/hub/basic_tutorial_room.gd" id="2"]
+
+[node name="BasicTutorialRoom" instance=ExtResource("1")]
+script = ExtResource("2")
+enable_debug_console = false

@@ -1,0 +1,47 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_area_indicator.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_animation_runner.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_target_cursor.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_channel.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_spawn_manifest.gd" id="6"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/guiren_biphasic_fire_manifest.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/guiren_biphasic_lightning_manifest.tscn" id="8"]
+
+[node name="GuirenBiphasicCollapseAbility" type="Node"]
+script = ExtResource("1")
+cooldown = 16.0
+energy_cost = 25.0
+
+[node name="Indicator" type="Node" parent="."]
+script = ExtResource("2")
+shape = 4
+radius = 240.0
+target_radius = 120.0
+border_width = 1.0
+fill_color = Color(0.9, 0.5, 0.6, 0.06)
+target_fill_color = Color(0.9, 0.5, 0.6, 0.12)
+
+[node name="Target" type="Node" parent="."]
+script = ExtResource("4")
+max_range = 240.0
+
+[node name="Animation" type="Node" parent="."]
+script = ExtResource("3")
+animation_name = "cast"
+
+[node name="Channel" type="Node" parent="."]
+script = ExtResource("5")
+channel_seconds = 1.0
+
+[node name="Fire" type="Node" parent="Channel"]
+script = ExtResource("6")
+manifest_scene = ExtResource("7")
+origin_mode = 1
+rotate_to_direction = false
+
+[node name="Lightning" type="Node" parent="Channel"]
+script = ExtResource("6")
+manifest_scene = ExtResource("8")
+origin_mode = 1
+rotate_to_direction = false

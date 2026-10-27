@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="WorldConditionData" format=3 uid="uid://buxwkty4k81oq"]
+
+[ext_resource type="Script" uid="uid://sj8a5vnfbdka" path="res://custom_resource/world_condition_effect.gd" id="1_4sbes"]
+[ext_resource type="Script" uid="uid://ph0stgmvgmx" path="res://custom_resource/world_condition_data.gd" id="1_data"]
+[ext_resource type="Script" uid="uid://k5xm4o3wt67g" path="res://scripts/world_condition/darkness_condition_effect.gd" id="2_effect"]
+
+[sub_resource type="Resource" id="DarknessEffect"]
+script = ExtResource("2_effect")
+
+[resource]
+script = ExtResource("1_data")
+condition_id = &"darkness"
+condition_type = 1
+display_name = "黑暗"
+description = "战斗区域被黑暗笼罩，只能看清玩家周围的范围。"
+roll_weight = 20.0
+max_duration_rooms = 2
+effects = Array[ExtResource("1_4sbes")]([SubResource("DarknessEffect")])

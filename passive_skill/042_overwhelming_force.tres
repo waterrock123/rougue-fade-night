@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_poise_break_basic_attack_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc763.png" id="4"]
+[ext_resource type="Resource" path="res://status/overwhelming_force_ready.tres" id="Ready"]
+
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("3")
+damage_bonus = 0.7
+ready_status = ExtResource("Ready")
+splash_strength_ratio = 1.0
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Effect")])
+id = &"042"
+skill_name = "摧枯拉朽"
+desc = "你使敌人破韧后，下一次整次基础攻击伤害提高70%，强化最多保留5秒。强化普攻首次有效命中后，对目标75范围内其他敌人额外造成{strength}×1的{melee_damage}；每次普攻最多溅射一次，溅射不触发自身。"
+icon = ExtResource("4")
+allowed_character_ids = Array[StringName]([&"warrior"])
+is_upgrade_skill = true

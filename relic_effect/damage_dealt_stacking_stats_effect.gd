@@ -64,7 +64,7 @@ func _apply_modifiers(owner: Entity, effect_key: String, stacks: int) -> void:
 	for stat_name in add_derived_stats_per_stack.keys():
 		modifiers.append(Modifier.create_flat(StringName(stat_name), float(add_derived_stats_per_stack[stat_name]) * stacks, effect_key))
 
-	owner.stats_controller.set_effect_modifiers(effect_key, modifiers)
+	owner.stats_controller.set_temporary_effect_modifiers(effect_key, modifiers)
 
 
 func _damage_matches(damage_data: DamageData) -> bool:

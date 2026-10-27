@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StatusData" format=3]
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"spent_rounds"
+status_name = "余弹利用"
+desc = "接下来若干次基础攻击的伤害提高25%，层数代表剩余强化次数。"
+icon = ExtResource("2")
+polarity = 1
+max_stacks = 3
+stack_mode = 2

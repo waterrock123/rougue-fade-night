@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="BattleStats" format=3 uid="uid://bstqvune1p430"]
+
+[ext_resource type="Script" uid="uid://bbp1b6impnqv1" path="res://custom_resource/battle_stats.gd" id="1"]
+[ext_resource type="Script" uid="uid://df3feoy7vmvbw" path="res://custom_resource/battle_wave_data.gd" id="2"]
+[ext_resource type="Script" uid="uid://cexev0ncxqe1h" path="res://custom_resource/enemy_spawn_entry.gd" id="3"]
+[ext_resource type="PackedScene" path="res://entity/enemy/mushroom_tree_boss.tscn" id="4"]
+
+[sub_resource type="Resource" id="BossEntry"]
+script = ExtResource("3")
+enemy_scene = ExtResource("4")
+spawn_role = &"boss"
+spawn_position_mode = 2
+
+[sub_resource type="Resource" id="Wave"]
+script = ExtResource("2")
+fixed_spawns = Array[ExtResource("3")]([SubResource("BossEntry")])
+
+[resource]
+script = ExtResource("1")
+battle_tier = 3
+weight = 1.0
+battle_map_template_path = "res://scenes/battlemap/templates/grass_open_01.tscn"
+waves = Array[ExtResource("2")]([SubResource("Wave")])

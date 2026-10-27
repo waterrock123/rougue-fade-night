@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ability/guiren_arcane_step_ability.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Purple Effect and Bullet 16x16.png" id="3"]
+
+[sub_resource type="AtlasTexture" id="Icon"]
+atlas = ExtResource("3")
+region = Rect2(160, 16, 16, 16)
+
+[resource]
+script = ExtResource("1")
+ability_scene = ExtResource("2")
+base_cooldown = 9.0
+base_energy_cost = 12.0
+id = &"119"
+skill_name = "秘法折跃"
+element_tags = Array[StringName]([&"magic"])
+desc = "向鼠标方向瞬移，最远160距离；无法穿越墙壁或地图边界。落地后受到的伤害降低20%，持续1秒。"
+icon = SubResource("Icon")
+tags = Array[StringName]([&"active_skill", &"spell"])
+allowed_character_ids = Array[StringName]([&"wizard"])

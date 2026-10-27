@@ -36,13 +36,15 @@ func on_gain(relic_context: RelicContext, effect_key) -> void:
 		return
 
 	# 先确认奖励池存在，再消耗原料，避免“吃了原料却没有产物”的体验。
-	RelicConsumption.consume_slot(
+	var removed_relic: Relic = RelicConsumption.consume_slot(
 		target_slot,
 		relic_context.owner,
 		relic_context.relic_controller,
 		"%s_consumed_material" % str(effect_key),
 		false
 	)
+	if removed_relic == null:
+		return
 
 	for _index in range(max(grant_count, 0)):
 		var template: Relic = _pick_weighted_relic(candidates, run_stats)
@@ -75,10 +77,14 @@ func _get_candidate_relics(run_stats: RunStats, consumed_relic: Relic) -> Array[
 	if run_stats.shop == null or run_stats.shop.shopkeeper == null or consumed_relic == null:
 		return result
 
-	for relic in run_stats.shop.shopkeeper.relics:
+	var shopkeeper: ShopKeeper = run_stats.shop.shopkeeper
+	var source_relics: Array[Relic] = (
+		shopkeeper.get_available_relics_by_level(consumed_relic.level)
+		if same_level_as_consumed
+		else shopkeeper.get_available_relics(run_stats.shop.level)
+	)
+	for relic: Relic in source_relics:
 		if relic == null:
-			continue
-		if same_level_as_consumed and relic.level != consumed_relic.level:
 			continue
 		if not _has_any_required_tag(relic):
 			continue
@@ -124,8 +130,9 @@ func _pick_weighted_relic(candidates: Array[Relic], run_stats: RunStats) -> Reli
 
 
 func _get_relic_weight(relic: Relic, run_stats: RunStats) -> float:
-	var weight := BASE_RELIC_ROLL_WEIGHT
+	var weight: float = BASE_RELIC_ROLL_WEIGHT
 	if use_shopkeeper_tag_weight and run_stats.shop != null and run_stats.shop.shopkeeper != null:
+		weight = run_stats.shop.shopkeeper.get_relic_base_weight(relic, BASE_RELIC_ROLL_WEIGHT)
 		weight += _get_preferred_tag_match_count(relic, run_stats.shop.shopkeeper) * preferred_tag_weight_bonus
 	return max(weight, 0.01)
 

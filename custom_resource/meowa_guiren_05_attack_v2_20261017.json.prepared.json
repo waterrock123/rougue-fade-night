@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "0.00-0.20: The exact reference woman faces RIGHT with feet planted, brings her upright staff slightly backward with a small arm motion. 0.20-0.40: She quickly points the STAFF itself to the right in a compact casting gesture; the staff head remains fully inside the transparent canvas. 0.40-0.70: Return the staff upright beside her body. 0.70-1.00: Return to the exact reference idle pose and settle. IMPORTANT: This clip contains ONLY the character's body and staff movement. Absolutely NO projectile, bullet, orb, spark, magic flash, aura, particles or any detached object at any time; the game creates the actual projectile separately. Preserve the exact blue/violet-haired noblewoman, navy pointed star hat with gold trim, blue-gold robe, face, staff design, right-facing angle, crisp low-resolution pixel art and constant scale. Fixed 48x48 reference canvas, keep everything at least 3 pixels from every edge, do not zoom, crop, travel, spin or change costume. Transparent background, no ground shadow, text or blur.",
+		"alpha_mode": "sharp",
+		"animation_mode": "non_loop",
+		"duration_seconds": 1.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/人物角色素材/guiren_05/animation_reference.png"
+}

@@ -34,6 +34,9 @@ const LEVEL_TIP_COLORS := {
 
 @export_group("Gameplay")
 @export var price: int
+## 商店生成该遗物时记录的原价，仅用于比较折扣/加价后的 UI 颜色。
+## 使用 export_storage 让冻结商品跨修整期、存读档后仍能保留正确的价格参照。
+@export_storage var shop_original_price: int = -1
 @export var sell_price: int = 2
 @export var level: int
 @export var leveltip: LevelTip
@@ -43,17 +46,36 @@ const LEVEL_TIP_COLORS := {
 @export var tags: Array[RelicTag]
 @export var id: String
 @export var is_consumable: bool = false
+## 可重复使用的消耗品使用后保留，冷却按单件实例记录在当前战斗中。
+@export var reusable_consumable: bool = false
+@export_range(0.0, 600.0, 0.1) var consumable_cooldown: float = 0.0
+## -1 表示升级后仍使用原冷却。
+@export var upgraded_consumable_cooldown: float = -1.0
 @export var effects: Array[RelicEffect]
 @export var great_effects: Array[RelicEffect]
+## 仅在背包格子中生效的效果；移入装备栏或离开背包时自动撤销。
+@export var inventory_effects: Array[RelicEffect] = []
 ## 记录遗物自身可成长的一级属性数值，例如“古剑每场战斗力量、敏捷 +2”。
 ## 该数据跟随单件遗物实例保存，而不是污染整局 PlayerBuild 的基础属性。
 @export var accumulated_stat_bonuses: Dictionary = {}
+## 单件装备的非属性进度，例如击破计数；与属性加成分开，避免被当作属性应用。
+@export_storage var effect_counters: Dictionary = {}
 
 @export_group("Lifecycle")
 ## 临时遗物只在当前战斗有效，战斗结算后由 PlayerBuild 统一清理。
 @export var is_temporary: bool = false
 ## 记录临时遗物的来源，方便以后按来源精确移除或统计。
 @export var temporary_source_key: StringName = &""
+
+
+# 商品第一次进入商店时锁定原价；后续优惠、加价都只修改 price。
+func initialize_shop_price_reference() -> void:
+	if shop_original_price < 0:
+		shop_original_price = max(price, 0)
+
+
+func get_shop_original_price() -> int:
+	return max(shop_original_price if shop_original_price >= 0 else price, 0)
 
 
 # 返回当前遗物真正用于 UI 预览和出售结算的售价。
@@ -66,12 +88,31 @@ func get_effective_sell_price() -> int:
 	return max(result, 0)
 
 
+func get_consumable_cooldown() -> float:
+	if leveltip == LevelTip.LEVELUP and upgraded_consumable_cooldown >= 0.0:
+		return upgraded_consumable_cooldown
+	return maxf(consumable_cooldown, 0.0)
+
+
 # 获得遗物时执行基础效果；如果是升级态，再额外执行强化效果。
 func gain_relic(owner, relic_controller: RelicController = null, relic_key: String = "") -> void:
 	_apply_effect_list(owner, relic_controller, relic_key, effects, "base", "gain")
 
 	if leveltip == LevelTip.LEVELUP:
 		_apply_effect_list(owner, relic_controller, relic_key, great_effects, "great", "gain")
+
+
+## 统一接收通知只分发新增生命周期，不重复旧的on_gain效果。
+func notify_added(owner: Node, relic_controller: RelicController = null) -> void:
+	var key: String = "received_%d" % get_instance_id()
+	_apply_effect_list(owner, relic_controller, key, effects, "base", "added")
+	if leveltip == LevelTip.LEVELUP:
+		_apply_effect_list(owner, relic_controller, key, great_effects, "great", "added")
+
+
+func notify_upgraded(owner: Node, relic_controller: RelicController = null) -> void:
+	if leveltip == LevelTip.LEVELUP:
+		_apply_effect_list(owner, relic_controller, "upgraded_%d" % get_instance_id(), great_effects, "great", "upgrade")
 
 
 # 装备遗物时执行基础效果；如果是升级态，再追加执行强化效果。
@@ -88,6 +129,14 @@ func deactivate_relic(owner, relic_controller: RelicController = null, relic_key
 
 	if leveltip == LevelTip.LEVELUP:
 		_apply_effect_list(owner, relic_controller, relic_key, great_effects, "great", "deactivate")
+
+
+func activate_inventory_effects(owner, relic_controller: RelicController, relic_key: String) -> void:
+	_apply_effect_list(owner, relic_controller, relic_key, inventory_effects, "inventory", "activate")
+
+
+func deactivate_inventory_effects(owner, relic_controller: RelicController, relic_key: String) -> void:
+	_apply_effect_list(owner, relic_controller, relic_key, inventory_effects, "inventory", "deactivate")
 
 
 # 使用消耗品时执行基础效果；如果是升级态，再额外执行强化效果。
@@ -152,6 +201,10 @@ func _apply_effect_list(
 		match action:
 			"gain":
 				effect.on_gain(relic_context, effect_key)
+			"added":
+				effect.on_added(relic_context, effect_key)
+			"upgrade":
+				effect.on_upgrade(relic_context, effect_key)
 			"activate":
 				effect.on_activate(relic_context, effect_key)
 			"deactivate":

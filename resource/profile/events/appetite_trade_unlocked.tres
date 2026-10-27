@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ProfileEventData" format=3]
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+event_id = &"appetite_trade_unlocked"
+display_name = "小乐的以物易物"
+description = "小乐答应在大厅中提供同等阶装备交换服务。"
+show_in_codex = false
+required_completed_event_ids = Array[StringName]([&"invited_xiaole"])
+unlock_content_ids = Array[StringName]([&"xiaole_relic_trade"])

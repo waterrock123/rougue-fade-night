@@ -2,8 +2,17 @@
 
 [ext_resource type="Script" uid="uid://cnlgdl3ilr3y5" path="res://custom_resource/character_visual_data.gd" id="1_pndrf"]
 [ext_resource type="SpriteFrames" uid="uid://b3kljj6uhwxqq" path="res://sprite_frames/new_scount_frames.tres" id="2_4jsd4"]
+[ext_resource type="Texture2D" uid="uid://pvjbyo4uhf41" path="res://assets/GunsPack/Guns/Revolver.png" id="3_gnlsu"]
 
 [resource]
 script = ExtResource("1_pndrf")
 sprite_frames = ExtResource("2_4jsd4")
+show_weapon = true
+weapon_texture = ExtResource("3_gnlsu")
+weapon_offset = Vector2(5, 5)
+weapon_scale = Vector2(0.8, 0.8)
+weapon_tracks_mouse = true
+weapon_points_right = false
+weapon_base_flip_vertical = true
+weapon_z_index = 1
 metadata/_custom_type_script = "uid://cnlgdl3ilr3y5"

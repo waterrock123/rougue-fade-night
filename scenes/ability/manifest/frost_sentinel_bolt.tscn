@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/Icepitonmanifest.tscn" id="1"]
+[ext_resource type="Resource" path="res://status/frost_slow.tres" id="2"]
+
+[node name="FrostSentinelBolt" instance=ExtResource("1")]
+scale = Vector2(0.75, 0.75)
+speed = 160.0
+max_distance = 310.0
+target_group = &"player"
+damage = 9.0
+can_crit = false
+poise_damage = 3.0
+on_hit_status = ExtResource("2")
+on_hit_status_chance = 1.0
+luck_chance_bonus_per_point = 0.0
+on_hit_status_duration_override = 1.0

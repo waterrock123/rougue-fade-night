@@ -9,6 +9,11 @@ const STARTING_GOLD := 0
 @export var shop: Shop
 @export var shop_config: ShopConfig
 @export var picked_character: Character
+## 当前路线楼层从 0 开始，与地图中的列进度分开保存。
+@export var current_floor_index: int = 0
+## 由局外仓库装备产生的本局固定惩罚，用于存档和 UI 提示。
+@export var carried_relic_penalty_rate: float = 0.0
+@export var carried_relic_name: String = ""
 # 本局每个 tag 选中的套装效果。局外选择系统完成后，只需要在开局时填充这里。
 @export var selected_tag_effects: Array[TagEffect] = []
 # 玩家选择让哪些标签参与战斗地图生成。保存 key 而不是直接保存 Resource，便于存档和 UI 传递。
@@ -29,12 +34,23 @@ const STARTING_GOLD := 0
 @export var shop_refresh_count_this_rest_period: int = 0
 # 下场战斗额外生成的悬赏精英怪队列。事件、遗物和技能都可以往这里追加，不影响正常胜利条件。
 @export var pending_bounty_enemy_entries: Array[BountyEnemyEntry] = []
+## 事件预留给下一场战斗的一次性全属性加成；进场后消耗，读档仍可恢复。
+@export var pending_battle_all_primary_stats_bonus: int = 0
 # 持久状态层数。用于“战斗胜利后获得锋锐”这类跨战斗保留的状态。
 @export var persistent_status_stacks: Dictionary = {}
+## 同一局地图上的状态箱共享这份纯数据；不保存旧战斗实体引用。
+@export var stored_map_statuses: Array[Dictionary] = []
+## 动态地图状态的局内序号，随存档保存，避免重启后新护甲与箱子里的旧护甲同名合并。
+@export var map_status_serial: int = 0
 # 被动技能的跨战斗计数和一次性标记，例如夺宝奇兵击杀数、利益交换的初始金币。
 @export var persistent_passive_counters: Dictionary = {}
 # 记录当前战斗实际使用的模板，继续游戏时直接复用，避免重新抽取地图。
 @export var current_battle_map_template_path: String = ""
+## 当前天气与环境按 id 保存，具体数据由 WorldConditionController 从资源池解析。
+@export var active_weather_id: StringName = &"sunny"
+@export var weather_remaining_rooms: int = 0
+@export var active_environment_id: StringName = &"normal"
+@export var environment_remaining_rooms: int = 0
 
 # 下面两个字典只保存“当前激活效果”的运行时修正，不进存档。
 # key 是效果来源，value 是具体参数；效果失效时会按 key 移除，避免互相覆盖。
@@ -42,6 +58,11 @@ var shop_intelligence_payment_sources: Dictionary = {}
 var consumable_keep_chance_sources: Dictionary = {}
 ## source_key -> {object_id: String, weight_bonus: float}，供地图物体变体池读取。
 var map_object_spawn_weight_sources: Dictionary = {}
+## 来源 -> 分类生成倍率；同一装备在构筑代理和战斗实体上只计一次。
+var map_object_generation_sources: Dictionary = {}
+## 地图标签装备修正是运行时数据；存档只保存基础容量，读档后由装备重新登记。
+var map_tag_modifier_sources: Dictionary = {}
+var map_tag_modifier_notification_pending: bool = false
 var shop_refresh_disabled_sources: Dictionary = {}
 
 @export_group("修整期金币")
@@ -77,6 +98,7 @@ func setup_new_run(
 	shop = new_shop
 	shop_config = new_shop_config
 	picked_character = new_character
+	current_floor_index = 0
 	rest_period_count = 0
 	level_up_reward_refresh_count = 0
 	level_up_reward_phase = 0
@@ -87,13 +109,42 @@ func setup_new_run(
 	enabled_map_tag_keys.clear()
 	pending_free_relic_choice_levels.clear()
 	persistent_status_stacks.clear()
+	stored_map_statuses.clear()
+	map_status_serial = 0
 	persistent_passive_counters.clear()
 	shop_intelligence_payment_sources.clear()
 	consumable_keep_chance_sources.clear()
 	map_object_spawn_weight_sources.clear()
+	map_object_generation_sources.clear()
+	map_tag_modifier_sources.clear()
 	shop_refresh_disabled_sources.clear()
 	current_battle_map_template_path = ""
+	active_weather_id = &"sunny"
+	weather_remaining_rooms = 0
+	active_environment_id = &"normal"
+	environment_remaining_rooms = 0
 	set_gold(STARTING_GOLD)
+
+
+## 只补旧局缺失的数据，不重置等级、商品或冻结。使用Resource基础接口，避免把商人预加载环带入RunStats编译。
+func ensure_shop_runtime() -> void:
+	if picked_character == null:
+		return
+	var initial_shop: Resource = picked_character.get("start_shop") as Resource
+	if shop == null and initial_shop != null:
+		set("shop", initial_shop.duplicate(true))
+	var initial_config: Resource = picked_character.get("start_shop_config") as Resource
+	if shop_config == null and initial_config != null:
+		set("shop_config", initial_config.duplicate(true))
+	if shop == null or shop.get("shopkeeper") != null:
+		return
+	if initial_shop != null:
+		shop.set("shopkeeper", initial_shop.get("shopkeeper"))
+	if shop.get("shopkeeper") == null:
+		for keeper: Resource in picked_character.get("shop_keeper_pool"):
+			if keeper != null:
+				shop.set("shopkeeper", keeper)
+				break
 
 
 func set_shop_refresh_disabled(source_key: Variant, disabled: bool) -> void:
@@ -127,6 +178,11 @@ func get_map_tag_key(tag: RelicTag) -> String:
 	return tag.tag_name
 
 
+func allocate_map_status_id(prefix: StringName) -> StringName:
+	map_status_serial += 1
+	return StringName("%s_serial_%d" % [String(prefix), map_status_serial])
+
+
 func get_enabled_map_tag_keys() -> Array[String]:
 	var result: Array[String] = []
 	for tag_key: String in enabled_map_tag_keys:
@@ -146,7 +202,7 @@ func can_enable_map_tag(tag: RelicTag) -> bool:
 func can_enable_map_tag_key(tag_key: String) -> bool:
 	if tag_key.is_empty():
 		return false
-	return enabled_map_tag_keys.size() < max(map_tag_enable_limit, 0)
+	return enabled_map_tag_keys.size() < get_effective_map_tag_limit()
 
 
 func is_map_tag_enabled(tag: RelicTag) -> bool:
@@ -194,7 +250,7 @@ func set_enabled_map_tag_keys(new_keys: Array[String]) -> void:
 	for tag_key: String in new_keys:
 		if tag_key.is_empty():
 			continue
-		if normalized_keys.size() >= max(map_tag_enable_limit, 0):
+		if normalized_keys.size() >= get_effective_map_tag_limit():
 			break
 		normalized_keys.append(tag_key)
 
@@ -223,7 +279,7 @@ func get_enabled_map_tag_counts() -> Dictionary:
 
 
 func trim_enabled_map_tags_to_limit() -> void:
-	var safe_limit: int = max(map_tag_enable_limit, 0)
+	var safe_limit: int = get_effective_map_tag_limit()
 	if enabled_map_tag_keys.size() <= safe_limit:
 		return
 
@@ -236,6 +292,61 @@ func clear_enabled_map_tags() -> void:
 		return
 
 	enabled_map_tag_keys.clear()
+	_notify_map_tag_selection_changed()
+
+
+func set_map_tag_modifier(source: String, owner_id: int, strength_bonus: float, capacity_bonus: int) -> void:
+	map_tag_modifier_sources["%s:%d" % [source, owner_id]] = {
+		"source": source, "strength": strength_bonus, "capacity": capacity_bonus,
+	}
+	_queue_map_tag_modifier_notification()
+
+
+func clear_map_tag_modifier(source: String, owner_id: int) -> void:
+	map_tag_modifier_sources.erase("%s:%d" % [source, owner_id])
+	_queue_map_tag_modifier_notification()
+
+
+## 构筑代理与战斗玩家会登记相同来源，去重后计算，避免单件装备加成翻倍。
+func _get_map_tag_modifier_total(field: String) -> float:
+	var total: float = 0.0
+	var seen: Dictionary = {}
+	for record: Dictionary in map_tag_modifier_sources.values():
+		if seen.has(record["source"]):
+			continue
+		seen[record["source"]] = true
+		total += float(record[field])
+	return total
+
+
+func get_effective_map_tag_limit() -> int:
+	return maxi(map_tag_enable_limit + int(_get_map_tag_modifier_total("capacity")), 0)
+
+
+func get_map_tag_effect_strength() -> float:
+	return maxf(1.0 + _get_map_tag_modifier_total("strength"), 0.0)
+
+
+func get_effective_map_tag_influence(database: MapTagInfluenceDatabase, tag_key: String) -> MapTagInfluenceData:
+	if database == null:
+		return null
+	var influence: MapTagInfluenceData = database.get_influence_for_tag_key(tag_key)
+	if influence == null or is_equal_approx(get_map_tag_effect_strength(), 1.0):
+		return influence
+	return influence.scaled_copy(get_map_tag_effect_strength())
+
+
+func _queue_map_tag_modifier_notification() -> void:
+	if map_tag_modifier_notification_pending or Engine.is_editor_hint():
+		return
+	map_tag_modifier_notification_pending = true
+	_flush_map_tag_modifier_notification.call_deferred()
+
+
+func _flush_map_tag_modifier_notification() -> void:
+	map_tag_modifier_notification_pending = false
+	# refresh_all 会先清空再重挂所有效果；等整轮完成后再收缩容量，避免误删启用标签。
+	trim_enabled_map_tags_to_limit()
 	_notify_map_tag_selection_changed()
 
 
@@ -603,6 +714,31 @@ func get_map_object_spawn_weight_bonuses() -> Dictionary:
 			continue
 		result[object_id] = float(result.get(object_id, 0.0)) + float(source_value.get("weight_bonus", 0.0))
 	return result
+
+
+func set_map_object_generation_modifier(source_key: String, owner_id: int, feature_tag: StringName, bonus: float) -> void:
+	map_object_generation_sources["%s:%d" % [source_key, owner_id]] = {
+		"source": source_key, "tag": feature_tag, "bonus": bonus,
+	}
+
+
+func clear_map_object_generation_modifier(source_key: String, owner_id: int) -> void:
+	map_object_generation_sources.erase("%s:%d" % [source_key, owner_id])
+
+
+func get_map_object_generation_multiplier(entry: MapObjectEntry) -> float:
+	var result: float = 1.0
+	var seen: Dictionary = {}
+	if entry == null:
+		return result
+	for record: Dictionary in map_object_generation_sources.values():
+		# 空分类表示全部特殊物体，不包含特殊地形；同来源的代理/战斗角色只计一次。
+		var matches: bool = entry.is_special_object() if StringName(record["tag"]) == &"" else entry.has_feature_tag(record["tag"])
+		if seen.has(record["source"]) or not matches:
+			continue
+		seen[record["source"]] = true
+		result += float(record["bonus"])
+	return maxf(result, 0.0)
 
 
 # 记录跨战斗保留的状态层数，常用于“每次战斗胜利后获得一层锋锐”。

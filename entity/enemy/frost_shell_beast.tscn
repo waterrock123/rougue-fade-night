@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://entity/enemy/treepeople.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/entity/configured_enemy.gd" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/ability/frost_shell_sweep.tscn" id="3"]
+[ext_resource type="Resource" path="res://entity/enemy/frost_shell_beast.tres" id="4"]
+[ext_resource type="SpriteFrames" path="res://sprite_frames/frost_shell_beast_sprite_frames.tres" id="5_frames"]
+
+[node name="frost_shell_beast" instance=ExtResource("1")]
+script = ExtResource("2")
+aggresive = true
+max_poise = 18.0
+combat_abilities = Array[PackedScene]([ExtResource("3")])
+stop_distance = 48.0
+facing_turn_speed = 1.2
+guarded_status_id = &"frost_shell_guard"
+sprite_faces_left_by_default = false
+
+[node name="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 1)
+position = Vector2(0, 0)
+scale = Vector2(3.5, 3.5)
+sprite_frames = ExtResource("5_frames")
+animation = &"idle"
+autoplay = "idle"
+frame = 0
+frame_progress = 0.0
+
+[node name="StatsController" parent="."]
+stats_data = ExtResource("4")

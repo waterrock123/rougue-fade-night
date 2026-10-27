@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BattleMapDraftSettings" format=3]
+
+[ext_resource type="Script" path="res://scripts/battlemap/battle_map_draft_settings.gd" id="1"]
+
+[resource]
+resource_name = "样例03：中央竞技场"
+script = ExtResource("1")
+layout_style = 2
+seed_value = 710203
+width = 64
+height = 48
+passage_width = 11
+obstacle_count = 4
+ground_padding = 1

@@ -1,19 +1,29 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://c8e4odp54r7m6"]
 
-[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1_ability"]
-[ext_resource type="Script" path="res://scripts/ability/component/ability_grant_random_temporary_relic.gd" id="2_grant"]
-[ext_resource type="Resource" path="res://relic_pools/all_relic_pool.tres" id="3_pool"]
-[ext_resource type="Resource" path="res://relic_tags/弹药tag.tres" id="4_tag"]
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="2_cb60e"]
+[ext_resource type="Script" uid="uid://bm3se2ase8cin" path="res://scripts/ability/component/ability_lock_movement.gd" id="2_fy4e6"]
+[ext_resource type="Script" uid="uid://bsfati8frsstf" path="res://scripts/ability/component/ability_grant_random_temporary_relic.gd" id="2_grant"]
+[ext_resource type="Script" uid="uid://0qmxqnt00aul" path="res://scripts/ability/component/ability_temporary_node_visibility.gd" id="3_visibility"]
 
-[node name="ReserveAmmoAbility" type="Node"]
+[node name="ReserveAmmoAbility" type="Node" unique_id=1594999616]
 script = ExtResource("1_ability")
 cooldown = 10.0
-energy_cost = 10.0
 
-[node name="GrantTemporaryAmmo" type="Node" parent="."]
+[node name="AbilityLockMovement" type="Node" parent="." unique_id=863484822]
+script = ExtResource("2_fy4e6")
+lock_duration = 2.0
+metadata/_custom_type_script = "uid://bm3se2ase8cin"
+
+[node name="AbilityAnimationRunner" type="Node" parent="." unique_id=1324724443]
+script = ExtResource("2_cb60e")
+animation_name = "cast"
+metadata/_custom_type_script = "uid://cx36jbtv3sk6r"
+
+[node name="HideWeaponDuringReload" type="Node" parent="." unique_id=545594963]
+script = ExtResource("3_visibility")
+restore_delay = 1.0
+
+[node name="GrantTemporaryAmmo" type="Node" parent="." unique_id=1811602587]
 script = ExtResource("2_grant")
 exec_delay = 1.0
-relic_pool = ExtResource("3_pool")
-required_tag = ExtResource("4_tag")
-temporary_source_key = &"reserve_ammo"
-temporary_name_prefix = "临时"

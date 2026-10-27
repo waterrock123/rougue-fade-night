@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cwl5uuwcoxkif"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_8am51"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_pw5d2"]
+[ext_resource type="Texture2D" uid="uid://k37tbf4p5nea" path="res://assets/ai art/装备icon/05_image-1789437278736-yly0yholsl.png" id="2_se3et"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_se3et"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="4_stats"]
+[ext_resource type="Script" uid="uid://b5hcwhdl1ke2k" path="res://relic_effect/damage_taken_invulnerability_effect.gd" id="5_invulnerability"]
+
+[sub_resource type="Resource" id="AlienCloakStats"]
+script = ExtResource("4_stats")
+add_stats = {
+"charm": 1,
+"dexterity": 1
+}
+
+[sub_resource type="Resource" id="AlienCloakInvulnerability"]
+script = ExtResource("5_invulnerability")
+
+[resource]
+script = ExtResource("2_pw5d2")
+relic_name = "外星斗篷"
+icon = ExtResource("2_se3et")
+tooltip = "敏捷+1，魅力+1，受到伤害后立即无敌0.2秒
+升级：无敌时间延长至0.3秒"
+desc = "用特殊材料仿照外来者的皮肤制作的斗篷，被攻击后会启动应急应对机制"
+price = 4
+level = 3
+id = "125"
+effects = Array[ExtResource("1_8am51")]([SubResource("AlienCloakStats"), SubResource("AlienCloakInvulnerability")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

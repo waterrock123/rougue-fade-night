@@ -9,6 +9,8 @@
 [ext_resource type="Script" uid="uid://dqqcmk8nt66x2" path="res://relic_effect/nearby_enemy_death_energy_effect.gd" id="7_energy"]
 [ext_resource type="Script" uid="uid://fsm2t3bpcfe4" path="res://relic_effect/battle_end_randomize_self_tags_effect.gd" id="8_tags"]
 
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb286.png" id="Icon_completion_20261012"]
+
 [sub_resource type="Resource" id="Resource_charm"]
 script = ExtResource("6_stats")
 add_stats = {
@@ -25,6 +27,7 @@ base_random_tag_count = 2
 [resource]
 script = ExtResource("2_u68ms")
 relic_name = "万变饮料瓶"
+icon = ExtResource("Icon_completion_20261012")
 tooltip = "{charm}+2，每当附近有敌人死亡时将获得2法力值，每次关卡结束后此装备的标签将立即随机变化一次
 升级：额外获得一个随机标签"
 desc = "据说有一家公司专门为世界上每一位有名的逝者制作相匹配的饮料瓶。我们应当尊重逝者，但对于某些坏人大可不必。"

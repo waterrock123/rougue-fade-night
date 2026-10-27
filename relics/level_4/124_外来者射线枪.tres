@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://buat5m6sejkdo"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_2ohok"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_ali8w"]
+[ext_resource type="Texture2D" uid="uid://cccbk8ofgubu4" path="res://assets/ai art/装备icon/10_image-1789436612553-1kf4wohnxhm.png" id="2_awb24"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_awb24"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_cfnc3"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="6_8cd3n"]
+
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="7_stats"]
+[ext_resource type="Script" path="res://relic_effect/add_outgoing_damage_bonus_effect.gd" id="8_damage"]
+[ext_resource type="Script" path="res://relic_effect/projectile_launch_spawn_manifest_effect.gd" id="9_launch"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/alien_laser_manifest.tscn" id="10_laser"]
+
+[sub_resource type="Resource" id="Resource_stats"]
+script = ExtResource("7_stats")
+add_stats = {"dexterity": 2}
+
+[sub_resource type="Resource" id="Resource_damage"]
+script = ExtResource("8_damage")
+required_tags = Array[String](["projectile"])
+flat_bonus = 2.0
+
+[sub_resource type="Resource" id="Resource_laser"]
+script = ExtResource("9_launch")
+manifest_scene = ExtResource("10_laser")
+chance = 0.05
+upgraded_chance = 0.1
+
+[resource]
+script = ExtResource("2_ali8w")
+relic_name = "外来者射线枪"
+icon = ExtResource("2_awb24")
+tooltip = "{dexterity}+2，投射物伤害+2，每次射出投射物时有5%的概率沿发射方向额外射出一束穿透激光
+升级：概率提升至10%
+"
+desc = "最聪明的外来者不满足于自己的毒液与利爪，于是发明了射线枪这种更快捷与高效的武器"
+price = 4
+level = 4
+tags = Array[ExtResource("3_awb24")]([ExtResource("5_cfnc3"), ExtResource("6_8cd3n")])
+id = "124"
+effects = Array[ExtResource("1_2ohok")]([SubResource("Resource_stats"), SubResource("Resource_damage"), SubResource("Resource_laser")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

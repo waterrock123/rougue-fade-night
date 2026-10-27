@@ -16,5 +16,5 @@ func _on_resume_btn_pressed() -> void:
 
 func _on_exit_btn_pressed() -> void:
 	get_tree().paused = false
-	ResourceLocator.go_to_home_scene()
+	ResourceLocator.go_to_hub_scene()
 	

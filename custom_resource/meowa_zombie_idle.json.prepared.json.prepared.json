@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "0.00-1.00秒：丧尸保持朝右站立，双脚固定，胸腔缓慢吸气微微上抬，双肩微耸，向前伸出的双臂与头部随之上浮晃动。\n1.00-2.00秒：丧尸胸腔缓慢呼气下沉，双肩与头部微幅回落，前伸双臂随呼吸惯性轻微下落摆动，姿态与动量平滑回归初始吸气起伏状态，实现无缝循环。",
+		"alpha_mode": "sharp",
+		"animation_mode": "loop",
+		"duration_seconds": 2.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/enemy/zombie/source.png"
+}

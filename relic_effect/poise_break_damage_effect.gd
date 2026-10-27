@@ -6,6 +6,9 @@ extends PoiseBreakRelicEffect
 
 @export_group("伤害")
 @export var damage: float = 20.0
+## 追加持有者当前属性的倍率伤害；留空则维持固定伤害。
+@export var source_stat: StringName = &""
+@export var stat_multiplier: float = 0.0
 ## 小于 0 时沿用普通伤害。
 @export var levelup_damage: float = -1.0
 @export_range(1, 20, 1) var hit_count: int = 1
@@ -26,11 +29,9 @@ func apply_poise_break_effect(
 	_effect_key: String,
 	is_levelup: bool
 ) -> void:
-	var resolved_damage: float = damage
+	var resolved_damage: float = _get_damage(owner, is_levelup)
 	var resolved_hit_count: int = maxi(hit_count, 1)
 	if is_levelup:
-		if levelup_damage >= 0.0:
-			resolved_damage = levelup_damage
 		if levelup_hit_count >= 1:
 			resolved_hit_count = levelup_hit_count
 	if resolved_damage <= 0.0:
@@ -50,3 +51,11 @@ func apply_poise_break_effect(
 			poise_damage
 		)
 		broken_enemy.call_deferred("apply_damage", hit_data)
+
+
+## 固定伤害与实时属性倍率相加，便于复用并隔离检查公式；不额外套默认物理力量加成。
+func _get_damage(owner: Entity, is_levelup: bool) -> float:
+	var result: float = levelup_damage if is_levelup and levelup_damage >= 0.0 else damage
+	if is_instance_valid(owner) and owner.stats_controller != null and source_stat != &"":
+		result += owner.stats_controller.get_stat(source_stat) * stat_multiplier
+	return maxf(result, 0.0)

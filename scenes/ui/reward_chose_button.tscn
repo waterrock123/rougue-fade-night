@@ -4,9 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://chmcdx77nujjh" path="res://assets/UI/Button_Simple.png" id="2_qkx7o"]
 [ext_resource type="Script" uid="uid://dh3cr3wncdg85" path="res://scripts/level_up/reward_chose_button.gd" id="3_15pu7"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_15pu7"]
-font_size = 48
-
 [node name="RewardChoseButton" type="Button" unique_id=39256168]
 custom_minimum_size = Vector2(320, 360)
 script = ExtResource("3_15pu7")
@@ -27,8 +24,8 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
-text = "死亡螺旋"
 theme_override_font_sizes/font_size = 30
+text = "死亡螺旋"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -47,7 +44,6 @@ custom_minimum_size = Vector2(0, 145)
 layout_mode = 2
 size_flags_vertical = 3
 text = "总之这里是奖励描述"
-fit_content = false
 scroll_active = false
 autowrap_mode = 2
 horizontal_alignment = 1

@@ -1,0 +1,16 @@
+{
+  "kind": "pixel",
+  "fields": {
+    "template_name": "template5x5",
+    "template_config": {
+      "target_count": 8,
+      "remove_bg_method": "standard"
+    },
+    "resolution": "1K",
+    "generation_speed": "normal",
+    "remove_bg_method": "standard",
+    "aspect_ratio": "1:1",
+    "requirement": "Create a concept selection pack of EXACTLY EIGHT DISTINCT playable character designs for GUIREN, the mysterious noble LADY, a female occult spellcaster in a 2D top-down pixel roguelike. Each output slot is ONE full-body adult woman in a neutral idle standing pose, NOT an animation frame. All eight share the same crisp 32x32 pixel chibi RPG style: large readable head, small body, dark clean outline, limited palette, deliberate pixel clusters, slight top-down three-quarter view FACING RIGHT, feet down and at a consistent baseline, transparent background. Readable at native 32 pixels. Keep hands free for later spellcasting; no large staff, gun, sword or background. Convey quiet confidence, elegant aristocratic manners, mystery and restrained magical authority, not a generic witch in a pointy hat. Four clear visual directions, TWO variants each: OUTPUTS 1-2 / A: VIOLET-GREEN OCCULT NOBLEWOMAN, long dark forest-green hair, small round spectacles, ivory and violet tilted broad-brim aristocratic hat with a rose ornament (NOT a pointed witch hat), tailored deep violet dress with emerald panels, white lace collar; one design with short structured cape, one with layered skirt. This direction loosely echoes an existing green-haired glasses-wearing noblewoman portrait. OUTPUTS 3-4 / B: IVORY-GOLD VEILED ORACLE, silver-white hair, delicate gold circlet with a short translucent face veil, ivory ceremonial outfit with warm gold trim, composed and enigmatic; one with fitted long coat over skirt and a high collar, one with a compact shoulder mantle and split robe. OUTPUTS 5-6 / C: BLACK-GOLD ARCANE COUNTESS, dark burgundy hair, tiny ruby diadem, high-collar black velvet outfit, restrained gold embroidery, red gemstone brooch; one with a short asymmetric noble coat, one with a broad structured cape over a fitted dress. OUTPUTS 7-8 / D: MOON-BLUE SPIRIT MEDIUM, pale ash-blond hair, small crescent-shaped silver hair ornament, midnight-blue and pale teal robe with silver trim, aristocratic and ethereal; one with a short translucent shoulder veil, one with a high-neck cape and a single small teal charm at the belt. Make the four groups distinguishable by HEADWEAR and CLOTHING SILHOUETTE, not just recoloring the same sprite. Do not fill every slot with identical hats or robes. Keep skirts and cloaks compact, leave visible feet and sufficient transparent margin on every side for future animation. Full headwear, hair and feet entirely inside each 32x32 canvas. No scenery, no ground shadow, no large aura, no floating particles, no text, no watermark, no UI, no painterly blur, no smooth high-resolution anime illustration, no multiple people in one output."
+  },
+  "reference_file": ""
+}

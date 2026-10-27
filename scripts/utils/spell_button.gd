@@ -98,8 +98,7 @@ func _on_pressed() -> void:
 	if ability == null: return
 	if _disabled :
 		_shake()
-		return
-	_disabled = true
+	# 即使不可释放，也交给玩家输入入口说明失败原因，不绕过统一冷却/成本校验。
 	EventBus.play_cast_ability.emit(ability)
 	
 	

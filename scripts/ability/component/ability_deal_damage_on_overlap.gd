@@ -26,12 +26,14 @@ func _activate(context: AbilityContext):
 	var elapsed := 0.0
 
 	while elapsed < active_duration:
-		if context == null or not context.is_caster_action_valid():
+		if not is_inside_tree() or context == null or not context.is_caster_action_valid() or not caster.is_inside_tree():
 			return
 		var targets := _collect_overlap_targets(caster)
 		context.targets = targets
 
 		for target in targets:
+			if not is_instance_valid(target):
+				continue
 			if hit_once_per_activation and hit_cache.has(target):
 				continue
 
@@ -47,10 +49,14 @@ func _activate(context: AbilityContext):
 				context.ability.runtime_slot_index if context.ability != null else -1,
 				poise_damage
 			)
+			context.stamp_damage_elements(damage_data)
 			target.apply_damage(damage_data)
 			hit_cache[target] = true
 
-		await get_tree().physics_frame
+		if not is_inside_tree() or not context.is_caster_action_valid():
+			return
+		var tree: SceneTree = get_tree()
+		await tree.physics_frame
 		elapsed += 1.0 / float(Engine.physics_ticks_per_second)
 
 

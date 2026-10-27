@@ -6,10 +6,9 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_rn6cu"]
 [ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="5_hwdwo"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="6_cqv5w"]
-
-[ext_resource type="Script" path="res://relic_effect/use_add_stats_effect.gd" id="7_use_stats"]
-[ext_resource type="Script" path="res://relic_effect/use_add_derived_stats_effect.gd" id="8_use_derived"]
-[ext_resource type="Script" path="res://relic_effect/use_permanent_derived_stats_effect.gd" id="9_use_permanent_derived"]
+[ext_resource type="Script" uid="uid://cpg3ugpuxdn6w" path="res://relic_effect/use_add_stats_effect.gd" id="7_use_stats"]
+[ext_resource type="Script" uid="uid://csm4tskvy0ae0" path="res://relic_effect/use_add_derived_stats_effect.gd" id="8_use_derived"]
+[ext_resource type="Script" uid="uid://dvfu2xggfnqa8" path="res://relic_effect/use_permanent_derived_stats_effect.gd" id="9_use_permanent_derived"]
 
 [sub_resource type="Resource" id="PizzaUseStatsEffect"]
 script = ExtResource("7_use_stats")

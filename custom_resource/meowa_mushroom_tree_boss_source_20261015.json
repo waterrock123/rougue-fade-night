@@ -1,0 +1,13 @@
+{
+  "kind": "pixel",
+  "fields": {
+    "template_name": "monster",
+    "template_config": {"direction": "front", "target_count": 2, "remove_bg_method": "standard"},
+    "resolution": "1K",
+    "generation_speed": "normal",
+    "remove_bg_method": "standard",
+    "requirement": "A giant stationary MUSHROOM-CROWN ANCIENT TREE BOSS for a 2D top-down pixel roguelike. Complete front-facing boss, slightly top-down three-quarter game view, clearly larger and more imposing than a small monster. Broad gnarled dark brown tree trunk with a stern readable face and two amber glowing eyes, a huge layered russet-red and warm ochre mushroom cap forming its crown, a few smaller cream-spotted shelf mushrooms on the shoulders, moss-green accents, two thick branching ROOT ARMS spreading at its sides, and a dense rooted stump instead of human feet or legs. Distinct mushroom plus ancient tree silhouette; not a humanoid warrior, not an ordinary small mushroom. Compact high-quality 128x128 pixel game sprite with crisp dark outlines, deliberate pixel clusters, limited earthy palette and warm highlights, charming dark-fantasy storybook tone compatible with chibi RPG monsters. Front view is essential for the radial attacks. Full crown, both root arms and rooted base must fit inside the frame; leave at least 12 percent transparent padding on every edge so roots can sweep during animation. Centered trunk, base near the lower center, consistent lighting from upper left. Transparent background, no scenery, no ground plane, no drop shadow, no UI, no words, no watermark, no blur or painterly gradients. Each output is a standalone candidate of this same boss concept, NOT an animation sequence, NOT a sprite sheet with multiple poses.",
+    "aspect_ratio": "1:1"
+  },
+  "reference_file": ""
+}

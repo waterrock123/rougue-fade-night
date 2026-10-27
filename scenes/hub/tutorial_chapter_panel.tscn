@@ -1,0 +1,106 @@
+[gd_scene load_steps=7 format=3]
+[ext_resource type="Script" path="res://scripts/hub/tutorial_chapter_panel.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/hub/tutorial_chapter_data.gd" id="2"]
+[ext_resource type="Resource" path="res://custom_resource/tutorial_chapter_basic.tres" id="3"]
+[ext_resource type="Resource" path="res://custom_resource/tutorial_chapter_equipment.tres" id="4"]
+[ext_resource type="Resource" path="res://custom_resource/tutorial_chapter_merge.tres" id="5"]
+
+[sub_resource type="StyleBoxFlat" id="Frame"]
+bg_color = Color(0.06, 0.09, 0.12, 0.99)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.68, 0.72, 0.85)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[node name="TutorialChapterPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_filter = 1
+script = ExtResource("1")
+chapters = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4"), ExtResource("5")])
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -440.0
+offset_top = -280.0
+offset_right = 440.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("Frame")
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 24
+
+[node name="Content" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Header" type="HBoxContainer" parent="Panel/Margin/Content"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Panel/Margin/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.85, 0.45, 1)
+theme_override_font_sizes/font_size = 32
+text = "选择教学章节"
+
+[node name="CloseButton" type="Button" parent="Panel/Margin/Content/Header"]
+custom_minimum_size = Vector2(100, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "关闭"
+
+[node name="CharacterLabel" type="Label" parent="Panel/Margin/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.66, 0.85, 0.9, 1)
+autowrap_mode = 2
+
+[node name="Separator" type="HSeparator" parent="Panel/Margin/Content"]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="Panel/Margin/Content"]
+custom_minimum_size = Vector2(0, 260)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ChapterList" type="VBoxContainer" parent="Panel/Margin/Content/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="NoticeLabel" type="Label" parent="Panel/Margin/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.75, 0.8, 0.83, 1)
+text = "使用当前角色练习，教学装备和金币不会带出章节，也不会覆盖冒险存档。"
+autowrap_mode = 2

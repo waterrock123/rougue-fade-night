@@ -29,15 +29,21 @@ func updata_ui() -> void:
 
 
 func speak_enter() -> void:
-	_speak_from_pool(_get_shop_keeper().enter_rest_period_dialogues)
+	var keeper: ShopKeeper = _get_shop_keeper()
+	if keeper != null:
+		_speak_from_pool(keeper.enter_rest_period_dialogues)
 
 
 func speak_buy() -> void:
-	_speak_from_pool(_get_shop_keeper().buy_relic_dialogues)
+	var keeper: ShopKeeper = _get_shop_keeper()
+	if keeper != null:
+		_speak_from_pool(keeper.buy_relic_dialogues)
 
 
 func speak_sell() -> void:
-	_speak_from_pool(_get_shop_keeper().sell_relic_dialogues)
+	var keeper: ShopKeeper = _get_shop_keeper()
+	if keeper != null:
+		_speak_from_pool(keeper.sell_relic_dialogues)
 
 
 func speak_exit_and_wait() -> void:

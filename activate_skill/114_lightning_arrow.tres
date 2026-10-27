@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ability/guiren_lightning_arrow_ability.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb403.png" id="3"]
+
+[resource]
+script = ExtResource("1")
+ability_scene = ExtResource("2")
+base_cooldown = 6.0
+base_energy_cost = 10.0
+id = &"114"
+skill_name = "闪电箭"
+element_tags = Array[StringName]([&"lightning"])
+desc = "按住瞄准、松开后向鼠标方向快速连发三支闪电箭，每支造成6+{intelligence}的闪电伤害，并有20%概率施加1层{paralysis}。闪电箭命中即消失，不穿透。"
+icon = ExtResource("3")
+tags = Array[StringName]([&"active_skill", &"projectile", &"lightning"])
+allowed_character_ids = Array[StringName]([&"wizard"])

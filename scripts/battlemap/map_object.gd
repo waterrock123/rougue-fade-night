@@ -22,6 +22,8 @@ const INTERACTABLE_HIGHLIGHT_SHADER: Shader = preload("res://shaders/map_object_
 @export_range(0.0, 8.0, 0.1) var highlight_pulse_speed: float = 2.0
 
 @export_group("目标判定")
+## 用于遗物、任务和地图规则识别物体类型，例如 beneficial_plant、animal、ammo_box。
+@export var feature_tags: Array[StringName] = []
 ## 开启后，玩家侧技能把 target_group 写成 enemy 时也能命中这个物件。
 @export var targetable_by_player_side: bool = true
 ## 开启后，敌人侧技能可以把这个物件视为玩家侧目标。默认关闭，避免怪物乱砍树。
@@ -64,6 +66,7 @@ const INTERACTABLE_HIGHLIGHT_SHADER: Shader = preload("res://shaders/map_object_
 @export var destroy_free_delay: float = 0.2
 
 var last_damage_source: Entity
+var last_impact_direction: Vector2 = Vector2.ZERO
 var feedback_visual: Node2D
 var feedback_visual_base_modulate: Color = Color.WHITE
 var feedback_visual_base_position: Vector2 = Vector2.ZERO
@@ -96,6 +99,10 @@ func is_player_side() -> bool:
 	return targetable_by_enemy_side
 
 
+func has_feature_tag(feature_tag: StringName) -> bool:
+	return feature_tags.has(feature_tag)
+
+
 ## 地图物体的最后一道阵营保护，避免玩家的范围伤害绕过目标筛选误伤动物。
 ## 普通地图物体默认允许玩家攻击；只有把 targetable_by_player_side 设为 false 的物体会被拦截。
 func apply_damage(damage_event):
@@ -115,6 +122,9 @@ func _handle_damage_callback(damage_data: DamageData):
 
 	if damage_data.source != null and is_instance_valid(damage_data.source):
 		last_damage_source = damage_data.source
+	last_impact_direction = damage_data.impact_direction
+	if last_impact_direction == Vector2.ZERO and is_instance_valid(damage_data.source):
+		last_impact_direction = (global_position - damage_data.source.global_position).normalized()
 	object_hit.emit(self, damage_data)
 	_play_hit_sound()
 	if current_health > 0.0:

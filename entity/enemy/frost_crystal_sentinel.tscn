@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://entity/enemy/skeleton.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/entity/configured_enemy.gd" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/ability/frost_sentinel_volley.tscn" id="3"]
+[ext_resource type="Resource" path="res://entity/enemy/frost_crystal_sentinel.tres" id="4"]
+[ext_resource type="SpriteFrames" path="res://sprite_frames/frost_crystal_sentinel_sprite_frames.tres" id="5_frames"]
+
+[node name="frost_crystal_sentinel" instance=ExtResource("1")]
+script = ExtResource("2")
+aggresive = true
+max_poise = 10.0
+combat_abilities = Array[PackedScene]([ExtResource("3")])
+stop_distance = 190.0
+retreat_distance = 100.0
+facing_turn_speed = 5.0
+sprite_faces_left_by_default = false
+
+[node name="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 1)
+position = Vector2(0, -4)
+scale = Vector2(2.4, 2.4)
+sprite_frames = ExtResource("5_frames")
+animation = &"idle"
+autoplay = "idle"
+frame = 0
+frame_progress = 0.0
+
+[node name="StatsController" parent="."]
+stats_data = ExtResource("4")

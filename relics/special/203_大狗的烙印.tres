@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://mn4elt4tjba3"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_effect_base"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_relic"]
+[ext_resource type="Texture2D" uid="uid://nbp74xp04qoa" path="res://assets/Summonpet/猎犬/猎犬待机.png" id="3_icon_sheet"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_tag_script"]
+[ext_resource type="Resource" uid="uid://b5pj0gwwux13c" path="res://relic_tags/聚众.tres" id="5_gather_tag"]
+[ext_resource type="Script" uid="uid://dg8rknwsp01wd" path="res://relic_effect/battle_start_summon_pet_by_tags_effect.gd" id="6_summon_effect"]
+[ext_resource type="PackedScene" uid="uid://buxb8vu3bmh4v" path="res://entity/summon_pet/dog_summon_pet.tscn" id="7_dog_scene"]
+[ext_resource type="Resource" path="res://entity/summon_pet/dog_summon_pet.tres" id="8_normal_stats"]
+[ext_resource type="Resource" path="res://entity/summon_pet/dog_summon_pet_strong.tres" id="9_strong_stats"]
+
+[sub_resource type="Resource" id="Resource_summon_dogs"]
+script = ExtResource("6_summon_effect")
+pet_scene = ExtResource("7_dog_scene")
+normal_pet_stats = ExtResource("8_normal_stats")
+levelup_pet_stats = ExtResource("9_strong_stats")
+base_summon_count = 1
+count_equipment = false
+max_summon_count = 4
+level_count_override_threshold = 3
+level_count_override = 2
+levelup_count_override = 4
+min_spawn_distance = 38.0
+spawn_radius = 92.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_icon"]
+atlas = ExtResource("3_icon_sheet")
+region = Rect2(0, 0, 32, 32)
+
+[resource]
+script = ExtResource("2_relic")
+relic_name = "大狗的烙印"
+icon = SubResource("AtlasTexture_dog_icon")
+tooltip = "进入战斗时召唤猎犬盟友。烙印达到3阶时召唤2只猎犬。
+升级：召唤4只更强大的猎犬，其生命翻倍且伤害提升50%。"
+desc = "大狗？"
+level = 2
+relic_type = 1
+tags = Array[ExtResource("4_tag_script")]([ExtResource("5_gather_tag")])
+id = "203"
+effects = Array[ExtResource("1_effect_base")]([SubResource("Resource_summon_dogs")])

@@ -6,7 +6,8 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_cl7ls"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_2p5sh"]
 [ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="6_add_stats"]
-[ext_resource type="Script" uid="uid://cclop8lyl0v86" path="res://relic_effect/damage_dealt_stacking_stats_effect.gd" id="7_damage_stack_stats"]
+[ext_resource type="Script" path="res://relic_effect/projectile_launch_add_status_effect.gd" id="7_launch_status"]
+[ext_resource type="Resource" path="res://status/mobile_gauntlet_crit.tres" id="9_crit_status"]
 [ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://relic_effect/add_derived_stat_effect.gd" id="8_add_derived"]
 
 [sub_resource type="Resource" id="MobileGauntletDexEffect"]
@@ -16,11 +17,8 @@ add_stats = {
 }
 
 [sub_resource type="Resource" id="MobileGauntletProjectileCritStackEffect"]
-script = ExtResource("7_damage_stack_stats")
-add_derived_stats_per_stack = {
-"crit_chance": 0.001
-}
-required_tags = Array[String](["projectile"])
+script = ExtResource("7_launch_status")
+status_data = ExtResource("9_crit_status")
 
 [sub_resource type="Resource" id="MobileGauntletLevelupCritEffect"]
 script = ExtResource("8_add_derived")
@@ -32,8 +30,8 @@ add_derived_stats = {
 script = ExtResource("2_40fg1")
 relic_name = "机动手甲"
 icon = ExtResource("2_cl7ls")
-tooltip = "敏捷+2，每次释放投射物时都将提升你0.1%的暴击率，持续至斗结束
-升级：额外增加5%的暴击率"
+tooltip = "{dexterity}+2，每次释放{projectile}时都将提升你0.1%的{crit_chance}，持续至战斗结束
+升级：额外增加5%的{crit_chance}"
 desc = "随着活动越来越适配你双手"
 price = 4
 level = 3

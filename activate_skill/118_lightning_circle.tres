@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ability/guiren_lightning_circle_ability.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Purple Effect and Bullet 16x16.png" id="3"]
+
+[sub_resource type="AtlasTexture" id="Icon"]
+atlas = ExtResource("3")
+region = Rect2(160, 16, 16, 16)
+
+[resource]
+script = ExtResource("1")
+ability_scene = ExtResource("2")
+base_cooldown = 12.0
+base_energy_cost = 20.0
+id = &"118"
+skill_name = "雷电法阵"
+element_tags = Array[StringName]([&"lightning"])
+desc = "在鼠标位置留下半径80的雷电法阵，持续4秒，每秒造成8+{intelligence}×0.6的{lightning}，最后一次命中额外施加1层{paralysis}。施法距离240。"
+icon = SubResource("Icon")
+tags = Array[StringName]([&"active_skill", &"spell"])
+allowed_character_ids = Array[StringName]([&"wizard"])

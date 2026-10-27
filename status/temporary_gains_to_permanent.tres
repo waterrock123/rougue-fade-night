@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="StatusData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1_data"]
+[ext_resource type="Script" path="res://scripts/status/status_temporary_stat_gain_policy_effect.gd" id="2_effect"]
+[ext_resource type="Script" path="res://scripts/status/status_effect.gd" id="3_base"]
+
+[sub_resource type="Resource" id="Resource_policy"]
+script = ExtResource("2_effect")
+mode = 2
+
+[resource]
+script = ExtResource("1_data")
+id = &"temporary_gains_to_permanent"
+status_name = "临时增益永久化"
+desc = "本场战斗使用后新获得的正向临时属性增量变为本局永久加成。不影响此前增益、负面效果和装备常驻加成。"
+polarity = 1
+dispellable = false
+effects = Array[ExtResource("3_base")]([SubResource("Resource_policy")])

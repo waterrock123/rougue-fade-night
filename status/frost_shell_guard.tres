@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://chmmxp30i6v4f"]
+
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="1"]
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="2"]
+[ext_resource type="Script" uid="uid://bpod3pdrk5xso" path="res://scripts/status/status_incoming_damage_taken_effect.gd" id="3"]
+[ext_resource type="Script" uid="uid://mb6adux0bcf2" path="res://scripts/status/status_remove_on_action_cancel_effect.gd" id="4"]
+
+[sub_resource type="Resource" id="FrontGuard"]
+script = ExtResource("3")
+percent_bonus = -0.6
+front_angle_degrees = 120.0
+
+[sub_resource type="Resource" id="ActionBound"]
+script = ExtResource("4")
+
+[resource]
+script = ExtResource("1")
+id = &"frost_shell_guard"
+status_name = "冰壳防御"
+desc = "防御期间正面120度范围的直接攻击伤害降低60%；侧后方和持续伤害不受影响。硬直/破韧会中断防御。"
+polarity = 1
+duration = 1.0
+effects = Array[ExtResource("2")]([SubResource("FrontGuard"), SubResource("ActionBound")])

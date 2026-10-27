@@ -339,7 +339,7 @@ func register_external_enemy(enemy: Enemy, count_for_victory: bool = true) -> vo
 
 ## 从悬赏池中抽取并生成一只悬赏精英怪。
 ## 默认不加入 active_enemies，因此不会影响“清空普通敌人即可胜利”的判定。
-func spawn_random_bounty_enemy(spawn_position: Vector2 = Vector2.ZERO, use_custom_position: bool = false) -> Enemy:
+func spawn_random_bounty_enemy(spawn_position: Vector2 = Vector2.ZERO, use_custom_position: bool = false, map_generated: bool = false) -> Enemy:
 	var pool: BountyEnemyPool = _get_bounty_enemy_pool()
 	if pool == null:
 		return null
@@ -348,21 +348,39 @@ func spawn_random_bounty_enemy(spawn_position: Vector2 = Vector2.ZERO, use_custo
 	if entry == null:
 		return null
 
-	return spawn_bounty_enemy(entry, spawn_position, use_custom_position)
+	return spawn_bounty_enemy(entry, spawn_position, use_custom_position, map_generated)
 
 
-func spawn_bounty_enemy(entry: BountyEnemyEntry, spawn_position: Vector2 = Vector2.ZERO, use_custom_position: bool = false) -> Enemy:
+func spawn_bounty_enemy(entry: BountyEnemyEntry, spawn_position: Vector2 = Vector2.ZERO, use_custom_position: bool = false, map_generated: bool = false) -> Enemy:
 	if entry == null or not entry.is_valid_entry():
 		return null
 
 	var final_position: Vector2 = spawn_position if use_custom_position else _get_spawn_position(null)
+	if map_generated:
+		var safe_position: Variant = _resolve_map_bounty_position(final_position)
+		if not (safe_position is Vector2):
+			return null
+		final_position = safe_position
 	var enemy: Enemy = _spawn_bounty_enemy_scene(entry.enemy_scene, final_position)
 	if enemy == null:
 		return null
 
 	entry.apply_to_enemy(enemy)
+	if map_generated:
+		enemy.set_meta("map_generated_bounty", true)
 	_register_bounty_enemy(enemy)
 	return enemy
+
+
+## 地图奖励怪只落在玩家可达区域，找不到位置就不生成，不能退回随机距离而刷到边界外。
+func _resolve_map_bounty_position(desired: Vector2) -> Variant:
+	_resolve_battle_map()
+	if not is_instance_valid(battle_map):
+		return null
+	var result: Variant = battle_map.get_nearest_playable_position(desired, 8, 1)
+	if result is Vector2:
+		return result
+	return battle_map.get_random_playable_position(_get_spawn_around_position(), 64.0)
 
 
 func _try_spawn_random_bounty_elite() -> void:
@@ -373,7 +391,7 @@ func _try_spawn_random_bounty_elite() -> void:
 	if randf() > random_bounty_spawn_chance:
 		return
 
-	spawn_random_bounty_enemy()
+	spawn_random_bounty_enemy(Vector2.ZERO, false, true)
 
 
 func _get_bounty_enemy_pool() -> BountyEnemyPool:
@@ -399,6 +417,9 @@ func _register_bounty_enemy(enemy: Enemy) -> void:
 	if enemy == null or active_bounty_enemies.has(enemy):
 		return
 
+	var rules: MapTagBattleController = MapTagBattleRules.find_controller(self)
+	if rules != null:
+		rules.apply_bounty_bonus(enemy)
 	active_bounty_enemies.append(enemy)
 	enemy.tree_exited.connect(_on_bounty_enemy_exited.bind(enemy), CONNECT_ONE_SHOT)
 	bounty_enemy_presence_changed.emit(true)
@@ -411,6 +432,37 @@ func _on_bounty_enemy_exited(enemy: Enemy) -> void:
 
 func has_active_bounty_enemies() -> bool:
 	return not active_bounty_enemies.is_empty()
+
+
+## 返回仍然存活、且会参与正常胜利判定的敌人，供战斗追踪 UI 等只读系统使用。
+func get_active_victory_enemies() -> Array[Enemy]:
+	var result: Array[Enemy] = []
+	for enemy: Enemy in active_enemies:
+		if enemy != null and is_instance_valid(enemy) and not enemy.is_queued_for_deletion():
+			result.append(enemy)
+	return result
+
+
+## 悬赏精英怪不参与胜利判定，但需要独立的醒目方向提示。
+func get_active_bounty_enemies() -> Array[Enemy]:
+	var result: Array[Enemy] = []
+	for enemy: Enemy in active_bounty_enemies:
+		if enemy != null and is_instance_valid(enemy) and not enemy.is_queued_for_deletion():
+			result.append(enemy)
+	return result
+
+
+## 统计场上存活敌人与尚未生成的后续敌人，避免波次生成期间数字忽高忽低。
+func get_remaining_victory_enemy_count() -> int:
+	if battle_finished or battle_stats == null:
+		return 0
+	var remaining: int = get_active_victory_enemies().size()
+	remaining += maxi(current_wave_total_to_spawn - current_wave_spawned, 0)
+	for wave_index: int in range(current_wave_index + 1, battle_stats.get_wave_count()):
+		var wave_data: BattleWaveData = battle_stats.get_wave_data(wave_index)
+		if wave_data != null:
+			remaining += wave_data.get_total_spawn_count()
+	return remaining
 
 
 # 标记当前波次已经进入“等待下一波”阶段。

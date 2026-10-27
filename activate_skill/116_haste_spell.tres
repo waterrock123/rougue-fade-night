@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ability/guiren_haste_spell_ability.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Green Effect and Bullet 16x16.png" id="3"]
+
+[sub_resource type="AtlasTexture" id="Icon"]
+atlas = ExtResource("3")
+region = Rect2(160, 16, 16, 16)
+
+[resource]
+script = ExtResource("1")
+ability_scene = ExtResource("2")
+base_cooldown = 8.0
+base_energy_cost = 15.0
+id = &"116"
+skill_name = "加速咒"
+element_tags = Array[StringName]([&"magic"])
+desc = "原地吟唱2秒，使自身{speed}+4，除基础攻击外的主动技能冷却减少20%，持续30秒。重复施放刷新持续时间。吟唱期间不能移动或使用其他技能，被控制打断后不获得增益。"
+icon = SubResource("Icon")
+tags = Array[StringName]([&"active_skill", &"buff", &"channel"])
+allowed_character_ids = Array[StringName]([&"wizard"])

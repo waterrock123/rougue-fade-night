@@ -1,0 +1,87 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://event_room/pistol_duel_room.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/ai art/事件背景/《手枪对决》.png" id="2_background"]
+[ext_resource type="PackedScene" path="res://event_room/event_button.tscn" id="3_button"]
+
+[node name="PistolDuelRoom" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_background")
+expand_mode = 1
+stretch_mode = 6
+mouse_filter = 2
+
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.06, 0.05, 0.04, 0.48)
+mouse_filter = 2
+
+[node name="DescLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 700.0
+offset_top = 110.0
+offset_right = 1820.0
+offset_bottom = 470.0
+theme_override_font_sizes/font_size = 38
+text = "“你来了，我等你好久了。拿上枪和我决斗吧。离开的话，我会等待下一位的。”"
+autowrap_mode = 2
+
+[node name="DuelButton" parent="." instance=ExtResource("3_button")]
+layout_mode = 0
+offset_left = 730.0
+offset_top = 515.0
+offset_right = 1450.0
+offset_bottom = 608.0
+pressed_desc = Array[String](["对面倒下了，我胜利了。他身上有些财物。", "失败并不可耻，谁说决斗就一定要分生死？我生命力足够顽强，即使中弹也能活着离开。"])
+desc_text = "拿枪射击"
+detail_text = "敏捷与幸运越高，胜率越高；成功获得6金币，失败则生命值变为最大生命的1%"
+
+[node name="ChallengeButton" parent="." instance=ExtResource("3_button")]
+layout_mode = 0
+offset_left = 730.0
+offset_top = 635.0
+offset_right = 1450.0
+offset_bottom = 728.0
+pressed_desc = Array[String](["我并不认为决斗是个好主意。我选择直接击败对方，而不是按他的规则用枪。对方恼怒地加入了下一场战斗。"])
+desc_text = "凭什么要用手枪决斗？"
+detail_text = "下场战斗出现一只特殊悬赏精英怪"
+
+[node name="GunButton" parent="." instance=ExtResource("3_button")]
+layout_mode = 0
+offset_left = 730.0
+offset_top = 755.0
+offset_right = 1450.0
+offset_bottom = 848.0
+pressed_desc = Array[String](["对于决斗，我颇有心得。对方倒下了，我捡了些钱财，也收下了他剩余的弹药。"])
+desc_text = "我有我自己的枪（浪子）"
+detail_text = "获得3金币与两件3阶弹药装备"
+
+[node name="LeaveButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1510.0
+offset_top = 865.0
+offset_right = 1830.0
+offset_bottom = 965.0
+theme_override_font_sizes/font_size = 48
+text = "离开"
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

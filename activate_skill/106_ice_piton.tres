@@ -11,6 +11,7 @@ base_cooldown = 5.0
 base_energy_cost = 15.0
 id = &"106"
 skill_name = "冰锥齐射"
+element_tags = Array[StringName]([&"ice"])
 desc = "以扇形排布释放五根冰锥，每根冰锥的基础伤害为30，且有30%概率使敌人{freeze}"
 icon = ExtResource("2_hd5ru")
 metadata/_custom_type_script = "uid://bq1obcmna3x2j"

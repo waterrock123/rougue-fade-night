@@ -1,0 +1,39 @@
+{
+  "task": "mushroom_tree_boss_animation_art",
+  "budget_credits": 300,
+  "status": "delivered",
+  "completed_date": "2026-10-16",
+  "source_job": "job_f7e65149584a4ad98342bf03f2ba7fb9",
+  "source_actual_credits": 15,
+  "source_selected_output": 0,
+  "source_file": "res://assets/enemy/mushroom_tree_boss/source.png",
+  "animations": {
+    "idle": {"job_id": "job_d96cb1fa951e478c8543f17c3643530b", "quoted_credits": 15, "actual_credits": 15, "status": "success"},
+    "attack": {"job_id": "job_b78fa494bf1040ab998027c33f308a32", "quoted_credits": 15, "actual_credits": 15, "status": "success"},
+    "cast": {"job_id": "job_bfb3bf31d8084a8f969d1bbe62a24482", "quoted_credits": 15, "actual_credits": 15, "status": "success"},
+    "relocate": {"job_id": "job_f567e54088814693a9ae6f61b8592013", "quoted_credits": 15, "actual_credits": 15, "status": "success"},
+    "die": {"job_id": "job_9b3266d37f36461e94410a5f239e8a31", "quoted_credits": 15, "actual_credits": 15, "status": "success"}
+  },
+  "padded_source_file": "res://assets/enemy/mushroom_tree_boss/animation_reference.png",
+  "revision_reason": "First batch has opaque pixels touching the canvas border during several motions; add transparent padding without resizing the source character.",
+  "padded_animations": {
+    "idle": {"job_id": "job_862b9cfa4ec04340beb406b6b7df9823", "quoted_credits": 15, "actual_credits": 15, "status": "success"},
+    "attack": {"job_id": "job_916187301b1e4cb6b6e7b04dcd0f9ef4", "quoted_credits": 15, "actual_credits": 15, "status": "success"},
+    "cast": {"job_id": "job_a91834063a904559a8789d9902ec7bed", "quoted_credits": 15, "actual_credits": 15, "status": "success"},
+    "relocate": {"job_id": "job_331871b31de44aefb7c0faf98c9d49a4", "quoted_credits": 15, "actual_credits": 15, "status": "success"},
+    "die": {"job_id": "job_c1826b3ebf3541cba03e398dcf75878c", "quoted_credits": 15, "actual_credits": 15, "status": "success"}
+  },
+  "committed_credits": 165,
+  "verified_actual_credits": 165,
+  "delivered_frame_count": 80,
+  "sprite_frames": "res://sprite_frames/mushroom_tree_boss_sprite_frames.tres",
+  "art_scene": "res://entity/enemy/mushroom_tree_boss.tscn",
+  "validation": {
+    "offline_animation_files_passed": 5,
+    "art_editor_checks_passed": 31,
+    "boss_editor_checks_passed": 84,
+    "frost_art_regression_checks_passed": 80,
+    "gameplay_started": false
+  },
+  "remaining_budget_credits": 135
+}

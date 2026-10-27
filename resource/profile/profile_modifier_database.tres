@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ProfileModifierDatabase" format=3 uid="uid://d155co8bc3idm"]
+
+[ext_resource type="Script" uid="uid://02fmi8yueu5l" path="res://scripts/profile/profile_modifier_data.gd" id="1_3ok64"]
+[ext_resource type="Script" uid="uid://daftteb607mjt" path="res://scripts/profile/profile_modifier_database.gd" id="1_database"]
+[ext_resource type="Resource" path="res://resource/profile/modifiers/antique_departure_grant.tres" id="2_modifier"]
+[ext_resource type="Resource" path="res://resource/profile/modifiers/xiaole_mark.tres" id="3_modifier"]
+
+[resource]
+script = ExtResource("1_database")
+modifiers = Array[ExtResource("1_3ok64")]([ExtResource("2_modifier"), ExtResource("3_modifier")])

@@ -18,6 +18,8 @@ enum DirectionMode {
 @export var rotate_to_direction: bool = true
 @export var scale_multiplier: float = 1.0
 @export var direction_mode: DirectionMode = DirectionMode.CURSOR
+## 整组发射方向相对锁定方向的偏移；可用多个单发节点组成错时扇形弹幕。
+@export_range(-180.0, 180.0, 1.0) var direction_angle_offset: float = 0.0
 
 
 func _activate(context: AbilityContext) -> void:
@@ -25,7 +27,7 @@ func _activate(context: AbilityContext) -> void:
 		return
 
 	var caster := context.caster
-	var base_direction := _get_base_direction(context)
+	var base_direction: Vector2 = _get_base_direction(context).rotated(deg_to_rad(direction_angle_offset))
 	var directions := _build_fan_directions(base_direction)
 
 	for direction in directions:
@@ -58,6 +60,8 @@ func _spawn_one_manifest(context: AbilityContext, caster: Entity, direction: Vec
 	# 每个投射物使用独立上下文，避免多根冰锥共享同一个 target 数组导致方向互相覆盖。
 	var child_context := AbilityContext.new(caster, context.ability)
 	child_context.caster_action_version = context.caster_action_version
+	child_context.element_tags = context.element_tags.duplicate()
+	child_context.cast_record = context.cast_record
 	child_context.locked_direction = direction
 	child_context.targets = [spawn_position + direction * target_distance]
 

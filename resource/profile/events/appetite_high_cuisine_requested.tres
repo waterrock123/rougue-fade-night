@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ProfileEventData" format=3]
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+event_id = &"appetite_high_cuisine_requested"
+display_name = "仍未满足的食欲"
+description = "小乐交给你两件二阶装备作为谢礼，又请求一份三阶及以上的佳肴。"
+show_in_codex = false
+required_completed_event_ids = Array[StringName]([&"appetite_gift_adventure_complete"])
+warehouse_relic_reward_count = 2
+warehouse_relic_reward_level = 2

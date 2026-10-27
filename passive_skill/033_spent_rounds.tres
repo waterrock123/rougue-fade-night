@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_material_basic_attack_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="4"]
+[ext_resource type="Script" path="res://scripts/skill/skill_data.gd" id="Skill"]
+[ext_resource type="Resource" path="res://passive_skill/034_tactical_reload.tres" id="Upgrade"]
+[ext_resource type="Resource" path="res://status/spent_rounds.tres" id="Status"]
+
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("3")
+damage_bonus = 0.25
+charges_status = ExtResource("Status")
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Effect")])
+id = &"033"
+skill_name = "余弹利用"
+desc = "主动技能实际消耗弹药装备或弹药箱次数后，接下来3次基础攻击伤害提高25%。重复触发刷新次数，不叠加倍率；整次攻击只消耗一次强化次数。"
+icon = ExtResource("4")
+allowed_character_ids = Array[StringName]([&"scount"])
+upgrade_options = Array[ExtResource("Skill")]([ExtResource("Upgrade")])

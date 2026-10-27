@@ -30,14 +30,30 @@ var random_room_type_weights := {
 }
 var random_room_type_total_weight := 0.0
 var map_data: Array[Array] = []
+var floor_config: RunFloorConfig
+
+
+func configure_floor(config: RunFloorConfig) -> void:
+	floor_config = config
+
+
+func _get_column_count() -> int:
+	return maxi(floor_config.column_count, 2) if floor_config != null else FLOORS
+
+
+func _get_battle_pool() -> BattleStatsPool:
+	if floor_config != null and floor_config.battle_pool != null:
+		return floor_config.battle_pool
+	return battle_stats_pool
 
 
 func generate_map() -> Array[Array]:
 	map_data = _generate_initial_grid()
 	_connect_columns()
 
-	if battle_stats_pool != null:
-		battle_stats_pool.setup()
+	var active_pool: BattleStatsPool = _get_battle_pool()
+	if active_pool != null:
+		active_pool.setup()
 
 	_setup_random_room_weights()
 	_setup_room_types()
@@ -47,7 +63,7 @@ func generate_map() -> Array[Array]:
 func _generate_initial_grid() -> Array[Array]:
 	var result: Array[Array] = []
 
-	for floor_index in range(FLOORS):
+	for floor_index in range(_get_column_count()):
 		var rooms_in_floor: Array[Room] = []
 		var vertical_slots := _get_random_vertical_slots()
 
@@ -83,7 +99,7 @@ func _get_random_vertical_slots() -> Array[int]:
 
 
 func _connect_columns() -> void:
-	for floor_index in range(FLOORS - 1):
+	for floor_index in range(_get_column_count() - 1):
 		var current_floor: Array[Room] = map_data[floor_index]
 		var next_floor: Array[Room] = map_data[floor_index + 1]
 
@@ -203,11 +219,11 @@ func _setup_random_room_weights() -> void:
 
 
 func _setup_room_types() -> void:
-	for floor_index in range(FLOORS):
+	for floor_index in range(_get_column_count()):
 		for room in map_data[floor_index]:
 			if floor_index == 0:
 				room.type = Room.Type.EVENT
-			elif floor_index == FLOORS - 1:
+			elif floor_index == _get_column_count() - 1:
 				room.type = Room.Type.BOSS
 			else:
 				room.type = _get_random_room_type_by_weight()
@@ -217,11 +233,15 @@ func _setup_room_types() -> void:
 
 
 func _get_battle_for_room(room: Room) -> BattleStats:
-	if battle_stats_pool == null or room == null:
+	var active_pool: BattleStatsPool = _get_battle_pool()
+	if active_pool == null or room == null:
 		return null
+	if floor_config != null:
+		var configured_tier: int = floor_config.get_battle_tier(room.row, room.type == Room.Type.BOSS)
+		return active_pool.get_random_battle_for_tier(configured_tier)
 
 	if room.type == Room.Type.BOSS:
-		return battle_stats_pool.get_random_battle_for_tier(3)
+		return active_pool.get_random_battle_for_tier(3)
 
 	var tier := 0
 	if room.row >= 4:
@@ -229,7 +249,7 @@ func _get_battle_for_room(room: Room) -> BattleStats:
 	elif room.row >= 2:
 		tier = 1
 
-	return battle_stats_pool.get_random_battle_for_tier(tier)
+	return active_pool.get_random_battle_for_tier(tier)
 
 
 func _get_event_scene_for_room(room: Room) -> PackedScene:

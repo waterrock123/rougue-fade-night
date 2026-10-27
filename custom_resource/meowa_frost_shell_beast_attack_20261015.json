@@ -1,0 +1,14 @@
+{
+  "source_file": "res://assets/enemy/frost_shell_beast/source.png",
+  "fields": {
+    "action_timeline": "0.00-0.25s: This exact heavy ice-shell beast crouches and turns its tusked head slightly back without changing its RIGHT-facing body orientation. 0.25-0.45s: Make one powerful short sweeping head-and-tusk strike to the RIGHT, impact around 0.35 seconds. 0.45-1.00s: Recover to the original heavy stance. Feet stay centered, no projectile, no ice particles, no camera movement. Preserve the exact source character, colors, pixel size, proportions and silhouette. Fixed three-quarter side view facing right, fixed camera, full body visible throughout, transparent background, no floor shadow, no additional objects, no text, no blur.",
+    "style_mode": "pixel",
+    "resolution": "480p",
+    "alpha_mode": "sharp",
+    "duration_seconds": 1,
+    "quality_mode": "standard",
+    "animation_mode": "non_loop",
+    "remove_bg_method": "standard",
+    "remove_bg_batch_size": "16"
+  }
+}

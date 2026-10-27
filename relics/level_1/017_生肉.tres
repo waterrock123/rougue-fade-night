@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://wwdg54imaves" path="res://relic_effect/use_heal_effect.gd" id="2_ri2hn"]
 [ext_resource type="Script" uid="uid://cpg3ugpuxdn6w" path="res://relic_effect/use_add_stats_effect.gd" id="3_1auj1"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_ri2hn"]
-[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="6_afv6a"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料tag.tres" id="7_ri2hn"]
 
 [sub_resource type="Resource" id="Resource_1auj1"]
 script = ExtResource("2_ri2hn")
@@ -37,7 +37,7 @@ tooltip = "使用后{strength}+2，{heal}3生命
 desc = "建议烤烤再吃"
 price = 3
 level = 1
-tags = Array[ExtResource("4_ri2hn")]([ExtResource("6_afv6a")])
+tags = Array[ExtResource("4_ri2hn")]([ExtResource("7_ri2hn")])
 id = "017"
 is_consumable = true
 effects = Array[ExtResource("1_g4prv")]([SubResource("Resource_1auj1"), SubResource("Resource_afv6a")])

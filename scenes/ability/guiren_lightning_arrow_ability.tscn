@@ -1,0 +1,35 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_area_indicator.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_turn_to_mouse.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_animation_runner.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_spawn_manifest_burst.gd" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/guiren_lightning_arrow_manifest.tscn" id="6"]
+
+[node name="GuirenLightningArrowAbility" type="Node"]
+script = ExtResource("1")
+cooldown = 6.0
+energy_cost = 10.0
+
+[node name="Indicator" type="Node" parent="."]
+script = ExtResource("2")
+auto_activate = false
+length = 640.0
+width = 8.0
+border_width = 1.0
+fill_color = Color(0.4, 0.65, 1, 0.1)
+border_color = Color(0.65, 0.85, 1, 0.45)
+
+[node name="Aim" type="Node" parent="."]
+script = ExtResource("3")
+
+[node name="Animation" type="Node" parent="."]
+script = ExtResource("4")
+animation_name = "attack"
+
+[node name="Arrows" type="Node" parent="."]
+script = ExtResource("5")
+manifest_scene = ExtResource("6")
+shot_count = 3
+shot_interval = 0.12

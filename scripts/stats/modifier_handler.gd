@@ -37,6 +37,12 @@ func remove_runtime_modifier(modifier: Modifier) -> void:
 	_refresh_stats()
 
 
+## 属性重置只撤销运行时修饰，不删除装备/角色预置的ModifierNode。
+func clear_runtime_modifiers() -> void:
+	runtime_modifiers.clear()
+	_refresh_stats()
+
+
 # 收集当前所有有效修饰器：
 # 1. 代码动态添加的 runtime_modifiers
 # 2. 挂在本节点下的 ModifierNode 子节点

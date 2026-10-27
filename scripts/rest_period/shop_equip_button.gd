@@ -13,6 +13,9 @@ const EMPTY_SLOT_COLOR := Color(0.18, 0.22, 0.32, 0.28)
 const CONTENT_NORMAL_MODULATE := Color(1, 1, 1, 1)
 const CONTENT_PENDING_MODULATE := Color(1, 1, 1, 0.25)
 const PURCHASE_PROMPT_TEXT := "再次点击购买"
+const NORMAL_PRICE_COLOR := Color(0.9, 0.97, 1.0, 1.0)
+const DISCOUNT_PRICE_COLOR := Color(0.3, 1.0, 0.42, 1.0)
+const MARKUP_PRICE_COLOR := Color(1.0, 0.3, 0.25, 1.0)
 const MATCH_GLOW_SHADER := preload("res://shaders/shop_slot_match_glow.gdshader")
 const TAG_UI_SCENE := preload("res://scenes/tooltip/tag_ui.tscn")
 const LEVEL_COLORS: Array[Color] = [Color.ANTIQUE_WHITE, Color.GREEN_YELLOW, Color.CYAN, Color.DEEP_PINK, Color.CHOCOLATE, Color.RED]
@@ -33,6 +36,7 @@ var is_frozen: bool = false
 var match_glow_material: ShaderMaterial
 var level_label_template := "LV {0}"
 var runtime_level_label_settings: LabelSettings
+var runtime_price_label_settings: LabelSettings
 var is_hovered: bool = false
 var is_purchase_pending: bool = false
 var purchase_prompt_label: Label
@@ -95,7 +99,7 @@ func clear_relic() -> void:
 func update_button() -> void:
 	var relic_data := _get_slot_relic_data()
 	if relic_data != null:
-		number_label.text = str(relic_data.price)
+		_update_price_display(relic_data)
 		number_label.visible = true
 		gold_icon.visible = true
 		clear_label.visible = false
@@ -104,6 +108,7 @@ func update_button() -> void:
 		_refresh_tags(relic_data)
 	else:
 		is_purchase_pending = false
+		_update_price_display(null)
 		number_label.visible = false
 		gold_icon.visible = false
 		clear_label.visible = true
@@ -113,6 +118,27 @@ func update_button() -> void:
 		set_owned_match_highlight(false)
 
 	_apply_interaction_visuals()
+
+
+# 用颜色直接反馈商品相对原价的变化：折扣为绿色，加价为红色，原价为白色。
+func _update_price_display(relic_data: Relic) -> void:
+	if number_label == null:
+		return
+
+	if relic_data == null:
+		number_label.text = ""
+		_set_price_label_color(NORMAL_PRICE_COLOR)
+		return
+
+	relic_data.initialize_shop_price_reference()
+	var original_price := relic_data.get_shop_original_price()
+	number_label.text = str(relic_data.price)
+	if relic_data.price < original_price:
+		_set_price_label_color(DISCOUNT_PRICE_COLOR)
+	elif relic_data.price > original_price:
+		_set_price_label_color(MARKUP_PRICE_COLOR)
+	else:
+		_set_price_label_color(NORMAL_PRICE_COLOR)
 
 
 func _make_custom_tooltip(_for_text: String) -> Object:
@@ -301,6 +327,20 @@ func _set_level_label_color(color: Color) -> void:
 		level_label.label_settings = runtime_level_label_settings
 
 	runtime_level_label_settings.font_color = color
+
+
+func _set_price_label_color(color: Color) -> void:
+	if number_label == null:
+		return
+
+	if runtime_price_label_settings == null:
+		if number_label.label_settings != null:
+			runtime_price_label_settings = number_label.label_settings.duplicate() as LabelSettings
+		else:
+			runtime_price_label_settings = LabelSettings.new()
+		number_label.label_settings = runtime_price_label_settings
+
+	runtime_price_label_settings.font_color = color
 
 
 func is_empty() -> bool:

@@ -125,7 +125,9 @@ func _build_room_seed() -> int:
 	var row := room.row if room != null else 0
 	var column := room.column if room != null else 0
 	var seed_text := "%s_shop_chosen_%s_%s" % [str(RunRng.seed_value), str(row), str(column)]
-	return abs(seed_text.hash())
+	# 保持第一层旧存档的结果，同时区分第二层相同坐标的商人选择。
+	var floor_index: int = run_stats.current_floor_index if run_stats != null else 0
+	return abs(seed_text.hash()) + floor_index * 104729
 
 
 func _build_tag_desc(shopkeeper: ShopKeeper) -> String:

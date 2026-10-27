@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bwa0gdu32fifk"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_a02pr"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_kkkox"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_lh6ve"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="4_lh6ve"]
+[ext_resource type="Resource" uid="uid://bhvriwrr7jduc" path="res://relic_tags/战狂tag.tres" id="5_djfq8"]
+[ext_resource type="Script" uid="uid://cfh8744clikxq" path="res://relic_effect/add_outgoing_damage_bonus_effect.gd" id="6_damage"]
+[ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://relic_effect/add_derived_stat_effect.gd" id="7_derived"]
+[ext_resource type="Texture2D" uid="uid://cf0mmxd6kpkgi" path="res://assets/ai art/装备icon/completion_20261012/206_fated_stone_hammer.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="FatedHammerDamage"]
+script = ExtResource("6_damage")
+total_damage_percent_bonus = 0.3
+
+[sub_resource type="Resource" id="FatedHammerHealth"]
+script = ExtResource("7_derived")
+add_derived_stats = {
+"max_health": 100
+}
+
+[resource]
+script = ExtResource("2_kkkox")
+relic_name = "命定的石锤？"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "你的所有伤害获得30%的加成
+升级：你的最大生命值+100"
+desc = "当力量足够强大时，就连命运也要臣服于此"
+level = 6
+tags = Array[ExtResource("3_lh6ve")]([ExtResource("4_lh6ve"), ExtResource("5_djfq8")])
+id = "206"
+effects = Array[ExtResource("1_a02pr")]([SubResource("FatedHammerDamage")])
+great_effects = Array[ExtResource("1_a02pr")]([SubResource("FatedHammerHealth")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

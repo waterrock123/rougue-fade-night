@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_element_rotation_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Purple Effect and Bullet 16x16.png" id="4"]
+[ext_resource type="Script" path="res://scripts/skill/skill_data.gd" id="Skill"]
+[ext_resource type="Resource" path="res://passive_skill/026_rainbow_weaving.tres" id="Upgrade"]
+
+
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("3")
+energy_refund = 3.0
+damage_bonus = 0.2
+
+[sub_resource type="AtlasTexture" id="Icon"]
+atlas = ExtResource("4")
+region = Rect2(160, 16, 16, 16)
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Effect")])
+id = &"025"
+skill_name = "元素编织"
+desc = "连续释放两个没有共同元素的非基础主动技能时，第二个技能伤害提升20%，并恢复3点能量。无元素技能会中断连续施法。"
+icon = SubResource("Icon")
+allowed_character_ids = Array[StringName]([&"wizard"])
+upgrade_options = Array[ExtResource("Skill")]([ExtResource("Upgrade")])

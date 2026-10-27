@@ -1,0 +1,9 @@
+{
+  "kind": "pixel",
+  "fields": {
+    "template_name": "template5x5",
+    "requirement": "Create a consistent pack of 15 individual enemy sprite candidates for a 2D top-down pixel roguelike. All sprites use crisp 32x32 pixel chibi game art, dark navy outlines, a small icy white/cyan/blue palette, full body centered, fixed three-quarter side view FACING RIGHT, feet down, transparent background, no ground shadow, no text or UI. Each slot is ONE complete standalone monster, not an animation frame or spritesheet. Slots 1-5: FROST FANG HOUND, a lean four-legged white arctic wolf with icy cyan teeth, pointed ears, long muzzle, low agile hunting stance and a few small blue ice crystals along the spine; clearly a wolf, not a humanoid. Slots 6-10: FROST CRYSTAL SENTINEL, a small floating ice golem with a pointed cyan crystal head, two bright eyes, compact dark blue stone torso, two short crystal arms, hovering above two small stone feet; no sword, no shield, no skeleton. Slots 11-15: FROST SHELL BEAST, a stocky four-legged dark blue tundra beast like a small armored boar or turtle, a large pale cyan jagged ice shell covering its back, short thick legs, heavy head with two small forward tusks, clear bulky tank silhouette; no trees, no humanoids. The three species must be immediately distinct. Produce five subtle design variants of each species while preserving the shared low-resolution style and right-facing orientation. Leave room around the body for animation. Avoid large glow, particles, smoke, gradients, realistic fur, blur, antialiasing, shadows, multiple creatures inside one slot, and decorative scenery.",
+    "aspect_ratio": "1:1"
+  },
+  "reference_file": ""
+}

@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "0.00-0.45s: This exact crystal sentinel faces RIGHT, draws both crystal arms toward its chest to charge. 0.45-0.60s: Thrust one arm forward to the RIGHT in a sharp firing gesture. 0.60-0.78s: A second small forward recoil gesture. 0.78-0.95s: A third small forward recoil gesture. 0.95-1.00s: Begin returning to the original stance. No drawn projectile or beam, no large glow, stay centered. Preserve the exact source character, colors, pixel size, proportions and silhouette. Fixed three-quarter side view facing right, fixed camera, full body visible throughout, transparent background, no floor shadow, no additional objects, no text, no blur.",
+		"alpha_mode": "sharp",
+		"animation_mode": "non_loop",
+		"duration_seconds": 1.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/enemy/frost_crystal_sentinel/source.png"
+}

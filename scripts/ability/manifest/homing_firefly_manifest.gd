@@ -70,6 +70,7 @@ func _exit_tree() -> void:
 
 
 func activate(context: AbilityContext) -> void:
+	capture_element_tags(context)
 	source = context.caster
 	source_ability_id = context.ability.id if context.ability != null else &""
 	source_ability_slot_index = context.ability.runtime_slot_index if context.ability != null else -1
@@ -87,6 +88,8 @@ func activate(context: AbilityContext) -> void:
 	wander_seed = randf() * TAU
 	glow_color = _pick_glow_color()
 	trail_points = [global_position]
+	if tags.has("projectile"):
+		notify_projectile_launched(context, current_dir)
 
 
 func _process(delta: float) -> void:
@@ -220,6 +223,7 @@ func _damage_target(target: Entity, valid_source: Entity) -> void:
 		source_ability_slot_index,
 		poise_damage
 	)
+	stamp_damage_elements(damage_data)
 	target.apply_damage(damage_data)
 
 

@@ -1,7 +1,7 @@
 class_name CharacterSelector
 extends Control
 
-const RUN_SCENE := preload("res://scenes/run/run.tscn")
+const MAIN_HOME_MAP_SCENE := preload("res://scenes/hub/main_home_map.tscn")
 const SCOUNT_STATS := preload("res://character_resource/scount/scount.tres")
 const WARRIOR_STATS := preload("res://character_resource/warrior/warrior.tres")
 const WIZARD_STATS := preload("res://character_resource/wizard/wizard.tres")
@@ -44,7 +44,8 @@ func _on_wizard_button_pressed() -> void:
 	set_current_character(WIZARD_STATS)
 
 
-# 点击开始后构建一份 RunStartup，并把它交给 Run 场景初始化本局数据。
+# 点击开始后构建一份 RunStartup，先进入局外大厅。
+# 真正创建 RunStats 的时机延后到玩家从大厅选择单人出发，或房主在多人等候室开始游戏时。
 func _on_start_button_pressed() -> void:
 	if current_character == null:
 		return
@@ -54,5 +55,5 @@ func _on_start_button_pressed() -> void:
 
 	run_startup.type = RunStartup.Type.NEW_RUN
 	run_startup.picked_character = current_character
-	Run.pending_startup = run_startup
-	get_tree().change_scene_to_packed(RUN_SCENE)
+	MainHomeMap.pending_startup = run_startup
+	get_tree().change_scene_to_packed(MAIN_HOME_MAP_SCENE)

@@ -5,6 +5,9 @@ const REST_PERIOD_SCENE := preload("res://scenes/rest_period/rest_period.tscn")
 const STATUS_UI_SCENE := preload("res://scenes/ui/status_ui.tscn")
 const TAG_EFFECT_DATABASE := preload("res://custom_resource/default_tag_effect_database.tres")
 const BATTLE_MESSAGE_LOG_SCENE := preload("res://scenes/ui/battle_message_log.tscn")
+const BATTLE_TARGET_INDICATOR_SCENE := preload("res://scenes/ui/battle_target_indicator_controller.tscn")
+const WASTELAND_RESISTANCE_STATUS := preload("res://status/wasteland_resistance.tres")
+const DARKNESS_OVERLAY_SHADER := preload("res://shaders/battle_darkness_overlay.gdshader")
 @export var screen_transition: ColorRect
 @export var player_health_bar: PlayerHealthBar
 @export var run_stats: RunStats
@@ -33,6 +36,7 @@ var previewing_consumable_slot_index: int = -1
 var tag_effect_controller: TagEffectController
 var bounty_hint_label: Label
 var battle_message_log: BattleMessageLog
+var battle_target_indicator_controller: BattleTargetIndicatorController
 var has_active_bounty_hint: bool = false
 var terrain_effect_controller: TerrainEffectController
 var terrain_randomizer: BattleMapTerrainRandomizer
@@ -40,6 +44,10 @@ var object_spawner: ObjectSpawnerFromTileMap
 var battle_map_generation_validator: BattleMapGenerationValidator
 var detached_fallback_battle_map: BattleMap
 var battle_completion_started: bool = false
+var darkness_overlay: ColorRect
+var darkness_material: ShaderMaterial
+var darkness_base_vision_radius: float = 190.0
+var darkness_vision_sources: Dictionary = {}
 
 @onready var enemy_spawner: EnemySpawner = $EnemySpawner
 @onready var battle_map: BattleMap = $BattleMap
@@ -49,6 +57,7 @@ var battle_completion_started: bool = false
 @onready var status_container: GridContainer = $CanvasLayer/UI/StatusContainer
 
 var consumable_use_count := 0
+var consumable_cooldowns: ConsumableCooldowns = ConsumableCooldowns.new()
 
 
 func _ready() -> void:
@@ -59,6 +68,9 @@ func _ready() -> void:
 	_configure_world_depth_sorting()
 	if run_stats != null and run_stats.player_build != null and player != null:
 		player.bind_player_build(run_stats.player_build, run_stats.picked_character)
+		_apply_carried_relic_penalty_status()
+		_apply_pending_event_stats()
+	_initialize_map_tag_battle_rules()
 	_initialize_battle_map()
 	if run_stats != null and run_stats.player_build != null and player != null:
 		_initialize_battle_tag_effect_controller()
@@ -66,6 +78,7 @@ func _ready() -> void:
 	_refresh_skill_ui()
 	_refresh_consumable_ui()
 	_bind_player_status_ui()
+	_setup_battle_target_indicators()
 
 	if enemy_spawner != null and pending_battle_stats != null:
 		enemy_spawner.battle_stats = pending_battle_stats
@@ -87,6 +100,9 @@ func _ready() -> void:
 		EventBus.game_paused.connect(_handle_pause)
 	if not EventBus.equipment_update.is_connected(_refresh_consumable_ui):
 		EventBus.equipment_update.connect(_refresh_consumable_ui)
+	# 技能先由SkillController替换，下一次空闲时再更新图标，避免仍读取旧Ability。
+	if not EventBus.skill_loadout_changed.is_connected(_refresh_skill_ui):
+		EventBus.skill_loadout_changed.connect(_refresh_skill_ui, CONNECT_DEFERRED)
 	if not EventBus.bounty_enemy_killed.is_connected(_handle_bounty_enemy_killed):
 		EventBus.bounty_enemy_killed.connect(_handle_bounty_enemy_killed)
 
@@ -95,12 +111,150 @@ func _ready() -> void:
 	EventBus.battle_started.emit()
 
 
+func _initialize_map_tag_battle_rules() -> void:
+	var controller: MapTagBattleController = MapTagBattleController.new()
+	controller.name = "MapTagBattleRules"
+	controller.run_stats = run_stats
+	controller.player = player
+	add_child(controller)
+
+
+func _process(_delta: float) -> void:
+	if not get_tree().paused:
+		consumable_cooldowns.tick(_delta)
+	if is_instance_valid(consumable_container):
+		consumable_container.set_cooldown_remaining(consumable_cooldowns.get_remaining(consumable_container.relic))
+	if darkness_overlay == null or not darkness_overlay.visible or darkness_material == null or player == null:
+		return
+	var viewport_size: Vector2 = get_viewport_rect().size
+	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
+		return
+	var player_screen_position: Vector2 = player.get_global_transform_with_canvas().origin
+	darkness_material.set_shader_parameter("viewport_size", viewport_size)
+	darkness_material.set_shader_parameter("vision_radius", _get_effective_darkness_vision_radius())
+	darkness_material.set_shader_parameter(
+		"light_center",
+		Vector2(player_screen_position.x / viewport_size.x, player_screen_position.y / viewport_size.y)
+	)
+
+
+## 由黑暗环境效果调用。遮罩插在战斗世界与 HUD 之间，因此不会遮住技能栏和生命条。
+func setup_darkness_environment(vision_radius: float, edge_softness: float, darkness_alpha: float) -> void:
+	var canvas_layer := get_node_or_null("CanvasLayer") as CanvasLayer
+	var ui_root := get_node_or_null("CanvasLayer/UI") as Control
+	if canvas_layer == null or ui_root == null:
+		return
+
+	if darkness_overlay == null:
+		darkness_overlay = ColorRect.new()
+		darkness_overlay.name = "DarknessEnvironmentOverlay"
+		darkness_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		darkness_overlay.color = Color.WHITE
+		canvas_layer.add_child(darkness_overlay)
+		darkness_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		# 保持 HUD 在遮罩之上，玩家仍然能清楚读取战斗信息。
+		canvas_layer.move_child(darkness_overlay, ui_root.get_index())
+	darkness_overlay.show()
+
+	if darkness_material == null:
+		darkness_material = ShaderMaterial.new()
+		darkness_material.shader = DARKNESS_OVERLAY_SHADER
+		darkness_overlay.material = darkness_material
+
+	darkness_base_vision_radius = max(vision_radius, 1.0)
+	darkness_material.set_shader_parameter("vision_radius", _get_effective_darkness_vision_radius())
+	darkness_material.set_shader_parameter("edge_softness", max(edge_softness, 0.0))
+	darkness_material.set_shader_parameter("darkness_alpha", clamp(darkness_alpha, 0.0, 1.0))
+
+
+## 调试台在当前战斗切回正常环境时，立刻隐藏既有黑暗遮罩。
+func clear_darkness_environment() -> void:
+	if darkness_overlay != null:
+		darkness_overlay.hide()
+
+
+## 遗物和状态可以向黑暗环境登记视野来源，多个来源取最大半径而不会无限叠加。
+func register_darkness_vision_source(
+	source_key: String,
+	owner_entity: Entity,
+	required_status_id: StringName,
+	vision_radius: float
+) -> void:
+	if source_key.is_empty() or owner_entity == null:
+		return
+	darkness_vision_sources[source_key] = {
+		"owner": owner_entity,
+		"required_status_id": required_status_id,
+		"vision_radius": max(vision_radius, 1.0),
+	}
+
+
+func unregister_darkness_vision_source(source_key: String) -> void:
+	darkness_vision_sources.erase(source_key)
+
+
+func _get_effective_darkness_vision_radius() -> float:
+	var result: float = darkness_base_vision_radius
+	for key_value: Variant in darkness_vision_sources.keys().duplicate():
+		var key: String = str(key_value)
+		var source: Dictionary = darkness_vision_sources.get(key, {}) as Dictionary
+		var owner_entity: Entity = source.get("owner") as Entity
+		if owner_entity == null or not is_instance_valid(owner_entity):
+			darkness_vision_sources.erase(key)
+			continue
+		var required_status_id: StringName = StringName(str(source.get("required_status_id", "")))
+		var controller: StatusController = owner_entity.get_status_controller()
+		if required_status_id != &"" and (controller == null or not controller.has_status(required_status_id)):
+			continue
+		result = max(result, float(source.get("vision_radius", result)))
+	return result
+
+
+## 局外装备代价已经在开局时写入属性；这里仅创建每场战斗都可见的规则状态。
+func _apply_carried_relic_penalty_status() -> void:
+	if player == null or run_stats == null or run_stats.carried_relic_penalty_rate <= 0.0:
+		return
+	var controller: StatusController = player.get_status_controller()
+	if controller == null:
+		return
+	var status_data: StatusData = WASTELAND_RESISTANCE_STATUS.duplicate(true) as StatusData
+	if status_data == null:
+		return
+	var penalty_percent: int = roundi(run_stats.carried_relic_penalty_rate * 100.0)
+	status_data.desc = "携带高阶局外装备进入荒域，最大生命与最大能量降低 %d%%。此状态持续整场战斗且不可驱散。" % penalty_percent
+	# 规则代价不能被“抵消负面状态”类效果拦截。
+	controller.add_status(status_data, player, &"carried_relic_penalty", 1, INF, true)
+
+
+## 厨王赛试吃奖励只持续本场战斗，使用状态修饰而非改动永久构筑。
+func _apply_pending_event_stats() -> void:
+	if run_stats == null or player == null or run_stats.pending_battle_all_primary_stats_bonus <= 0:
+		return
+	var controller: StatusController = player.get_status_controller()
+	if controller == null:
+		return
+	var bonus: int = run_stats.pending_battle_all_primary_stats_bonus
+	var effect := StatusAddStatsEffect.new()
+	for stat: StringName in StatsController.PRIMARY_STATS:
+		effect.stat_values[stat] = bonus
+	var status := StatusData.new()
+	status.id = &"event_cooking_tasting"
+	status.status_name = "厨王试吃"
+	status.desc = "本场战斗全部一级属性 +%d。" % bonus
+	status.polarity = StatusData.Polarity.POSITIVE
+	status.effects = [effect]
+	controller.add_status(status, player, &"event_cooking_tasting")
+	run_stats.pending_battle_all_primary_stats_bonus = 0
+
+
 func _exit_tree() -> void:
 	EventBus.is_battle_active = false
 	if EventBus.game_paused.is_connected(_handle_pause):
 		EventBus.game_paused.disconnect(_handle_pause)
 	if EventBus.equipment_update.is_connected(_refresh_consumable_ui):
 		EventBus.equipment_update.disconnect(_refresh_consumable_ui)
+	if EventBus.skill_loadout_changed.is_connected(_refresh_skill_ui):
+		EventBus.skill_loadout_changed.disconnect(_refresh_skill_ui)
 	if EventBus.bounty_enemy_killed.is_connected(_handle_bounty_enemy_killed):
 		EventBus.bounty_enemy_killed.disconnect(_handle_bounty_enemy_killed)
 	if EventBus.battle_end_requested.is_connected(_handle_battle_end_requested):
@@ -163,6 +317,21 @@ func _setup_battle_message_log() -> void:
 	battle_message_log.offset_bottom = 160.0
 
 
+## 将敌人方向提示挂到战斗 CanvasLayer，避免箭头随世界相机移动或缩放。
+func _setup_battle_target_indicators() -> void:
+	if battle_target_indicator_controller != null and is_instance_valid(battle_target_indicator_controller):
+		return
+	var ui_root: Control = get_node_or_null("CanvasLayer/UI") as Control
+	var battle_camera: Camera2D = get_node_or_null("Camera2D") as Camera2D
+	if ui_root == null or battle_camera == null or enemy_spawner == null:
+		return
+	battle_target_indicator_controller = BATTLE_TARGET_INDICATOR_SCENE.instantiate() as BattleTargetIndicatorController
+	if battle_target_indicator_controller == null:
+		return
+	ui_root.add_child(battle_target_indicator_controller)
+	battle_target_indicator_controller.bind(enemy_spawner, battle_camera)
+
+
 ## 从模板池选择一张 BattleMap 模板，替换场景里默认的兜底 BattleMap。
 ## 模板选择放在战斗初始化最前面，这样玩家出生点、敌人刷怪点、地图物件都会读取新地图。
 func _initialize_battle_map_template() -> void:
@@ -195,6 +364,16 @@ func _resolve_battle_map_template_path() -> String:
 				return saved_path
 			push_warning("存档中的战斗地图模板不存在，将重新抽取地图：%s" % saved_path)
 			run_stats.clear_battle_map_template()
+
+	# 专门编排的 Boss 战可固定模板；不提前加载 PackedScene，避免扩大编辑器递归依赖。
+	var battle_data: BattleStats = pending_battle_stats if pending_battle_stats != null else enemy_spawner.battle_stats
+	if battle_data != null and not battle_data.battle_map_template_path.strip_edges().is_empty():
+		var preferred_path: String = battle_data.battle_map_template_path.strip_edges()
+		if ResourceLoader.exists(preferred_path):
+			if run_stats != null:
+				run_stats.current_battle_map_template_path = preferred_path
+			return preferred_path
+		push_warning("指定战斗地图不存在，将回退到随机模板：%s" % preferred_path)
 
 	var valid_paths: Array[String] = _get_valid_battle_map_template_paths()
 	if valid_paths.is_empty():
@@ -438,7 +617,7 @@ func _handle_battle_completed(skip_level_up: bool) -> void:
 	if run_stats != null and run_stats.player_build != null:
 		run_stats.player_build.clear_temporary_relics()
 	if _is_boss_battle_completed():
-		EventBus.game_victory.emit()
+		EventBus.boss_battle_won.emit()
 		return
 
 	if skip_level_up:
@@ -558,6 +737,7 @@ func _refresh_consumable_ui() -> void:
 		return
 
 	consumable_container.set_relic(_get_equipped_consumable_relic())
+	consumable_container.set_cooldown_remaining(consumable_cooldowns.get_remaining(consumable_container.relic))
 
 
 # 绑定玩家身上的 StatusController，让状态 UI 跟随当前状态自动刷新。
@@ -611,9 +791,19 @@ func _clear_status_ui() -> void:
 
 # Q 使用消耗品入口：攻击型消耗品会先进入瞄准预览，普通消耗品仍然直接使用。
 func _begin_or_use_equipped_consumable() -> void:
+	if get_tree().paused or not is_instance_valid(player) or player.is_dead:
+		return
+	if not player.can_act():
+		FloatText.show_action_tip("当前无法行动，暂时不能使用消耗品", "consumable:control")
+		return
 	var consumable_data := _get_equipped_consumable_data()
 	var relic := consumable_data.get("relic") as Relic
 	if relic == null:
+		FloatText.show_action_tip("尚未穿戴消耗品，请在战斗外放入装备栏", "consumable:empty")
+		return
+	var remaining: float = consumable_cooldowns.get_remaining(relic)
+	if remaining > 0.0:
+		FloatText.show_action_tip("消耗品冷却中，还需%.1f秒" % remaining, "consumable:cooldown")
 		return
 
 	var aim_effect := _get_consumable_aim_effect(relic)
@@ -680,6 +870,11 @@ func _get_consumable_aim_effect(relic: Relic) -> UseSpawnManifestEffect:
 func _use_equipped_consumable(target_position: Variant = null, expected_slot_index: int = -1) -> void:
 	if player == null or run_stats == null or run_stats.player_build == null:
 		return
+	if get_tree().paused or player.is_dead:
+		return
+	if not player.can_act():
+		FloatText.show_action_tip("当前无法行动，暂时不能使用消耗品", "consumable:control")
+		return
 
 	var equipment := run_stats.player_build.player_equipment
 	if equipment == null:
@@ -696,25 +891,32 @@ func _use_equipped_consumable(target_position: Variant = null, expected_slot_ind
 		return
 
 	var relic := slot.item
-	if not relic.is_consumable:
+	if not relic.is_consumable or consumable_cooldowns.get_remaining(relic) > 0.0:
+		FloatText.show_action_tip("消耗品尚未准备好，请等待冷却结束", "consumable:cooldown")
 		return
 
+	# 先登记冷却，防止使用效果和信号回调再次进入使用入口。
+	consumable_cooldowns.start(relic)
 	consumable_use_count += 1
 	var relic_key := "consumable_use_%s_%s_%s" % [consumable_slot_index, relic.id, consumable_use_count]
 	relic.use_consumable(player, player.relic_controller, relic_key, target_position)
 	EventBus.consumable_used.emit(relic, player)
-	EventBus.relic_removed.emit(relic, "used")
-
-	var should_keep_consumable := run_stats.roll_keep_consumable()
-	if not should_keep_consumable:
-		slot.item = null
-		EventBus.equipment_update.emit()
-	else:
-		AudioController.play_ui_sound(&"get_item")
+	_settle_consumable_removal(slot, relic)
 
 	EventBus.attribute_update.emit()
 	_refresh_consumable_ui()
 	_sync_player_build_state()
+
+
+## 保留型消耗品仍触发使用事件，但不发送“装备已移除”，防止材料消耗效果误触发。
+func _settle_consumable_removal(slot: Slot, relic: Relic) -> void:
+	var should_keep: bool = relic.reusable_consumable or run_stats.roll_keep_consumable()
+	if should_keep:
+		AudioController.play_ui_sound(&"get_item")
+		return
+	slot.item = null
+	EventBus.relic_removed.emit(relic, "used")
+	EventBus.equipment_update.emit()
 
 
 func _get_equipped_consumable_data() -> Dictionary:

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ProfileEventData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+event_id = &"antique_clerk_old_badge"
+display_name = "旧徽章的新故事"
+description = "初见时，女店员赠予你旧徽章信物。首次凯旋后，你再次拜访，得知徽章原属于一位没能归来的客人。她希望旧故事能有一个新的结尾。你们约定以后仍在店里喝茶、聊聊旧货。"
+required_completed_event_ids = Array[StringName]([&"met_antique_clerk", &"first_run_victory"])

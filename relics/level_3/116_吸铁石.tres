@@ -6,8 +6,9 @@
 [ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="4_add_stats"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_tag"]
 [ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="6_tool_tag"]
-[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="7_material_tag"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料tag.tres" id="7_material_tag"]
 [ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="8_armor"]
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/meowa_sample_02/sprite_03.png" id="9_meowa_icon"]
 
 [sub_resource type="Resource" id="MagnetBreakArmor"]
 script = ExtResource("3_break_status")
@@ -24,6 +25,7 @@ add_stats = {
 [resource]
 script = ExtResource("1_relic")
 relic_name = "吸铁石"
+icon = ExtResource("9_meowa_icon")
 tooltip = "当你使一个敌人{poise_break}时，使自己获得1层{armor}，持续40秒。
 升级：{luck}+2，{strength}+2。"
 desc = "会把破碎盔甲上的铁屑一点点吸到自己身上。"

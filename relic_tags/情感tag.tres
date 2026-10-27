@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RelicTag" format=3 uid="uid://hjj7m0sxu800"]
+
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="1_w0fgw"]
+
+[resource]
+script = ExtResource("1_w0fgw")
+color = Color(0.8679263, 0.6980793, 0.7910986, 1)
+tag_name = "情感"
+metadata/_custom_type_script = "uid://bts8j8jm6rdpv"

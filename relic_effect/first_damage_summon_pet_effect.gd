@@ -21,6 +21,11 @@ extends RelicEffect
 @export var spawn_radius: float = 96.0
 @export var random_angle_offset: bool = true
 @export var spawn_parent_path: NodePath
+## 开启后，召唤物只会生成在玩家能够抵达的地图区域内。
+@export var use_battle_map_safe_placement: bool = true
+@export_range(0, 20, 1) var safe_search_radius_cells: int = 6
+@export_range(0, 3, 1) var spawn_clearance_cells: int = 0
+@export_range(0.0, 128.0, 1.0) var minimum_spawn_separation: float = 20.0
 
 @export_group("召唤物行为")
 @export var normal_ability_select_mode: SummonPet.AbilitySelectMode = SummonPet.AbilitySelectMode.FIRST_READY
@@ -146,8 +151,16 @@ func _spawn_pets(owner: Entity, relic_context: RelicContext, effect_key: String)
 		return
 
 	active_pets[effect_key] = []
+	var battle_map = _find_battle_map(owner)
+	var reserved_positions: Array[Vector2] = []
 	for offset in _build_spawn_offsets(count):
-		_spawn_one_pet(parent, owner, owner.global_position + offset, relic_context, effect_key)
+		var desired_position: Vector2 = owner.global_position + offset
+		var spawn_position_value: Variant = _resolve_safe_spawn_position(desired_position, battle_map, reserved_positions)
+		if not (spawn_position_value is Vector2):
+			continue
+		var spawn_position: Vector2 = spawn_position_value
+		reserved_positions.append(spawn_position)
+		_spawn_one_pet(parent, owner, spawn_position, relic_context, effect_key)
 
 
 func _spawn_one_pet(parent: Node, summoner: Entity, spawn_position: Vector2, relic_context: RelicContext, effect_key: String) -> void:
@@ -230,6 +243,28 @@ func _resolve_spawn_parent(owner: Entity) -> Node:
 
 	var tree = owner.get_tree()
 	return tree.current_scene if tree.current_scene != null else tree.root
+
+
+func _find_battle_map(owner: Entity) -> BattleMap:
+	if not use_battle_map_safe_placement or owner == null or owner.get_tree() == null:
+		return null
+	return owner.get_tree().get_first_node_in_group("battle_map") as BattleMap
+
+
+func _resolve_safe_spawn_position(
+	desired_position: Vector2,
+	battle_map: BattleMap,
+	reserved_positions: Array[Vector2]
+) -> Variant:
+	if battle_map == null:
+		return desired_position
+	return battle_map.get_nearest_playable_position(
+		desired_position,
+		safe_search_radius_cells,
+		spawn_clearance_cells,
+		reserved_positions,
+		minimum_spawn_separation
+	)
 
 
 func _disconnect_entry(effect_key: String) -> void:

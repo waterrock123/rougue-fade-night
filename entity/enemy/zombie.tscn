@@ -1,0 +1,67 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/entity/free_for_all_enemy.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://sprite_frames/zombie_sprite_frames.tres" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/core/ability_controller.gd" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/ability/zombie_basic_attack.tscn" id="4"]
+[ext_resource type="Script" path="res://scripts/entity/pathfinding.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/stats/stats_controller.gd" id="6"]
+[ext_resource type="Resource" path="res://entity/enemy/zombie.tres" id="7"]
+[ext_resource type="Script" path="res://scripts/stats/modifier_handler.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/status/status_controller.gd" id="9"]
+
+[sub_resource type="CircleShape2D" id="Body"]
+radius = 6.0
+
+[sub_resource type="CapsuleShape2D" id="Hurtbox"]
+radius = 7.0
+height = 22.0
+
+[node name="Zombie" type="CharacterBody2D"]
+texture_filter = 1
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1")
+aggresive = true
+stop_distance = 24.0
+chase_distance = 320.0
+sprite_faces_left_by_default = false
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Body")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -13)
+sprite_frames = ExtResource("2")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 1
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -10)
+shape = SubResource("Hurtbox")
+
+[node name="AbilityController" type="Node" parent="."]
+script = ExtResource("3")
+
+[node name="ZombieBasicAttack" parent="AbilityController" instance=ExtResource("4")]
+
+[node name="Pathfinding" type="Node2D" parent="."]
+script = ExtResource("5")
+
+[node name="ModifierHandler" type="Node" parent="."]
+script = ExtResource("8")
+
+[node name="StatsController" type="Node" parent="."]
+script = ExtResource("6")
+stats_data = ExtResource("7")
+
+[node name="StatusController" type="Node" parent="."]
+script = ExtResource("9")
+
+[node name="VFXAnchor" type="Node2D" parent="."]
+position = Vector2(0, -13)

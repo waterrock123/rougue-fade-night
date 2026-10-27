@@ -1,0 +1,44 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_timed_sequence.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_ai_target_direction.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_sector_warning.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_component_group.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_get_targets.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_deal_damage.gd" id="7"]
+
+[node name="MushroomRootSweep" type="Node"]
+script = ExtResource("1")
+cooldown = 0.1
+energy_cost = 0.0
+ai_max_cast_distance = 140.0
+
+[node name="Sequence" type="Node" parent="."]
+script = ExtResource("2")
+total_duration = 1.8
+animation_name = &"attack"
+
+[node name="LockDirection" type="Node" parent="Sequence"]
+script = ExtResource("3")
+
+[node name="Warning" type="Node" parent="Sequence"]
+script = ExtResource("4")
+
+[node name="Impact" type="Node" parent="Sequence"]
+script = ExtResource("5")
+exec_delay = 0.8
+
+[node name="Targets" type="Node" parent="Sequence/Impact"]
+script = ExtResource("6")
+radius = 130.0
+search_shape = 1
+sector_angle = 110.0
+direction_mode = 4
+
+[node name="Damage" type="Node" parent="Sequence/Impact"]
+script = ExtResource("7")
+damage = 24.0
+can_crit = false
+tags = Array[String](["skill", "melee", "root_sweep"])
+poise_damage = 0.0

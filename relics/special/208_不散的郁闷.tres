@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bybnibfge54yw"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_yxiay"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_e1h8i"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_fj0t2"]
+[ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="4_6ajnd"]
+[ext_resource type="Resource" uid="uid://hjj7m0sxu800" path="res://relic_tags/情感tag.tres" id="5_o3m3r"]
+[ext_resource type="Resource" uid="uid://c63c0x530j3u6" path="res://relic_tags/洞察tag.tres" id="6_u2q5e"]
+[ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://relic_effect/add_derived_stat_effect.gd" id="7_derived"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="8_stats"]
+[ext_resource type="Texture2D" uid="uid://d3gvnac77tfrs" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb8.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="GloomUpgradeCharm"]
+script = ExtResource("8_stats")
+add_stats = {
+"charm": 5
+}
+
+[sub_resource type="Resource" id="GloomInventoryPenalty"]
+script = ExtResource("7_derived")
+add_derived_stats = {
+"energy_regen_multiplier": {
+"type": "percent",
+"value": -0.5
+},
+"healing_received_multiplier": {
+"type": "percent",
+"value": -0.5
+}
+}
+
+[resource]
+script = ExtResource("2_e1h8i")
+relic_name = "不散的郁闷"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "处于背包中时，你的能量恢复效率变低，受到的治疗效果变为原来50%
+升级：魅力+5"
+desc = "具象的情感，有时候一件小事会让人郁闷许久，体现为贴在人身上的小纸条"
+level = 3
+tags = Array[ExtResource("3_fj0t2")]([ExtResource("4_6ajnd"), ExtResource("5_o3m3r"), ExtResource("6_u2q5e")])
+id = "208"
+great_effects = Array[ExtResource("1_yxiay")]([SubResource("GloomUpgradeCharm")])
+inventory_effects = Array[ExtResource("1_yxiay")]([SubResource("GloomInventoryPenalty")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

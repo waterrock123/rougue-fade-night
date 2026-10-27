@@ -1,0 +1,14 @@
+{
+  "source_file": "res://assets/enemy/mushroom_tree_boss/animation_reference.png",
+  "fields": {
+    "action_timeline": "0.00-0.50: root arms fold inward, rooted base compresses into the ground in place. 0.50-1.00: tree crouches very low and roots retract, crown lowers toward the stationary root anchor. 1.00-1.50: roots unfold and trunk rises vertically in the SAME place. 1.50-2.00: crown settles and return to exact initial rooted stance. No horizontal movement, no camera movement, no ground or scenery. Runtime handles teleportation. The source is a 192x192 transparent CANVAS with a smaller 118-pixel-tall character centered inside. Preserve EXACT canvas 192x192 and character size, identity, earthy pixel palette and crisp outlines. NEVER zoom in or enlarge the character to fill the frame. Keep its root anchor at the original position. Crucially, all moving arms, crown, roots and spore particles must stay at least 8 pixels away from every canvas edge throughout ALL frames. Use the empty margin for the sweep. Front-facing stationary view, no walking, no spinning, no background, no floor shadow, no camera movement, no blur. Return to reference stance except death.",
+    "style_mode": "pixel",
+    "resolution": "480p",
+    "alpha_mode": "sharp",
+    "duration_seconds": 2,
+    "quality_mode": "standard",
+    "animation_mode": "non_loop",
+    "remove_bg_method": "standard",
+    "remove_bg_batch_size": "16"
+  }
+}

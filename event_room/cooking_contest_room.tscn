@@ -1,0 +1,117 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://event_room/cooking_contest_room.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/ai art/事件背景/《厨王争霸赛》.png" id="2_background"]
+[ext_resource type="PackedScene" path="res://event_room/event_button.tscn" id="3_button"]
+
+[node name="CookingContestRoom" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_background")
+expand_mode = 1
+stretch_mode = 6
+mouse_filter = 2
+
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.06, 0.05, 0.04, 0.5)
+mouse_filter = 2
+
+[node name="DescLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 700.0
+offset_top = 110.0
+offset_right = 1820.0
+offset_bottom = 470.0
+theme_override_font_sizes/font_size = 36
+text = "在荒域中有一群比拼厨艺的厨师，以及一群好事的观众和评委。一位工作人员为我介绍了这场比赛，并递来指导手册。"
+autowrap_mode = 2
+
+[node name="IngredientButton" parent="." instance=ExtResource("3_button")]
+layout_mode = 0
+offset_left = 730.0
+offset_top = 515.0
+offset_right = 1450.0
+offset_bottom = 608.0
+pressed_desc = Array[String](["我为一位大厨提供了原料。为了感谢我，他特意准备了精心制作的佳肴。"])
+desc_text = "提供特别的原料"
+detail_text = "随机送出背包内一件原料装备，获得一件升级的同阶佳肴装备"
+
+[node name="DishButton" parent="." instance=ExtResource("3_button")]
+layout_mode = 0
+offset_left = 730.0
+offset_top = 635.0
+offset_right = 1450.0
+offset_bottom = 728.0
+pressed_desc = Array[String](["我的菜肴让一众评委给出了不错的评价，我获得了应有的奖励。", "我的菜肴惊艳了全场！主办方拿出了他们的诚意！"])
+desc_text = "展示我的好菜"
+detail_text = "选择背包内一件佳肴；按等阶获得金币及同阶装备"
+
+[node name="TasteButton" parent="." instance=ExtResource("3_button")]
+layout_mode = 0
+offset_left = 730.0
+offset_top = 755.0
+offset_right = 1450.0
+offset_bottom = 848.0
+pressed_desc = Array[String](["这里有许多新奇美味的菜肴。如果不是时间不够，我想我一定会待更久。"])
+desc_text = "作为观众品尝美食"
+detail_text = "恢复50%最大生命，下场战斗全属性+1"
+
+[node name="LeaveButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1510.0
+offset_top = 865.0
+offset_right = 1830.0
+offset_bottom = 965.0
+theme_override_font_sizes/font_size = 48
+text = "离开"
+
+[node name="DishPicker" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 620.0
+offset_top = 270.0
+offset_right = 1310.0
+offset_bottom = 780.0
+
+[node name="VBox" type="VBoxContainer" parent="DishPicker"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="DishPicker/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "选择要展示的佳肴（不会消耗）"
+
+[node name="Scroll" type="ScrollContainer" parent="DishPicker/VBox"]
+custom_minimum_size = Vector2(0, 360)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DishList" type="VBoxContainer" parent="DishPicker/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CancelButton" type="Button" parent="DishPicker/VBox"]
+layout_mode = 2
+text = "取消"
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]
+[connection signal="pressed" from="DishPicker/VBox/CancelButton" to="DishPicker" method="hide"]

@@ -66,15 +66,17 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if is_dead: return
+	_update_character_weapon()
 	# Player 没有 Enemy 那样的移动锁计时循环，这里统一推进它，供持续施法、前摇等组件使用。
 	movement_lock_timer = maxf(movement_lock_timer - delta, 0.0)
+	# 受控时仍读取“刚按下”的技能操作，让统一输入入口能说明不能施法的原因。
+	_handle_ability_input()
 	if not can_act():
 		is_moving = false
 		clear_terrain_motion_velocity()
 		footstep_effect.stop()
 		footstep_timer = 0.0
 		return
-	_handle_ability_input()
 	_handle_movement(delta)
 	_handle_footstep_sound(delta)
 	_handle_region_energy(delta)
@@ -98,7 +100,7 @@ func _handle_ability_action(action_name: StringName, ability_index: int) -> void
 	if Input.is_action_just_pressed(action_name):
 		ability_controller.begin_ability_preview_by_idx(ability_index)
 	# 第一个技能槽固定为基础攻击。按住时会持续尝试释放，实际频率仍由技能冷却控制。
-	elif ability_index == 0 and Input.is_action_pressed(action_name):
+	elif ability_index == 0 and can_act() and Input.is_action_pressed(action_name):
 		ability_controller.trigger_held_ability_by_idx(ability_index)
 	if Input.is_action_just_released(action_name):
 		ability_controller.release_ability_preview_by_idx(ability_index)
@@ -150,6 +152,7 @@ func bind_player_build(player_build: PlayerBuild, new_character: Character = nul
 func bind_character(new_character: Character) -> void:
 	character = new_character
 	character_visual_data = new_character.visual_data if new_character != null else null
+	_apply_character_weapon()
 	if character_visual_data == null or animated_sprite == null:
 		return
 
@@ -164,10 +167,52 @@ func bind_character(new_character: Character) -> void:
 		animated_sprite.play(default_animation)
 	elif character_visual_data.has_animation(&"idle"):
 		animated_sprite.play(&"idle")
+
+
+## 将角色视觉资源中的武器配置应用到 Player 的通用 Weapon 节点。
+func _apply_character_weapon() -> void:
+	var weapon_sprite: Sprite2D = weapon as Sprite2D
+	if weapon_sprite == null:
+		return
+	weapon_sprite.visible = false
+	weapon_sprite.texture = null
+	weapon_sprite.position = Vector2.ZERO
+	weapon_sprite.rotation = 0.0
+	weapon_sprite.scale = Vector2.ONE
+	weapon_sprite.flip_v = false
+	weapon_sprite.z_index = -1
+	if character_visual_data == null or not character_visual_data.show_weapon or character_visual_data.weapon_texture == null:
+		return
+	weapon_sprite.texture = character_visual_data.weapon_texture
+	weapon_sprite.position = character_visual_data.weapon_offset
+	weapon_sprite.rotation = character_visual_data.weapon_rotation_offset
+	weapon_sprite.scale = character_visual_data.weapon_scale
+	weapon_sprite.flip_v = character_visual_data.weapon_base_flip_vertical
+	weapon_sprite.z_index = character_visual_data.weapon_z_index
+	weapon_sprite.visible = true
+
+
+## 只有配置了鼠标瞄准的角色才更新朝向，例如使用手枪的浪子。
+func _update_character_weapon() -> void:
+	if character_visual_data == null or not character_visual_data.weapon_tracks_mouse:
+		return
+	var weapon_sprite: Sprite2D = weapon as Sprite2D
+	if weapon_sprite == null or not weapon_sprite.visible:
+		return
+	var aim_direction: Vector2 = get_global_mouse_position() - global_position
+	if aim_direction.length_squared() <= 0.0001:
+		return
+	aim_direction = aim_direction.normalized()
+	var aim_angle: float = aim_direction.angle()
+	weapon_sprite.rotation = aim_angle + character_visual_data.weapon_rotation_offset
+	# 以翻转垂直像素的方式保持武器握把朝下，避免朝左时倒置。
+	var aim_flip_vertical: bool = aim_direction.x < 0.0 if character_visual_data.weapon_points_right else aim_direction.x > 0.0
+	weapon_sprite.flip_v = aim_flip_vertical != character_visual_data.weapon_base_flip_vertical
+	weapon_sprite.position = character_visual_data.weapon_offset.rotated(aim_angle)
 	
 
 func _handle_abilities(ability:Ability):
-	ability_controller.trigger_ability(ability)
+	ability_controller.request_player_cast(ability)
 
 
 func apply_runtime_stats(final_stats: Dictionary) -> void:
@@ -260,7 +305,8 @@ func _handle_region_energy(delta: float):
 		
 	if energy_timer >= energy_region_freq:
 		energy_timer = 0
-		current_energy += energy_region_tick_value
+		var regen_multiplier: float = max(stats_controller.get_stat(&"energy_regen_multiplier", 1.0), 0.0) if stats_controller != null else 1.0
+		current_energy += energy_region_tick_value * regen_multiplier
 		current_energy = min(current_energy,max_energy)
 		if stats_controller != null:
 			stats_controller.current_energy = current_energy

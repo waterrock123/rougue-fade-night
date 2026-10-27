@@ -1,0 +1,54 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="Ability"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_area_indicator.gd" id="Indicator"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_turn_to_mouse.gd" id="Aim"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_leap_to_cursor.gd" id="Leap"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_get_combat_targets.gd" id="Query"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_deal_damage.gd" id="Damage"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="Rule"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_spawn_manifest.gd" id="Spawn"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/shock_wave_manifest.tscn" id="Visual"]
+
+[sub_resource type="Resource" id="Scaling"]
+script = ExtResource("Rule")
+physical_formula = "strength * 1.5"
+ranged_formula = ""
+
+[node name="WarriorLeapSlamAbility" type="Node"]
+script = ExtResource("Ability")
+cooldown = 8.0
+energy_cost = 12.0
+
+[node name="Indicator" type="Node" parent="."]
+script = ExtResource("Indicator")
+shape = 4
+radius = 180.0
+target_radius = 75.0
+border_width = 1.0
+fill_color = Color(0.9, 0.55, 0.15, 0.08)
+target_fill_color = Color(1, 0.6, 0.1, 0.16)
+
+[node name="Aim" type="Node" parent="."]
+script = ExtResource("Aim")
+
+[node name="Leap" type="Node" parent="."]
+script = ExtResource("Leap")
+max_distance = 180.0
+
+[node name="LandingVisual" type="Node" parent="Leap"]
+script = ExtResource("Spawn")
+manifest_scene = ExtResource("Visual")
+scale_multiplier = 0.75
+rotate_to_direction = false
+
+[node name="Targets" type="Node" parent="Leap"]
+script = ExtResource("Query")
+radius = 75.0
+require_line_of_sight = true
+
+[node name="Damage" type="Node" parent="Leap"]
+script = ExtResource("Damage")
+damage = 30.0
+tags = Array[String](["skill", "melee", "leap_slam"])
+scaling_rule = SubResource("Scaling")
+poise_damage = 36.0

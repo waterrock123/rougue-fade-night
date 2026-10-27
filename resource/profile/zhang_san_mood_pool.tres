@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RelicPool" format=3]
+
+[ext_resource type="Script" path="res://custom_resource/relic_pool.gd" id="1_pool"]
+[ext_resource type="Script" path="res://custom_resource/relic.gd" id="2_relic"]
+[ext_resource type="Resource" path="res://relics/special/207_自然的喜悦.tres" id="3_joy"]
+
+[resource]
+script = ExtResource("1_pool")
+relics = Array[ExtResource("2_relic")]([ExtResource("3_joy")])

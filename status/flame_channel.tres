@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="StatusData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1_data"]
+[ext_resource type="Script" path="res://scripts/status/status_effect.gd" id="2_base"]
+[ext_resource type="Script" path="res://scripts/status/status_add_stat_effect.gd" id="3_stat"]
+[ext_resource type="Script" path="res://scripts/status/status_block_abilities_effect.gd" id="4_block"]
+
+[sub_resource type="Resource" id="HalfMoveSpeed"]
+script = ExtResource("3_stat")
+stat_name = &"move_speed"
+value_per_stack = -0.5
+modifier_type = 1
+
+[sub_resource type="Resource" id="BlockBasicAndRecast"]
+script = ExtResource("4_block")
+ability_ids = Array[StringName]([&"111"])
+
+[resource]
+script = ExtResource("1_data")
+id = &"flame_channel"
+status_name = "喷射火焰"
+desc = "移动速度减半，不能使用基础攻击或重复开启喷射火焰；其他主动技能仍可使用。"
+duration = 5.0
+dispellable = false
+effects = Array[ExtResource("2_base")]([SubResource("HalfMoveSpeed"), SubResource("BlockBasicAndRecast")])

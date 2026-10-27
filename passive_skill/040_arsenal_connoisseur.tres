@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_tagged_relic_bonus_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/GunsPack/Bullets/ShotgunShellBig.png" id="4"]
+
+
+
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("3")
+damage_per_kind = 0.05
+max_damage_bonus = 0.4
+crit_per_kind = 0.01
+max_crit_bonus = 0.08
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Effect")])
+id = &"040"
+skill_name = "军火鉴赏家"
+desc = "装备栏与背包每携带一种不同弹药装备，{projectile}的完整伤害提高5%，最多提高40%；每种不同弹药额外提供1%{crit_chance}，最多8%。同种装备的升级态与未升级态只算一种，临时弹药也参与统计。"
+icon = ExtResource("4")
+allowed_character_ids = Array[StringName]([&"scount"])
+is_upgrade_skill = true

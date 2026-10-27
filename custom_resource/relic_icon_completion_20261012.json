@@ -1,0 +1,434 @@
+{
+  "date": "2026-10-12",
+  "provider": "Meowa API",
+  "budget_limit": 100,
+  "actual_spent": 100,
+  "existing_count": 12,
+  "new_count": 22,
+  "batches": [
+    {
+      "batch": 1,
+      "job": "job_d8497435501441499b06799b3604bcbb",
+      "cost": 20,
+      "icons": [
+        [
+          108,
+          "108_generator",
+          0
+        ],
+        [
+          109,
+          "109_surge_core",
+          1
+        ],
+        [
+          110,
+          "110_electromagnetic_converter",
+          2
+        ],
+        [
+          137,
+          "137_chaos_generator",
+          3
+        ],
+        [
+          138,
+          "138_order_keeper",
+          4
+        ]
+      ]
+    },
+    {
+      "batch": 2,
+      "job": "job_149f2759573b4b6ba162a8766c9901b9",
+      "cost": 20,
+      "icons": [
+        [
+          134,
+          "134_watermelon",
+          0
+        ],
+        [
+          135,
+          "135_chilled_watermelon",
+          2
+        ],
+        [
+          140,
+          "140_chocolate_ice_cream",
+          3
+        ],
+        [
+          129,
+          "129_family_bucket",
+          4
+        ],
+        [
+          122,
+          "122_reincarnation_sausage",
+          5
+        ]
+      ]
+    },
+    {
+      "batch": 3,
+      "job": "job_f451888280524de4a9e3e1ad92205df8",
+      "cost": 20,
+      "icons": [
+        [
+          101,
+          "101_delivery_jacket",
+          1
+        ],
+        [
+          114,
+          "114_mother_hen_medal",
+          3
+        ],
+        [
+          120,
+          "120_aw_hoodie",
+          6
+        ],
+        [
+          126,
+          "126_parasitic_armor",
+          10
+        ],
+        [
+          136,
+          "136_flamethrower",
+          12
+        ]
+      ]
+    },
+    {
+      "batch": 4,
+      "job": "job_a8c1413f7f6b49f880441fd1cf7e49be",
+      "cost": 20,
+      "icons": [
+        [
+          130,
+          "130_white_flower",
+          0
+        ],
+        [
+          131,
+          "131_red_flower",
+          2
+        ],
+        [
+          207,
+          "207_natural_joy_chips",
+          1
+        ]
+      ]
+    },
+    {
+      "batch": 5,
+      "job": "job_ab139612527d4c84959dbb1fe0a58d0c",
+      "cost": 20,
+      "icons": [
+        [
+          99,
+          "099_final_battle_horn",
+          0
+        ],
+        [
+          141,
+          "141_alien_warhammer",
+          1
+        ],
+        [
+          139,
+          "139_cursed_mooncake",
+          6
+        ],
+        [
+          206,
+          "206_fated_stone_hammer",
+          3
+        ]
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "id": "099",
+      "name": "决战号角",
+      "resource_path": "res://relics/level_6/099_决战号角.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/099_final_battle_horn.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "101",
+      "name": "配送服",
+      "resource_path": "res://relics/level_4/101_配送服.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/101_delivery_jacket.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "102",
+      "name": "万变饮料瓶",
+      "resource_path": "res://relics/level_4/102_万变饮料瓶.tres",
+      "icon_path": "res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb286.png",
+      "source": "existing",
+      "atlas_region": null
+    },
+    {
+      "id": "108",
+      "name": "发电机",
+      "resource_path": "res://relics/level_4/108_发电机.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/108_generator.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "109",
+      "name": "电涌核心",
+      "resource_path": "res://relics/level_5/109_电涌核心.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/109_surge_core.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "110",
+      "name": "电磁转化器",
+      "resource_path": "res://relics/level_6/110_电磁转化器.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/110_electromagnetic_converter.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "114",
+      "name": "鸡妈妈勋章",
+      "resource_path": "res://relics/level_4/114_鸡妈妈勋章.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/114_mother_hen_medal.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "115",
+      "name": "铁牙签",
+      "resource_path": "res://relics/level_2/115_铁牙签.tres",
+      "icon_path": "res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1604.png",
+      "source": "existing",
+      "atlas_region": null
+    },
+    {
+      "id": "118",
+      "name": "超级火花手镯",
+      "resource_path": "res://relics/level_6/118_超级火花手镯.tres",
+      "icon_path": "res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1837.png",
+      "source": "existing",
+      "atlas_region": null
+    },
+    {
+      "id": "120",
+      "name": "AW连帽卫衣",
+      "resource_path": "res://relics/level_5/120_AW连帽卫衣.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/120_aw_hoodie.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "121",
+      "name": "狼奶",
+      "resource_path": "res://relics/level_5/121_狼奶.tres",
+      "icon_path": "res://assets/ai art/装备icon/meowa_sample_01/111_milk.png",
+      "source": "existing",
+      "atlas_region": null
+    },
+    {
+      "id": "122",
+      "name": "轮回肠",
+      "resource_path": "res://relics/level_5/122_轮回肠.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/122_reincarnation_sausage.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "123",
+      "name": "百宝罐",
+      "resource_path": "res://relics/level_5/123_百宝罐.tres",
+      "icon_path": "res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1.png",
+      "source": "existing",
+      "atlas_region": null
+    },
+    {
+      "id": "126",
+      "name": "寄生铠甲",
+      "resource_path": "res://relics/level_5/126_寄生铠甲.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/126_parasitic_armor.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "129",
+      "name": "肯塔基全家桶",
+      "resource_path": "res://relics/level_5/129_肯塔基全家桶.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/129_family_bucket.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "130",
+      "name": "白花",
+      "resource_path": "res://relics/level_5/130_白花.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/130_white_flower.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "131",
+      "name": "红花",
+      "resource_path": "res://relics/level_5/131_红花.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/131_red_flower.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "132",
+      "name": "园艺铲",
+      "resource_path": "res://relics/level_4/132_园艺铲.tres",
+      "icon_path": "res://assets/tileset/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic_tools_and_meterials.png",
+      "source": "existing",
+      "atlas_region": [
+        16,
+        0,
+        16,
+        16
+      ]
+    },
+    {
+      "id": "133",
+      "name": "巨石精神",
+      "resource_path": "res://relics/level_5/133_巨石精神.tres",
+      "icon_path": "res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb29.png",
+      "source": "existing",
+      "atlas_region": null
+    },
+    {
+      "id": "134",
+      "name": "西瓜",
+      "resource_path": "res://relics/level_2/134_西瓜.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/134_watermelon.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "135",
+      "name": "冰镇西瓜",
+      "resource_path": "res://relics/level_3/135_冰镇西瓜.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/135_chilled_watermelon.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "136",
+      "name": "喷火器",
+      "resource_path": "res://relics/level_4/136_喷火器.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/136_flamethrower.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "137",
+      "name": "混沌发生器",
+      "resource_path": "res://relics/level_5/137_混沌发生器.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/137_chaos_generator.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "138",
+      "name": "试做型秩序维持器",
+      "resource_path": "res://relics/level_6/138_试做型秩序维持器.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/138_order_keeper.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "139",
+      "name": "诅咒月饼",
+      "resource_path": "res://relics/level_6/139_诅咒月饼.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/139_cursed_mooncake.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "140",
+      "name": "巧克力夹心雪糕",
+      "resource_path": "res://relics/level_4/140_巧克力夹心雪糕.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/140_chocolate_ice_cream.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "141",
+      "name": "异星战锤",
+      "resource_path": "res://relics/level_5/141_异星战锤.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/141_alien_warhammer.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "204",
+      "name": "略微的失望",
+      "resource_path": "res://relics/special/204_略微的失望.tres",
+      "icon_path": "res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb403.png",
+      "source": "existing",
+      "atlas_region": null
+    },
+    {
+      "id": "205",
+      "name": "命定之剑",
+      "resource_path": "res://relics/special/205_命定之剑.tres",
+      "icon_path": "res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1529.png",
+      "source": "existing",
+      "atlas_region": null
+    },
+    {
+      "id": "206",
+      "name": "命定的石锤？",
+      "resource_path": "res://relics/special/206_命定的石锤？.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/206_fated_stone_hammer.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "207",
+      "name": "自然的喜悦",
+      "resource_path": "res://relics/special/207_自然的喜悦.tres",
+      "icon_path": "res://assets/ai art/装备icon/completion_20261012/207_natural_joy_chips.png",
+      "source": "meowa",
+      "atlas_region": null
+    },
+    {
+      "id": "208",
+      "name": "不散的郁闷",
+      "resource_path": "res://relics/special/208_不散的郁闷.tres",
+      "icon_path": "res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb8.png",
+      "source": "existing",
+      "atlas_region": null
+    },
+    {
+      "id": "209",
+      "name": "改变的欣喜",
+      "resource_path": "res://relics/special/209_改变的欣喜.tres",
+      "icon_path": "res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb511.png",
+      "source": "existing",
+      "atlas_region": null
+    },
+    {
+      "id": "210",
+      "name": "胸有成竹的自信",
+      "resource_path": "res://relics/special/210_胸有成竹的自信.tres",
+      "icon_path": "res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1495.png",
+      "source": "existing",
+      "atlas_region": null
+    }
+  ]
+}

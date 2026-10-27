@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_ability_cast_tuning_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Purple Effect and Bullet 16x16.png" id="4"]
+
+[sub_resource type="Resource" id="Tuning"]
+script = ExtResource("3")
+target_ability_ids = Array[StringName]([&"112"])
+charge_enabled = true
+
+[sub_resource type="AtlasTexture" id="Icon"]
+atlas = ExtResource("4")
+region = Rect2(160, 16, 16, 16)
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Tuning")])
+id = &"023"
+skill_name = "魔法飞弹-射线"
+desc = "基础攻击改为按住蓄力、松开释放。点按发射普通魔法飞弹，基础蓄力3.5秒时飞弹伤害达到原伤害的200%，蓄力时间随基础攻击的冷却减免同比缩短。满蓄力额外向鼠标方向发射持续2秒、射程160的激光，缓慢跟随鼠标转向，每0.2秒造成2.5+{intelligence}的闪电伤害，期间可以移动。不继承进阶的增伤与冷却减半。"
+icon = SubResource("Icon")
+is_upgrade_skill = true
+allowed_character_ids = Array[StringName]([&"wizard"])

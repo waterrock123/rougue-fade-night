@@ -15,7 +15,9 @@ func build_modifier() -> Modifier:
 	if type == "percent":
 		modifier_type = Modifier.ModifierType.PERCENT
 
-	return Modifier.new(stat, modifier_type, value, source, duration)
+	var modifier: Modifier = Modifier.new(stat, modifier_type, value, source, duration)
+	modifier.gain_ledger_key = "modifier_node_%d" % get_instance_id()
+	return modifier
 
 
 # 判断这个节点修饰器当前是否参与属性计算。

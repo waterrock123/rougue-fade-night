@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="ProfileEventDatabase" format=3 uid="uid://by7ofl27brysh"]
+
+[ext_resource type="Script" uid="uid://bbmhm4a4s0tv" path="res://scripts/profile/profile_event_database.gd" id="1_database"]
+[ext_resource type="Script" uid="uid://b3kf1hcic7vgi" path="res://scripts/profile/profile_event_data.gd" id="1_urpwv"]
+[ext_resource type="Resource" path="res://resource/profile/events/met_lost_recorder.tres" id="2_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/met_antique_clerk.tres" id="3_event"]
+
+[ext_resource type="Resource" path="res://resource/profile/events/first_run_victory.tres" id="4_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/antique_clerk_old_badge.tres" id="5_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/scavenger_warehouse_unlocked.tres" id="6_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/warehouse_upgrade_plan_started.tres" id="7_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/warehouse_relic_field_test_complete.tres" id="8_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/warehouse_upgrade_plan_completed.tres" id="9_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/invited_xiaole.tres" id="10_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/appetite_trade_unlocked.tres" id="11_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/appetite_cuisine_offered.tres" id="12_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/appetite_first_cuisine_gift.tres" id="13_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/appetite_gift_adventure_complete.tres" id="14_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/appetite_high_cuisine_requested.tres" id="15_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/appetite_high_cuisine_completed.tres" id="16_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/appetite_tea_requested.tres" id="17_event"]
+[ext_resource type="Resource" path="res://resource/profile/events/appetite_without_end.tres" id="18_event"]
+
+[ext_resource type="Resource" path="res://resource/profile/events/invited_zhang_san.tres" id="19_zhang"]
+[ext_resource type="Resource" path="res://resource/profile/events/zhang_san_requested.tres" id="20_zhang"]
+[ext_resource type="Resource" path="res://resource/profile/events/zhang_san_facilities_ready.tres" id="21_zhang"]
+[ext_resource type="Resource" path="res://resource/profile/events/zhang_san_mood_introduction.tres" id="22_zhang"]
+
+[resource]
+script = ExtResource("1_database")
+events = Array[ExtResource("1_urpwv")]([ExtResource("2_event"), ExtResource("3_event"), ExtResource("4_event"), ExtResource("5_event"), ExtResource("6_event"), ExtResource("7_event"), ExtResource("8_event"), ExtResource("9_event"), ExtResource("10_event"), ExtResource("11_event"), ExtResource("12_event"), ExtResource("13_event"), ExtResource("14_event"), ExtResource("15_event"), ExtResource("16_event"), ExtResource("17_event"), ExtResource("18_event"), ExtResource("19_zhang"), ExtResource("20_zhang"), ExtResource("21_zhang"), ExtResource("22_zhang")])

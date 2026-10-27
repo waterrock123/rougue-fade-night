@@ -4,6 +4,8 @@ class_name WeightedRelicEffectOption
 extends Resource
 
 @export var option_name: String = ""
+## 可选的结果图标，配送货物等视觉展示可直接读取，不参与概率计算。
+@export var icon: Texture2D
 @export var weight: float = 1.0
 @export var require_levelup: bool = false
 @export var effects: Array[RelicEffect] = []

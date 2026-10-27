@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "0.00-1.00s: This exact small crystal sentinel faces RIGHT and hovers very subtly up and down, its short crystal arms relaxed. 1.00-2.00s: Return to the identical original height and pose for a seamless idle loop. No rotation, no camera movement, no particles. Preserve the exact source character, colors, pixel size, proportions and silhouette. Fixed three-quarter side view facing right, fixed camera, full body visible throughout, transparent background, no floor shadow, no additional objects, no text, no blur.",
+		"alpha_mode": "sharp",
+		"animation_mode": "loop",
+		"duration_seconds": 2.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/enemy/frost_crystal_sentinel/source.png"
+}

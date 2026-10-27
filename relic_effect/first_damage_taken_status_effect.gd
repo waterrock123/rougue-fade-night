@@ -20,6 +20,9 @@ func on_activate(relic_context: RelicContext, effect_key) -> void:
 	var key := str(effect_key)
 	if active_connections.has(key):
 		return
+	# 战斗内的玩家节点就是本场计数载体；装备重建不能再次领取首次受伤奖励。
+	if owner.has_meta(_trigger_marker(key)):
+		return
 
 	var callback := Callable(self, "_on_damage_taken").bind(owner, key)
 	owner.damage_taken.connect(callback)
@@ -54,13 +57,20 @@ func _on_damage_taken(damage_data: DamageData, owner: Entity, effect_key: String
 		return
 	if owner == null or not is_instance_valid(owner):
 		return
+	if not EventBus.is_battle_active or owner.is_dead or owner.current_health <= 0.0 or owner.has_meta(_trigger_marker(effect_key)):
+		return
 
 	var status_controller := owner.get_status_controller()
 	if status_controller == null:
 		return
 
 	triggered_keys[effect_key] = true
+	owner.set_meta(_trigger_marker(effect_key), true)
 	status_controller.add_status(status_data, owner, effect_key, stacks, duration_override)
+
+
+func _trigger_marker(effect_key: String) -> StringName:
+	return StringName("first_damage_status_" + effect_key)
 
 
 func _get_owner_entity(relic_context: RelicContext) -> Entity:

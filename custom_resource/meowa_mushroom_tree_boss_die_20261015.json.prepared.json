@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "0.00-0.50: amber eye glow goes out, trunk shudders and root arms weaken. 0.50-1.20: root arms collapse inward and mushroom crown droops, trunk slumps downward into a low defeated stump. 1.20-1.70: final small settling motion. 1.70-2.00: hold the defeated pose completely still. No revival, no fade out, no loop, no gore. Preserve the exact mushroom-crown ancient-tree boss identity, earthy pixel palette, crisp dark outlines, front-facing view and transparent 128x128 canvas of the reference. Root base anchored at the same lower-center point except vertical compression. Entire crown and both arms stay inside the canvas, no cropping, no walk, no spinning, no zoom, no blur, no added background. Each action is a true continuous animation of ONE character.",
+		"alpha_mode": "sharp",
+		"animation_mode": "non_loop",
+		"duration_seconds": 2.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/enemy/mushroom_tree_boss/source.png"
+}

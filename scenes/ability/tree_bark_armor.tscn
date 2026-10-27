@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1_ability"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_movement.gd" id="2_lock"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_apply_status_to_caster.gd" id="3_apply"]
+[ext_resource type="Resource" path="res://status/tree_bark_armor.tres" id="4_status"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_animation_runner.gd" id="5_animation"]
+
+[node name="TreeBarkArmor" type="Node"]
+script = ExtResource("1_ability")
+cooldown = 20.0
+energy_cost = 0.0
+
+[node name="Animation" type="Node" parent="."]
+script = ExtResource("5_animation")
+animation_name = "attack"
+
+[node name="CastLock" type="Node" parent="."]
+script = ExtResource("2_lock")
+lock_duration = 0.35
+
+[node name="ApplyArmor" type="Node" parent="."]
+script = ExtResource("3_apply")
+status_data = ExtResource("4_status")

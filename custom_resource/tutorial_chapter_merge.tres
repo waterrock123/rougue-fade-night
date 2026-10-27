@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="TutorialChapterData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/hub/tutorial_chapter_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+chapter_id = &"merge"
+title = "03  装备合成与免费三选一"
+description = "集齐同名装备自动合成，查看升级态，领取免费奖励并确认货架恢复。"
+scene_path = "res://scenes/hub/merge_tutorial_room.tscn"

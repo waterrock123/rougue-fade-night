@@ -1,11 +1,39 @@
-[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://clck43gobdq8n"]
+[gd_resource type="Resource" script_class="Relic" load_steps=12 format=3 uid="uid://clck43gobdq8n"]
 
 [ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_xw23r"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_gl82b"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_qv6hm"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="4_qv6hm"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="5_65jtr"]
+[ext_resource type="Script" path="res://relic_effect/periodic_orbiting_manifest_effect.gd" id="6_periodic"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/orbiting_spark_manifest.tscn" id="7_spark"]
+[ext_resource type="Script" path="res://relic_effect/outgoing_defense_bypass_effect.gd" id="8_bypass"]
+
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1837.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="Patrol"]
+script = ExtResource("6_periodic")
+manifest_scene = ExtResource("7_spark")
+interval = 30.0
+manifest_lifetime = 5.0
+damage = 150.0
+
+[sub_resource type="Resource" id="IgnoreArmor"]
+script = ExtResource("8_bypass")
+ignore_static_damage_reduction = true
+ignore_damage_reduction_rate = false
 
 [resource]
 script = ExtResource("2_gl82b")
 relic_name = "超级火花手镯"
-tooltip = "每过30秒都会立即发射一个速度很快的火花飞行道具，它会立即在你的周围巡航5秒"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "每过30秒发射一枚高速火花，在你的周围巡航5秒。命中造成150点基础火焰伤害＋智力50%的加成，可穿透敌人，同一敌人每0.4秒最多受到一次命中。
+升级：你造成的伤害无视目标{armor}对应的固定减伤，百分比减伤仍正常生效"
+desc = "给你这个，这是超能手镯，有了它，你能战胜任何敌人"
+price = 6
+level = 6
+effects = Array[ExtResource("1_xw23r")]([SubResource("Patrol")])
+great_effects = Array[ExtResource("1_xw23r")]([SubResource("IgnoreArmor")])
+tags = Array[ExtResource("3_qv6hm")]([ExtResource("4_qv6hm"), ExtResource("5_65jtr")])
+id = "118"
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

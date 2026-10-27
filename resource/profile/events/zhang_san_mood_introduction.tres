@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ProfileEventData" format=3]
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+event_id = &"zhang_san_mood_introduction"
+display_name = "收获心情"
+description = "首次点击收获心情并听完张三的说明后，可以领取正面的情感装备。未领取的机会会保留，仓库满时不消耗机会。"
+required_completed_event_ids = Array[StringName]([&"zhang_san_facilities_ready"])

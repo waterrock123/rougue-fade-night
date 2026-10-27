@@ -6,9 +6,8 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_holk4"]
 [ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_lji6y"]
 [ext_resource type="Resource" uid="uid://d1qaxn6s7eqj0" path="res://relic_tags/历战tag.tres" id="6_8yvi0"]
-
-[ext_resource type="Script" path="res://relic_effect/battle_win_consume_materials_grant_relic_effect.gd" id="7_transform_material"]
-[ext_resource type="Resource" path="res://relic_tags/原料.tres" id="8_material_tag"]
+[ext_resource type="Script" uid="uid://dv1ti7b6tmpmr" path="res://relic_effect/battle_win_consume_materials_grant_relic_effect.gd" id="7_transform_material"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料tag.tres" id="8_material_tag"]
 
 [sub_resource type="Resource" id="ForgeHammerTransformOneEffect"]
 script = ExtResource("7_transform_material")

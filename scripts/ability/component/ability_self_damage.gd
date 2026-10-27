@@ -26,4 +26,5 @@ func _activate(context: AbilityContext) -> void:
 		context.ability.id if context.ability != null else &"",
 		context.ability.runtime_slot_index if context.ability != null else -1
 	)
+	context.stamp_damage_elements(damage_data)
 	context.caster.apply_damage(damage_data)

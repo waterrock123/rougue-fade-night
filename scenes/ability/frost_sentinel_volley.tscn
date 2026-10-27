@@ -1,0 +1,68 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_ai_target_direction.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_facing.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_movement.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_enemy_telegraph.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_spawn_manifest_fan.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_animation_runner.gd" id="7"]
+
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/frost_sentinel_bolt.tscn" id="8"]
+
+[node name="FrostSentinelVolley" type="Node"]
+script = ExtResource("1")
+cooldown = 2.8
+energy_cost = 0.0
+ai_max_cast_distance = 260.0
+
+[node name="LockTarget" type="Node" parent="."]
+script = ExtResource("2")
+
+[node name="LockFacing" type="Node" parent="."]
+script = ExtResource("3")
+duration = 1.35
+
+[node name="LockMovement" type="Node" parent="."]
+script = ExtResource("4")
+lock_duration = 1.35
+
+[node name="Warning" type="Node" parent="."]
+script = ExtResource("5")
+shape = 0
+direction_mode = 3
+range = 260.0
+angle_degrees = 36.0
+warning_duration = 0.55
+border_width = 0.0
+fill_color = Color(1, 0.1, 0.05, 0.13)
+
+[node name="Animation" type="Node" parent="."]
+script = ExtResource("7")
+animation_name = "attack"
+
+[node name="Bolt1" type="Node" parent="."]
+script = ExtResource("6")
+exec_delay = 0.55
+manifest_scene = ExtResource("8")
+manifest_count = 1
+direction_angle_offset = -18.0
+direction_mode = 0
+spawn_offset = Vector2(14, 0)
+
+[node name="Bolt2" type="Node" parent="."]
+script = ExtResource("6")
+exec_delay = 0.73
+manifest_scene = ExtResource("8")
+manifest_count = 1
+direction_mode = 0
+spawn_offset = Vector2(14, 0)
+
+[node name="Bolt3" type="Node" parent="."]
+script = ExtResource("6")
+exec_delay = 0.91
+manifest_scene = ExtResource("8")
+manifest_count = 1
+direction_angle_offset = 18.0
+direction_mode = 0
+spawn_offset = Vector2(14, 0)

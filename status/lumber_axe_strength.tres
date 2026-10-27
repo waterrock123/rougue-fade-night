@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://f3kslavk3ybb"]
+
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="1_data"]
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="2_effect"]
+[ext_resource type="Script" uid="uid://n4jh0iy0kh4g" path="res://scripts/status/status_add_stats_effect.gd" id="3_stats"]
+
+[sub_resource type="Resource" id="LumberAxeStrengthEffect"]
+script = ExtResource("3_stats")
+stat_values = {
+"strength": 2
+}
+
+[resource]
+script = ExtResource("1_data")
+id = &"lumber_axe_strength"
+status_name = "伐木之力"
+desc = "每层使力量+2，持续30秒；再次触发会叠加层数并刷新持续时间。"
+polarity = 1
+duration = 30.0
+max_stacks = 99
+stack_mode = 1
+effects = Array[ExtResource("2_effect")]([SubResource("LumberAxeStrengthEffect")])

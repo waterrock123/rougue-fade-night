@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_animation_runner.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_channel.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_apply_status_to_caster.gd" id="4"]
+[ext_resource type="Resource" path="res://status/shield_spell.tres" id="5"]
+
+[node name="GuirenShieldSpellAbility" type="Node"]
+script = ExtResource("1")
+cooldown = 10.0
+energy_cost = 15.0
+
+[node name="Animation" type="Node" parent="."]
+script = ExtResource("2")
+animation_name = "cast"
+
+[node name="Channel" type="Node" parent="."]
+script = ExtResource("3")
+channel_seconds = 2.0
+
+[node name="GrantShield" type="Node" parent="Channel"]
+script = ExtResource("4")
+status_data = ExtResource("5")

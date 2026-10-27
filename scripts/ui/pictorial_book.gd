@@ -1,10 +1,16 @@
 class_name PictorialBook
 extends Control
 
+signal closed
+
+## 从大厅打开时由大厅自行回收；从主菜单打开时维持原本的返回主菜单行为。
+@export var return_to_home_on_exit: bool = true
+
 enum BookType {
 	EQUIPMENT,
 	ACTIVE_SKILL,
 	PASSIVE_SKILL,
+	EVENT_RECORD,
 }
 
 const EQUIPMENT_ITEM_SCENE := preload("res://scenes/ui/pictorial_equipment_ui.tscn")
@@ -13,7 +19,7 @@ const PASSIVE_SKILL_ITEM_SCENE := preload("res://scenes/ui/pictorial_passive_ski
 const EQUIPMENT_DETAIL_SCENE := preload("res://scenes/ui/equipment_book_detail_ui.tscn")
 const ACTIVE_SKILL_DETAIL_SCENE := preload("res://scenes/ui/active_skill_book_detail.tscn")
 const PASSIVE_SKILL_DETAIL_SCENE := preload("res://scenes/ui/passive_skill_book_detail.tscn")
-const BOOK_TYPE_ORDER: Array[int] = [BookType.EQUIPMENT, BookType.ACTIVE_SKILL, BookType.PASSIVE_SKILL]
+const BOOK_TYPE_ORDER: Array[int] = [BookType.EQUIPMENT, BookType.ACTIVE_SKILL, BookType.PASSIVE_SKILL, BookType.EVENT_RECORD]
 
 @export var relic_root_folder: String = "res://relics"
 @export var active_skill_folder: String = "res://activate_skill"
@@ -76,6 +82,8 @@ func _show_type(type: int) -> void:
 			_build_active_skill_grid()
 		BookType.PASSIVE_SKILL:
 			_build_passive_skill_grid()
+		BookType.EVENT_RECORD:
+			_build_event_record_grid()
 
 	_select_first_item()
 
@@ -107,6 +115,45 @@ func _build_passive_skill_grid() -> void:
 		current_items.append(item)
 
 
+## 只展示已经完成的局外事件，让“收录”成为可见的长期进度。
+func _build_event_record_grid() -> void:
+	grid_container.columns = 1
+	var completed_events: Array[ProfileEventData] = ProfileManager.get_completed_events()
+	if completed_events.is_empty():
+		var empty_label := Label.new()
+		empty_label.text = "尚未收录任何事件记录。\n\n在大厅与可交互 NPC 对话后，新的记录会出现在这里。"
+		empty_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		empty_label.custom_minimum_size = Vector2(650.0, 150.0)
+		empty_label.add_theme_font_size_override("font_size", 26)
+		grid_container.add_child(empty_label)
+		return
+	for event_data: ProfileEventData in completed_events:
+		var record_button := Button.new()
+		record_button.text = "记录 · %s" % event_data.display_name
+		record_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		record_button.custom_minimum_size = Vector2(680.0, 78.0)
+		record_button.add_theme_font_size_override("font_size", 24)
+		grid_container.add_child(record_button)
+		record_button.pressed.connect(_on_event_record_selected.bind(record_button, event_data))
+		current_items.append(record_button)
+
+
+func _on_event_record_selected(record_button: Button, event_data: ProfileEventData) -> void:
+	for item: Control in current_items:
+		if item is Button:
+			(item as Button).button_pressed = item == record_button
+	_clear_detail()
+	var detail_panel := PanelContainer.new()
+	detail_panel.custom_minimum_size = Vector2(720.0, 380.0)
+	detail_container.add_child(detail_panel)
+	var detail_label := Label.new()
+	detail_label.text = "事件记录\n\n《%s》\n\n%s" % [event_data.display_name, event_data.description]
+	detail_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	detail_label.add_theme_font_size_override("font_size", 28)
+	detail_label.add_theme_constant_override("outline_size", 2)
+	detail_panel.add_child(detail_label)
+
+
 func _select_first_item() -> void:
 	if current_items.is_empty():
 		return
@@ -117,6 +164,11 @@ func _select_first_item() -> void:
 			var equipment_item := first_item as PictorialEquipmentUI
 			if equipment_item != null:
 				_on_relic_selected(equipment_item, equipment_item.relic)
+		BookType.EVENT_RECORD:
+			var record_button := first_item as Button
+			var completed_events: Array[ProfileEventData] = ProfileManager.get_completed_events()
+			if record_button != null and not completed_events.is_empty():
+				_on_event_record_selected(record_button, completed_events[0])
 		_:
 			var skill_item := first_item as PictorialSkillUI
 			if skill_item != null:
@@ -158,7 +210,11 @@ func _on_right_button_pressed() -> void:
 
 
 func _on_exit_button_pressed() -> void:
-	ResourceLocator.go_to_home_scene()
+	if return_to_home_on_exit:
+		ResourceLocator.go_to_home_scene()
+		return
+	closed.emit()
+	queue_free()
 
 
 func _on_skill_tree_button_pressed() -> void:
@@ -202,12 +258,15 @@ func _refresh_type_label() -> void:
 			type_label.text = "主动技能"
 		BookType.PASSIVE_SKILL:
 			type_label.text = "被动技能"
+		BookType.EVENT_RECORD:
+			type_label.text = "事件记录"
 
 
 func _clear_grid() -> void:
 	current_items.clear()
 	if grid_container == null:
 		return
+	grid_container.columns = 3
 
 	for child in grid_container.get_children():
 		grid_container.remove_child(child)

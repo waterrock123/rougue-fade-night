@@ -245,6 +245,8 @@ func _spawn_one_projectile(context: AbilityContext, direction: Vector2, speed_mu
 	# 每发子弹拥有独立 Context，避免它们因共享方向或目标数组互相覆盖。
 	var child_context: AbilityContext = AbilityContext.new(caster, context.ability)
 	child_context.caster_action_version = context.caster_action_version
+	child_context.element_tags = context.element_tags.duplicate()
+	child_context.cast_record = context.cast_record
 	child_context.locked_direction = direction
 	child_context.targets = [ability_manifest.global_position + direction * projectile_target_distance]
 	ability_manifest.activate(child_context)

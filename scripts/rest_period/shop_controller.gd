@@ -12,6 +12,7 @@ extends Control
 @onready var refresh_cost_label: Label = %RefreshCost
 @onready var free_refresh_count_label: Label = get_node_or_null("%CountLabel") as Label
 @onready var level_up_cost_label: Label = %LevelUpNumber
+@onready var level_up_cost_panel: Panel = level_up_button.get_node_or_null("Panel") as Panel
 @onready var money_token: ShopKeeperUI = $VBoxContainer/BuyContainer/ShowContainer/MoneyToken
 
 var shop_slots: Array[ShopEquipButton] = []
@@ -19,6 +20,7 @@ var shop_button_scene := preload("res://scenes/rest_period/shop_equip_button.tsc
 const FREE_CHOICE_SLOT_COUNT := 3
 const BASE_RELIC_ROLL_WEIGHT := 1.0
 const PREFERRED_TAG_WEIGHT_BONUS := 2.0
+const UPGRADE_VIEW: PackedScene = preload("res://scenes/rest_period/shop_upgrade_button_view.tscn")
 
 var is_free_choice_active: bool = false
 var free_choice_level: int = -1
@@ -27,12 +29,35 @@ var saved_shop_slots: Array[Slot] = []
 var saved_frozen_slots: Array[bool] = []
 var suppress_free_choice_start: bool = false
 var pending_purchase_slot_index: int = -1
+var is_level_up_pending: bool = false
+var upgrade_view: ShopUpgradeButtonView
+var upgrade_confirmation: ShopUpgradeConfirmation = ShopUpgradeConfirmation.new()
+var free_choice_status_label: Label
 
 
 func _ready() -> void:
+	_setup_level_up_confirmation_ui()
+	_setup_free_choice_status()
 	_bind_runtime_data()
 	_connect_signals()
 	_initialize_shop()
+
+
+func _process(_delta: float) -> void:
+	if is_level_up_pending and not upgrade_confirmation.is_active(Time.get_ticks_msec()):
+		_set_level_up_pending(false)
+
+
+## 取消确认不吞掉外部点击，玩家可直接转去购买、打开背包或点击其他按钮。
+func _input(event: InputEvent) -> void:
+	if not is_level_up_pending:
+		return
+	if event.is_action_pressed(&"ui_cancel"):
+		_set_level_up_pending(false)
+		get_viewport().set_input_as_handled()
+	elif event is InputEventMouseButton and event.pressed and event.button_index in [MOUSE_BUTTON_LEFT, MOUSE_BUTTON_RIGHT]:
+		if not level_up_button.get_global_rect().has_point(level_up_button.get_global_mouse_position()):
+			_set_level_up_pending(false)
 
 
 # 允许运行时从外部重新绑定修整期共享数据。
@@ -54,6 +79,7 @@ func bind_shop_runtime(new_shop: Shop, new_shop_config: ShopConfig) -> void:
 # 离开修整期时恢复真实商店状态，避免临时三选一覆盖态被保存到下一次修整期。
 func cancel_free_choice_state() -> void:
 	_clear_pending_purchase()
+	_set_level_up_pending(false)
 	_end_free_relic_choice(false)
 
 
@@ -70,7 +96,7 @@ func _initialize_shop() -> void:
 	_try_start_free_relic_choice()
 
 
-# 左键双击升级按钮时，提升商店等级并应用该等级配置的效果。
+# 玩家二次确认后提升商店等级，并应用该等级配置的效果。
 # 如果升级带来了额外槽位，只给新增槽位补货，不刷新旧商品。
 func level_up() -> void:
 	if shop == null or shop_config == null or run_stats == null:
@@ -79,10 +105,11 @@ func level_up() -> void:
 	var next_level := shop.level + 1
 	var data := get_level_data(next_level)
 	if data == null:
+		_show_shop_tip("商店已达到最高等级", "shop:upgrade:max")
 		return
 
 	if run_stats.gold < data.upgrade_cost:
-		push_warning("Not enough gold to level up shop.")
+		_show_shop_tip("金币不足，升级需要%d金币（还差%d）" % [data.upgrade_cost, data.upgrade_cost - run_stats.gold], "shop:upgrade:gold")
 		return
 
 	var previous_slot_count := shop.slot_count
@@ -102,6 +129,7 @@ func level_up() -> void:
 
 	_update_shop_ui()
 	_save_run_if_available()
+	_show_shop_tip("商店已升级至Lv.%d，已有商品保留，下次刷新使用新等级" % shop.level, "shop:upgrade:success")
 
 
 func get_level_data(level: int) -> ShopLevelData:
@@ -120,13 +148,14 @@ func refresh() -> void:
 	if shop == null or shop.shopkeeper == null or run_stats == null:
 		return
 	if run_stats.is_shop_refresh_disabled():
+		_show_shop_tip("当前效果禁止刷新商店", "shop:refresh:disabled")
 		return
 
 	var refresh_cost := _get_refresh_cost()
 	if run_stats.shop_free_refresh_count > 0:
 		run_stats.spend_shop_free_refresh_count()
 	elif run_stats.gold < refresh_cost:
-		push_warning("Not enough gold to refresh shop.")
+		_show_shop_tip("金币不足，刷新需要%d金币" % refresh_cost, "shop:refresh:gold")
 		return
 	else:
 		run_stats.set_gold(run_stats.gold - refresh_cost)
@@ -194,10 +223,10 @@ func buy_relic(slot_index: int) -> void:
 
 	var relic := slot_.item
 	if not player_build.can_accept_relic(relic):
-		push_warning("Inventory is full, cannot buy relic: %s" % relic.relic_name)
+		_show_shop_tip("背包已满，请先整理格子再购买", "shop:buy:full")
 		return
 	if not _pay_relic_cost(relic):
-		push_warning("Not enough gold to buy relic: %s" % relic.relic_name)
+		_show_shop_tip(_purchase_failure_reason(relic), "shop:buy:gold")
 		return
 
 	EventBus.relic_purchase_preprocess.emit(relic)
@@ -227,24 +256,35 @@ func _on_buy_equipment(relic: Relic) -> void:
 
 	var success := player_build.add_relic(relic)
 	if not success:
-		push_warning("Inventory is full, failed to add relic: %s" % relic.relic_name)
+		_show_shop_tip("背包已满，装备未能放入，请先整理格子", "shop:buy:full")
 
 
 func _on_refresh_button_gui_input(event: InputEvent) -> void:
 	if _is_left_click(event):
+		_set_level_up_pending(false)
 		refresh()
 
 
 func _on_freeze_button_gui_input(event: InputEvent) -> void:
 	if _is_left_click(event):
+		_set_level_up_pending(false)
 		frezee()
 
 
-func _on_level_up_button_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		var mouse_event := event as InputEventMouseButton
-		if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed and mouse_event.double_click:
-			level_up()
+func _on_level_up_button_pressed() -> void:
+	var reason: String = _get_upgrade_block_reason()
+	if not reason.is_empty():
+		_set_level_up_pending(false)
+		_show_shop_tip(reason, "shop:upgrade:blocked")
+		return
+	var data: ShopLevelData = get_level_data(shop.level + 1)
+	if is_level_up_pending and upgrade_confirmation.matches(data.level, data.upgrade_cost, Time.get_ticks_msec()):
+		_set_level_up_pending(false)
+		level_up()
+		return
+
+	_clear_pending_purchase()
+	_set_level_up_pending(true)
 
 
 func _connect_signals() -> void:
@@ -266,8 +306,8 @@ func _connect_signals() -> void:
 	if not freeze_button.gui_input.is_connected(_on_freeze_button_gui_input):
 		freeze_button.gui_input.connect(_on_freeze_button_gui_input)
 
-	if not level_up_button.gui_input.is_connected(_on_level_up_button_gui_input):
-		level_up_button.gui_input.connect(_on_level_up_button_gui_input)
+	if not level_up_button.pressed.is_connected(_on_level_up_button_pressed):
+		level_up_button.pressed.connect(_on_level_up_button_pressed)
 
 	if not EventBus.free_relic_choice_changed.is_connected(_on_free_relic_choice_changed):
 		EventBus.free_relic_choice_changed.connect(_on_free_relic_choice_changed)
@@ -369,13 +409,11 @@ func _update_shop_ui() -> void:
 
 	if refresh_button != null:
 		refresh_button.disabled = run_stats != null and run_stats.is_shop_refresh_disabled()
-
-	if level_up_cost_label != null:
-		var next_level_data := get_level_data(shop.level + 1) if shop != null else null
-		if next_level_data == null:
-			level_up_cost_label.text = "--"
-		else:
-			level_up_cost_label.text = str(next_level_data.upgrade_cost)
+		refresh_button.tooltip_text = "当前效果禁止刷新商店" if refresh_button.disabled else ("刷新会放弃当前免费三选一机会，并刷新普通货架" if is_free_choice_active else "刷新普通货架，解除冻结")
+	_refresh_level_up_button()
+	if free_choice_status_label != null:
+		free_choice_status_label.visible = is_free_choice_active
+		free_choice_status_label.text = "合成奖励 · 免费三选一（Lv.%d）\n仅选1件，领取后恢复普通货架" % free_choice_level
 
 
 func _get_available_relics() -> Array[Relic]:
@@ -421,7 +459,10 @@ func _pick_random_relic(candidate_relics: Array[Relic]) -> Relic:
 	if relic == null:
 		return null
 
-	return relic.duplicate(true) as Relic
+	var shop_relic := relic.duplicate(true) as Relic
+	if shop_relic != null:
+		shop_relic.initialize_shop_price_reference()
+	return shop_relic
 
 
 # 商店老板的 havetag 会提高带有对应标签遗物的刷新权重，但不排除其他遗物。
@@ -554,7 +595,7 @@ func _buy_free_choice_relic(slot_index: int) -> void:
 
 	var relic := slot_.item
 	if not player_build.can_accept_relic(relic):
-		push_warning("Inventory is full, cannot take free relic: %s" % relic.relic_name)
+		_show_shop_tip("背包已满，请先整理格子再领取免费装备", "shop:reward:full")
 		return
 
 	EventBus.relic_purchase_preprocess.emit(relic)
@@ -566,9 +607,11 @@ func _buy_free_choice_relic(slot_index: int) -> void:
 	_clear_pending_purchase()
 	_end_free_relic_choice(true)
 	_save_run_if_available()
+	_show_shop_tip("已领取【%s】，%s" % [relic.relic_name, "继续选择下一份免费奖励" if is_free_choice_active else "普通货架已恢复"], "shop:reward:success")
 
 
 func _on_shop_slot_purchase_focus_requested(slot_index: int) -> void:
+	_set_level_up_pending(false)
 	if slot_index < 0 or slot_index >= shop_slots.size():
 		_clear_pending_purchase()
 		return
@@ -607,6 +650,85 @@ func _sync_pending_purchase_visuals() -> void:
 
 		var should_pending := slot_button.slot_index == pending_purchase_slot_index and not slot_button.is_empty()
 		slot_button.set_purchase_pending(should_pending)
+
+
+# 升级按钮复用商品购买的“内容淡出 + 二次确认文案”交互，避免误触升级。
+func _setup_level_up_confirmation_ui() -> void:
+	if level_up_button == null or upgrade_view != null:
+		return
+	level_up_button.text = ""
+	if level_up_cost_panel != null:
+		level_up_cost_panel.hide()
+	if level_up_cost_label != null:
+		level_up_cost_label.hide()
+	upgrade_view = UPGRADE_VIEW.instantiate() as ShopUpgradeButtonView
+	level_up_button.add_child(upgrade_view)
+	upgrade_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
+
+func _set_level_up_pending(enabled: bool) -> void:
+	if level_up_button == null:
+		return
+	is_level_up_pending = enabled and _get_upgrade_block_reason().is_empty()
+	if is_level_up_pending:
+		var data: ShopLevelData = get_level_data(shop.level + 1)
+		upgrade_confirmation.begin(data.level, data.upgrade_cost, Time.get_ticks_msec())
+	else:
+		upgrade_confirmation.clear()
+	_refresh_level_up_button()
+
+
+func _get_upgrade_block_reason() -> String:
+	if shop == null or run_stats == null:
+		return "商店尚未就绪，请稍后重试"
+	var data: ShopLevelData = get_level_data(shop.level + 1)
+	if data == null:
+		return "商店已达到最高等级"
+	if run_stats.gold < data.upgrade_cost:
+		return "金币不足，升级需要%d金币（还差%d）" % [data.upgrade_cost, data.upgrade_cost - run_stats.gold]
+	return ""
+
+
+func _refresh_level_up_button() -> void:
+	if level_up_button == null or upgrade_view == null or shop == null:
+		return
+	var data: ShopLevelData = get_level_data(shop.level + 1)
+	var affordable: bool = data != null and run_stats != null and run_stats.gold >= data.upgrade_cost
+	if is_level_up_pending and (not affordable or not upgrade_confirmation.matches(data.level, data.upgrade_cost, Time.get_ticks_msec())):
+		_set_level_up_pending(false)
+		return
+	var added_slots: int = 0
+	if data != null:
+		for effect: ShopEffect in data.effects:
+			if effect is AddSlotEffect:
+				added_slots += maxi((effect as AddSlotEffect).add_count, 0)
+	level_up_button.disabled = data == null
+	level_up_button.tooltip_text = "商店已达到最高等级" if data == null else "升至Lv.%d，花费%d金币。已有商品不刷新，下次刷新使用新等级；当前免费奖励等阶不变。" % [data.level, data.upgrade_cost]
+	upgrade_view.display(shop.level, data.level if data != null else -1, data.upgrade_cost if data != null else 0, added_slots, is_level_up_pending, affordable)
+
+
+func _setup_free_choice_status() -> void:
+	free_choice_status_label = Label.new()
+	free_choice_status_label.name = "FreeChoiceStatus"
+	free_choice_status_label.visible = false
+	free_choice_status_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	free_choice_status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	free_choice_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	free_choice_status_label.add_theme_font_size_override("font_size", 21)
+	free_choice_status_label.add_theme_color_override("font_color", Color(1, 0.85, 0.45))
+	var header: Node = refresh_button.get_parent()
+	header.add_child(free_choice_status_label)
+	header.move_child(free_choice_status_label, 0)
+
+
+func _purchase_failure_reason(relic: Relic) -> String:
+	if run_stats.gold == 0 and run_stats.can_pay_shop_with_intelligence():
+		return "金币不足，当前智力也不足以代替支付"
+	return "金币不足，购买【%s】需要%d金币" % [relic.relic_name, maxi(relic.price, 0)]
+
+
+func _show_shop_tip(message: String, key: String) -> void:
+	FloatText.show_action_tip(message, key)
 
 
 # 优先用金币付款；若激活了对应套装且金币为 0，则允许永久消耗智力购买。

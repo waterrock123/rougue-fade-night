@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/timed_radial_area_manifest.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="2"]
+[ext_resource type="Resource" path="res://status/paralysis.tres" id="3"]
+
+[sub_resource type="Resource" id="Scaling"]
+script = ExtResource("2")
+physical_formula = ""
+ranged_formula = ""
+lightning_formula = "intelligence"
+
+[node name="GuirenbiphasiclightningManifest" type="Node2D"]
+z_index = -1
+z_as_relative = false
+script = ExtResource("1")
+radius = 120.0
+damage = 30.0
+damage_types = Array[int]([4])
+scaling_rule = SubResource("Scaling")
+hit_status = ExtResource("3")
+initial_delay = 0.4
+status_chance = 0.3
+area_color = Color(0.65, 0.7, 1.0, 0.65)
+
+[node name="VisualRoot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualRoot"]
+texture_filter = 1

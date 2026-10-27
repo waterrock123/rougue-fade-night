@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/hub/hub_portal.gd" id="1_hub_portal"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hub_portal"]
+radius = 26.0
+
+[node name="HubPortal" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitoring = true
+monitorable = false
+script = ExtResource("1_hub_portal")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_hub_portal")
+
+[node name="PromptCanvas" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="PromptLabel" type="Label" parent="PromptCanvas"]
+offset_left = -70.0
+offset_top = -58.0
+offset_right = 70.0
+offset_bottom = -10.0
+theme_override_colors/font_color = Color(1, 0.93, 0.54, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.1, 0.12, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+autowrap_mode = 2
+mouse_filter = 2

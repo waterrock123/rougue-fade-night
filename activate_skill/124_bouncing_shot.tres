@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ability/scount_bouncing_shot_ability.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="3"]
+[resource]
+script = ExtResource("1")
+ability_scene = ExtResource("2")
+base_cooldown = 6.0
+base_energy_cost = 10.0
+id = &"124"
+skill_name = "跳弹射击"
+desc = "向鼠标方向发射一颗跳弹，首次造成16+{dexterity}×0.7的{ranged}伤害，随后自动弹向140范围内另一名敌人，最多命中4个不同敌人。每次弹跳伤害降低20%，不会重复命中或隔墙弹射，不消耗弹药。"
+icon = ExtResource("3")
+tags = Array[StringName]([&"active_skill", &"projectile", &"ranged"])
+allowed_character_ids = Array[StringName]([&"scount"])

@@ -66,7 +66,7 @@ func prepare_rewards(force_refresh: bool = false) -> void:
 		return
 
 	prepicked_reward_relics.clear()
-	var safe_reward_count: int = max(reward_count, 0)
+	var safe_reward_count: int = _get_prepared_reward_count(stats)
 	for _reward_index: int in range(safe_reward_count):
 		var relic_template: Relic = _pick_weighted_relic(cached_candidate_relics, stats)
 		if relic_template == null:
@@ -77,6 +77,18 @@ func prepare_rewards(force_refresh: bool = false) -> void:
 			prepicked_reward_relics.append(reward_relic)
 
 	has_prepared_rewards = true
+
+
+func _get_prepared_reward_count(stats: RunStats) -> int:
+	var count: int = maxi(reward_count, 0)
+	# 同奖励一起预抽额外掉落，击碎瞬间只发放，不再扫描奖励池。
+	if has_feature_tag(&"lost_cargo"):
+		var rules: MapTagBattleController = MapTagBattleRules.find_controller(self)
+		var bonus: float = rules.value("cargo_extra_chance") if rules != null else MapTagBattleRules.value_for(stats, "cargo_extra_chance")
+		var chance: float = clampf(bonus, 0.0, 1.0)
+		if chance > 0.0 and _roll_seeded_float_range(0.0, 1.0) < chance:
+			count += 1
+	return count
 
 
 func _die() -> void:

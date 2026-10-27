@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://c8x0fcijjmxg3"]
+
+[ext_resource type="Script" uid="uid://bd4gnnre2dfj7" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" uid="uid://dums8veb4bqfa" path="res://scripts/ability/component/ability_lock_nearest_target_direction.gd" id="2"]
+[ext_resource type="Script" uid="uid://cx36jbtv3sk6r" path="res://scripts/ability/component/ability_animation_runner.gd" id="3"]
+[ext_resource type="Script" uid="uid://dhfjug1ykqpjg" path="res://scripts/ability/component/ability_spawn_manifest_volley.gd" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/guiren_magic_missile_manifest.tscn" id="5"]
+[ext_resource type="Script" uid="uid://bpqqhexd211fm" path="res://scripts/ability/component/ability_charge_release.gd" id="6_charge"]
+[ext_resource type="Script" uid="uid://dllud833hkoov" path="res://scripts/ability/component/ability_spawn_manifest_on_full_charge.gd" id="7_full"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/guiren_charged_beam_manifest.tscn" id="8_beam"]
+
+[node name="GuirenBasicAttackAbility" type="Node" unique_id=585025133]
+script = ExtResource("1")
+cooldown = 0.65
+energy_cost = 3.0
+
+[node name="LockNearestTarget" type="Node" parent="." unique_id=2144835067]
+script = ExtResource("2")
+acquire_radius = 160.0
+
+[node name="ChargeRelease" type="Node" parent="." unique_id=1965614929]
+script = ExtResource("6_charge")
+charge_seconds = 3.5
+scale_charge_with_cooldown = true
+indicator_offset = Vector2(10, 0)
+indicator_radius = 3.0
+indicator_line_width = 1.2
+
+[node name="AttackAnimation" type="Node" parent="." unique_id=1476216839]
+script = ExtResource("3")
+animation_name = "attack"
+
+[node name="MissileVolley" type="Node" parent="." unique_id=340812560]
+script = ExtResource("4")
+base_projectile_count = 3
+bonus_projectile_count = 0
+attacks_before_bonus = 0
+side_spacing = 0.0
+spread_angle_degrees = 20.0
+manifest_scene = ExtResource("5")
+use_directional_offset = true
+forward_offset = 12.0
+
+[node name="FullChargeBeam" type="Node" parent="." unique_id=1775591939]
+script = ExtResource("7_full")
+manifest_scene = ExtResource("8_beam")

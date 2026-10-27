@@ -4,6 +4,10 @@ extends CharacterBody2D
 signal died(entity: Entity)
 signal damage_taken(damage_data: DamageData)
 signal damage_dealt(damage_data: DamageData)
+## 闪避、攻防属性结算之后、真正扣血之前的同步拦截点；监听器只修正本次伤害，不递归施伤。
+signal damage_receive_prepared(damage_data: DamageData)
+## 死亡结算前的同步拦截点；复活效果恢复生命后，不再播放死亡动画或发送死亡信号。
+signal death_prevent_requested()
 ## 成功闪避一次伤害时发出，供遗物和状态监听“闪避后”类效果。
 signal damage_evaded(damage_data: DamageData)
 
@@ -47,6 +51,8 @@ var current_energy: float
 var is_dead: bool = false
 var turning_cooldown = 0.0
 var movement_lock_timer = 0.0
+## 吟唱等组件按来源锁移动，结束时只撤销自己的限制，不覆盖冲刺/攻击的计时锁。
+var movement_lock_sources: Dictionary = {}
 var energy_timer = 0.0
 var invulnerable_until_msec: int = 0
 var action_version: int = 0
@@ -56,6 +62,8 @@ var animation_pause_sources: Dictionary = {}
 var animation_speed_before_pause: float = 1.0
 var terrain_battle_map_cache: BattleMap
 var terrain_motion_velocity: Vector2 = Vector2.ZERO
+## 地图规则预先计算的道路加速，只在普通移动入口结算，不影响冲刺和击退。
+var terrain_road_speed_bonus: float = 0.0
 
 @onready var animated_sprite: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
 @onready var stats_controller: StatsController = get_node_or_null("StatsController") as StatsController
@@ -121,6 +129,7 @@ func apply_damage(damage_event):
 	if stats_controller != null:
 		damage_data = stats_controller.process_incoming_damage(damage_data)
 
+	damage_receive_prepared.emit(damage_data)
 	var final_damage :float = max(damage_data.final_damage, 0.0)
 	current_health -= final_damage
 	current_health = max(0, current_health)
@@ -137,7 +146,8 @@ func apply_damage(damage_event):
 			damage_data.source.damage_dealt.emit(damage_data)
 
 	_handle_damage_callback(damage_data)
-	if current_health == 0:
+	# 命中信号可能追加伤害并已完成死亡结算，避免外层再次发送击杀信号。
+	if current_health == 0 and not is_dead:
 		if is_in_group("enemy"):
 			EventBus.enemy_killed.emit(self, damage_data.source)
 		_die()
@@ -150,6 +160,8 @@ func spend_energy(energy: float):
 
 
 func apply_heal(heal_amount: float, show_float_text: bool = true, text_color: Color = Color.TRANSPARENT) -> float:
+	if stats_controller != null:
+		heal_amount *= max(stats_controller.get_stat(&"healing_received_multiplier", 1.0), 0.0)
 	if is_dead or heal_amount <= 0.0:
 		return 0.0
 
@@ -252,7 +264,10 @@ func get_terrain_move_multiplier() -> float:
 	if move_cost <= 0.0:
 		return 1.0
 
-	return clamp(1.0 / move_cost, min_terrain_move_multiplier, max_terrain_move_multiplier)
+	var multiplier: float = clampf(1.0 / move_cost, min_terrain_move_multiplier, max_terrain_move_multiplier)
+	if terrain_road_speed_bonus > 0.0 and is_in_group("player") and battle_map.is_road_at(global_position):
+		multiplier *= 1.0 + terrain_road_speed_bonus
+	return multiplier
 
 
 ## 立即清空地形惯性速度。冻结、强制位移或特殊技能如果需要完全停住实体，可以调用它。
@@ -347,7 +362,17 @@ func lock_movement(duration: float) -> void:
 
 
 func is_movement_locked() -> bool:
-	return movement_lock_timer > 0.0
+	return movement_lock_timer > 0.0 or not movement_lock_sources.is_empty()
+
+
+func add_movement_lock(source_key: Variant) -> void:
+	movement_lock_sources[source_key] = true
+	clear_terrain_motion_velocity()
+	velocity = Vector2.ZERO
+
+
+func remove_movement_lock(source_key: Variant) -> void:
+	movement_lock_sources.erase(source_key)
 
 
 func grant_invulnerability(duration: float) -> void:
@@ -447,6 +472,9 @@ func _resume_animation_from_source(source_key: String) -> void:
 
 func _die() -> void:
 	if is_dead:
+		return
+	death_prevent_requested.emit()
+	if current_health > 0.0:
 		return
 
 	is_dead = true

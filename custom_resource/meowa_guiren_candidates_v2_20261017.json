@@ -1,0 +1,12 @@
+{
+  "kind": "pixel",
+  "fields": {
+    "template_name": "template5x5",
+    "resolution": "1K",
+    "generation_speed": "normal",
+    "remove_bg_method": "standard",
+    "aspect_ratio": "1:1",
+    "requirement": "Create 15 distinct concept candidates for GUIREN, a mysterious, elegant and noble female occult spellcaster playable in a top-down fantasy roguelike. Each slot is ONE standalone full-body woman standing idle, not animation frames. Use the template's simple chibi proportions and crisp 32x32 pixel style, dark outlines, limited palettes, readable silhouettes, slight top-down three-quarter view facing RIGHT, transparent background, visible feet and full headwear inside frame with margins. FOUR DIRECTIONS: Slots 1-4: long dark green hair, round glasses, tilted ivory/violet aristocratic wide-brim hat with a rose, violet and emerald dress, white collar. Vary the hat, short cape and skirt shape; noble lady, not pointed-hat witch. Slots 5-8: silver hair, delicate golden circlet, short face veil, ivory and gold ceremonial outfit; vary high collar, shoulder mantle and split skirt. Slots 9-12: dark burgundy hair, small ruby diadem, black and gold noble outfit with ruby brooch; vary structured coat, cape and dress silhouette. Slots 13-15: ash-blond hair, crescent silver hair ornament, midnight blue and pale teal spirit-medium robe with silver trim; vary shoulder veil and elegant collar. All designs must look feminine, dignified and quietly confident. Make clear differences in headwear and clothing rather than simple recolors. Hands free for future spellcasting. No staff, sword, gun, huge aura, scenery, floor shadow, particles, text, UI, watermark, blur or realistic rendering. Compact fully visible characters, one character per slot."
+  },
+  "reference_file": ""
+}

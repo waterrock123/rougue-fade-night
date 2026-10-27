@@ -49,6 +49,7 @@ func _upgrade_left_unleveled_relic(context: SkillContext) -> void:
 			continue
 
 		slot.item.leveltip = Relic.LevelTip.LEVELUP
+		EventBus.relic_upgraded.emit(slot.item, context.player_build)
 		AudioController.play_ui_sound(&"level_up_item")
 		EventBus.equipment_update.emit()
 		return

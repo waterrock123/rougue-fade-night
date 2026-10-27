@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dispq0jn8jebr"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_0ic5m"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_g2nvj"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_mshn3"]
+[ext_resource type="Resource" uid="uid://sptmtn6uua85" path="res://relic_tags/寒霜tag.tres" id="4_mshn3"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_1b8qh"]
+[ext_resource type="Resource" uid="uid://hjj7m0sxu800" path="res://relic_tags/情感tag.tres" id="6_1b8qh"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="7_stats"]
+[ext_resource type="Script" uid="uid://4jpjnif4k7sr" path="res://relic_effect/add_derived_stat_effect.gd" id="8_derived"]
+[ext_resource type="Texture2D" uid="uid://wy1cwvu7qhtu" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb403.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="DisappointmentStats"]
+script = ExtResource("7_stats")
+add_stats = {
+"dexterity": -2,
+"strength": 2
+}
+
+[sub_resource type="Resource" id="DisappointmentUpgradeCrit"]
+script = ExtResource("8_derived")
+add_derived_stats = {
+"crit_chance": 0.1
+}
+
+[sub_resource type="Resource" id="DisappointmentInventoryPenalty"]
+script = ExtResource("8_derived")
+add_derived_stats = {
+"crit_chance": -0.02,
+"dodge_rate": -0.02
+}
+
+[resource]
+script = ExtResource("2_g2nvj")
+relic_name = "略微的失望"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "敏捷-2，力量+2，处于背包中时会使人物的暴击率与闪避率-2%
+升级：使你的暴击率+10%"
+desc = "具象化的情感，表现为略带冰霜的钝刀"
+price = 1
+sell_price = 1
+level = 2
+tags = Array[ExtResource("3_mshn3")]([ExtResource("4_mshn3"), ExtResource("5_1b8qh"), ExtResource("6_1b8qh")])
+id = "204"
+effects = Array[ExtResource("1_0ic5m")]([SubResource("DisappointmentStats")])
+great_effects = Array[ExtResource("1_0ic5m")]([SubResource("DisappointmentUpgradeCrit")])
+inventory_effects = Array[ExtResource("1_0ic5m")]([SubResource("DisappointmentInventoryPenalty")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

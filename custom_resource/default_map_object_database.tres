@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://cj8mrvwanndo6" path="res://scenes/battlemap/sheep.tscn" id="11_sheep"]
 [ext_resource type="PackedScene" uid="uid://0r11v1e7rtn" path="res://scenes/battlemap/pig.tscn" id="12_pig"]
 [ext_resource type="PackedScene" uid="uid://fhe32ttwb015" path="res://scenes/battlemap/battle_end_point.tscn" id="13_battle_end_point"]
+[ext_resource type="PackedScene" path="res://scenes/battlemap/feast_table.tscn" id="14_feast"]
+[ext_resource type="PackedScene" path="res://scenes/battlemap/status_storage_box.tscn" id="15_storage"]
 
 [sub_resource type="Resource" id="MapObjectEntry_apple_tree"]
 script = ExtResource("2_entry")
@@ -85,6 +87,18 @@ object_id = &"battle_end_point"
 scene = ExtResource("13_battle_end_point")
 feature_tags = Array[StringName]([&"battle_end_point"])
 
+[sub_resource type="Resource" id="Entry_feast"]
+script = ExtResource("2_entry")
+object_id = &"feast_table"
+scene = ExtResource("14_feast")
+feature_tags = Array[StringName]([&"feast_table"])
+
+[sub_resource type="Resource" id="Entry_storage"]
+script = ExtResource("2_entry")
+object_id = &"status_storage_box"
+scene = ExtResource("15_storage")
+feature_tags = Array[StringName]([&"status_storage_box"])
+
 [resource]
 script = ExtResource("1_database")
-entries = Array[ExtResource("2_entry")]([SubResource("MapObjectEntry_apple_tree"), SubResource("MapObjectEntry_rock"), SubResource("MapObjectEntry_lost_cargo"), SubResource("MapObjectEntry_ammo_box"), SubResource("MapObjectEntry_sword_stand"), SubResource("MapObjectEntry_alchemy_station"), SubResource("MapObjectEntry_animal"), SubResource("MapObjectEntry_animal_chicken"), SubResource("MapObjectEntry_animal_cow"), SubResource("MapObjectEntry_animal_sheep"), SubResource("MapObjectEntry_animal_pig"), SubResource("MapObjectEntry_battle_end_point")])
+entries = Array[ExtResource("2_entry")]([SubResource("MapObjectEntry_apple_tree"), SubResource("MapObjectEntry_rock"), SubResource("MapObjectEntry_lost_cargo"), SubResource("MapObjectEntry_ammo_box"), SubResource("MapObjectEntry_sword_stand"), SubResource("MapObjectEntry_alchemy_station"), SubResource("MapObjectEntry_animal"), SubResource("MapObjectEntry_animal_chicken"), SubResource("MapObjectEntry_animal_cow"), SubResource("MapObjectEntry_animal_sheep"), SubResource("MapObjectEntry_animal_pig"), SubResource("MapObjectEntry_battle_end_point"), SubResource("Entry_feast"), SubResource("Entry_storage")])

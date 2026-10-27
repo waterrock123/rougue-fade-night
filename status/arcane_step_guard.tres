@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StatusData" format=3]
+
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/status/status_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/status/status_incoming_damage_taken_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa597.png" id="4"]
+
+[sub_resource type="Resource" id="Guard"]
+script = ExtResource("3")
+percent_bonus = -0.2
+
+[resource]
+script = ExtResource("1")
+id = &"arcane_step_guard"
+status_name = "折跃余护"
+desc = "受到的伤害降低20%，持续1秒。"
+icon = ExtResource("4")
+polarity = 1
+duration = 1.0
+effects = Array[ExtResource("2")]([SubResource("Guard")])

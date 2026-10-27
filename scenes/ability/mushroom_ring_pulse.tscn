@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_timed_sequence.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_radial_gap_volley.gd" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/mushroom_ring_spore.tscn" id="4"]
+
+[node name="MushroomRingPulse" type="Node"]
+script = ExtResource("1")
+cooldown = 0.1
+energy_cost = 0.0
+ai_max_cast_distance = 5000.0
+ai_requires_line_of_sight = false
+
+[node name="Sequence" type="Node" parent="."]
+script = ExtResource("2")
+total_duration = 2.2
+phase_two_duration = 3.2
+animation_name = &"cast"
+
+[node name="Volley" type="Node" parent="Sequence"]
+script = ExtResource("3")
+projectile_scene = ExtResource("4")

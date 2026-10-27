@@ -1,0 +1,44 @@
+{
+  "width": 32,
+  "height": 32,
+  "durations_ms": [
+    250,
+    125,
+    125,
+    125,
+    125,
+    125,
+    125
+  ],
+  "source": "assets/enemy/frost_shell_beast/die.webp.source",
+  "alpha_extrema": [
+    [
+      0,
+      255
+    ],
+    [
+      0,
+      255
+    ],
+    [
+      0,
+      255
+    ],
+    [
+      0,
+      255
+    ],
+    [
+      0,
+      255
+    ],
+    [
+      0,
+      255
+    ],
+    [
+      0,
+      255
+    ]
+  ]
+}

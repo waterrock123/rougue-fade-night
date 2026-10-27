@@ -27,6 +27,35 @@
 [ext_resource type="Resource" path="res://passive_skill/016_treasure_hunter.tres" id="27_treasure"]
 [ext_resource type="Resource" path="res://passive_skill/017_special_channel.tres" id="28_channel"]
 [ext_resource type="Resource" path="res://activate_skill/110_ammo_barrage.tres" id="29_ammo_barrage"]
+[ext_resource type="Resource" path="res://passive_skill/021_magic_missile_advanced.tres" id="30_missile"]
+[ext_resource type="Resource" path="res://passive_skill/024_fire_ice_immunity.tres" id="31_immunity"]
+[ext_resource type="Resource" path="res://activate_skill/113_fireball.tres" id="32_fireball"]
+[ext_resource type="Resource" path="res://activate_skill/114_lightning_arrow.tres" id="33_lightning"]
+[ext_resource type="Resource" path="res://activate_skill/115_shield_spell.tres" id="34_shield"]
+[ext_resource type="Resource" path="res://activate_skill/116_haste_spell.tres" id="35_haste"]
+
+[ext_resource type="Resource" path="res://activate_skill/117_frost_star_ring.tres" id="new_active_0"]
+[ext_resource type="Resource" path="res://activate_skill/118_lightning_circle.tres" id="new_active_1"]
+[ext_resource type="Resource" path="res://activate_skill/119_arcane_step.tres" id="new_active_2"]
+[ext_resource type="Resource" path="res://activate_skill/120_biphasic_collapse.tres" id="new_active_3"]
+[ext_resource type="Resource" path="res://passive_skill/025_element_weaving.tres" id="new_passive_0"]
+[ext_resource type="Resource" path="res://passive_skill/027_undying_embers.tres" id="new_passive_1"]
+[ext_resource type="Resource" path="res://passive_skill/029_thunder_echo.tres" id="new_passive_2"]
+[ext_resource type="Resource" path="res://passive_skill/031_composed_casting.tres" id="new_passive_3"]
+
+[ext_resource type="Resource" path="res://activate_skill/121_piercing_shot.tres" id="scount_active_0"]
+[ext_resource type="Resource" path="res://activate_skill/122_sidestep_shot.tres" id="scount_active_1"]
+[ext_resource type="Resource" path="res://activate_skill/123_bounty_mark.tres" id="scount_active_2"]
+[ext_resource type="Resource" path="res://passive_skill/033_spent_rounds.tres" id="scount_passive_0"]
+[ext_resource type="Resource" path="res://passive_skill/035_seize_opportunity.tres" id="scount_passive_1"]
+
+[ext_resource type="Resource" path="res://activate_skill/124_bouncing_shot.tres" id="scount_more_0"]
+[ext_resource type="Resource" path="res://passive_skill/037_guerrilla_shooter.tres" id="scount_more_1"]
+[ext_resource type="Resource" path="res://passive_skill/039_hidden_magazine.tres" id="scount_more_2"]
+
+[ext_resource type="Resource" path="res://activate_skill/125_leap_slam.tres" id="warrior_more_0"]
+[ext_resource type="Resource" path="res://activate_skill/126_iron_counter.tres" id="warrior_more_1"]
+[ext_resource type="Resource" path="res://passive_skill/041_formation_breaker.tres" id="warrior_more_2"]
 
 [sub_resource type="Resource" id="Resource_774n4"]
 script = ExtResource("4_ahb88")
@@ -131,9 +160,134 @@ skill_data = ExtResource("29_ammo_barrage")
 id = &"reward_active_ammo_barrage"
 metadata/_custom_type_script = "uid://bu2h2b334tpo0"
 
+[sub_resource type="Resource" id="Resource_missile_reward"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("30_missile")
+id = &"reward_passive_magic_missile_advanced"
+
+[sub_resource type="Resource" id="Resource_immunity_reward"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("31_immunity")
+id = &"reward_passive_fire_ice_immunity"
+
+[sub_resource type="Resource" id="Resource_fireball_reward"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("32_fireball")
+id = &"reward_active_fireball"
+
+[sub_resource type="Resource" id="Resource_lightning_reward"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("33_lightning")
+id = &"reward_active_lightning_arrow"
+
+[sub_resource type="Resource" id="Resource_shield_reward"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("34_shield")
+id = &"reward_active_shield_spell"
+
+[sub_resource type="Resource" id="Resource_haste_reward"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("35_haste")
+id = &"reward_active_haste_spell"
+
+[sub_resource type="Resource" id="Reward_117_frost_star_ring"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("new_active_0")
+id = &"reward_active_117_frost_star_ring"
+
+[sub_resource type="Resource" id="Reward_118_lightning_circle"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("new_active_1")
+id = &"reward_active_118_lightning_circle"
+
+[sub_resource type="Resource" id="Reward_119_arcane_step"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("new_active_2")
+id = &"reward_active_119_arcane_step"
+
+[sub_resource type="Resource" id="Reward_120_biphasic_collapse"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("new_active_3")
+id = &"reward_active_120_biphasic_collapse"
+
+[sub_resource type="Resource" id="Reward_025_element_weaving"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("new_passive_0")
+id = &"reward_passive_025_element_weaving"
+
+[sub_resource type="Resource" id="Reward_027_undying_embers"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("new_passive_1")
+id = &"reward_passive_027_undying_embers"
+
+[sub_resource type="Resource" id="Reward_029_thunder_echo"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("new_passive_2")
+id = &"reward_passive_029_thunder_echo"
+
+[sub_resource type="Resource" id="Reward_031_composed_casting"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("new_passive_3")
+id = &"reward_passive_031_composed_casting"
+
+[sub_resource type="Resource" id="Reward_121_piercing_shot"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("scount_active_0")
+id = &"reward_active_121_piercing_shot"
+
+[sub_resource type="Resource" id="Reward_122_sidestep_shot"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("scount_active_1")
+id = &"reward_active_122_sidestep_shot"
+
+[sub_resource type="Resource" id="Reward_123_bounty_mark"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("scount_active_2")
+id = &"reward_active_123_bounty_mark"
+
+[sub_resource type="Resource" id="Reward_033_spent_rounds"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("scount_passive_0")
+id = &"reward_passive_033_spent_rounds"
+
+[sub_resource type="Resource" id="Reward_035_seize_opportunity"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("scount_passive_1")
+id = &"reward_passive_035_seize_opportunity"
+
+[sub_resource type="Resource" id="Reward_124_bouncing_shot"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("scount_more_0")
+id = &"reward_124_bouncing_shot"
+
+[sub_resource type="Resource" id="Reward_037_guerrilla_shooter"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("scount_more_1")
+id = &"reward_037_guerrilla_shooter"
+
+[sub_resource type="Resource" id="Reward_039_hidden_magazine"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("scount_more_2")
+id = &"reward_039_hidden_magazine"
+
+[sub_resource type="Resource" id="Reward_125_leap_slam"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("warrior_more_0")
+id = &"reward_active_leap_slam"
+
+[sub_resource type="Resource" id="Reward_126_iron_counter"]
+script = ExtResource("4_ahb88")
+skill_data = ExtResource("warrior_more_1")
+id = &"reward_active_iron_counter"
+
+[sub_resource type="Resource" id="Reward_041_formation_breaker"]
+script = ExtResource("7_ftceu")
+skill_data = ExtResource("warrior_more_2")
+id = &"reward_passive_formation_breaker"
+
 [sub_resource type="Resource" id="Resource_vgdht"]
 script = ExtResource("3_xdrav")
-rewards = Array[ExtResource("2_w2dlv")]([SubResource("Resource_774n4"), SubResource("Resource_stheq"), SubResource("Resource_fb6j1"), SubResource("Resource_8buaq"), SubResource("Resource_atphq"), SubResource("Resource_8p3ql"), SubResource("Resource_jysh7"), SubResource("Resource_pica_reward"), SubResource("Resource_boss_tyrant_reward"), SubResource("Resource_strength_faction_reward"), SubResource("Resource_bloodlust_reward"), SubResource("Resource_252cq"), SubResource("Resource_reserve_ammo_reward"), SubResource("Resource_trace_reward"), SubResource("Resource_treasure_reward"), SubResource("Resource_channel_reward"), SubResource("Resource_ammo_barrage_reward")])
+rewards = Array[ExtResource("2_w2dlv")]([SubResource("Resource_774n4"), SubResource("Resource_stheq"), SubResource("Resource_fb6j1"), SubResource("Resource_8buaq"), SubResource("Resource_atphq"), SubResource("Resource_8p3ql"), SubResource("Resource_jysh7"), SubResource("Resource_pica_reward"), SubResource("Resource_boss_tyrant_reward"), SubResource("Resource_strength_faction_reward"), SubResource("Resource_bloodlust_reward"), SubResource("Resource_252cq"), SubResource("Resource_reserve_ammo_reward"), SubResource("Resource_trace_reward"), SubResource("Resource_treasure_reward"), SubResource("Resource_channel_reward"), SubResource("Resource_ammo_barrage_reward"), SubResource("Resource_missile_reward"), SubResource("Resource_immunity_reward"), SubResource("Resource_fireball_reward"), SubResource("Resource_lightning_reward"), SubResource("Resource_shield_reward"), SubResource("Resource_haste_reward"), SubResource("Reward_117_frost_star_ring"), SubResource("Reward_118_lightning_circle"), SubResource("Reward_119_arcane_step"), SubResource("Reward_120_biphasic_collapse"), SubResource("Reward_025_element_weaving"), SubResource("Reward_027_undying_embers"), SubResource("Reward_029_thunder_echo"), SubResource("Reward_031_composed_casting"), SubResource("Reward_121_piercing_shot"), SubResource("Reward_122_sidestep_shot"), SubResource("Reward_123_bounty_mark"), SubResource("Reward_033_spent_rounds"), SubResource("Reward_035_seize_opportunity"), SubResource("Reward_124_bouncing_shot"), SubResource("Reward_037_guerrilla_shooter"), SubResource("Reward_039_hidden_magazine"), SubResource("Reward_125_leap_slam"), SubResource("Reward_126_iron_counter"), SubResource("Reward_041_formation_breaker")])
 metadata/_custom_type_script = "uid://dedmh70pdbkgs"
 
 [sub_resource type="LabelSettings" id="LabelSettings_ffqgm"]

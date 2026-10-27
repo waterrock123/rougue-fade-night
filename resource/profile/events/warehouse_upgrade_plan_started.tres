@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ProfileEventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1_event"]
+
+[resource]
+script = ExtResource("1_event")
+event_id = &"warehouse_upgrade_plan_started"
+display_name = "垃圾堆升级计划：数据采集"
+description = "迷途记录员在一件仓库装备上安装了数据收集器。携带任意仓库装备完成一局冒险即可收集数据。"
+show_in_codex = false
+required_completed_event_ids = Array[StringName]([&"scavenger_warehouse_unlocked"])

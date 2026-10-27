@@ -1,0 +1,13 @@
+{
+  "kind": "pixel",
+  "fields": {
+    "template_name": "24px_icon",
+    "requirement": "制作一个2D俯视角奇幻肉鸽游戏的铁质斧头装备图标。单个物体居中，轮廓清晰，低分辨率像素美术，有限色板，与已有像素装备风格统一，无文字、无数字、无水印。",
+    "aspect_ratio": "1:1",
+    "template_config": {
+      "target_count": 1,
+      "remove_bg_method": "standard"
+    }
+  },
+  "reference_file": ""
+}

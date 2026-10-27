@@ -49,6 +49,8 @@ func _spawn_one_manifest(context: AbilityContext, caster: Entity, direction: Vec
 
 	var child_context: AbilityContext = AbilityContext.new(caster, context.ability)
 	child_context.caster_action_version = context.caster_action_version
+	child_context.element_tags = context.element_tags.duplicate()
+	child_context.cast_record = context.cast_record
 	child_context.locked_direction = direction
 	child_context.targets = [spawn_position + direction * target_distance]
 	ability_manifest.activate(child_context)

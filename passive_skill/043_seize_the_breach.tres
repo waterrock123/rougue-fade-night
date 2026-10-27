@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_poise_break_basic_attack_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc763.png" id="4"]
+[ext_resource type="Resource" path="res://status/formation_breaker_ready.tres" id="Ready"]
+
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("3")
+ready_status = ExtResource("Ready")
+cooldown_seconds = 1.0
+cooldown_interval = 2.0
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Effect")])
+id = &"043"
+skill_name = "乘隙猛攻"
+desc = "你使敌人破韧后，下一次整次基础攻击伤害提高40%，强化最多保留5秒。破韧额外使所有非基础主动技能的剩余冷却减少1秒，每2秒最多触发一次冷却削减。"
+icon = ExtResource("4")
+allowed_character_ids = Array[StringName]([&"warrior"])
+is_upgrade_skill = true

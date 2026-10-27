@@ -6,9 +6,57 @@
 [ext_resource type="Resource" uid="uid://bpyxiv6nfwnu5" path="res://relic_tags/创生tag.tres" id="4_1ldxh"]
 [ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_3qhgp"]
 
+[ext_resource type="Script" path="res://relic_effect/battle_delivery_effect.gd" id="6_delivery"]
+[ext_resource type="Script" path="res://relic_effect/weighted_relic_effect_option.gd" id="7_option"]
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="8_stats"]
+[ext_resource type="PackedScene" path="res://scenes/battlemap/delivery_cargo.tscn" id="9_cargo"]
+[ext_resource type="PackedScene" path="res://scenes/battlemap/delivery_destination.tscn" id="10_target"]
+[ext_resource type="Texture2D" path="res://assets/ai art/delivery/cargo_strength.png" id="11_strength_icon"]
+[ext_resource type="Texture2D" path="res://assets/ai art/delivery/cargo_dexterity.png" id="12_dexterity_icon"]
+[ext_resource type="Texture2D" path="res://assets/ai art/delivery/cargo_speed.png" id="13_speed_icon"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/101_delivery_jacket.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="Strength"]
+script = ExtResource("8_stats")
+add_stats = {"strength": 3.0}
+
+[sub_resource type="Resource" id="Agility"]
+script = ExtResource("8_stats")
+add_stats = {"dexterity": 3.0}
+
+[sub_resource type="Resource" id="Speed"]
+script = ExtResource("8_stats")
+add_stats = {"speed": 10.0}
+
+[sub_resource type="Resource" id="StrengthOption"]
+script = ExtResource("7_option")
+option_name = "力量+3"
+icon = ExtResource("11_strength_icon")
+effects = Array[ExtResource("1_mrypw")]([SubResource("Strength")])
+
+[sub_resource type="Resource" id="AgilityOption"]
+script = ExtResource("7_option")
+option_name = "敏捷+3"
+icon = ExtResource("12_dexterity_icon")
+effects = Array[ExtResource("1_mrypw")]([SubResource("Agility")])
+
+[sub_resource type="Resource" id="SpeedOption"]
+script = ExtResource("7_option")
+option_name = "速度+10"
+icon = ExtResource("13_speed_icon")
+effects = Array[ExtResource("1_mrypw")]([SubResource("Speed")])
+
+[sub_resource type="Resource" id="Delivery"]
+script = ExtResource("6_delivery")
+cargo_scene = ExtResource("9_cargo")
+destination_scene = ExtResource("10_target")
+cargo_options = Array[ExtResource("7_option")]([SubResource("StrengthOption"), SubResource("AgilityOption"), SubResource("SpeedOption")])
+
 [resource]
 script = ExtResource("2_k1wje")
 relic_name = "配送服"
+icon = ExtResource("Icon_completion_20261012")
 tooltip = "进入关卡时将在地图上随机生成一份货物，拾取货物将获得随机效果，并在地图上随机生成一个目标地点，到达后将获得一金币且失去货物的效果
 升级：送达货物后额外获得两金币"
 desc = "永远在路上"
@@ -16,4 +64,5 @@ price = 4
 level = 4
 tags = Array[ExtResource("3_1ldxh")]([ExtResource("4_1ldxh"), ExtResource("5_3qhgp")])
 id = "101"
+effects = Array[ExtResource("1_mrypw")]([SubResource("Delivery")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

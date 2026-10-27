@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ProfileEventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1_event"]
+
+[resource]
+script = ExtResource("1_event")
+event_id = &"warehouse_relic_field_test_complete"
+display_name = "垃圾堆升级计划：数据回收"
+description = "仓库装备已经完成一次荒域实地测试，数据收集器保存了装备穿越迷途时的变化。"
+show_in_codex = false
+required_completed_event_ids = Array[StringName]([&"warehouse_upgrade_plan_started"])

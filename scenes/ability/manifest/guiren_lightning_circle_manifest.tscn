@@ -1,0 +1,45 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/timed_radial_area_manifest.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="2"]
+[ext_resource type="Resource" path="res://status/paralysis.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/ability/manifest/radial_skill_visual.gd" id="Visual"]
+[ext_resource type="Texture2D" path="res://assets/特效/skill_vfx_samples_20261018/sigil.png" id="Sigil"]
+[ext_resource type="Shader" path="res://shaders/pixel_skill_visual.gdshader" id="Shader"]
+
+[sub_resource type="ShaderMaterial" id="SigilMaterial"]
+shader = ExtResource("Shader")
+shader_parameter/brightness = 1.2
+shader_parameter/white_mix = 0.3
+shader_parameter/tint = Color(0.8, 0.75, 1.0, 1.0)
+
+[sub_resource type="Resource" id="Scaling"]
+script = ExtResource("2")
+physical_formula = ""
+ranged_formula = ""
+lightning_formula = "intelligence * 0.6"
+
+[node name="GuirenlightningcircleManifest" type="Node2D"]
+z_index = -1
+z_as_relative = false
+script = ExtResource("1")
+radius = 80.0
+damage = 8.0
+damage_types = Array[int]([4])
+scaling_rule = SubResource("Scaling")
+hit_status = ExtResource("3")
+pulse_count = 4
+initial_delay = 1.0
+status_only_last_pulse = true
+poise_damage = 2.0
+area_color = Color(0.7, 0.65, 1.0, 0.65)
+draw_area_fill = false
+
+[node name="VisualRoot" type="Node2D" parent="."]
+script = ExtResource("Visual")
+art_radius = 16.0
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualRoot"]
+texture_filter = 1
+material = SubResource("SigilMaterial")
+texture = ExtResource("Sigil")

@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "0.00-0.30s: This exact crystal sentinel faces RIGHT, its hover fails and crystal arms droop. 0.30-0.70s: The golem crumples down into a compact pile of its own blue stones and cyan crystals. 0.70-1.00s: The pieces remain completely still. No explosion, no fading, no revival. Preserve the exact source character, colors, pixel size, proportions and silhouette. Fixed three-quarter side view facing right, fixed camera, full body visible throughout, transparent background, no floor shadow, no additional objects, no text, no blur.",
+		"alpha_mode": "sharp",
+		"animation_mode": "non_loop",
+		"duration_seconds": 1.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/enemy/frost_crystal_sentinel/source.png"
+}

@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="2"]
+
+[sub_resource type="Resource" id="Scaling"]
+script = ExtResource("2")
+physical_formula = "strength"
+ranged_formula = ""
+
+[sub_resource type="CircleShape2D" id="Shape"]
+radius = 12.0
+
+[node name="BoulderManifest" type="Node2D"]
+script = ExtResource("1")
+speed = 300.0
+max_distance = 400.0
+target_group = "enemy"
+damage = 30.0
+can_crit = false
+damage_types = Array[int]([0])
+tags = Array[String](["manifest", "projectile", "boulder", "relic"])
+scaling_rule = SubResource("Scaling")
+poise_damage = 0.0
+is_penetrate = true
+hit_each_target_once = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("Shape")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

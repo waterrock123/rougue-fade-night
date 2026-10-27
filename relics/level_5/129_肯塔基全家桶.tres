@@ -1,0 +1,66 @@
+[gd_resource type="Resource" script_class="Relic" load_steps=21 format=3 uid="uid://bb04ouiwyoeb7"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_dlafh"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_x18sx"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_vd2i7"]
+[ext_resource type="Resource" uid="uid://ba8bqffo5j43c" path="res://relic_tags/诅咒tag.tres" id="4_j28bc"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="5_uukn8"]
+[ext_resource type="Resource" uid="uid://b5pj0gwwux13c" path="res://relic_tags/聚众.tres" id="6_ckq0r"]
+[ext_resource type="Script" path="res://relic_effect/use_heal_missing_health_percent_effect.gd" id="7_heal"]
+[ext_resource type="Script" path="res://relic_effect/use_reset_ability_cooldowns_effect.gd" id="8_reset"]
+[ext_resource type="Script" path="res://relic_effect/use_spawn_actors_effect.gd" id="9_spawn"]
+[ext_resource type="PackedScene" path="res://entity/enemy/zombie.tscn" id="10_zombie"]
+[ext_resource type="Script" path="res://relic_effect/use_add_status_effect.gd" id="11_status"]
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="12_status_data"]
+[ext_resource type="Script" path="res://scripts/status/status_add_stats_effect.gd" id="13_stats"]
+[ext_resource type="Script" path="res://scripts/status/status_effect.gd" id="14_status_effect"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/129_family_bucket.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="FullHeal"]
+script = ExtResource("7_heal")
+heal_missing_percent = 1.0
+
+[sub_resource type="Resource" id="ResetCooldowns"]
+script = ExtResource("8_reset")
+
+[sub_resource type="Resource" id="SpawnZombies"]
+script = ExtResource("9_spawn")
+actor_scene = ExtResource("10_zombie")
+spawn_count = 2
+spawn_radius = 72.0
+
+[sub_resource type="Resource" id="BuffStats"]
+script = ExtResource("13_stats")
+stat_values = {"constitution": 5, "strength": 5}
+
+[sub_resource type="Resource" id="BucketBuff"]
+script = ExtResource("12_status_data")
+id = &"family_bucket_boost"
+status_name = "全家桶增益"
+desc = "体质与力量各+5，持续至战斗结束。"
+polarity = 1
+duration = -1.0
+max_stacks = 99
+stack_mode = 1
+effects = Array[ExtResource("14_status_effect")]([SubResource("BuffStats")])
+
+[sub_resource type="Resource" id="AddBuff"]
+script = ExtResource("11_status")
+status_data = SubResource("BucketBuff")
+
+[resource]
+script = ExtResource("2_x18sx")
+relic_name = "肯塔基全家桶"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "使用后恢复所有生命并刷新技能的冷却；在周围召唤两个不分敌我的僵尸，会攻击玩家、友军与敌人，不影响关卡通关。
+升级：使用后额外使{constitution}与{strength}+5，持续至战斗结束"
+desc = "来自一个叫肯塔基的城市，据说那里人擅长用僵尸烹饪食物"
+price = 5
+level = 5
+effects = Array[ExtResource("1_dlafh")]([SubResource("FullHeal"), SubResource("ResetCooldowns"), SubResource("SpawnZombies")])
+great_effects = Array[ExtResource("1_dlafh")]([SubResource("AddBuff")])
+tags = Array[ExtResource("3_vd2i7")]([ExtResource("4_j28bc"), ExtResource("5_uukn8"), ExtResource("6_ckq0r")])
+id = "129"
+is_consumable = true
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

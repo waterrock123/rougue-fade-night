@@ -1,0 +1,9 @@
+{
+  "kind": "pixel",
+  "fields": {
+    "template_name": "template5x5",
+    "requirement": "A single cute but threatening shambling zombie for a 2D top-down pixel roguelike. 32x32 pixel chibi character, big head small body, pale grey-green skin, hollow eyes, ragged dark brown shirt and trousers, bare hands reaching slightly forward, facing RIGHT in a three-quarter side view, feet down, full body centered with room for arm movement. Simple readable silhouette matching low-resolution RPG monsters, crisp pixels, small palette, no weapons, no gore, no text, no logo, no floor shadow, transparent background. Each output is a complete character candidate, not a spritesheet or animation sequence.",
+    "aspect_ratio": "1:1"
+  },
+  "reference_file": ""
+}

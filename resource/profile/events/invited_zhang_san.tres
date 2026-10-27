@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ProfileEventData" format=3]
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+event_id = &"invited_zhang_san"
+display_name = "迷茫之人"
+description = "在Y战警办事处追问保洁员的超能力，并邀请‘师傅’张三加入家园。他已经等了十年，仍坚信做好家务就是自己的超能力。"

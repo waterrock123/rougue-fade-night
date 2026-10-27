@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://duhu8gub242ne"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_vy4wi"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_kppsg"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_yrc82"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="4_yrc82"]
+[ext_resource type="Resource" uid="uid://dxale3ttna2jk" path="res://relic_tags/火炎tag.tres" id="5_1tddy"]
+[ext_resource type="Script" path="res://relic_effect/grant_active_skill_effect.gd" id="6_grant"]
+[ext_resource type="Resource" path="res://activate_skill/111_flamethrower.tres" id="7_skill"]
+[ext_resource type="Script" path="res://relic_effect/add_outgoing_damage_bonus_effect.gd" id="8_damage"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/136_flamethrower.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="GrantFlamethrower"]
+script = ExtResource("6_grant")
+skill_data = ExtResource("7_skill")
+
+[sub_resource type="Resource" id="FireDamageBonus"]
+script = ExtResource("8_damage")
+required_damage_types = Array[int]([2])
+flat_bonus = 2.0
+
+[resource]
+script = ExtResource("2_kppsg")
+relic_name = "喷火器"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "装备后获得额外{active_skill}“喷射火焰”：持续5秒向鼠标方向喷火，距离120，每0.2秒对接触的敌人造成10点火焰伤害并附加1层{burn}。期间移动速度减半，不能使用基础攻击，但可以使用其他主动技能。
+升级：你的火焰伤害+2。"
+desc = "一种高效手段，烧光一切吧"
+price = 4
+level = 4
+tags = Array[ExtResource("3_yrc82")]([ExtResource("4_yrc82"), ExtResource("5_1tddy")])
+id = "136"
+effects = Array[ExtResource("1_vy4wi")]([SubResource("GrantFlamethrower")])
+great_effects = Array[ExtResource("1_vy4wi")]([SubResource("FireDamageBonus")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

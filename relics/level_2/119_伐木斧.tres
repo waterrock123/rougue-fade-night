@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cb5d8rhgc6hln"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_vwt7n"]
+[ext_resource type="Texture2D" uid="uid://d1gl65rk7d08d" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1465.png" id="2_vwu51"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_y6gpg"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_vwu51"]
+[ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="5_tvghn"]
+[ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="6_stats"]
+[ext_resource type="Script" uid="uid://c2uijoyphrg80" path="res://relic_effect/map_object_destroyed_add_status_effect.gd" id="7_trigger"]
+[ext_resource type="Resource" uid="uid://f3kslavk3ybb" path="res://status/lumber_axe_strength.tres" id="8_status"]
+
+[sub_resource type="Resource" id="LumberAxeBaseStats"]
+script = ExtResource("6_stats")
+add_stats = {
+"strength": 1
+}
+
+[sub_resource type="Resource" id="LumberAxePlantTrigger"]
+script = ExtResource("7_trigger")
+required_feature_tag = &"beneficial_plant"
+status_data = ExtResource("8_status")
+duration_override = 30.0
+
+[sub_resource type="Resource" id="LumberAxeUpgradeStats"]
+script = ExtResource("6_stats")
+add_stats = {
+"dexterity": 2
+}
+
+[resource]
+script = ExtResource("2_y6gpg")
+relic_name = "伐木斧"
+icon = ExtResource("2_vwu51")
+tooltip = "力量+1，每当你摧毁一个有益植物时，力量+2，持续30秒
+升级：敏捷+2"
+price = 3
+level = 2
+tags = Array[ExtResource("3_vwu51")]([ExtResource("5_tvghn")])
+id = "119"
+effects = Array[ExtResource("1_vwt7n")]([SubResource("LumberAxeBaseStats"), SubResource("LumberAxePlantTrigger")])
+great_effects = Array[ExtResource("1_vwt7n")]([SubResource("LumberAxeUpgradeStats")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -26,7 +26,7 @@ var last_activation_time: int = -1
 
 
 func _activate(context: AbilityContext):
-	if context == null or context.caster == null:
+	if not is_inside_tree() or context == null or not is_instance_valid(context.caster):
 		return
 
 	if frequenct != -1 and Time.get_ticks_msec() - last_activation_time > max(clear_tween, 0):
@@ -74,7 +74,15 @@ func _move_with_physics(caster: Entity, push_dir: Vector2, context: AbilityConte
 	var safe_duration: float = max(duration, 0.001)
 	var elapsed_time: float = 0.0
 	while elapsed_time < safe_duration:
-		await get_tree().physics_frame
+		# 场景切换可能在等待前后发生，不能再次向已离树组件索取场景树。
+		if not is_inside_tree() or not is_instance_valid(caster) or not caster.is_inside_tree():
+			return
+		var tree: SceneTree = get_tree()
+		if tree == null:
+			return
+		await tree.physics_frame
+		if not is_inside_tree() or not is_instance_valid(caster) or not caster.is_inside_tree():
+			return
 
 		if context == null or not context.is_caster_action_valid():
 			return

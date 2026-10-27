@@ -1,0 +1,23 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_area_indicator.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_bounty_mark.gd" id="3"]
+[ext_resource type="Resource" path="res://status/bounty_mark.tres" id="4"]
+
+[node name="ScountBountyMarkAbility" type="Node"]
+script = ExtResource("1")
+cooldown = 10.0
+energy_cost = 8.0
+
+[node name="Indicator" type="Node" parent="."]
+script = ExtResource("2")
+shape = 4
+radius = 300.0
+target_radius = 40.0
+border_width = 1.0
+fill_color = Color(1.0, 0.8, 0.3, 0.05)
+
+[node name="Mark" type="Node" parent="."]
+script = ExtResource("3")
+mark_status = ExtResource("4")
+battle_gold_limit = 1

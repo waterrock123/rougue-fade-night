@@ -52,6 +52,11 @@ const SPAWN_ANY: StringName = &"any"
 @export var use_bounds_override: bool = false
 @export var bounds_override: Rect2i = Rect2i(Vector2i.ZERO, Vector2i.ZERO)
 
+@export_group("工坊可游玩区域")
+## 空数组沿用旧地图规则。工坊模板使用此遮罩区分外扩草地和真正的场内区域。
+## 若手工重画通道，须同步更新遮罩及GeneratedBoundary，不能只擦除墙体贴图。
+@export var playable_area_cells: PackedVector2Array = PackedVector2Array()
+
 @export_group("随机点")
 @export var random_spawn_max_attempts: int = 80
 ## 随机刷怪点与参考点之间的默认最小距离，通常传玩家位置作为参考点。
@@ -95,10 +100,15 @@ var random_areas_node: Node
 var navigation_grid: AStarGrid2D
 var navigation_bounds: Rect2i = Rect2i(Vector2i.ZERO, Vector2i.ZERO)
 var navigation_ready: bool = false
+## 从玩家出生点出发能够抵达的格子集合。
+## 地图边界外即使铺有地面，也不会被召唤、瞬移等系统视为安全落点。
+var playable_reachable_cells: Dictionary = {}
+var playable_reachable_cell_list: Array[Vector2i] = []
 var runtime_navigation_blockers_by_cell: Dictionary = {}
 var runtime_navigation_cells_by_blocker: Dictionary = {}
 var runtime_navigation_previous_solid_by_cell: Dictionary = {}
 var custom_data_layer_exists_cache: Dictionary = {}
+var authored_playable_cells: Dictionary = {}
 
 
 func _ready() -> void:
@@ -112,6 +122,7 @@ func _ready() -> void:
 ## 重新查找并缓存各个层。以后如果运行时替换地图层，可以调用它刷新引用。
 func refresh_layer_cache() -> void:
 	custom_data_layer_exists_cache.clear()
+	authored_playable_cells.clear()
 	ground_layers.clear()
 	for layer_path: NodePath in ground_layer_paths:
 		var layer: TileMapLayer = get_node_or_null(layer_path) as TileMapLayer
@@ -226,7 +237,7 @@ func get_random_enemy_spawn_position(
 	if not candidates.is_empty():
 		return candidates[randi_range(0, candidates.size() - 1)]
 
-	var random_position: Variant = get_random_walkable_position(reference_position, resolved_min_distance)
+	var random_position: Variant = get_random_playable_position(reference_position, resolved_min_distance)
 	if random_position is Vector2:
 		return random_position
 
@@ -244,6 +255,25 @@ func get_random_walkable_position(reference_position: Vector2 = Vector2.ZERO, mi
 		var world_position: Vector2 = cell_to_world_center(cell)
 		if not is_world_position_walkable(world_position):
 			continue
+		if min_distance > 0.0 and reference_position != Vector2.ZERO:
+			if world_position.distance_to(reference_position) < min_distance:
+				continue
+		return world_position
+
+	return null
+
+
+## 从玩家可达区域随机选择位置，适合敌人和运行时召唤物生成。
+func get_random_playable_position(reference_position: Vector2 = Vector2.ZERO, min_distance: float = 0.0) -> Variant:
+	_ensure_playable_region_ready()
+	if playable_reachable_cell_list.is_empty():
+		return get_random_walkable_position(reference_position, min_distance)
+
+	for _attempt: int in range(max(random_spawn_max_attempts, 1)):
+		var cell: Vector2i = playable_reachable_cell_list[randi_range(0, playable_reachable_cell_list.size() - 1)]
+		if not _is_navigation_cell_walkable(cell):
+			continue
+		var world_position: Vector2 = cell_to_world_center(cell)
 		if min_distance > 0.0 and reference_position != Vector2.ZERO:
 			if world_position.distance_to(reference_position) < min_distance:
 				continue
@@ -327,6 +357,64 @@ func get_nearest_walkable_position(world_position: Vector2, search_radius: int =
 	return null
 
 
+## 判断某个位置是否位于玩家能够抵达的战斗区域中。
+## clearance_cells 可为大型单位额外预留周围格子；普通实体通常保持 0 即可。
+func is_world_position_in_playable_region(world_position: Vector2, clearance_cells: int = 0) -> bool:
+	_ensure_playable_region_ready()
+	if playable_reachable_cells.is_empty():
+		return is_world_position_walkable(world_position)
+
+	var center_cell: Vector2i = world_to_cell(world_position)
+	return _is_playable_cell_clear(center_cell, clearance_cells)
+
+
+## 在期望位置附近寻找属于玩家可达区域的安全落点。
+## reserved_positions 用于一次生成多个实体时避免它们叠在同一点。
+func get_nearest_playable_position(
+	desired_position: Vector2,
+	search_radius_cells: int = 6,
+	clearance_cells: int = 0,
+	reserved_positions: Array[Vector2] = [],
+	minimum_separation: float = 0.0
+) -> Variant:
+	_ensure_playable_region_ready()
+	var origin_cell: Vector2i = world_to_cell(desired_position)
+	var radius_limit: int = max(search_radius_cells, 0)
+	for radius: int in range(0, radius_limit + 1):
+		for y_offset: int in range(-radius, radius + 1):
+			for x_offset: int in range(-radius, radius + 1):
+				if radius > 0 and abs(x_offset) < radius and abs(y_offset) < radius:
+					continue
+
+				var candidate_cell: Vector2i = origin_cell + Vector2i(x_offset, y_offset)
+				if not _is_playable_cell_clear(candidate_cell, clearance_cells):
+					continue
+
+				var candidate_position: Vector2 = cell_to_world_center(candidate_cell)
+				if _is_too_close_to_reserved(candidate_position, reserved_positions, minimum_separation):
+					continue
+				return candidate_position
+
+	return null
+
+
+## 检查两点之间是否始终处于安全区域，防止瞬移候选点隔着边界墙落在另一侧。
+func is_world_segment_in_playable_region(
+	start_position: Vector2,
+	end_position: Vector2,
+	clearance_cells: int = 0
+) -> bool:
+	var cell_size: Vector2 = _get_reference_cell_size()
+	var sample_step: float = max(min(cell_size.x, cell_size.y) * 0.5, 4.0)
+	var distance: float = start_position.distance_to(end_position)
+	var sample_count: int = max(int(ceil(distance / sample_step)), 1)
+	for index: int in range(sample_count + 1):
+		var weight: float = float(index) / float(sample_count)
+		if not is_world_position_in_playable_region(start_position.lerp(end_position, weight), clearance_cells):
+			return false
+	return true
+
+
 ## 判断世界坐标是否在地图边界内。
 func is_world_position_inside_bounds(world_position: Vector2) -> bool:
 	var bounds: Rect2i = get_map_bounds_cells()
@@ -343,6 +431,8 @@ func is_world_position_walkable(world_position: Vector2) -> bool:
 		return false
 
 	var cell: Vector2i = world_to_cell(world_position)
+	if not _is_cell_in_authored_playable_area(cell):
+		return false
 	if _is_runtime_navigation_blocked(cell):
 		return false
 	if require_ground_tile_for_walkable and not _has_ground_tile(cell):
@@ -390,6 +480,13 @@ func get_terrain_type(world_position: Vector2, default_type: StringName = &"") -
 
 
 ## 获取脚下移动消耗。AStarGrid2D 会用它做路径权重，Entity 也会用它修正实际移动速度。
+func is_road_at(world_position: Vector2) -> bool:
+	var road: TileMapLayer = get_node_or_null("RoadLayer") as TileMapLayer
+	if road == null:
+		return false
+	return road.get_cell_source_id(road.local_to_map(road.to_local(world_position))) >= 0
+
+
 func get_move_cost(world_position: Vector2, default_cost: float = 1.0) -> float:
 	var cell: Vector2i = world_to_cell(world_position)
 	var effect_cost: Variant = _get_custom_data(_get_tile_data(effect_layer, cell), CUSTOM_MOVE_COST)
@@ -558,6 +655,8 @@ func unregister_runtime_navigation_blocker(blocker: Node) -> void:
 func rebuild_navigation_grid() -> void:
 	navigation_ready = false
 	navigation_grid = null
+	playable_reachable_cells.clear()
+	playable_reachable_cell_list.clear()
 	runtime_navigation_previous_solid_by_cell.clear()
 	navigation_bounds = get_map_bounds_cells()
 	if navigation_bounds.size.x <= 0 or navigation_bounds.size.y <= 0:
@@ -585,6 +684,7 @@ func rebuild_navigation_grid() -> void:
 	_apply_navigation_obstacle_padding(blocked_cells)
 	_apply_runtime_navigation_blockers_to_grid()
 	navigation_ready = true
+	_rebuild_playable_reachable_cells()
 
 
 func has_navigation_grid() -> bool:
@@ -754,7 +854,7 @@ func _tile_spawn_type_matches(tile_spawn_type: StringName, expected_type: String
 func _filter_walkable_positions(source_positions: Array[Vector2], reference_position: Vector2, min_distance: float) -> Array[Vector2]:
 	var result: Array[Vector2] = []
 	for position: Vector2 in source_positions:
-		if not is_world_position_walkable(position):
+		if not is_world_position_in_playable_region(position):
 			continue
 		if min_distance > 0.0 and reference_position != Vector2.ZERO:
 			if position.distance_to(reference_position) < min_distance:
@@ -791,6 +891,8 @@ func _is_cell_walkable_for_navigation(cell: Vector2i) -> bool:
 
 
 func _is_cell_static_walkable_for_navigation(cell: Vector2i) -> bool:
+	if not _is_cell_in_authored_playable_area(cell):
+		return false
 	if require_ground_tile_for_walkable and not _has_ground_tile(cell):
 		return false
 
@@ -804,6 +906,16 @@ func _is_cell_static_walkable_for_navigation(cell: Vector2i) -> bool:
 			return false
 
 	return true
+
+
+## 只在缓存首次查询时建立字典；生成、寻路和召唤共用同一份场内边界。
+func _is_cell_in_authored_playable_area(cell: Vector2i) -> bool:
+	if playable_area_cells.is_empty():
+		return true
+	if authored_playable_cells.is_empty():
+		for point: Vector2 in playable_area_cells:
+			authored_playable_cells[Vector2i(point)] = true
+	return authored_playable_cells.has(cell)
 
 
 func _is_runtime_navigation_blocked(cell: Vector2i) -> bool:
@@ -1163,6 +1275,97 @@ func _find_nearest_navigation_cell(origin_cell: Vector2i, max_radius: int) -> Va
 					return candidate
 
 	return null
+
+
+func _ensure_playable_region_ready() -> void:
+	if not has_navigation_grid() and build_navigation_on_ready:
+		rebuild_navigation_grid()
+	elif has_navigation_grid() and playable_reachable_cells.is_empty():
+		_rebuild_playable_reachable_cells()
+
+
+## 以玩家出生点为种子做洪泛搜索，只缓存围栏内与玩家真正连通的区域。
+func _rebuild_playable_reachable_cells() -> void:
+	playable_reachable_cells.clear()
+	playable_reachable_cell_list.clear()
+	if not has_navigation_grid():
+		return
+
+	var anchor_position: Vector2 = get_player_spawn_position(cell_to_world_center(navigation_bounds.get_center()))
+	var anchor_value: Variant = _resolve_navigation_cell(world_to_cell(anchor_position))
+	if not (anchor_value is Vector2i):
+		return
+
+	var anchor_cell: Vector2i = anchor_value
+	var pending_cells: Array[Vector2i] = [anchor_cell]
+	playable_reachable_cells[anchor_cell] = true
+	playable_reachable_cell_list.append(anchor_cell)
+	var read_index: int = 0
+	while read_index < pending_cells.size():
+		var current_cell: Vector2i = pending_cells[read_index]
+		read_index += 1
+		for neighbor_cell: Vector2i in _get_navigation_neighbors(current_cell):
+			if playable_reachable_cells.has(neighbor_cell):
+				continue
+			playable_reachable_cells[neighbor_cell] = true
+			playable_reachable_cell_list.append(neighbor_cell)
+			pending_cells.append(neighbor_cell)
+
+
+func _get_navigation_neighbors(cell: Vector2i) -> Array[Vector2i]:
+	var result: Array[Vector2i] = []
+	var cardinal_directions: Array[Vector2i] = [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.DOWN, Vector2i.UP]
+	for direction: Vector2i in cardinal_directions:
+		var candidate: Vector2i = cell + direction
+		if _is_navigation_cell_walkable(candidate):
+			result.append(candidate)
+
+	if not allow_diagonal_navigation:
+		return result
+
+	var diagonal_directions: Array[Vector2i] = [
+		Vector2i(1, 1),
+		Vector2i(1, -1),
+		Vector2i(-1, 1),
+		Vector2i(-1, -1),
+	]
+	for direction: Vector2i in diagonal_directions:
+		var candidate: Vector2i = cell + direction
+		if not _is_navigation_cell_walkable(candidate):
+			continue
+		# 与 AStarGrid2D 的 ONLY_IF_NO_OBSTACLES 规则保持一致，避免穿过墙角。
+		if not _is_navigation_cell_walkable(cell + Vector2i(direction.x, 0)):
+			continue
+		if not _is_navigation_cell_walkable(cell + Vector2i(0, direction.y)):
+			continue
+		result.append(candidate)
+
+	return result
+
+
+func _is_playable_cell_clear(center_cell: Vector2i, clearance_cells: int) -> bool:
+	var clearance: int = max(clearance_cells, 0)
+	for y_offset: int in range(-clearance, clearance + 1):
+		for x_offset: int in range(-clearance, clearance + 1):
+			var candidate: Vector2i = center_cell + Vector2i(x_offset, y_offset)
+			if not playable_reachable_cells.is_empty() and not playable_reachable_cells.has(candidate):
+				return false
+			if not _is_navigation_cell_walkable(candidate):
+				return false
+	return true
+
+
+func _is_too_close_to_reserved(
+	candidate_position: Vector2,
+	reserved_positions: Array[Vector2],
+	minimum_separation: float
+) -> bool:
+	if minimum_separation <= 0.0:
+		return false
+	for reserved_position: Vector2 in reserved_positions:
+		if candidate_position.distance_squared_to(reserved_position) < minimum_separation * minimum_separation:
+			return true
+	return false
 
 
 func _rect_has_cell(rect: Rect2i, cell: Vector2i) -> bool:

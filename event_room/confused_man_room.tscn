@@ -1,0 +1,89 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://event_room/confused_man_room.gd" id="1"]
+[ext_resource type="PackedScene" path="res://event_room/event_button.tscn" id="2"]
+
+[node name="ConfusedManRoom" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="DescLabel" type="Label" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+offset_left = 140.0
+offset_top = 120.0
+offset_right = -140.0
+offset_bottom = 420.0
+theme_override_font_sizes/font_size = 34
+text = "这里是一处金碧辉煌的大厅，一个保洁员打扮的男人默默扫着灰尘。\n“这里是超能力组织‘Y战警’办事处。这里的人能移山填海，喷火吐水，心灵控制。不过，他们都出去执行任务了。你有什么事么？”"
+autowrap_mode = 2
+
+[node name="SkillButton" parent="." instance=ExtResource("2")]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 470.0
+offset_right = 1000.0
+offset_bottom = 570.0
+desc_text = "我也想要有超能力！"
+detail_text = "获得一个随机的主动技能"
+pressed_desc = Array[String](["男人带你来到幽暗的房间。中央发光的石头照亮了你，你获得了新的能力。"])
+
+[node name="RelicButton" parent="." instance=ExtResource("2")]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 610.0
+offset_right = 1000.0
+offset_bottom = 710.0
+desc_text = "没有什么神奇物品之类的？"
+detail_text = "获得一件3阶及以上的随机装备"
+pressed_desc = Array[String](["男人带你来到明亮的陈列室，从各式各样的装备里拿出一件递给你。\n“这是成员们不需要的物件之一，送给你了。”"])
+
+[node name="AskButton" parent="." instance=ExtResource("2")]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 750.0
+offset_right = 1000.0
+offset_bottom = 850.0
+desc_text = "你有什么超能力？我很好奇。"
+detail_text = "？"
+pressed_desc = Array[String](["“Y教授说，我的超能力很适合居家发动。马桶堵了、冰箱坏了，大大小小的问题我都能解决。”\n他略带自豪，又有些迷茫。\n“我打理这里已经十年了，去执行任务的人没有一个回来。你们缺一个打理屋子、解决家居问题的人么？”"])
+
+[node name="InviteButton" parent="." instance=ExtResource("2")]
+visible = false
+layout_mode = 0
+offset_left = 160.0
+offset_top = 610.0
+offset_right = 1100.0
+offset_bottom = 710.0
+desc_text = "当然，欢迎加入我们的团队"
+detail_text = "‘师傅’张三加入你的家园"
+pressed_desc = Array[String](["“那就说定了！我叫张三，大家喊我师傅就好。”\n他握紧扫帚，认真地向你点了点头。张三将出现在大厅。"])
+
+[node name="LeaveButton" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -180.0
+offset_right = -100.0
+offset_bottom = -80.0
+theme_override_font_sizes/font_size = 36
+text = "离开"
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

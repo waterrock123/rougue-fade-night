@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ProfileEventData" format=3]
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+event_id = &"zhang_san_requested"
+display_name = "工欲善其事，必先利其器"
+description = "张三考察了家园，提出需要冰箱、水桶和太阳能发电板。可从大厅仓库选定一件携带，分次交付；锁定装备需要先手动解锁。"
+required_completed_event_ids = Array[StringName]([&"invited_zhang_san"])

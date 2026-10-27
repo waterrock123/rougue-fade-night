@@ -7,6 +7,9 @@ var ability_name:String
 var icon_texture: Texture2D
 @export var cooldown: float =2.0
 @export var energy_cost:float = 10.0
+@export_group("技能元素（场景后备）")
+## 仅无ActiveSkillData的怪物/召唤物技能使用；玩家技能以ActiveSkillData.element_tags为准。
+@export var fallback_element_tags: Array[StringName] = []
 @export_group("AI 释放距离")
 ## AI 释放这个技能的最小距离。0 表示没有最近距离限制。
 @export var ai_min_cast_distance: float = 0.0
@@ -47,10 +50,31 @@ func apply_skill_data(new_skill_data: ActiveSkillData, new_skill_entry: SkillEnt
 		energy_cost = skill_data.base_energy_cost
 
 
-func  activate(entity: Entity):
-	var context=AbilityContext.new(entity,self)
-	
+func activate(entity: Entity, charge_ratio: float = 0.0, paid_context: AbilityContext = null):
+	var context: AbilityContext = paid_context if paid_context != null else AbilityContext.new(entity, self)
+	context.charge_ratio = clampf(charge_ratio, 0.0, 1.0)
+	var controller: AbilityController = get_parent() as AbilityController
+	if controller != null:
+		var tuning: Dictionary = controller.get_cast_tuning(self)
+		context.projectile_damage_multiplier = float(tuning["damage_multiplier"])
+		context.projectile_count_override = int(tuning["projectile_count"])
+		controller.prepare_cast_context(context)
 	_activate_components(context)
+
+
+## 总是返回副本，调用方不能通过修改数组污染技能资源。
+func get_element_tags() -> Array[StringName]:
+	if skill_data != null:
+		return skill_data.get_element_tags()
+	return SkillElementTags.normalized(fallback_element_tags)
+
+
+func has_element_tag(tag: StringName) -> bool:
+	return SkillElementTags.has_tag(get_element_tags(), tag)
+
+
+func matches_element_tags(required: Array[StringName], require_all: bool = false) -> bool:
+	return SkillElementTags.matches(get_element_tags(), required, require_all)
 
 
 # 释放前校验：给“需要弹药/材料/特殊资源”的技能组件预留扩展点。
@@ -76,8 +100,8 @@ func get_activation_block_reason(entity: Entity) -> String:
 
 
 # 真正支付额外释放成本；只有 AbilityController 已确认能量/冷却通过后才会调用。
-func pay_activation_costs(entity: Entity) -> bool:
-	var context := AbilityContext.new(entity, self)
+func pay_activation_costs(entity: Entity, paid_context: AbilityContext = null) -> bool:
+	var context: AbilityContext = paid_context if paid_context != null else AbilityContext.new(entity, self)
 	for component in _get_activation_cost_components():
 		if component.has_method("pay_ability_cost") and not component.pay_ability_cost(context):
 			return false
@@ -126,6 +150,8 @@ func get_ai_max_cast_distance(fallback_max_distance: float) -> float:
 func has_cast_preview() -> bool:
 	for child in get_children():
 		if child is AbilityComponent and child.has_method("begin_preview"):
+			if child.has_method("is_preview_enabled") and not child.is_preview_enabled():
+				continue
 			return true
 	return false
 
@@ -138,6 +164,8 @@ func begin_cast_preview(entity: Entity) -> void:
 	preview_context = AbilityContext.new(entity, self)
 	for child in get_children():
 		if child is AbilityComponent and child.has_method("begin_preview"):
+			if child.has_method("is_preview_enabled") and not child.is_preview_enabled():
+				continue
 			child.begin_preview(preview_context)
 
 

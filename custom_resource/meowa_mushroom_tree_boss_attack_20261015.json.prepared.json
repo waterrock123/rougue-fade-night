@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "0.00-0.40: rooted trunk braces, raise both thick root arms outward. 0.40-0.75: root arms coil backward for a clearly readable windup. 0.75-0.90: fast heavy horizontal root-arm sweep toward the foreground, impact at 0.80 seconds. 0.90-1.40: root arms finish the arc, trunk recoils. 1.40-1.80: return to reference rooted stance. 1.80-2.00: settled idle pose. Preserve the exact mushroom-crown ancient-tree boss identity, earthy pixel palette, crisp dark outlines, front-facing view and transparent 128x128 canvas of the reference. Root base anchored at the same lower-center point except vertical compression. Entire crown and both arms stay inside the canvas, no cropping, no walk, no spinning, no zoom, no blur, no added background. Each action is a true continuous animation of ONE character.",
+		"alpha_mode": "sharp",
+		"animation_mode": "non_loop",
+		"duration_seconds": 2.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/enemy/mushroom_tree_boss/source.png"
+}

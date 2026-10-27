@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://dcobuqo4c6t7x"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_c0x3d"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_5el2c"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_i32c3"]
+[ext_resource type="Resource" uid="uid://hjj7m0sxu800" path="res://relic_tags/情感tag.tres" id="4_i32c3"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="5_7w7jx"]
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="6_stats"]
+[ext_resource type="Script" path="res://relic_effect/use_permanent_derived_stats_effect.gd" id="7_permanent"]
+
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb511.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="ChangedJoyStats"]
+script = ExtResource("6_stats")
+add_stats = {"intelligence": 1, "strength": 1}
+
+[sub_resource type="Resource" id="ChangedJoyDefense"]
+script = ExtResource("7_permanent")
+add_derived_stats = {"damage_reduction_rate": 0.02}
+
+[sub_resource type="Resource" id="ChangedJoyCritical"]
+script = ExtResource("7_permanent")
+add_derived_stats = {"crit_chance": 0.02}
+
+[resource]
+script = ExtResource("2_5el2c")
+relic_name = "改变的欣喜"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "{intelligence}+1，{strength}+1，使用后永久获得减伤率+2%
+升级：使用后额外永久获得{crit_chance}+2%"
+desc = "为一些好的改变而出现的欣喜，体现为一块小蛋糕"
+level = 2
+tags = Array[ExtResource("3_i32c3")]([ExtResource("4_i32c3"), ExtResource("5_7w7jx")])
+id = "209"
+is_consumable = true
+effects = Array[ExtResource("1_c0x3d")]([SubResource("ChangedJoyStats"), SubResource("ChangedJoyDefense")])
+great_effects = Array[ExtResource("1_c0x3d")]([SubResource("ChangedJoyCritical")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

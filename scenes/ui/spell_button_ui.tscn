@@ -7,7 +7,9 @@
 font_size = 30
 
 [sub_resource type="LabelSettings" id="LabelSettings_la03w"]
-font_size = 30
+font_size = 16
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
 
 [node name="SpellButton" type="TextureButton" unique_id=70419881 node_paths=PackedStringArray("icon", "progress_bar", "cooldown_label", "keybind_label")]
 texture_filter = 1
@@ -70,12 +72,13 @@ horizontal_alignment = 1
 
 [node name="KeybindLabel" type="Label" parent="." unique_id=1088437193]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 3.0
-offset_right = 44.0
-offset_bottom = 45.0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 137.0
+offset_bottom = 43.0
 text = "2"
 label_settings = SubResource("LabelSettings_la03w")
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]

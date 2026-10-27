@@ -19,6 +19,7 @@ func create_player_build() -> PlayerBuild:
 
 	var build := PlayerBuild.new()
 	build.player_stats = _duplicate_resource(picked_character.start_stats)
+	build.initial_stats = _duplicate_resource(picked_character.start_stats)
 	build.player_inventory = _duplicate_resource(picked_character.start_inventory)
 	build.player_equipment = _duplicate_resource(picked_character.start_equipment)
 	build.current_health = 0.0

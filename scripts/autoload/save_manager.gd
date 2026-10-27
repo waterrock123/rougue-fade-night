@@ -5,6 +5,7 @@ const SAVE_PATH := "user://savegame.json"
 const SAVE_VERSION := 1
 
 var _cached_save_data: Dictionary = {}
+var _relic_tags_by_name: Dictionary = {}
 
 
 func has_continue_save() -> bool:
@@ -23,16 +24,51 @@ func save_run(run: Run) -> bool:
 	if run == null or run.run_stats == null:
 		return false
 
-	var save_data := {
+	var save_data: Dictionary = _get_run_save_data(run)
+	if save_data.is_empty():
+		push_warning("缺少当前房间的入房检查点，取消保存以免写入事件后的数据。")
+		return false
+	return _write_save_data(save_data)
+
+
+func _get_run_save_data(run: Run) -> Dictionary:
+	# 包括强制保存：未胜利时禁止用当前奖励、消耗或随机数覆盖入房快照。
+	if run.current_flow_state == Run.FLOW_EVENT_ROOM:
+		return run.get_event_checkpoint_save_data()
+	return build_run_snapshot(run)
+
+
+func build_run_snapshot(run: Run) -> Dictionary:
+	var save_data: Dictionary = {
 		"version": SAVE_VERSION,
 		"flow_state": run.current_flow_state,
-		"rng": RunRng.get_save_data(),
+		"rng": _serialize_rng_state(),
 		"run_stats": _serialize_run_stats(run.run_stats),
 		"map": run.map.get_save_data() if run.map != null and run.map.has_method("get_save_data") else {},
 		"current_room": _serialize_room_key(run.current_room),
 		"level_up_rewards": _serialize_level_up_rewards(run.level_up_reward_options),
+		"debug_next_battle_map_template_path": run.debug_next_battle_map_template_path,
 	}
+	# 序列化字段中仍有嵌套数组和字典，必须深拷贝，不能与运行时共享引用。
+	return save_data.duplicate(true)
 
+
+func _serialize_rng_state() -> Dictionary:
+	var data: Dictionary = RunRng.get_save_data()
+	# JSON 数字读回为浮点，64位随机数状态必须存字符串，否则续档会改变事件结果。
+	return {"seed": str(data.get("seed", 0)), "state": str(data.get("state", 0))}
+
+
+## 设置测试地图时只补写独立调试字段，绝不从运行时重建事件/升级奖励检查点。
+func save_debug_battle_map_override(path: String) -> bool:
+	var saved: Dictionary = load_save_data()
+	if saved.is_empty():
+		return false
+	saved["debug_next_battle_map_template_path"] = path
+	return _write_save_data(saved)
+
+
+func _write_save_data(save_data: Dictionary) -> bool:
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file == null:
 		push_warning("无法写入存档：%s" % SAVE_PATH)
@@ -40,7 +76,7 @@ func save_run(run: Run) -> bool:
 
 	file.store_string(JSON.stringify(save_data, "\t"))
 	file.close()
-	_cached_save_data = save_data
+	_cached_save_data = save_data.duplicate(true)
 	return true
 
 
@@ -58,7 +94,7 @@ func load_save_data() -> Dictionary:
 	if not (parsed is Dictionary):
 		return {}
 
-	_cached_save_data = parsed
+	_cached_save_data = parsed.duplicate(true)
 	return parsed
 
 
@@ -83,8 +119,10 @@ func build_run_stats_from_save(save_data: Dictionary) -> RunStats:
 	result.shop = _deserialize_shop(run_stats_data.get("shop", {}) as Dictionary)
 	result.picked_character = _load_resource_or_null(str(run_stats_data.get("character_path", ""))) as Character
 	result.shop_config = _load_resource_or_null(str(run_stats_data.get("shop_config_path", ""))) as ShopConfig
-	if result.shop_config == null and result.picked_character != null and result.picked_character.start_shop_config != null:
-		result.shop_config = result.picked_character.start_shop_config.duplicate(true) as ShopConfig
+	result.carried_relic_penalty_rate = float(run_stats_data.get("carried_relic_penalty_rate", 0.0))
+	result.carried_relic_name = str(run_stats_data.get("carried_relic_name", ""))
+	_restore_legacy_initial_stats(result)
+	result.ensure_shop_runtime()
 	result.base_rest_period_gold = int(run_stats_data.get("base_rest_period_gold", result.base_rest_period_gold))
 	result.rest_period_gold_growth = int(run_stats_data.get("rest_period_gold_growth", result.rest_period_gold_growth))
 	result.rest_period_gold_flat_bonus = int(run_stats_data.get("rest_period_gold_flat_bonus", result.rest_period_gold_flat_bonus))
@@ -95,14 +133,25 @@ func build_run_stats_from_save(save_data: Dictionary) -> RunStats:
 	result.shop_free_refresh_count = int(run_stats_data.get("shop_free_refresh_count", 0))
 	result.shop_refresh_count_this_rest_period = int(run_stats_data.get("shop_refresh_count_this_rest_period", 0))
 	result.pending_bounty_enemy_entries = _deserialize_bounty_enemy_entries(run_stats_data.get("pending_bounty_enemy_entries", []))
+	result.pending_battle_all_primary_stats_bonus = int(run_stats_data.get("pending_battle_all_primary_stats_bonus", 0))
 	result.persistent_status_stacks = _to_int_dictionary(run_stats_data.get("persistent_status_stacks", {}))
+	result.map_status_serial = maxi(int(run_stats_data.get("map_status_serial", 0)), 0)
+	for entry: Variant in run_stats_data.get("stored_map_statuses", []):
+		if entry is Dictionary:
+			result.stored_map_statuses.append(entry.duplicate(true))
 	result.persistent_passive_counters = _to_int_dictionary(run_stats_data.get("persistent_passive_counters", {}))
 	result.current_battle_map_template_path = str(run_stats_data.get("current_battle_map_template_path", ""))
+	result.active_weather_id = StringName(str(run_stats_data.get("active_weather_id", "sunny")))
+	# 旧存档缺少楼层字段时，按第一层恢复。
+	result.current_floor_index = maxi(int(run_stats_data.get("current_floor_index", 0)), 0)
+	result.weather_remaining_rooms = max(int(run_stats_data.get("weather_remaining_rooms", 0)), 0)
+	result.active_environment_id = StringName(str(run_stats_data.get("active_environment_id", "normal")))
+	result.environment_remaining_rooms = max(int(run_stats_data.get("environment_remaining_rooms", 0)), 0)
 	result.selected_tag_effects = _deserialize_tag_effects(run_stats_data.get("selected_tag_effects", []))
 	result.completed_once_tag_effect_ids = _to_string_name_array(run_stats_data.get("completed_once_tag_effect_ids", []))
 	result.map_tag_enable_limit = int(run_stats_data.get("map_tag_enable_limit", result.map_tag_enable_limit))
 	result.enabled_map_tag_keys = _to_string_array(run_stats_data.get("enabled_map_tag_keys", []))
-	result.trim_enabled_map_tags_to_limit()
+	# 装备来源的额外容量尚未恢复，交给 Run 完成装备初始化后再裁剪。
 	result.set_gold(int(run_stats_data.get("gold", result.gold)))
 	return result
 
@@ -130,6 +179,8 @@ func _serialize_run_stats(run_stats: RunStats) -> Dictionary:
 		"shop": _serialize_shop(run_stats.shop),
 		"shop_config_path": _get_resource_path(run_stats.shop_config),
 		"character_path": _get_resource_path(run_stats.picked_character),
+		"carried_relic_penalty_rate": run_stats.carried_relic_penalty_rate,
+		"carried_relic_name": run_stats.carried_relic_name,
 		"base_rest_period_gold": run_stats.base_rest_period_gold,
 		"rest_period_gold_growth": run_stats.rest_period_gold_growth,
 		"rest_period_gold_flat_bonus": run_stats.rest_period_gold_flat_bonus,
@@ -140,9 +191,17 @@ func _serialize_run_stats(run_stats: RunStats) -> Dictionary:
 		"shop_free_refresh_count": run_stats.shop_free_refresh_count,
 		"shop_refresh_count_this_rest_period": run_stats.shop_refresh_count_this_rest_period,
 		"pending_bounty_enemy_entries": _serialize_bounty_enemy_entries(run_stats.pending_bounty_enemy_entries),
+		"pending_battle_all_primary_stats_bonus": run_stats.pending_battle_all_primary_stats_bonus,
 		"persistent_status_stacks": run_stats.persistent_status_stacks,
+		"stored_map_statuses": run_stats.stored_map_statuses.duplicate(true),
+		"map_status_serial": run_stats.map_status_serial,
 		"persistent_passive_counters": run_stats.persistent_passive_counters,
 		"current_battle_map_template_path": run_stats.current_battle_map_template_path,
+		"active_weather_id": String(run_stats.active_weather_id),
+		"current_floor_index": run_stats.current_floor_index,
+		"weather_remaining_rooms": run_stats.weather_remaining_rooms,
+		"active_environment_id": String(run_stats.active_environment_id),
+		"environment_remaining_rooms": run_stats.environment_remaining_rooms,
 		"selected_tag_effects": _serialize_tag_effects(run_stats.selected_tag_effects),
 		"completed_once_tag_effect_ids": _string_name_array_to_strings(run_stats.completed_once_tag_effect_ids),
 		"map_tag_enable_limit": run_stats.map_tag_enable_limit,
@@ -199,6 +258,8 @@ func _serialize_player_build(player_build: PlayerBuild) -> Dictionary:
 
 	return {
 		"player_stats": _serialize_stats_data(player_build.player_stats),
+		"initial_stats": _serialize_stats_data(player_build.initial_stats),
+		"permanent_stat_bonuses": player_build.permanent_stat_bonuses.duplicate(true),
 		"inventory_slots": _serialize_slots(player_build.player_inventory.slots if player_build.player_inventory != null else []),
 		"equipment_slots": _serialize_slots(player_build.player_equipment.equip_slots if player_build.player_equipment != null else []),
 		"current_health": player_build.current_health,
@@ -215,6 +276,10 @@ func _serialize_player_build(player_build: PlayerBuild) -> Dictionary:
 func _deserialize_player_build(data: Dictionary) -> PlayerBuild:
 	var build := PlayerBuild.new()
 	build.player_stats = _deserialize_stats_data(data.get("player_stats", {}) as Dictionary)
+	var initial_data: Dictionary = data.get("initial_stats", {}) as Dictionary
+	if not initial_data.is_empty():
+		build.initial_stats = _deserialize_stats_data(initial_data)
+	build.permanent_stat_bonuses = _deserialize_permanent_stat_bonuses(data.get("permanent_stat_bonuses", {}))
 	build.player_inventory = Inventory.new()
 	build.player_inventory.slots = _deserialize_slots(data.get("inventory_slots", []))
 	build.player_equipment = Equipment.new()
@@ -229,6 +294,35 @@ func _deserialize_player_build(data: Dictionary) -> PlayerBuild:
 	build.owned_active_skills = _deserialize_skill_entries(data.get("owned_active_skills", []), true)
 	build.owned_passive_skills = _deserialize_skill_entries(data.get("owned_passive_skills", []), false)
 	return build
+
+
+## 旧档没有初始快照时退回角色初始值，并保留本局不能解除的携带惩罚。
+func _restore_legacy_initial_stats(run_stats: RunStats) -> void:
+	var build: PlayerBuild = run_stats.player_build
+	var character: Character = run_stats.picked_character
+	if build == null or build.initial_stats != null or character == null or character.start_stats == null:
+		return
+	build.initial_stats = character.start_stats.duplicate(true) as StatsData
+	var initial: StatsData = build.initial_stats
+	var rate: float = clampf(run_stats.carried_relic_penalty_rate, 0.0, 1.0)
+	if rate <= 0.0:
+		return
+	var health: float = initial.base_max_health + float(initial.constitution) * 5.0
+	var energy: float = initial.base_max_energy + float(initial.intelligence) * 3.0
+	initial.base_max_health = maxf(health * (1.0 - rate) - float(initial.constitution) * 5.0, 1.0)
+	initial.base_max_energy = maxf(energy * (1.0 - rate) - float(initial.intelligence) * 3.0, 1.0)
+
+
+## 只接受有限数字；旧档缺少此字段时得到空账本。
+func _deserialize_permanent_stat_bonuses(data: Variant) -> Dictionary:
+	var result: Dictionary = {}
+	if not data is Dictionary:
+		return result
+	for key: Variant in data:
+		var value: Variant = data[key]
+		if (value is int or value is float) and is_finite(float(value)):
+			result[str(key)] = float(value)
+	return result
 
 
 func _serialize_stats_data(stats: StatsData) -> Dictionary:
@@ -353,11 +447,19 @@ func _serialize_relic(relic: Relic) -> Dictionary:
 		"leveltip": int(relic.leveltip),
 		"level": relic.level,
 		"price": relic.price,
+		"shop_original_price": relic.shop_original_price,
 		"sell_price": relic.sell_price,
 		"accumulated_stat_bonuses": relic.accumulated_stat_bonuses,
+		"effect_counters": relic.effect_counters,
 		"is_temporary": relic.is_temporary,
 		"temporary_source_key": String(relic.temporary_source_key),
+		"relic_tags": _serialize_relic_tags(relic.tags),
 	}
+
+
+## 局外仓库复用单局存档的装备格式，避免升级态和成长属性在两套格式间漂移。
+func serialize_relic_for_profile(relic: Relic) -> Dictionary:
+	return _serialize_relic(relic)
 
 
 func _deserialize_relic(data: Dictionary) -> Relic:
@@ -370,16 +472,71 @@ func _deserialize_relic(data: Dictionary) -> Relic:
 	if relic == null:
 		return null
 
+	var resource_price := relic.price
 	relic = relic.duplicate(true) as Relic
 	relic.relic_name = str(data.get("relic_name", relic.relic_name))
 	relic.leveltip = int(data.get("leveltip", int(relic.leveltip)))
 	relic.level = int(data.get("level", relic.level))
 	relic.price = int(data.get("price", relic.price))
+	# 兼容旧存档：旧数据没有该字段时，用装备资源本身的价格作为原价。
+	relic.shop_original_price = int(data.get("shop_original_price", resource_price))
 	relic.sell_price = int(data.get("sell_price", relic.sell_price))
 	relic.accumulated_stat_bonuses = (data.get("accumulated_stat_bonuses", relic.accumulated_stat_bonuses) as Dictionary).duplicate(true)
+	# 旧存档没有非属性计数时从空进度开始。
+	relic.effect_counters = (data.get("effect_counters", {}) as Dictionary).duplicate(true)
 	relic.is_temporary = bool(data.get("is_temporary", false))
 	relic.temporary_source_key = StringName(str(data.get("temporary_source_key", "")))
+	# 老存档沿用资源原标签；新存档保留后天添加的寒霜等标签，避免转换前的检查点丢失条件。
+	if data.has("relic_tags"):
+		relic.tags = _deserialize_relic_tags(data["relic_tags"])
 	return relic
+
+
+func _serialize_relic_tags(tags: Array[RelicTag]) -> Array:
+	var result: Array = []
+	for tag: RelicTag in tags:
+		if tag != null:
+			result.append({"path": tag.resource_path, "name": tag.tag_name})
+	return result
+
+
+func _deserialize_relic_tags(data: Variant) -> Array[RelicTag]:
+	var result: Array[RelicTag] = []
+	if not (data is Array):
+		return result
+	for value: Variant in data:
+		if not (value is Dictionary):
+			continue
+		var tag: RelicTag = _load_resource_or_null(str(value.get("path", ""))) as RelicTag
+		if tag == null:
+			tag = _find_relic_tag_by_name(str(value.get("name", "")))
+		if tag != null:
+			result.append(tag)
+	return result
+
+
+## 深复制的标签可能没有 resource_path，按名称回到现有标签库；缓存避免逐件装备反复扫描。
+func _find_relic_tag_by_name(tag_name: String) -> RelicTag:
+	if _relic_tags_by_name.is_empty():
+		var files: PackedStringArray = DirAccess.get_files_at("res://relic_tags")
+		files.sort()
+		for file: String in files:
+			if not file.ends_with(".tres"):
+				continue
+			var tag: RelicTag = load("res://relic_tags/" + file) as RelicTag
+			if tag != null and not _relic_tags_by_name.has(tag.tag_name):
+				_relic_tags_by_name[tag.tag_name] = tag
+		# 同名标签可能有旧资源副本，优先保留地图数据库使用的规范资源路径。
+		var database: MapTagInfluenceDatabase = load("res://custom_resource/default_map_tag_influence_database.tres") as MapTagInfluenceDatabase
+		if database != null:
+			for influence: MapTagInfluenceData in database.influences:
+				if influence != null and influence.tag != null:
+					_relic_tags_by_name[influence.tag.tag_name] = influence.tag
+	return _relic_tags_by_name.get(tag_name) as RelicTag
+
+
+func deserialize_relic_from_profile(data: Dictionary) -> Relic:
+	return _deserialize_relic(data)
 
 
 func _serialize_skill_entries(entries: Array[SkillEntry]) -> Array:
@@ -543,6 +700,7 @@ func _serialize_skill_data(skill_data: SkillData) -> Dictionary:
 		result["base_energy_cost"] = active_data.base_energy_cost
 		result["slot_type"] = String(active_data.slot_type)
 		result["is_basic_attack"] = active_data.is_basic_attack
+		result["element_tags"] = _string_name_array_to_strings(active_data.get_element_tags())
 
 	return result
 
@@ -565,6 +723,7 @@ func _deserialize_skill_data(data: Dictionary, active: bool) -> SkillData:
 		active_data.base_energy_cost = float(data.get("base_energy_cost", 0.0))
 		active_data.slot_type = StringName(str(data.get("slot_type", "")))
 		active_data.is_basic_attack = bool(data.get("is_basic_attack", false))
+		active_data.element_tags = SkillElementTags.normalized(_to_string_name_array(data.get("element_tags", [])))
 		return active_data
 
 	var passive_data := PassiveSkillData.new()

@@ -6,6 +6,7 @@ extends Node
 @export var player_build: PlayerBuild
 
 var active_relic_entries: Array[Dictionary] = []
+var active_inventory_relic_entries: Array[Dictionary] = []
 var deferred_refresh_requested := false
 
 
@@ -14,6 +15,8 @@ func _ready() -> void:
 
 	if not EventBus.equipment_update.is_connected(_on_equipment_changed):
 		EventBus.equipment_update.connect(_on_equipment_changed)
+	if not EventBus.inventory_update.is_connected(_on_inventory_changed):
+		EventBus.inventory_update.connect(_on_inventory_changed)
 
 	# 子节点 ready 时，Run/Player 可能还没把 PlayerBuild 传下来。
 	# 这次延迟刷新只是兜底；如果外部已经主动 refresh_all()，它会被跳过。
@@ -24,6 +27,8 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	if EventBus.equipment_update.is_connected(_on_equipment_changed):
 		EventBus.equipment_update.disconnect(_on_equipment_changed)
+	if EventBus.inventory_update.is_connected(_on_inventory_changed):
+		EventBus.inventory_update.disconnect(_on_inventory_changed)
 
 	# 场景销毁时也清理装备效果，避免监听全局信号的遗物效果残留到下一场景。
 	_deactivate_all_relics()
@@ -83,10 +88,44 @@ func refresh_all() -> void:
 			"relic": relic,
 			"key": relic_key,
 		})
+	_refresh_inventory_effects()
 
 
 func _on_equipment_changed() -> void:
 	refresh_all()
+
+
+func _on_inventory_changed() -> void:
+	_refresh_inventory_effects()
+
+
+func _refresh_inventory_effects() -> void:
+	_deactivate_inventory_effects()
+	var effect_owner: Node = _get_effect_owner()
+	if effect_owner == null:
+		return
+	var build: PlayerBuild = player_build
+	if build == null and player != null:
+		build = player.stats_controller.player_build if player.stats_controller != null else null
+	if build == null or build.player_inventory == null:
+		return
+	for slot_index: int in range(build.player_inventory.slots.size()):
+		var slot: Slot = build.player_inventory.slots[slot_index]
+		if slot == null or slot.item == null or slot.item.inventory_effects.is_empty():
+			continue
+		var relic_key: String = "inventory_slot_%d_%s" % [slot_index, slot.item.id]
+		slot.item.activate_inventory_effects(effect_owner, self, relic_key)
+		active_inventory_relic_entries.append({"relic": slot.item, "key": relic_key})
+
+
+func _deactivate_inventory_effects() -> void:
+	var effect_owner: Node = _get_effect_owner()
+	if effect_owner != null:
+		for entry: Dictionary in active_inventory_relic_entries:
+			var relic: Relic = entry.get("relic") as Relic
+			if relic != null:
+				relic.deactivate_inventory_effects(effect_owner, self, String(entry.get("key", "")))
+	active_inventory_relic_entries.clear()
 
 
 func _refresh_all_deferred() -> void:
@@ -131,6 +170,7 @@ func _build_relic_key(slot_index: int, relic: Relic) -> String:
 
 # 卸装或刷新前，先把旧效果全部清掉。
 func _deactivate_all_relics() -> void:
+	_deactivate_inventory_effects()
 	var effect_owner := _get_effect_owner()
 	if effect_owner == null:
 		active_relic_entries.clear()

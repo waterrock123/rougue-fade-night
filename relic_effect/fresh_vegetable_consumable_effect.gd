@@ -57,7 +57,7 @@ func _apply_stat_bonus(relic_context: RelicContext, effect_key: String) -> void:
 		var amount := float(add_stats[stat_name])
 		modifiers.append(Modifier.create_flat(StringName(stat_name), amount, effect_key))
 
-	stats_controller.set_effect_modifiers(effect_key, modifiers)
+	stats_controller.set_temporary_effect_modifiers(effect_key, modifiers)
 
 
 func _apply_heal(owner: Node) -> void:

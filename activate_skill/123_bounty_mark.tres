@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ability/scount_bounty_mark_ability.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="3"]
+
+[resource]
+script = ExtResource("1")
+ability_scene = ExtResource("2")
+base_cooldown = 10.0
+base_energy_cost = 8.0
+id = &"123"
+skill_name = "赏金标记"
+desc = "标记鼠标附近一名敌人，持续6秒，你对其造成的伤害提高15%。期间由你击杀则额外获得1{gold}，每场战斗最多获得1{gold}。同时只能标记一名敌人。"
+icon = ExtResource("3")
+tags = Array[StringName]([&"active_skill"])
+allowed_character_ids = Array[StringName]([&"scount"])

@@ -7,8 +7,9 @@
 [ext_resource type="Script" uid="uid://b7bvrjaj7uh3h" path="res://relic_effect/on_consumed_permanent_derived_stats_effect.gd" id="5_permanent_derived"]
 [ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="6_armor"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="7_tag"]
-[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="8_material"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料tag.tres" id="8_material"]
 [ext_resource type="Resource" uid="uid://cfe7h01goi5di" path="res://relic_tags/守御tag.tres" id="9_defense"]
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/meowa_sample_01/113_wool.png" id="10_meowa_icon"]
 
 [sub_resource type="Resource" id="WoolArmor"]
 script = ExtResource("3_add_status")
@@ -27,6 +28,7 @@ add_derived_stats = {
 [resource]
 script = ExtResource("1_relic")
 relic_name = "羊毛"
+icon = ExtResource("10_meowa_icon")
 tooltip = "护甲 +1；每场战斗抵消前两次被施加的负面状态。
 升级：被消耗时永久获得 2% 减伤率。"
 desc = "动物羊的奖励。"

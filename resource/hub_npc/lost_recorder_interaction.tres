@@ -1,0 +1,75 @@
+[gd_resource type="Resource" script_class="HubNpcInteractionData" format=3 uid="uid://c7c4i6mq2bujg"]
+
+[ext_resource type="Script" uid="uid://bel2toai1ilje" path="res://scripts/hub/hub_npc_interaction_data.gd" id="1_data"]
+[ext_resource type="Script" uid="uid://cx25i63vektp4" path="res://scripts/hub/hub_npc_action_data.gd" id="1_vw2b1"]
+[ext_resource type="Resource" uid="uid://yqa8ed7ubtbo" path="res://resource/hub_npc/lost_recorder_visual_data.tres" id="2_visual"]
+[ext_resource type="Script" uid="uid://8rn2y2iypw4e" path="res://scripts/hub/hub_npc_dialogue_stage.gd" id="3_stage"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_w871q"]
+
+[sub_resource type="Resource" id="Stage_first_meeting"]
+script = ExtResource("3_stage")
+stage_id = &"first_meeting"
+completion_event_id = &"met_lost_recorder"
+dialogue_lines = Array[String](["别踩到那些纸页，它们会自己改字。", "我记录过一百零三种草原，可每次进去，草都会长在不同的地方。", "也许不是地图在变化。也许是我们带进去的东西，正在决定它想变成什么。"])
+
+[sub_resource type="Resource" id="Stage_scavenger_agreement"]
+script = ExtResource("3_stage")
+stage_id = &"scavenger_agreement"
+required_event_ids = Array[StringName]([&"met_lost_recorder"])
+completion_event_id = &"scavenger_warehouse_unlocked"
+dialogue_lines = Array[String](["你每次出发，都会留下些东西。脚印、碎布，或者一段没能走完的路。", "下次在旅途中留一些只有我看得懂的标记吧。要是你没能回来，我会循着标记找到你。", "我救不了已经结束的旅途，但至少能从你的背包和装备里带回一件东西。它们会暂存在我这里，等你下一次出发。", "不过强大的东西很难穿过迷途。带着高阶装备重新进入那里，你会承受相应的阻力。"])
+
+[sub_resource type="Resource" id="Stage_upgrade_complete"]
+script = ExtResource("3_stage")
+stage_id = &"warehouse_upgrade_complete"
+required_event_ids = Array[StringName]([&"warehouse_relic_field_test_complete"])
+completion_event_id = &"warehouse_upgrade_plan_completed"
+dialogue_lines = Array[String](["回来得很快嘛。数据收集器也完好，看来这次没有白忙。", "垃圾堆已经升级好了。现在它能更稳定地保存装备，仓库容量也从八格扩充到十六格了。", "别露出那种表情。叫它垃圾堆只是习惯，这些可都是你拿命带回来的好东西。"])
+
+[sub_resource type="Resource" id="Stage_upgrade_offer"]
+script = ExtResource("3_stage")
+stage_id = &"warehouse_upgrade_offer"
+required_event_ids = Array[StringName]([&"scavenger_warehouse_unlocked"])
+completion_event_id = &"warehouse_upgrade_plan_started"
+dialogue_lines = Array[String](["有没有兴趣扩容一下这里的垃圾堆？就是仓库。", "我带回来的装备受荒域能量干扰，通常只有一件能完整留下，其余都变成了垃圾。", "我请人设计了新的保存装置，但还缺少装备穿越荒域时的数据。你从仓库里挑一件装备带去战斗一次吧，我已经准备好了数据收集器。", "不用一直留着它，半路卖掉也没关系。只要完成这次旅途，数据就足够了。"])
+
+[sub_resource type="Resource" id="Action_warehouse"]
+script = ExtResource("1_vw2b1")
+action_id = &"open_relic_warehouse"
+display_name = "查看装备仓库"
+description = "整理迷途记录员从失落旅途中带回的装备。"
+action_type = 2
+
+[sub_resource type="Resource" id="Stage_upgrade_reminder"]
+script = ExtResource("3_stage")
+stage_id = &"warehouse_upgrade_reminder"
+required_event_ids = Array[StringName]([&"warehouse_upgrade_plan_started"])
+excluded_event_ids = Array[StringName]([&"warehouse_relic_field_test_complete"])
+repeatable = true
+dialogue_lines = Array[String](["数据收集器已经准备好了。从仓库挑一件装备带进下一次旅途，胜利或失败都能留下有用的数据。"])
+random_line = true
+actions = Array[ExtResource("1_vw2b1")]([SubResource("Action_warehouse")])
+
+[sub_resource type="Resource" id="Stage_warehouse_service"]
+script = ExtResource("3_stage")
+stage_id = &"warehouse_service"
+required_event_ids = Array[StringName]([&"scavenger_warehouse_unlocked"])
+repeatable = true
+dialogue_lines = Array[String](["我把带回来的东西都按标记收好了。选一件放进大厅背包，它会跟你进入下一次新的旅途。"])
+random_line = true
+actions = Array[ExtResource("1_vw2b1")]([SubResource("Action_warehouse")])
+
+[resource]
+script = ExtResource("1_data")
+npc_id = &"lost_recorder"
+display_name = "迷途记录员"
+description = "一位收集并整理失落区域见闻的记录者。他携带的残页会自行改写内容。"
+visual_data = ExtResource("2_visual")
+prompt_text = "聆听记录"
+dialogue_lines = Array[String](["别踩到那些纸页，它们会自己改字。", "我记录过一百零三种草原，可每次进去，草都会长在不同的地方。", "也许不是地图在变化。也许是我们带进去的东西，正在决定它想变成什么。"])
+dialogue_playback_mode = 1
+dialogue_duration = 2.0
+ambient_bubble_lines = Array[String](["这一页记着一片会下雪的草原。", "地图不会迷路，迷路的是记录它的人。", "要是你看见一块会呼吸的石头，替我记下它。"])
+can_repeat_interaction = false
+completion_event_id = &"met_lost_recorder"
+dialogue_stages = Array[ExtResource("3_stage")]([SubResource("Stage_first_meeting"), SubResource("Stage_scavenger_agreement"), SubResource("Stage_upgrade_complete"), SubResource("Stage_upgrade_offer"), SubResource("Stage_upgrade_reminder"), SubResource("Stage_warehouse_service")])

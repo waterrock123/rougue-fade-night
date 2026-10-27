@@ -56,6 +56,17 @@ func on_remove(instance: StatusInstance) -> void:
 	penalty_counts.erase(key)
 
 
+func capture_storage_state(instance: StatusInstance) -> Dictionary:
+	var key: String = instance.get_effect_key()
+	return {"elapsed": float(tick_timers.get(key, 0.0)), "penalties": int(penalty_counts.get(key, 0))}
+
+
+func restore_storage_state(instance: StatusInstance, state: Dictionary) -> void:
+	var key: String = instance.get_effect_key()
+	tick_timers[key] = clampf(float(state.get("elapsed", 0.0)), 0.0, maxf(tick_interval, 0.0))
+	penalty_counts[key] = maxi(int(state.get("penalties", 0)), 0)
+
+
 func _apply_periodic_damage(instance: StatusInstance, target: Entity) -> void:
 	if damage_per_tick <= 0.0:
 		return

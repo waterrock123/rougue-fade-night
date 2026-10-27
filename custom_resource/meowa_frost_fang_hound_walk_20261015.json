@@ -1,0 +1,14 @@
+{
+  "source_file": "res://assets/enemy/frost_fang_hound/source.png",
+  "fields": {
+    "action_timeline": "0.00-0.50s: This exact arctic wolf trots in place facing RIGHT, alternating front and rear paw pairs with a small controlled body bounce. 0.50-1.00s: Complete the opposite step and return to the original pose for a seamless loop. The wolf's body stays centered; no traveling across the canvas. Preserve the exact source character, colors, pixel size, proportions and silhouette. Fixed three-quarter side view facing right, fixed camera, full body visible throughout, transparent background, no floor shadow, no additional objects, no text, no blur.",
+    "style_mode": "pixel",
+    "resolution": "480p",
+    "alpha_mode": "sharp",
+    "duration_seconds": 1,
+    "quality_mode": "standard",
+    "animation_mode": "loop",
+    "remove_bg_method": "standard",
+    "remove_bg_batch_size": "16"
+  }
+}

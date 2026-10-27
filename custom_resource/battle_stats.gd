@@ -5,6 +5,8 @@ extends Resource
 @export var battle_tier: int
 #战斗的权重
 @export var weight:float
+## 可选指定战场；大型固定 Boss 可选择开阔模板。留空时沿用随机模板与存档逻辑。
+@export_file("*.tscn") var battle_map_template_path: String = ""
 var accumulated_weight: float = 0.0
 # 兼容旧版单波配置。
 # 如果没有填写 waves，就会自动把下面这些字段包装成一波战斗来处理。

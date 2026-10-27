@@ -14,6 +14,9 @@ enum AbilitySelectMode {
 #速度
 @export var speed: float = 10.0
 @export var sprite_faces_left_by_default: bool = false
+## 寻路移动时朝向路径的下一段方向，而不是隔着障碍始终盯着目标，避免出现“太空步”。
+## 个别需要倒退、横移的特殊敌人可以单独关闭。
+@export var face_movement_direction_while_navigating: bool = true
 #停下来攻击的距离
 @export var stop_distance: float = 10.0
 #攻击性
@@ -196,9 +199,16 @@ func _process(delta: float) -> void:
 		
 		var approach_stop_distance = _get_approach_stop_distance()
 		if distance > approach_stop_distance:
-			move_with_physics(movement_dir * delta * speed)
-			
-		_face_target(current_target.global_position - global_position)	
+			var actual_movement: Vector2 = move_with_physics(movement_dir * delta * speed)
+			if face_movement_direction_while_navigating:
+				# 优先使用真实位移；被墙角轻微阻挡时回退到寻路方向，避免朝向来回跳变。
+				var facing_direction: Vector2 = actual_movement if actual_movement.length_squared() > 0.0001 else movement_dir
+				_face_target(facing_direction)
+			else:
+				_face_target(current_target.global_position - global_position)
+		else:
+			# 停下等待技能时仍然面向攻击目标，保证攻击动画和命中方向一致。
+			_face_target(current_target.global_position - global_position)
 	_update_motion_cache(delta)
 	
 	_handle_animations()
@@ -288,13 +298,13 @@ func _find_nearest_player_side_target() -> Entity:
 	var nearest_distance := INF
 
 	# 地图动物加入 map_object 组，并通过 is_player_side() 表示“敌人可以攻击它”。
-	for group_name in [&"player", &"player_ally", &"summon_pet", &"map_object"]:
+	for group_name in [&"player", &"player_ally", &"summon_pet", &"map_object", &"free_for_all_actor"]:
 		for node in get_tree().get_nodes_in_group(String(group_name)):
 			if not (node is Entity):
 				continue
 
 			var candidate := node as Entity
-			if not candidate.is_player_side():
+			if not candidate.is_player_side() and not candidate.is_in_group("free_for_all_actor"):
 				continue
 			if candidate.has_method("can_be_targeted") and not candidate.can_be_targeted():
 				continue

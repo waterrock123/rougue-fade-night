@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://cctb135mr4o8w"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_dxulp"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_78y2e"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_1v72a"]
+[ext_resource type="Resource" uid="uid://hwfpda2ygcic" path="res://relic_tags/剑tag.tres" id="4_1v72a"]
+[ext_resource type="Resource" uid="uid://dp1shjosyd3sh" path="res://relic_tags/贵人tag.tres" id="5_8a17g"]
+[ext_resource type="Script" uid="uid://c5ahjf0gdm2r" path="res://relic_effect/paired_primary_stat_relic_effect.gd" id="6_scaling"]
+[ext_resource type="Texture2D" uid="uid://ddf0a51wwvvl0" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1529.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="FatedSwordBase"]
+script = ExtResource("6_scaling")
+
+[sub_resource type="Resource" id="FatedSwordUpgrade"]
+script = ExtResource("6_scaling")
+bonus_mode = 1
+
+[resource]
+script = ExtResource("2_78y2e")
+relic_name = "命定之剑"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "魅力与幸运每各有2点，最大生命与最大能量各+5
+升级：如果你的其他属性低于魅力或幸运，则使其数值变为魅力与幸运中最大一个"
+desc = "你们的命运在此交织"
+level = 6
+tags = Array[ExtResource("3_1v72a")]([ExtResource("4_1v72a"), ExtResource("5_8a17g")])
+id = "205"
+effects = Array[ExtResource("1_dxulp")]([SubResource("FatedSwordBase")])
+great_effects = Array[ExtResource("1_dxulp")]([SubResource("FatedSwordUpgrade")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

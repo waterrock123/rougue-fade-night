@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_movement_basic_attack_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="4"]
+
+[ext_resource type="Resource" path="res://status/roaming_hunter_ready.tres" id="Ready"]
+[ext_resource type="Resource" path="res://status/hunting_stride.tres" id="Stride"]
+
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("3")
+ready_status = ExtResource("Ready")
+after_attack_status = ExtResource("Stride")
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Effect")])
+id = &"038"
+skill_name = "游猎本能"
+desc = "连续主动移动1秒后，使下一次整次基础攻击伤害提高50%；使用强化攻击后，额外获得20%移动速度，持续2秒，重复触发刷新时间。强化可保留至使用，使用后重新积累。"
+icon = ExtResource("4")
+allowed_character_ids = Array[StringName]([&"scount"])
+is_upgrade_skill = true

@@ -1,0 +1,27 @@
+{
+  "budget_limit": 300,
+  "committed_credits": 200,
+  "verified_actual_credits": 200,
+  "unused_allowance": 100,
+  "status": "delivered",
+  "animation_count": 12,
+  "frame_count": 96,
+  "provider": "Meowa",
+  "date": "2026-10-15",
+  "base_job": {"job_id": "job_252330a26f8e48b9a9bf3915072eb030", "credit_cost": 20},
+  "selected_candidates": {"frost_fang_hound": 0, "frost_crystal_sentinel": 6, "frost_shell_beast": 10},
+  "animation_jobs": [
+    {"enemy": "frost_fang_hound", "animation": "idle", "job_id": "job_93a6df8ef25a4d9391797cb4d353ea94", "quoted_credits": 15},
+    {"enemy": "frost_fang_hound", "animation": "walk", "job_id": "job_aeebe6fe19fb4684bff77b69c6f0bf48", "quoted_credits": 15},
+    {"enemy": "frost_fang_hound", "animation": "attack", "job_id": "job_94b0a7ad612d447aa4c8c62a535b0f71", "quoted_credits": 15},
+    {"enemy": "frost_fang_hound", "animation": "die", "job_id": "job_949dc39b1e004abe8cc62ffd7d0b471e", "quoted_credits": 15},
+    {"enemy": "frost_crystal_sentinel", "animation": "idle", "job_id": "job_ffda7ebdb59d4f7a8c4579bd97590f44", "quoted_credits": 15},
+    {"enemy": "frost_crystal_sentinel", "animation": "walk", "job_id": "job_f6d297aebfb0412396e3bcba82de9ac4", "quoted_credits": 15},
+    {"enemy": "frost_crystal_sentinel", "animation": "attack", "job_id": "job_7d2f8b5bd53b4fc093bb4899cce24e38", "quoted_credits": 15},
+    {"enemy": "frost_crystal_sentinel", "animation": "die", "job_id": "job_44afcad2a5534daa8346db6aa3a4f5dd", "quoted_credits": 15},
+    {"enemy": "frost_shell_beast", "animation": "idle", "job_id": "job_f4a4bf07e1cf481caac9cfa3f2d504cb", "quoted_credits": 15},
+    {"enemy": "frost_shell_beast", "animation": "walk", "job_id": "job_227bcfcf5fc647a2b0c520929d6017d2", "quoted_credits": 15},
+    {"enemy": "frost_shell_beast", "animation": "attack", "job_id": "job_285ec82456694d7ca604d303b484619e", "quoted_credits": 15},
+    {"enemy": "frost_shell_beast", "animation": "die", "job_id": "job_76111a942d234c95bae265878ee68cbd", "quoted_credits": 15}
+  ]
+}

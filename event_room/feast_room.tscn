@@ -53,7 +53,7 @@ offset_top = 334.0
 offset_right = 838.0
 offset_bottom = 506.0
 size_flags_vertical = 3
-text = "你误入了一个篝火晚会"
+text = "你误入了一个篝火晚会,这里的人都扭着肢体热烈地跳着舞，其中一人伸出手来邀请你加入它们"
 label_settings = SubResource("LabelSettings_o06u0")
 autowrap_mode = 2
 
@@ -61,13 +61,12 @@ autowrap_mode = 2
 layout_mode = 0
 offset_left = 157.0
 offset_top = 599.0
-offset_right = 751.0
+offset_right = 757.0
 offset_bottom = 675.0
 autowrap_mode = 2
-pressed_desc = Array[String](["“好好好，你这么说我就不怕了，来来来，喝！”
-你与男人喝了一晚上，大醉了一场，然后带着宿醉上路了"])
-desc_text = "酒是老英雄，越喝越奋勇啊，来，换大盏"
-detail_text = "失去1点智力以及1点魅力并获得装备 酒"
+pressed_desc = Array[String](["你同篝火边的人们热舞了一晚上，待到天明时你发现自己身处荒野，身上的财物也少了一部分"])
+desc_text = "我喜欢跳舞！"
+detail_text = "解锁3个背包格子，下次进入修整期时失去3金币"
 
 [node name="NotdrinkButton" parent="." unique_id=243612117 instance=ExtResource("2_v16ul")]
 layout_mode = 0
@@ -76,10 +75,9 @@ offset_top = 702.0
 offset_right = 752.0
 offset_bottom = 778.0
 autowrap_mode = 2
-pressed_desc = Array[String](["“你说得也对，为酒所伤，今日起——戒酒！”
-男人感谢你的建议，并表示自己还有一些买酒钱，拿着也没有用，就都送给你了。"])
-desc_text = "喝酒伤身啊，你看你都被酒变成什么样子了"
-detail_text = "获得2资金"
+pressed_desc = Array[String](["在你拒绝他们的时候，那些人突然袭击了你"])
+desc_text = "看来很可疑，拒绝他们"
+detail_text = "失去10点生命，接下来的战斗中将出现额外的怪物，在下一个房间中将遇到固定的特殊事件"
 
 [node name="LeaveButton" type="Button" parent="." unique_id=1612002407]
 custom_minimum_size = Vector2(400, 100)

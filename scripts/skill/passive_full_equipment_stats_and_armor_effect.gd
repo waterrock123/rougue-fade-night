@@ -57,7 +57,7 @@ func _apply_bonus(context: SkillContext) -> void:
 	if not armor_applied.has(context_key):
 		var status_controller := _get_status_controller(context)
 		if status_controller != null and armor_status != null and armor_stacks > 0:
-			status_controller.add_status(armor_status, _get_source_node(context), _get_armor_effect_key(context), armor_stacks)
+			status_controller.add_status(armor_status, _get_source_node(context), _get_armor_effect_key(context), armor_stacks, INF, false, false)
 			armor_applied[context_key] = true
 
 

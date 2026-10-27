@@ -14,6 +14,8 @@ const MAP_LINE = preload("res://scenes/map/map_line.tscn")
 @onready var visuals: Node2D = $Visuals
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var map_background: CanvasLayer = $MapBackground
+@onready var condition_ui_layer: CanvasLayer = $ConditionUILayer
+@onready var world_condition_display: WorldConditionDisplay = %WorldConditionDisplay
 
 
 var map_data: Array[Array] = []
@@ -22,10 +24,17 @@ var last_room: Room
 var camera_min_x: float = 0.0
 var camera_max_x: float = 0.0
 var is_dragging_map: bool = false
+var run_stats: RunStats
 
 
 func _ready() -> void:
 	hide_map()
+
+
+func bind_run_stats(new_run_stats: RunStats) -> void:
+	run_stats = new_run_stats
+	if world_condition_display != null:
+		world_condition_display.bind_run_stats(run_stats)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -49,6 +58,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and is_dragging_map:
 		var motion_event := event as InputEventMouseMotion
 		_move_camera(-motion_event.relative.x)
+
+
+## 楼层进度由 RunStats 持有，地图只应用生成配置与展示名称。
+func configure_floor(config: RunFloorConfig) -> void:
+	map_generator.configure_floor(config)
+	var floor_label: Label = get_node_or_null("%FloorLabel") as Label
+	if floor_label != null and run_stats != null:
+		var floor_name: String = config.display_name if config != null else "草原"
+		floor_label.text = "第 %d 层 · %s" % [run_stats.current_floor_index + 1, floor_name]
 
 
 func generate_new_map() -> void:
@@ -114,12 +132,14 @@ func unlock_next_rooms() -> void:
 func show_map() -> void:
 	show()
 	map_background.visible = true
+	condition_ui_layer.visible = true
 	camera_2d.enabled = true
 
 
 func hide_map() -> void:
 	hide()
 	map_background.visible = false
+	condition_ui_layer.visible = false
 	camera_2d.enabled = false
 	is_dragging_map = false
 
@@ -162,9 +182,12 @@ func _on_map_room_selected(room: Room) -> void:
 
 func _clear_visuals() -> void:
 	for child in rooms.get_children():
+		# 立即移出旧房间，避免同帧解锁操作遍历到上一层节点。
+		rooms.remove_child(child)
 		child.queue_free()
 
 	for child in lines.get_children():
+		lines.remove_child(child)
 		child.queue_free()
 
 
@@ -172,7 +195,7 @@ func _center_map_visuals() -> void:
 	var viewport_size := get_viewport_rect().size
 	visuals.position = Vector2(220.0, viewport_size.y * 0.5)
 
-	var total_width :float = max((MapGenerator.FLOORS - 1) * MapGenerator.X_DIST, 0.0)
+	var total_width: float = maxf((map_data.size() - 1) * MapGenerator.X_DIST, 0.0)
 	var left_bound := viewport_size.x * 0.5
 	var right_bound :float = max(left_bound, visuals.position.x + total_width - viewport_size.x * 0.5 + 220.0)
 

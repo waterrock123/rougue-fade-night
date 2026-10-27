@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WorldConditionData" format=3 uid="uid://daxmnymbmymyd"]
+
+[ext_resource type="Script" uid="uid://ph0stgmvgmx" path="res://custom_resource/world_condition_data.gd" id="1_data"]
+[ext_resource type="Script" uid="uid://sj8a5vnfbdka" path="res://custom_resource/world_condition_effect.gd" id="1_ptxpm"]
+[ext_resource type="Script" uid="uid://5vhe44nnls0y" path="res://scripts/world_condition/rest_period_gold_condition_effect.gd" id="2_effect"]
+
+[sub_resource type="Resource" id="GoldEffect"]
+script = ExtResource("2_effect")
+
+[resource]
+script = ExtResource("1_data")
+condition_id = &"money_rain"
+display_name = "钞票雨"
+description = "完成房间并进入修整期时，额外获得 3 金币。"
+roll_weight = 15.0
+max_duration_rooms = 2
+effects = Array[ExtResource("1_ptxpm")]([SubResource("GoldEffect")])

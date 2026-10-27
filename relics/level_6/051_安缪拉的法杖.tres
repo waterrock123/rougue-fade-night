@@ -5,14 +5,36 @@
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_gl2u7"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_64i5l"]
 
+[ext_resource type="Script" path="res://relic_effect/add_stats_effect.gd" id="4_stats"]
+[ext_resource type="Script" path="res://relic_effect/first_damage_taken_status_effect.gd" id="5_first_hit"]
+[ext_resource type="Resource" path="res://status/armor.tres" id="6_armor"]
+[ext_resource type="Script" path="res://relic_effect/attach_battle_visual_effect.gd" id="7_attach"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/orbiting_projectile_shield.tscn" id="8_shield"]
+
+[sub_resource type="Resource" id="StatBonus"]
+script = ExtResource("4_stats")
+add_stats = {"intelligence": 4, "luck": 4}
+
+[sub_resource type="Resource" id="FirstHitArmor"]
+script = ExtResource("5_first_hit")
+status_data = ExtResource("6_armor")
+stacks = 10
+duration_override = -1.0
+
+[sub_resource type="Resource" id="ReflectingShield"]
+script = ExtResource("7_attach")
+attached_scene = ExtResource("8_shield")
+
 [resource]
 script = ExtResource("2_gl2u7")
 relic_name = "安缪拉的法杖"
 icon = ExtResource("2_64i5l")
-tooltip = "智力+4，幸运+4，每场战斗中第一次受到伤害时获得10护甲，持续至战斗结束
-升级：出现一面护盾环绕角色，其能够反弹投射物的"
+tooltip = "{intelligence}+4，{luck}+4。每场战斗首次受到实际伤害时获得10层{armor}，持续至战斗结束。
+升级：战斗开始时出现一面环绕角色的护盾，接触敌方{projectile}时将其反向射回，伤害来源变为你。不反弹抛射物、近战特效和地面领域。"
 price = 6
 level = 6
 tags = Array[ExtResource("3_64i5l")]([null, null])
 id = "051"
+effects = Array[ExtResource("1_8p88a")]([SubResource("StatBonus"), SubResource("FirstHitArmor")])
+great_effects = Array[ExtResource("1_8p88a")]([SubResource("ReflectingShield")])
 metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_element_hit_chain_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Purple Effect and Bullet 16x16.png" id="4"]
+[ext_resource type="Script" path="res://scripts/skill/skill_data.gd" id="Skill"]
+[ext_resource type="Resource" path="res://passive_skill/030_thunder_resonance.tres" id="Upgrade"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="ScalingScript"]
+
+[sub_resource type="Resource" id="Scaling"]
+script = ExtResource("ScalingScript")
+physical_formula = ""
+ranged_formula = ""
+lightning_formula = "intelligence"
+
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("3")
+chain_count = 1
+scaling_rule = SubResource("Scaling")
+
+[sub_resource type="AtlasTexture" id="Icon"]
+atlas = ExtResource("4")
+region = Rect2(160, 16, 16, 16)
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Effect")])
+id = &"029"
+skill_name = "雷鸣余响"
+desc = "雷元素的非基础主动技能每累计3次有效命中，向附近另一名敌人放电，造成10+{intelligence}的{lightning}。同次施法最多放电一次，连锁伤害不触发此类技能被动。"
+icon = SubResource("Icon")
+allowed_character_ids = Array[StringName]([&"wizard"])
+upgrade_options = Array[ExtResource("Skill")]([ExtResource("Upgrade")])

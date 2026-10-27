@@ -8,6 +8,8 @@ extends AbilityComponent
 @export var consume_locked_slots: bool = true
 @export var missing_message: String = "缺少必要材料，无法释放技能"
 @export var consume_key_prefix: String = "ability_cost"
+## 可选成本：没有材料仍可施法，由后续组件根据支付记录决定降级效果。
+@export var allow_missing_material: bool = false
 @export_group("地图补给")
 ## 开启后，技能会优先尝试消耗附近弹药箱的次数；没有可用弹药箱时才消耗背包装备。
 @export var use_map_ammo_box: bool = true
@@ -18,7 +20,7 @@ func can_pay_ability_cost(context: AbilityContext) -> bool:
 	if _find_available_ammo_box(context) != null:
 		return true
 
-	return _find_target_slot(context) != null
+	return allow_missing_material or _find_target_slot(context) != null
 
 
 func get_ability_cost_block_reason(_context: AbilityContext) -> String:
@@ -28,11 +30,12 @@ func get_ability_cost_block_reason(_context: AbilityContext) -> String:
 func pay_ability_cost(context: AbilityContext) -> bool:
 	var ammo_box: AmmoBox = _find_available_ammo_box(context)
 	if ammo_box != null and ammo_box.consume_ammo(context.caster, required_tag, required_tag_name):
+		_record_payment(context)
 		return true
 
 	var target_slot: Slot = _find_target_slot(context)
 	if target_slot == null or target_slot.item == null:
-		return false
+		return allow_missing_material
 	if context == null or context.caster == null:
 		return false
 
@@ -43,9 +46,23 @@ func pay_ability_cost(context: AbilityContext) -> bool:
 		context.caster,
 		relic_controller,
 		consume_key,
-		true
+		false
 	)
-	return consumed_relic != null
+	if consumed_relic != null:
+		_record_payment(context)
+		# 先完成当前技能，再通知装备刷新；否则额外技能装备会同步重建技能栏并移除正在开枪的节点。
+		EventBus.call_deferred("emit_signal", &"inventory_update")
+		EventBus.call_deferred("emit_signal", &"equipment_update")
+		EventBus.call_deferred("emit_signal", &"attribute_update")
+		return true
+	return allow_missing_material
+
+
+func _record_payment(context: AbilityContext) -> void:
+	var key: StringName = required_tag_name
+	if key == &"" and required_tag != null:
+		key = StringName(required_tag.tag_name)
+	context.cast_record.material_payments[key] = int(context.cast_record.material_payments.get(key, 0)) + 1
 
 
 func _activate(_context: AbilityContext) -> void:

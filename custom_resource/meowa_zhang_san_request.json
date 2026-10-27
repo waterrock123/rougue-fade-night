@@ -1,0 +1,10 @@
+{
+  "kind": "pixel",
+  "fields": {
+    "template_name": "wuxia_character_5x5",
+    "requirement": "单个角色：张三师傅，一位普通而亲切的中国中年男性清洁维修工，短黑发略有灰白，灰蓝工作服，棕色旧围裙，腰间小工具袋，手扶一把朴素扫帚。Q版简约大头小身体，正面略偏侧的俯视角RPG站立姿势，脚底朝下，32x32像素画布，清晰低分辨率像素，有限色板，完整全身居中。平凡可靠略憨厚，不是武侠剑客，无超能力光效，无文字，无水印，无背景，不生成多个角色或动作合集。与模板保持一致的简约像素角色比例。",
+    "aspect_ratio": "1:1",
+    "template_config": {"target_count": 1, "remove_bg_method": "standard"}
+  },
+  "reference_file": ""
+}

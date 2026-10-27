@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "0.00-0.25s: This exact arctic wolf recoils gently facing RIGHT, paws buckle. 0.25-0.70s: Its body falls onto its side in place. 0.70-1.00s: Lie completely motionless on the ground. No revival, no fading, no gore. Preserve the exact source character, colors, pixel size, proportions and silhouette. Fixed three-quarter side view facing right, fixed camera, full body visible throughout, transparent background, no floor shadow, no additional objects, no text, no blur.",
+		"alpha_mode": "sharp",
+		"animation_mode": "non_loop",
+		"duration_seconds": 1.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/enemy/frost_fang_hound/source.png"
+}

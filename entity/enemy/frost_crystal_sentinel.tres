@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StatsData" format=3]
+
+[ext_resource type="Script" path="res://custom_resource/stats_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+entity_name = "冰晶哨兵"
+base_max_health = 110.0
+base_move_speed = 38.0
+base_crit_chance = 0.0

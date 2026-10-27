@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b1ksaynjvrow4"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_do7ai"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_5sb1a"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_wa1ky"]
+[ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="4_wa1ky"]
+[ext_resource type="Resource" uid="uid://bpyxiv6nfwnu5" path="res://relic_tags/创生tag.tres" id="5_1inoq"]
+
+[ext_resource type="Script" path="res://relic_effect/map_destroy_count_loot_effect.gd" id="6_count"]
+[ext_resource type="Script" path="res://custom_resource/map_loot_reward.gd" id="7_reward"]
+[ext_resource type="PackedScene" path="res://scenes/battlemap/map_loot_pickup.tscn" id="8_pickup"]
+
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/32x32/fb1.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="Gold"]
+script = ExtResource("7_reward")
+reward_name = "金币+2"
+gold = 2
+
+[sub_resource type="Resource" id="Heal"]
+script = ExtResource("7_reward")
+reward_name = "恢复5生命"
+heal = 5.0
+
+[sub_resource type="Resource" id="Energy"]
+script = ExtResource("7_reward")
+reward_name = "恢复10能量"
+energy = 10.0
+
+[sub_resource type="Resource" id="Relic"]
+script = ExtResource("7_reward")
+reward_name = "随机装备"
+random_relic = true
+
+[sub_resource type="Resource" id="Jackpot"]
+script = ExtResource("7_reward")
+reward_name = "金币+5与随机升级态装备"
+gold = 5
+random_relic = true
+upgraded_relic = true
+
+[sub_resource type="Resource" id="Count"]
+script = ExtResource("6_count")
+pickup_scene = ExtResource("8_pickup")
+normal_rewards = Array[ExtResource("7_reward")]([SubResource("Gold"), SubResource("Heal"), SubResource("Energy"), SubResource("Relic")])
+jackpot_rewards = Array[ExtResource("7_reward")]([SubResource("Jackpot")])
+
+[resource]
+script = ExtResource("2_5sb1a")
+relic_name = "百宝罐"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "你每击破一个地图物品获得1个标记，标记可跨战斗保留；达到10个后清空标记并掉落一个宝罐，拾取获得随机奖励。动物不计数。普通态有5%概率开出超级大奖
+升级：超级大奖概率提升至10%"
+desc = "一个小罐子，里面有各种各样的小东西"
+price = 5
+level = 5
+tags = Array[ExtResource("3_wa1ky")]([ExtResource("4_wa1ky"), ExtResource("5_1inoq")])
+id = "123"
+effects = Array[ExtResource("1_do7ai")]([SubResource("Count")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

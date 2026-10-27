@@ -17,10 +17,15 @@ var final_stats: Dictionary = {}
 var modifiers: Array[Modifier] = []
 var effect_modifiers: Dictionary = {}
 var outgoing_damage_bonus_modifiers: Dictionary = {}
+var outgoing_defense_bypass_modifiers: Dictionary = {}
 var incoming_damage_taken_modifiers: Dictionary = {}
+## 类型免疫独立于百分比减伤，不会被易伤抵消；多个来源可以分别撤销。
+var damage_immunity_sources: Dictionary = {}
 var current_health: float = 0.0
 var current_energy: float = 0.0
 var player_build: PlayerBuild
+var temporary_gain_policy: TemporaryStatGainPolicy = TemporaryStatGainPolicy.new()
+var temporary_effect_sources: Dictionary = {}
 
 @onready var modifier_handler: ModifierHandler = get_node_or_null("../ModifierHandler") as ModifierHandler
 @onready var entity: Entity = get_parent() as Entity
@@ -88,7 +93,15 @@ func bind_player_build(new_player_build: PlayerBuild) -> void:
 
 # 用 ModifierHandler 提供的修饰器整体覆盖运行时修饰器列表。
 func set_modifiers(new_modifiers: Array[Modifier]) -> void:
-	modifiers = new_modifiers.duplicate()
+	modifiers.clear()
+	for modifier: Modifier in new_modifiers:
+		if modifier == null:
+			continue
+		if modifier.is_temporary():
+			var key: String = modifier.gain_ledger_key if not modifier.gain_ledger_key.is_empty() else "runtime_%d" % modifier.get_instance_id()
+			modifiers.append_array(temporary_gain_policy.transform(key, [modifier], 1.0, player_build))
+		else:
+			modifiers.append(modifier)
 	recompute_stats()
 
 
@@ -124,14 +137,54 @@ func set_effect_modifiers(source_key: Variant, new_modifiers: Array[Modifier]) -
 	recompute_stats()
 
 
+## 战斗/消耗品新增属性的统一入口；常驻装备与被动仍使用set_effect_modifiers，避免重复永久成长。
+func set_temporary_effect_modifiers(
+	source_key: Variant, new_modifiers: Array[Modifier], eligible_ratio: float = 1.0,
+	ledger_key: String = "", resettable: bool = true
+) -> void:
+	var key: String = ledger_key if not ledger_key.is_empty() else str(source_key)
+	temporary_effect_sources[source_key] = {"ledger_key": key, "resettable": resettable}
+	var transformed: Array[Modifier] = temporary_gain_policy.transform(key, new_modifiers, eligible_ratio, player_build)
+	set_effect_modifiers(source_key, transformed)
+
+
+## 移除战斗属性增减及已经延长的增量，不影响普通装备/被动修饰。
+func clear_temporary_attribute_effects() -> void:
+	for key: Variant in temporary_effect_sources.keys():
+		var record: Dictionary = temporary_effect_sources[key]
+		if bool(record["resettable"]):
+			effect_modifiers.erase(key)
+			var ledger_key: String = str(record["ledger_key"])
+			if ledger_key == str(key):
+				temporary_gain_policy.reset_source(ledger_key)
+			else:
+				# 状态来源将在StatusController中逐项移除，无需对剩余装备层数扣基线。
+				temporary_gain_policy.release_source(ledger_key)
+				temporary_effect_sources.erase(key)
+	temporary_gain_policy.reset_battle_gains()
+	recompute_stats()
+
+
+## 重置属性不作为治疗：按重置前的实际生命/能量保留，超过新上限的部分夹取。
+func restore_resource_snapshot(health: float, energy: float) -> void:
+	current_health = clampf(health, 0.0, get_stat(&"max_health"))
+	current_energy = clampf(energy, 0.0, get_stat(&"max_energy"))
+	_sync_entity_stats(false)
+	_sync_player_build()
+
+
 # 清除某个外部来源注册的修饰器。
-func clear_effect_modifiers(source_key: Variant) -> void:
+func clear_effect_modifiers(source_key: Variant, preserve_gain_history: bool = false) -> void:
 	if source_key == null:
 		return
 
 	if effect_modifiers.has(source_key):
 		effect_modifiers.erase(source_key)
 		recompute_stats()
+	if not preserve_gain_history and temporary_effect_sources.has(source_key):
+		var record: Dictionary = temporary_effect_sources[source_key]
+		temporary_gain_policy.release_source(str(record["ledger_key"]))
+		temporary_effect_sources.erase(source_key)
 
 
 # 注册某个状态/被动提供的出伤加成。
@@ -224,6 +277,8 @@ func _build_derived_stats(data: StatsData, primary_stats: Dictionary) -> Diction
 		"max_energy": data.base_max_energy + intelligence * 3.0,
 		"move_speed": data.base_move_speed + speed * 10.0,
 		"energy_regen_tick_value": data.base_energy_regen_tick_value + intelligence,
+		"energy_regen_multiplier": 1.0,
+		"healing_received_multiplier": 1.0,
 		"crit_chance": data.base_crit_chance + luck * 0.002,
 		"crit_damage": data.base_crit_damage,
 		"dodge_rate": data.base_dodge_rate + speed * 0.001,
@@ -240,7 +295,11 @@ func _build_derived_stats(data: StatsData, primary_stats: Dictionary) -> Diction
 
 # 汇总所有来源的修饰器。
 func _get_all_modifiers() -> Array[Modifier]:
-	var all_modifiers: Array[Modifier] = modifiers.duplicate()
+	var all_modifiers: Array[Modifier] = []
+	if player_build != null:
+		all_modifiers.append_array(TemporaryStatGainPolicy.build_modifiers(player_build.permanent_stat_bonuses, "run_permanent_stats"))
+	all_modifiers.append_array(TemporaryStatGainPolicy.build_modifiers(temporary_gain_policy.battle_bonuses, "retained_battle_stats"))
+	all_modifiers.append_array(modifiers)
 
 	for source_key in effect_modifiers.keys():
 		var source_modifiers = effect_modifiers[source_key] as Array
@@ -282,6 +341,8 @@ func process_outgoing_damage(damage_data: DamageData) -> DamageData:
 
 	damage_data.final_damage = damage_data.base_damage
 	damage_data.final_damage += _get_outgoing_damage_bonus(damage_data)
+	damage_data.final_damage *= maxf(1.0 + _get_total_outgoing_damage_percent_bonus(damage_data), 0.0)
+	damage_data.final_damage *= maxf(damage_data.skill_damage_multiplier, 0.0)
 
 	if damage_data.can_crit and not damage_data.is_crit:
 		if randf() <= get_stat("crit_chance"):
@@ -294,8 +355,29 @@ func process_outgoing_damage(damage_data: DamageData) -> DamageData:
 	# 把攻击方当前削韧倍率快照进伤害事件，目标之后解析默认削韧公式时也能正确应用。
 	var poise_multiplier: float = maxf(get_stat(&"poise_damage_multiplier", 1.0), 0.0)
 	damage_data.poise_damage_multiplier *= poise_multiplier
+	_apply_outgoing_defense_bypass(damage_data)
 
 	return damage_data
+
+
+## 穿透与出伤加成分开登记，卸下装备只清理自己的来源，不改变目标属性。
+func set_outgoing_defense_bypass_modifier(source_key: Variant, data: Dictionary) -> void:
+	if source_key != null:
+		outgoing_defense_bypass_modifiers[str(source_key)] = data.duplicate(true)
+
+
+func clear_outgoing_defense_bypass_modifier(source_key: Variant) -> void:
+	outgoing_defense_bypass_modifiers.erase(str(source_key))
+
+
+func _apply_outgoing_defense_bypass(damage_data: DamageData) -> void:
+	for modifier_data: Dictionary in outgoing_defense_bypass_modifiers.values():
+		if bool(modifier_data.get("exclude_self_damage", true)) and damage_data.source == damage_data.target:
+			continue
+		if not _outgoing_damage_modifier_matches(damage_data, modifier_data):
+			continue
+		damage_data.ignore_static_damage_reduction = damage_data.ignore_static_damage_reduction or bool(modifier_data.get("ignore_static_damage_reduction", false))
+		damage_data.ignore_damage_reduction_rate = damage_data.ignore_damage_reduction_rate or bool(modifier_data.get("ignore_damage_reduction_rate", false))
 
 
 # 受到一次伤害事件时进行闪避判定。只要 dodge_rate 大于 0，就有概率让这次伤害完全落空。
@@ -311,17 +393,39 @@ func should_dodge_damage(_damage_data: DamageData) -> bool:
 func process_incoming_damage(damage_data: DamageData) -> DamageData:
 	if damage_data == null:
 		return null
+	if is_damage_type_immune(damage_data.damage_types):
+		damage_data.final_damage = 0.0
+		return damage_data
 
-	var damage := damage_data.final_damage
-	damage -= get_stat("static_damage_reduction")
+	var damage: float = damage_data.final_damage
+	if not damage_data.ignore_static_damage_reduction:
+		damage -= get_stat("static_damage_reduction")
 	damage = max(damage, 0.0)
 
 	var damage_reduction_rate: float = clamp(get_stat("damage_reduction_rate"), 0.0, 1.0)
-	damage *= 1.0 - damage_reduction_rate
+	if not damage_data.ignore_damage_reduction_rate:
+		damage *= 1.0 - damage_reduction_rate
 	damage *= _get_incoming_damage_taken_multiplier(damage_data)
 
 	damage_data.final_damage = max(damage, 0.0)
 	return damage_data
+
+
+func set_damage_type_immunity(source_key: Variant, damage_types: Array[int]) -> void:
+	damage_immunity_sources[source_key] = damage_types.duplicate()
+
+
+func clear_damage_type_immunity(source_key: Variant) -> void:
+	damage_immunity_sources.erase(source_key)
+
+
+## 当前伤害没有按元素拆分数值，包含任一免疫类型时整次伤害归零。
+func is_damage_type_immune(damage_types: Array[int]) -> bool:
+	for immune_types: Array in damage_immunity_sources.values():
+		for damage_type: int in damage_types:
+			if immune_types.has(damage_type):
+				return true
+	return false
 
 
 # 从 DamageData 上挂载的成长规则里计算额外伤害。
@@ -352,7 +456,18 @@ func _get_registered_outgoing_damage_bonus(damage_data: DamageData) -> float:
 	return bonus
 
 
+func _get_total_outgoing_damage_percent_bonus(damage_data: DamageData) -> float:
+	var bonus: float = 0.0
+	for modifier_data in outgoing_damage_bonus_modifiers.values():
+		if _outgoing_damage_modifier_matches(damage_data, modifier_data):
+			bonus += float(modifier_data.get("total_damage_percent_bonus", 0.0))
+	return bonus
+
+
 func _outgoing_damage_modifier_matches(damage_data: DamageData, modifier_data: Dictionary) -> bool:
+	var target_id: int = int(modifier_data.get("required_target_id", 0))
+	if target_id != 0 and (not is_instance_valid(damage_data.target) or damage_data.target.get_instance_id() != target_id):
+		return false
 	var target_ids: Array = modifier_data.get("target_ability_ids", [])
 	if not target_ids.is_empty() and not target_ids.has(damage_data.source_ability_id):
 		return false
@@ -416,6 +531,8 @@ func _get_incoming_damage_taken_multiplier(damage_data: DamageData) -> float:
 
 
 func _incoming_damage_modifier_matches(damage_data: DamageData, modifier_data: Dictionary) -> bool:
+	if not _matches_incoming_direction(damage_data, float(modifier_data.get("front_angle_degrees", 0.0))):
+		return false
 	var required_tags: Array = modifier_data.get("required_tags", [])
 	for required_tag in required_tags:
 		if not damage_data.tags.has(str(required_tag)):
@@ -427,6 +544,25 @@ func _incoming_damage_modifier_matches(damage_data: DamageData, modifier_data: D
 			return false
 
 	return true
+
+
+## 正面防御使用真实命中方向；近战未提供方向时才回退到伤害来源位置。
+## 持续伤害、地形、自伤不因为站位被当作“正面攻击”削减。
+func _matches_incoming_direction(data: DamageData, angle_degrees: float) -> bool:
+	if angle_degrees <= 0.0:
+		return true
+	if not is_instance_valid(data.target) or data.source == data.target:
+		return false
+	for tag: String in ["status", "periodic", "terrain", "self_damage", "reflect", "retaliation"]:
+		if data.tags.has(tag):
+			return false
+	var toward_source: Vector2 = -data.impact_direction
+	if toward_source == Vector2.ZERO and is_instance_valid(data.source):
+		toward_source = data.target.global_position.direction_to(data.source.global_position)
+	if toward_source == Vector2.ZERO:
+		return false
+	var facing: Vector2 = data.target.get_facing_direction().normalized()
+	return facing.dot(toward_source.normalized()) >= cos(deg_to_rad(angle_degrees * 0.5))
 
 
 # 最大生命/能量变化后，夹取当前资源值。

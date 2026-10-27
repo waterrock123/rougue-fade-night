@@ -1,0 +1,45 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/timed_radial_area_manifest.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="2"]
+[ext_resource type="Resource" path="res://status/freeze.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/ability/manifest/radial_skill_visual.gd" id="Visual"]
+[ext_resource type="SpriteFrames" path="res://sprite_frames/skill_vfx_samples_20261018.tres" id="Frames"]
+[ext_resource type="Shader" path="res://shaders/pixel_skill_visual.gdshader" id="Shader"]
+
+[sub_resource type="ShaderMaterial" id="FrostMaterial"]
+shader = ExtResource("Shader")
+shader_parameter/brightness = 1.55
+shader_parameter/white_mix = 0.12
+
+[sub_resource type="Resource" id="Scaling"]
+script = ExtResource("2")
+physical_formula = ""
+ranged_formula = ""
+ice_formula = "intelligence * 1.2"
+
+[node name="GuirenfroststarringManifest" type="Node2D"]
+z_index = -1
+z_as_relative = false
+script = ExtResource("1")
+radius = 100.0
+damage = 20.0
+damage_types = Array[int]([3])
+scaling_rule = SubResource("Scaling")
+hit_status = ExtResource("3")
+status_duration = 0.8
+area_color = Color(0.45, 0.85, 1.0, 0.7)
+draw_area_fill = false
+
+[node name="VisualRoot" type="Node2D" parent="."]
+script = ExtResource("Visual")
+art_radius = 35.0
+idle_opacity = 0.8
+pulse_opacity = 0.2
+rotation_speed = 0.0
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="VisualRoot"]
+texture_filter = 1
+material = SubResource("FrostMaterial")
+sprite_frames = ExtResource("Frames")
+animation = &"frost_burst"

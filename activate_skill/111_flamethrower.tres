@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="1_skill"]
+[ext_resource type="PackedScene" path="res://scenes/ability/flamethrower_ability.tscn" id="2_ability"]
+[ext_resource type="Texture2D" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Fire Effect and Bullet 16x16.png" id="3_sheet"]
+
+[sub_resource type="AtlasTexture" id="FlameIcon"]
+atlas = ExtResource("3_sheet")
+region = Rect2(0, 0, 16, 16)
+
+[resource]
+script = ExtResource("1_skill")
+id = &"111"
+skill_name = "喷射火焰"
+element_tags = Array[StringName]([&"fire"])
+desc = "开启后持续5秒向鼠标方向喷射火焰，距离120。接触火焰的敌人每0.2秒受到10点火焰伤害并附加1层{burn}。期间移动速度减半，不能使用基础攻击，但可使用其他{active_skill}。装备喷火器时获得。"
+icon = SubResource("FlameIcon")
+ability_scene = ExtResource("2_ability")
+base_cooldown = 10.0
+base_energy_cost = 10.0
+slot_type = &"equipment"
+tags = Array[StringName]([&"active_skill", &"fire", &"area", &"equipment_skill"])

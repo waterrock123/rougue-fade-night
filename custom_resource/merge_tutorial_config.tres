@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MergeTutorialConfig" load_steps=8 format=3]
+[ext_resource type="Script" path="res://scripts/hub/merge_tutorial_config.gd" id="1"]
+[ext_resource type="Script" path="res://custom_resource/relic.gd" id="2"]
+[ext_resource type="Resource" path="res://relics/level_1/004_草甲.tres" id="3"]
+[ext_resource type="Resource" path="res://relics/level_1/006_布鞋.tres" id="4"]
+[ext_resource type="Resource" path="res://relics/level_2/034_跑鞋.tres" id="5"]
+[ext_resource type="Resource" path="res://relics/level_2/035_安全帽.tres" id="6"]
+[ext_resource type="Resource" path="res://relics/level_2/042_紫水晶.tres" id="7"]
+
+[resource]
+script = ExtResource("1")
+ordinary_extras = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
+reward_relics = Array[ExtResource("2")]([ExtResource("5"), ExtResource("6"), ExtResource("7")])

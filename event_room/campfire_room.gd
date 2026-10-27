@@ -106,6 +106,7 @@ func _upgrade_random_player_relic() -> Relic:
 		return null
 
 	selected_slot.item.leveltip = Relic.LevelTip.LEVELUP
+	EventBus.relic_upgraded.emit(selected_slot.item, run_stats.player_build)
 	AudioController.play_ui_sound(&"level_up_item")
 	EventBus.inventory_update.emit()
 	EventBus.equipment_update.emit()

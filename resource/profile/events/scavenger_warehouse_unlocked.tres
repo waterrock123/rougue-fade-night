@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ProfileEventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1_event"]
+
+[resource]
+script = ExtResource("1_event")
+event_id = &"scavenger_warehouse_unlocked"
+display_name = "留在迷途中的标记"
+description = "迷途记录员答应循着你在旅途中留下的标记寻找遗骸。今后每次冒险失败，他都会随机带回背包或装备栏中的一件非临时装备，并将其存入拾荒仓库。"
+required_completed_event_ids = Array[StringName]([&"met_lost_recorder"])
+unlock_content_ids = Array[StringName]([&"scavenger_warehouse"])

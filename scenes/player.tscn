@@ -10,7 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://skd8umn7fos7" path="res://assets/Sound/Dirt Walk 5.wav" id="6_qfm1y"]
 [ext_resource type="Texture2D" uid="uid://btc6x746w7abe" path="res://assets/meleeAttack_plusCharacters.png" id="6_tuyoq"]
 [ext_resource type="Script" uid="uid://cfgrgm03strrd" path="res://resource/audio_config.gd" id="7_fulsm"]
-[ext_resource type="SpriteFrames" uid="uid://pc38pjbrla4r" path="res://sprite_frames/old_warrior_sprite_frames.tres" id="9_a8ls1"]
+[ext_resource type="SpriteFrames" uid="uid://b3kljj6uhwxqq" path="res://sprite_frames/new_scount_frames.tres" id="9_fulsm"]
 [ext_resource type="Script" uid="uid://rm4yfg5qu4vg" path="res://scripts/stats/stats_controller.gd" id="14_a8ls1"]
 [ext_resource type="Script" uid="uid://b0c3hw6lsf13w" path="res://scripts/utils/footstep_effect.gd" id="14_f1ej7"]
 [ext_resource type="Script" uid="uid://bjfpbtfcp0tyu" path="res://scripts/stats/modifier_handler.gd" id="16_stats"]
@@ -74,9 +74,10 @@ damage_text_color = Color(0.9473317, 0.00069168705, 0.00037869276, 1)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=195350017]
 texture_filter = 1
 material = SubResource("ShaderMaterial_smehm")
-sprite_frames = ExtResource("9_a8ls1")
-animation = &"idle"
+sprite_frames = ExtResource("9_fulsm")
+animation = &"thrown"
 autoplay = "idle"
+frame_progress = 1.0
 
 [node name="AbilityController" type="Node" parent="." unique_id=1535845309]
 script = ExtResource("3_hqtel")
@@ -102,9 +103,10 @@ script = ExtResource("22_vfx")
 [node name="Weapon" type="Sprite2D" parent="." unique_id=1276098786]
 z_index = -1
 texture_filter = 1
-position = Vector2(-8, -4.2632564e-13)
+position = Vector2(0, -2.3841858e-07)
 rotation = -2.35619
 texture = SubResource("AtlasTexture_fjrip")
+offset = Vector2(9.885, -9.215)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=588633675]
 visible = false

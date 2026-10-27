@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="StatusData" format=3]
+[ext_resource type="Script" path="res://scripts/status/status_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/status/status_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/status/status_add_stat_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="4"]
+
+[sub_resource type="Resource" id="Speed"]
+script = ExtResource("3")
+stat_name = &"move_speed"
+value_per_stack = 0.2
+modifier_type = 1
+
+[resource]
+script = ExtResource("1")
+id = &"hunting_stride"
+status_name = "游猎步伐"
+desc = "移动速度提高20%，持续2秒；重复触发刷新时间，不叠加。"
+icon = ExtResource("4")
+polarity = 1
+duration = 2.0
+effects = Array[ExtResource("2")]([SubResource("Speed")])

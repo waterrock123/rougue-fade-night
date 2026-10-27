@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ability/scount_sidestep_shot_ability.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="3"]
+
+[resource]
+script = ExtResource("1")
+ability_scene = ExtResource("2")
+base_cooldown = 9.0
+base_energy_cost = 12.0
+id = &"122"
+skill_name = "侧身快枪"
+desc = "向移动输入方向滑步90距离，无移动输入时朝鼠标滑步；最初0.15秒无敌，之后向鼠标方向快速射出3颗子弹，每颗造成8+{dexterity}×0.5的{ranged}伤害。撞墙停止滑步，被控制或死亡则取消后续射击。"
+icon = ExtResource("3")
+tags = Array[StringName]([&"active_skill"])
+allowed_character_ids = Array[StringName]([&"scount"])

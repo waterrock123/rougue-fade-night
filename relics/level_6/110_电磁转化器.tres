@@ -8,6 +8,8 @@
 [ext_resource type="Script" uid="uid://cgb88u8tul571" path="res://relic_effect/status_consumed_power_conversion_effect.gd" id="6_power_conversion"]
 [ext_resource type="Resource" uid="uid://sa7h5waci6il" path="res://status/power.tres" id="7_power"]
 
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/110_electromagnetic_converter.png" id="Icon_completion_20261012"]
+
 [sub_resource type="Resource" id="Resource_power_conversion"]
 script = ExtResource("6_power_conversion")
 refund_status_data = ExtResource("7_power")
@@ -21,6 +23,7 @@ random_stat_chance = 0.1
 [resource]
 script = ExtResource("2_3q0u0")
 relic_name = "电磁转化器"
+icon = ExtResource("Icon_completion_20261012")
 tooltip = "在战斗中电力层数被消耗时立刻获得一层电力，
 消耗电力层数时有5%的概率使自身随机属性+1
 并持续至战斗结束

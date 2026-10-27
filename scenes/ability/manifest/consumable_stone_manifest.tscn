@@ -34,6 +34,7 @@ is_rotate = true
 hit_sound = SubResource("Resource_yeulv")
 rotate_speed = 60.0
 damage = 50.0
+tags = Array[String](["manifest", "projectile", "ranged", "stone"])
 damage_types = Array[int]([0, 1])
 scaling_rule = SubResource("Resource_1y5vp")
 poise_damage = 12.0

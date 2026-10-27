@@ -8,6 +8,14 @@
 [ext_resource type="Script" uid="uid://bq6potbl53yc6" path="res://scripts/package_system/equipment.gd" id="4_ec3r0"]
 [ext_resource type="Script" uid="uid://dv58keclglu12" path="res://scripts/package_system/inventory.gd" id="5_4bbho"]
 [ext_resource type="Script" uid="uid://bdqgkeyiw7nj6" path="res://scripts/skill/skill_entry.gd" id="7_4bbho"]
+[ext_resource type="Resource" path="res://character_resource/wizard/wizard_visual_data.tres" id="8_visual"]
+[ext_resource type="Resource" uid="uid://dk4pwhchj4dbq" path="res://activate_skill/112_basic_guiren_attack.tres" id="9_basic"]
+[ext_resource type="Resource" uid="uid://07snhhfv258i" path="res://custom_resource/start_shop.tres" id="10_shop"]
+[ext_resource type="Resource" uid="uid://clq6naqkf40p0" path="res://custom_resource/common_shop_config.tres" id="11_shop_config"]
+[ext_resource type="Resource" uid="uid://wlgt6wqudvrs" path="res://shopkeeper/甲画家.tres" id="12_keeper"]
+[ext_resource type="Resource" uid="uid://cwuyyy0m65xgi" path="res://shopkeeper/环.tres" id="13_keeper"]
+[ext_resource type="Resource" uid="uid://baqgr32nycpsi" path="res://shopkeeper/良子.tres" id="14_keeper"]
+[ext_resource type="Resource" uid="uid://crfrv5yjonucn" path="res://shopkeeper/文艺青年.tres" id="15_keeper"]
 
 [sub_resource type="Resource" id="Resource_pkefs"]
 script = ExtResource("3_xta8r")
@@ -131,13 +139,22 @@ script = ExtResource("5_4bbho")
 slots = Array[ExtResource("3_xta8r")]([SubResource("Resource_h7ejt"), SubResource("Resource_2yaws"), SubResource("Resource_xewcu"), SubResource("Resource_erunu"), SubResource("Resource_xrrp5"), SubResource("Resource_t27di"), SubResource("Resource_hmd3w"), SubResource("Resource_ofcdr"), SubResource("Resource_mdg0y"), SubResource("Resource_w7gws"), SubResource("Resource_okpef"), SubResource("Resource_g8lhh"), SubResource("Resource_qm1ev"), SubResource("Resource_lxvgj"), SubResource("Resource_2ku3s"), SubResource("Resource_2j7s1"), SubResource("Resource_f536v"), SubResource("Resource_y1eoe"), SubResource("Resource_orgtj"), SubResource("Resource_usxam"), SubResource("Resource_nffck")])
 metadata/_custom_type_script = "uid://dv58keclglu12"
 
+[sub_resource type="Resource" id="SkillEntry_basic"]
+script = ExtResource("7_4bbho")
+skill_data = ExtResource("9_basic")
+
 [resource]
 script = ExtResource("1_hx1pq")
 id = &"wizard"
 character_name = "贵人"
 description = "元素，契约，通灵，诸多玄之又玄的力量被她掌握在手中，她举手投足都展现着神秘。不过目前她似乎因为没有得到应有的尊重而生闷气。"
 background = ExtResource("1_nvmwb")
+visual_data = ExtResource("8_visual")
 start_stats = ExtResource("3_gkwth")
+start_skill = SubResource("SkillEntry_basic")
 start_inventory = SubResource("Resource_rc2xq")
 start_equipment = SubResource("Resource_wtpev")
+start_shop = ExtResource("10_shop")
+start_shop_config = ExtResource("11_shop_config")
+shop_keeper_pool = Array[ExtResource("3_ec3r0")]([ExtResource("12_keeper"), ExtResource("13_keeper"), ExtResource("14_keeper"), ExtResource("15_keeper")])
 metadata/_custom_type_script = "uid://dx5w85r6ff3q4"

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_material_basic_attack_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="4"]
+
+[ext_resource type="Resource" path="res://status/tactical_reload.tres" id="Status"]
+
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("3")
+damage_bonus = 0.4
+first_attack_extra_projectiles = 1
+charges_status = ExtResource("Status")
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Effect")])
+id = &"034"
+skill_name = "战术装填"
+desc = "主动技能实际消耗弹药装备或弹药箱次数后，接下来3次基础攻击伤害提高40%，其中第一次额外发射1颗子弹。重复触发刷新，不叠加倍率。"
+icon = ExtResource("4")
+allowed_character_ids = Array[StringName]([&"scount"])
+is_upgrade_skill = true

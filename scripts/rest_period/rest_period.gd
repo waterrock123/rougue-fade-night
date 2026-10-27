@@ -9,6 +9,9 @@ extends Control
 
 
 func _ready() -> void:
+	# 正在进行的旧局也可能缺少商店；先修复数据，再绑定UI和播放开场对白。
+	if run_stats != null:
+		run_stats.ensure_shop_runtime()
 	if shop_controller != null:
 		# 修整期里的商店直接使用 RunStats 持有的本局商店状态。
 		shop_controller.bind_run_stats(run_stats)

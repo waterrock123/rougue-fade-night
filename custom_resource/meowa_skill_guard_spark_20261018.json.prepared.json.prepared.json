@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "Animate ONLY the reference compact gold-white metal clash / perfect-parry spark. A transient collision flash, not a decorative star item. Keep the fixed 96x96 transparent canvas and constant center at (48,48), crisp hard-edged pixel art with white core, pale gold rays and a few orange flecks. 0.00-0.20 seconds: one sharp white-gold flash at the center. 0.20-0.60: four to six asymmetrical pointed rays extend abruptly outward, with maximum visible radius 26 pixels; two or three tiny flecks shoot a short distance away. 0.60-1.20: rays shorten and break into a few small dim gold pixels. 1.20-2.00: all rays and flecks disappear, ending completely transparent. Exactly one burst, no repeating pulses. Do not rotate or move the center. No shield, sword, gun, hands, person, item silhouette, ground, shadow, background, text, grid, watermark, blurry bloom or long beam. No opaque circular disk. Keep all opaque pixels at least twelve pixels from every canvas edge. Maintain the original limited-color pixel style, do not turn it into smooth vector art or realistic light. Transparent alpha on all frames.",
+		"alpha_mode": "sharp",
+		"animation_mode": "non_loop",
+		"duration_seconds": 2.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/特效/skill_vfx_samples_20261018/spark_reference.png"
+}

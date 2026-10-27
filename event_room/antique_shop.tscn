@@ -1,0 +1,106 @@
+[gd_scene load_steps=6 format=3 uid="uid://cvoj17y0m6dpn"]
+
+[ext_resource type="Texture2D" uid="uid://dbyq7ghpuflx7" path="res://assets/ai art/事件背景/休憩营地.png" id="1_o6pin"]
+[ext_resource type="PackedScene" uid="uid://csqwkpx1kbsbr" path="res://event_room/event_button.tscn" id="2_oupni"]
+[ext_resource type="Script" path="res://event_room/antique_shop.gd" id="3_script"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_o06u0"]
+font_size = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8p8"]
+bg_color = Color(0.45390636, 0.1925627, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.49455744, 0.18269193, 0.21664724, 0.6)
+
+[node name="AntiqueShopRoom" type="Control" unique_id=652731172]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_script")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=500561060]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.111652605, 0.032517143, 0.08517177, 0.7411765)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=499646323]
+modulate = Color(1, 1, 1, 0.6509804)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 1925.0
+offset_bottom = 1081.0
+texture = ExtResource("1_o6pin")
+expand_mode = 1
+
+[node name="DescLabel" type="Label" parent="." unique_id=1797618010]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 0
+offset_left = 138.0
+offset_top = 334.0
+offset_right = 838.0
+offset_bottom = 506.0
+size_flags_vertical = 3
+text = "在不可能的时间和地点遇到一家古董店是可能的事，笑容暧昧的女店员热烈地邀请你进店看看"
+label_settings = SubResource("LabelSettings_o06u0")
+autowrap_mode = 2
+
+[node name="DrinkButton" parent="." unique_id=1416983139 instance=ExtResource("2_oupni")]
+layout_mode = 0
+offset_left = 157.0
+offset_top = 599.0
+offset_right = 757.0
+offset_bottom = 675.0
+autowrap_mode = 2
+pressed_desc = Array[String](["你在古董店里转了一圈。这里的货物真假难辨，但每一件都很有故事。"])
+desc_text = "先看看店里的古董"
+detail_text = "观察这些来历不明的旧物"
+
+[node name="NotdrinkButton" parent="." unique_id=243612117 instance=ExtResource("2_oupni")]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 702.0
+offset_right = 752.0
+offset_bottom = 778.0
+autowrap_mode = 2
+pressed_desc = Array[String](["你礼貌地告别。女店员仍带着热情的笑容，目送你离开。"])
+desc_text = "礼貌告别"
+detail_text = "不在这里停留"
+
+[node name="NotdrinkButton2" parent="." unique_id=357340210 instance=ExtResource("2_oupni")]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 806.0
+offset_right = 758.0
+offset_bottom = 882.0
+autowrap_mode = 2
+pressed_desc = Array[String](["“大厅？听起来会有很多客人，也会有很多好吃的……我是说，好东西。那就说定啦！”"])
+desc_text = "邀请女店员小乐前往大厅"
+detail_text = "小乐之后会出现在大厅，并提供以物易物服务"
+
+[node name="LeaveButton" type="Button" parent="." unique_id=1612002407]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 0
+offset_left = 1437.0
+offset_top = 860.0
+offset_right = 1837.0
+offset_bottom = 960.0
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_ih8p8")
+text = "离开"
+
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

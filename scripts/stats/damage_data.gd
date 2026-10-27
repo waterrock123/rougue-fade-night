@@ -20,11 +20,16 @@ var damage_types: Array[int] = []
 var scaling_rule: DamageScalingRule
 var source_ability_id: StringName = &""
 var source_ability_slot_index: int = -1
+## 命中时的前进方向，供地图物件的击破后续效果沿真实投射物方向发射；零向量表示未提供。
+var impact_direction: Vector2 = Vector2.ZERO
 ## 本次攻击造成的削韧值；0 表示不削韧，小于 0 时才使用目标默认公式。
 ## 通用伤害默认不削韧，只有明确的技能、投射物或重击来源应主动填写正数。
 var poise_damage: float = 0.0
 ## 攻击方在伤害生成时的削韧倍率快照，避免后续目标结算时再次依赖攻击者节点。
 var poise_damage_multiplier: float = 1.0
+## 攻击方防御穿透快照。仅跳过对应减伤步骤，不把闪避、护盾或易伤一起绕过。
+var ignore_static_damage_reduction: bool = false
+var ignore_damage_reduction_rate: bool = false
 
 var can_crit: bool = true
 var is_crit: bool = false
@@ -32,6 +37,13 @@ var is_miss: bool = false
 var crit_multiplier: float = 1.5
 
 var tags: Array[String] = []
+## 造成这次伤害的技能元素快照，只用于联动筛选；装备/地形独立伤害默认为空。
+var skill_element_tags: Array[StringName] = []
+## 技能本次施法的完整伤害倍率（包含属性成长），与基础子弹倍率分开。
+var skill_damage_multiplier: float = 1.0
+var cast_record: AbilityCastRecord
+## 联动产生的次级伤害可关闭技能被动，防止连锁伤害递归触发自身。
+var allow_skill_procs: bool = true
 
 const DAMAGE_TYPE_COLORS := {
 	DamageType.PHYSICAL: Color.WHITE,
@@ -72,6 +84,14 @@ static func create(
 	data.poise_damage = damage_poise_damage
 	data.poise_damage_multiplier = maxf(damage_poise_multiplier, 0.0)
 	return data
+
+
+func has_skill_element(tag: StringName) -> bool:
+	return SkillElementTags.has_tag(skill_element_tags, tag)
+
+
+func matches_skill_elements(required: Array[StringName], require_all: bool = false) -> bool:
+	return SkillElementTags.matches(skill_element_tags, required, require_all)
 
 
 # 统一给飘字/UI读取最终显示伤害。

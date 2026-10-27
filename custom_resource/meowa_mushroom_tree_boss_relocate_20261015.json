@@ -1,0 +1,14 @@
+{
+  "source_file": "res://assets/enemy/mushroom_tree_boss/source.png",
+  "fields": {
+    "action_timeline": "0.00-0.50: root arms fold inward, rooted base compresses into the ground in place. 0.50-1.00: tree crouches very low and roots retract, crown lowers toward the stationary root anchor. 1.00-1.50: roots unfold and trunk rises vertically in the SAME place. 1.50-2.00: crown settles and return to exact initial rooted stance. No horizontal movement, no camera movement, no ground or scenery. Runtime handles teleportation. Preserve the exact mushroom-crown ancient-tree boss identity, earthy pixel palette, crisp dark outlines, front-facing view and transparent 128x128 canvas of the reference. Root base anchored at the same lower-center point except vertical compression. Entire crown and both arms stay inside the canvas, no cropping, no walk, no spinning, no zoom, no blur, no added background. Each action is a true continuous animation of ONE character.",
+    "style_mode": "pixel",
+    "resolution": "480p",
+    "alpha_mode": "sharp",
+    "duration_seconds": 2,
+    "quality_mode": "standard",
+    "animation_mode": "non_loop",
+    "remove_bg_method": "standard",
+    "remove_bg_batch_size": "16"
+  }
+}

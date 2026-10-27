@@ -1,0 +1,61 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Purple Effect and Bullet 16x16.png" id="3"]
+[ext_resource type="Script" path="res://scripts/ability/manifest/projectile_trail.gd" id="4"]
+
+[sub_resource type="Resource" id="Scaling"]
+script = ExtResource("2")
+enabled = false
+
+[sub_resource type="AtlasTexture" id="MissileTexture"]
+atlas = ExtResource("3")
+region = Rect2(160, 16, 16, 16)
+
+[sub_resource type="CircleShape2D" id="HitShape"]
+radius = 3.0
+
+[sub_resource type="Curve" id="TrailWidth"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="GuirenMagicMissile" type="Node2D"]
+z_index = 100
+script = ExtResource("1")
+speed = 180.0
+target_group = "enemy"
+max_distance = 600.0
+homing_turn_speed = 2.5
+homing_acquire_radius = 160.0
+homing_require_target_in_range = true
+damage = 3.0
+damage_types = Array[int]([1])
+tags = Array[String](["manifest", "projectile", "ranged", "magic", "guiren_basic"])
+scaling_rule = SubResource("Scaling")
+poise_damage = 2.0
+hit_each_target_once = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.5, 0.5)
+texture = SubResource("MissileTexture")
+
+[node name="Trail" type="Line2D" parent="."]
+z_index = -1
+width_curve = SubResource("TrailWidth")
+end_cap_mode = 2
+script = ExtResource("4")
+max_points = 12
+point_distance = 2.0
+trail_color = Color(0.72, 0.5, 1, 0.55)
+trail_width = 1.2
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("HitShape")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

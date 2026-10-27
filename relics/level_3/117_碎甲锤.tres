@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_tag"]
 [ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="6_weapon_tag"]
 [ext_resource type="Resource" uid="uid://bhvriwrr7jduc" path="res://relic_tags/战狂tag.tres" id="7_warrior_tag"]
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/meowa_sample_02/sprite_14.png" id="8_meowa_icon"]
 
 [sub_resource type="Resource" id="ArmorBreakerPoiseMultiplier"]
 script = ExtResource("3_add_derived")
@@ -20,6 +21,7 @@ script = ExtResource("4_break_area")
 [resource]
 script = ExtResource("1_relic")
 relic_name = "碎甲锤"
+icon = ExtResource("8_meowa_icon")
 tooltip = "你的{poise_damage_multiplier}提高20%。
 升级：被你{poise_break}的敌人周围其他敌人受到等于你{strength}200%的{melee_damage}。"
 desc = "敲碎一个缺口，冲击便会沿着整片阵线扩散。"

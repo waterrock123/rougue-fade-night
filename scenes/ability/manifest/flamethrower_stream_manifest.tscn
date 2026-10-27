@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/sustained_directional_area_manifest.gd" id="1_stream"]
+[ext_resource type="Resource" path="res://status/burn.tres" id="2_burn"]
+[ext_resource type="Resource" path="res://status/flame_channel.tres" id="3_channel"]
+[ext_resource type="Texture2D" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Fire Effect and Bullet 16x16.png" id="4_fire"]
+
+[sub_resource type="AtlasTexture" id="FlameParticle"]
+atlas = ExtResource("4_fire")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="Gradient" id="FlameFade"]
+offsets = PackedFloat32Array(0, 0.65, 1)
+colors = PackedColorArray(1, 1, 1, 0.95, 1, 0.65, 0.35, 0.75, 1, 0.3, 0.1, 0)
+
+[node name="FlamethrowerStreamManifest" type="Node2D"]
+texture_filter = 1
+z_index = 1
+script = ExtResource("1_stream")
+hit_status = ExtResource("2_burn")
+caster_status = ExtResource("3_channel")
+
+[node name="WeaponSprite2D" type="Sprite2D" parent="."]
+position = Vector2(12, 0)
+
+[node name="Flames" type="CPUParticles2D" parent="."]
+position = Vector2(8, 0)
+emitting = false
+amount = 48
+lifetime = 0.5
+preprocess = 0.1
+texture = SubResource("FlameParticle")
+local_coords = true
+direction = Vector2(1, 0)
+spread = 20.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 190.0
+initial_velocity_max = 205.0
+scale_amount_min = 0.55
+scale_amount_max = 0.9
+color_ramp = SubResource("FlameFade")

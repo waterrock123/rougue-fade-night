@@ -1,0 +1,59 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://bu7hct4evgx74"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_oxndk"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_p8trh"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_mlgh7"]
+[ext_resource type="Resource" uid="uid://lkyp1jdnq73x" path="res://relic_tags/幻景tag.tres" id="4_mlgh7"]
+[ext_resource type="Resource" uid="uid://ckjq0xlnbcmd7" path="res://relic_tags/浪子tag.tres" id="5_rso7q"]
+
+[ext_resource type="Script" path="res://relic_effect/conditional_relic_effect.gd" id="6_condition"]
+[ext_resource type="Script" path="res://relic_effect/periodic_radial_manifest_effect.gd" id="7_emit"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/alien_laser_manifest.tscn" id="8_laser"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="9_scaling"]
+[ext_resource type="Script" path="res://relic_effect/add_derived_stat_effect.gd" id="10_defense"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/120_aw_hoodie.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="Resource_no_scaling"]
+script = ExtResource("9_scaling")
+enabled = false
+
+[sub_resource type="Resource" id="Resource_laser"]
+script = ExtResource("7_emit")
+interval = 0.5
+initial_delay = 0.5
+manifest_scene = ExtResource("8_laser")
+manifest_count = 1
+spawn_radius = 0.0
+base_damage = 4.0
+stat_multiplier = 0.0
+can_crit = false
+damage_types = Array[int]([0, 3, 2, 4])
+tags = Array[String](["relic", "projectile", "laser", "aw_laser"])
+scaling_rule = SubResource("Resource_no_scaling")
+
+[sub_resource type="Resource" id="Resource_emit_condition"]
+script = ExtResource("6_condition")
+conditional_effects = Array[ExtResource("1_oxndk")]([SubResource("Resource_laser")])
+
+[sub_resource type="Resource" id="Resource_defense"]
+script = ExtResource("10_defense")
+add_derived_stats = {"damage_reduction_rate": 0.3}
+
+[sub_resource type="Resource" id="Resource_defense_condition"]
+script = ExtResource("6_condition")
+conditional_effects = Array[ExtResource("1_oxndk")]([SubResource("Resource_defense")])
+
+[resource]
+script = ExtResource("2_p8trh")
+relic_name = "AW连帽卫衣"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "实际移动速度低于50（包括站立）时，每0.5秒向随机方向发射一束穿透激光，基础伤害由物理、{ice}、火焰、闪电各1点组成，共4点，无属性伤害加成
+升级：满足该低速条件时额外获得30%减伤"
+price = 5
+level = 5
+tags = Array[ExtResource("3_mlgh7")]([ExtResource("4_mlgh7"), ExtResource("5_rso7q")])
+id = "120"
+effects = Array[ExtResource("1_oxndk")]([SubResource("Resource_emit_condition")])
+great_effects = Array[ExtResource("1_oxndk")]([SubResource("Resource_defense_condition")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

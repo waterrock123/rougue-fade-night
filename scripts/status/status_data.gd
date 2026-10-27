@@ -21,6 +21,8 @@ enum StackMode {
 @export_group("分类")
 ## 用于区分增益和负面状态，羊毛等效果会根据这个分类拦截负面状态。
 @export var polarity: Polarity = Polarity.NEUTRAL
+## 关闭后，该状态不能被主动净化；自然到期与战斗结束清理不受影响。
+@export var dispellable: bool = true
 
 @export_group("持续与叠层")
 # duration < 0 表示永久，duration > 0 表示限时状态。

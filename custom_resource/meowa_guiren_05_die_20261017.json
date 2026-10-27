@@ -1,0 +1,14 @@
+{
+  "source_file": "res://assets/人物角色素材/guiren_05/animation_reference.png",
+  "fields": {
+    "action_timeline": "0.00-0.45: Lose strength and lower the staff, eyes close. 0.45-1.20: Knees give way and the character gently collapses into a low defeated pose with the staff beside her. 1.20-1.60: Hair and robe settle, star hat stays recognizable. 1.60-2.00: Hold the defeated pose completely still. No revival, no standing back up, no fadeout, no disintegration, no gore. Preserve this EXACT female character: long deep-blue/violet hair, large navy pointed hat with gold star markings and broad gold-edged brim, blue robe with vertical gold trim, small round-topped staff. Crisp simple 32-pixel chibi detail inside the provided 48x48 transparent canvas. Do not enlarge her to fill the canvas. Consistent RIGHT-facing three-quarter game view, same face, colors, proportions, staff and hat throughout. Fixed camera and canvas size, maintain original foot baseline except defeat, keep all hat, hair, staff, magic and limbs at least 2 pixels from every edge. No extra characters, no background or floor shadow, no blur, no text, no weapons swapping, no camera motion, no costume changes.",
+    "style_mode": "pixel",
+    "resolution": "480p",
+    "alpha_mode": "sharp",
+    "duration_seconds": 2,
+    "quality_mode": "standard",
+    "animation_mode": "non_loop",
+    "remove_bg_method": "standard",
+    "remove_bg_batch_size": "16"
+  }
+}

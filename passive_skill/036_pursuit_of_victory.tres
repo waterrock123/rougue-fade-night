@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_critical_cooldown_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/16x16/fa838.png" id="4"]
+
+[ext_resource type="Resource" path="res://status/pursuit_of_victory.tres" id="Status"]
+
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("3")
+cooldown_seconds = 1.5
+kill_status = ExtResource("Status")
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Effect")])
+id = &"036"
+skill_name = "乘胜追击"
+desc = "对敌人造成有效暴击时，使剩余冷却最长的一个非基础主动技能减少1.5秒冷却，每0.6秒最多触发一次。击杀敌人后移动速度提高10%，持续3秒，重复击杀刷新时间。"
+icon = ExtResource("4")
+allowed_character_ids = Array[StringName]([&"scount"])
+is_upgrade_skill = true

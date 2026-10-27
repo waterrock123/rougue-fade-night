@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="StatsData" format=3 uid="uid://bkeqhf4aqe3hy"]
+
+[ext_resource type="Script" uid="uid://yiy2gawxifk8" path="res://custom_resource/stats_data.gd" id="1_stats"]
+
+[resource]
+script = ExtResource("1_stats")
+entity_name = "大狗"
+base_max_health = 200.0
+base_max_energy = 30.0
+base_energy_regen_tick_value = 3.0
+base_move_speed = 70.0
+strength = 12
+dexterity = 7
+intelligence = 2
+constitution = 12
+speed = 7
+charm = 2
+luck = 4

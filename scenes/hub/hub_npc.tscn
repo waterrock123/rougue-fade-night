@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://b02h6qj2wbwhf"]
+
+[ext_resource type="Script" uid="uid://bgs00078kyktg" path="res://scripts/hub/hub_npc.gd" id="1_npc"]
+[ext_resource type="PackedScene" uid="uid://ben04n11ttuko" path="res://scenes/ui/dialogue_ui.tscn" id="2_dialogue"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_npc"]
+radius = 36.0
+
+[node name="HubNpc" type="Node2D" unique_id=1679694846]
+script = ExtResource("1_npc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1948023369]
+texture_filter = 1
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=738095535]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=308152444]
+shape = SubResource("CircleShape2D_npc")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=485752962]
+layer = 5
+
+[node name="PromptLabel" type="Label" parent="CanvasLayer" unique_id=1137658319]
+offset_right = 240.0
+offset_bottom = 40.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+
+[node name="DialogueUI" parent="CanvasLayer" unique_id=1437997505 instance=ExtResource("2_dialogue")]
+offset_left = -100.0
+offset_top = -150.0
+offset_right = -100.0
+offset_bottom = -150.0
+mouse_filter = 2

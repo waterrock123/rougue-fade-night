@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c3p16j8sv8ka1" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc224.png" id="2_uygou"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="3_ynbgo"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_mvaqs"]
-[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_c5g7r"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料tag.tres" id="5_c5g7r"]
 [ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="6_add_stats"]
 [ext_resource type="Script" uid="uid://66tc0kh76b5a" path="res://relic_effect/sell_gold_bonus_effect.gd" id="7_sell_bonus"]
 

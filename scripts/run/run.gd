@@ -6,6 +6,7 @@ const LEVEL_UP_SCENE_PATH := "res://scenes/ability/level_up_controller.tscn"
 const REST_SCENE_PATH := "res://scenes/rest_period/rest_period.tscn"
 const DEATH_SCENE_PATH := "res://scenes/ui/death_screen.tscn"
 const VICTORY_SCENE_PATH := "res://scenes/ui/victory_screen.tscn"
+const VICTORY_RELIC_SELECTION_SCENE_PATH := "res://scenes/ui/victory_relic_selection_panel.tscn"
 const FLOW_MAP := "map"
 const FLOW_EVENT_ROOM := "event_room"
 const FLOW_LEVEL_UP := "level_up"
@@ -17,6 +18,11 @@ const TAG_EFFECT_DATABASE := preload("res://custom_resource/default_tag_effect_d
 static var pending_startup: RunStartup
 
 @export var run_startup: RunStartup
+## 按顺序引用各层配置，扩层无需复制 Run 场景。
+@export var floor_configs: Array[RunFloorConfig] = [
+	preload("res://custom_resource/run_floor_01.tres"),
+	preload("res://custom_resource/run_floor_02.tres"),
+]
 ## 开发版可从顶栏打开调试台；发布版默认不显示，避免把测试命令交给正式玩家。
 @export var enable_debug_console: bool = true
 
@@ -38,6 +44,10 @@ static var pending_startup: RunStartup
 
 var run_stats: RunStats
 var current_room: Room
+## 调试台设置的一次性事件覆盖；进入下一个地图房间后立即消费并清空。
+var debug_next_event_scene: PackedScene
+## 独立于本房已锁定模板的一次性测试配置，存档时只补记此字段，不覆盖检查点奖励。
+var debug_next_battle_map_template_path: String = ""
 var pending_map_save_data: Dictionary = {}
 var pending_current_room_data: Dictionary = {}
 var pending_flow_state: String = FLOW_MAP
@@ -46,6 +56,12 @@ var level_up_checkpoint_locked := false
 var level_up_reward_options: Array[LevelUpReward] = []
 var battle_active := false
 var tag_effect_controller: TagEffectController
+var world_condition_controller: WorldConditionController
+var death_salvage_resolved: bool = false
+var death_recovery_relics: Array[Relic] = []
+var victory_resolution_started: bool = false
+var pending_received_relic: Relic
+var event_entry_checkpoint: EventEntryCheckpoint = EventEntryCheckpoint.new()
 
 
 # 先准备本局数据，再初始化常驻节点和地图流程。
@@ -55,8 +71,13 @@ func _ready() -> void:
 	_initialize_runtime_proxy()
 	_initialize_persistent_ui()
 	_initialize_tag_effect_controller()
+	_initialize_world_condition_controller()
 	_connect_signals()
 	_initialize_map()
+	# 大厅携带发生在代理/天气控制器初始化前，只补发这件新开局遗物的通知，不重放续档。
+	if pending_received_relic != null:
+		_on_relic_received(pending_received_relic, run_stats.player_build)
+		pending_received_relic = null
 	_restore_saved_flow_view()
 	if current_flow_state == FLOW_MAP:
 		_save_current_run()
@@ -160,6 +181,8 @@ func change_to_rest_period(restore_gold: bool = true) -> void:
 	if restore_gold and run_stats != null:
 		run_stats.begin_rest_period()
 		run_stats.grant_rest_period_gold()
+		if world_condition_controller != null:
+			world_condition_controller.settle_completed_room()
 	_refresh_persistent_ui()
 
 	var rest_scene_resource := load(REST_SCENE_PATH) as PackedScene
@@ -186,34 +209,161 @@ func _handle_battle_win_direct_to_rest() -> void:
 
 # 玩家战败时打开死亡界面，由死亡界面决定重新开始或回主菜单。
 func change_to_death_screen() -> void:
+	if death_salvage_resolved:
+		return
+	death_salvage_resolved = true
 	battle_active = false
 	_refresh_persistent_ui()
 	_close_persistent_panels()
 	_hide_top_bar()
 	_set_package_equipment_locked(false)
 
-	var death_scene_resource := load(DEATH_SCENE_PATH) as PackedScene
-	if death_scene_resource == null:
-		return
-
-	var death_scene := death_scene_resource.instantiate()
-	if death_scene == null:
-		return
-
-	_replace_current_view(death_scene)
+	if run_stats != null:
+		ProfileManager.record_warehouse_field_test_if_needed(run_stats)
+		ProfileManager.record_appetite_adventure_if_needed()
+		ZhangSanService.record_finished_adventure()
 	if map != null:
 		map.hide_map()
+	_resolve_death_recovery()
+
+
+## 普通死亡沿用随机回收一件；装备提供的策略可提升数量或回收全部。
+## 先拍下死亡时的候选列表，之后切场景、卸载效果都不会改变本次结算。
+func _resolve_death_recovery() -> void:
+	death_recovery_relics.clear()
+	if not ProfileManager.is_relic_warehouse_unlocked() or run_stats == null or run_stats.player_build == null:
+		_finish_death_transition()
+		return
+	var build: PlayerBuild = run_stats.player_build
+	var limit: int = build.get_death_recovery_limit()
+	if limit == 0 and ProfileManager.is_relic_warehouse_full():
+		_finish_death_transition()
+		return
+	death_recovery_relics = ProfileManager.get_recoverable_relics_from_build(build)
+	if limit != -1:
+		death_recovery_relics.shuffle()
+		death_recovery_relics.resize(mini(death_recovery_relics.size(), maxi(limit, 1)))
+	if death_recovery_relics.size() > ProfileManager.get_relic_warehouse_free_slots():
+		_open_relic_recovery_selection(death_recovery_relics, true)
+		return
+	if ProfileManager.store_relics_in_warehouse(death_recovery_relics):
+		_finish_death_transition()
+	else:
+		# 保留同一批候选供重试，不重复抽取、不提前删除本局检查点。
+		var panel: VictoryRelicSelectionPanel = _open_relic_recovery_selection(death_recovery_relics, true)
+		if panel != null:
+			panel.show_store_error("装备保存失败，请重试。本局存档尚未删除。")
+
+
+func _on_death_relics_selected(kept_entry_ids: Array[String], selected_relics: Array[Relic]) -> void:
+	if not ProfileManager.replace_warehouse_after_victory(kept_entry_ids, selected_relics):
+		_show_recovery_store_error()
+		return
+	death_recovery_relics = selected_relics.duplicate()
+	_finish_death_transition()
+
+
+## 仓库事务完成后再进入死亡界面并删掉本局存档，避免选择界面重复写入。
+func _finish_death_transition() -> void:
+	var scene: PackedScene = load(DEATH_SCENE_PATH) as PackedScene
+	if scene == null:
+		push_warning("无法加载死亡界面。")
+		return
+	var death_screen: DeathScreen = scene.instantiate() as DeathScreen
+	if death_screen == null:
+		return
+	_replace_current_view(death_screen)
+	death_screen.show_recovered_relics(
+		death_recovery_relics, ProfileManager.is_relic_warehouse_unlocked(), ProfileManager.is_relic_warehouse_full()
+	)
 	SaveManager.delete_save()
 
 
-# Boss 战胜利后打开通关界面，并删除这局存档，避免回主菜单后还能继续已通关的局。
+# Boss 战胜利后先结算身上的装备；仓库容量不足时让玩家决定保留哪些装备。
 func change_to_victory_screen() -> void:
+	if victory_resolution_started:
+		return
+	victory_resolution_started = true
+
+	# 首次通关作为局外剧情条件保存，不会重复领取奖励。
+	ProfileManager.try_complete_event(&"first_run_victory")
+	ProfileManager.record_warehouse_field_test_if_needed(run_stats)
+	ProfileManager.record_appetite_adventure_if_needed()
+	ZhangSanService.record_finished_adventure()
 	battle_active = false
 	level_up_checkpoint_locked = false
 	level_up_reward_options.clear()
 	_close_persistent_panels()
 	_hide_top_bar()
 	_set_package_equipment_locked(false)
+	if map != null:
+		map.hide_map()
+
+	var victory_relics: Array[Relic] = []
+	if run_stats != null and run_stats.player_build != null:
+		victory_relics = ProfileManager.get_recoverable_relics_from_build(run_stats.player_build)
+	var free_slots: int = ProfileManager.get_relic_warehouse_free_slots()
+	if victory_relics.size() <= free_slots:
+		if ProfileManager.store_relics_in_warehouse(victory_relics):
+			_finish_victory_transition()
+		else:
+			victory_resolution_started = false
+			push_warning("胜利装备写入局外仓库失败，本局存档仍然保留。")
+		return
+
+	_open_relic_recovery_selection(victory_relics)
+
+
+## 死亡保护和通关共用装备保留界面；按结算类型连接唯一的确认回调。
+func _open_relic_recovery_selection(relics: Array[Relic], after_death: bool = false) -> VictoryRelicSelectionPanel:
+	var selection_scene_resource := load(VICTORY_RELIC_SELECTION_SCENE_PATH) as PackedScene
+	if selection_scene_resource == null:
+		_reset_recovery_resolution(after_death)
+		push_warning("无法加载装备选择界面，本局存档仍然保留。")
+		return null
+
+	var selection_panel := selection_scene_resource.instantiate() as VictoryRelicSelectionPanel
+	if selection_panel == null:
+		_reset_recovery_resolution(after_death)
+		push_warning("无法实例化装备选择界面，本局存档仍然保留。")
+		return null
+
+	var callback: Callable = _on_death_relics_selected if after_death else _on_victory_relics_selected
+	selection_panel.selection_confirmed.connect(callback)
+	_replace_current_view(selection_panel)
+	selection_panel.setup(
+		relics,
+		ProfileManager.get_warehouse_entries(),
+		ProfileManager.get_relic_warehouse_capacity(),
+		after_death
+	)
+	return selection_panel
+
+
+func _reset_recovery_resolution(after_death: bool) -> void:
+	if after_death:
+		death_salvage_resolved = false
+	else:
+		victory_resolution_started = false
+
+
+func _on_victory_relics_selected(kept_entry_ids: Array[String], selected_relics: Array[Relic]) -> void:
+	if not ProfileManager.replace_warehouse_after_victory(kept_entry_ids, selected_relics):
+		_show_recovery_store_error()
+		return
+	_finish_victory_transition()
+
+
+func _show_recovery_store_error() -> void:
+	if current_view == null or current_view.get_child_count() == 0:
+		return
+	var panel: VictoryRelicSelectionPanel = current_view.get_child(0) as VictoryRelicSelectionPanel
+	if panel != null:
+		panel.show_store_error("装备保存失败，请重试。你的本局存档尚未删除。")
+
+
+# 只有装备结算成功后，才删除本局存档并播放通关演出。
+func _finish_victory_transition() -> void:
 	SaveManager.delete_save()
 
 	var victory_scene_resource := load(VICTORY_SCENE_PATH) as PackedScene
@@ -225,8 +375,6 @@ func change_to_victory_screen() -> void:
 		return
 
 	_replace_current_view(victory_scene)
-	if map != null:
-		map.hide_map()
 
 
 # 修整期结束后返回地图，并解锁下一批可进入房间。
@@ -240,6 +388,8 @@ func finish_rest_period() -> void:
 		_clear_locked_inventory_relics()
 		run_stats.clear_free_relic_choices()
 		run_stats.clear_battle_map_template()
+		if world_condition_controller != null:
+			world_condition_controller.roll_conditions_after_rest()
 		# 金币只在当前修整期内使用，离开修整期后清零，下一次进入时重新发放奖励。
 		run_stats.set_gold(0)
 	level_up_reward_options.clear()
@@ -247,9 +397,38 @@ func finish_rest_period() -> void:
 	_refresh_persistent_ui()
 
 	if map != null:
+		_advance_floor_after_boss()
 		map.show_map()
 		map.unlock_next_rooms()
 	_save_current_run(true)
+
+
+func _has_next_floor() -> bool:
+	return run_stats != null and run_stats.current_floor_index + 1 < floor_configs.size()
+
+
+func _get_current_floor_config() -> RunFloorConfig:
+	if floor_configs.is_empty():
+		return null
+	return floor_configs[clampi(run_stats.current_floor_index, 0, floor_configs.size() - 1)]
+
+
+## 中间层 Boss 沿用普通升级与修整流程，不提前执行整局通关奖励。
+func _on_boss_battle_won() -> void:
+	if _has_next_floor():
+		change_to_level_up()
+	else:
+		EventBus.game_victory.emit()
+
+
+## 离开 Boss 后的修整期才换层，保留原有升级奖励检查点的读档语义。
+func _advance_floor_after_boss() -> void:
+	if current_room == null or current_room.type != Room.Type.BOSS or not _has_next_floor():
+		return
+	run_stats.current_floor_index += 1
+	current_room = null
+	map.configure_floor(_get_current_floor_config())
+	map.generate_new_map()
 
 
 func _clear_locked_inventory_relics() -> void:
@@ -289,6 +468,8 @@ func _connect_signals() -> void:
 
 	if not EventBus.game_victory.is_connected(change_to_victory_screen):
 		EventBus.game_victory.connect(change_to_victory_screen)
+	if not EventBus.boss_battle_won.is_connected(_on_boss_battle_won):
+		EventBus.boss_battle_won.connect(_on_boss_battle_won)
 
 	if not EventBus.battle_lost.is_connected(change_to_death_screen):
 		EventBus.battle_lost.connect(change_to_death_screen)
@@ -298,6 +479,10 @@ func _connect_signals() -> void:
 
 	if not EventBus.relic_merged_to_levelup.is_connected(_on_relic_merged_to_levelup):
 		EventBus.relic_merged_to_levelup.connect(_on_relic_merged_to_levelup)
+	if not EventBus.relic_added.is_connected(_on_relic_received):
+		EventBus.relic_added.connect(_on_relic_received)
+	if not EventBus.relic_upgraded.is_connected(_on_relic_upgraded):
+		EventBus.relic_upgraded.connect(_on_relic_upgraded)
 
 	if not EventBus.inventory_update.is_connected(_on_player_relic_slots_changed):
 		EventBus.inventory_update.connect(_on_player_relic_slots_changed)
@@ -372,7 +557,8 @@ func _initialize_new_run(startup: RunStartup) -> void:
 		push_warning("RunStartup 中没有有效的角色数据，无法开始新的一局。")
 		return
 
-	RunRng.start_new_run(654321)
+	# 正式开局不再沿用地图测试种子，否则每次新游戏都会生成完全相同的事件序列。
+	RunRng.start_new_run()
 	current_flow_state = FLOW_STARTING_SKILL
 	pending_flow_state = FLOW_STARTING_SKILL
 	level_up_checkpoint_locked = false
@@ -383,6 +569,13 @@ func _initialize_new_run(startup: RunStartup) -> void:
 		shop.shopkeeper = RunRng.pick(startup.picked_character.shop_keeper_pool)
 	var shop_config := startup.create_shop_config()
 	run_stats.setup_new_run(build, shop, shop_config, startup.picked_character)
+	# 角色原始资源已被复制为本局构筑后，再应用局外永久修正器。
+	ProfileManager.apply_new_run_modifiers(run_stats)
+	# 只有全新开局消费大厅携带槽；继续游戏会直接读取已经写入存档的构筑与惩罚。
+	pending_received_relic = ProfileManager.consume_selected_relic_for_new_run(run_stats)
+	# 快照包含本次开局的局外奖励和携带惩罚，重置不能绕过这些固定规则。
+	if build != null and build.player_stats != null:
+		build.initial_stats = build.player_stats.duplicate(true) as StatsData
 
 
 # 目前续档逻辑还没展开，这里先做最小兼容。
@@ -399,11 +592,14 @@ func _initialize_continued_run(_startup: RunStartup) -> void:
 		return
 
 	run_stats = loaded_run_stats
+	debug_next_battle_map_template_path = str(save_data.get("debug_next_battle_map_template_path", ""))
 	_ensure_default_tag_effect_selection()
 	pending_map_save_data = SaveManager.get_saved_map_data(save_data)
 	pending_current_room_data = SaveManager.get_saved_current_room_data(save_data)
 	pending_flow_state = SaveManager.get_saved_flow_state(save_data)
 	current_flow_state = pending_flow_state
+	if current_flow_state == FLOW_EVENT_ROOM:
+		event_entry_checkpoint.restore(save_data)
 	level_up_checkpoint_locked = current_flow_state == FLOW_LEVEL_UP
 	level_up_reward_options = SaveManager.get_saved_level_up_rewards(save_data)
 
@@ -414,6 +610,8 @@ func _initialize_runtime_proxy() -> void:
 		return
 
 	player_build_proxy.bind_player_build(run_stats.player_build)
+	# 续档先重挂装备容量，再校验启用标签，避免把额外五个槽误当成超限删掉。
+	run_stats.trim_enabled_map_tags_to_limit()
 
 
 # 初始化 Run 下常驻的背包和属性面板 UI。
@@ -461,6 +659,17 @@ func _initialize_tag_effect_controller() -> void:
 	tag_effect_controller.bind_context(run_stats, player_build_proxy, _load_default_tag_effects())
 	if tag_effect_ui != null:
 		tag_effect_ui.bind_controller(tag_effect_controller)
+
+
+# 天气与环境是 Run 级常驻规则，不随地图、事件房或战斗场景切换而销毁。
+func _initialize_world_condition_controller() -> void:
+	if run_stats == null:
+		return
+	if world_condition_controller == null:
+		world_condition_controller = WorldConditionController.new()
+		world_condition_controller.name = "WorldConditionController"
+		add_child(world_condition_controller)
+	world_condition_controller.bind_run_stats(run_stats)
 
 
 # 当 RunStats 或 PlayerBuild 中的数据被更新后，刷新 Run 下常驻 UI。
@@ -511,6 +720,8 @@ func _refresh_persistent_ui() -> void:
 func _initialize_map() -> void:
 	if map == null:
 		return
+	map.bind_run_stats(run_stats)
+	map.configure_floor(_get_current_floor_config())
 
 	if pending_map_save_data.is_empty():
 		map.generate_new_map()
@@ -525,7 +736,10 @@ func _restore_saved_flow_view() -> void:
 	match pending_flow_state:
 		FLOW_EVENT_ROOM:
 			if current_room != null:
-				_open_event_room(current_room)
+				if event_entry_checkpoint.should_replay_event():
+					_open_event_room(current_room)
+				else:
+					_open_battle_scene(current_room)
 		FLOW_LEVEL_UP:
 			change_to_level_up()
 		FLOW_STARTING_SKILL:
@@ -588,12 +802,95 @@ func _load_default_tag_effects() -> Array[TagEffect]:
 
 # 记录当前被选择的房间，并进入它的事件场景。
 func _on_map_room_selected(room: Room) -> void:
+	# 地图节点生成时还不知道玩家届时的背包；进入事件节点时再按当前装备筛选事件。
+	if room != null and room.type == Room.Type.EVENT and map != null and map.map_generator.event_room_pool != null:
+		var rolled_event: PackedScene = map.map_generator.event_room_pool.get_random(run_stats)
+		if rolled_event != null:
+			room.event_scene = rolled_event
+	_apply_debug_next_event_override(room)
 	current_room = room
 	current_flow_state = FLOW_EVENT_ROOM
 	level_up_checkpoint_locked = false
 	battle_active = false
-	_open_event_room(room)
+	# 在场景 _ready/setup 及任何事件奖励执行前冻结整个入房状态。
+	event_entry_checkpoint.capture(SaveManager.build_run_snapshot(self))
 	_save_current_run(true)
+	_open_event_room(room)
+
+
+## 设置下一次点击地图房间时使用的事件，仅供局内调试台调用。
+func set_debug_next_event_scene(event_scene: PackedScene) -> bool:
+	if event_scene == null:
+		return false
+	debug_next_event_scene = event_scene
+	return true
+
+
+func clear_debug_next_event_scene() -> void:
+	debug_next_event_scene = null
+
+
+func get_debug_next_event_scene() -> PackedScene:
+	return debug_next_event_scene
+
+
+func can_debug_battle_map_override() -> bool:
+	return true
+
+
+func set_debug_next_battle_map_template(path: String) -> bool:
+	if not can_debug_battle_map_override():
+		return false
+	var clean_path: String = path.strip_edges()
+	if not DebugBattleMapCatalog.is_battle_map(clean_path):
+		return false
+	debug_next_battle_map_template_path = clean_path
+	_persist_debug_battle_map_override()
+	return true
+
+
+func clear_debug_next_battle_map_template() -> void:
+	if not can_debug_battle_map_override():
+		return
+	debug_next_battle_map_template_path = ""
+	_persist_debug_battle_map_override()
+
+
+func get_debug_next_battle_map_template() -> String:
+	return debug_next_battle_map_template_path
+
+
+func _persist_debug_battle_map_override() -> void:
+	if not can_debug_battle_map_override():
+		return
+	# 只修改存档中的调试配置，不能把事件奖励或修整期操作写进受保护的检查点。
+	if not SaveManager.save_debug_battle_map_override(debug_next_battle_map_template_path):
+		push_warning("测试地图配置已在本次运行中生效，但当前存档无法更新。")
+
+
+func _prepare_debug_battle_map_override(play_scene: Node) -> void:
+	if run_stats == null or not run_stats.current_battle_map_template_path.is_empty():
+		return
+	if debug_next_battle_map_template_path.is_empty():
+		return
+	if not bool(play_scene.get("use_battle_map_templates")):
+		push_warning("本场禁用了地图模板，测试地图保留至下一场启用模板的战斗。")
+		return
+	var path: String = debug_next_battle_map_template_path
+	debug_next_battle_map_template_path = ""
+	if not DebugBattleMapCatalog.is_battle_map(path):
+		push_warning("测试地图已丢失或不再是BattleMap，取消本次覆盖：%s" % path)
+		return
+	# 复用现有的已选模板优先级；继续游戏时也会恢复这一条路径，不重新抽图。
+	run_stats.current_battle_map_template_path = path
+
+
+func _apply_debug_next_event_override(room: Room) -> void:
+	if room == null or debug_next_event_scene == null:
+		return
+
+	room.event_scene = debug_next_event_scene
+	debug_next_event_scene = null
 
 
 # 事件场景点击离开后，进入该房间绑定的战斗场景。
@@ -602,6 +899,17 @@ func _on_event_room_exited() -> void:
 		return
 
 	_open_battle_scene(current_room)
+
+
+## 接收/升级效果与商店合成奖励分开；不把直接强化误当作合成。
+func _on_relic_received(relic: Relic, receiver: PlayerBuild) -> void:
+	if relic != null and run_stats != null and receiver == run_stats.player_build:
+		relic.notify_added(player_build_proxy, player_build_proxy.relic_controller)
+
+
+func _on_relic_upgraded(relic: Relic, receiver: PlayerBuild) -> void:
+	if relic != null and run_stats != null and receiver == run_stats.player_build:
+		relic.notify_upgraded(player_build_proxy, player_build_proxy.relic_controller)
 
 
 # 只要发生“未升级遗物合成升级”的行为，就按当时商店等级锁定一次免费三选一机会。
@@ -775,6 +1083,7 @@ func _open_battle_scene(room: Room) -> void:
 	if play_scene == null:
 		return
 
+	_prepare_debug_battle_map_override(play_scene)
 	_show_top_bar()
 	battle_active = true
 	_set_package_equipment_locked(true)
@@ -786,9 +1095,11 @@ func _open_battle_scene(room: Room) -> void:
 		_bind_run_stats(play_scene)
 
 	_replace_current_view(play_scene)
+	if world_condition_controller != null:
+		world_condition_controller.apply_to_battle(play_scene)
 	if map != null:
 		map.hide_map()
-	# 当前流程仍保持为事件房间，继续游戏时会从事件房间重新开始；但要保存本场战斗已经抽中的地图模板。
+	# 只补记已经抽中的地图模板，构筑、金币和随机数仍使用入房检查点。
 	_save_current_run(true)
 
 
@@ -877,6 +1188,62 @@ func refresh_debug_runtime_state() -> void:
 	_save_current_run(true)
 
 
+## 调试修改本局基础值后，同时重算常驻代理与当前战斗角色，再保存检查点。
+func apply_debug_base_stat(stat_name: StringName, value: float) -> bool:
+	if run_stats == null or run_stats.player_build == null or run_stats.player_build.player_stats == null:
+		return false
+	var build: PlayerBuild = run_stats.player_build
+	var play_scene: PlayScene = _get_current_scene() as PlayScene
+	var battle_player: Player = play_scene.player if play_scene != null else null
+	var previous_controller: StatsController = battle_player.stats_controller if battle_player != null else _get_runtime_stats_controller()
+	var previous_max_health: float = previous_controller.get_stat(&"max_health") if previous_controller != null else 0.0
+	var health_ratio: float = clampf(build.current_health / previous_max_health, 0.0, 1.0) if previous_max_health > 0.0 else 1.0
+	var previous_energy: float = build.current_energy
+	var allowed_stats: Array[StringName] = StatsController.PRIMARY_STATS.duplicate()
+	allowed_stats.append_array([&"base_max_health", &"base_max_energy", &"base_move_speed", &"base_energy_regen_tick_value", &"base_crit_chance", &"base_dodge_rate"])
+	if not allowed_stats.has(stat_name):
+		return false
+	var stats_data: StatsData = build.player_stats
+	stats_data.set(stat_name, int(roundf(value)) if StatsController.PRIMARY_STATS.has(stat_name) else value)
+	_refresh_persistent_ui()
+	if battle_player != null and battle_player.stats_controller != null:
+		battle_player.stats_controller.bind_player_build(build)
+	var final_controller: StatsController = battle_player.stats_controller if battle_player != null else _get_runtime_stats_controller()
+	if final_controller != null:
+		build.current_health = final_controller.get_stat(&"max_health") * health_ratio
+		build.current_energy = minf(previous_energy, final_controller.get_stat(&"max_energy"))
+		_sync_debug_runtime_resources(_get_runtime_stats_controller(), build)
+		if battle_player != null:
+			_sync_debug_runtime_resources(battle_player.stats_controller, build)
+			EventBus.player_health_changed.emit(battle_player.current_health, battle_player.max_health)
+			EventBus.player_energy_changed.emit(battle_player.current_energy, battle_player.max_energy)
+	_save_current_run(true)
+	return true
+
+
+func _sync_debug_runtime_resources(controller: StatsController, build: PlayerBuild) -> void:
+	if controller == null:
+		return
+	controller.current_health = minf(build.current_health, controller.get_stat(&"max_health"))
+	controller.current_energy = minf(build.current_energy, controller.get_stat(&"max_energy"))
+	if controller.entity != null:
+		controller.entity.current_health = controller.current_health
+		controller.entity.current_energy = controller.current_energy
+
+
+## 调试天气与环境后刷新地图摘要；若正处于战斗，立即重新应用环境视觉效果。
+func apply_debug_world_conditions(weather: WorldConditionData, weather_rooms: int, environment: WorldConditionData, environment_rooms: int) -> bool:
+	if world_condition_controller == null:
+		return false
+	if not world_condition_controller.set_debug_conditions(weather, weather_rooms, environment, environment_rooms):
+		return false
+	var play_scene: PlayScene = _get_current_scene() as PlayScene
+	if play_scene != null:
+		world_condition_controller.apply_to_battle(play_scene)
+	_save_current_run(true)
+	return true
+
+
 func _is_debug_console_available() -> bool:
 	return enable_debug_console and OS.is_debug_build()
 
@@ -925,9 +1292,21 @@ func _save_current_run(force: bool = false) -> void:
 		return
 	if level_up_checkpoint_locked and not force:
 		return
-	# 事件房间只在“进入房间时”保存检查点。
-	# 这样事件奖励/惩罚如果还没通过后续战斗结算，就不会在中途退出时永久写入存档。
+	# 普通事件保存无需重复落盘；强制保存也只能通过 SaveManager 读取入房快照。
 	if current_flow_state == FLOW_EVENT_ROOM and not force:
 		return
+	if current_flow_state != FLOW_EVENT_ROOM:
+		event_entry_checkpoint.clear()
 
 	SaveManager.save_run(self)
+
+
+## 保存入口统一读取入房快照，不允许强制保存绕过检查点保护。
+func get_event_checkpoint_save_data() -> Dictionary:
+	if run_stats == null or current_room == null:
+		return {}
+	var room_key: Dictionary = {"row": current_room.row, "column": current_room.column}
+	var snapshot: Dictionary = event_entry_checkpoint.build_save_data(room_key, run_stats.current_floor_index, run_stats.current_battle_map_template_path)
+	if not snapshot.is_empty():
+		snapshot["debug_next_battle_map_template_path"] = debug_next_battle_map_template_path
+	return snapshot

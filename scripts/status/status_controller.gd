@@ -31,23 +31,26 @@ func add_status(
 	source: Node = null,
 	source_key: Variant = null,
 	stacks: int = 1,
-	duration_override: float = INF
+	duration_override: float = INF,
+	ignore_negative_blocker: bool = false,
+	attribute_gain_eligible: bool = true
 ) -> StatusInstance:
 	if status_data == null or status_data.id == &"":
 		return null
-	if status_data.is_negative() and _consume_negative_status_blocker():
+	if status_data.is_negative() and not ignore_negative_blocker and _consume_negative_status_blocker():
 		# 被拦截的负面状态不会创建实例，也不会触发“状态已施加”事件。
 		return null
 
 	var status_id := status_data.id
 	var existing := statuses.get(status_id) as StatusInstance
 	if existing != null:
-		_reapply_status(existing, source, source_key, stacks, duration_override)
+		_reapply_status(existing, source, source_key, stacks, duration_override, attribute_gain_eligible)
 		_emit_status_applied(status_id, source, stacks)
 		status_changed.emit()
 		return existing
 
 	var instance := StatusInstance.new(status_data, self, target, source, source_key, stacks, duration_override)
+	instance.set_attribute_gain_source(source_key, attribute_gain_eligible)
 	statuses[status_id] = instance
 	_apply_effects(instance)
 	_emit_status_applied(status_id, source, stacks)
@@ -63,6 +66,15 @@ func remove_status(status_id: StringName) -> void:
 	_remove_effects(instance)
 	statuses.erase(status_id)
 	status_changed.emit()
+
+
+## 尝试净化一个状态。规则型、不可驱散状态会保留；系统清理仍使用 remove_status。
+func dispel_status(status_id: StringName) -> bool:
+	var instance := statuses.get(status_id) as StatusInstance
+	if instance == null or instance.status_data == null or not instance.status_data.dispellable:
+		return false
+	remove_status(status_id)
+	return true
 
 
 # 只移除某一个来源贡献的层数。
@@ -116,6 +128,49 @@ func clear_all_statuses() -> void:
 		remove_status(status_id)
 
 
+## 恢复已结算过的状态，不再次触发净化拦截、获得状态奖励或临时属性转永久。
+func restore_stored_status(data: StatusData, stacks: int, remaining: float, effect_states: Array = []) -> StatusInstance:
+	if data == null or data.id == &"" or stacks <= 0 or remaining <= 0.0:
+		return null
+	var instance: StatusInstance = get_status(data.id)
+	var key: String = "status_storage_%s" % String(data.id)
+	if instance == null:
+		instance = StatusInstance.new(data, self, target, null, key, stacks, remaining)
+		statuses[data.id] = instance
+	else:
+		_remove_effects(instance)
+		if data.stack_mode == StatusData.StackMode.ADD_STACK:
+			instance.add_source_stacks(key, stacks)
+		else:
+			instance.set_source_stacks(key, stacks)
+		instance.remaining_duration = maxf(instance.remaining_duration, remaining)
+	instance.set_attribute_gain_source(key, false)
+	instance.restoring_from_storage = true
+	_apply_effects(instance)
+	for index: int in range(mini(effect_states.size(), instance.status_data.effects.size())):
+		var effect: StatusEffect = instance.status_data.effects[index]
+		if effect != null and effect_states[index] is Dictionary:
+			effect.restore_storage_state(instance, effect_states[index])
+	instance.restoring_from_storage = false
+	status_changed.emit()
+	return instance
+
+
+## 只清理属性增减状态中的临时来源，混合了装备护甲来源的状态不会把装备层数一并删除。
+func clear_temporary_attribute_statuses() -> void:
+	for status_id: StringName in statuses.keys().duplicate():
+		var instance: StatusInstance = statuses[status_id]
+		var has_attribute_effect: bool = false
+		for effect: StatusEffect in instance.status_data.effects:
+			if effect is StatusAddStatEffect or effect is StatusAddStatsEffect:
+				has_attribute_effect = true
+		if not has_attribute_effect:
+			continue
+		for source_key: String in instance.source_stacks.keys().duplicate():
+			if bool(instance.attribute_gain_sources.get(source_key, true)):
+				remove_status_source(status_id, source_key)
+
+
 ## 为指定来源登记可以拦截的负面状态次数。
 func add_negative_status_blocker(source_key: Variant, charges: int) -> void:
 	var key: String = str(source_key)
@@ -158,7 +213,8 @@ func _reapply_status(
 	source: Node,
 	source_key: Variant,
 	added_stacks: int,
-	duration_override: float = INF
+	duration_override: float = INF,
+	attribute_gain_eligible: bool = true
 ) -> void:
 	if instance.status_data == null:
 		return
@@ -175,6 +231,7 @@ func _reapply_status(
 			instance.set_source_stacks(source_key, added_stacks)
 		StatusData.StackMode.REFRESH:
 			instance.set_source_stacks(source_key, added_stacks)
+	instance.set_attribute_gain_source(source_key, attribute_gain_eligible)
 
 	if instance.status_data.add_duration_on_reapply:
 		instance.add_duration(

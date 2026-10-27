@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://dehl6bg5lgu7p"]
+
+[ext_resource type="Script" uid="uid://halm05nhwnoo" path="res://scripts/status/status_data.gd" id="1_data"]
+[ext_resource type="Script" uid="uid://yh7sv1vgbj4x" path="res://scripts/status/status_effect.gd" id="2_effect"]
+[ext_resource type="Script" uid="uid://n4jh0iy0kh4g" path="res://scripts/status/status_add_stats_effect.gd" id="3_stats"]
+[ext_resource type="Script" uid="uid://che7kmq2aehba" path="res://scripts/status/status_outgoing_damage_bonus_effect.gd" id="4_damage"]
+
+[sub_resource type="Resource" id="ParasiticArmorStatsEffect"]
+script = ExtResource("3_stats")
+stat_values = {
+"charm": 3,
+"constitution": 3,
+"damage_reduction_rate": 0.2,
+"dexterity": 3,
+"intelligence": 3,
+"luck": 3,
+"speed": 3,
+"strength": 3
+}
+
+[sub_resource type="Resource" id="ParasiticArmorDamageEffect"]
+script = ExtResource("4_damage")
+flat_bonus = 1.0
+
+[resource]
+script = ExtResource("1_data")
+id = &"parasitic_armor_battle"
+status_name = "寄生铠甲"
+desc = "本场战斗全部一级属性+3，减伤+20%，造成的伤害+1。"
+polarity = 1
+effects = Array[ExtResource("2_effect")]([SubResource("ParasiticArmorStatsEffect"), SubResource("ParasiticArmorDamageEffect")])

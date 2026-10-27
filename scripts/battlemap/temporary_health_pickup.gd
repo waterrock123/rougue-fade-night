@@ -18,7 +18,9 @@ func _apply_pickup(collector: Entity) -> void:
 	if collector == null:
 		return
 
-	var actual_heal: float = collector.apply_heal(heal_amount, show_heal_text)
+	var rules: MapTagBattleController = MapTagBattleRules.find_controller(self)
+	var bonus: float = rules.value("heart_heal_bonus") if rules != null and collector == rules.player else 0.0
+	var actual_heal: float = collector.apply_heal(heal_amount * (1.0 + bonus), show_heal_text)
 	if actual_heal > 0.0:
 		show_collected_tip("恢复了 %s 点生命" % str(int(actual_heal)))
 	else:

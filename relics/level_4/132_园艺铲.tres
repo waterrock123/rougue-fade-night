@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://5feexwxt0nkh"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_i473g"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_chb5p"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_l1s3s"]
+[ext_resource type="Resource" uid="uid://bpyxiv6nfwnu5" path="res://relic_tags/创生tag.tres" id="4_l1s3s"]
+[ext_resource type="Resource" uid="uid://vw0c2mf5hs1g" path="res://relic_tags/计划tag.tres" id="5_w3uye"]
+
+[ext_resource type="Script" path="res://relic_effect/map_object_generation_multiplier_effect.gd" id="6_generation"]
+[ext_resource type="Script" path="res://relic_effect/ability_cast_spawn_map_object_effect.gd" id="7_cast_spawn"]
+
+[ext_resource type="Texture2D" path="res://assets/tileset/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic_tools_and_meterials.png" id="Icon_tools"]
+
+[sub_resource type="Resource" id="Resource_generation"]
+script = ExtResource("6_generation")
+feature_tag = &"beneficial_plant"
+generation_bonus = 0.5
+
+[sub_resource type="Resource" id="Resource_cast_spawn"]
+script = ExtResource("7_cast_spawn")
+feature_tag = &"beneficial_plant"
+chance = 0.05
+spawn_radius = 120.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_garden_shovel"]
+atlas = ExtResource("Icon_tools")
+region = Rect2(16, 0, 16, 16)
+
+[resource]
+script = ExtResource("2_chb5p")
+relic_name = "园艺铲"
+icon = SubResource("AtlasTexture_garden_shovel")
+tooltip = "使地图中 {beneficial_plant} 的随机生成数量与概率提升50%
+升级：使用 {active_skill}（不含基础攻击）时有5%概率在周围产生一株 {beneficial_plant}"
+desc = "来种一些甜美多汁的农作物吧"
+price = 4
+level = 4
+tags = Array[ExtResource("3_l1s3s")]([ExtResource("4_l1s3s"), ExtResource("5_w3uye")])
+id = "132"
+effects = Array[ExtResource("1_i473g")]([SubResource("Resource_generation")])
+great_effects = Array[ExtResource("1_i473g")]([SubResource("Resource_cast_spawn")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

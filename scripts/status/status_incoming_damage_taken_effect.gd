@@ -6,6 +6,8 @@ extends StatusEffect
 @export var percent_bonus: float = 0.3
 @export var required_tags: Array[String] = []
 @export var required_damage_types: Array[int] = []
+## 小于等于零表示不限制方向。开启后仅修正来自目标正面扇形的直接伤害。
+@export_range(0.0, 360.0, 1.0) var front_angle_degrees: float = 0.0
 
 
 func on_apply(instance: StatusInstance) -> void:
@@ -17,6 +19,7 @@ func on_apply(instance: StatusInstance) -> void:
 		"percent_bonus": percent_bonus * instance.stacks,
 		"required_tags": required_tags.duplicate(),
 		"required_damage_types": required_damage_types.duplicate(),
+		"front_angle_degrees": front_angle_degrees,
 	})
 
 

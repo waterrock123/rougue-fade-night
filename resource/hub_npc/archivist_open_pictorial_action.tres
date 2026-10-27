@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="HubNpcActionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/hub/hub_npc_action_data.gd" id="1_action"]
+
+[resource]
+script = ExtResource("1_action")
+action_id = &"open_pictorial_book"
+display_name = "查阅图鉴"
+description = "查看已收录的装备、主动技能、被动技能与技能树。"
+action_type = 1

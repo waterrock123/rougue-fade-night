@@ -71,7 +71,7 @@ func _apply_totals_as_modifiers(relic_context: RelicContext, key: String, totals
 		if amount != 0.0:
 			modifiers.append(Modifier.create_flat(StringName(stat_name), amount, key))
 
-	stats_controller.set_effect_modifiers(key, modifiers)
+	stats_controller.set_temporary_effect_modifiers(key, modifiers)
 
 
 func _clear_modifiers(relic_context: RelicContext, key: String) -> void:

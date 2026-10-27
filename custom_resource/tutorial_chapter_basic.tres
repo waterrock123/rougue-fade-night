@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="TutorialChapterData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/hub/tutorial_chapter_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+chapter_id = &"basic"
+title = "01  基础操作"
+description = "使用当前角色练习移动、基础攻击，以及按住瞄准、松开释放。"
+scene_path = "res://scenes/hub/basic_tutorial_room.tscn"

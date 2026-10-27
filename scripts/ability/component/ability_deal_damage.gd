@@ -33,6 +33,7 @@ func _activate(context: AbilityContext):
 				context.ability.runtime_slot_index if context.ability != null else -1,
 				poise_damage
 			)
+			context.stamp_damage_elements(damage_data)
 			target.apply_damage(damage_data)
 
 			for child in get_children():

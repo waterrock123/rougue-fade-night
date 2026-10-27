@@ -8,6 +8,10 @@ extends Resource
 @export var player_equipment: Equipment
 @export var current_health: float = 0.0
 @export var current_energy: float = 0.0
+## 本局永久的精确属性修饰，支持小数与派生属性；不污染角色初始资源。
+@export var permanent_stat_bonuses: Dictionary = {}
+## 角色创建构筑时的基础属性快照，供属性重置效果使用。
+@export var initial_stats: StatsData
 
 @export_group("技能构筑")
 ## Legacy field kept for old saves. It represents the extra active loadout limit.
@@ -17,6 +21,33 @@ extends Resource
 @export var passive_skill_slot_limit: int = 2
 @export var owned_active_skills: Array[SkillEntry] = []
 @export var owned_passive_skills: Array[SkillEntry] = []
+
+# 同一个 PlayerBuild 会同时被 Run 常驻代理和战斗 Player 使用。
+# 装备提供的临时技能需要记录激活者数量，避免任意一个场景节点退场时提前删掉技能。
+var temporary_active_skill_source_ref_counts: Dictionary = {}
+
+
+## 只读取穿戴装备的死亡回收策略，背包中未装备的避难所不生效。
+## -1代表全部；多个来源取最大数量，不把同一局装备重复入库。
+func get_death_recovery_limit() -> int:
+	var result: int = 0
+	if player_equipment == null:
+		return result
+	for slot: Slot in player_equipment.equip_slots:
+		if slot == null or slot.item == null:
+			continue
+		var relic: Relic = slot.item
+		var effect_list: Array[RelicEffect] = relic.effects.duplicate()
+		if relic.leveltip == Relic.LevelTip.LEVELUP:
+			effect_list.append_array(relic.great_effects)
+		for effect: RelicEffect in effect_list:
+			if effect == null or not effect.has_method("get_death_recovery_limit"):
+				continue
+			var limit: int = int(effect.call("get_death_recovery_limit"))
+			if limit == -1:
+				return -1
+			result = maxi(result, limit)
+	return result
 
 
 # 玩家构筑是否能接收一件遗物：背包有空位，或满背包但会立刻和背包/装备栏里的同 id 遗物合成。
@@ -229,6 +260,7 @@ func grant_temporary_active_skill(skill_data: ActiveSkillData, source_key: Strin
 		if entry == null:
 			continue
 		if entry.is_temporary and entry.temporary_source_key == source_key:
+			temporary_active_skill_source_ref_counts[source_key] = int(temporary_active_skill_source_ref_counts.get(source_key, 1)) + 1
 			return entry
 
 	var entry := SkillEntry.new()
@@ -237,6 +269,7 @@ func grant_temporary_active_skill(skill_data: ActiveSkillData, source_key: Strin
 	entry.temporary_source_key = source_key
 	entry.slot_index = owned_active_skills.size()
 	owned_active_skills.append(entry)
+	temporary_active_skill_source_ref_counts[source_key] = 1
 	return entry
 
 
@@ -244,6 +277,11 @@ func grant_temporary_active_skill(skill_data: ActiveSkillData, source_key: Strin
 func remove_temporary_active_skill(source_key: StringName) -> void:
 	if source_key == &"":
 		return
+	var ref_count: int = int(temporary_active_skill_source_ref_counts.get(source_key, 1))
+	if ref_count > 1:
+		temporary_active_skill_source_ref_counts[source_key] = ref_count - 1
+		return
+	temporary_active_skill_source_ref_counts.erase(source_key)
 
 	for index in range(owned_active_skills.size() - 1, -1, -1):
 		var entry := owned_active_skills[index]
@@ -493,6 +531,7 @@ func _try_merge_relic_id(relic_id: String) -> void:
 		for index in range(1, matching_slots.size()):
 			matching_slots[index].item = null
 
+		EventBus.relic_upgraded.emit(upgraded_relic, self)
 		EventBus.relic_merged_to_levelup.emit(upgraded_relic)
 		AudioController.play_ui_sound(&"level_up_item")
 		EventBus.inventory_update.emit()
@@ -583,6 +622,7 @@ func _merge_with_external_relic(relic: Relic) -> void:
 	for index in range(1, matching_slots.size()):
 		matching_slots[index].item = null
 
+	EventBus.relic_upgraded.emit(upgraded_relic, self)
 	EventBus.relic_merged_to_levelup.emit(upgraded_relic)
 	AudioController.play_ui_sound(&"level_up_item")
 	EventBus.inventory_update.emit()

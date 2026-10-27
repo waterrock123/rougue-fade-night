@@ -1,0 +1,86 @@
+{
+  "task": "guiren_05_character_animations",
+  "budget_credits": 150,
+  "candidate_number": "05",
+  "candidate_generation_budget_separate": true,
+  "source_file": "res://assets/人物角色素材/guiren_05/source.png",
+  "reference_file": "res://assets/人物角色素材/guiren_05/animation_reference.png",
+  "canvas_size": [
+    48,
+    48
+  ],
+  "original_character_size": [
+    32,
+    32
+  ],
+  "status": "delivered",
+  "output_canvas_size": [
+    49,
+    49
+  ],
+  "attack_revision": {
+    "job_id": "job_f8ad9c70b7a340f4ae5b7dc4612929ff",
+    "quoted_credits": 15,
+    "reason": "Remove baked-in projectile that touched the frame border; gameplay spawns projectiles separately.",
+    "status": "success",
+    "actual_credits": 15,
+    "used": true
+  },
+  "animations": {
+    "idle": {
+      "job_id": "job_bbdbe363dfb64a68be1da16de3f311cd",
+      "quoted_credits": 15,
+      "status": "success",
+      "actual_credits": 15,
+      "used": true
+    },
+    "run": {
+      "job_id": "job_bfa7e71358d740d7b23a3a13744d58d5",
+      "quoted_credits": 15,
+      "status": "success",
+      "actual_credits": 15,
+      "used": true
+    },
+    "attack": {
+      "job_id": "job_30c7131f56d743a2b8c3e7baead50725",
+      "quoted_credits": 15,
+      "status": "success",
+      "actual_credits": 15,
+      "used": false
+    },
+    "cast": {
+      "job_id": "job_851cc54558c546a4bf026d433477fa6b",
+      "quoted_credits": 15,
+      "status": "success",
+      "actual_credits": 15,
+      "used": true
+    },
+    "die": {
+      "job_id": "job_21ff08362ed44d5bba84305a6f059904",
+      "quoted_credits": 15,
+      "status": "success",
+      "actual_credits": 15,
+      "used": true
+    }
+  },
+  "committed_credits": 90,
+  "remaining_budget_credits": 60,
+  "gameplay_started": false,
+  "verified_actual_credits": 90,
+  "delivered_frame_count": 60,
+  "delivered_frames": {
+    "idle": 16,
+    "run": 8,
+    "attack": 7,
+    "cast": 16,
+    "die": 13
+  },
+  "sprite_frames": "res://sprite_frames/guiren_05_sprite_frames.tres",
+  "visual_data": "res://character_resource/wizard/wizard_visual_data.tres",
+  "validation": {
+    "offline_animations_passed": 5,
+    "guiren_editor_checks_passed": 40,
+    "frost_regression_checks_passed": 80,
+    "gameplay_started": false
+  }
+}

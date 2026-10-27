@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "0.00-0.50: hold the reference rooted pose, begin a subtle breathing expansion in the trunk. 0.50-1.00: mushroom crown sways two pixels, root hands slowly loosen. 1.00-1.50: gently contract the trunk, amber eyes softly glow. 1.50-2.00: return exactly to the initial pose for a seamless loop. The source is a 192x192 transparent CANVAS with a smaller 118-pixel-tall character centered inside. Preserve EXACT canvas 192x192 and character size, identity, earthy pixel palette and crisp outlines. NEVER zoom in or enlarge the character to fill the frame. Keep its root anchor at the original position. Crucially, all moving arms, crown, roots and spore particles must stay at least 8 pixels away from every canvas edge throughout ALL frames. Use the empty margin for the sweep. Front-facing stationary view, no walking, no spinning, no background, no floor shadow, no camera movement, no blur. Return to reference stance except death.",
+		"alpha_mode": "sharp",
+		"animation_mode": "loop",
+		"duration_seconds": 2.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/enemy/mushroom_tree_boss/animation_reference.png"
+}

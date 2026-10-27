@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_5c1j8"]
 [ext_resource type="Script" uid="uid://bq7u0e1v8m4rd" path="res://relic_effect/ability_cast_stacking_stats_effect.gd" id="6_speed"]
 [ext_resource type="Script" uid="uid://0bh3jrpdnitd" path="res://relic_effect/ability_cast_power_knockback_effect.gd" id="7_knockback"]
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/meowa_sample_02/sprite_00.png" id="8_meowa_icon"]
 
 [sub_resource type="Resource" id="Resource_speed_boost"]
 script = ExtResource("6_speed")
@@ -34,6 +35,7 @@ duration = 3.0
 [resource]
 script = ExtResource("2_34i76")
 relic_name = "电风扇"
+icon = ExtResource("8_meowa_icon")
 tooltip = "使用主动技能时会使速度属性提升4点持续2秒，存在电力时释放主动技能还会小幅度击退周围敌人
 升级：速度提升持续时间变为3秒"
 desc = "呼呼呼~"

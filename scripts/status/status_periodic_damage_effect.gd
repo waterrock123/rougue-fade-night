@@ -35,3 +35,11 @@ func on_tick(instance: StatusInstance, delta: float) -> void:
 func on_remove(instance: StatusInstance) -> void:
 	if instance != null:
 		tick_timers.erase(instance.get_effect_key())
+
+
+func capture_storage_state(instance: StatusInstance) -> Dictionary:
+	return {"elapsed": float(tick_timers.get(instance.get_effect_key(), 0.0))}
+
+
+func restore_storage_state(instance: StatusInstance, state: Dictionary) -> void:
+	tick_timers[instance.get_effect_key()] = clampf(float(state.get("elapsed", 0.0)), 0.0, maxf(tick_interval, 0.0))

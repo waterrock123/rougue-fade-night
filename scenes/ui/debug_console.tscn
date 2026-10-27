@@ -69,7 +69,7 @@ mouse_filter = 0
 color = Color(0, 0, 0, 0.7)
 
 [node name="Panel" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(1500, 820)
+custom_minimum_size = Vector2(1500, 900)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -77,9 +77,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -750.0
-offset_top = -410.0
+offset_top = -450.0
 offset_right = 750.0
-offset_bottom = 410.0
+offset_bottom = 450.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBox_panel")
@@ -177,7 +177,7 @@ value = 1.0
 rounded = true
 
 [node name="RelicList" type="ItemList" parent="Panel/MarginContainer/VBoxContainer/Content/RelicColumn/VBoxContainer"]
-custom_minimum_size = Vector2(0, 470)
+custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 18
@@ -225,7 +225,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 18
 
 [node name="SkillList" type="ItemList" parent="Panel/MarginContainer/VBoxContainer/Content/SkillColumn/VBoxContainer"]
-custom_minimum_size = Vector2(0, 470)
+custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 18
@@ -240,6 +240,192 @@ theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBox_action")
 theme_override_styles/hover = SubResource("StyleBox_action_hover")
 text = "添加选中技能"
+
+[node name="EventOverrideRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/EventOverrideRow"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.57, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "下一房间事件"
+vertical_alignment = 1
+
+[node name="EventRoomOption" type="OptionButton" parent="Panel/MarginContainer/VBoxContainer/EventOverrideRow"]
+custom_minimum_size = Vector2(380, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+
+[node name="SetNextEventButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/EventOverrideRow"]
+custom_minimum_size = Vector2(150, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBox_action")
+theme_override_styles/hover = SubResource("StyleBox_action_hover")
+text = "设置下一事件"
+
+[node name="ClearNextEventButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/EventOverrideRow"]
+custom_minimum_size = Vector2(100, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "取消"
+
+[node name="EventOverrideStatus" type="Label" parent="Panel/MarginContainer/VBoxContainer/EventOverrideRow"]
+custom_minimum_size = Vector2(330, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.45, 1)
+theme_override_font_sizes/font_size = 17
+text = "当前：跟随地图随机"
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="BattleMapOverride" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="MapRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/BattleMapOverride"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/BattleMapOverride/MapRow"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.57, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "下一场战斗地图"
+vertical_alignment = 1
+
+[node name="BattleMapOption" type="OptionButton" parent="Panel/MarginContainer/VBoxContainer/BattleMapOverride/MapRow"]
+custom_minimum_size = Vector2(360, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+clip_text = true
+fit_to_longest_item = false
+
+[node name="SetBattleMapButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/BattleMapOverride/MapRow"]
+custom_minimum_size = Vector2(150, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBox_action")
+theme_override_styles/hover = SubResource("StyleBox_action_hover")
+text = "设置下一场"
+
+[node name="ClearBattleMapButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/BattleMapOverride/MapRow"]
+custom_minimum_size = Vector2(90, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "取消"
+
+[node name="ReloadBattleMapsButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/BattleMapOverride/MapRow"]
+custom_minimum_size = Vector2(120, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "重扫地图"
+
+[node name="MapStatus" type="Label" parent="Panel/MarginContainer/VBoxContainer/BattleMapOverride"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.76, 0.82, 0.88, 1)
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
+text = "待测试：跟随正常规则 ｜ 本房已锁定：尚未选择"
+
+[node name="StatsDebugRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/StatsDebugRow"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.57, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "人物基础属性"
+vertical_alignment = 1
+
+[node name="StatOption" type="OptionButton" parent="Panel/MarginContainer/VBoxContainer/StatsDebugRow"]
+custom_minimum_size = Vector2(280, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+
+[node name="StatValue" type="SpinBox" parent="Panel/MarginContainer/VBoxContainer/StatsDebugRow"]
+custom_minimum_size = Vector2(150, 42)
+layout_mode = 2
+min_value = -999.0
+max_value = 9999.0
+step = 0.01
+
+[node name="ApplyStatButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/StatsDebugRow"]
+custom_minimum_size = Vector2(124, 42)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBox_action")
+theme_override_styles/hover = SubResource("StyleBox_action_hover")
+text = "应用属性"
+
+[node name="StatHint" type="Label" parent="Panel/MarginContainer/VBoxContainer/StatsDebugRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.79, 0.84, 1)
+text = "修改本局基础值；不会清除装备、技能和状态加成。"
+vertical_alignment = 1
+
+[node name="WorldConditionRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/WorldConditionRow"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.57, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "天气 / 环境"
+vertical_alignment = 1
+
+[node name="WeatherOption" type="OptionButton" parent="Panel/MarginContainer/VBoxContainer/WorldConditionRow"]
+custom_minimum_size = Vector2(215, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+
+[node name="WeatherRooms" type="SpinBox" parent="Panel/MarginContainer/VBoxContainer/WorldConditionRow"]
+custom_minimum_size = Vector2(108, 42)
+layout_mode = 2
+max_value = 99.0
+value = 1.0
+rounded = true
+suffix = "房"
+
+[node name="EnvironmentOption" type="OptionButton" parent="Panel/MarginContainer/VBoxContainer/WorldConditionRow"]
+custom_minimum_size = Vector2(215, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+
+[node name="EnvironmentRooms" type="SpinBox" parent="Panel/MarginContainer/VBoxContainer/WorldConditionRow"]
+custom_minimum_size = Vector2(108, 42)
+layout_mode = 2
+max_value = 99.0
+value = 1.0
+rounded = true
+suffix = "房"
+
+[node name="ApplyWorldConditionButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/WorldConditionRow"]
+custom_minimum_size = Vector2(152, 42)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBox_action")
+theme_override_styles/hover = SubResource("StyleBox_action_hover")
+text = "应用天气环境"
+
+[node name="WorldConditionHint" type="Label" parent="Panel/MarginContainer/VBoxContainer/WorldConditionRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.79, 0.84, 1)
+text = "0 房表示默认状态。"
+vertical_alignment = 1
 
 [node name="SelectionDetail" type="RichTextLabel" parent="Panel/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 70)

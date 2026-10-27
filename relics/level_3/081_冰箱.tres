@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://bfl4gvjdb31xf" path="res://relic_effect/ability_cast_stacking_damage_bonus_effect.gd" id="7_damage_stack"]
 [ext_resource type="Resource" uid="uid://sptmtn6uua85" path="res://relic_tags/寒霜tag.tres" id="9_frost_tag"]
 [ext_resource type="Script" uid="uid://dtus2dhsl8hfd" path="res://relic_effect/battle_win_add_tag_to_inventory_relic_effect.gd" id="10_add_tag"]
-[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="11_material_tag"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料tag.tres" id="11_material_tag"]
 
 [sub_resource type="Resource" id="FridgeIceDamageStackEffect"]
 script = ExtResource("7_damage_stack")
@@ -25,7 +25,7 @@ tag_to_add = ExtResource("9_frost_tag")
 script = ExtResource("2_umgr7")
 relic_name = "冰箱"
 icon = ExtResource("2_8wjgc")
-tooltip = "每释放除基础攻击以外主动技能10次都使你的冰冻伤害+1，最多+5，持续至战斗结束；
+tooltip = "每释放除基础攻击以外主动技能10次都使你的冰冻伤害+1，最多+5，持续至战斗结束；拥有电力时使冰冻伤害额外+2
 升级：战斗结束时为背包内的随机一件原料添加寒霜词条"
 desc = "依靠人力驱动提供电力"
 price = 4

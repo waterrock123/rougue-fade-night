@@ -36,3 +36,22 @@ func go_to_home_scene():
 		current_run.save_current_run()
 	EventBus.scene_changed.emit("home")
 	get_tree().change_scene_to_packed(packed_home_scene)
+
+
+## 中途离场沿用 Run 的检查点规则；结束画面传 false，防止重新写回已删除的存档。
+func go_to_hub_scene(preserve_run: bool = true) -> void:
+	var current_run: Run = get_tree().get_first_node_in_group("run") as Run
+	var hub_startup: RunStartup = RunStartup.new()
+	if current_run != null:
+		if preserve_run:
+			current_run.save_current_run()
+		if current_run.run_stats != null:
+			hub_startup.picked_character = current_run.run_stats.picked_character
+	hub_startup.type = RunStartup.Type.NEW_RUN
+	MainHomeMap.pending_startup = hub_startup
+	Run.pending_startup = null
+	get_tree().paused = false
+	var error: Error = get_tree().change_scene_to_file("res://scenes/hub/main_home_map.tscn")
+	if error != OK:
+		MainHomeMap.pending_startup = null
+		push_error("返回大厅失败：%s" % error_string(error))

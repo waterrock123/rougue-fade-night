@@ -1,0 +1,127 @@
+[gd_resource type="Resource" script_class="HubNpcInteractionData" format=3 uid="uid://dv5lac7dw48v2"]
+
+[ext_resource type="Script" uid="uid://bel2toai1ilje" path="res://scripts/hub/hub_npc_interaction_data.gd" id="1_data"]
+[ext_resource type="Script" uid="uid://cx25i63vektp4" path="res://scripts/hub/hub_npc_action_data.gd" id="2_action"]
+[ext_resource type="Resource" uid="uid://k622r7ihybna" path="res://resource/hub_npc/antique_clerk_visual_data.tres" id="3_visual"]
+[ext_resource type="Script" uid="uid://8rn2y2iypw4e" path="res://scripts/hub/hub_npc_dialogue_stage.gd" id="4_stage"]
+[ext_resource type="Resource" uid="uid://c550wl6lihytk" path="res://relic_tags/佳肴tag.tres" id="5_cuisine"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="6_tag_script"]
+
+[sub_resource type="Resource" id="Stage_final_tea"]
+script = ExtResource("4_stage")
+stage_id = &"appetite_final_tea"
+required_event_ids = Array[StringName]([&"appetite_tea_requested"])
+required_carried_relic_ids = Array[String](["128"])
+consume_carried_relic_on_completion = true
+completion_event_id = &"appetite_without_end"
+dialogue_lines = Array[String](["这就是压缩菊花茶？里面真的装着喝不完的茶……", "咕噜、咕噜……这次终于有填满肚子的感觉了。食欲被抚平啦，谢谢你。", "这个烙印送给你。以后带着它出发，我会偷偷给你塞三枚金币。", "还有，这是谢礼之外的谢礼。别乱动，让我亲一下。"])
+
+[sub_resource type="Resource" id="Stage_tea_request"]
+script = ExtResource("4_stage")
+stage_id = &"appetite_tea_request"
+required_event_ids = Array[StringName]([&"appetite_high_cuisine_completed"])
+excluded_event_ids = Array[StringName]([&"appetite_tea_requested"])
+completion_event_id = &"appetite_tea_requested"
+dialogue_lines = Array[String](["不行啊，肚子还是饿得咕咕叫。看来美味只能满足舌头，填不满这里。", "你听说过压缩菊花茶吗？据说一只盒子里装着无穷无尽的茶。", "如果能找到它，也许真的能把我这只大怪兽的肚子填满。"])
+
+[sub_resource type="Resource" id="Stage_high_cuisine"]
+script = ExtResource("4_stage")
+stage_id = &"appetite_high_cuisine"
+required_event_ids = Array[StringName]([&"appetite_high_cuisine_requested"])
+excluded_event_ids = Array[StringName]([&"appetite_high_cuisine_completed"])
+required_carried_relic_tags = Array[ExtResource("6_tag_script")]([ExtResource("5_cuisine")])
+minimum_carried_relic_level = 3
+consume_carried_relic_on_completion = true
+completion_event_id = &"appetite_high_cuisine_completed"
+dialogue_lines = Array[String](["这个香味……是给我的三阶佳肴吗？", "这次总算够我认真尝一尝了。作为交换，我会把三件二阶装备放进你的仓库。", "咕噜……可是为什么，吃完以后反而觉得更饿了？"])
+
+[sub_resource type="Resource" id="Stage_first_thanks"]
+script = ExtResource("4_stage")
+stage_id = &"appetite_first_thanks"
+required_event_ids = Array[StringName]([&"appetite_gift_adventure_complete"])
+excluded_event_ids = Array[StringName]([&"appetite_high_cuisine_requested"])
+completion_event_id = &"appetite_high_cuisine_requested"
+dialogue_lines = Array[String](["回来啦！给，这是答应你的谢礼，两件二阶装备已经送进仓库了。", "那个……还能不能再帮我找些佳肴？最好是三阶或更高级的。", "我已经准备好下一份报酬了，绝对不会让你吃亏。"])
+
+[sub_resource type="Resource" id="Stage_waiting_run"]
+script = ExtResource("4_stage")
+stage_id = &"appetite_waiting_run"
+required_event_ids = Array[StringName]([&"appetite_first_cuisine_gift"])
+excluded_event_ids = Array[StringName]([&"appetite_gift_adventure_complete"])
+repeatable = true
+dialogue_lines = Array[String](["谢礼还在准备。你先去完成一次冒险吧，无论结果如何，回来时都能拿到。", "放心，我不会赖账。大概不会。"])
+random_line = true
+
+[sub_resource type="Resource" id="Action_reply_1"]
+script = ExtResource("2_action")
+action_id = &"appetite_reply_honest"
+display_name = "真的"
+
+[sub_resource type="Resource" id="Action_reply_2"]
+script = ExtResource("2_action")
+action_id = &"appetite_reply_beautiful"
+display_name = "美丽的小姐，你值得这份佳肴"
+
+[sub_resource type="Resource" id="Action_reply_3"]
+script = ExtResource("2_action")
+action_id = &"appetite_reply_fateful"
+display_name = "这是你我之间命定的接触"
+
+[sub_resource type="Resource" id="Stage_first_gift"]
+script = ExtResource("4_stage")
+stage_id = &"appetite_first_gift"
+required_event_ids = Array[StringName]([&"appetite_cuisine_offered"])
+excluded_event_ids = Array[StringName]([&"appetite_first_cuisine_gift"])
+required_carried_relic_tags = Array[ExtResource("6_tag_script")]([ExtResource("5_cuisine")])
+consume_carried_relic_on_completion = true
+completion_event_id = &"appetite_first_cuisine_gift"
+dialogue_lines = Array[String](["咕噜……有点饿了。要不这份佳肴让我以私人的名义接收？", "钱款和物件后续我会给你的，可以吗？", "好吧，谢谢你！真是久违的食物，可惜还有些不够塞牙缝。你先去冒险，我来准备谢礼。"])
+actions = Array[ExtResource("2_action")]([SubResource("Action_reply_1"), SubResource("Action_reply_2"), SubResource("Action_reply_3")])
+
+[sub_resource type="Resource" id="Action_trade"]
+script = ExtResource("2_action")
+action_id = &"open_xiaole_trade"
+display_name = "以物易物"
+description = "用仓库中的一件装备随机交换一件同等阶装备。"
+action_type = 3
+
+[sub_resource type="Resource" id="Stage_initial"]
+script = ExtResource("4_stage")
+stage_id = &"appetite_first_meeting"
+required_event_ids = Array[StringName]([&"invited_xiaole"])
+excluded_event_ids = Array[StringName]([&"appetite_trade_unlocked"])
+completion_event_id = &"appetite_trade_unlocked"
+dialogue_lines = Array[String](["你真的在大厅里给我留了位置呀。以后想看什么都可以来找我。", "这里提供以物易物：拿一件装备来，我会换给你一件同等阶的装备。", "至于我为什么偶尔会盯着某些食物看……那只是职业习惯，绝对不是饿了。"])
+actions = Array[ExtResource("2_action")]([SubResource("Action_trade")])
+
+[sub_resource type="Resource" id="Stage_completed"]
+script = ExtResource("4_stage")
+stage_id = &"appetite_completed"
+required_event_ids = Array[StringName]([&"appetite_without_end"])
+repeatable = true
+dialogue_lines = Array[String](["那盒茶真的很神奇。至少今天，我没有饿得想把货架也吃掉。", "烙印要好好收着。三枚金币不多，但那是我的心意。"])
+random_line = true
+actions = Array[ExtResource("2_action")]([SubResource("Action_trade")])
+
+[sub_resource type="Resource" id="Stage_trade_service"]
+script = ExtResource("4_stage")
+stage_id = &"appetite_trade_service"
+required_event_ids = Array[StringName]([&"appetite_trade_unlocked"])
+repeatable = true
+dialogue_lines = Array[String](["有什么想看的么？我们这里提供以物易物哦。", "同等阶交换，童叟无欺。至于交换结果合不合心意，那就是古董自己的选择啦。"])
+random_line = true
+actions = Array[ExtResource("2_action")]([SubResource("Action_trade")])
+
+[resource]
+script = ExtResource("1_data")
+npc_id = &"antique_clerk"
+display_name = "小乐"
+description = "温柔热情的古董店女店员。她似乎一直在努力掩饰自己大得惊人的食欲。"
+visual_data = ExtResource("3_visual")
+prompt_text = "与小乐交谈"
+dialogue_lines = Array[String](["欢迎光临！想看看古董，还是想做一笔交换？"])
+dialogue_playback_mode = 1
+dialogue_duration = 2.0
+ambient_bubble_lines = Array[String](["今天吃点什么好呢……", "这只怀表走得比人还固执。", "以物易物，绝对公平哦。"])
+required_completed_event_ids = Array[StringName]([&"invited_xiaole"])
+dialogue_stages = Array[ExtResource("4_stage")]([SubResource("Stage_final_tea"), SubResource("Stage_tea_request"), SubResource("Stage_high_cuisine"), SubResource("Stage_first_thanks"), SubResource("Stage_waiting_run"), SubResource("Stage_first_gift"), SubResource("Stage_initial"), SubResource("Stage_completed"), SubResource("Stage_trade_service")])

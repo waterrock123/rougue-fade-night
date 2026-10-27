@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/radial_pulse_visual_manifest.gd" id="1"]
+
+[node name="SoulFirePulseVisual" type="Node2D"]
+z_index = -1
+script = ExtResource("1")

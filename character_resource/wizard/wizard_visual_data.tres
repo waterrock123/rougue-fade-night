@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterVisualData" format=3]
+
+[ext_resource type="Script" path="res://custom_resource/character_visual_data.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://sprite_frames/guiren_05_sprite_frames.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+sprite_frames = ExtResource("2")
+default_animation = &"idle"
+default_facing_left = false
+visual_scale = Vector2(1, 1)
+visual_offset = Vector2(0.5, 0.5)
+show_weapon = false

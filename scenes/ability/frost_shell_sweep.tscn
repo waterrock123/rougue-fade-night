@@ -1,0 +1,78 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_facing.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_lock_movement.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_apply_status_to_caster.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_enemy_telegraph.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_component_group.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_get_targets.gd" id="7"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_deal_damage.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_animation_runner.gd" id="9"]
+
+[ext_resource type="Resource" path="res://status/frost_shell_guard.tres" id="10"]
+
+[node name="FrostShellSweep" type="Node"]
+script = ExtResource("1")
+cooldown = 4.5
+energy_cost = 0.0
+ai_max_cast_distance = 65.0
+
+[node name="LockFacing" type="Node" parent="."]
+script = ExtResource("2")
+duration = 1.7
+use_current_facing = true
+
+[node name="LockMovement" type="Node" parent="."]
+script = ExtResource("3")
+lock_duration = 1.7
+
+[node name="Guard" type="Node" parent="."]
+script = ExtResource("4")
+status_data = ExtResource("10")
+duration_override = 1.0
+
+[node name="Warning" type="Node" parent="."]
+script = ExtResource("5")
+exec_delay = 0.75
+shape = 0
+direction_mode = 3
+range = 65.0
+angle_degrees = 110.0
+warning_duration = 0.35
+border_width = 0.0
+fill_color = Color(1, 0.1, 0.05, 0.18)
+
+[node name="GuardArc" type="Node" parent="."]
+script = ExtResource("5")
+shape = 0
+direction_mode = 3
+range = 38.0
+angle_degrees = 120.0
+warning_duration = 1.0
+border_width = 0.0
+fill_color = Color(0.2, 0.8, 1, 0.12)
+pulse = false
+
+[node name="Animation" type="Node" parent="."]
+script = ExtResource("9")
+exec_delay = 0.75
+animation_name = "attack"
+
+[node name="Sweep" type="Node" parent="."]
+script = ExtResource("6")
+exec_delay = 1.1
+
+[node name="Targets" type="Node" parent="Sweep"]
+script = ExtResource("7")
+search_shape = 1
+radius = 65.0
+direction_mode = 4
+sector_angle = 110.0
+
+[node name="Damage" type="Node" parent="Sweep"]
+script = ExtResource("8")
+damage = 18.0
+can_crit = false
+tags = Array[String](["skill", "melee", "frost_shell"])
+poise_damage = 20.0

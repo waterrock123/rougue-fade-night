@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="EquipmentTutorialCatalog" load_steps=10 format=3]
+[ext_resource type="Script" path="res://scripts/hub/equipment_tutorial_catalog.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/hub/equipment_tutorial_lesson.gd" id="2"]
+[ext_resource type="Resource" path="res://relics/level_1/003_树枝.tres" id="3"]
+[ext_resource type="Resource" path="res://relics/level_1/007_绑带.tres" id="4"]
+[ext_resource type="Resource" path="res://relics/level_1/016_眼镜.tres" id="5"]
+
+[sub_resource type="Resource" id="Warrior"]
+script = ExtResource("2")
+character_id = &"warrior"
+relic = ExtResource("3")
+
+[sub_resource type="Resource" id="Scount"]
+script = ExtResource("2")
+character_id = &"scount"
+relic = ExtResource("4")
+stat_key = &"dexterity"
+stat_name = "敏捷"
+
+[sub_resource type="Resource" id="Wizard"]
+script = ExtResource("2")
+character_id = &"wizard"
+relic = ExtResource("5")
+stat_key = &"intelligence"
+stat_name = "智力"
+
+[sub_resource type="Resource" id="Fallback"]
+script = ExtResource("2")
+relic = ExtResource("3")
+
+[resource]
+script = ExtResource("1")
+lessons = Array[ExtResource("2")]([SubResource("Warrior"), SubResource("Scount"), SubResource("Wizard")])
+fallback_lesson = SubResource("Fallback")

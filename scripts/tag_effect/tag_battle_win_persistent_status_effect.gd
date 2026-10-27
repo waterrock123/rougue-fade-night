@@ -55,7 +55,8 @@ func _apply_saved_status(context: TagEffectContext) -> void:
 
 	# 先移除同来源旧层数，再按 RunStats 中保存的层数重放，避免 ADD_STACK 状态被重复累加。
 	status_controller.remove_status_source(status_data.id, _get_status_source_key())
-	status_controller.add_status(status_data, context.effect_owner, _get_status_source_key(), stacks)
+	# 已经由RunStats跨战斗保存，不能被狼奶转换成另一份永久属性。
+	status_controller.add_status(status_data, context.effect_owner, _get_status_source_key(), stacks, INF, false, false)
 
 
 func _get_status_source_key() -> String:

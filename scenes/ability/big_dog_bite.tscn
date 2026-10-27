@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ability/mouse_slash.tscn" id="1_base_attack"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_play_sound.gd" id="2_play_sound"]
+[ext_resource type="AudioStream" path="res://assets/Sound/大狗叫自用音效 - 大狗.mp3" id="3_big_dog_sound"]
+[ext_resource type="Script" path="res://resource/audio_config.gd" id="4_audio_config"]
+
+[sub_resource type="Resource" id="AudioConfig_big_dog_attack"]
+script = ExtResource("4_audio_config")
+audio_streams = Array[AudioStream]([ExtResource("3_big_dog_sound")])
+volume_db = 2.0
+bus = &"sfx"
+
+[node name="BigDogBite" instance=ExtResource("1_base_attack")]
+cooldown = 1.35
+energy_cost = 0.0
+ai_max_cast_distance = 24.0
+
+[node name="PlayFullBigDogSound" type="Node" parent="."]
+script = ExtResource("2_play_sound")
+audio_config = SubResource("AudioConfig_big_dog_attack")
+

@@ -1,0 +1,53 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/ability/core/ability.gd" id="Ability"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_turn_to_mouse.gd" id="Aim"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_directional_guard.gd" id="Guard"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_get_combat_targets.gd" id="Query"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_deal_damage.gd" id="Damage"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="Rule"]
+[ext_resource type="Resource" path="res://status/iron_counter_guard.tres" id="Status"]
+[ext_resource type="Script" path="res://scripts/ability/component/ability_spawn_manifest.gd" id="Spawn"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/iron_counter_visual_manifest.tscn" id="Visual"]
+[ext_resource type="PackedScene" path="res://scenes/ability/manifest/perfect_guard_spark_manifest.tscn" id="Spark"]
+
+[sub_resource type="Resource" id="Scaling"]
+script = ExtResource("Rule")
+physical_formula = "strength * 1.2"
+ranged_formula = ""
+
+[node name="WarriorIronCounterAbility" type="Node"]
+script = ExtResource("Ability")
+cooldown = 7.0
+energy_cost = 10.0
+
+[node name="Aim" type="Node" parent="."]
+script = ExtResource("Aim")
+
+[node name="Guard" type="Node" parent="."]
+script = ExtResource("Guard")
+guard_status = ExtResource("Status")
+
+[node name="PrecisionSpark" type="Node" parent="Guard"]
+script = ExtResource("Spawn")
+manifest_scene = ExtResource("Spark")
+use_directional_offset = true
+forward_offset = 28.0
+
+[node name="CounterVisual" type="Node" parent="Guard"]
+script = ExtResource("Spawn")
+manifest_scene = ExtResource("Visual")
+
+[node name="Targets" type="Node" parent="Guard"]
+script = ExtResource("Query")
+search_shape = 1
+radius = 85.0
+sector_angle = 120.0
+direction_mode = 4
+require_line_of_sight = true
+
+[node name="Damage" type="Node" parent="Guard"]
+script = ExtResource("Damage")
+damage = 25.0
+tags = Array[String](["skill", "melee", "counter"])
+scaling_rule = SubResource("Scaling")
+poise_damage = 40.0

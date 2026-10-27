@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://2r0lggqoxric" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc218.png" id="2_50vx1"]
 [ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_ub1wb"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_50vx1"]
-[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="5_50vx1"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料tag.tres" id="5_50vx1"]
 [ext_resource type="Script" uid="uid://neet2irr2m2g" path="res://relic_effect/add_stats_effect.gd" id="6_add_stats"]
 [ext_resource type="Script" uid="uid://ckyvmmqeo6o6e" path="res://relic_effect/add_status_effect.gd" id="7_add_status"]
 [ext_resource type="Resource" uid="uid://c43k3mp74tpqd" path="res://status/armor.tres" id="8_armor"]

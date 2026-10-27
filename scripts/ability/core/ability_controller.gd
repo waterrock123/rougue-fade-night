@@ -2,15 +2,31 @@ class_name AbilityController
 extends Node
 
 signal ability_triggered(ability: Ability, caster: Entity)
+## 已支付成本、尚未执行任何组件时发出；可修改本次伤害快照。
+signal cast_prepared(context: AbilityContext)
+signal channel_completed(context: AbilityContext)
+## 操作层事件与正式施法分开，供教学/UI监听，不改变冷却或付费流程。
+signal ability_preview_started(ability: Ability, caster: Entity)
+signal ability_preview_released(ability: Ability, caster: Entity)
+signal ability_preview_cancelled(ability: Ability, caster: Entity)
+
+## 下一次非基础主动技能专用，不在预览、检查资源或失败施法时消耗。
+var next_cast_modifiers: Dictionary = {}
 
 var abilities: Array[Ability] = []
 var cooldowns: Dictionary = {}
 var cooldown_modifiers: Dictionary = {}
+## 按被动来源保存施法修正，技能栏重建后仍能读取；移除来源后立即失效。
+var cast_tuning_modifiers: Dictionary = {}
 var runtime_abilities: Array[Ability] = []
 var runtime_ability_sources: Dictionary = {}
 var previewing_ability: Ability
+## 按来源记录局部技能禁用，避免持续技能把整个人物锁住。
+var cast_block_modifiers: Dictionary = {}
 
 var entity: Entity
+## 训练用运行时覆盖，负数表示正常冷却；不写入技能资源。
+var training_cooldown_override: float = -1.0
 
 @export_group("替代法力")
 ## 电力状态 id。释放主动技能时，如果当前法力不足，会把这个状态的层数按 energy_per_power_stack 折算法力。
@@ -40,7 +56,10 @@ func trigger_held_ability_by_idx(idx: int) -> bool:
 	var ability: Ability = abilities[idx]
 	if ability == null or ability.has_cast_preview():
 		return false
-	return trigger_ability(ability)
+	# 自动续放时，等待冷却是正常流程，不提示“冷却中”。
+	if float(cooldowns.get(ability, 0.0)) > 0.0:
+		return false
+	return request_player_cast(ability)
 
 
 # AI 使用：从第一个可释放技能开始尝试，适合只有单一攻击方式的小怪。
@@ -142,6 +161,20 @@ func get_castable_abilities() -> Array[Ability]:
 	return result
 
 
+## 查询当前实际携带的技能；不要求冷却/法力可释放，不把未携带的仓备技能算进去。
+func get_abilities_with_elements(required: Array[StringName], require_all: bool = false, include_basic_attack: bool = true) -> Array[Ability]:
+	var result: Array[Ability] = []
+	for ability: Ability in abilities:
+		if not is_instance_valid(ability):
+			continue
+		var basic: bool = ability.skill_data.is_basic_attack if ability.skill_data != null else abilities.find(ability) == 0
+		if not include_basic_attack and basic:
+			continue
+		if ability.matches_element_tags(required, require_all):
+			result.append(ability)
+	return result
+
+
 func get_ai_castable_abilities(target_distance: float, fallback_cast_range: float, target: Entity = null) -> Array[Ability]:
 	var result: Array[Ability] = []
 	for ability in abilities:
@@ -157,9 +190,11 @@ func _can_be_cast(ability: Ability) -> bool:
 		return false
 	if entity.has_method("can_act") and not entity.can_act():
 		return false
+	if _is_cast_blocked(ability):
+		return false
 
 	var cd = cooldowns.get(ability, 0.0)
-	return cd == 0 and _has_enough_ability_energy(ability.energy_cost) and ability.can_pay_activation_costs(entity)
+	return cd == 0 and _has_enough_ability_energy(get_modified_energy_cost(ability)) and ability.can_pay_activation_costs(entity)
 
 
 func _can_ai_cast(ability: Ability, target_distance: float, fallback_cast_range: float, target: Entity = null) -> bool:
@@ -228,7 +263,7 @@ func clear_runtime_abilities():
 	runtime_ability_sources.clear()
 
 
-func trigger_ability(ability: Ability) -> bool:
+func trigger_ability(ability: Ability, charge_ratio: float = 0.0) -> bool:
 	if ability == null:
 		return false
 	if entity == null:
@@ -239,22 +274,105 @@ func trigger_ability(ability: Ability) -> bool:
 		return false
 	if cooldowns.get(ability, 0.0) > 0.0:
 		return false
-	if not _has_enough_ability_energy(ability.energy_cost):
+	if _is_cast_blocked(ability):
+		return false
+	if not _has_enough_ability_energy(get_modified_energy_cost(ability)):
 		return false
 	if not ability.can_pay_activation_costs(entity):
-		_show_ability_block_reason(ability)
 		return false
-	if not ability.pay_activation_costs(entity):
-		_show_ability_block_reason(ability)
-		return false
-
-	if not _spend_ability_energy(ability.energy_cost):
+	var paid_context: AbilityContext = AbilityContext.new(entity, ability)
+	if not ability.pay_activation_costs(entity, paid_context):
 		return false
 
-	ability.activate(entity)
+	if not _spend_ability_energy(get_modified_energy_cost(ability)):
+		return false
+
+	ability.activate(entity, charge_ratio, paid_context)
 	ability_triggered.emit(ability, entity)
 	cooldowns[ability] = _get_modified_cooldown(ability)
 	return true
+
+
+## 只有玩家的主动输入走此入口；AI、装备自动触发仍使用静默 trigger_ability。
+func request_player_cast(ability: Ability, charge_ratio: float = 0.0) -> bool:
+	if not is_instance_valid(ability) or not is_instance_valid(entity):
+		return false
+	if not _can_be_cast(ability):
+		_show_ability_block_reason(ability)
+		return false
+	if trigger_ability(ability, charge_ratio):
+		return true
+	_show_ability_block_reason(ability)
+	return false
+
+
+## 与实际施法成本一致，包括下次施法折扣、电力替代能量和弹药箱补给。
+func get_cast_block_info(ability: Ability) -> Dictionary:
+	if not is_instance_valid(ability) or not is_instance_valid(entity) or entity.is_dead:
+		return {}
+	if not entity.can_act():
+		return {"key": "control", "message": "当前无法行动，暂时不能释放技能"}
+	if _is_cast_blocked(ability):
+		return {"key": "disabled", "message": "当前状态下无法释放该技能"}
+	var remaining: float = float(cooldowns.get(ability, 0.0))
+	if remaining > 0.0:
+		return {"key": "cooldown", "message": "技能冷却中，还需%.1f秒" % remaining}
+	var cost: float = get_modified_energy_cost(ability)
+	if not _has_enough_ability_energy(cost):
+		return {"key": "energy", "message": "能量不足，施放需要%s点能量" % str(cost)}
+	var reason: String = ability.get_activation_block_reason(entity)
+	if not reason.is_empty():
+		return {"key": "material", "message": reason}
+	return {}
+
+
+func set_next_cast_modifier(source_key: String, data: Dictionary) -> void:
+	next_cast_modifiers[source_key] = data.duplicate(true)
+
+
+func clear_next_cast_modifier(source_key: String) -> void:
+	next_cast_modifiers.erase(source_key)
+
+
+func is_basic_ability(ability: Ability) -> bool:
+	return ability.skill_data.is_basic_attack if ability.skill_data != null else abilities.find(ability) == 0
+
+
+## 与检查、扣费统一使用同一份折扣；普通攻击不使用吟唱保留的优惠。
+func get_modified_energy_cost(ability: Ability) -> float:
+	var cost: float = ability.energy_cost
+	if not is_basic_ability(ability):
+		for data: Dictionary in next_cast_modifiers.values():
+			cost -= maxf(float(data.get("energy_reduction", 0.0)), 0.0)
+	return maxf(cost, 0.0)
+
+
+func prepare_cast_context(context: AbilityContext) -> void:
+	context.cast_record.is_basic_attack = is_basic_ability(context.ability)
+	if not context.cast_record.is_basic_attack:
+		for data: Dictionary in next_cast_modifiers.values():
+			context.cast_record.damage_multiplier *= maxf(float(data.get("damage_multiplier", 1.0)), 0.0)
+		next_cast_modifiers.clear()
+	cast_prepared.emit(context)
+
+
+## 立即削减剩余冷却，同时更新 UI 读取的值；不影响之后释放的基础冷却。
+func reduce_remaining_cooldown(ability: Ability, reduction_ratio: float) -> void:
+	if not is_instance_valid(ability) or not abilities.has(ability):
+		return
+	var remaining: float = maxf(float(cooldowns.get(ability, 0.0)), 0.0)
+	remaining *= 1.0 - clampf(reduction_ratio, 0.0, 1.0)
+	cooldowns[ability] = remaining
+	ability.current_cooldown = remaining
+
+
+## 固定秒数削减，与按比例削减分开，避免把1秒误解释成清空冷却。
+func reduce_remaining_cooldown_seconds(ability: Ability, seconds: float) -> void:
+	if not is_instance_valid(ability) or not abilities.has(ability):
+		return
+	var remaining: float = maxf(float(cooldowns.get(ability, 0.0)) - maxf(seconds, 0.0), 0.0)
+	cooldowns[ability] = remaining
+	ability.current_cooldown = remaining
 
 
 # 注册一个由状态/被动提供的冷却修正。
@@ -262,6 +380,10 @@ func set_cooldown_modifier(source_key: Variant, modifier_data: Dictionary) -> vo
 	if source_key == null:
 		return
 	cooldown_modifiers[str(source_key)] = modifier_data.duplicate(true)
+	if bool(modifier_data.get("reset_current_cooldowns", false)):
+		for ability: Ability in abilities:
+			if is_instance_valid(ability) and _cooldown_modifier_matches(ability, abilities.find(ability), modifier_data):
+				reduce_remaining_cooldown(ability, 1.0)
 
 
 # 移除指定来源的冷却修正。
@@ -271,16 +393,59 @@ func clear_cooldown_modifier(source_key: Variant) -> void:
 	cooldown_modifiers.erase(str(source_key))
 
 
+## 复用冷却修正的目标筛选规则，支持按技能id或栏位限定作用范围。
+func set_cast_tuning_modifier(source_key: Variant, data: Dictionary) -> void:
+	cast_tuning_modifiers[str(source_key)] = data.duplicate(true)
+
+
+func clear_cast_tuning_modifier(source_key: Variant) -> void:
+	cast_tuning_modifiers.erase(str(source_key))
+	# 被动替换时中断旧预览，避免旧分支的蓄力状态遗留。
+	if is_instance_valid(previewing_ability) and not previewing_ability.has_cast_preview():
+		cancel_ability_preview()
+
+
+func get_cast_tuning(ability: Ability) -> Dictionary:
+	var result: Dictionary = {"damage_multiplier": 1.0, "projectile_count": 0, "charge_enabled": false}
+	for data: Dictionary in cast_tuning_modifiers.values():
+		if not _cooldown_modifier_matches(ability, abilities.find(ability), data):
+			continue
+		result["damage_multiplier"] *= maxf(float(data.get("damage_multiplier", 1.0)), 0.0)
+		result["projectile_count"] = maxi(int(result["projectile_count"]), int(data.get("projectile_count", 0)))
+		result["charge_enabled"] = bool(result["charge_enabled"]) or bool(data.get("charge_enabled", false))
+	return result
+
+
+## 状态可只禁用基础攻击或指定技能，所有输入/AI入口都会经过统一校验。
+func set_cast_block_modifier(source_key: String, modifier_data: Dictionary) -> void:
+	cast_block_modifiers[source_key] = modifier_data.duplicate(true)
+	if is_instance_valid(previewing_ability) and _is_cast_blocked(previewing_ability):
+		cancel_ability_preview()
+
+
+func clear_cast_block_modifier(source_key: String) -> void:
+	cast_block_modifiers.erase(source_key)
+
+
+func _is_cast_blocked(ability: Ability) -> bool:
+	for data: Dictionary in cast_block_modifiers.values():
+		if bool(data.get("block_all", false)):
+			return true
+		var blocked_ids: Array = data.get("ability_ids", [])
+		if blocked_ids.has(ability.id):
+			return true
+		var is_basic: bool = ability.skill_data.is_basic_attack if ability.skill_data != null else abilities.find(ability) == 0
+		if bool(data.get("block_basic_attack", false)) and is_basic:
+			return true
+	return false
+
+
 func begin_ability_preview(ability: Ability) -> void:
 	if ability == null or entity == null:
 		return
-	if entity.is_dead:
-		return
-	if entity.has_method("can_act") and not entity.can_act():
-		return
 	# 没有预览组件的旧技能仍然保持原逻辑：按下按键就直接释放。
 	if not ability.has_cast_preview():
-		trigger_ability(ability)
+		request_player_cast(ability)
 		return
 	if not _can_be_cast(ability):
 		_show_ability_block_reason(ability)
@@ -290,6 +455,7 @@ func begin_ability_preview(ability: Ability) -> void:
 	cancel_ability_preview()
 	previewing_ability = ability
 	ability.begin_cast_preview(entity)
+	ability_preview_started.emit(ability, entity)
 
 
 func release_ability_preview(ability: Ability) -> void:
@@ -297,26 +463,27 @@ func release_ability_preview(ability: Ability) -> void:
 		return
 
 	# 松开按键时关闭指示器，再走正式释放流程，冷却和能量仍由 trigger_ability 统一校验。
+	var released_charge: float = ability.preview_context.charge_ratio if ability.preview_context != null else 0.0
 	ability.end_cast_preview()
 	previewing_ability = null
-	trigger_ability(ability)
+	ability_preview_released.emit(ability, entity)
+	request_player_cast(ability, released_charge)
 
 
 func cancel_ability_preview() -> void:
 	if previewing_ability != null:
-		previewing_ability.end_cast_preview()
+		var cancelled: Ability = previewing_ability
+		cancelled.end_cast_preview()
 		previewing_ability = null
+		ability_preview_cancelled.emit(cancelled, entity)
 
 
 func _show_ability_block_reason(ability: Ability) -> void:
-	if ability == null or entity == null:
+	if not is_instance_valid(ability) or not is_instance_valid(entity) or not entity is Player or entity.is_dead:
 		return
-
-	var reason := ability.get_activation_block_reason(entity)
-	if reason.is_empty():
-		return
-	if FloatText != null and FloatText.has_method("show_screen_tip"):
-		FloatText.show_screen_tip(reason)
+	var info: Dictionary = get_cast_block_info(ability)
+	var reason: String = str(info.get("message", "当前无法释放技能，请重试"))
+	FloatText.show_action_tip(reason, "skill:%s:%s" % [str(ability.id), str(info.get("key", "failed"))])
 
 
 func _has_enough_ability_energy(energy_cost: float) -> bool:
@@ -408,7 +575,19 @@ func _unregister_runtime_ability(ability: Ability) -> void:
 	ability.queue_free()
 
 
+## 供蓄力等组件读取最终冷却时长；不改变剩余冷却，也不消耗施法资源。
+func get_effective_cooldown(ability: Ability) -> float:
+	if not is_instance_valid(ability):
+		return 0.0
+	return _get_modified_cooldown(ability)
+
+
 func _get_modified_cooldown(ability: Ability) -> float:
+	var fixed_cooldown: float = _get_fixed_cooldown(ability)
+	if fixed_cooldown >= 0.0:
+		return fixed_cooldown
+	if training_cooldown_override >= 0.0:
+		return maxf(training_cooldown_override, 0.1)
 	var cooldown := ability.cooldown
 	if cooldown <= 0.0:
 		return 0.0
@@ -429,7 +608,21 @@ func _get_modified_cooldown(ability: Ability) -> float:
 	return max(cooldown, 0.05)
 
 
+## 显式固定冷却不受常规最低0.05秒或减CD修正影响；多个来源取更小值。
+func _get_fixed_cooldown(ability: Ability) -> float:
+	var result: float = -1.0
+	for data: Dictionary in cooldown_modifiers.values():
+		var override_value: float = float(data.get("cooldown_override", -1.0))
+		if override_value < 0.0 or not _cooldown_modifier_matches(ability, abilities.find(ability), data):
+			continue
+		result = override_value if result < 0.0 else minf(result, override_value)
+	return result
+
+
 func _cooldown_modifier_matches(ability: Ability, slot_index: int, modifier_data: Dictionary) -> bool:
+	var excluded_slots: Array = modifier_data.get("excluded_slot_indices", [])
+	if excluded_slots.has(slot_index):
+		return false
 	var target_ids: Array = modifier_data.get("target_ability_ids", [])
 	if not target_ids.is_empty():
 		return target_ids.has(ability.id)

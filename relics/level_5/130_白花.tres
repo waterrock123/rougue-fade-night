@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="Relic" format=3 uid="uid://b6q4ujpe3gwfa"]
+
+[ext_resource type="Script" uid="uid://bjrnbadrmbkbg" path="res://relic_effect/relic_effect.gd" id="1_oxu1v"]
+[ext_resource type="Script" uid="uid://cddtxdxbmfw5r" path="res://custom_resource/relic.gd" id="2_0v60e"]
+[ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="3_cp5wu"]
+[ext_resource type="Resource" uid="uid://dnruckbs5xhlj" path="res://relic_tags/饰品tag.tres" id="4_cp5wu"]
+[ext_resource type="Resource" uid="uid://cjhagmgdk7yxr" path="res://relic_tags/灵动敏锐.tres" id="5_lhboj"]
+[ext_resource type="Script" path="res://relic_effect/add_derived_stat_effect.gd" id="6_stats"]
+[ext_resource type="Script" path="res://relic_effect/sold_specific_relic_effect.gd" id="7_sold"]
+[ext_resource type="Script" path="res://relic_effect/dodge_reduce_cooldown_effect.gd" id="8_dodge"]
+
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/completion_20261012/130_white_flower.png" id="Icon_completion_20261012"]
+
+[sub_resource type="Resource" id="WhiteFlowerDodge"]
+script = ExtResource("6_stats")
+add_derived_stats = {"dodge_rate": 0.1}
+
+[sub_resource type="Resource" id="WhiteFlowerSold"]
+script = ExtResource("7_sold")
+relic_uid_or_path = "res://relics/level_5/131_红花.tres"
+only_when_levelup = false
+
+[sub_resource type="Resource" id="WhiteFlowerCooldown"]
+script = ExtResource("8_dodge")
+random_one = true
+
+[resource]
+script = ExtResource("2_0v60e")
+relic_name = "白花"
+icon = ExtResource("Icon_completion_20261012")
+tooltip = "{dodge_rate}+10%；出售时立即获得装备红花
+升级：闪避成功时，随机一个正在冷却的主动技能的剩余冷却减少50%"
+desc = "一朵白花，看起来着实不起眼，也许你也能变得不起眼"
+price = 5
+level = 5
+tags = Array[ExtResource("3_cp5wu")]([ExtResource("4_cp5wu"), ExtResource("5_lhboj")])
+id = "130"
+effects = Array[ExtResource("1_oxu1v")]([SubResource("WhiteFlowerDodge"), SubResource("WhiteFlowerSold")])
+great_effects = Array[ExtResource("1_oxu1v")]([SubResource("WhiteFlowerCooldown")])
+metadata/_custom_type_script = "uid://cddtxdxbmfw5r"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ability/warrior_leap_slam_ability.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc763.png" id="3"]
+[resource]
+script = ExtResource("1")
+ability_scene = ExtResource("2")
+base_cooldown = 8.0
+base_energy_cost = 12.0
+id = &"125"
+skill_name = "跃地重斩"
+desc = "按住选择落点，松开跃向最多180距离的位置，落地对75范围内敌人造成30+{strength}×1.5的{melee_damage}，具有较高削韧。跳跃期间不能释放其他技能，没有无敌，不能越过墙体或地图边界。"
+icon = ExtResource("3")
+tags = Array[StringName]([&"active_skill", &"melee"])
+allowed_character_ids = Array[StringName]([&"warrior"])

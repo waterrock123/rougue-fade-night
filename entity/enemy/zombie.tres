@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="StatsData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://custom_resource/stats_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+entity_name = "僵尸"
+base_max_health = 80.0
+base_max_energy = 0.0
+base_move_speed = 45.0
+base_crit_chance = 0.0

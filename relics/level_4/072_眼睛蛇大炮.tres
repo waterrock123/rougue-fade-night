@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="4_tag_script"]
 [ext_resource type="Resource" uid="uid://byhgjgl8mj0g7" path="res://relic_tags/用具tag.tres" id="5_tool_tag"]
 [ext_resource type="Resource" uid="uid://be4tc32a2kaqa" path="res://relic_tags/凶器tag.tres" id="6_weapon_tag"]
-[ext_resource type="Script" path="res://relic_effect/gain_consume_tagged_relic_grant_tagged_shop_relics_effect.gd" id="7_material_to_ammo"]
+[ext_resource type="Script" uid="uid://d4aocprdm1yx" path="res://relic_effect/gain_consume_tagged_relic_grant_tagged_shop_relics_effect.gd" id="7_material_to_ammo"]
 [ext_resource type="Script" uid="uid://cw0tn8j8jek08" path="res://relic_effect/grant_active_skill_effect.gd" id="8_grant_skill"]
 [ext_resource type="Script" uid="uid://cfh8744clikxq" path="res://relic_effect/add_outgoing_damage_bonus_effect.gd" id="9_damage_bonus"]
-[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="10_material_tag"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料tag.tres" id="10_material_tag"]
 [ext_resource type="Resource" uid="uid://b3v8f1gy3m2ik" path="res://relic_tags/弹药tag.tres" id="11_ammo_tag"]
 [ext_resource type="Resource" uid="uid://bl6wlsl5tqqc4" path="res://activate_skill/107_snake_big_gun.tres" id="12_snake_skill"]
 

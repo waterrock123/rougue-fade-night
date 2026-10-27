@@ -1,0 +1,14 @@
+{
+	"fields": {
+		"action_timeline": "Animate ONLY this isolated radial ice spell VFX, not a character or item. Keep the exact fixed 96x96 transparent canvas and fixed center (48,48). Preserve crisp low-resolution pixel edges and the reference pale cyan/white limited palette. 0.00-0.20 seconds: the central icy spokes flash brightly in place. 0.20-0.80: all spokes and six to eight short sharp ice shards expand radially outward in every direction, forming a hollow circular frost burst. The largest visible radius must stay between 30 and 38 pixels and never touch an image edge. 0.80-1.40: shards fragment into a few tiny icy flecks, leaving the center transparent. 1.40-2.00: all flecks fade away to a completely transparent final frame. This is a single one-shot burst, not a rotating object or looping idle. No translation of the center, no camera movement, no changing canvas size, no character, weapon, snowman, ground, background, text, border or grid. No blurry bloom or smoke. Do not add a solid white or blue disk. Every visible part must have at least eight pixels of clear space from the canvas boundary. Alpha background throughout, hard pixel silhouettes, no checkerboard baked into the image.",
+		"alpha_mode": "sharp",
+		"animation_mode": "non_loop",
+		"duration_seconds": 2.0,
+		"quality_mode": "standard",
+		"remove_bg_batch_size": "16",
+		"remove_bg_method": "standard",
+		"resolution": "480p",
+		"style_mode": "pixel"
+	},
+	"source_file": "res://assets/特效/skill_vfx_samples_20261018/frost_reference.png"
+}

@@ -28,7 +28,7 @@ func on_use(relic_context: RelicContext, effect_key) -> void:
 		var amount := float(add_stats[stat_name])
 		modifiers.append(Modifier.create_flat(StringName(stat_name), amount, String(effect_key)))
 
-	stats_controller.set_effect_modifiers(effect_key, modifiers)
+	stats_controller.set_temporary_effect_modifiers(effect_key, modifiers)
 
 
 func _get_stats_controller(relic_context: RelicContext) -> StatsController:

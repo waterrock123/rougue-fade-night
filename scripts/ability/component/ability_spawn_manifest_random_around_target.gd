@@ -57,6 +57,8 @@ func _spawn_manifest(context: AbilityContext, spawn_position: Vector2) -> void:
 
 	var child_context: AbilityContext = AbilityContext.new(context.caster, context.ability)
 	child_context.caster_action_version = context.caster_action_version
+	child_context.element_tags = context.element_tags.duplicate()
+	child_context.cast_record = context.cast_record
 	child_context.locked_direction = context.locked_direction
 	child_context.targets = [spawn_position]
 	manifest.activate(child_context)

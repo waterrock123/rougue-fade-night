@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="PassiveSkillData" format=3]
+
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/skill/passive_skill_effect.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/skill/passive_element_rotation_effect.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/特效/Effect and Bullet 16x16/Effect and Bullet 16x16/Purple Effect and Bullet 16x16.png" id="4"]
+
+
+
+[sub_resource type="Resource" id="Effect"]
+script = ExtResource("3")
+energy_refund = 5.0
+damage_bonus = 0.35
+
+[sub_resource type="AtlasTexture" id="Icon"]
+atlas = ExtResource("4")
+region = Rect2(160, 16, 16, 16)
+
+[resource]
+script = ExtResource("1")
+effects = Array[ExtResource("2")]([SubResource("Effect")])
+id = &"026"
+skill_name = "虹光编织"
+desc = "连续释放两个没有共同元素的非基础主动技能时，第二个技能伤害提升35%，并恢复5点能量。无元素技能会中断连续施法。"
+icon = SubResource("Icon")
+allowed_character_ids = Array[StringName]([&"wizard"])
+is_upgrade_skill = true

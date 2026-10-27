@@ -5,8 +5,9 @@
 [ext_resource type="Script" uid="uid://e6i1lxwwoh8m" path="res://relic_effect/use_random_primary_stat_status_effect.gd" id="3_random_status"]
 [ext_resource type="Script" uid="uid://d0tylpnegd1r" path="res://relic_effect/use_random_permanent_primary_stat_effect.gd" id="4_permanent_stat"]
 [ext_resource type="Script" uid="uid://bts8j8jm6rdpv" path="res://custom_resource/tag.gd" id="5_tag"]
-[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料.tres" id="6_material"]
+[ext_resource type="Resource" uid="uid://bms6enq0chlfu" path="res://relic_tags/原料tag.tres" id="6_material"]
 [ext_resource type="Resource" uid="uid://bpyxiv6nfwnu5" path="res://relic_tags/创生tag.tres" id="7_creation"]
+[ext_resource type="Texture2D" path="res://assets/ai art/装备icon/meowa_sample_01/112_egg.png" id="8_meowa_icon"]
 
 [sub_resource type="Resource" id="EggRandomStat"]
 script = ExtResource("3_random_status")
@@ -21,6 +22,7 @@ script = ExtResource("4_permanent_stat")
 [resource]
 script = ExtResource("1_relic")
 relic_name = "鸡蛋"
+icon = ExtResource("8_meowa_icon")
 tooltip = "使用后随机属性 +2，持续至战斗结束。
 升级：额外使一项随机属性永久 +1。"
 desc = "动物鸡的奖励。"

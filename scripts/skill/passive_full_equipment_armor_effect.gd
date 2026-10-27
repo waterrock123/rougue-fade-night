@@ -59,7 +59,7 @@ func _apply_armor(context: SkillContext) -> void:
 	if status_controller == null or armor_status == null:
 		return
 
-	status_controller.add_status(armor_status, _get_source_node(context), context.effect_key, armor_stacks)
+	status_controller.add_status(armor_status, _get_source_node(context), context.effect_key, armor_stacks, INF, false, false)
 	applied_keys[context_key] = true
 
 

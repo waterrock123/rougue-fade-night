@@ -126,6 +126,7 @@ func _spawn_random_profile_objects() -> int:
 
 	for rule: MapObjectSpawnRule in spawn_profile.get_enabled_rules():
 		var rule_count: int = rule.roll_count()
+		rule_count = _scale_random_object_count(rule, rule_count)
 		spawn_count += _spawn_rule_objects(rule, rule_count, occupied_positions)
 
 	var bonus_count: int = spawn_profile.roll_bonus_count()
@@ -133,7 +134,7 @@ func _spawn_random_profile_objects() -> int:
 		var bonus_rule: MapObjectSpawnRule = spawn_profile.pick_weighted_rule()
 		if bonus_rule == null:
 			continue
-		spawn_count += _spawn_rule_objects(bonus_rule, 1, occupied_positions)
+		spawn_count += _spawn_rule_objects(bonus_rule, _scale_random_object_count(bonus_rule, 1), occupied_positions)
 
 	return spawn_count
 
@@ -205,7 +206,52 @@ func _get_effective_random_spawn_profile() -> MapObjectSpawnProfile:
 		return random_spawn_profile
 
 	_apply_enabled_map_tag_object_modifiers(effective_profile)
+	if run_stats != null:
+		for rule: MapObjectSpawnRule in effective_profile.rules:
+			if rule != null and rule.allow_generation_scaling:
+				var multiplier: float = run_stats.get_map_object_generation_multiplier(_get_entry_for_object_id(rule.object_id))
+				rule.chance = clampf(rule.chance * multiplier, 0.0, 1.0)
 	return effective_profile
+
+
+## 小数数量采用概率补一个：1 × 1.5 为一株且有 50% 再生一株，避免取整吞掉加成。
+func _scale_random_object_count(rule: MapObjectSpawnRule, count: int) -> int:
+	if run_stats == null or count <= 0 or not rule.allow_generation_scaling:
+		return count
+	var multiplier: float = run_stats.get_map_object_generation_multiplier(_get_entry_for_object_id(rule.object_id))
+	if is_equal_approx(multiplier, 1.0):
+		return count
+	var scaled: float = count * multiplier
+	var whole: int = int(floorf(scaled))
+	return whole + (1 if randf() < scaled - whole else 0)
+
+
+## 技能触发的物体复用数据库与安全落点，不受初始化数量和出生点避让规则限制。
+func spawn_feature_near(feature_tag: StringName, center: Vector2, radius: float) -> Node:
+	if not is_instance_valid(battle_map):
+		return null
+	var database: MapObjectDatabase = _get_object_database()
+	if database == null:
+		return null
+	var candidates: Array[MapObjectEntry] = []
+	for entry: MapObjectEntry in database.entries:
+		if entry != null and entry.is_valid_entry() and entry.scene != null and entry.has_feature_tag(feature_tag):
+			candidates.append(entry)
+	if candidates.is_empty():
+		return null
+	var occupied: Array[Vector2] = _collect_existing_object_positions()
+	occupied.append(center)
+	for attempt: int in range(16):
+		var desired: Vector2 = center + Vector2.RIGHT.rotated(randf() * TAU) * randf_range(32.0, maxf(radius, 32.0))
+		var position_value: Variant = battle_map.get_nearest_playable_position(desired, 2, 0, occupied, 32.0)
+		if not (position_value is Vector2) or center.distance_to(position_value) > radius:
+			continue
+		var entry: MapObjectEntry = candidates[randi_range(0, candidates.size() - 1)]
+		var instance: Node = spawn_object_at_position(entry.object_id, position_value)
+		if instance != null:
+			spawned_objects.append(instance)
+		return instance
+	return null
 
 
 func _apply_enabled_map_tag_object_modifiers(spawn_profile: MapObjectSpawnProfile) -> void:
@@ -221,7 +267,7 @@ func _apply_enabled_map_tag_object_modifiers(spawn_profile: MapObjectSpawnProfil
 		return
 
 	for tag_key: String in enabled_tag_keys:
-		var influence: MapTagInfluenceData = influence_database.get_influence_for_tag_key(tag_key)
+		var influence: MapTagInfluenceData = run_stats.get_effective_map_tag_influence(influence_database, tag_key)
 		if influence == null or not influence.enabled:
 			continue
 

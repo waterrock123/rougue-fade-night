@@ -1,0 +1,43 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/battlemap/delivery_marker.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ai art/delivery/cargo_strength.png" id="2_icon"]
+[sub_resource type="CircleShape2D" id="Shape"]
+radius = 14.0
+
+[node name="DeliveryCargo" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1")
+lifetime = 0.0
+enable_magnet = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Shape")
+
+[node name="VisualRoot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualRoot"]
+texture_filter = 1
+texture = ExtResource("2_icon")
+
+[node name="Hint" type="Label" parent="."]
+offset_left = -65.0
+offset_top = -35.0
+offset_right = 65.0
+text = "配送货物"
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+
+[node name="EffectLabel" type="Label" parent="."]
+offset_left = -65.0
+offset_top = 19.0
+offset_right = 65.0
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1

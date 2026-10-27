@@ -356,6 +356,62 @@ display_name = "近战伤害"
 desc = "由近战攻击或近战效果造成的伤害，通常与力量相关。"
 color = Color(1, 0.5, 0.4, 1)
 
+[sub_resource type="Resource" id="KeywordData_ice"]
+script = ExtResource("2_data")
+id = &"ice"
+display_name = "冰伤"
+desc = "冰属性伤害；造成冰伤本身不会自动施加冰冻，是否冰冻由具体技能或效果决定。"
+color = Color(0.55, 0.9, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_fire"]
+script = ExtResource("2_data")
+id = &"fire"
+display_name = "火焰伤害"
+desc = "火属性伤害；不会自动施加燃烧，是否附加状态由技能或装备决定。"
+color = Color(1, 0.35, 0.1, 1)
+
+[sub_resource type="Resource" id="KeywordData_lightning"]
+script = ExtResource("2_data")
+id = &"lightning"
+display_name = "闪电伤害"
+desc = "雷属性伤害；不会自动施加麻痹，是否附加状态由技能或装备决定。"
+color = Color(0.75, 0.75, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_feast_table"]
+script = ExtResource("2_data")
+id = &"feast_table"
+display_name = "一桌佳肴"
+desc = "可被破坏的地图物体，破坏后掉落两件不超过当前商店等阶的随机佳肴标签装备。"
+color = Color(1, 0.75, 0.4, 1)
+
+[sub_resource type="Resource" id="KeywordData_status_storage_box"]
+script = ExtResource("2_data")
+id = &"status_storage_box"
+display_name = "状态存储箱"
+desc = "空箱触碰时移入所有有倒计时的正负状态，保存层数和剩余时间；有内容时触碰取回。同一局跨战斗共享，储存期间暂停计时。"
+color = Color(0.5, 0.95, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_temporary_heart"]
+script = ExtResource("2_data")
+id = &"temporary_heart"
+display_name = "临时红心"
+desc = "地图拾取物，基础恢复5点生命。"
+color = Color(1, 0.45, 0.5, 1)
+
+[sub_resource type="Resource" id="KeywordData_temporary_star"]
+script = ExtResource("2_data")
+id = &"temporary_star"
+display_name = "临时蓝星"
+desc = "地图拾取物，基础恢复5点能量。"
+color = Color(0.5, 0.8, 1, 1)
+
+[sub_resource type="Resource" id="KeywordData_bounty_elite"]
+script = ExtResource("2_data")
+id = &"bounty_elite"
+display_name = "悬赏精英怪"
+desc = "击败后获得额外金币的可选挑战怪物，不影响正常战斗胜利判定。"
+color = Color(1, 0.8, 0.3, 1)
+
 [resource]
 script = ExtResource("1_db")
-keywords = Array[ExtResource("2_data")]([SubResource("KeywordData_armor"), SubResource("KeywordData_weak"), SubResource("KeywordData_strength"), SubResource("KeywordData_dexterity"), SubResource("KeywordData_intelligence"), SubResource("KeywordData_constitution"), SubResource("KeywordData_speed"), SubResource("KeywordData_charm"), SubResource("KeywordData_luck"), SubResource("KeywordData_bleed"), SubResource("KeywordData_freeze"), SubResource("KeywordData_sleep"), SubResource("KeywordData_paralysis"), SubResource("KeywordData_slow"), SubResource("KeywordData_gold"), SubResource("KeywordData_shop_refresh"), SubResource("KeywordData_active_skill"), SubResource("KeywordData_consumable"), SubResource("KeywordData_physical_damage"), SubResource("KeywordData_heal"), SubResource("KeywordData_sharp"), SubResource("KeywordData_vulnerable"), SubResource("Resource_5ukev"), SubResource("Resource_gdm1y"), SubResource("Resource_d14dd"), SubResource("KeywordData_projectile"), SubResource("KeywordData_thrown"), SubResource("KeywordData_all_primary_stats"), SubResource("KeywordData_crit_chance"), SubResource("KeywordData_ranged"), SubResource("KeywordData_dodge_rate"), SubResource("KeywordData_cuisine"), SubResource("KeywordData_sell_price"), SubResource("KeywordData_level_up_refresh"), SubResource("KeywordData_map_special_object"), SubResource("KeywordData_map_special_terrain"), SubResource("KeywordData_beneficial_plant"), SubResource("KeywordData_animal_object"), SubResource("KeywordData_sword_stand"), SubResource("KeywordData_sword"), SubResource("KeywordData_orbiting_sword"), SubResource("KeywordData_alchemy_station"), SubResource("KeywordData_ammo_box"), SubResource("KeywordData_lost_cargo"), SubResource("KeywordData_fire_field"), SubResource("KeywordData_ice_ground"), SubResource("KeywordData_thunder_zone"), SubResource("KeywordData_poise_break"), SubResource("KeywordData_poise_damage_multiplier"), SubResource("KeywordData_melee_damage")])
+keywords = Array[ExtResource("2_data")]([SubResource("KeywordData_armor"), SubResource("KeywordData_weak"), SubResource("KeywordData_strength"), SubResource("KeywordData_dexterity"), SubResource("KeywordData_intelligence"), SubResource("KeywordData_constitution"), SubResource("KeywordData_speed"), SubResource("KeywordData_charm"), SubResource("KeywordData_luck"), SubResource("KeywordData_bleed"), SubResource("KeywordData_freeze"), SubResource("KeywordData_sleep"), SubResource("KeywordData_paralysis"), SubResource("KeywordData_slow"), SubResource("KeywordData_gold"), SubResource("KeywordData_shop_refresh"), SubResource("KeywordData_active_skill"), SubResource("KeywordData_consumable"), SubResource("KeywordData_physical_damage"), SubResource("KeywordData_heal"), SubResource("KeywordData_sharp"), SubResource("KeywordData_vulnerable"), SubResource("Resource_5ukev"), SubResource("Resource_gdm1y"), SubResource("Resource_d14dd"), SubResource("KeywordData_projectile"), SubResource("KeywordData_thrown"), SubResource("KeywordData_all_primary_stats"), SubResource("KeywordData_crit_chance"), SubResource("KeywordData_ranged"), SubResource("KeywordData_dodge_rate"), SubResource("KeywordData_cuisine"), SubResource("KeywordData_sell_price"), SubResource("KeywordData_level_up_refresh"), SubResource("KeywordData_map_special_object"), SubResource("KeywordData_map_special_terrain"), SubResource("KeywordData_beneficial_plant"), SubResource("KeywordData_animal_object"), SubResource("KeywordData_sword_stand"), SubResource("KeywordData_sword"), SubResource("KeywordData_orbiting_sword"), SubResource("KeywordData_alchemy_station"), SubResource("KeywordData_ammo_box"), SubResource("KeywordData_lost_cargo"), SubResource("KeywordData_fire_field"), SubResource("KeywordData_ice_ground"), SubResource("KeywordData_thunder_zone"), SubResource("KeywordData_poise_break"), SubResource("KeywordData_poise_damage_multiplier"), SubResource("KeywordData_melee_damage"), SubResource("KeywordData_ice"), SubResource("KeywordData_fire"), SubResource("KeywordData_lightning"), SubResource("KeywordData_feast_table"), SubResource("KeywordData_status_storage_box"), SubResource("KeywordData_temporary_heart"), SubResource("KeywordData_temporary_star"), SubResource("KeywordData_bounty_elite")])

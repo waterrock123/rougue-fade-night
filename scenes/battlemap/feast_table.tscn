@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/battlemap/feast_table.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ai art/map_rules_20261026/feast_table.png" id="2_art"]
+[sub_resource type="RectangleShape2D" id="Hit"]
+size = Vector2(54, 36)
+[sub_resource type="RectangleShape2D" id="Body"]
+size = Vector2(42, 18)
+
+[node name="FeastTable" type="CharacterBody2D"]
+texture_filter = 1
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1")
+max_health = 30.0
+feature_tags = Array[StringName]([&"feast_table"])
+reward_count = 2
+show_reward_tip = false
+use_shopkeeper_tag_weight = false
+enable_interactable_highlight = true
+highlight_visual_path = NodePath("VisualRoot")
+blocks_navigation = true
+
+[node name="VisualRoot" type="Node2D" parent="."]
+position = Vector2(0, -12)
+[node name="Sprite2D" type="Sprite2D" parent="VisualRoot"]
+scale = Vector2(2, 2)
+texture = ExtResource("2_art")
+
+[node name="Area2D" type="Area2D" parent="."]
+[node name="HitCollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -10)
+shape = SubResource("Hit")
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Body")

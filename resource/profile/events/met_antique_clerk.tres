@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ProfileEventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/profile/profile_event_data.gd" id="1_event"]
+
+[resource]
+script = ExtResource("1_event")
+event_id = &"met_antique_clerk"
+display_name = "古董店的见面礼"
+description = "你在大厅见到了热情的古董店女店员。她向你讲述了几件旧物的来历，并赠予你一枚小小的出发资助徽章。"
+required_completed_event_ids = Array[StringName]([&"met_lost_recorder"])
+unlock_modifier_ids = Array[StringName]([&"antique_departure_grant"])

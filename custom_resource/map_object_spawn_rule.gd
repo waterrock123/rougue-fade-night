@@ -11,6 +11,8 @@ extends Resource
 @export var max_count: int = 0
 ## 当 Profile 开启额外权重生成时使用；普通按数量生成时不会受它影响。
 @export var weight: float = 1.0
+## 固定功能物件可关闭倍率修正，保证每张地图最多一个，不受装备的物件数量倍率放大。
+@export var allow_generation_scaling: bool = true
 ## 先由规则决定“动物”这类大类，再从变体池决定具体场景。
 @export var variant_pool: MapObjectVariantPool
 

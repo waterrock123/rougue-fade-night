@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="ActiveSkillData" format=3]
+[gd_resource type="Resource" script_class="ActiveSkillData" format=3 uid="uid://yj7t4ia2cj4j"]
 
-[ext_resource type="PackedScene" path="res://scenes/ability/reserve_ammo_ability.tscn" id="1_ability"]
-[ext_resource type="Texture2D" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1376.png" id="2_icon"]
-[ext_resource type="Script" path="res://scripts/skill/active_skill_data.gd" id="3_script"]
+[ext_resource type="PackedScene" uid="uid://c8e4odp54r7m6" path="res://scenes/ability/reserve_ammo_ability.tscn" id="1_ability"]
+[ext_resource type="Texture2D" uid="uid://erbop8labins" path="res://assets/Free - Raven Fantasy Icons/Separated Files/64x64/fc1376.png" id="2_icon"]
+[ext_resource type="Script" uid="uid://bq1obcmna3x2j" path="res://scripts/skill/active_skill_data.gd" id="3_script"]
+[ext_resource type="Script" uid="uid://j54mhasc2y6r" path="res://scripts/skill/skill_data.gd" id="4_sjnt6"]
 
 [resource]
 script = ExtResource("3_script")
@@ -11,7 +12,7 @@ base_cooldown = 10.0
 base_energy_cost = 10.0
 id = &"109"
 skill_name = "备用弹药"
-desc = "原地搜寻1秒，随机临时装备一件带有{ammo}标签的装备；装备栏已满时放入背包。临时装备会在战斗结束时消失。"
+desc = "原地换弹2秒，随机临时装备一件带有{ammo}标签的装备；装备栏已满时放入背包。临时装备会在战斗结束时消失。"
 icon = ExtResource("2_icon")
 tags = Array[StringName]([&"active_skill", &"utility", &"ammo"])
 allowed_character_ids = Array[StringName]([&"scount"])

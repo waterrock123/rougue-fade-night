@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/landing_status_area_manifest.gd" id="1"]
+[ext_resource type="Resource" path="res://status/spore_slow.tres" id="2"]
+
+[node name="MushroomLandingSpore" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1")
+flight_time = 1.0
+status_data = ExtResource("2")
+
+[node name="VisualPivot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualPivot"]
+
+[node name="AreaVisual" type="Node2D" parent="."]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="AreaVisual"]

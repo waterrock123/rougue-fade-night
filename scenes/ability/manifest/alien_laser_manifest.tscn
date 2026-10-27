@@ -1,0 +1,40 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ability/manifest/projectile_manifest.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/stats/damage_scaling_rule.gd" id="2"]
+
+[sub_resource type="Resource" id="Resource_scaling"]
+script = ExtResource("2")
+enabled = false
+
+[sub_resource type="RectangleShape2D" id="Shape"]
+size = Vector2(24, 4)
+
+[node name="AlienLaserManifest" type="Node2D"]
+script = ExtResource("1")
+speed = 1000.0
+max_distance = 600.0
+target_group = "enemy"
+damage = 10.0
+can_crit = false
+tags = Array[String](["manifest", "projectile", "ranged", "laser", "extra_hit"])
+scaling_rule = SubResource("Resource_scaling")
+is_penetrate = true
+hit_each_target_once = true
+poise_damage = 0.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Beam" type="Line2D" parent="."]
+points = PackedVector2Array(-12, 0, 12, 0)
+width = 3.0
+default_color = Color(0.55, 1, 0.9, 0.9)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("Shape")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
